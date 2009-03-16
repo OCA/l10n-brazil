@@ -9,6 +9,7 @@
         "init_xml" : [],
         "demo_xml" : [ ],
         "update_xml" : ['partner_view.xml',
+                        'country_view.xml',
                         ],
         "installable": True
 }

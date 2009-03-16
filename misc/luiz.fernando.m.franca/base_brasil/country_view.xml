@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_country_bra_form_inherit1">
+        <field name="name">res.country.form</field>
+        <field name="type">form</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_bc" select="2"/>
+            </field>
+       </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_bra_tree_inherit1">
+        <field name="name">res.country.tree</field>
+        <field name="type">tree</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_bc" select="2"/>
+            </field>
+       </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_country_state_bra_form_inherit1">
+        <field name="name">res.country.state.form</field>
+        <field name="type">form</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_ibge" select="2"/>
+            </field>
+       </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_state_bra_tree_inherit1">
+        <field name="name">res.country.state.tree</field>
+        <field name="type">tree</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_ibge" select="2"/>
+            </field>
+       </field>
+    </record>
+    
+</data>
+</openerp>
