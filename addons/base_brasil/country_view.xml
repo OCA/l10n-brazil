@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_country_bra_form_inherit1">
+        <field name="name">res.country.form</field>
+        <field name="type">form</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_bc" select="2"/>
+            </field>
+       </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_bra_tree_inherit1">
+        <field name="name">res.country.tree</field>
+        <field name="type">tree</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_bc" select="2"/>
+            </field>
+       </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_country_state_bra_form_inherit1">
+        <field name="name">res.country.state.form</field>
+        <field name="type">form</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_ibge" select="2"/>
+            </field>
+       </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_state_bra_tree_inherit1">
+        <field name="name">res.country.state.tree</field>
+        <field name="type">tree</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="codigo_ibge" select="2"/>
+            </field>
+       </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_country_state_city_form">
+        <field name="name">res.country.state.city.form</field>
+        <field name="type">form</field>
+        <field name="model">res.country.state.city</field>
+        <field name="arch" type="xml">
+            <form string="Cadastro de Cidade">
+                 <field name="name" select="1"/>
+                 <field name="codigo_ibge" select="2"/>
+                 <field name="state_id" select="1"></field>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_state_city_tree">
+        <field name="name">res.country.state.city.tree</field>
+        <field name="model">res.country.state.city</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Cidades">
+				<field name="name"/>
+				<field name="codigo_ibge"/>
+				<field name="state_id"/>
+                <field name="country"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_res_country_state_city">
+        <field name="name">Cidades</field>
+        <field name="res_model">res.country.state.city</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Partners/Configuration/Localisation/Cidades" id="menu_res_country_state_city" action="action_res_country_state_city"/>
+
+    
+</data>
+</openerp>
