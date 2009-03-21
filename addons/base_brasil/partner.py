@@ -178,6 +178,7 @@ class res_partner_juridica(osv.osv):
         'fantasia' : fields.char('Nome Fantasia', size=25),
         'inscr_estadual': fields.char('Inscrição Estadual', size=20, required="1"),
         'inscr_municipal': fields.char('Inscrição Municipal', size=20),
+        'suframa': fields.char('Suframa', size=10),
         'data_fundacao': fields.date("Data da fundação"),
         'tipo_empresa': fields.selection([('I','Individual'), ('L','Limitada'), ('S','Sociedade Anônima'), ('P','Administração Pública')], 'Tipo de Empresa', required="1"),
      }            

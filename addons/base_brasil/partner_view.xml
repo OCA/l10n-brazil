@@ -106,6 +106,7 @@
                                     <field name="fantasia" select="1"/>
                                     <field name="inscr_estadual" select="2"/>
                                     <field name="inscr_municipal" select="2"/>
+                                    <field name="suframa" select="2"/>
                                     <field name="tipo_empresa" select="1"/>
                                     <field name="data_fundacao"/>
                                 </form>

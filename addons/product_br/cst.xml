@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<terp>
+<data noupdate="True">
+<record model="product.cst" id="cst_000"><field name="name">000</field><field name="description">ORIGEN NACIONAL - TRIBUTADA INTEGRALMENTE</field></record>					
+<record model="product.cst" id="cst_010"><field name="name">010</field><field name="description">ORIGEN NACIONAL - TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_020"><field name="name">020</field><field name="description">ORIGEN NACIONAL - COM REDUÇÃO DE BASE DE CÁLCULO</field></record>					
+<record model="product.cst" id="cst_030"><field name="name">030</field><field name="description">ORIGEN NACIONAL - ISENTA OU NÃO TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_040"><field name="name">040</field><field name="description">ORIGEN NACIONAL - ISENTA </field></record>					
+<record model="product.cst" id="cst_041"><field name="name">041</field><field name="description">ORIGEN NACIONAL - NÃO TRIBUTADA</field></record>					
+<record model="product.cst" id="cst_050"><field name="name">050</field><field name="description">ORIGEN NACIONAL - SUSPENSÃO </field></record>					
+<record model="product.cst" id="cst_051"><field name="name">051</field><field name="description">ORIGEN NACIONAL - DIFERIMENTO</field></record>					
+<record model="product.cst" id="cst_060"><field name="name">060</field><field name="description">ORIGEN NACIONAL - ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_070"><field name="name">070</field><field name="description">ORIGEN NACIONAL - COM REDUÇÃO DE BASE DE CÁLCULO E COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_090"><field name="name">090</field><field name="description">ORIGEN NACIONAL - OUTRAS</field></record>					
+<record model="product.cst" id="cst_100"><field name="name">100</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - TRIBUTADA INTEGRALMENTE</field></record>					
+<record model="product.cst" id="cst_110"><field name="name">110</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_120"><field name="name">120</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - COM REDUÇÃO DE BASE DE CÁLCULO</field></record>					
+<record model="product.cst" id="cst_130"><field name="name">130</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - ISENTA OU NÃO TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_140"><field name="name">140</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - ISENTA </field></record>					
+<record model="product.cst" id="cst_141"><field name="name">141</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - NÃO TRIBUTADA</field></record>					
+<record model="product.cst" id="cst_150"><field name="name">150</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - SUSPENSÃO </field></record>					
+<record model="product.cst" id="cst_151"><field name="name">151</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - DIFERIMENTO</field></record>					
+<record model="product.cst" id="cst_160"><field name="name">160</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_170"><field name="name">170</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - COM REDUÇÃO DE BASE DE CÁLCULO E COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_190"><field name="name">190</field><field name="description">ORIGEN ESTRANGEIRA - IMPORTAÇÃO DIRETA - OUTRAS</field></record>					
+<record model="product.cst" id="cst_200"><field name="name">200</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - TRIBUTADA INTEGRALMENTE</field></record>					
+<record model="product.cst" id="cst_210"><field name="name">210</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_220"><field name="name">220</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - COM REDUÇÃO DE BASE DE CÁLCULO</field></record>					
+<record model="product.cst" id="cst_230"><field name="name">230</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - ISENTA OU NÃO TRIBUTADA E COM COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_240"><field name="name">240</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - ISENTA </field></record>					
+<record model="product.cst" id="cst_241"><field name="name">241</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - NÃO TRIBUTADA</field></record>					
+<record model="product.cst" id="cst_250"><field name="name">250</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - SUSPENSÃO </field></record>					
+<record model="product.cst" id="cst_251"><field name="name">251</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - DIFERIMENTO</field></record>					
+<record model="product.cst" id="cst_260"><field name="name">260</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA</field></record>					
+<record model="product.cst" id="cst_270"><field name="name">270</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - COM REDUÇÃO DE BASE DE CÁLCULO E COBRANÇA DO ICMS POR SUBSTITUIÇÃO TRIBUTÁRI</field></record>					
+<record model="product.cst" id="cst_290"><field name="name">290</field><field name="description">ORIGEN ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO - OUTRAS</field></record>					
+</data>
+</terp>
