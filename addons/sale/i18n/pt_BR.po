@@ -1076,7 +1076,7 @@ msgstr "Descrição"
 #. module: sale
 #: model:ir.ui.menu,name:sale.menu_sale_root
 msgid "Sales Management"
-msgstr "GERENCIAMENTO DE VENDAS"
+msgstr "Gerenciamento de Vendas"
 
 #. module: sale
 #: rml:sale.order:0
