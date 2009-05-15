@@ -132,27 +132,49 @@ class Cnpj:
 
 class res_partner_address(osv.osv):
     """Partner Addresses"""
+    def _get_city(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        for obj in self.browse(cr,uid,ids):
+            if obj.location:
+                res[obj.id] = obj.location.name
+            else:
+                res[obj.id] = ""
+        return res
+        
+    def _get_state(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        for obj in self.browse(cr,uid,ids):
+            if obj.location:
+                res[obj.id] = [obj.location.state_id.id, obj.location.state_id.name]
+            else:
+                res[obj.id] = False
+        return res
+
+    def _get_country(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        pais =  pooler.get_pool(cr.dbname).get('res.country') 
+        #for obj in self.browse(cr,uid,ids):
+        for obj in pais.browse(cr,uid,ids):
+            if obj.id:
+                res[obj.id] = [obj.id, obj.name]
+                #res[obj.id] = [obj.location.state_id.country_id.id, obj.location.state_id.country_id.name]
+            else:
+                res[obj.id] = False
+        return res
     _name = 'res.partner.address'
     _inherit = 'res.partner.address'
     _columns = {
-        'city_id': fields.many2one('res.country.state.city', 'Cidade'),
-     }
-res_partner_address()
-
-class res_partner(osv.osv):
-    """Partner"""
-    _name = 'res.partner'
-    _inherit = 'res.partner'
-    _columns = {
+        'location': fields.many2one('res.country.state.city', 'Cidade', domain="[('state_id', '=', state_id)]"),
+        'numero': fields.char('Número', size=10),
+        'state_id': fields.many2one("res.country.state", 'Estado', domain="[('country_id', '=', country_id)]"), 
+        'country_id': fields.many2one("res.country", 'País'), 
         'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
         'cpf_cnpj': fields.char('Cpf/CNPJ', size=15),
-		'state' : fields.related ('address','state_id',type='many2one',relation='res.country.state', string='State'), 
-        'pessoa_fisica': fields.one2many('res.partner.fisica', 'partner_id', 'Pessoa_Fisica'),
-        'pessoa_juridica': fields.one2many('res.partner.juridica', 'partner_id', 'Pessoa_Juridica'),
-        'city': fields.related('address','city_id', type='many2one', relation='res.country.state.city', string='Cidade'),
-        }
+        'pessoa_fisica': fields.one2many('res.partner.fisica', 'address_id', 'Pessoa_Fisica'),
+        'pessoa_juridica': fields.one2many('res.partner.juridica', 'address_id', 'Pessoa_Juridica'),
+     }
     def _check_cpf_cnpj(self, cr, uid, ids):
-        for individuo in pooler.get_pool(cr.dbname).get('res.partner').read(cr, uid, ids, ['cpf_cnpj', 'tipo_pessoa']):
+        for individuo in pooler.get_pool(cr.dbname).get('res.partner.address').read(cr, uid, ids, ['cpf_cnpj', 'tipo_pessoa']):
             nro_cpf_cnpj=individuo['cpf_cnpj']
             tipo_pessoa= individuo['tipo_pessoa']
             if tipo_pessoa == 'F':
@@ -165,16 +187,28 @@ class res_partner(osv.osv):
         return True
     _constraints = [(_check_cpf_cnpj, 'Erro: CPF/CNPJ Invalido', ['cpf_cnpj'])]
 
+res_partner_address()
+
+class res_partner(osv.osv):
+    """Partner"""
+    _name = 'res.partner'
+    _inherit = 'res.partner'
+    _columns = {
+        'state' : fields.related ('address','state_id',type='many2one',relation='res.country.state', string='State'), 
+        'location' : fields.related ('address','location',type='many2one',relation='res.country.state.city', string='Cidade'), 
+        #'city': fields.related('address','city', type='many2one', relation='res.country.state.city', string='Cidade'),
+        #'city': fields.related('address','city', type='char', string='Cidade'),
+        }
 res_partner()
 
 class res_partner_juridica(osv.osv):
     """Cadastro de pessoas juridica """
     _name = 'res.partner.juridica'
     _columns = {
-        'partner_id' : fields.many2one('res.partner','Razão social', ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'J')]),
-		'city' : fields.related ('partner_id','city',type='many2one',relation='res.country.state.city',string='Cidade'), 
-		'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
-		'country' : fields.related ('partner_id','country',type='char',string='País'), 
+        'address_id' : fields.many2one('res.partner.address','Contato', ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'J')]),
+        'location' : fields.related ('partner_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
+        'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
+        'country' : fields.related ('partner_id','country',type='char',string='País'), 
         'fantasia' : fields.char('Nome Fantasia', size=25),
         'inscr_estadual': fields.char('Inscrição Estadual', size=20, required="1"),
         'inscr_municipal': fields.char('Inscrição Municipal', size=20),
@@ -188,10 +222,10 @@ class res_partner_fisica(osv.osv):
     """Cadastro de pessoas fisicas """
     _name = 'res.partner.fisica'
     _columns = {
-        'partner_id' : fields.many2one('res.partner','Nome',  ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'F')]),
-		'city' : fields.related ('partner_id','city',type='many2one',relation='res.country.state.city',string='Cidade'), 
-		'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
-		'country' : fields.related ('partner_id','country',type='char',string='País'), 
+        'address_id' : fields.many2one('res.partner.address','Contato',  ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'F')]),
+        'location' : fields.related ('partner_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
+        'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
+        'country' : fields.related ('partner_id','country',type='char',string='País'), 
         'apelido': fields.char('Apelido', size=25),
         'identidade': fields.char('Identidade', size=20),
         'data_emissao_identidade': fields.date("Data de emissão"),

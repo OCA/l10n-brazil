@@ -36,6 +36,7 @@ class Country(osv.osv):
     _inherit = 'res.country'
     _columns = {
         'codigo_bc': fields.integer('Código BC', help='Código do país no Banco Central'),
+        'state_ids': fields.one2many('res.country.state', 'country_id', 'Estados'),
         }
     _sql_constraints = [
         ('codigo_bc_uniq', 'unique (codigo_bc)', 'O Código do pais no Banco Central precisa ser único!')
@@ -49,9 +50,10 @@ class CountryState(osv.osv):
     _inherit = 'res.country.state'
     _columns = {
         'codigo_ibge': fields.integer('Código IBGE', help='Código do estado no IBGE'),
+        'city_ids': fields.one2many('res.country.state.city', 'state_id', 'Cidades'),
         }
     _sql_constraints = [
-        ('codigo_ibge_uniq', 'unique (codigo_ibge)', 'O Código do estado no IBGE precisa ser único!')
+        ('codigo_ibge_uniq', 'unique(codigo_ibge)', 'O Código do estado no IBGE precisa ser único!')
     ]
 CountryState()
 
@@ -59,9 +61,9 @@ class CountryStateCity(osv.osv):
     """Cidade """
     _name = 'res.country.state.city'
     _columns = {
-        'name': fields.char('Nome da cidade', size=30, required=True),
+        'name': fields.char('Nome da cidade', size=30, required=True, select=1),
         'codigo_ibge': fields.integer('Código IBGE', help='Código da cidade no IBGE'),
-        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado', required=True, select=1),
         'country' : fields.related ('state_id','country_id',type='many2one', relation='res.country',string='País'),
     }
     _sql_constraints = [

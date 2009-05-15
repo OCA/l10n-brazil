@@ -9,6 +9,7 @@
         <field name="arch" type="xml">
             <field name="code" position="after">
                 <field name="codigo_bc" select="2"/>
+                <field name="state_ids" colspan="4" nolabel="1" widget="one2many_list"/>
             </field>
        </field>
     </record>
@@ -66,9 +67,9 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Cidades">
-				<field name="name"/>
-				<field name="codigo_ibge"/>
-				<field name="state_id"/>
+                <field name="name"/>
+                <field name="codigo_ibge"/>
+                <field name="state_id"/>
                 <field name="country"/>
             </tree>
         </field>
@@ -81,6 +82,16 @@
     </record>
     <menuitem name="Partners/Configuration/Localisation/Cidades" id="menu_res_country_state_city" action="action_res_country_state_city"/>
 
+    <record model="ir.ui.view" id="view_country_state_form2">
+        <field name="name">view_country_state_form2</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="city_ids" colspan="4" nolabel="1" widget="one2many_list"/>
+            </field>
+        </field>
+    </record>
     
 </data>
 </openerp>
