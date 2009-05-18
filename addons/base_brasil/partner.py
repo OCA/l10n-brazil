@@ -166,6 +166,7 @@ class res_partner_address(osv.osv):
     _columns = {
         'location': fields.many2one('res.country.state.city', 'Cidade', domain="[('state_id', '=', state_id)]"),
         'numero': fields.char('Número', size=10),
+        'bairro':  fields.char('Bairro', size=30),
         'state_id': fields.many2one("res.country.state", 'Estado', domain="[('country_id', '=', country_id)]"), 
         'country_id': fields.many2one("res.country", 'País'), 
         'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
@@ -206,11 +207,11 @@ class res_partner_juridica(osv.osv):
     _name = 'res.partner.juridica'
     _columns = {
         'address_id' : fields.many2one('res.partner.address','Contato', ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'J')]),
-        'location' : fields.related ('partner_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
-        'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
-        'country' : fields.related ('partner_id','country',type='char',string='País'), 
+        'location' : fields.related ('address_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
+        'state' : fields.related ('address_id','state_id',type='many2one',relation='res.country.state', string='Estado'), 
+        'country' : fields.related ('address_id','country_id',type='char',string='País'), 
         'fantasia' : fields.char('Nome Fantasia', size=25),
-        'inscr_estadual': fields.char('Inscrição Estadual', size=20, required="1"),
+        'inscr_estadual': fields.char('Inscrição Estadual', size=20),
         'inscr_municipal': fields.char('Inscrição Municipal', size=20),
         'suframa': fields.char('Suframa', size=10),
         'data_fundacao': fields.date("Data da fundação"),
@@ -223,9 +224,9 @@ class res_partner_fisica(osv.osv):
     _name = 'res.partner.fisica'
     _columns = {
         'address_id' : fields.many2one('res.partner.address','Contato',  ondelete='set null', select=True, domain=[('tipo_pessoa', '=', 'F')]),
-        'location' : fields.related ('partner_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
-        'state' : fields.related ('partner_id','state',type='many2one',relation='res.country.state', string='Estado'), 
-        'country' : fields.related ('partner_id','country',type='char',string='País'), 
+        'location' : fields.related ('address_id','location',type='many2one',relation='res.country.state.city',string='Cidade'), 
+        'state' : fields.related ('address_id','state_id',type='many2one',relation='res.country.state', string='Estado'), 
+        'country' : fields.related ('address_id','country_id',type='char',string='País'), 
         'apelido': fields.char('Apelido', size=25),
         'identidade': fields.char('Identidade', size=20),
         'data_emissao_identidade': fields.date("Data de emissão"),
