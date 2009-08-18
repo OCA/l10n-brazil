@@ -370,26 +370,30 @@
 			</field>
 		</record>
 
-		<!-- Contato do Parceiro Personalizado  
+		<!-- Contato do Parceiro Personalizado  -->
 		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
-				<form string="Partner Address" position="replace"/>
+				<field name="zip" position="replace">
+					<field name="zip" invisible="1" />
+					<field name="cep_id" />
+				</field>
 			</field>
 		</record>
-		-->
 
-		<!-- Contato do Parceiro Personalizado 
 		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
+				<field name="city" position="replace">
+					<field name="city" invisible="1" />
+					<field name="city_id" />
+				</field>
 			</field>
 		</record>
-		-->
 
 		<!-- País Personallizado -->
 		<record model="ir.ui.view" id="view_l10n_br_country_form">
