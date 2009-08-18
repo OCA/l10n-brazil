@@ -2,6 +2,17 @@
 <openerp>
 <data noupdate="1">
 
+	<!-- Impostos 
+	<record id="imp_1" model="l10n_br.">
+		<field name="code">1000</field>
+		<field name="name">ENTRADAS OU AQUISIÇÕES DE SERVIÇOS DO ESTADO</field>
+		<field name="description">Classificam-se, neste grupo, as operações ou prestações em que o estabelecimento remetente esteja localizado na mesma unidade da Federação do destinatário</field>
+		<field name="type">input</field>
+		<field name="parent_id" ref=""/>
+	</record>
+	-->
+
+
 	<!-- CFOP - Código Fiscal de Operação e Prestação -->
 	<record id="1" model="l10n_br.cfop">
 		<field name="code">1000</field>
@@ -4839,126 +4850,120 @@
 	<!-- Documentos Fiscais -->
 	<record id="1" model="l10n_br.fiscal.document">
 		<field name="code">01</field>
-		<field name="name">NOTA FISCAL, MODELO 01</field>
+		<field name="name">Nota Fiscal, Modelo 01</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="2" model="l10n_br.fiscal.document">
 		<field name="code">02</field>
-		<field name="name">NOTA FISCAL DE VENDA A CONSUMIDOR, MOD 02</field>
+		<field name="name">Nota Fiscal de Venda a Consumidor, Mod 02</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="3" model="l10n_br.fiscal.document">
 		<field name="code">03</field>
-		<field name="name">NOTA FISCAL DE ENTRADA, MOD 03</field>
+		<field name="name">Nota Fiscal De Entrada, Mod 03</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="4" model="l10n_br.fiscal.document">
 		<field name="code">04</field>
-		<field name="name">NOTA FISCAL DE PRODUTOR, MOD 04</field>
-		<field name="nfe">false</field>
-	</record>
-
-	<record id="5" model="l10n_br.fiscal.document">
-		<field name="code">04</field>
-		<field name="name">NOTA FISCAL DE PRODUTOR, MOD 04</field>
+		<field name="name">Nota Fiscal de Produtor, Mod 04</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="6" model="l10n_br.fiscal.document">
 		<field name="code">06</field>
-		<field name="name">N.F./CONTA DE ENERGIA ELETRICA, MOD 06</field>
+		<field name="name">N.F./Conta de Energia Eletrica, Mod 06</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="7" model="l10n_br.fiscal.document">
 		<field name="code">07</field>
-		<field name="name">NOTA FISCAL DE SERVICO DE TRANSP., MOD 07</field>
+		<field name="name">Nota Fiscal de Serviço de Transp., Mod 07</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="8" model="l10n_br.fiscal.document">
 		<field name="code">08</field>
-		<field name="name">CONH. DE TRANS. ROD. DE CARGAS, MOD 08</field>
+		<field name="name">Conh. de Transp. Rod. de Cargas, Mod 08</field>
 		<field name="nfe">false</field>
 	</record>
 
 	<record id="9" model="l10n_br.fiscal.document">
 		<field name="code">55</field>
-		<field name="name">NOTA FISCAL ELETRONICA</field>
+		<field name="name">Nota Fiscal Eletronica</field>
 		<field name="nfe">true</field>
 	</record>
 
 	<!-- Origem de Mercadorias -->
 	<record id="1" model="l10n_br.st.source">
 		<field name="code">0</field>
-		<field name="name">NACIONAL</field>
+		<field name="name">Nacional</field>
 	</record>
 
 	<record id="2" model="l10n_br.st.source">
 		<field name="code">1</field>
-		<field name="name">ESTRANGEIRA - IMPORTAÇÃO DIRETA</field>
+		<field name="name">Estrangeira - Importação Direta</field>
 	</record>
 
 	<record id="3" model="l10n_br.st.source">
 		<field name="code">2</field>
-		<field name="name">ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO</field>
+		<field name="name">Estrangeira - Adquirida no Mercado Interno</field>
 	</record>
 
 	<!-- Tributação do ICMS -->
-	<record id="1" model="l10n_br.st.icms">
+	<record id="1" model="l10n_br.st">
 		<field name="code">00</field>
 		<field name="name">Tributada integralmente</field>
 	</record>
 
-	<record id="2" model="l10n_br.st.icms">
+	<record id="2" model="l10n_br.st">
 		<field name="code">10</field>
 		<field name="name">Tributada e com cobrança do ICMS por substituição tributária</field>
 	</record>
 
-	<record id="3" model="l10n_br.st.icms">
+	<record id="3" model="l10n_br.st">
 		<field name="code">20</field>
 		<field name="name">Com redução de base de cálculo</field>
 	</record>
 
-	<record id="4" model="l10n_br.st.icms">
+	<record id="4" model="l10n_br.st">
 		<field name="code">30</field>
 		<field name="name">Isenta ou não tributada e com cobrança do ICMS por substituição tributária</field>
 	</record>
 
-	<record id="5" model="l10n_br.st.icms">
+	<record id="5" model="l10n_br.st">
 		<field name="code">40</field>
 		<field name="name">Isenta</field>
 	</record>
 
-	<record id="6" model="l10n_br.st.icms">
+	<record id="6" model="l10n_br.st">
 		<field name="code">41</field>
 		<field name="name">Não tributada</field>
 	</record>
 
-	<record id="7" model="l10n_br.st.icms">
+	<record id="7" model="l10n_br.st">
 		<field name="code">50</field>
 		<field name="name">Suspensão</field>
 	</record>
 
-	<record id="8" model="l10n_br.st.icms">
+	<record id="8" model="l10n_br.st">
 		<field name="code">51</field>
 		<field name="name">Diferimento</field>
 	</record>
 
-	<record id="9" model="l10n_br.st.icms">
+	<record id="9" model="l10n_br.st">
 		<field name="code">60</field>
 		<field name="name">ICMS cobrado anteriormente por substituição tributária</field>
 	</record>
 
-	<record id="10" model="l10n_br.st.icms">
+	<record id="10" model="l10n_br.st">
 		<field name="code">70</field>
 		<field name="name">Com redução de base de cálculo e cobrança do ICMS por substituição tributária</field>
 	</record>
 
-	<record id="11" model="l10n_br.st.icms">
+	<record id="11" model="l10n_br.st">
 		<field name="code">90</field>
 		<field name="name">Outras</field>
 	</record>

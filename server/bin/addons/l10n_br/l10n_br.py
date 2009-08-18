@@ -24,6 +24,82 @@ import account
 
 
 ##############################################################################
+# Parceiro Personalizado
+##############################################################################
+class l10n_br_partner(osv.osv):
+    _description = 'Parceiro Personalizado'
+    _inherit = 'res.partner'
+    _columns = {
+        'cnpj_cpf': fields.char('CNPJ/CPF',size=16),
+        'inscr_est': fields.char('Inscr. Estadual',size=16),
+    }
+l10n_br_partner()
+
+##############################################################################
+# País Personalizado
+##############################################################################
+class l10n_br_country(osv.osv):
+    _description = 'País Personalizado'
+    _inherit = 'res.country'
+    _columns = {
+        'bc_code': fields.char('Cód. BC',size=5),
+    }
+l10n_br_country()
+
+##############################################################################
+# Estado Personalizado
+##############################################################################
+class l10n_br_state(osv.osv):
+    _description = 'Estado Personalizado'
+    _inherit = 'res.country.state'
+    _columns = {
+        'ibge_code': fields.char('Cód. IBGE',size=2),
+    }
+l10n_br_state()
+
+##############################################################################
+# Municipios e Códigos do IBGE
+##############################################################################
+class l10n_br_city(osv.osv):
+    _name = 'l10n_br.city'
+    _description = 'Municipios e Códigos do IBGE'
+    _columns = {
+        'name': fields.char('Nome',size=64, required=True),
+        'state_id': fields.many2one('res.country.state','Estado', required=True),
+        'ibge_code': fields.char('Codigo IBGE',size=7),
+    }
+l10n_br_city()
+
+##############################################################################
+# CEP - Código de endereçamento Postal
+##############################################################################
+class l10n_br_cep(osv.osv):
+    _name = 'l10n_br.cep'
+    _description = 'CEP - Código de endereçamento Postal'
+    _columns = {
+        'code': fields.char('CEP',size=8, required=True),
+        'street_type': fields.char('Tipo',size=26),
+        'street': fields.char('Logradouro',size=72),
+        'district': fields.char('Bairro', size=72),
+        'state_id': fields.many2one('res.country.state','Estado', required=True),
+        'city_id': fields.many2one('l10n_br.city','Municipio', required=True),
+    }
+l10n_br_cep()
+
+##############################################################################
+# Contato do Parceiro Personalizado
+##############################################################################
+class l10n_br_partner_address(osv.osv):
+    _description = 'Parceiro Personalizado'
+    _inherit = 'res.partner.address'
+    _columns = {
+        'cep_id': fields.many2one('l10n_br.cep','CEP'),
+        'city_id': fields.many2one('l10n_br.city','Municipio'),
+    }
+
+l10n_br_partner_address()
+
+##############################################################################
 # CFOP - Código Fiscal de Operações e Prestações
 ##############################################################################
 class l10n_br_cfop(osv.osv):
@@ -55,6 +131,17 @@ class l10n_br_ncm(osv.osv):
 l10n_br_ncm()
 
 ##############################################################################
+# Produto Personalizado
+##############################################################################
+class l10n_br_product(osv.osv):
+    _description = 'Produto Personalizado'
+    _inherit = 'product.product'
+    _columns = {
+        'ncm_id': fields.many2one('l10n_br.ncm','NCM'),
+    }
+l10n_br_product()
+
+##############################################################################
 # Tipo de Documento Fiscal
 ##############################################################################
 class l10n_br_fiscal_document(osv.osv):
@@ -68,17 +155,30 @@ class l10n_br_fiscal_document(osv.osv):
 l10n_br_fiscal_document()
 
 ##############################################################################
-# Municipios e Códigos do IBGE
+# Origem da Mercadoria
 ##############################################################################
-class l10n_br_city(osv.osv):
-    _name = 'l10n_br.city'
-    _description = 'Municipios e Códigos do IBGE'
+class l10n_br_st_source(osv.osv):
+    _description = 'Origem da Mercadoria'
+    _name = 'l10n_br.st.source'
     _columns = {
-        'name': fields.char('Nome',size=32),
-        'state_id': fields.many2one('res.country.state','Estado'),
-        'ibge_code': fields.char('Codigo IBGE',size=7),
+        'code': fields.char('Código', size=1),
+        'name': fields.char('Nome',size=64),
     }
-l10n_br_city()
+l10n_br_st_source()
+
+
+##############################################################################
+# Situação Tributária do ICMS e IPI
+##############################################################################
+class l10n_br_st(osv.osv):
+    _description = 'Situação Tributária do ICMS e IPI'
+    _name = 'l10n_br.st'
+    _columns = {
+        'code': fields.char('Código', size=2, required=True),
+        'name': fields.char('Nome',size=64, required=True),
+        'tax_id': fields.many2one('account.tax','Imposto', required=True),
+    }
+l10n_br_st()
 
 ##############################################################################
 # Nota Fiscal
@@ -163,40 +263,6 @@ l10n_br_nf_line()
 #        'company_id': fields.many2one('res.company','Empresa', required=True),
 #    }
 #l10n_br_company_config()
-
-class l10n_br_partner(osv.osv):
-    _description = 'Parceiro Personalizado'
-    _inherit = 'res.partner'
-    _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF',size=16),
-        'inscr_est': fields.char('Inscr. Estadual',size=16),
-    }
-l10n_br_partner()
-
-##############################################################################
-# Origem da Mercadoria
-##############################################################################
-class l10n_br_st_source(osv.osv):
-    _description = 'Origem da Mercadoria'
-    _name = 'l10n_br.st.source'
-    _columns = {
-        'code': fields.char('Código', size=1),
-        'name': fields.char('Nome',size=64),
-    }
-l10n_br_st_source()
-
-
-##############################################################################
-# Tributação do ICMS
-##############################################################################
-class l10n_br_st_icms(osv.osv):
-    _description = 'Tributação do ICMS'
-    _name = 'l10n_br.st.icms'
-    _columns = {
-        'code': fields.char('Código', size=2),
-        'name': fields.char('Nome',size=64),
-    }
-l10n_br_st_icms()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
