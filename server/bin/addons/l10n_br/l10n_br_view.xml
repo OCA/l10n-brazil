@@ -3,7 +3,7 @@
 	<data>
 
 		<menuitem icon="terp-crm" id="menu_l10n_br" name="Localização Brasil"/>
-	        <menuitem id="menu_l10n_br_configuration" name="Configuração" parent="menu_l10n_br" sequence="0"/>
+		<menuitem id="menu_l10n_br_configuration" name="Configuração" parent="menu_l10n_br" sequence="0"/>
 
 		<record model="ir.ui.view" id="view_l10n_br_cfop_form">
 			<field name="name">l10n_br.cfop</field>
@@ -87,7 +87,7 @@
 		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_cep_tree">
-			<field name="name">l10n_br.ceo</field>
+			<field name="name">l10n_br.cep</field>
 			<field name="model">l10n_br.cep</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
@@ -95,9 +95,6 @@
 					<field name="code" select="1"/>
 					<field name="street_type" select="1"/>
 					<field name="street" select="1"/>
-					<field name="district" select="2"/>
-					<field name="city_id" select="2"/>
-					<field name="state_id" select="2"/>
 				</tree>
 			</field>
  		</record>
@@ -107,7 +104,7 @@
 			<field name="model">l10n_br.cep</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<form string="CEP">
+				<form string="CEPs">
 					<field name="code" select="1"/>
 					<field name="street_type" select="1"/>
 					<field name="street" select="1"/>
@@ -357,80 +354,6 @@
 			</field>
 		</record>
 
-		<!-- Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_form">
-			<field name="name">l10n_br.partner</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form"/>
-			<field name="arch" type="xml">
-				<group>
-					<field name="cnpj_cpf"/>
-					<field name="inscr_est"/>
-				</group>
-			</field>
-		</record>
-
-		<!-- Contato do Parceiro Personalizado  -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
-			<field name="name">l10n_br.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form1"/>
-			<field name="arch" type="xml">
-				<field name="zip" position="replace">
-					<field name="zip" invisible="1" />
-					<field name="cep_id" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
-			<field name="name">l10n_br.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form1"/>
-			<field name="arch" type="xml">
-				<field name="city" position="replace">
-					<field name="city" invisible="1" />
-					<field name="city_id" />
-				</field>
-			</field>
-		</record>
-
-		<!-- País Personallizado -->
-		<record model="ir.ui.view" id="view_l10n_br_country_form">
-			<field name="name">l10n_br.country</field>
-			<field name="model">res.country</field>
-			<field name="inherit_id" ref="base.view_country_form"/>
-			<field name="arch" type="xml">
-				<form>
-					<field name="bc_code" select="2"/>
-				</form>
-			</field>
-		</record>
-
-		<!-- Estado Personallizado -->
-		<record model="ir.ui.view" id="view_l10n_br_country_state_form">
-			<field name="name">l10n_br.state</field>
-			<field name="model">res.country.state</field>
-			<field name="inherit_id" ref="base.view_country_state_form"/>
-			<field name="arch" type="xml">
-				<form>
-					<field name="ibge_code" select="2"/>
-				</form>
-			</field>
-		</record>
-
-		<!-- Produto Personallizado -->
-		<record model="ir.ui.view" id="view_l10n_br_product_normal_form_view_form">
-			<field name="name">l10n_br.product</field>
-			<field name="model">product.product</field>
-			<field name="inherit_id" ref="product.product_normal_form_view"/>
-			<field name="arch" type="xml">
-				<group>
-					<field name="ncm_id" select="2"/>
-				</group>
-			</field>
-		</record>
-
 		<record model="ir.ui.view" id="view_l10n_br_nf_tree">
 			<field name="name">l10n_br.nf</field>
 			<field name="model">l10n_br.nf</field>
@@ -573,7 +496,7 @@
 		</record>
 -->
 
-	        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
+        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
 
 		<menuitem name="CFOP" id="menu_action_l10n_br_cfop_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cfop_form"/>
 
@@ -582,10 +505,6 @@
 		<menuitem name="Origem da Mercadoria" id="menu_action_l10n_br_st_source_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_st_source_form"/>
 
 		<menuitem name="Situação Tributária" id="menu_action_l10n_br_st_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_st_form"/>
-
-		<menuitem name="Municipios" id="menu_action_l10n_br_city_form" parent="base.menu_localisation" action="action_l10n_br_city_form"/>
-
-		<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
 
 		<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
 

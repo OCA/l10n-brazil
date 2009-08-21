@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<!-- Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_form">
+			<field name="name">l10n_br.partner</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<group>
+					<field name="cnpj_cpf"/>
+					<field name="inscr_est"/>
+				</group>
+			</field>
+		</record>
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					 <field name="zip" invisible="1" />
+					
+				</field>
+			</field>
+		</record>
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form3">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="city" position="replace">
+					 <field name="city" invisible="1" />
+				</field>
+			</field>
+		</record>  
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form4">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="street2" position="after">
+					<field name="city_id"/>
+				</field>
+			</field>
+		</record>
+
+							
+		<!-- Contato do Parceiro Personalizado		--> 			
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="street" position="replace">
+					<field name="zip"/>
+					<button colspan="2" name="search_zip" string="Buscar Endereço por CEP" icon="gtk-execute"/>
+					<field name="street"/>
+					<field name="number"/>
+				</field>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -19,24 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Brazilian Localisation",
-    "description" : "",
-    "author" : "OpenERP Brasil",
-    "version" : "0.1",
-    "depends" : ["base","product","account"],
-    'init_xml': ['l10n_br_data.xml','l10n_br_data_city.xml','l10n_br_data_cep.xml',],
-    "update_xml" : [
-        #"security/ir.model.access.csv",
-        "l10n_br_view.xml",
-        "country_view.xml",
-        "partner_view.xml",
-        "product_view.xml",
-        #"custom_report.xml",
-    ],
-    "category" : "Localisation",
-    "active": False,
-    "installable": True
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from osv import osv, fields
 
+##############################################################################
+# País Personalizado
+##############################################################################
+class Country(osv.osv):
+    _description = 'País Personalizado'
+    _inherit = 'res.country'
+    _columns = {
+        'bc_code': fields.char('Cód. BC',size=5),
+    }
+Country()
+
+##############################################################################
+# Estado Personalizado
+##############################################################################
+class Countrystate(osv.osv):
+    _description = 'Estado Personalizado'
+    _inherit = 'res.country.state'
+    _columns = {
+        'ibge_code': fields.char('Cód. IBGE',size=2),
+    }
+Countrystate()

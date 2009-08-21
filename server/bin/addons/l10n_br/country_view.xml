@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+		<menuitem name="Municipios" id="menu_action_l10n_br_city_form" parent="base.menu_localisation" action="action_l10n_br_city_form"/>
+
+		<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
+	
+		<!-- País Personallizado -->
+		<record model="ir.ui.view" id="view_l10n_br_country_form">
+			<field name="name">res.country</field>
+			<field name="model">res.country</field>
+			<field name="inherit_id" ref="base.view_country_form"/>
+			<field name="arch" type="xml">
+				<form>
+					<field name="bc_code" select="2"/>
+				</form>
+			</field>
+		</record>
+
+		<!-- Estado Personallizado -->
+		<record model="ir.ui.view" id="view_l10n_br_country_state_form">
+			<field name="name">res.country.state</field>
+			<field name="model">res.country.state</field>
+			<field name="inherit_id" ref="base.view_country_state_form"/>
+			<field name="arch" type="xml">
+				<form>
+					<field name="ibge_code" select="2"/>
+				</form>
+			</field>
+		</record>
+	
+	</data>
+</openerp>

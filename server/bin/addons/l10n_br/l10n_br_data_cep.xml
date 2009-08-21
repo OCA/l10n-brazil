@@ -69,7 +69,7 @@
 		<field name="code">32664470</field>
 		<field name="street_type">Beco</field>
 		<field name="street">das Minas</field>
-		<field name="district">Jardim Teres贸polis</field>
+		<field name="district">Jardim Teres髉olis</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
 	</record>
@@ -78,7 +78,7 @@
 		<field name="code">32664480</field>
 		<field name="street_type">Beco</field>
 		<field name="street">Sossego</field>
-		<field name="district">Jardim Teres贸polis</field>
+		<field name="district">Jardim Teres髉olis</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
 	</record>
@@ -87,7 +87,7 @@
 		<field name="code">32664490</field>
 		<field name="street_type">Beco</field>
 		<field name="street">Sol Nascente</field>
-		<field name="district">Jardim Teres贸polis</field>
+		<field name="district">Jardim Teres髉olis</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
 	</record>
@@ -95,8 +95,8 @@
 	<record id="11" model="l10n_br.cep">
 		<field name="code">85023250</field>
 		<field name="street_type">Rua</field>
-		<field name="street">Vilson Vicentin Guimar茫es</field>
-		<field name="district">Boqueir茫o</field>
+		<field name="street">Vilson Vicentin Guimar鉫s</field>
+		<field name="district">Boqueir鉶</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.4109401"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.pr"/>
 	</record>
@@ -114,7 +114,7 @@
 	<record id="13" model="l10n_br.cep">
 		<field name="code">23540075</field>
 		<field name="street_type">Rua</field>
-		<field name="street">S茫o Bento</field>
+		<field name="street">S鉶 Bento</field>
 		<field name="district">Sepetiba</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3304557"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.rj"/>
@@ -123,7 +123,7 @@
 	<record id="14" model="l10n_br.cep">
 		<field name="code">23540080</field>
 		<field name="street_type">Rua</field>
-		<field name="street">Jo茫o Carlos Vital</field>
+		<field name="street">Jo鉶 Carlos Vital</field>
 		<field name="district">Sepetiba</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3304557"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.rj"/>
@@ -168,7 +168,7 @@
 	<record id="19" model="l10n_br.cep">
 		<field name="code">07244370</field>
 		<field name="street_type">Rua</field>
-		<field name="street">Olho D 脕gua das Flores</field>
+		<field name="street">Olho D'羐ua das Flores</field>
 		<field name="district">Jardim Carvalho</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
@@ -177,7 +177,7 @@
 	<record id="20" model="l10n_br.cep">
 		<field name="code">07244380</field>
 		<field name="street_type">Rua</field>
-		<field name="street">Olho D 脕gua do Casado</field>
+		<field name="street">Olho D'羐ua do Casado</field>
 		<field name="district">Jardim Carvalho</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
@@ -196,7 +196,7 @@
 		<field name="code">09771210</field>
 		<field name="street_type">Avenida</field>
 		<field name="street">Wallace Simonsen</field>
-		<field name="district">Nova Petr贸polis</field>
+		<field name="district">Nova Petr髉olis</field>
 		<field name="city_id" model="l10n_br.city" ref="l10n_br.3548708"/>
 		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
 	</record>

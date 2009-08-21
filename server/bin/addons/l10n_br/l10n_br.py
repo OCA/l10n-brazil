@@ -22,41 +22,6 @@
 from osv import osv, fields
 import account
 
-
-##############################################################################
-# Parceiro Personalizado
-##############################################################################
-class l10n_br_partner(osv.osv):
-    _description = 'Parceiro Personalizado'
-    _inherit = 'res.partner'
-    _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF',size=16),
-        'inscr_est': fields.char('Inscr. Estadual',size=16),
-    }
-l10n_br_partner()
-
-##############################################################################
-# País Personalizado
-##############################################################################
-class l10n_br_country(osv.osv):
-    _description = 'País Personalizado'
-    _inherit = 'res.country'
-    _columns = {
-        'bc_code': fields.char('Cód. BC',size=5),
-    }
-l10n_br_country()
-
-##############################################################################
-# Estado Personalizado
-##############################################################################
-class l10n_br_state(osv.osv):
-    _description = 'Estado Personalizado'
-    _inherit = 'res.country.state'
-    _columns = {
-        'ibge_code': fields.char('Cód. IBGE',size=2),
-    }
-l10n_br_state()
-
 ##############################################################################
 # Municipios e Códigos do IBGE
 ##############################################################################
@@ -75,7 +40,7 @@ l10n_br_city()
 ##############################################################################
 class l10n_br_cep(osv.osv):
     _name = 'l10n_br.cep'
-    _description = 'CEP - Código de endereçamento Postal'
+    _rec_name = 'code'
     _columns = {
         'code': fields.char('CEP',size=8, required=True),
         'street_type': fields.char('Tipo',size=26),
@@ -85,19 +50,6 @@ class l10n_br_cep(osv.osv):
         'city_id': fields.many2one('l10n_br.city','Municipio', required=True),
     }
 l10n_br_cep()
-
-##############################################################################
-# Contato do Parceiro Personalizado
-##############################################################################
-class l10n_br_partner_address(osv.osv):
-    _description = 'Parceiro Personalizado'
-    _inherit = 'res.partner.address'
-    _columns = {
-        'cep_id': fields.many2one('l10n_br.cep','CEP'),
-        'city_id': fields.many2one('l10n_br.city','Municipio'),
-    }
-
-l10n_br_partner_address()
 
 ##############################################################################
 # CFOP - Código Fiscal de Operações e Prestações
@@ -129,17 +81,6 @@ class l10n_br_ncm(osv.osv):
         'tax_id': fields.many2one('account.tax.code','Imposto'),
     }
 l10n_br_ncm()
-
-##############################################################################
-# Produto Personalizado
-##############################################################################
-class l10n_br_product(osv.osv):
-    _description = 'Produto Personalizado'
-    _inherit = 'product.product'
-    _columns = {
-        'ncm_id': fields.many2one('l10n_br.ncm','NCM'),
-    }
-l10n_br_product()
 
 ##############################################################################
 # Tipo de Documento Fiscal
@@ -176,7 +117,7 @@ class l10n_br_st(osv.osv):
     _columns = {
         'code': fields.char('Código', size=2, required=True),
         'name': fields.char('Nome',size=64, required=True),
-        'tax_id': fields.many2one('account.tax','Imposto', required=True),
+        'tax_id': fields.many2one('account.tax','Imposto'),
     }
 l10n_br_st()
 

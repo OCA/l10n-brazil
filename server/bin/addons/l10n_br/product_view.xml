@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+		<!-- Produto Personallizado -->
+		<record model="ir.ui.view" id="view_l10n_br_product_normal_form_view_form">
+			<field name="name">product.product</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view"/>
+			<field name="arch" type="xml">
+				<group>
+					<field name="ncm_id" select="2"/>
+				</group>
+			</field>
+		</record>
+	
+	</data>
+</openerp>
