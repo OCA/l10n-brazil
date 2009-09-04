@@ -25,7 +25,7 @@
     "author" : "OpenERP Brasil",
     "version" : "0.1",
     "depends" : ["l10n_br"],
-    'init_xml': [],
+    'init_xml': ['l10n_br_data_city.xml','l10n_br_data_cep.xml'],
     "update_xml" : [],
     "category" : "Localisation",
     "active": False,

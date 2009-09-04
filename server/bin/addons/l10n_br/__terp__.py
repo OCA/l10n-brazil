@@ -25,7 +25,7 @@
     "author" : "OpenERP Brasil",
     "version" : "0.1",
     "depends" : ["base","product","account"],
-    'init_xml': ['l10n_br_data.xml','l10n_br_data_city.xml','l10n_br_data_cep.xml',],
+    'init_xml': ['l10n_br_data.xml'],
     "update_xml" : [
         #"security/ir.model.access.csv",
         "l10n_br_view.xml",
