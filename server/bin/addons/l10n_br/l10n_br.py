@@ -23,19 +23,6 @@ from osv import osv, fields
 import account
 
 ##############################################################################
-# Municipios e Códigos do IBGE
-##############################################################################
-class l10n_br_city(osv.osv):
-    _name = 'l10n_br.city'
-    _description = 'Municipios e Códigos do IBGE'
-    _columns = {
-        'name': fields.char('Nome', size=64, required=True),
-        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
-        'ibge_code': fields.char('Codigo IBGE', size=7),
-    }
-l10n_br_city()
-
-##############################################################################
 # CEP - Código de endereçamento Postal
 ##############################################################################
 class l10n_br_cep(osv.osv):
@@ -47,7 +34,6 @@ class l10n_br_cep(osv.osv):
         'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
         'state_id': fields.many2one('res.country.state', 'Estado', required=True),
-        'city_id': fields.many2one('l10n_br.city', 'Municipio', required=True),
     }
 l10n_br_cep()
 
