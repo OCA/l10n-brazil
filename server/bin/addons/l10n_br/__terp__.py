@@ -21,7 +21,7 @@
 ##############################################################################
 {
     "name" : "Brazilian Localisation",
-    "description" : "",
+    "description" : "Brazilian Localisation",
     "author" : "OpenERP Brasil",
     "version" : "0.1",
     "depends" : ["base","product","account"],
