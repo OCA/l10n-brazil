@@ -28,6 +28,6 @@ class product_product(osv.osv):
     _description = 'Produto Personalizado'
     _inherit = 'product.product'
     _columns = {
-        'ncm_id': fields.many2one('l10n_br.ncm','NCM'),
+        'ncm_id': fields.many2one('l10n_br.ncm', 'NCM'),
     }
 product_product()

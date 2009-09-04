@@ -29,9 +29,9 @@ class l10n_br_city(osv.osv):
     _name = 'l10n_br.city'
     _description = 'Municipios e Códigos do IBGE'
     _columns = {
-        'name': fields.char('Nome',size=64, required=True),
-        'state_id': fields.many2one('res.country.state','Estado', required=True),
-        'ibge_code': fields.char('Codigo IBGE',size=7),
+        'name': fields.char('Nome', size=64, required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'ibge_code': fields.char('Codigo IBGE', size=7),
     }
 l10n_br_city()
 
@@ -42,12 +42,12 @@ class l10n_br_cep(osv.osv):
     _name = 'l10n_br.cep'
     _rec_name = 'code'
     _columns = {
-        'code': fields.char('CEP',size=8, required=True),
-        'street_type': fields.char('Tipo',size=26),
-        'street': fields.char('Logradouro',size=72),
+        'code': fields.char('CEP', size=8, required=True),
+        'street_type': fields.char('Tipo', size=26),
+        'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
-        'state_id': fields.many2one('res.country.state','Estado', required=True),
-        'city_id': fields.many2one('l10n_br.city','Municipio', required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'city_id': fields.many2one('l10n_br.city', 'Municipio', required=True),
     }
 l10n_br_cep()
 
@@ -62,7 +62,7 @@ class l10n_br_cfop(osv.osv):
         'name': fields.char('Nome', size=256),
         'small_name': fields.char('Nome Reduzido', size=32),
         'description': fields.text('Descrição'),
-        'type': fields.selection([('input', 'Entrada'),('output','Saida')], 'Tipo'),
+        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
         'parent_id': fields.many2one('l10n_br.cfop', 'CFOP Pai'),
         'child_ids': fields.one2many('l10n_br.cfop', 'parent_id', 'CFOP filhos'),
     }
@@ -78,7 +78,7 @@ class l10n_br_ncm(osv.osv):
         'code': fields.char('Codigo', size=10),
         'name': fields.char('Nome', size=68),
         'aliquot': fields.float('Aliquota'),
-        'tax_id': fields.many2one('account.tax.code','Imposto'),
+        'tax_id': fields.many2one('account.tax.code', 'Imposto'),
     }
 l10n_br_ncm()
 
@@ -90,7 +90,7 @@ class l10n_br_fiscal_document(osv.osv):
     _description = 'Tipo de Documento Fiscal'
     _columns = {
         'code': fields.char('Codigo', size=8),
-        'name': fields.char('Descrição',size=64),
+        'name': fields.char('Descrição', size=64),
         'nfe': fields.boolean('NFe'),
     }
 l10n_br_fiscal_document()
@@ -103,7 +103,7 @@ class l10n_br_st_source(osv.osv):
     _name = 'l10n_br.st.source'
     _columns = {
         'code': fields.char('Código', size=1),
-        'name': fields.char('Nome',size=64),
+        'name': fields.char('Nome', size=64),
     }
 l10n_br_st_source()
 
@@ -116,8 +116,8 @@ class l10n_br_st(osv.osv):
     _name = 'l10n_br.st'
     _columns = {
         'code': fields.char('Código', size=2, required=True),
-        'name': fields.char('Nome',size=64, required=True),
-        'tax_id': fields.many2one('account.tax','Imposto'),
+        'name': fields.char('Nome', size=64, required=True),
+        'tax_id': fields.many2one('account.tax', 'Imposto'),
     }
 l10n_br_st()
 
@@ -128,27 +128,27 @@ class l10n_br_nf(osv.osv):
     _description = 'Nota Fiscal'
     _name = 'l10n_br.nf'
     _columns = {
-        'company_id': fields.many2one('res.company','Empresa'),
-        'partner_id': fields.many2one('res.partner','Parceiro'),
-        'partner_address_id': fields.many2one('res.partner.address','Contato'),
-        'partner_adr_delivery_id': fields.many2one('res.partner.address','Endereço'),
-        'cnpj_cpf': fields.char('CNPJ/CPF',size=16),
-        'insc_est': fields.char('Inscrição Estadual',size=16),
-        'street': fields.char('Endereço',size=128),
-        'street_number': fields.char('Número',size=16),
-        'district': fields.char('Bairro',size=64),
-        'country_id': fields.many2one('res.country','Pais'),
-        'state_id': fields.many2one('res.country.state','Estado'),
-        'city_id': fields.many2one('l10n_br.city','Cidade'),
-        'zip': fields.char('CEP',size=10),
-        'contact_phone': fields.char('Telefone',size=12),
+        'company_id': fields.many2one('res.company', 'Empresa'),
+        'partner_id': fields.many2one('res.partner', 'Parceiro'),
+        'partner_address_id': fields.many2one('res.partner.address', 'Contato'),
+        'partner_adr_delivery_id': fields.many2one('res.partner.address', 'Endereço'),
+        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
+        'insc_est': fields.char('Inscrição Estadual', size=16),
+        'street': fields.char('Endereço', size=128),
+        'street_number': fields.char('Número', size=16),
+        'district': fields.char('Bairro', size=64),
+        'country_id': fields.many2one('res.country', 'Pais'),
+        'state_id': fields.many2one('res.country.state', 'Estado'),
+        'city_id': fields.many2one('l10n_br.city', 'Cidade'),
+        'zip': fields.char('CEP', size=10),
+        'contact_phone': fields.char('Telefone', size=12),
         'number': fields.integer('Número'),
         'canceled': fields.boolean('Cancelada'),
         'printed': fields.boolean('Impressa'),
-        'cfop_id': fields.many2one('l10n_br.cfop','CFOP'),
+        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
         'date': fields.date('Data', required=True),
         'date_out': fields.date('Data Saida'),
-        'type': fields.selection([('input', 'Entrada'),('output','Saida')], 'Tipo'),
+        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
         'amount_products': fields.float('Total Mercadoria'),
         'amount_total': fields.float('Total Geral'),
         'amount_icms': fields.float('Total ICMS'),
@@ -184,10 +184,10 @@ class l10n_br_nf_line(osv.osv):
     _description = 'Linhas da Nota Fiscal'
     _columns = {
         'nf_id': fields.many2one('l10n_br.nf', 'Nota Fiscal', required=True, ondelete='cascade', select=True),
-        'sequence': fields.integer('Sequência'),        
+        'sequence': fields.integer('Sequência'),
         'product_id': fields.many2one('product.product', 'Produto', change_default=True),
         'name': fields.char('Descrição', size=256, required=True, select=True),
-        'product_qty': fields.float('Quantidade', digits=(16,2), required=True),
+        'product_qty': fields.float('Quantidade', digits=(16, 2), required=True),
         'product_uom': fields.many2one('product.uom', 'Unidade', required=True),
         'price_unit': fields.float('Preço Unit', required=True),
         'price_subtotal': fields.float('Total'),
