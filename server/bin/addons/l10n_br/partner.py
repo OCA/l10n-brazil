@@ -25,7 +25,6 @@ from osv import osv, fields
 # Parceiro Personalizado
 ##############################################################################
 class res_partner(osv.osv):
-    _description = 'Parceiro Personalizado'
     _inherit = 'res.partner'
     _columns = {
         'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
@@ -41,7 +40,6 @@ res_partner()
 # Contato do Parceiro Personalizado
 ##############################################################################
 class res_partner_address(osv.osv):
-    _description = 'Parceiro Personalizado'
     _inherit = 'res.partner.address'
     _columns = {
         'number': fields.char('Número', size=10),
