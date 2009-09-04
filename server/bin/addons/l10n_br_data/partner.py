@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -19,8 +19,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from osv import osv, fields
 
-import partner
+##############################################################################
+# Contato do Parceiro Personalizado
+##############################################################################
+class res_partner_address(osv.osv):
+    _inherit = 'res.partner.address'
+    _columns = {
+        'city_id': fields.many2one('l10n_br.city', 'Municipio'),
+    }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+res_partner_address()
