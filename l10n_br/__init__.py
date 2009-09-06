@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -19,30 +19,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
 
-##############################################################################
-# Parceiro Personalizado
-##############################################################################
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
-        'inscr_est': fields.char('Inscr. Estadual', size=16),
-    }
-    
-    def zip_search(self, cr, uid, ids, context={}):
-        return True
-    
-res_partner()
+import l10n_br
+import country
+import partner
+import product
+import account
 
-##############################################################################
-# Contato do Parceiro Personalizado
-##############################################################################
-class res_partner_address(osv.osv):
-    _inherit = 'res.partner.address'
-    _columns = {
-        'number': fields.char('Número', size=10),
-    }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
-res_partner_address()

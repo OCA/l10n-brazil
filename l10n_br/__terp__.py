@@ -20,17 +20,23 @@
 #
 ##############################################################################
 {
-    "name" : "Informações Fiscais de produtos no Brasil",
-    "version" : "1.0",
-    "author" : "Sidnei Brianti <web@asblogic.com.br",
-    "category" : "Enterprise Specific Modules/Products of Brazil",
-    "depends" : ["base", "account", "product", "stock"],
-    "init_xml" : ["clfiscal.xml","cst.xml"],
-    "demo_xml" : [],
-    "description": "Este modulo adiciona os campos Situação Tributária e Classificação Fiscal na formulário de produtos",
-    "update_xml" : ["product_br_view.xml"],
+    "name" : "Brazilian Localisation",
+    "description" : "Brazilian Localisation",
+    "author" : "OpenERP Brasil",
+    "version" : "0.1",
+    "depends" : ["base","product","account"],
+    'init_xml': ['l10n_br_data.xml'],
+    "update_xml" : [
+        #"security/ir.model.access.csv",
+        "l10n_br_view.xml",
+        "country_view.xml",
+        "partner_view.xml",
+        "product_view.xml",
+        #"custom_report.xml",
+    ],
+    "category" : "Localisation",
     "active": False,
     "installable": True
 }
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

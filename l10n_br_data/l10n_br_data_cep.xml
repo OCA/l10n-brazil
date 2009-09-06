@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<openerp>
+<data noupdate="1">
+	
+	<record id="1" model="l10n_br.cep">
+		<field name="code">69945000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200013"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="2" model="l10n_br.cep">
+		<field name="code">69935000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200054"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="3" model="l10n_br.cep">
+		<field name="code">69932000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200104"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="4" model="l10n_br.cep">
+		<field name="code">69923000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200138"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="5" model="l10n_br.cep">
+		<field name="code">69922000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200179"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="6" model="l10n_br.cep">
+		<field name="code">69980000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200203"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="7" model="l10n_br.cep">
+		<field name="code">69934000</field>
+		<field name="street_type"></field>
+		<field name="street"></field>
+		<field name="district"></field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.1200252"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.ac"/>
+	</record>
+
+	<record id="8" model="l10n_br.cep">
+		<field name="code">32664470</field>
+		<field name="street_type">Beco</field>
+		<field name="street">das Minas</field>
+		<field name="district">Jardim Teresópolis</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
+	</record>
+
+	<record id="9" model="l10n_br.cep">
+		<field name="code">32664480</field>
+		<field name="street_type">Beco</field>
+		<field name="street">Sossego</field>
+		<field name="district">Jardim Teresópolis</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
+	</record>
+
+	<record id="10" model="l10n_br.cep">
+		<field name="code">32664490</field>
+		<field name="street_type">Beco</field>
+		<field name="street">Sol Nascente</field>
+		<field name="district">Jardim Teresópolis</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3106705"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.mg"/>
+	</record>
+
+	<record id="11" model="l10n_br.cep">
+		<field name="code">85023250</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Vilson Vicentin Guimarães</field>
+		<field name="district">Boqueirão</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.4109401"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.pr"/>
+	</record>
+
+
+	<record id="12" model="l10n_br.cep">
+		<field name="code">23540070</field>
+		<field name="street_type">Travessa</field>
+		<field name="street">Detetive Marin 40</field>
+		<field name="district">Santa Cruz</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3304557"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.rj"/>
+	</record>
+
+	<record id="13" model="l10n_br.cep">
+		<field name="code">23540075</field>
+		<field name="street_type">Rua</field>
+		<field name="street">São Bento</field>
+		<field name="district">Sepetiba</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3304557"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.rj"/>
+	</record>
+
+	<record id="14" model="l10n_br.cep">
+		<field name="code">23540080</field>
+		<field name="street_type">Rua</field>
+		<field name="street">João Carlos Vital</field>
+		<field name="district">Sepetiba</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3304557"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.rj"/>
+	</record>
+
+	<record id="15" model="l10n_br.cep">
+		<field name="code">88357310</field>
+		<field name="street_type">Rua</field>
+		<field name="street">ZT - 010</field>
+		<field name="district">Santa Luzia</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.4202909"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sc"/>
+	</record>
+
+	<record id="16" model="l10n_br.cep">
+		<field name="code">11495048</field>
+		<field name="street_type">Travessa</field>
+		<field name="street">Cento e Vinte</field>
+		<field name="district">Morrinhos</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518701"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="17" model="l10n_br.cep">
+		<field name="code">07244350</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Manduba</field>
+		<field name="district">Parque Jurema</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="18" model="l10n_br.cep">
+		<field name="code">07244360</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Maravilha</field>
+		<field name="district">Jardim Carvalho</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="19" model="l10n_br.cep">
+		<field name="code">07244370</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Olho D'Água das Flores</field>
+		<field name="district">Jardim Carvalho</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="20" model="l10n_br.cep">
+		<field name="code">07244380</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Olho D'Água do Casado</field>
+		<field name="district">Jardim Carvalho</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3518800"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="21" model="l10n_br.cep">
+		<field name="code">08579030</field>
+		<field name="street_type">Rua</field>
+		<field name="street">Oswaldo Cruz</field>
+		<field name="district">Jardim Cristiano</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3523107"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+	<record id="22" model="l10n_br.cep">
+		<field name="code">09771210</field>
+		<field name="street_type">Avenida</field>
+		<field name="street">Wallace Simonsen</field>
+		<field name="district">Nova Petrópolis</field>
+		<field name="city_id" model="l10n_br.city" ref="l10n_br.3548708"/>
+		<field name="state_id" model="res.country.state" ref="l10n_br.sp"/>
+	</record>
+
+</data>
+</openerp>

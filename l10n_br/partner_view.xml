@@ -1,332 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit1">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="name" position="replace">
-                <field name="name" select="1" colspan="6"/>
-            </field>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit2">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="ref" position="replace"/>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit3">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="title" position="replace"/>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit4">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="supplier" position="replace"/>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit5">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="customer" position="replace"/>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit6">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="lang" position="after">
-                <group col="4" colspan="2">
-                   <field name="supplier" select="2"/>
-                   <field name="customer" select="2"/>
-                </group>
-            </field>
-       </field>
-   </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit7">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="country_id" position="replace"/>
-       </field>
-   </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit8">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="state_id" select="2" position="replace"/>
-       </field>
-   </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit9">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="city" select="2" position="replace"/>
-       </field>
-   </record>
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit10">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="zip" position="after">
-                <field name="country_id" select="2"/>
-                <newline/>
-                <field name="state_id" select="2"/>
-                <field name="location" select="2"/>
-            </field>
-       </field>
-   </record>
+	<data>
 
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit11">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field colspan="4" mode="form,tree" name="address" nolabel="1" select="1" position="replace">
-                <field name="address" mode="form,tree" colspan="4" nolabel="1" select="1">
-                    <form string="Endereços">
-                      <group colspan="4" col="6">
-                        <field name="tipo_pessoa"/>
-                        <field name="cpf_cnpj"/>
-                        <field name="type" select="2" />
-                        <newline/>
-                        <field name="street" select="2" colspan="4" />
-                        <field name="numero" />
-                        <newline/>
-                        <field name="street2"/>
-                        <field name="bairro" colspan="3"/>
-                        <newline/>
-                        <field name="country_id" select="2" completion="1"/>
-                        <field name="state_id" select="2" completion="1" />
-                        <newline/>
-                        <field name="zip" select="2"/>
-                        <field name="location" select="2"/>
-                        <newline/>
-                        <field name="phone"/>
-                        <field name="mobile"/>
-                        <field name="fax"/>
-                        <newline/>
-                        <field name="email" widget="email" colspan="4"/>
-                        <newline/>
-                      </group>
-                      <notebook colspan="4">
-                        <page string="Pessoa Jurídica" attrs="{'invisible':[('tipo_pessoa','!=','J')]}" >
-                            <field colspan="4" mode="form" name="pessoa_juridica" nolabel="1" select="1">
-                                <form string="Pessoa Jurídica">
-                                    <field name="fantasia" select="1"/>
-                                    <field name="inscr_estadual" select="2"/>
-                                    <field name="inscr_municipal" select="2"/>
-                                    <field name="suframa" select="2"/>
-                                    <field name="tipo_empresa" select="1"/>
-                                    <field name="data_fundacao"/>
-                                </form>
-                            </field>
-                        </page>
-                        <page string="Pessoa Física" attrs="{'invisible':[('tipo_pessoa','!=','F')]}">
-                            <field colspan="4" mode="form" name="pessoa_fisica" nolabel="1" select="1">
-                                <form string="Pessoa Física">
-                                    <field name="apelido" select="1"/>
-                                    <field name="identidade" select="2"/>
-                                    <field name="data_emissao_identidade" select="2"/>
-                                    <field name="orgao_emissor_identidade" select="2"/>
-                                    <field name="data_nascimento" select="1"/>
-                                    <field name="estado_civil"/>
-                                    <field name="sexo"/>
-                                </form>
-                            </field>
-                        </page>
-                      </notebook>
-                    </form>
-                    <tree string="Addresses">
-                        <field name="type"/>
-                        <field name="zip"/>
-                        <field name="location"/>
-                        <field name="country_id"/>
-                        <field name="phone"/>
-                    </tree>
-                </field>
-            </field>
-        </field>
-   </record>
-
-   <record model="ir.ui.view" id="partners_form_add_location1">
-        <field name="name">res.partner.address.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="state_id" position="replace">
-                <field name="location" colspan="4" />
-            </field>
-        </field>
-    </record>
-
-   <record model="ir.ui.view" id="partners_form_add_location2">
-        <field name="name">res.partner.address.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="street" position="after">
-                <field name="numero"/>
-            </field>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_add_location3">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="name" position="before">
-                <field name="cpf_cnpj"/>
-                <field name="tipo_pessoa" select="1"/>
-            </field>
-       </field>
-    </record>
-    <record model="ir.ui.view" id="partners_form_add_location4">
-        <field name="name">res.partner.form</field>
-        <field name="type">form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_address_form2"/>
-        <field name="arch" type="xml">
-            <field name="name" position="before">
-                <field name="cpf_cnpj"/>
-                <field name="tipo_pessoa" select="1"/>
-            </field>
-       </field>
-    </record>
-
-		<record model="ir.ui.view" id="view_partner_form_inherit2">
-			<field name="name">res.partner.form</field>
-			<field name="type">form</field>
+		<!-- Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_form">
+			<field name="name">l10n_br.partner</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<field name="category_id" position="replace">
+				<group>
+					<field name="cnpj_cpf"/>
+					<field name="inscr_est"/>
+				</group>
+			</field>
+		</record>
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					 <field name="zip" invisible="1" />
+					
 				</field>
 			</field>
 		</record>
-		<record model="ir.ui.view" id="view_partner_form_inherit2bis">
-			<field name="name">res.partner.form</field>
-			<field name="type">form</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form"/>
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form3">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
-				<separator colspan="4" string="Categories" position="replace"/>
+				<field name="city" position="replace">
+					 <field name="city" invisible="1" />
+				</field>
+			</field>
+		</record>  
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form4">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
+			<field name="arch" type="xml">
+				<field name="street2" position="after">
+					<field name="city_id"/>
+				</field>
 			</field>
 		</record>
-		<record model="ir.ui.view" id="view_partner_form_inherit3">
-			<field name="name">res.partner.form</field>
-			<field name="type">form</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form"/>
+
+							
+		<!-- Contato do Parceiro Personalizado		--> 			
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
-				<notebook position="inside">
-					<page string="Categories">
-						<separator colspan="4" string="Categories"/>
-						<field colspan="4" name="category_id" nolabel="1" select="2"/>
-					</page>
-				</notebook>
+				<field name="street" position="replace">
+					<field name="zip"/>
+					<button colspan="2" name="search_zip" string="Buscar Endereço por CEP" icon="gtk-execute"/>
+					<field name="street"/>
+					<field name="number"/>
+				</field>
 			</field>
 		</record>
-
-
-    <record model="ir.ui.view" id="view_partner_bra_form_inherit12">
-        <field name="name">res.partner.address.form1</field>
-        <field name="type">form</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <form string="Partner Address" position="replace">
-                <form string="Endereços">
-                      <group colspan="4" col="6">
-                        <field colspan="4" name="partner_id" select="1"/>
-                        <newline/>
-                        <field name="tipo_pessoa"/>
-                        <field name="cpf_cnpj"/>
-                        <field name="type" select="2" />
-                        <newline/>
-                        <field name="street" colspan="4" select="2"/>
-                        <field name="numero" />
-                        <newline/>
-                        <field name="street2"/>
-                        <field name="bairro" colspan="3"/>
-                        <newline/>
-                        <field name="country_id" select="2" completion="1"/>
-                        <field name="state_id" select="2" completion="1" />
-                        <newline/>
-                        <field name="zip" select="2"/>
-                        <field name="location" select="2"/>
-                        <newline/>
-                        <field name="phone"/>
-                        <field name="mobile"/>
-                        <field name="fax"/>
-                        <newline/>
-                        <field name="email" widget="email" colspan="4"/>
-                        <newline/>
-                      </group>
-                      <notebook colspan="4">
-                        <page string="Pessoa Jurídica" attrs="{'invisible':[('tipo_pessoa','!=','J')]}">
-                            <field colspan="4" mode="form" name="pessoa_juridica" nolabel="1" select="1">
-                                <form string="Pessoa Jurídica">
-                                    <field name="fantasia" select="1"/>
-                                    <field name="inscr_estadual" select="2"/>
-                                    <field name="inscr_municipal" select="2"/>
-                                    <field name="suframa" select="2"/>
-                                    <field name="tipo_empresa" select="1"/>
-                                    <field name="data_fundacao"/>
-                                </form>
-                            </field>
-                        </page>
-                        <page string="Pessoa Física" attrs="{'invisible':[('tipo_pessoa','!=','F')]}">
-                            <field colspan="4" mode="form" name="pessoa_fisica" nolabel="1" select="1">
-                                <form string="Pessoa Física">
-                                    <field name="apelido" select="1"/>
-                                    <field name="identidade" select="2"/>
-                                    <field name="data_emissao_identidade" select="2"/>
-                                    <field name="orgao_emissor_identidade" select="2"/>
-                                    <field name="data_nascimento" select="1"/>
-                                    <field name="estado_civil"/>
-                                    <field name="sexo"/>
-                                </form>
-                            </field>
-                        </page>
-                      </notebook>
-                </form>
-            </form>
-
-        </field>
-   </record>
-
-</data>
+		
+	</data>
 </openerp>

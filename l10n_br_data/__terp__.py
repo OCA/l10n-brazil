@@ -19,7 +19,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import product_br
+{
+    "name" : "Brazilian Localisation Data Extension",
+    "description" : "Brazilian Localisation Data Extension",
+    "author" : "OpenERP Brasil",
+    "version" : "0.1",
+    "depends" : ["l10n_br"],
+    'init_xml': ['l10n_br_data_city.xml','l10n_br_data_cep.xml'],
+    "update_xml" : [],
+    "category" : "Localisation",
+    "active": False,
+    "installable": True
+}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

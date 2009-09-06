@@ -22,27 +22,25 @@
 from osv import osv, fields
 
 ##############################################################################
-# Parceiro Personalizado
+# Municipios e Cￃﾳdigos do IBGE
 ##############################################################################
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
+class l10n_br_city(osv.osv):
+    _name = 'l10n_br.city'
+    _description = 'Municipios e Cￃﾳdigos do IBGE'
     _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
-        'inscr_est': fields.char('Inscr. Estadual', size=16),
+        'name': fields.char('Nome', size=64, required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'ibge_code': fields.char('Codigo IBGE', size=7),
     }
-    
-    def zip_search(self, cr, uid, ids, context={}):
-        return True
-    
-res_partner()
+l10n_br_city()
 
 ##############################################################################
-# Contato do Parceiro Personalizado
+# CEP - Cￃﾳdigo de endereￃﾧamento Postal
 ##############################################################################
-class res_partner_address(osv.osv):
-    _inherit = 'res.partner.address'
+class l10n_br_cep(osv.osv):
+    _name = 'l10n_br.cep'
+    _rec_name = 'code'
     _columns = {
-        'number': fields.char('Número', size=10),
+        'city_id': fields.many2one('l10n_br.city', 'Municipio', required=True),
     }
-
-res_partner_address()
+l10n_br_cep()

@@ -22,27 +22,12 @@
 from osv import osv, fields
 
 ##############################################################################
-# Parceiro Personalizado
-##############################################################################
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
-        'inscr_est': fields.char('Inscr. Estadual', size=16),
-    }
-    
-    def zip_search(self, cr, uid, ids, context={}):
-        return True
-    
-res_partner()
-
-##############################################################################
 # Contato do Parceiro Personalizado
 ##############################################################################
 class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
     _columns = {
-        'number': fields.char('Número', size=10),
+        'city_id': fields.many2one('l10n_br.city', 'Municipio'),
     }
 
 res_partner_address()
