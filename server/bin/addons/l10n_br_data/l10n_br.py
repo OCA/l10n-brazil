@@ -22,21 +22,25 @@
 from osv import osv, fields
 
 ##############################################################################
-# País Personalizado
+# Municipios e Cￃﾳdigos do IBGE
 ##############################################################################
-class res_country(osv.osv):
-    _inherit = 'res.country'
+class l10n_br_city(osv.osv):
+    _name = 'l10n_br.city'
+    _description = 'Municipios e Cￃﾳdigos do IBGE'
     _columns = {
-        'bc_code': fields.char('Cód. BC', size=5),
+        'name': fields.char('Nome', size=64, required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'ibge_code': fields.char('Codigo IBGE', size=7),
     }
-res_country()
+l10n_br_city()
 
 ##############################################################################
-# Estado Personalizado
+# CEP - Cￃﾳdigo de endereￃﾧamento Postal
 ##############################################################################
-class res_country_state(osv.osv):
-    _inherit = 'res.country.state'
+class l10n_br_cep(osv.osv):
+    _name = 'l10n_br.cep'
+    _rec_name = 'code'
     _columns = {
-        'ibge_code': fields.char('Cód. IBGE', size=2),
+        'city_id': fields.many2one('l10n_br.city', 'Municipio', required=True),
     }
-res_country_state()
+l10n_br_cep()

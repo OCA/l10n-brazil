@@ -20,7 +20,6 @@
 #
 ##############################################################################
 from osv import osv, fields
-import account
 
 ##############################################################################
 # CEP - Código de endereçamento Postal
@@ -110,75 +109,75 @@ l10n_br_st()
 ##############################################################################
 # Nota Fiscal
 ##############################################################################
-class l10n_br_nf(osv.osv):
-    _description = 'Nota Fiscal'
-    _name = 'l10n_br.nf'
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Empresa'),
-        'partner_id': fields.many2one('res.partner', 'Parceiro'),
-        'partner_address_id': fields.many2one('res.partner.address', 'Contato'),
-        'partner_adr_delivery_id': fields.many2one('res.partner.address', 'Endereço'),
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
-        'insc_est': fields.char('Inscrição Estadual', size=16),
-        'street': fields.char('Endereço', size=128),
-        'street_number': fields.char('Número', size=16),
-        'district': fields.char('Bairro', size=64),
-        'country_id': fields.many2one('res.country', 'Pais'),
-        'state_id': fields.many2one('res.country.state', 'Estado'),
-        'city_id': fields.many2one('l10n_br.city', 'Cidade'),
-        'zip': fields.char('CEP', size=10),
-        'contact_phone': fields.char('Telefone', size=12),
-        'number': fields.integer('Número'),
-        'canceled': fields.boolean('Cancelada'),
-        'printed': fields.boolean('Impressa'),
-        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
-        'date': fields.date('Data', required=True),
-        'date_out': fields.date('Data Saida'),
-        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
-        'amount_products': fields.float('Total Mercadoria'),
-        'amount_total': fields.float('Total Geral'),
-        'amount_icms': fields.float('Total ICMS'),
-        'base_icms': fields.float('Base ICMS'),
-        'amount_ipi': fields.float('Total IPI'),
-        'base_ipi': fields.float('Base IPI'),
-        'nf_line': fields.one2many('l10n_br.nf.line', 'nf_id', 'Order Lines'),
-        'body_note': fields.text('Observações Corpo'),
-        'foot_note': fields.text('Observações Rodapé'),
-    }
-
-    def onchange_partner_id(self, cr, uid, ids, part):
-        if not part:
-            return {'value':{'partner_address_id': False}}
-        addr = self.pool.get('res.partner').address_get(cr, uid, [part], ['default'])
-        part = self.pool.get('res.partner').browse(cr, uid, part)
-        street = addr['default'].street
-        street_number = addr['default'].number
-        district = addr['default'].street2
-        cep = addr['default'].zip
-        contact_phone = addr['default'].phone
-        state_id = addr['default'].state_id.id
-        country_id = addr['default'].country_id.id
-        return {'value':{'partner_address_id': addr['default'], 'street': street, 'street_number': street_number, 'district' : district, 'cep' : cep, 'contact_phone' : contact_phone, 'state_id' : contact_phone, 'country_id' : country_id}}
-
-l10n_br_nf()
+#class l10n_br_nf(osv.osv):
+#    _description = 'Nota Fiscal'
+#    _name = 'l10n_br.nf'
+#    _columns = {
+#        'company_id': fields.many2one('res.company', 'Empresa'),
+#        'partner_id': fields.many2one('res.partner', 'Parceiro'),
+#        'partner_address_id': fields.many2one('res.partner.address', 'Contato'),
+#        'partner_adr_delivery_id': fields.many2one('res.partner.address', 'Endereço'),
+#        'cnpj_cpf': fields.char('CNPJ/CPF', size=16),
+#        'insc_est': fields.char('Inscrição Estadual', size=16),
+#        'street': fields.char('Endereço', size=128),
+#        'street_number': fields.char('Número', size=16),
+#        'district': fields.char('Bairro', size=64),
+#        'country_id': fields.many2one('res.country', 'Pais'),
+#        'state_id': fields.many2one('res.country.state', 'Estado'),
+#        'city_id': fields.many2one('l10n_br.city', 'Cidade'),
+#        'zip': fields.char('CEP', size=10),
+#        'contact_phone': fields.char('Telefone', size=12),
+#        'number': fields.integer('Número'),
+#        'canceled': fields.boolean('Cancelada'),
+#        'printed': fields.boolean('Impressa'),
+#        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
+#        'date': fields.date('Data', required=True),
+#        'date_out': fields.date('Data Saida'),
+#        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
+#        'amount_products': fields.float('Total Mercadoria'),
+#        'amount_total': fields.float('Total Geral'),
+#        'amount_icms': fields.float('Total ICMS'),
+#        'base_icms': fields.float('Base ICMS'),
+#        'amount_ipi': fields.float('Total IPI'),
+#        'base_ipi': fields.float('Base IPI'),
+#        'nf_line': fields.one2many('l10n_br.nf.line', 'nf_id', 'Order Lines'),
+#        'body_note': fields.text('Observações Corpo'),
+#        'foot_note': fields.text('Observações Rodapé'),
+#    }
+#
+#    def onchange_partner_id(self, cr, uid, ids, part):
+#        if not part:
+#            return {'value':{'partner_address_id': False}}
+#        addr = self.pool.get('res.partner').address_get(cr, uid, [part], ['default'])
+#        part = self.pool.get('res.partner').browse(cr, uid, part)
+#        street = addr['default'].street
+#        street_number = addr['default'].number
+#        district = addr['default'].street2
+#        cep = addr['default'].zip
+#        contact_phone = addr['default'].phone
+#        state_id = addr['default'].state_id.id
+#        country_id = addr['default'].country_id.id
+#        return {'value':{'partner_address_id': addr['default'], 'street': street, 'street_number': street_number, 'district' : district, 'cep' : cep, 'contact_phone' : contact_phone, 'state_id' : contact_phone, 'country_id' : country_id}}
+#
+#l10n_br_nf()
 
 ##############################################################################
 # Linhas da Nota Fiscal
 ##############################################################################
-class l10n_br_nf_line(osv.osv):
-    _name = 'l10n_br.nf.line'
-    _description = 'Linhas da Nota Fiscal'
-    _columns = {
-        'nf_id': fields.many2one('l10n_br.nf', 'Nota Fiscal', required=True, ondelete='cascade', select=True),
-        'sequence': fields.integer('Sequência'),
-        'product_id': fields.many2one('product.product', 'Produto', change_default=True),
-        'name': fields.char('Descrição', size=256, required=True, select=True),
-        'product_qty': fields.float('Quantidade', digits=(16, 2), required=True),
-        'product_uom': fields.many2one('product.uom', 'Unidade', required=True),
-        'price_unit': fields.float('Preço Unit', required=True),
-        'price_subtotal': fields.float('Total'),
-    }
-l10n_br_nf_line()
+#class l10n_br_nf_line(osv.osv):
+#    _name = 'l10n_br.nf.line'
+#    _description = 'Linhas da Nota Fiscal'
+#    _columns = {
+#        'nf_id': fields.many2one('l10n_br.nf', 'Nota Fiscal', required=True, ondelete='cascade', select=True),
+#        'sequence': fields.integer('Sequência'),
+#        'product_id': fields.many2one('product.product', 'Produto', change_default=True),
+#        'name': fields.char('Descrição', size=256, required=True, select=True),
+#        'product_qty': fields.float('Quantidade', digits=(16, 2), required=True),
+#        'product_uom': fields.many2one('product.uom', 'Unidade', required=True),
+#        'price_unit': fields.float('Preço Unit', required=True),
+#        'price_subtotal': fields.float('Total'),
+#    }
+#l10n_br_nf_line()
 
 ##############################################################################
 # Configurações fiscais das Empresas

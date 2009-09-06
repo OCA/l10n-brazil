@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	
-		<menuitem name="Municipios" id="menu_action_l10n_br_city_form" parent="base.menu_localisation" action="action_l10n_br_city_form"/>
 
-		<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
-	
 		<!-- País Personallizado -->
 		<record model="ir.ui.view" id="view_l10n_br_country_form">
 			<field name="name">res.country</field>

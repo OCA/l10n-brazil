@@ -1,0 +1,9 @@
+moved "municipios" and city_id to l10n_br_data; views still need to be cleaned up!
+
+-------------- This line and the following will be ignored --------------
+
+modified:
+  server/bin/addons/l10n_br/l10n_br.py
+  server/bin/addons/l10n_br_data/__init__.py
+unknown:
+  server/bin/addons/l10n_br_data/l10n_br.py
