@@ -20,23 +20,21 @@
 #
 ##############################################################################
 {
-    "name" : "Brazilian Localisation",
-    "description" : "Brazilian Localisation",
-    "author" : "OpenERP Brasil",
-    "version" : "0.1",
-    "depends" : ["base","product","account"],
+    'name' : 'Brazilian Localisation',
+    'description' : 'Brazilian Localisation',
+    'author' : 'OpenERP Brasil',
+    'version' : '0.1',
+    'depends' : ['base','product','account'],
     'init_xml': ['l10n_br_data.xml'],
-    "update_xml" : [
-        #"security/ir.model.access.csv",
-        "l10n_br_view.xml",
-        "country_view.xml",
-        "partner_view.xml",
-        "product_view.xml",
-        #"custom_report.xml",
+    'update_xml' : [
+        #'security/ir.model.access.csv',
+        'l10n_br_view.xml',
+        'country_view.xml',
+        'partner_view.xml',
+        'product_view.xml',
+        #'custom_report.xml',
     ],
-    "category" : "Localisation",
-    "active": False,
-    "installable": True
+    'category' : 'Localisation',
+    'active': False,
+    'installable': True
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
