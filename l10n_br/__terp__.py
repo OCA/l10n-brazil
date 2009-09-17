@@ -24,17 +24,20 @@
     'description' : 'Brazilian Localisation',
     'author' : 'OpenERP Brasil',
     'version' : '0.1',
-    'depends' : ['base','product','account'],
+    'depends' : ['base', 'account', 'account_chart', 'product'],
     'init_xml': ['l10n_br_data.xml'],
     'update_xml' : [
         #'security/ir.model.access.csv',
+        'account.account.type.csv',
+        'account.account.template.csv',
         'l10n_br_view.xml',
         'country_view.xml',
         'partner_view.xml',
         'product_view.xml',
+        'l10n_br_wizard.xml',
         #'custom_report.xml',
     ],
-    'category' : 'Localisation',
+    'category' : 'Localisation/Account Charts',
     'active': False,
     'installable': True
 }
