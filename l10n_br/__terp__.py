@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name' : 'Brazilian Localisation',
-    'description' : 'Brazilian Localisation',
+    'name' : 'Brazilian Localization',
+    'description' : 'Brazilian Localization',
     'author' : 'OpenERP Brasil',
     'version' : '0.1',
-    'depends' : ['base', 'account', 'account_chart', 'product'],
+    'depends' : ['base', 'account', 'account_chart', 'product'],#+base_vat?
     'init_xml': ['l10n_br_data.xml'],
     'update_xml' : [
         #'security/ir.model.access.csv',
@@ -34,8 +34,8 @@
         'country_view.xml',
         'partner_view.xml',
         'product_view.xml',
+        'l10n_br_taxes.xml'
         'l10n_br_wizard.xml',
-        #'custom_report.xml',
     ],
     'category' : 'Localisation/Account Charts',
     'active': False,
