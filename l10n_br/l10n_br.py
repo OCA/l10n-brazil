@@ -65,6 +65,23 @@ class l10n_br_ncm(osv.osv):
         'aliquot': fields.float('Aliquota'),
         'tax_id': fields.many2one('account.tax.code', 'Imposto'),
     }
+
+    def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=80):
+        if not args:
+            args = []
+        if not context:
+            context = {}
+        if name:
+            ids = self.search(cr, user, [('code', '=', name)] + args, limit=limit, context=context)
+            if not len(ids):
+                ids = self.search(cr, user, [('name', '=', name)] + args, limit=limit, context=context)
+            if not len(ids):
+                ids = self.search(cr, user, [('code', operator, name)] + args, limit=limit, context=context)
+                ids += self.search(cr, user, [('name', operator, name)] + args, limit=limit, context=context)
+        else:
+            ids = self.search(cr, user, args, limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
+
 l10n_br_ncm()
 
 ##############################################################################
