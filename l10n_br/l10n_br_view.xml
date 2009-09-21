@@ -5,6 +5,62 @@
 		<menuitem icon="terp-crm" id="menu_l10n_br" name="Localização Brasil"/>
 		<menuitem id="menu_l10n_br_configuration" name="Configuração" parent="menu_l10n_br" sequence="0"/>
 
+
+		<record model="ir.ui.view" id="view_l10n_br_city_tree">
+			<field name="name">l10n_br.city</field>
+			<field name="model">l10n_br.city</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Municipios">
+					<field name="name" select="1"/>
+					<field name="state_id" select="1"/>
+					<field name="ibge_code"/>
+				</tree>
+			</field>
+ 		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_city_form">
+			<field name="name">l10n_br.city</field>
+			<field name="model">l10n_br.city</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Municipios">
+					<field name="name" select="1"/>
+					<field name="state_id" select="1"/>
+					<field name="ibge_code" select="2"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cep_tree">
+			<field name="name">l10n_br.cep</field>
+			<field name="model">l10n_br.cep</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="CEPs">
+					<field name="code" select="1"/>
+					<field name="street_type" select="1"/>
+					<field name="street" select="1"/>
+				</tree>
+			</field>
+ 		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cep_form">
+			<field name="name">l10n_br.cep</field>
+			<field name="model">l10n_br.cep</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="CEPs">
+					<field name="code" select="1"/>
+					<field name="street_type" select="1"/>
+					<field name="street" select="1"/>
+					<field name="district" select="2"/>
+					<field name="city_id" select="2"/>
+					<field name="state_id" select="2"/>
+				</form>
+			</field>
+		</record>
+
 		<record model="ir.ui.view" id="view_l10n_br_cfop_form">
 			<field name="name">l10n_br.cfop</field>
 			<field name="model">l10n_br.cfop</field>
@@ -86,235 +142,6 @@
 			</field>
 		</record>
 
-		<!-- 
-		<record model="ir.ui.view" id="view_l10n_br_nf_form">
-			<field name="name">l10n_br.nf</field>
-			<field name="model">l10n_br.nf</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Nota Fiscal">
-                			<group col="6" colspan="4">
-                        			<field name="company_id" select="1"/>
-						<field name="type"/>
-						<field name="canceled"/>
-						<field name="cfop_id"/>
-						<field name="number"/>
-						<field name="printed"/>
-						<field name="date"/>
-						<field name="date_out"/>
-					</group>
-					<notebook colspan="4">
-						<page string="Informações Gerais">
-							<field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
-							<field domain="[('partner_id','=',partner_id)]" name="partner_address_id"/>
-							<field name="street"/>
-							<field name="street_number"/>
-							<field name="district"/>
-							<field name="country_id"/>
-							<field name="state_id"/>
-							<field name="city_id"/>
-							<field name="zip"/>
-							<field name="contact_phone"/>
-						</page>
-			                        <page string="Itens da Nota Fiscal">
-						<newline/>
-                            				<field colspan="4" mode="tree" name="nf_line" nolabel="1" widget="one2many_list">
-								<form string="Itens da Nota Fiscal">
-									<field name="product_id" colspan="4"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</form>
-								<tree string="Itens da Nota Fiscal">
-									<field name="product_id"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</tree>
-							</field>
-						</page>
-			                        <page string="Outras Informações">
-
-						</page>
-						<page string="Observações">
-							<separator colspan="4" string="Observações do Corpo"/>
-				                	<field colspan="4" name="body_note" nolabel="1"/>
-							<separator colspan="4" string="Observações do Rodapé"/>
-				                	<field colspan="4" name="foot_note" nolabel="1"/>
-
-						</page>
-					</notebook>
-					<group col="7" colspan="4">
-						<field name="base_icms"/>
-						<field name="amount_icms"/>
-						<field name="amount_products"/>
-						<field name="amount_total"/>
-					</group>
-				</form>
-			</field>
-		</record>
-
-
-		<record model="ir.ui.view" id="view_l10n_br_nf_entry_form">
-			<field name="name">l10n_br.nf</field>
-			<field name="model">l10n_br.nf</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Nota Fiscal">
-                			<group col="6" colspan="4">
-                        			<field name="company_id" select="1"/>
-						<field name="type"/>
-						<field name="canceled"/>
-						<field name="cfop_id"/>
-						<field name="number"/>
-						<field name="printed"/>
-						<field name="date"/>
-						<field name="date_out"/>
-					</group>
-					<notebook colspan="4">
-						<page string="Informações Gerais">
-							<field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('supplier','=', 1)]"/>
-							<field domain="[('partner_id','=',partner_id)]" name="partner_address_id"/>
-							<field name="street"/>
-							<field name="street_number"/>
-							<field name="district"/>
-							<field name="country_id"/>
-							<field name="state_id"/>
-							<field name="city_id"/>
-							<field name="zip"/>
-							<field name="contact_phone"/>
-						</page>
-			                        <page string="Itens da Nota Fiscal">
-						<newline/>
-                            				<field colspan="4" mode="tree" name="nf_line" nolabel="1" widget="one2many_list">
-								<form string="Itens da Nota Fiscal">
-									<field name="product_id" colspan="4"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</form>
-								<tree string="Itens da Nota Fiscal">
-									<field name="product_id"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</tree>
-							</field>
-						</page>
-			                        <page string="Outras Informações">
-
-						</page>
-						<page string="Observações">
-							<separator colspan="4" string="Observações do Corpo"/>
-				                	<field colspan="4" name="body_note" nolabel="1"/>
-							<separator colspan="4" string="Observações do Rodapé"/>
-				                	<field colspan="4" name="foot_note" nolabel="1"/>
-
-						</page>
-					</notebook>
-					<group col="7" colspan="4">
-						<field name="base_icms"/>
-						<field name="amount_icms"/>
-						<field name="amount_products"/>
-						<field name="amount_total"/>
-					</group>
-				</form>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_nf_output_form">
-			<field name="name">l10n_br.nf</field>
-			<field name="model">l10n_br.nf</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Nota Fiscal">
-                			<group col="6" colspan="4">
-                        			<field name="company_id" select="1"/>
-						<field name="type"/>
-						<field name="canceled"/>
-						<field name="cfop_id"/>
-						<field name="number"/>
-						<field name="printed"/>
-						<field name="date"/>
-						<field name="date_out"/>
-					</group>
-					<notebook colspan="4">
-						<page string="Informações Gerais">
-							<field name="partner_id" on_change="onchange_partner_id(partner_id)" domain="[('supplier','=', 1)]"/>
-							<field domain="[('partner_id','=',partner_id)]" name="partner_address_id"/>
-							<field name="street"/>
-							<field name="street_number"/>
-							<field name="district"/>
-							<field name="country_id"/>
-							<field name="state_id"/>
-							<field name="city_id"/>
-							<field name="zip"/>
-							<field name="contact_phone"/>
-						</page>
-			                        <page string="Itens da Nota Fiscal">
-						<newline/>
-                            				<field colspan="4" mode="tree" name="nf_line" nolabel="1" widget="one2many_list">
-								<form string="Itens da Nota Fiscal">
-									<field name="product_id" colspan="4"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</form>
-								<tree string="Itens da Nota Fiscal">
-									<field name="product_id"/>
-									<field name="name"/>
-									<field name="product_uom"/>
-									<field name="product_qty"/>
-									<field name="price_unit"/>
-									<field name="price_subtotal"/>
-								</tree>
-							</field>
-						</page>
-			                        <page string="Outras Informações">
-
-						</page>
-						<page string="Observações">
-							<separator colspan="4" string="Observações do Corpo"/>
-				                	<field colspan="4" name="body_note" nolabel="1"/>
-							<separator colspan="4" string="Observações do Rodapé"/>
-				                	<field colspan="4" name="foot_note" nolabel="1"/>
-
-						</page>
-					</notebook>
-					<group col="7" colspan="4">
-						<field name="base_icms"/>
-						<field name="amount_icms"/>
-						<field name="amount_products"/>
-						<field name="amount_total"/>
-					</group>
-				</form>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_nf_tree">
-			<field name="name">l10n_br.nf</field>
-			<field name="model">l10n_br.nf</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Notas Fiscais">
-					<field name="company_id" select="1"/>
-					<field name="date" select="1"/>
-					<field name="partner_id" select="1"/>
-				</tree>
-			</field>
-		</record>
-		 -->
-
 		<record model="ir.ui.view" id="view_l10n_br_st_source_tree">
 			<field name="name">l10n_br.st.source</field>
 			<field name="model">l10n_br.st.source</field>
@@ -338,6 +165,24 @@
 					<field name="tax_id" select="2"/>
 				</tree>
 			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_l10n_br_city_form">
+			<field name="name">Muncipio</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br.city</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="view_l10n_br_city_tree"/>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_l10n_br_cep_form">
+			<field name="name">CEPs</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br.cep</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="view_l10n_br_cep_tree"/>
 		</record>
 
 		<record model="ir.actions.act_window" id="action_l10n_br_cfop_form">
@@ -385,55 +230,8 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_st_tree"/>
 		</record>
-
-
-
-
-
-		<!-- 
-		<record model="ir.actions.act_window" id="action_l10n_br_nf_form">
-			<field name="name">Notas Fiscais</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.nf</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_nf_tree"/>
-		</record>
-
-		<record model="ir.actions.act_window" id="action_l10n_br_nf_input_form">
-			<field name="name">Nota Fiscal de Entrada</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.nf</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="domain">[('type','=','input')]</field>
-			<field name="view_id" ref="view_l10n_br_nf_tree"/>
-		</record>
-
-		<record model="ir.actions.act_window" id="action_l10n_br_nf_output_form">
-			<field name="name">Nota Fiscal de Saida</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.nf</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="domain">[('type','=','output')]</field>
-			<field name="view_id" ref="view_l10n_br_nf_tree"/>
-		</record>
-	 	-->
-
-<!--
-		<record model="ir.actions.act_window" id="action_l10n_br_partner_form">
-			<field name="name">Parceiro</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">res.partner</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_partner_form"/>
-		</record>
--->
-
-
-        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
+	
+	        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
 
 		<menuitem name="CFOP" id="menu_action_l10n_br_cfop_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cfop_form"/>
 
@@ -445,13 +243,9 @@
 
 		<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
 
-		<!-- 
-		<menuitem id="menu_l10n_br_nf" name="Notas Fiscais" parent="menu_l10n_br"  action="action_l10n_br_nf_form"/>
+		<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
 
-		<menuitem id="menu_l10n_br_nf_input" name="Nota Fiscal de Entrada" parent="menu_l10n_br_nf"  action="action_l10n_br_nf_input_form"/>
-
-		<menuitem id="menu_l10n_br_nf_output" name="Nota Fiscal de Saida" parent="menu_l10n_br_nf"  action="action_l10n_br_nf_output_form"/>
-		 -->
+		<menuitem name="Municipios" id="menu_action_l10n_br_city_form" parent="base.menu_localisation" action="action_l10n_br_city_form"/>
 
 	</data>
 

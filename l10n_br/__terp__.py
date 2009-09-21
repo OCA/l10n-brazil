@@ -27,7 +27,7 @@
     'depends' : ['base', 'account', 'account_chart', 'product'],#+base_vat?
     'init_xml': ['l10n_br_data.xml'],
     'update_xml' : [
-        #'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'account.account.type.csv',
         'account.account.template.csv',
         'l10n_br_view.xml',

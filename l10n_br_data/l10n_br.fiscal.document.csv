@@ -1,0 +1,9 @@
+id,code,name,nfe
+fiscal_1,"01","Nota Fiscal, Modelo 01","false"
+fiscal_2,"02","Nota Fiscal de Venda a Consumidor, Mod 02","false"
+fiscal_3,"03","Nota Fiscal De Entrada, Mod 03","false"
+fiscal_4,"04","Nota Fiscal de Produtor, Mod 04","false"
+fiscal_6,"06","N.F./Conta de Energia Eletrica", Mod 06","false"
+fiscal_7,"07","Nota Fiscal de Serviço de Transp., Mod 07","false"
+fiscal_8,"08","Conh. de Transp. Rod. de Cargas, Mod 08","false"
+fiscal_9,"55","Nota Fiscal Eletronica","true"

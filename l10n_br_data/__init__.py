@@ -21,7 +21,10 @@
 ##############################################################################
 
 import l10n_br
-import partner
+#import country
+#import partner
+#import product
+#import account
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
