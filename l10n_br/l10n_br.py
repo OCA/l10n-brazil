@@ -76,7 +76,7 @@ class l10n_br_ncm(osv.osv):
         'code': fields.char('Codigo', size=10),
         'name': fields.char('Nome', size=68),
         'aliquot': fields.float('Aliquota'),
-        'tax_id': fields.many2one('account.tax.code', 'Imposto'),
+        'tax_id': fields.many2one('account.tax', 'Imposto'),
     }
 
     def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=80):

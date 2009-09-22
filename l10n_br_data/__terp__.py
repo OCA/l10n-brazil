@@ -25,7 +25,14 @@
     "author" : "OpenERP Brasil",
     "version" : "0.1",
     "depends" : ["l10n_br"],
-    'init_xml': ['l10n_br.cfop.csv','l10n_br.fiscal.document.csv','l10n_br.ncm.csv','res.country.state.csv','l10n_br.city.csv'],
+    'init_xml': [
+        #Arquivos com dados Fiscais
+        'l10n_br.cfop.csv',
+        'l10n_br.fiscal.document.csv',
+        'account.tax.csv',
+        'l10n_br.ncm.csv',
+        'res.country.state.csv',
+        'l10n_br.city.csv'],
     "update_xml" : [],
     "category" : "Localisation",
     "active": False,

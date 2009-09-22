@@ -1,4 +1,4 @@
-id,code,name,ibge_code,country_id
+id,code,name,ibge_code,country_id:id
 state_1,RO,Rondônia,11,base.br
 state_2,AC,Acre,12,base.br
 state_3,AM,Amazonas,13,base.br
