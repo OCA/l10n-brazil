@@ -31,6 +31,8 @@
         'l10n_br.fiscal.document.csv',
         'account.tax.csv',
         'l10n_br.ncm.csv',
+        'l10n_br.st.source.csv',
+        'l10n_br.st.csv',
         'res.country.state.csv',
         'l10n_br.city.csv'],
     "update_xml" : [],
