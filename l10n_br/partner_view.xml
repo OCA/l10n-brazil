@@ -11,7 +11,9 @@
 				<group>
 					<field name="tipo_pessoa" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
 					<field name="cnpj_cpf" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
+				<newline/>
 					<field name="inscr_est"/>
+					<field name="legal_name"/>
 				</group>
 			</field>
 		</record>

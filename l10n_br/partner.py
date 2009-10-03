@@ -30,6 +30,7 @@ class res_partner(osv.osv):
         'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
         'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
         'inscr_est': fields.char('Inscr. Estadual', size=16),
+        'legal_name' : fields.char('Razão Social', size=64, help="nome utilizado em documentos fiscais"),
     }
 
     _defaults = {
