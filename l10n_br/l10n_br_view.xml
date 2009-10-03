@@ -142,31 +142,6 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_st_source_tree">
-			<field name="name">l10n_br.st.source</field>
-			<field name="model">l10n_br.st.source</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Origem da Mercadoria">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-				</tree>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_st_tree">
-			<field name="name">l10n_br.st</field>
-			<field name="model">l10n_br.st</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Situação Tributária">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-					<field name="tax_id" select="2"/>
-				</tree>
-			</field>
-		</record>
-
 		<record model="ir.actions.act_window" id="action_l10n_br_city_form">
 			<field name="name">Muncipio</field>
 			<field name="type">ir.actions.act_window</field>
@@ -212,34 +187,12 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_fiscal_document_tree"/>
 		</record>
-
-		<record model="ir.actions.act_window" id="action_l10n_br_st_source_form">
-			<field name="name">Origem de Mercadorias</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.st.source</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_st_source_tree"/>
-		</record>
-
-		<record model="ir.actions.act_window" id="action_l10n_br_st_form">
-			<field name="name">Situação Tibutária</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.st</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_st_tree"/>
-		</record>
 	
-	        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
+        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
 
 		<menuitem name="CFOP" id="menu_action_l10n_br_cfop_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cfop_form"/>
 
 		<menuitem name="NCM" id="menu_action_l10n_br_ncm_form" 	parent="menu_l10n_br_fiscal" action="action_l10n_br_ncm_form"/>
-
-		<menuitem name="Origem da Mercadoria" id="menu_action_l10n_br_st_source_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_st_source_form"/>
-
-		<menuitem name="Situação Tributária" id="menu_action_l10n_br_st_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_st_form"/>
 
 		<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
 

@@ -111,32 +111,6 @@ class l10n_br_fiscal_document(osv.osv):
 l10n_br_fiscal_document()
 
 ##############################################################################
-# Origem da Mercadoria
-##############################################################################
-class l10n_br_st_source(osv.osv):
-    _description = 'Origem da Mercadoria'
-    _name = 'l10n_br.st.source'
-    _columns = {
-        'code': fields.char('Código', size=1),
-        'name': fields.char('Nome', size=64),
-    }
-l10n_br_st_source()
-
-
-##############################################################################
-# Situação Tributária do ICMS e IPI
-##############################################################################
-class l10n_br_st(osv.osv):
-    _description = 'Situação Tributária do ICMS e IPI'
-    _name = 'l10n_br.st'
-    _columns = {
-        'code': fields.char('Código', size=2, required=True),
-        'name': fields.char('Nome', size=64, required=True),
-        'tax_id': fields.many2one('account.tax', 'Imposto'),
-    }
-l10n_br_st()
-
-##############################################################################
 # Nota Fiscal
 ##############################################################################
 #class l10n_br_nf(osv.osv):
