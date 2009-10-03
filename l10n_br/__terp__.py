@@ -34,7 +34,7 @@
         'country_view.xml',
         'partner_view.xml',
         'product_view.xml',
-        #'l10n_br_taxes.xml',
+        'l10n_br_taxes.xml',
         'l10n_br_wizard.xml',
     ],
     'category' : 'Localisation/Account Charts',
