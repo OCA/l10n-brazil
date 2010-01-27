@@ -25,6 +25,8 @@ import country
 import partner
 import product
 import account
+import invoice
+import sale
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -19,28 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name' : 'Brazilian Localization',
-    'description' : 'Brazilian Localization',
-    'author' : 'OpenERP Brasil',
-    'version' : '0.1',
-    'depends' : ['base', 'account', 'account_chart', 'product', 'sale', 'account_fiscal_position_rule'],
-    'init_xml': ['l10n_br_data.xml'],
-    'update_xml' : [
-        #'security/ir.model.access.csv',
-        'account.account.type.csv',
-        'account.account.template.csv',
-        'account.tax.code.template.csv',     
-        'l10n_br_chart_template.xml',
-        'account.tax.template.csv',
-        'l10n_br_view.xml',
-        'country_view.xml',
-        'partner_view.xml',
-        'product_view.xml',
-        'l10n_br_wizard.xml',
-        'account_invoice.xml',
-    ],
-    'category' : 'Localisation/Account Charts',
-    'active': False,
-    'installable': True
-}
+from osv import osv, fields
+
+##############################################################################
+# Fatura (Nota Fiscal) Personalizado
+##############################################################################
+class sale_order(osv.osv):
+    _inherit = 'sale.order'
+sale_order()
