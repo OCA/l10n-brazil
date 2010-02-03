@@ -55,8 +55,8 @@
 					<field name="street_type" select="1"/>
 					<field name="street" select="1"/>
 					<field name="district" select="2"/>
-					<field name="city_id" select="2"/>
 					<field name="state_id" select="2"/>
+					<field name="city_id" select="2"/>
 				</form>
 			</field>
 		</record>
@@ -90,6 +90,7 @@
 			</field>
 		</record>
 
+		<!--  Agora vamos usar o modulo account_fiscal_classification
 		<record model="ir.ui.view" id="view_l10n_br_ncm_form">
 			<field name="name">l10n_br.ncm</field>
 			<field name="model">l10n_br.ncm</field>
@@ -115,6 +116,8 @@
 				</tree>
 			</field>
  		</record>
+
+ 		-->
 
 		<record model="ir.ui.view" id="view_l10n_br_fiscal_document_form">
 			<field name="name">l10n_br.fiscal.document</field>
@@ -169,7 +172,7 @@
 			<field name="view_id" ref="view_l10n_br_cfop_tree"/>
 		</record>
 
-
+		<!--  
 		<record model="ir.actions.act_window" id="action_l10n_br_ncm_form">
 			<field name="name">NCM</field>
 			<field name="type">ir.actions.act_window</field>
@@ -178,6 +181,8 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_ncm_tree"/>
 		</record>
+		
+		 -->
 
 		<record model="ir.actions.act_window" id="action_l10n_br_fiscal_document_form">
 			<field name="name">Documento Fiscal</field>
@@ -192,7 +197,9 @@
 
 		<menuitem name="CFOP" id="menu_action_l10n_br_cfop_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cfop_form"/>
 
+		<!--
 		<menuitem name="NCM" id="menu_action_l10n_br_ncm_form" 	parent="menu_l10n_br_fiscal" action="action_l10n_br_ncm_form"/>
+		 -->
 
 		<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
 

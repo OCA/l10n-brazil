@@ -40,6 +40,7 @@ class account_invoice(osv.osv):
             ],'Status NFe', select=True, readonly=True),
         'access_key_nfe': fields.char('Chave de Acesso', size=44),
         'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento'),
+        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
     }
     
 account_invoice()

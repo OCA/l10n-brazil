@@ -46,6 +46,7 @@ class l10n_br_cep(osv.osv):
         'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
         'state_id': fields.many2one('res.country.state', 'Estado', required=True),
+        'city_id': fields.many2one('l10n_br.city', 'Cidade', required=True, domain="[('state_id','=',state_id)]"),
     }
 l10n_br_cep()
 

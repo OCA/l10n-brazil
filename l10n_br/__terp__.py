@@ -39,6 +39,7 @@
         'product_view.xml',
         'l10n_br_wizard.xml',
         'account_invoice.xml',
+        'account_fiscal_position_rule_view.xml'
     ],
     'category' : 'Localisation/Account Charts',
     'active': False,
