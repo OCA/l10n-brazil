@@ -26,19 +26,20 @@
     "version" : "0.1",
     "depends" : ["l10n_br"],
     'init_xml': [
-        #Arquivos com dados Fiscais
-        'l10n_br.cfop.csv',
-        'l10n_br.fiscal.document.csv',
-        'account.tax.csv',
-        #'l10n_br.ncm.csv',
-        #'l10n_br.st.source.csv',
-        #'l10n_br.st.csv',
-        'res.country.state.csv',
-        'l10n_br.city.csv'],
-    "update_xml" : [],
+                #Arquivos com dados Fiscais
+                'l10n_br.cfop.csv',
+                'l10n_br.fiscal.document.csv',
+                'account_tax_data.xml',
+                'account_product_fiscal_classification_data.xml',
+                'res.bank.csv',
+                'res.country.state.csv',
+                'l10n_br.city.csv'
+                ],
+    "update_xml" : [
+
+                   ],
     "category" : "Localisation",
     "active": False,
     "installable": True
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

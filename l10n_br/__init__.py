@@ -23,7 +23,6 @@
 import l10n_br
 import country
 import partner
-import product
 import account
 import invoice
 import sale

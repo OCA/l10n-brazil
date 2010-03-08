@@ -1,6 +1,0 @@
-"id","sequence","name","company_id:id","amount","type","applicable_type","type_tax_use"
-tax_1,"1","PIS",base.main_company,0,"percent","true","all"
-tax_2,"1","COFIS",base.main_company,0,"percent","true","all"
-tax_3,"1","ICMS",base.main_company,0,"percent","true","all"
-tax_4,"1","IPI",base.main_company,0,"percent","true","all"
-tax_5,"1","IPI 0%",base.main_company,0,"percent","true","all"
