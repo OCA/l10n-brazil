@@ -6,287 +6,471 @@
 			<field name="description">IPI</field>
 			<field name="name">IPI</field>
 			<field name="amount">0.00</field>
-         	<field name="tax_group">vat</field>
-        </record>
-
-		<record id="tax_2" model="account.tax">
-			<field name="description">IPI 0%</field>
-			<field name="name">IPI 0%</field>
-			<field name="amount">0.00</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+         		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_3" model="account.tax">
 			<field name="description">IPI 2%</field>
 			<field name="name">IPI 2%</field>
 			<field name="amount">0.02</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_4" model="account.tax">
 			<field name="description">IPI 3%</field>
 			<field name="name">IPI 3%</field>
 			<field name="amount">0.03</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_5" model="account.tax">
 			<field name="description">IPI 4%</field>
 			<field name="name">IPI 4%</field>
 			<field name="amount">0.04</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_6" model="account.tax">
 			<field name="description">IPI 5%</field>
 			<field name="name">IPI 5%</field>
 			<field name="amount">0.05</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_7" model="account.tax">
 			<field name="description">IPI 7%</field>
 			<field name="name">IPI 7%</field>
 			<field name="amount">0.07</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_8" model="account.tax">
 			<field name="description">IPI 8%</field>
 			<field name="name">IPI 8%</field>
 			<field name="amount">0.08</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_9" model="account.tax">
 			<field name="description">IPI 10%</field>
 			<field name="name">IPI 10%</field>
 			<field name="amount">0.10</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_10" model="account.tax">
 			<field name="description">IPI 12%</field>
 			<field name="name">IPI 12%</field>
 			<field name="amount">0.12</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_11" model="account.tax">
 			<field name="description">IPI 13%</field>
 			<field name="name">IPI 13%</field>
 			<field name="amount">0.13</field>
-        	<field name="tax_group">vat</field>
-        </record>
+        		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_12" model="account.tax">
 			<field name="description">IPI 15%</field>
 			<field name="name">IPI 15%</field>
 			<field name="amount">0.15</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_13" model="account.tax">
 			<field name="description">IPI 16%</field>
 			<field name="name">IPI 16%</field>
 			<field name="amount">0.16</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_14" model="account.tax">
 			<field name="description">IPI 18%</field>
 			<field name="name">IPI 18%</field>
 			<field name="amount">0.18</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_15" model="account.tax">
 			<field name="description">IPI 20%</field>
 			<field name="name">IPI 20%</field>
 			<field name="amount">0.20</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_16" model="account.tax">
 			<field name="description">IPI 22%</field>
 			<field name="name">IPI 22%</field>
 			<field name="amount">0.22</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_17" model="account.tax">
 			<field name="description">IPI 25%</field>
 			<field name="name">IPI 25%</field>
 			<field name="amount">0.25</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_18" model="account.tax">
 			<field name="description">IPI 27%</field>
 			<field name="name">IPI 27%</field>
 			<field name="amount">0.27</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>			
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_19" model="account.tax">
 			<field name="description">IPI 30%</field>
 			<field name="name">IPI 30%</field>
 			<field name="amount">0.30</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_20" model="account.tax">
 			<field name="description">IPI 35%</field>
 			<field name="name">IPI 35%</field>
 			<field name="amount">0.35</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_21" model="account.tax">
 			<field name="description">IPI 40%</field>
 			<field name="name">IPI 40%</field>
 			<field name="amount">0.40</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_22" model="account.tax">
 			<field name="description">IPI 42%</field>
 			<field name="name">IPI 42%</field>
 			<field name="amount">0.42</field>
-       		<field name="tax_group">vat</field>
-      	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+      		</record>
 
 		<record id="tax_23" model="account.tax">
 			<field name="description">IPI 45%</field>
 			<field name="name">IPI 45%</field>
 			<field name="amount">0.45</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_24" model="account.tax">
 			<field name="description">IPI 50%</field>
 			<field name="name">IPI 50%</field>
 			<field name="amount">0.50</field>
-         	<field name="tax_group">vat</field>
-        </record>
+         		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_25" model="account.tax">
 			<field name="description">IPI 60%</field>
 			<field name="name">IPI 60%</field>
 			<field name="amount">0.60</field>
-         	<field name="tax_group">vat</field>
-        </record>
+         		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_26" model="account.tax">
 			<field name="description">IPI 330%</field>
 			<field name="name">IPI 330%</field>
 			<field name="amount">3.3</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">False</field>
+			<field ref="code_3" name="base_code_id"/>
+			<field ref="code_3" name="tax_code_id"/>
+			<field ref="code_3" name="ref_base_code_id"/>
+			<field ref="code_3" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_27" model="account.tax">
 			<field name="description">ICMS Interno</field>
 			<field name="name">ICMS Interno</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_28" model="account.tax">
 			<field name="description">ICMS Externo</field>
 			<field name="name">ICMS Externo</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-            <field name="tax_group">vat</field>
-       	</record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_29" model="account.tax">
 			<field name="description">ICMS subistituição Tributária</field>
 			<field name="name">ICMS subst</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_30" model="account.tax">
 			<field name="description">ICMS 7%</field>
 			<field name="name">ICMS 7%</field>
 			<field name="amount">0.07</field>
 			<field name="price_include">True</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_31" model="account.tax">
 			<field name="description">ICMS 12%</field>
 			<field name="name">ICMS 12%</field>
 			<field name="amount">0.12</field>
 			<field name="price_include">True</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_32" model="account.tax">
 			<field name="description">ICMS 19%</field>
 			<field name="name">ICMS 19%</field>
 			<field name="amount">0.19</field>
 			<field name="price_include">True</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_33" model="account.tax">
 			<field name="description">ICMS 26%</field>
 			<field name="name">ICMS 26%</field>
 			<field name="amount">0.26</field>
 			<field name="price_include">True</field>
-         	<field name="tax_group">vat</field>
-        </record>
+         		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_1" name="base_code_id"/>
+			<field ref="code_1" name="tax_code_id"/>
+			<field ref="code_1" name="ref_base_code_id"/>
+			<field ref="code_1" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_34" model="account.tax">
 			<field name="description">PIS</field>
 			<field name="name">PIS</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-        	<field name="tax_group">vat</field>
-        </record>
+        		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_4" name="base_code_id"/>
+			<field ref="code_4" name="tax_code_id"/>
+			<field ref="code_4" name="ref_base_code_id"/>
+			<field ref="code_4" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_35" model="account.tax">
 			<field name="description">PIS 0,65%</field>
 			<field name="name">PIS 0,65%</field>
 			<field name="amount">0.0065</field>
 			<field name="price_include">True</field>
-        	<field name="tax_group">vat</field>
-        </record>
+        		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_4" name="base_code_id"/>
+			<field ref="code_4" name="tax_code_id"/>
+			<field ref="code_4" name="ref_base_code_id"/>
+			<field ref="code_4" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_36" model="account.tax">
 			<field name="description">COFINS</field>
 			<field name="name">COFINS</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-            <field name="tax_group">vat</field>
-        </record>
+            		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_5" name="base_code_id"/>
+			<field ref="code_5" name="tax_code_id"/>
+			<field ref="code_5" name="ref_base_code_id"/>
+			<field ref="code_5" name="ref_tax_code_id"/>
+        	</record>
 
 		<record id="tax_37" model="account.tax">
 			<field name="description">COFINS 3%</field>
 			<field name="name">COFINS 3%</field>
 			<field name="amount">0.03</field>
 			<field name="price_include">True</field>
-        	<field name="tax_group">vat</field>
-       	</record>
+        		<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_5" name="base_code_id"/>
+			<field ref="code_5" name="tax_code_id"/>
+			<field ref="code_5" name="ref_base_code_id"/>
+			<field ref="code_5" name="ref_tax_code_id"/>
+       		</record>
 
 		<record id="tax_38" model="account.tax">
 			<field name="description">IRPJ</field>
 			<field name="name">IRPJ</field>
 			<field name="amount">0.00</field>
 			<field name="price_include">True</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_6" name="base_code_id"/>
+			<field ref="code_6" name="tax_code_id"/>
+			<field ref="code_6" name="ref_base_code_id"/>
+			<field ref="code_6" name="ref_tax_code_id"/>
+       		</record>
        	
-       	<record id="tax_39" model="account.tax">
+       		<record id="tax_39" model="account.tax">
 			<field name="description">IRPJ 1,5%</field>
 			<field name="name">IRPJ 1,5%</field>
 			<field name="amount">0.015</field>
 			<field name="price_include">True</field>
-       		<field name="tax_group">vat</field>
-       	</record>
+       			<field name="tax_group">vat</field>
+			<field name="price_include">True</field>
+			<field ref="code_6" name="base_code_id"/>
+			<field ref="code_6" name="tax_code_id"/>
+			<field ref="code_6" name="ref_base_code_id"/>
+			<field ref="code_6" name="ref_tax_code_id"/>
+       		</record>
 
 	</data>
 </openerp>

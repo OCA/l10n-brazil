@@ -29,6 +29,7 @@
                 #Arquivos com dados Fiscais
                 'l10n_br.cfop.csv',
                 'l10n_br.fiscal.document.csv',
+                'account.tax.code.csv',
                 'account_tax_data.xml',
                 'account_product_fiscal_classification_data.xml',
                 'res.bank.csv',

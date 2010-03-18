@@ -90,35 +90,6 @@
 			</field>
 		</record>
 
-		<!--  Agora vamos usar o modulo account_fiscal_classification
-		<record model="ir.ui.view" id="view_l10n_br_ncm_form">
-			<field name="name">l10n_br.ncm</field>
-			<field name="model">l10n_br.ncm</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="NCM">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-					<field name="tax_id" select="2"/>
-					<field name="aliquot" select="2"/>
-				</form>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_ncm_tree">
-			<field name="name">l10n_br.ncm</field>
-			<field name="model">l10n_br.ncm</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="NCM">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-				</tree>
-			</field>
- 		</record>
-
- 		-->
-
 		<record model="ir.ui.view" id="view_l10n_br_fiscal_document_form">
 			<field name="name">l10n_br.fiscal.document</field>
 			<field name="model">l10n_br.fiscal.document</field>
@@ -141,6 +112,32 @@
 					<field name="code" select="1"/>
 					<field name="name" select="1"/>
 					<field name="nfe" select="2"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cst_form">
+			<field name="name">l10n_br.cst</field>
+			<field name="model">l10n_br.cst</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Código de Situação Tributária">
+					<field name="code" select="1"/>
+					<field name="name" select="1"/>
+					<field name="tax_code_id" select="2"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cst_tree">
+			<field name="name">l10n_br.cst</field>
+			<field name="model">l10n_br.cst</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Código de Situação Tributária">
+					<field name="code" select="1"/>
+					<field name="name" select="1"/>
+					<field name="tax_code_id" select="2"/>
 				</tree>
 			</field>
 		</record>
@@ -172,18 +169,6 @@
 			<field name="view_id" ref="view_l10n_br_cfop_tree"/>
 		</record>
 
-		<!--  
-		<record model="ir.actions.act_window" id="action_l10n_br_ncm_form">
-			<field name="name">NCM</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br.ncm</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_ncm_tree"/>
-		</record>
-		
-		 -->
-
 		<record model="ir.actions.act_window" id="action_l10n_br_fiscal_document_form">
 			<field name="name">Documento Fiscal</field>
 			<field name="type">ir.actions.act_window</field>
@@ -192,16 +177,23 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_fiscal_document_tree"/>
 		</record>
+
+		<record model="ir.actions.act_window" id="action_l10n_br_cst_form">
+			<field name="name">Código de Situação Tributária</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br.cst</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="view_l10n_br_cst_tree"/>
+		</record>
 	
-        <menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
+        	<menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
 
 		<menuitem name="CFOP" id="menu_action_l10n_br_cfop_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cfop_form"/>
 
-		<!--
-		<menuitem name="NCM" id="menu_action_l10n_br_ncm_form" 	parent="menu_l10n_br_fiscal" action="action_l10n_br_ncm_form"/>
-		 -->
-
 		<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
+
+		<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_cst_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cst_form"/>
 
 		<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
 
