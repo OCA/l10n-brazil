@@ -11,7 +11,7 @@
 					<page position="inside" string="l10n br - NF">
 						<separator colspan="4" string="Dados Adicionais da NF"/>
 						<field colspan="4" name="cfop_id" domain="[('type','=','output')]"/>
-		                		<field colspan="4" name="access_key_nfe"/>
+                		<field colspan="4" name="access_key_nfe"/>
 						<field name="state_nfe"/>
 						<field name="fiscal_document_id"/>
 			        	</page>
@@ -26,13 +26,24 @@
 			<field name="arch" type="xml">
 				 <notebook>
 					<page position="inside" string="l10n br - NF">
-        					<separator colspan="4" string="Dados Adicionais da NF"/>
-        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
-        			                <field colspan="4" name="access_key_nfe"/>
+      					<separator colspan="4" string="Dados Adicionais da NF"/>
+       					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
+			            <field colspan="4" name="access_key_nfe"/>
 						<field name="state_nfe"/>
 						<field name="fiscal_document_id"/>
 			        	</page>
 				</notebook>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form">
+			<field name="name">l10n_br.invoice.line.form</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form"/>
+			<field name="arch" type="xml">
+				<field name="origin" position="after">
+					<field colspan="4" name="cfop_id" default_get="{'cfop_id': parent.cfop_id}" />
+				</field>
 			</field>
 		</record>
 

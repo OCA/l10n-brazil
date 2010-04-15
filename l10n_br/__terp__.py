@@ -22,7 +22,7 @@
     'description' : 'Brazilian Localization',
     'author' : 'OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
-    'version' : '0.1',
+    'version' : '0.6',
     'depends' : [
 		'base', 
 		'account', 
@@ -39,18 +39,20 @@
         'data/account.tax.code.template.csv',
 		'data/l10n_br.cst.csv',
 		'data/l10n_br_chart_template.xml',
-        'data/account.tax.template.xml',
+        'data/account_tax_template.xml',
 		],
     'update_xml' : [
-        #'security/ir.model.access.csv',       
-        'l10n_br_view.xml',
-        'country_view.xml',
-        'partner_view.xml',
-        'l10n_br_wizard.xml',
-        'account_invoice_view.xml',
-        'account_fiscal_position_rule_view.xml'
+		#'security/ir.model.access.csv',
+		'l10n_br_view.xml',
+		'country_view.xml',
+		'partner_view.xml',
+		'l10n_br_wizard.xml',
+		'account_invoice_view.xml',
+		'account_fiscal_position_rule_view.xml'
     ],
     'category' : 'Localisation/Account Charts',
     'active': False,
     'installable': True
 }
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

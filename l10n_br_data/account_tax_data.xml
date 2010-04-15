@@ -336,10 +336,10 @@
 			<field name="price_include">True</field>
        			<field name="tax_group">vat</field>
 			<field name="price_include">True</field>
-			<field ref="code_1" name="base_code_id"/>
-			<field ref="code_1" name="tax_code_id"/>
-			<field ref="code_1" name="ref_base_code_id"/>
-			<field ref="code_1" name="ref_tax_code_id"/>
+			<field ref="code_2" name="base_code_id"/>
+			<field ref="code_2" name="tax_code_id"/>
+			<field ref="code_2" name="ref_base_code_id"/>
+			<field ref="code_2" name="ref_tax_code_id"/>
        		</record>
 
 		<record id="tax_30" model="account.tax">

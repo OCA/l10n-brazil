@@ -11,28 +11,80 @@
 				<group>
 					<field name="tipo_pessoa" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
 					<field name="cnpj_cpf" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
-				<newline/>
-					<field name="inscr_est"/>
-					<field name="legal_name"/>
+					<newline/>			
+					<field colspan="4" name="legal_name"/>
 				</group>
 			</field>
 		</record>
 		
+		<record id="l10n_br_view_partner_form" model="ir.ui.view">
+	   		<field name="name">l10n_br.partner.form</field>
+            <field name="model">res.partner</field>
+	   		<field name="inherit_id" ref="base.view_partner_form"/>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+	   			<xpath expr="/form/notebook/page/field/form/field[@name='street']" position="replace">
+						<field name="cep_id" on_change="onchange_cep_id(cep_id)"/>
+						<field name="street" />
+						<field name="number" />
+	        		</xpath>
+        	</field>
+   		</record>
+		
+		<record id="l10n_br_view_partner_form1" model="ir.ui.view">
+	   		<field name="name">l10n_br.partner.form</field>
+            <field name="model">res.partner</field>
+	   		<field name="inherit_id" ref="base.view_partner_form"/>
+	   		<field name="priority">33</field>
+	   		<field name="arch" type="xml">
+	   			<xpath expr="/form/notebook/page/field/form/field[@name='zip']" position="replace">
+						<field name="zip" invisible="1" />
+        		</xpath>
+        	</field>
+   		</record>
+		
+		<record id="l10n_br_view_partner_form2" model="ir.ui.view">
+	   		<field name="name">l10n_br.partner.form</field>
+            <field name="model">res.partner</field>
+	   		<field name="inherit_id" ref="base.view_partner_form"/>
+	   		<field name="priority">34</field>
+	   		<field name="arch" type="xml">
+	   			<xpath expr="/form/notebook/page/field/form/field[@name='city']" position="replace">
+						<field name="city_id"/>
+        		</xpath>
+        	</field>
+   		</record>
+		
+		
+		<record model="ir.ui.view" id="l10n_br_view_partner_form2">
+			<field name="name">l10n_br.partner.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				 <notebook>
+					<page position="inside" string="l10n br - NF">
+						<separator colspan="4" string="Dados Adicionais do Parceiro"/>
+						<field name="inscr_est"/>
+						<field name="inscr_mun"/>
+						<field name="suframa"/>						
+		        	</page>
+				</notebook>
+			</field>
+		</record>
+		
 		<!-- Contato do Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="zip" position="replace">
-					 <field name="zip" invisible="1" />
-					
+					 <field name="zip" invisible="1"/>
 				</field>
 			</field>
 		</record>
 		
-		<!-- Contato do Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form3">
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
@@ -41,9 +93,8 @@
 					 <field name="city" invisible="1" />
 				</field>
 			</field>
-		</record>  
+		</record>
 		
-		<!-- Contato do Parceiro Personalizado -->
 		<record model="ir.ui.view" id="view_l10n_br_partner_address_form4">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
@@ -53,18 +104,64 @@
 					<field name="city_id"/>
 				</field>
 			</field>
-		</record>
-
-							
-		<!-- Contato do Parceiro Personalizado		--> 			
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
+		</record> 
+		 			
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form5">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="street" position="replace">
-					<field name="zip"/>
-					<button colspan="2" name="search_zip" string="Buscar Endereço por CEP" icon="gtk-execute"/>
+					<field name="cep_id" on_change="onchange_cep_id(cep_id)"/>
+					<field name="street"/>
+					<field name="number"/>
+				</field>
+			</field>
+		</record>
+				
+		<!-- Contato do Parceiro Personalizado usado no form partner -->
+		
+		<!-- Contato do Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form6">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form2"/>
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					 <field name="zip" invisible="1" />
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form7">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form2"/>
+			<field name="arch" type="xml">
+				<field name="city" position="replace">
+					 <field name="city" invisible="1" />
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form8">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form2"/>
+			<field name="arch" type="xml">
+				<field name="street2" position="after">
+					<field name="city_id"/>
+				</field>
+			</field>
+		</record>
+			
+		<record model="ir.ui.view" id="view_l10n_br_partner_address_form9">
+			<field name="name">l10n_br.partner.address</field>
+			<field name="model">res.partner.address</field>
+			<field name="inherit_id" ref="base.view_partner_address_form2"/>
+			<field name="arch" type="xml">
+				<field name="street" position="replace">
+					<field name="cep_id" on_change="_on_change_cep_id(cep_id)"/>
 					<field name="street"/>
 					<field name="number"/>
 				</field>

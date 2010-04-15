@@ -1,24 +1,22 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+#################################################################################
+#                                                                               #
+# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel                 #
+#                                                                               #
+#This program is free software: you can redistribute it and/or modify           #
+#it under the terms of the GNU General Public License as published by           #
+#the Free Software Foundation, either version 3 of the License, or              #
+#(at your option) any later version.                                            #
+#                                                                               #
+#This program is distributed in the hope that it will be useful,                #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
+#GNU General Public License for more details.                                   #
+#                                                                               #
+#You should have received a copy of the GNU General Public License              #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
+#################################################################################
+
 from osv import osv, fields
 
 ##############################################################################
@@ -30,13 +28,15 @@ class res_partner(osv.osv):
         'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
         'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
         'inscr_est': fields.char('Inscr. Estadual', size=16),
+        'inscr_mun': fields.char('Inscr. Municipal', size=18),
+        'suframa': fields.char('Suframa', size=18),
         'legal_name' : fields.char('Razão Social', size=64, help="nome utilizado em documentos fiscais"),
     }
 
     _defaults = {
         'tipo_pessoa': lambda *a: 'J',
     }
-        
+
     def _check_cnpj_cpf(self, cr, uid, ids):
         partner = self.browse(cr, uid, ids)[0]
         if not partner.cnpj_cpf:
@@ -46,9 +46,9 @@ class res_partner(osv.osv):
             return self.validate_cnpj(partner.cnpj_cpf)
         elif partner.tipo_pessoa == 'F':
             return self.validate_cpf(partner.cnpj_cpf)
-        
+
         return False
-    
+
     def validate_cnpj(self, cnpj):
         # Limpando o cnpj
         if not cnpj.isdigit():
@@ -124,7 +124,7 @@ class res_partner(osv.osv):
         return {'value': {'tipo_pessoa': tipo_pessoa, 'cnpj_cpf': cnpj_cpf}}
     
     def zip_search(self, cr, uid, ids, context={}):
-        return True
+        return True    
     
 res_partner()
 
@@ -134,8 +134,29 @@ res_partner()
 class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
     _columns = {
-	'city_id': fields.many2one('l10n_br.city', 'Municipio'),
-        'number': fields.char('Número', size=10),
+	'city_id': fields.many2one('l10n_br.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+    'number': fields.char('Número', size=10),
+    'cep_id': fields.many2one('l10n_br.cep', 'CEP')
     }
 
+    def onchange_cep_id(self, cr, uid, ids, cep_id):
+        
+        result = {'value': {'street': None, 'city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
+        
+        if not cep_id:
+            return result
+        
+        obj_cep = self.pool.get('l10n_br.cep').browse(cr, uid, cep_id)
+        
+        result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
+        result['value']['city_id'] = obj_cep.city_id.id
+        result['value']['city'] = obj_cep.city_id.name
+        result['value']['state_id'] = obj_cep.state_id.id
+        result['value']['country_id'] = obj_cep.state_id.country_id.id
+        result['value']['zip'] = obj_cep.code
+        
+        return result
+
 res_partner_address()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

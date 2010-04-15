@@ -70,9 +70,9 @@
 					<field name="code" select="1"/>
 					<field name="name" select="1" />
 					<field name="small_name" select="2" />
-					<field name="description" select="2" />
 					<field name="parent_id" select="2"/>
 					<field name="type" select="2"/>
+					<field name="description" select="2" />
 				</form>
 			</field>
 		</record>

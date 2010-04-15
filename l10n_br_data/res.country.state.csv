@@ -1,28 +1,28 @@
 id,code,name,ibge_code,country_id:id
-state_1,RO,Rondônia,11,base.br
-state_2,AC,Acre,12,base.br
-state_3,AM,Amazonas,13,base.br
-state_4,RR,Roraima,14,base.br
-state_5,PA,Pará,15,base.br
-state_6,AP,Amapá,16,base.br
-state_7,TO,Tocantins,17,base.br
-state_8,MA,Maranhão,21,base.br
-state_9,PI,Piauí,22,base.br
-state_10,CE,Ceará,23,base.br
-state_11,RN,Rio Grande do Norte,24,base.br
-state_12,PB,Paraíba,25,base.br
-state_13,PE,Pernambuco,26,base.br
-state_14,AL,Alagoas,27,base.br
-state_15,SE,Sergipe,28,base.br
-state_16,BA,Bahia,29,base.br
-state_17,MG,Minas Gerais,31,base.br
-state_18,ES,Espírito Santo,32,base.br
-state_19,RJ,Rio de Janeiro,33,base.br
-state_20,SP,São Paulo,35,base.br
-state_21,PR,Paraná,41,base.br
-state_22,SC,Santa Catarina,42,base.br
-state_23,RS,Rio Grande do Sul,43,base.br
-state_24,MS,Mato Grosso do Sul,50,base.br
-state_25,MT,Mato Grosso,51,base.br
-state_26,GO,Goiás,52,base.br
-state_27,DF,Distrito Federal,53,base.br
+br_ro,RO,Rondônia,11,base.br
+br_ac,AC,Acre,12,base.br
+br_am,AM,Amazonas,13,base.br
+br_rr,RR,Roraima,14,base.br
+br_pa,PA,Pará,15,base.br
+br_ap,AP,Amapá,16,base.br
+br_to,TO,Tocantins,17,base.br
+br_ma,MA,Maranhão,21,base.br
+br_pi,PI,Piauí,22,base.br
+br_ce,CE,Ceará,23,base.br
+br_rn,RN,Rio Grande do Norte,24,base.br
+br_pb,PB,Paraíba,25,base.br
+br_pe,PE,Pernambuco,26,base.br
+br_al,AL,Alagoas,27,base.br
+br_se,SE,Sergipe,28,base.br
+br_ba,BA,Bahia,29,base.br
+br_mg,MG,Minas Gerais,31,base.br
+br_es,ES,Espírito Santo,32,base.br
+br_rj,RJ,Rio de Janeiro,33,base.br
+br_sp,SP,São Paulo,35,base.br
+br_pr,PR,Paraná,41,base.br
+br_sc,SC,Santa Catarina,42,base.br
+br_rs,RS,Rio Grande do Sul,43,base.br
+br_ms,MS,Mato Grosso do Sul,50,base.br
+br_mt,MT,Mato Grosso,51,base.br
+br_go,GO,Goiás,52,base.br
+br_df,DF,Distrito Federal,53,base.br
