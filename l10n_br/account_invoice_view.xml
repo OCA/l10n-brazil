@@ -19,6 +19,28 @@
 			</field>
 		</record>
 		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_form1">
+			<field name="name">l10n_br.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="date_due">
+					<field name="fiscal_operation_id" on_change="fiscal_operation_id_change(fiscal_operation_id)"/>
+			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_form2">
+			<field name="name">l10n_br.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="replace" name="fiscal_position">
+					<field name="fiscal_position" groups="base.group_extended,base.group_user" on_change="fiscal_position_id_change(fiscal_position)"/>
+			    </field>
+			</field>
+		</record>
+		
 		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form">
 			<field name="name">l10n_br.invoice.supplier.form</field>
 			<field name="model">account.invoice</field>
@@ -35,6 +57,17 @@
 				</notebook>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form1">
+			<field name="name">l10n_br.invoice.supplier.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="date_due">
+					<field name="fiscal_operation_id" on_change="fiscal_operation_id_change(fiscal_operation_id)"/>
+				</field>
+			</field>
+		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form">
 			<field name="name">l10n_br.invoice.line.form</field>
@@ -42,7 +75,18 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="origin" position="after">
-					<field colspan="4" name="cfop_id" default_get="{'cfop_id': parent.cfop_id}" />
+					<field colspan="4" name="cfop_id" />
+				</field>
+			</field>
+		</record>
+ 
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
+			<field name="name">l10n_br.invoice.line.form</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form"/>
+			<field name="arch" type="xml">
+				<field name="product_id" position="replace">
+					<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit,False,None, parent.cfop_id)" select="1"/>
 				</field>
 			</field>
 		</record>

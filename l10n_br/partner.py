@@ -30,7 +30,8 @@ class res_partner(osv.osv):
         'inscr_est': fields.char('Inscr. Estadual', size=16),
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
         'suframa': fields.char('Suframa', size=18),
-        'legal_name' : fields.char('Razão Social', size=64, help="nome utilizado em documentos fiscais"),
+        'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
+        'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
     }
 
     _defaults = {
@@ -136,7 +137,6 @@ class res_partner_address(osv.osv):
     _columns = {
 	'city_id': fields.many2one('l10n_br.city', 'Municipio', domain="[('state_id','=',state_id)]"),
     'number': fields.char('Número', size=10),
-    'cep_id': fields.many2one('l10n_br.cep', 'CEP')
     }
 
     def onchange_cep_id(self, cr, uid, ids, cep_id):
@@ -159,4 +159,14 @@ class res_partner_address(osv.osv):
 
 res_partner_address()
 
+##############################################################################
+# Posição Fiscal Personalizada
+##############################################################################
+class account_fiscal_position(osv.osv):
+    _inherit = 'account.fiscal.position'
+    _columns = {
+                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal'),
+                }
+        
+account_fiscal_position()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

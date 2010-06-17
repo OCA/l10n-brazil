@@ -25,7 +25,7 @@ from tools import config
 from tools.translate import _
 
 ##############################################################################
-# Fatura (Nota Fiscal) Personalizado
+# Pedido de venda customizado
 ##############################################################################
 class sale_order(osv.osv):
     
@@ -33,19 +33,21 @@ class sale_order(osv.osv):
     
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
         res = super(sale_order, self)._amount_all(cr, uid, ids, field_name, arg, context)
+        
         #Não é mostrado valores de impostos na ordem de venda
-         
         for order in self.browse(cr, uid, ids):
             res[order.id]['amount_tax'] = 0
             res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
-        
+            
         return res
-    
+
     def _get_order(self, cr, uid, ids, context={}):
         result = super(sale_order, self)._get_order(cr, uid, ids, context)
         return result.keys()
-    
+
     _columns = {
+                'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
+                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal'),
                 'amount_untaxed': fields.function(_amount_all, method=True, digits=(16, int(config['price_accuracy'])), string='Untaxed Amount',
                 store = {
                          'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
@@ -57,14 +59,26 @@ class sale_order(osv.osv):
                          'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
                          'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
                          },
-               multi='sums'),
+                multi='sums'),
                 'amount_total': fields.function(_amount_all, method=True, digits=(16, int(config['price_accuracy'])), string='Total',
                 store = {
-                         'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
                          'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
                          },
                 multi='sums'),
-                }
+               }
 sale_order()
+
+##############################################################################
+# Estabelecimento Customizado
+##############################################################################
+class sale_shop(osv.osv):
+    
+    _inherit = 'sale.shop'
+    _columns = {
+                'default_fo_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria Fiscal Padrão', requeried=True),
+    }
+
+sale_shop()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

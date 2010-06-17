@@ -24,7 +24,6 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/field[@name='street']" position="replace">
-						<field name="cep_id" on_change="onchange_cep_id(cep_id)"/>
 						<field name="street" />
 						<field name="number" />
 	        		</xpath>
@@ -67,6 +66,7 @@
 						<field name="inscr_est"/>
 						<field name="inscr_mun"/>
 						<field name="suframa"/>						
+						<field name="partner_fiscal_type_id"/>
 		        	</page>
 				</notebook>
 			</field>
@@ -112,7 +112,6 @@
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="street" position="replace">
-					<field name="cep_id" on_change="onchange_cep_id(cep_id)"/>
 					<field name="street"/>
 					<field name="number"/>
 				</field>
@@ -161,12 +160,23 @@
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
 				<field name="street" position="replace">
-					<field name="cep_id" on_change="_on_change_cep_id(cep_id)"/>
 					<field name="street"/>
 					<field name="number"/>
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_position_form">
+			<field name="name">l10n_br.fiscal.position</field>
+			<field name="model">account.fiscal.position</field>
+			<field name="inherit_id" ref="account.view_account_position_form"/>
+			<field name="arch" type="xml">
+				<field name="company_id" position="after">
+					<field name="fiscal_operation_id"/>
+				</field>
+			</field>
+		</record>
+		
 		
 	</data>
 </openerp>

@@ -9,7 +9,8 @@
 			<field name="arch" type="xml">
 				<field name="to_state" position="after">
 					<separator string="l10n br" colspan="4"/>
-					<field name="tipo_pessoa"/>	       
+					<field name="partner_fiscal_type_id"/>
+					<field name="fiscal_operation_category_id"/>      
 				</field>
 			</field>
 		</record>
@@ -21,7 +22,8 @@
 			<field name="arch" type="xml">
 				<field name="to_state" position="after">
 					<separator string="l10n br" colspan="4"/>
-					<field name="tipo_pessoa"/>	       
+					<field name="partner_fiscal_type_id"/>
+					<field name="fiscal_operation_category_id"/>	       
 				</field>
 			</field>
 		</record>

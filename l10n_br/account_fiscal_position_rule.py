@@ -25,16 +25,19 @@ from osv import osv, fields
 class account_fiscal_position_rule_template(osv.osv):
     _inherit = 'account.fiscal.position.rule.template'
     _columns = {
-                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa'),
+                'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+                'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
                 }
-    
+
 account_fiscal_position_rule_template()
 
 class account_fiscal_position_rule(osv.osv):
     _inherit = 'account.fiscal.position.rule'
     _columns = {
-                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa'),
+                'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+                'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
                 }
+    
 account_fiscal_position_rule()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
