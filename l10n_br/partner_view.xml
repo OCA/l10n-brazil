@@ -9,8 +9,8 @@
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<group>
-					<field name="tipo_pessoa" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
-					<field name="cnpj_cpf" on_change="_on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
+					<field name="tipo_pessoa" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
+					<field name="cnpj_cpf" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
 					<newline/>			
 					<field colspan="4" name="legal_name"/>
 				</group>
@@ -66,7 +66,6 @@
 						<field name="inscr_est"/>
 						<field name="inscr_mun"/>
 						<field name="suframa"/>						
-						<field name="partner_fiscal_type_id"/>
 		        	</page>
 				</notebook>
 			</field>
@@ -165,18 +164,6 @@
 				</field>
 			</field>
 		</record>
-		
-		<record model="ir.ui.view" id="view_l10n_br_account_position_form">
-			<field name="name">l10n_br.fiscal.position</field>
-			<field name="model">account.fiscal.position</field>
-			<field name="inherit_id" ref="account.view_account_position_form"/>
-			<field name="arch" type="xml">
-				<field name="company_id" position="after">
-					<field name="fiscal_operation_id"/>
-				</field>
-			</field>
-		</record>
-		
 		
 	</data>
 </openerp>

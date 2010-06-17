@@ -109,7 +109,7 @@ class res_partner(osv.osv):
 
     _constraints = [(_check_cnpj_cpf, 'CNPJ/CPF invalido!', ['cnpj_cpf'])]
 
-    def _on_change_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
+    def on_change_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
         if not cnpj_cpf or not tipo_pessoa:
             return {}
 
@@ -139,7 +139,7 @@ class res_partner_address(osv.osv):
     'number': fields.char('Número', size=10),
     }
 
-    def onchange_cep_id(self, cr, uid, ids, cep_id):
+    def on_change_cep_id(self, cr, uid, ids, cep_id):
         
         result = {'value': {'street': None, 'city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
         
