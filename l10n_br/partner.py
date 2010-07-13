@@ -139,15 +139,30 @@ class res_partner_address(osv.osv):
     'number': fields.char('Número', size=10),
     }
 
-    def on_change_cep_id(self, cr, uid, ids, cep_id):
+    def on_change_city_id(self, cr, uid, ids, city_id):
+        
+        result = {'value': {'city': None}}
+
+        if not city_id:
+            return result
+
+        obj_city = self.pool.get('l10n_br.city').read(cr, uid, city_id, ['name'])
+        
+        if obj_city:
+            result['value'] = {'city': obj_city['name']}
+        
+        return result
+
+    def on_change_zip(self, cr, uid, ids, zip):
         
         result = {'value': {'street': None, 'city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
-        
-        if not cep_id:
+
+        if not zip:
             return result
         
-        obj_cep = self.pool.get('l10n_br.cep').browse(cr, uid, cep_id)
+        obj_cep = self.pool.get('l10n_br.cep').browse(cr, uid, zip)
         
+        print obj_cep
         result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
         result['value']['city_id'] = obj_cep.city_id.id
         result['value']['city'] = obj_cep.city_id.name

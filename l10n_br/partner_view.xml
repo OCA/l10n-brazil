@@ -4,59 +4,71 @@
 
 		<!-- Parceiro Personalizado -->
 		<record model="ir.ui.view" id="view_l10n_br_partner_form">
-			<field name="name">l10n_br.partner</field>
+			<field name="name">l10n_br.partner.form</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<group>
-					<field name="tipo_pessoa" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
-					<field name="cnpj_cpf" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
-					<newline/>			
+				<field name="lang" position="replace">
 					<field colspan="4" name="legal_name"/>
-				</group>
+					<field name="tipo_pessoa" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
+					<field name="cnpj_cpf" colspan="4" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/> 
+					<field name="lang"/>					
+				</field>
 			</field>
 		</record>
 		
-		<record id="l10n_br_view_partner_form" model="ir.ui.view">
-	   		<field name="name">l10n_br.partner.form</field>
-            <field name="model">res.partner</field>
+		<record model="ir.ui.view" id="l10n_br_view_partner_form1" >
+	   		<field name="name">l10n_br.partner.form1</field>
+            		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/field[@name='street']" position="replace">
+	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='street']" position="replace">
 						<field name="street" />
 						<field name="number" />
 	        		</xpath>
-        	</field>
+        		</field>
    		</record>
 		
-		<record id="l10n_br_view_partner_form1" model="ir.ui.view">
-	   		<field name="name">l10n_br.partner.form</field>
-            <field name="model">res.partner</field>
+		<record model="ir.ui.view" id="l10n_br_view_partner_form2">
+	   		<field name="name">l10n_br.partner.form2</field>
+            		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">33</field>
 	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/field[@name='zip']" position="replace">
-						<field name="zip" invisible="1" />
-        		</xpath>
-        	</field>
+	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='zip']" position="replace">
+						<field name="zip" />
+        			</xpath>
+        		</field>
    		</record>
 		
-		<record id="l10n_br_view_partner_form2" model="ir.ui.view">
-	   		<field name="name">l10n_br.partner.form</field>
-            <field name="model">res.partner</field>
+		<record model="ir.ui.view" id="l10n_br_view_partner_form3">
+	   		<field name="name">l10n_br.partner.form3</field>
+		        <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/field[@name='city']" position="replace">
-						<field name="city_id"/>
-        		</xpath>
-        	</field>
+	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='state_id']" position="after">
+						<field name="city_id" on_change="on_change_city_id(city_id)" />
+        			</xpath>
+        		</field>
+   		</record>
+
+		<record model="ir.ui.view" id="l10n_br_view_partner_form4">
+	   		<field name="name">l10n_br.partner.form4</field>
+		        <field name="model">res.partner</field>
+	   		<field name="inherit_id" ref="base.view_partner_form"/>
+	   		<field name="priority">34</field>
+	   		<field name="arch" type="xml">
+	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='city']" position="replace">
+						<field name="city" invisible="1" />
+        			</xpath>
+        		</field>
    		</record>
 		
-		
-		<record model="ir.ui.view" id="l10n_br_view_partner_form2">
-			<field name="name">l10n_br.partner.form</field>
+
+		<record model="ir.ui.view" id="l10n_br_view_partner_form5">
+			<field name="name">l10n_br.partner.form5</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
@@ -78,8 +90,11 @@
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="zip" position="replace">
-					 <field name="zip" invisible="1"/>
+					<field name="zip" />
+					<!-- <field name="zip" on_change="on_change_zip(zip)" />
+					<button name="search_cep" string="Open Margins" type="object" default_focus="1"/> -->
 				</field>
+
 			</field>
 		</record>
 		
@@ -99,8 +114,8 @@
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
-				<field name="street2" position="after">
-					<field name="city_id"/>
+				<field name="state_id" position="after">
+					<field name="city_id" on_change="on_change_city_id(city_id)" />
 				</field>
 			</field>
 		</record> 
@@ -125,8 +140,8 @@
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
-				<field name="zip" position="replace">
-					 <field name="zip" invisible="1" />
+				<field name="city" position="replace">
+					 <field name="city" invisible="1" />
 				</field>
 			</field>
 		</record>
@@ -136,24 +151,13 @@
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
-				<field name="city" position="replace">
-					 <field name="city" invisible="1" />
+				<field name="state_id" position="after">
+					 <field name="city_id" on_change="on_change_city_id(city_id)" />
 				</field>
 			</field>
 		</record>
 		
 		<record model="ir.ui.view" id="view_l10n_br_partner_address_form8">
-			<field name="name">l10n_br.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form2"/>
-			<field name="arch" type="xml">
-				<field name="street2" position="after">
-					<field name="city_id"/>
-				</field>
-			</field>
-		</record>
-			
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form9">
 			<field name="name">l10n_br.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
