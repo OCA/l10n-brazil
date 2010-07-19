@@ -47,7 +47,7 @@ class sale_order(osv.osv):
 
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
-                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal'),
+                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
                 'amount_untaxed': fields.function(_amount_all, method=True, digits=(16, int(config['price_accuracy'])), string='Untaxed Amount',
                 store = {
                          'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
@@ -67,6 +67,17 @@ class sale_order(osv.osv):
                          },
                 multi='sums'),
                }
+    
+    def onchange_shop_id(self, cr, uid, ids, shop_id):
+        
+        result = super(sale_order, self).onchange_shop_id(cr, uid, ids, shop_id)
+        if shop_id:
+            obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+            if obj_shop.default_fo_category_id.id:
+                result['value']['fiscal_operation_category_id'] = obj_shop.default_fo_category_id.id
+                
+        return result
+    
 sale_order()
 
 ##############################################################################

@@ -79,17 +79,17 @@
 				</field>
 			</field>
 		</record>
- 
+ 		
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
 			<field name="name">l10n_br.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="product_id" position="replace">
-					<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit,False,None, parent.cfop_id)" select="1"/>
+					<field name="product_id" on_change="product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, cfop_id=False)" select="1"/>
 				</field>
 			</field>
 		</record>
-
+ -->
 	</data>
 </openerp>

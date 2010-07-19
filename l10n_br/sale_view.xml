@@ -12,7 +12,7 @@
 	        	<field name="fiscal_position" position="replace">
 	        		<field name="fiscal_operation_category_id" />
 					<field name="fiscal_operation_id" />
-					<field name="fiscal_position" />
+					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 	        	</field>
 	        </field>
 		</record>

@@ -184,4 +184,5 @@ class account_fiscal_position(osv.osv):
                 }
         
 account_fiscal_position()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
