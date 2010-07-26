@@ -300,9 +300,10 @@ class account_invoice_line(osv.osv):
                 'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
                 }
 
+                    
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, cfop_id=False):
         
-        result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context, cfop_id)
+        result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context)
         
         if not cfop_id:
             return result
