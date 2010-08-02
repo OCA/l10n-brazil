@@ -77,7 +77,8 @@
 						<separator colspan="4" string="Dados Adicionais do Parceiro"/>
 						<field name="inscr_est"/>
 						<field name="inscr_mun"/>
-						<field name="suframa"/>						
+						<field name="suframa"/>				
+						<field name="partner_fiscal_type_id"/>
 		        	</page>
 				</notebook>
 			</field>

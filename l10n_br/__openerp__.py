@@ -42,13 +42,14 @@
         'data/account_tax_template.xml',
 		],
     'update_xml' : [
-		#'security/ir.model.access.csv',
 		'l10n_br_view.xml',
 		'country_view.xml',
 		'partner_view.xml',
         'sale_view.xml',
 		'account_invoice_view.xml',
-		'account_fiscal_position_rule_view.xml'
+		'account_fiscal_position_rule_view.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_security.xml',
     ],
     'category' : 'Localisation/Account Charts',
     'active': False,
