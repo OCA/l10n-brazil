@@ -10,33 +10,33 @@
 				 <notebook>
 					<page position="inside" string="l10n br - NF">
 						<separator colspan="4" string="Dados Adicionais da NF"/>
-						<field colspan="4" name="cfop_id" domain="[('type','=','output')]"/>
+						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]"/>
                 		<field colspan="4" name="access_key_nfe"/>
-						<field name="state_nfe"/>
 						<field name="fiscal_document_id"/>
-			        	</page>
+		        	</page>
 				</notebook>
 			</field>
 		</record>
-		
+ 
 		<record model="ir.ui.view" id="view_l10n_br_invoice_form1">
-			<field name="name">l10n_br.invoice.form</field>
+			<field name="name">l10n_br.invoice.form1</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
-				<field position="after" name="date_due">
-					<field name="fiscal_operation_id" on_change="fiscal_operation_id_change(fiscal_operation_id)"/>
+				<field position="replace" name="fiscal_position">
 			    </field>
 			</field>
 		</record>
 		
 		<record model="ir.ui.view" id="view_l10n_br_invoice_form2">
-			<field name="name">l10n_br.invoice.form</field>
+			<field name="name">l10n_br.invoice.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
-				<field position="replace" name="fiscal_position">
-					<field name="fiscal_position" groups="base.group_extended,base.group_user" on_change="fiscal_position_id_change(fiscal_position)"/>
+				<field position="after" name="move_id">
+					<field name="fiscal_operation_category_id" required="1" />
+					<field name="fiscal_operation_id" required="1" />
+					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 			    </field>
 			</field>
 		</record>
@@ -51,21 +51,22 @@
       					<separator colspan="4" string="Dados Adicionais da NF"/>
        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
 			            <field colspan="4" name="access_key_nfe"/>
-						<field name="state_nfe"/>
 						<field name="fiscal_document_id"/>
 			        	</page>
 				</notebook>
 			</field>
 		</record>
-		
+				
 		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form1">
-			<field name="name">l10n_br.invoice.supplier.form</field>
+			<field name="name">l10n_br.invoice.supplier.form1</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
-				<field position="after" name="date_due">
-					<field name="fiscal_operation_id" on_change="fiscal_operation_id_change(fiscal_operation_id)"/>
-				</field>
+				<field position="after" name="move_id">
+					<field name="fiscal_operation_category_id" required="1" />
+					<field name="fiscal_operation_id" required="1" />
+					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
+			    </field>
 			</field>
 		</record>
 

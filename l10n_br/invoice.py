@@ -57,21 +57,27 @@ class account_invoice(osv.osv):
         return result.keys()
 
     _columns = {
-        'state_nfe': fields.selection([
-            ('signed','Assinada'),
-            ('authorized','Autorizada'),
-            ('canceled','Cancelada'),
-            ('denied','Denegada'),
-            ('typing','Em Digitação'),
-            ('processing','Em processamento na SEFAZ'),
-            ('rejected','Rejeitada'),
-            ('pending','Transmitida com Pendência'),
-            ('validated','Validada')
-            ],'Status NFe', select=True, readonly=True),
+        'state': fields.selection([
+            ('draft','Draft'),
+            ('proforma','Pro-forma'),
+            ('proforma2','Pro-forma'),
+            ('open','Open'),
+            ('sefaz_out','Enviar para Receita'),
+            ('sefaz_aut','Autorizada pela Receita'),
+            ('paid','Paid'),
+            ('cancel','Cancelled')
+            ],'State', select=True, readonly=True,
+            help=' * The \'Draft\' state is used when a user is encoding a new and unconfirmed Invoice. \
+            \n* The \'Pro-forma\' when invoice is in Pro-forma state,invoice does not have an invoice number. \
+            \n* The \'Open\' state is used when user create invoice,a invoice number is generated.Its in open state till user does not pay invoice. \
+            \n* The \'Paid\' state is set automatically when invoice is paid.\
+            \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
+            \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
+            \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'access_key_nfe': fields.char('Chave de Acesso', size=44),
         'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento'),
-        'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
-        'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal'),
+        'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria'),
+        'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
         'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
         'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'),string='Untaxed',
             store={
@@ -261,36 +267,15 @@ class account_invoice(osv.osv):
        
         return result  
 
-    def fiscal_operation_id_change(self, cr, uid, ids, fiscal_operation_id):
-
-        result = {'value': {'cfop_id': False, 'fiscal_document_id': False}}
-
-        if not fiscal_operation_id:
-            return result
-
-        obj_fiscal_operation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [fiscal_operation_id])[0]
-
-        result['value']['cfop_id'] =  obj_fiscal_operation.cfop_id.id
-        result['value']['fiscal_document_id'] = obj_fiscal_operation.fiscal_document_id.id
-
-        return result
+    def onchange_cfop_id(self, cr, uid, ids, cfop_id):
     
-    def fiscal_position_id_change(self, cr, uid, ids, fiscal_position_id):
-
-        result = {'value': {'cfop_id': False, 'fiscal_document_id': False,'fiscal_position': False, 'fiscal_operation_id': False }}
-
-        if not fiscal_position_id:
-            return result
-
-        obj_fiscal_position = self.pool.get('account.fiscal.position').browse(cr, uid, [fiscal_position_id])[0]
-        obj_fiscal_operation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fiscal_position.fiscal_operation_id.id])[0]
-
-        result['value']['cfop_id'] =  obj_fiscal_operation.cfop_id.id
-        result['value']['fiscal_operation_id'] = obj_fiscal_operation.id
-        result['value']['fiscal_document_id'] = obj_fiscal_operation.fiscal_document_id.id
-        result['value']['fiscal_position'] = fiscal_position_id
-
-        return result
+        if not cfop_id:
+            return False
+            
+        for inv_line in self.invoice_line:
+            self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id})
+            
+        return True
 
 account_invoice()
 

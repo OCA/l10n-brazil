@@ -46,6 +46,7 @@
 		'country_view.xml',
 		'partner_view.xml',
         'sale_view.xml',
+        'stock_view.xml',
 		'account_invoice_view.xml',
 		'account_fiscal_position_rule_view.xml',
         'security/ir.model.access.csv',

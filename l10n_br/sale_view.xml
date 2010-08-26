@@ -10,12 +10,51 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
-	        		<field name="fiscal_operation_category_id" />
-					<field name="fiscal_operation_id" />
+	        		<field name="fiscal_operation_category_id" required="1"/>
+					<field name="fiscal_operation_id" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 	        	</field>
 	        </field>
 		</record>
+		
+		<record id="view_l10n_br_order_form2" model="ir.ui.view">
+			<field name="name">l10n_br.order.form2</field>
+	   		<field name="model">sale.order</field>
+	   		<field name="inherit_id" ref="sale.view_order_form"/>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+	        	<field name="partner_id" position="replace">
+	        		<field name="partner_id" 
+	        		context="{'partner_id':partner_id, 'fiscal_operation_category_id': fiscal_operation_category_id, 'pricelist_id':pricelist_id, 'default_name':name}"  
+	        		on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
+	        	</field>
+	        </field>
+		</record>
+		
+		<record id="view_l10n_br_order_form3" model="ir.ui.view">
+			<field name="name">l10n_br.order.form3</field>
+	   		<field name="model">sale.order</field>
+	   		<field name="inherit_id" ref="sale.view_order_form"/>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+	        	<field name="shop_id" position="replace">
+					<field name="shop_id"  on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id)"  widget="selection" />
+	        	</field>
+	        </field>
+		</record>
+
+		<record id="view_l10n_br_order_form4" model="ir.ui.view">
+			<field name="name">l10n_br.order.form4</field>
+	   		<field name="model">sale.order</field>
+	   		<field name="inherit_id" ref="sale.view_order_form"/>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+	        	<field name="partner_invoice_id" position="replace">
+	        	<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, company_id, fiscal_operation_category_id)"/>
+	        	</field>
+	        </field>
+		</record>
+		
 		
 		<record id="l10n_br_view_shop_form" model="ir.ui.view">
 			<field name="name">l10n_br.sale.shop</field>
@@ -24,7 +63,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="project_id" position="after">
-					<field name="default_fo_category_id"/>
+					<field name="default_fo_category_id" required="1"/>
 	        	</field>
 	        </field>
 		</record>
