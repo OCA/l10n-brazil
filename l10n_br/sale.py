@@ -17,7 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import time
+import time 
 import netsvc
 import decimal_precision as dp
 from osv import fields, osv
@@ -169,6 +169,16 @@ class sale_order(osv.osv):
 
         return result
     
+    def action_ship_create(self, cr, uid, ids, *args):
+   
+        result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
+        
+        for order in self.browse(cr, uid, ids, context={}):
+            for picking in order.picking_ids:
+                self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
+        
+        return result
+            
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
         res = super(sale_order, self)._amount_all(cr, uid, ids, field_name, arg, context)
         

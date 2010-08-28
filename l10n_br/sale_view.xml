@@ -46,11 +46,11 @@
 		<record id="view_l10n_br_order_form4" model="ir.ui.view">
 			<field name="name">l10n_br.order.form4</field>
 	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
+	   		<field name="inherit_id" ref="account_fiscal_postion_rule.account_fiscal_postion_rule_form_view_order_form2"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_invoice_id" position="replace">
-	        	<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, company_id, fiscal_operation_category_id)"/>
+	        	<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)"/>
 	        	</field>
 	        </field>
 		</record>
