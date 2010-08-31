@@ -13,6 +13,7 @@
 						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]"/>
                 		<field colspan="4" name="access_key_nfe"/>
 						<field name="fiscal_document_id"/>
+						<field name="document_serie_id"/>
 		        	</page>
 				</notebook>
 			</field>
@@ -37,6 +38,17 @@
 					<field name="fiscal_operation_category_id" required="1" />
 					<field name="fiscal_operation_id" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
+			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_form3">
+			<field name="name">l10n_br.invoice.form3</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="replace" name="partner_id">
+					<field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)" groups="base.group_user"/>
 			    </field>
 			</field>
 		</record>

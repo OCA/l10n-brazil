@@ -269,6 +269,36 @@
 					</tree>
 				</field>
 			</record>
+			
+			<record model="ir.ui.view" id="view_l10n_br_document_serie_form">
+				<field name="name">l10n_br.document.serie</field>
+				<field name="model">l10n_br.document.serie</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Serie de Documentos Fiscais">
+						<field name="code" select="1"/>
+						<field name="active"/>
+						<field name="name" colspan="4" select="1"/>
+						<field name="fiscal_document_id" select="1"/>
+						<field name="company_id"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_document_serie_tree">
+				<field name="name">l10n_br.document.serie</field>
+				<field name="model">l10n_br.document.serie</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="fiscal_document_id" select="1"/>
+						<field name="company_id" select="1"/>
+						<field name="active" select="1"/>
+					</tree>
+				</field>
+			</record>
 	
 			<record model="ir.actions.act_window" id="action_l10n_br_city_form">
 				<field name="name">Município</field>
@@ -341,8 +371,15 @@
 				<field name="view_type">form</field>
 				<field name="view_id" ref="view_l10n_br_partner_fiscal_type_tree"/>
 			</record>
-		
-		
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_document_serie_form">
+				<field name="name">Tipo Fiscal de Parceiro</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br.document.serie</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_document_serie_tree"/>
+			</record>
 		
 	       	<menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
 	
@@ -357,6 +394,8 @@
 			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_fiscal_document_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_fiscal_document_form"/>
 	
 			<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_cst_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_cst_form"/>
+			
+			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_document_serie_form"/>
 	
 			<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
 	

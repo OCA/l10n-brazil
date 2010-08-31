@@ -74,11 +74,12 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
-        'access_key_nfe': fields.char('Chave de Acesso', size=44),
-        'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento'),
-        'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria'),
-        'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
-        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
+        'access_key_nfe': fields.char('Chave de Acesso', size=44, readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
+        'document_serie_id': fields.many2one('l10n_br.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
         'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'),string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -102,10 +103,10 @@ class account_invoice(osv.osv):
             multi='all'),
     }
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
-            date_invoice=False, payment_term=False,company_id=False, partner_bank_id=False ):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
+            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False, fiscal_operation_category_id=False):
 
-        result = super(account_invoice, self).onchange_partner_id(cr,uid,ids,type,partner_id,date_invoice,payment_term,partner_bank_id)
+        result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
         result['value']['fiscal_operation_id'] = False
         result['value']['cfop_id'] = False
         result['value']['fiscal_document_id'] = False
@@ -127,26 +128,26 @@ class account_invoice(osv.osv):
         obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_id])[0]
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
         
-        if obj_partner.property_account_position.id:
-            obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
-            result['value']['fiscal_position'] = obj_fpo.id
-            result['value']['fiscal_operation_id'] = obj_foperation.id
-            result['value']['cfop_id'] = obj_foperation.cfop_id.id
-            result['value']['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
+        #if obj_partner.property_account_position.id:
+        #    obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
+        #    obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+        #    result['value']['fiscal_position'] = obj_fpo.id
+        #    result['value']['fiscal_operation_id'] = obj_foperation.id
+        #    result['value']['cfop_id'] = obj_foperation.cfop_id.id
+        #    result['value']['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
 
-            for inv in self.browse(cr,uid,ids): 
-                for line in inv.invoice_line:
-                    line.cfop_id = obj_foperation.cfop_id.id
-                    
-            return result
+        #    for inv in self.browse(cr,uid,ids): 
+        #        for line in inv.invoice_line:
+        #            line.cfop_id = obj_foperation.cfop_id.id
+        #            
+        #    return result
         
         partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
 
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',company_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True),('partner_fiscal_type_id','=',partner_fiscal_type)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',company_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True),('partner_fiscal_type_id','=',partner_fiscal_type),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
         
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
@@ -157,9 +158,9 @@ class account_invoice(osv.osv):
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
             result['value']['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
             
-            for inv in self.browse(cr,uid,ids):
-                for line in inv.invoice_line:
-                    line.cfop_id = obj_foperation.cfop_id.id
+            #for inv in self.browse(cr,uid,ids):
+            #    for line in inv.invoice_line:
+            #        line.cfop_id = obj_foperation.cfop_id.id
                     #line.write(cr, uid, line.id, {'cfop_id': obj_foperation.cfop_id.id})
         return result
     
@@ -271,11 +272,12 @@ class account_invoice(osv.osv):
     
         if not cfop_id:
             return False
+        
+        for inv in self.browse(cr, uid, ids):    
+            for inv_line in inv.invoice_line:
+                self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': inv_line.fiscal_operation_id.cfop_id.id})
             
-        for inv_line in self.invoice_line:
-            self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id})
-            
-        return True
+        return {'value': {'cfop_id': cfop_id}}
 
 account_invoice()
 

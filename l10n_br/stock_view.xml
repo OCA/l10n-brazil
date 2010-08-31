@@ -10,11 +10,11 @@
 	   		<field name="arch" type="xml">
   				<field name="move_type" position="after">
   					<group colspan="2" col="2" attrs="{'invisible':[('invoice_state','!=','2binvoiced')]}">
-			           <field name="fiscal_operation_category_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			           <field name="fiscal_operation_category_id"/>
 		                <newline/>
-			            <field name="fiscal_operation_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_id" />
 			            <newline/>
-			            <field name="fiscal_position" attrs="{'required':[('invoice_state','!=','2binvoiced')]}" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
 					</group>
 	            </field>
 	        </field>
@@ -28,11 +28,11 @@
 	   		<field name="arch" type="xml">
 				<field name="move_type" position="after">
 					<group colspan="2" attrs="{'invisible':[('invoice_state','!=','2binvoiced')]}">
-			            <field name="fiscal_operation_category_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_category_id" />
 		                <newline/>
-			            <field name="fiscal_operation_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_id" />
 			            <newline/>
-			            <field name="fiscal_position" attrs="{'required':[('invoice_state','!=','2binvoiced')]}" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+			            <field name="fiscal_position" attrs="{'required':[('invoice_state','!=','2binvoiced')]}" />
 					</group>
 				</field>
 			</field>
@@ -49,11 +49,11 @@
 		          		<group colspan="2" attrs="{'invisible':[('invoice_state','!=','2binvoiced')]}">
 		          		<separator colspan="2" string="l10n_br"/>
 		          		<newline/>
-			            <field name="fiscal_operation_category_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_category_id" />
 		                <newline/>
-			            <field name="fiscal_operation_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_id" />
 			            <newline/>
-			            <field name="fiscal_position" attrs="{'required':[('invoice_state','!=','2binvoiced')]}" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
 					</group>
 		        	</page>
 	        	</notebook>
@@ -68,11 +68,11 @@
 	   		<field name="arch" type="xml">
   				<field name="move_type" position="after">
 			            <group colspan="2" attrs="{'invisible':[('invoice_state','!=','2binvoiced')]}">
-			            <field name="fiscal_operation_category_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_category_id" />
 		                <newline/>
-			            <field name="fiscal_operation_id" attrs="{'required':[('invoice_state','!=','2binvoiced')]}"/>
+			            <field name="fiscal_operation_id" />
 			            <newline/>
-			            <field name="fiscal_position" attrs="{'required':[('invoice_state','!=','2binvoiced')]}" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
 					</group>
 	            </field>
 	        </field>

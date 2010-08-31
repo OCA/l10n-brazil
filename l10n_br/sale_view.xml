@@ -46,7 +46,7 @@
 		<record id="view_l10n_br_order_form4" model="ir.ui.view">
 			<field name="name">l10n_br.order.form4</field>
 	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="account_fiscal_postion_rule.account_fiscal_postion_rule_form_view_order_form2"/>
+	   		<field name="inherit_id" ref="account_fiscal_position_rule.view_order_form2"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_invoice_id" position="replace">

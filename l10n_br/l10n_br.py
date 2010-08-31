@@ -168,4 +168,20 @@ class l10n_br_partner_fiscal_type(osv.osv):
 
 l10n_br_partner_fiscal_type()
 
+#################################################################################
+# Serie de Documentos Fiscais
+#################################################################################
+class l10n_br_document_serie(osv.osv):
+    _name = 'l10n_br.document.serie'
+    _description = 'Serie de documentos fiscais'
+    _columns = {
+                'code': fields.char('Código', size=3, required=True),
+                'name': fields.char('Descrição', size=64),
+                'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento Fiscal', requeried=True),
+                'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
+                'active':fields.boolean('Ativo'),
+                }
+
+l10n_br_document_serie()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
