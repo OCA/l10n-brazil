@@ -23,6 +23,12 @@ class stock_picking(osv.osv):
     _inherit = "stock.picking"
     _description = "Picking List"
 
+    #TODO - Emquanto o merge não e feito pela openerp todo commit da loalização deve ser descomentado este campo
+    _columns = {
+                'weight_net': fields.float('Net weight', help="The gross weight in Kg."),
+                }
+
+
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
 
