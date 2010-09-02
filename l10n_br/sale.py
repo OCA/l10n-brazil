@@ -46,6 +46,7 @@ class sale_order(osv.osv):
         
         if fiscal_position:
             result['value']['fiscal_position'] = fiscal_position
+            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
             return result
 
         obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
@@ -83,6 +84,7 @@ class sale_order(osv.osv):
 
         if fiscal_position:
             result['value']['fiscal_position'] = fiscal_position
+            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
             return result
 
         obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
@@ -130,6 +132,7 @@ class sale_order(osv.osv):
         
         if fiscal_position:
             result['value']['fiscal_position'] = fiscal_position
+            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
             return result
 
         obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)

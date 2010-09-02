@@ -27,6 +27,7 @@ class account_fiscal_position_rule_template(osv.osv):
     _columns = {
                 'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
                 'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
+                'use_picking' : fields.boolean('Use in Picking'),
                 }
 
 account_fiscal_position_rule_template()
@@ -36,6 +37,7 @@ class account_fiscal_position_rule(osv.osv):
     _columns = {
                 'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
                 'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
+                'use_picking' : fields.boolean('Use in Picking'),
                 }
     
 account_fiscal_position_rule()
