@@ -42,23 +42,15 @@ class sale_order(osv.osv):
         for order in self.browse(cr, uid, ids):
             for invoice in order.invoice_ids:
                 if invoice.state in ('draft') and order.fiscal_operation_id:
+                    doc_serie_id = self.pool.get('l10n_br.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
+                    if not doc_serie_id:
+                        raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (order.company_id.name,))
+                    
                     self.pool.get('account.invoice').write(cr, uid, invoice.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'cfop_id': order.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id})
                     for inv_line in invoice.invoice_line:
                         self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': order.fiscal_operation_id.cfop_id.id})
 
         return result
-    
-    def action_ship_create(self, cr, uid, ids, *args):
-   
-        result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
-        
-        for order in self.browse(cr, uid, ids, context={}):
-            for picking in order.picking_ids:
-                self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
-        
-        return result
-            
-    
     
 sale_order()
 
