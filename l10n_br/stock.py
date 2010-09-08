@@ -45,7 +45,6 @@ class stock_picking(osv.osv):
         to_state = partner_addr_default.state_id.id
         
         obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_addr_default.partner_id.id])[0]
-        print obj_partner.name
         fiscal_position = obj_partner.property_account_position
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
 

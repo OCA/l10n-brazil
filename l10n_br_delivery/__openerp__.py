@@ -29,6 +29,7 @@
 		'sale', 
 		'stock', 
 		'delivery',
+        'l10n_br'
 		],
     'init_xml': [
 

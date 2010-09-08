@@ -19,7 +19,7 @@
 	            </field>
 	        </field>
 		</record>
-
+		<!-- 
 		<record id="l10n_br_view_picking_form1" model="ir.ui.view">
 			<field name="name">l10n_br.picking.form1</field>
 	   		<field name="model">stock.picking</field>
@@ -31,7 +31,7 @@
 	            </field>
 	        </field>
 		</record>
-
+ 		-->
 		<record id="l10n_br_view_picking_out_form1" model="ir.ui.view">
 			<field name="name">l10n_br.picking.out.form1</field>
 	   		<field name="model">stock.picking</field>
@@ -49,7 +49,7 @@
 				</field>
 			</field>
 		</record>
-		
+
 		<record id="l10n_br_view_picking_out_form2" model="ir.ui.view">
 			<field name="name">l10n_br.picking.out.form2</field>
 	   		<field name="model">stock.picking</field>
