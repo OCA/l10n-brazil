@@ -2,6 +2,7 @@
 <openerp>
 	<data>
 	
+		<!-- Customer Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_invoice_form">
 			<field name="name">l10n_br.invoice.form</field>
 			<field name="model">account.invoice</field>
@@ -45,14 +46,26 @@
 		<record model="ir.ui.view" id="view_l10n_br_invoice_form3">
 			<field name="name">l10n_br.invoice.form3</field>
 			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form1" />
 			<field name="arch" type="xml">
 				<field position="replace" name="partner_id">
-					<field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)" groups="base.group_user"/>
+					<field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)" groups="base.group_user" />
 			    </field>
 			</field>
 		</record>
 		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_form4">
+			<field name="name">l10n_br.invoice.form4</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
+			<field name="arch" type="xml">
+				<field position="replace" name="company_id">
+                    <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
+			    </field>
+			</field>
+		</record>
+		
+		<!-- Vendor Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form">
 			<field name="name">l10n_br.invoice.supplier.form</field>
 			<field name="model">account.invoice</field>
@@ -68,9 +81,19 @@
 				</notebook>
 			</field>
 		</record>
-				
+		
 		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form1">
-			<field name="name">l10n_br.invoice.supplier.form1</field>
+			<field name="name">l10n_br.invoice.form1</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+				<field position="replace" name="fiscal_position">
+			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form2">
+			<field name="name">l10n_br.invoice.supplier.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
@@ -82,6 +105,7 @@
 			</field>
 		</record>
 
+		<!-- Invoice Line views -->
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form">
 			<field name="name">l10n_br.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
@@ -96,7 +120,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
 			<field name="name">l10n_br.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="account.view_invoice_line_form"/>
+			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
 				<field name="product_id" position="replace">
 					<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id}, parent.cfop_id)" select="1"/>

@@ -32,21 +32,36 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for invoice in self.browse(cr, uid, ids, context=context):
+            res[invoice.id] = {
+                'amount_untaxed': 0.0,
+                'amount_tax': 0.0,
+                'amount_total': 0.0
+            }
+            for line in invoice.invoice_line:
+                
+                res[invoice.id]['amount_untaxed'] += line.price_subtotal
+            for line in invoice.tax_line:
+                res[invoice.id]['amount_tax'] += line.amount
+            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
+        return res
+    #def _amount_all(self, cr, uid, ids, name, args, context=None):
+    #    
+    #    result = super(account_invoice, self)._amount_all(cr,uid,ids,name,args,context)
+    #    cur_obj = self.pool.get('res.currency')
+    #    tax_obj = self.pool.get('account.tax')
         
-        result = super(account_invoice, self)._amount_all(cr,uid,ids,name,args,context)
-        cur_obj = self.pool.get('res.currency')
-        tax_obj = self.pool.get('account.tax')
-        
-        for inv in self.browse(cr,uid,ids, context=context): 
-            cur = inv.currency_id
-            company_currency = inv.company_id.currency_id.id
-            for line in inv.invoice_line:
-                for tax in tax_obj.compute(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id):
-                    obj_current_tax = self.pool.get('account.tax').browse(cr, uid, [tax['id']])[0]
-                    if obj_current_tax.price_include:
-                        result[inv.id]['amount_tax'] -= cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, tax['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
-            result[inv.id]['amount_total'] = result[inv.id]['amount_tax'] + result[inv.id]['amount_untaxed']
-        return result
+        #for inv in self.browse(cr,uid,ids, context=context): 
+        #    cur = inv.currency_id
+        #    company_currency = inv.company_id.currency_id.id
+        #    for line in inv.invoice_line:
+        #        for tax in tax_obj.compute(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id):
+        #            obj_current_tax = self.pool.get('account.tax').browse(cr, uid, [tax['id']])[0]
+        #            if obj_current_tax.price_include:
+        #                result[inv.id]['amount_tax'] -= cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, tax['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+        #    result[inv.id]['amount_total'] = result[inv.id]['amount_tax'] + result[inv.id]['amount_untaxed']
+        #return result
     
     def _get_invoice_line(self, cr, uid, ids, context=None):
         result = super(account_invoice, self)._get_invoice_line(cr, uid, ids, context)
@@ -80,27 +95,6 @@ class account_invoice(osv.osv):
         'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'),string='Untaxed',
-            store={
-                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-                'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
-            },
-            multi='all'),
-        'amount_tax': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Tax',
-            store={
-                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-                'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
-            },
-            multi='all'),
-        'amount_total': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Total',
-            store={
-                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-                'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
-            },
-            multi='all'),
     }
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
@@ -164,17 +158,17 @@ class account_invoice(osv.osv):
                     #line.write(cr, uid, line.id, {'cfop_id': obj_foperation.cfop_id.id})
         return result
     
-    def onchange_company_id(self, cr, uid, ids, cpy_id, ptn_id, ptn_invoice_id):
+    def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id=False):
         
-        result = super(account_invoice, self).onchange_company_id(cr,uid,ids,cpy_id,ptn_id,ptn_invoice_id)
+        result = super(account_invoice, self).onchange_company_id(cr, uid, ids, company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)
         result['value']['fiscal_operation_id'] = False
         result['value']['cfop_id'] = False
         result['value']['fiscal_document_id'] = False
         
-        if not ptn_id or not cpy_id or not ptn_invoice_id:
+        if not partner_id or not company_id or not address_invoice_id:
             return result
         
-        obj_company = self.pool.get('res.company').browse(cr, uid, [cpy_id])[0]
+        obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
         
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
@@ -182,7 +176,7 @@ class account_invoice(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
 
-        obj_partner = self.pool.get('res.partner').browse(cr, uid, [ptn_id])[0]
+        obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_id])[0]
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
         
         if obj_partner.property_account_position.id:
@@ -194,12 +188,12 @@ class account_invoice(osv.osv):
             result['value']['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
             return result
         
-        partner_addr_invoice = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
+        partner_addr_invoice = self.pool.get('res.partner.address').browse(cr, uid, [address_invoice_id])[0]
 
         to_country = partner_addr_invoice.country_id.id
         to_state = partner_addr_invoice.state_id.id
 
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',cpy_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True),('partner_fiscal_type_id','=',partner_fiscal_type)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',company_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True),('partner_fiscal_type_id','=',partner_fiscal_type),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
         
         if fsc_pos_id: 
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
@@ -216,7 +210,7 @@ class account_invoice(osv.osv):
                     
         return result    
 
-    def onchange_address_invoice_id(self, cr, uid, ids, cpy_id, ptn_id, ptn_invoice_id):
+    def onchange_address_invoice_id(self, cr, uid, ids, cpy_id, ptn_id, ptn_invoice_id, fiscal_operation_category_id=False):
         
         result = super(account_invoice, self).onchange_address_invoice_id(cr,uid,ids,cpy_id,ptn_id,ptn_invoice_id)
         result['value']['fiscal_operation_id'] = False
@@ -251,7 +245,7 @@ class account_invoice(osv.osv):
         to_country = partner_addr_invoice.country_id.id
         to_state = partner_addr_invoice.state_id.id
 
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', cpy_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', cpy_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
         
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]

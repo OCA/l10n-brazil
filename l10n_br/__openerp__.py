@@ -20,6 +20,7 @@
 {
     'name' : 'Brazilian Localization',
     'description' : 'Brazilian Localization',
+    'category' : 'Localisation/Account Charts',
     'author' : 'OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
@@ -52,8 +53,6 @@
         'security/ir.model.access.csv',
         'security/l10n_br_security.xml',
     ],
-    'category' : 'Localisation/Account Charts',
-    'active': False,
     'installable': True
 }
 
