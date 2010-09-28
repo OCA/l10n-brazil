@@ -83,7 +83,7 @@
 		</record>
 		
 		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form1">
-			<field name="name">l10n_br.invoice.form1</field>
+			<field name="name">l10n_br.invoice.supplier.form1</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
@@ -105,6 +105,17 @@
 			</field>
 		</record>
 
+		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form2" >
+	   		<field name="name">l10n_br.invoice.supplier.form3</field>
+      		<field name="model">account.invoice</field>
+	   		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+	   		<field name="arch" type="xml">
+	   			<field name="price_subtotal" position="replace">
+					<field name="price_total" />
+				</field>
+       		</field>
+   		</record>
+
 		<!-- Invoice Line views -->
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form">
 			<field name="name">l10n_br.invoice.line.form</field>
@@ -117,8 +128,8 @@
 			</field>
 		</record>
  		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
-			<field name="name">l10n_br.invoice.line.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form1">
+			<field name="name">l10n_br.invoice.line.form1</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
@@ -128,5 +139,27 @@
 			</field>
 		</record>
 
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_tree">
+			<field name="name">l10n_br.invoice.line.tree1</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_tree" />
+			<field name="arch" type="xml">
+				<field position="replace" name="price_subtotal">
+                    <field name="price_total"/>
+			    </field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
+			<field name="name">l10n_br.invoice.line.form2</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form" />
+			<field name="arch" type="xml">
+				<field position="replace" name="price_subtotal">
+					<field name="price_total"/>
+				</field>
+			</field>
+		</record>
 	</data>
+
 </openerp>

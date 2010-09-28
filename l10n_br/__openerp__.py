@@ -49,6 +49,7 @@
         'sale_view.xml',
         'stock_view.xml',
 		'account_invoice_view.xml',
+        'account_view.xml',
 		'account_fiscal_position_rule_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_security.xml',
