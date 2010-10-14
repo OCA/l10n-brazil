@@ -110,7 +110,7 @@
       		<field name="model">account.invoice</field>
 	   		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 	   		<field name="arch" type="xml">
-	   			<field name="price_subtotal" position="replace">
+	   			<field name="name" position="after">
 					<field name="price_total" />
 				</field>
        		</field>
@@ -122,7 +122,7 @@
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
-				<field name="origin" position="after">
+				<field name="name" position="after">
 					<field colspan="4" name="cfop_id" />
 				</field>
 			</field>
@@ -153,9 +153,9 @@
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
 			<field name="name">l10n_br.invoice.line.form2</field>
 			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="account.view_invoice_line_form" />
+			<field name="inherit_id" ref="view_l10n_br_invoice_line_form" />
 			<field name="arch" type="xml">
-				<field position="replace" name="price_subtotal">
+				<field position="after" name="cfop_id">
 					<field name="price_total"/>
 				</field>
 			</field>

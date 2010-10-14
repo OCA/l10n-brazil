@@ -95,7 +95,7 @@
 	            </field>
 	        </field>	
 		</record>
-		
+		<!-- 
 		<record id="l10n_br_view_picking_delivery_form" model="ir.ui.view">
 			<field name="name">l10n_br.picking.delivery.form</field>
 	   		<field name="model">stock.picking</field>
@@ -125,7 +125,7 @@
 	            </field>
 	        </field>
 		</record>
-		
+		 -->
 	</data>
 
 </openerp>
