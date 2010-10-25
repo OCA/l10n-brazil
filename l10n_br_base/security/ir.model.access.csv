@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_city","l10n_br.city","model_l10n_br_city","base.group_partner_manager",1,1,1,1
+"l10n_br_cep","l10n_br.cep","model_l10n_br_cep","base.group_partner_manager",1,1,1,1
+"l10n_br_partner_fiscal_type","l10n_br.partner.fiscal.type","model_l10n_br_partner_fiscal_type","base.group_partner_manager",1,1,1,1
