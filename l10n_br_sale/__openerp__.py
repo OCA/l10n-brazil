@@ -17,6 +17,24 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import sale
+{
+    'name' : 'Brazilian Localization',
+    'description' : 'Brazilian Localization',
+    'category' : 'Localisation/Account Charts',
+    'author' : 'OpenERP Brasil',
+    'website' : 'http://openerpbrasil.org',
+    'version' : '0.6',
+    'depends' : [
+		'l10n_br_account', 
+        'sale',
+        'sale_fiscal_position_rule',
+		'l10n_br_stock'
+		],
+    'init_xml': [],
+    'update_xml' : [
+		'sale_view.xml',
+    ],
+    'installable': True
+}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
