@@ -25,33 +25,12 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-		'base', 
-		'account', 
-		'account_chart', 
-		'product', 
-		'sale', 
-		'account_fiscal_position_rule', 
-		'account_product_fiscal_classification'
+        'stock',
+		'l10n_br_account', 
 		],
-    'init_xml': [
-		'data/account.account.type.csv',
-        'data/account.tax.code.template.csv',
-	    'data/account.account.template.csv',
-#		'data/l10n_br.cst.csv',
-		'data/l10n_br_chart_template.xml',
-        'data/account_tax_template.xml',
-		],
+    'init_xml': [],
     'update_xml' : [
-		'l10n_br_view.xml',
-		'country_view.xml',
-		'partner_view.xml',
-        'sale_view.xml',
-        'stock_view.xml',
-		'account_invoice_view.xml',
-        'account_view.xml',
-		'account_fiscal_position_rule_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_security.xml',
+		'stock_view.xml',
     ],
     'installable': True
 }

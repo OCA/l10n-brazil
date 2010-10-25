@@ -162,7 +162,6 @@ class res_partner_address(osv.osv):
         
         obj_cep = self.pool.get('l10n_br.cep').browse(cr, uid, zip)
         
-        print obj_cep
         result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
         result['value']['city_id'] = obj_cep.city_id.id
         result['value']['city'] = obj_cep.city_id.name
@@ -173,16 +172,5 @@ class res_partner_address(osv.osv):
         return result
 
 res_partner_address()
-
-##############################################################################
-# Posição Fiscal Personalizada
-##############################################################################
-class account_fiscal_position(osv.osv):
-    _inherit = 'account.fiscal.position'
-    _columns = {
-                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal'),
-                }
-        
-account_fiscal_position()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

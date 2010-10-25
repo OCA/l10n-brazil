@@ -29,7 +29,6 @@ class stock_picking(osv.osv):
                 'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal', domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 }
     
-    #TODO Fazer a dedução da operação e posição fiscal ao mudar o parceiro
     def onchange_partner_in(self, cr, uid, context=None, partner_id=None,fiscal_operation_category_id=False,company_id=False):
 
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_id)

@@ -12,7 +12,7 @@
 					<field colspan="4" name="legal_name"/>
 					<field name="tipo_pessoa" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
 					<field name="cnpj_cpf" colspan="4" on_change="on_change_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/> 
-					<field name="lang"/>					
+					<field name="lang"/>	
 				</field>
 			</field>
 		</record>
@@ -170,18 +170,6 @@
 				</field>
 			</field>
 		</record>
-		
-		<record id="view_l10n_br_position_form" model="ir.ui.view">
-            <field name="name">l10n_br.fiscal.position.form</field>
-            <field name="model">account.fiscal.position</field>
-            <field name="inherit_id" ref="account.view_account_position_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-            	<field name="company_id" position="after">
-					<field name="fiscal_operation_id"/>
-				</field>
-            </field>
-        </record>
 		
 	</data>
 </openerp>

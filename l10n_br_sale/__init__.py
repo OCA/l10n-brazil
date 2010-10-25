@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 #################################################################################
 #                                                                               #
-# Copyright (C) 2010  Renato Lima - Akretion                                    #
+# Copyright (C) 2009  Renato Lima - Akretion                                    #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU General Public License as published by           #
@@ -17,27 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-{
-    'name' : 'Delivery for Brazilian Localization',
-    'description' : 'Extend delivery module for Brazilian Localization',
-    'author' : 'OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-		'delivery', 
-		'l10n_br_sale', 
-		'l10n_br_stock', 
-		],
-    'init_xml': [],
-    'update_xml' :  [
-            		'account_invoice_view.xml',
-            		'delivery_view.xml',
-            		'sale_view.xml',
-            		'stock_view.xml',
-                    ],
-    'category' : 'Localisation',
-    'active': False,
-    'installable': True
-}
+import sale
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 #################################################################################
 #                                                                               #
-# Copyright (C) 2010  Renato Lima - Akretion                                    #
+# Copyright (C) 2009  Renato Lima - Akretion                                    #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU General Public License as published by           #
@@ -18,25 +18,21 @@
 #################################################################################
 
 {
-    'name' : 'Delivery for Brazilian Localization',
-    'description' : 'Extend delivery module for Brazilian Localization',
+    'name' : 'Brazilian Localization Base',
+    'description' : 'Brazilian Localization Base',
+    'category' : 'Localisation/Account Charts',
     'author' : 'OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
-    'depends' : [
-		'delivery', 
-		'l10n_br_sale', 
-		'l10n_br_stock', 
-		],
+    'depends' : ['base'],
     'init_xml': [],
-    'update_xml' :  [
-            		'account_invoice_view.xml',
-            		'delivery_view.xml',
-            		'sale_view.xml',
-            		'stock_view.xml',
-                    ],
-    'category' : 'Localisation',
-    'active': False,
+    'update_xml' : [
+		'l10n_br_view.xml',
+		'country_view.xml',
+		'partner_view.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_security.xml',
+    ],
     'installable': True
 }
 

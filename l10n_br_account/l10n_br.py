@@ -20,35 +20,6 @@
 from osv import osv, fields
 
 #################################################################################
-# Municipios e Códigos do IBGE
-#################################################################################
-class l10n_br_city(osv.osv):
-    _name = 'l10n_br.city'
-    _description = 'Municipios e Códigos do IBGE'
-    _columns = {
-        'name': fields.char('Nome', size=64, required=True),
-        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
-        'ibge_code': fields.char('Codigo IBGE', size=7),
-    }
-l10n_br_city()
-
-#################################################################################
-# CEP - Código de endereçamento Postal
-#################################################################################
-class l10n_br_cep(osv.osv):
-    _name = 'l10n_br.cep'
-    _rec_name = 'code'
-    _columns = {
-        'code': fields.char('CEP', size=8, required=True),
-        'street_type': fields.char('Tipo', size=26),
-        'street': fields.char('Logradouro', size=72),
-        'district': fields.char('Bairro', size=72),
-        'state_id': fields.many2one('res.country.state', 'Estado', required=True),
-        'city_id': fields.many2one('l10n_br.city', 'Cidade', required=True, domain="[('state_id','=',state_id)]"),
-    }
-l10n_br_cep()
-
-#################################################################################
 # CFOP - Código Fiscal de Operações e Prestações
 #################################################################################
 class l10n_br_cfop(osv.osv):
@@ -151,22 +122,6 @@ class l10n_br_fiscal_operation_line(osv.osv):
                }
 
 l10n_br_fiscal_operation_line()
-
-#################################################################################
-# Tipo Fiscal de Parceiros
-#################################################################################
-class l10n_br_partner_fiscal_type(osv.osv):
-    _name = 'l10n_br.partner.fiscal.type'
-    _description = 'Tipo Fiscal de Parceiros'
-    _columns = {
-                'code': fields.char('Código', size=16, required=True),
-                'name': fields.char('Descrição', size=64),
-                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
-                'icms': fields.boolean('Recupera ICMS'),
-                'ipi':fields.boolean('Recupera IPI'), 
-                }
-
-l10n_br_partner_fiscal_type()
 
 #################################################################################
 # Serie de Documentos Fiscais

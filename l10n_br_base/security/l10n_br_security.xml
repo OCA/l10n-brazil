@@ -2,11 +2,6 @@
 <openerp>
 
 	<data>
-		<!--
-		<record id="group_account_invoice" model="res.groups">
-			<field name="name">l10n_br / Fiscal</field>
-		</record>
-		-->
 
 		<record id="menu_l10n_br_fiscal" model="ir.ui.menu">
 			<field eval="[(6,0,[ref('account.group_account_manager')])]" name="groups_id"/>

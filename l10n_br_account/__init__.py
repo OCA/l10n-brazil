@@ -18,13 +18,10 @@
 #################################################################################
 
 import l10n_br
-import country
 import partner
 import account
 import invoice
-import sale
 import account_fiscal_position_rule
-import stock
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
