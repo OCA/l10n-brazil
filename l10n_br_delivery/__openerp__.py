@@ -24,16 +24,11 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-		'base', 
-		'account', 
-		'sale', 
-		'stock', 
-		'delivery',
-        'l10n_br'
+		'delivery', 
+		'l10n_br_sale', 
+		'l10n_br_stock', 
 		],
-    'init_xml': [
-
-				],
+    'init_xml': [],
     'update_xml' :  [
             		'account_invoice_view.xml',
             		'delivery_view.xml',
