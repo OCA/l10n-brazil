@@ -34,7 +34,6 @@
 		'account_product_fiscal_classification'
 		],
     'init_xml': [
-		'data/l10n_br_data.xml',
 		'data/account.account.type.csv',
         'data/account.tax.code.template.csv',
 	    'data/account.account.template.csv',
