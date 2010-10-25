@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<menuitem icon="terp-crm" id="menu_l10n_br" name="Localização Brasil"/>
+		<menuitem id="menu_l10n_br_configuration" name="Configuração" parent="menu_l10n_br" sequence="0"/>
+
+		<record model="ir.ui.view" id="view_l10n_br_city_tree">
+			<field name="name">l10n_br.city</field>
+			<field name="model">l10n_br.city</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Municípios">
+					<field name="name" select="1"/>
+					<field name="state_id" select="1"/>
+					<field name="ibge_code"/>
+				</tree>
+			</field>
+ 		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_city_form">
+			<field name="name">l10n_br.city</field>
+			<field name="model">l10n_br.city</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Municípios">
+					<field name="name" select="1"/>
+					<field name="state_id" select="1"/>
+					<field name="ibge_code" select="2"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cep_tree">
+			<field name="name">l10n_br.cep</field>
+			<field name="model">l10n_br.cep</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="CEPs">
+					<field name="code" select="1"/>
+					<field name="street_type" select="1"/>
+					<field name="street" select="1"/>
+				</tree>
+			</field>
+ 		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_cep_form">
+			<field name="name">l10n_br.cep</field>
+			<field name="model">l10n_br.cep</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="CEPs">
+					<field name="code" select="1"/>
+					<field name="street_type" select="1"/>
+					<field name="street" select="1"/>
+					<field name="district" select="2"/>
+					<field name="state_id" select="2"/>
+					<field name="city_id" select="2"/>
+				</form>
+			</field>
+		</record>
+		
+			<record model="ir.ui.view" id="view_l10n_br_partner_fiscal_type_form">
+				<field name="name">l10n_br.partner.fiscal.type</field>
+				<field name="model">l10n_br.partner.fiscal.type</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tipo_pessoa" select="1"/>
+						<separator string="Recupera Impostos" colspan="4"/>
+						<field name="icms"/>
+						<field name="ipi"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_partner_fiscal_type_tree">
+				<field name="name">l10n_br.partner.fiscal.type</field>
+				<field name="model">l10n_br.partner.fiscal.type</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tipo_pessoa" select="1"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.actions.act_window" id="action_l10n_br_city_form">
+				<field name="name">Município</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br.city</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_city_tree"/>
+			</record>
+	
+			<record model="ir.actions.act_window" id="action_l10n_br_cep_form">
+				<field name="name">CEPs</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br.cep</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_cep_tree"/>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_partner_fiscal_type_form">
+				<field name="name">Tipo Fiscal de Parceiro</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br.partner.fiscal.type</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_partner_fiscal_type_tree"/>
+			</record>
+		
+	       	<menuitem id="menu_l10n_br_fiscal" name="Fiscal" parent="menu_l10n_br_configuration" sequence="0"/>
+			
+			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_partner_fiscal_type_form" parent="menu_l10n_br_fiscal" action="action_l10n_br_partner_fiscal_type_form"/>
+	
+			<menuitem name="CEPs" id="menu_action_l10n_br_cep_form" parent="base.menu_localisation" action="action_l10n_br_cep_form"/>
+	
+			<menuitem name="Municípios" id="menu_action_l10n_br_city_form" parent="base.menu_localisation" action="action_l10n_br_city_form"/>
+
+	</data>
+
+</openerp>
+
