@@ -5,7 +5,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form">
 			<field name="name">l10n_br_delivery.invoice.form</field>
 			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="l10n_br.view_l10n_br_invoice_form"/>
+			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_invoice_form"/>
 			<field name="arch" type="xml">
 				 <field name="document_serie_id" position="after">
 				 	<group colspan="4">
@@ -24,7 +24,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form1">
 			<field name="name">l10n_br_delivery.invoice.form1</field>
 			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="l10n_br.view_l10n_br_invoice_supplier_form"/>
+			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_invoice_supplier_form"/>
 			<field name="arch" type="xml">
 				 <field name="fiscal_document_id" position="after">
 				 	<group colspan="4">
