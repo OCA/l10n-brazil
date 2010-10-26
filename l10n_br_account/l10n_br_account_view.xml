@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil"/>
+		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="0"/>
+
+		<record model="ir.ui.view" id="view_l10n_br_account_cfop_form">
+			<field name="name">l10n_br_account.cfop.name</field>
+			<field name="model">l10n_br_account.cfop</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="CFOP">
+					<field name="code" select="1"/>
+					<field name="name" select="1" />
+					<field name="small_name" select="2" />
+					<field name="parent_id" select="2"/>
+					<field name="type" select="2"/>
+					<newline/>
+					<field name="description" select="2" />
+				</form>
+			</field>
+		</record>
+
+		<record id="view_l10n_br_account_cfop_search" model="ir.ui.view">
+	            <field name="name">l10n_br_account.cfop.search</field>
+	            <field name="model">l10n_br_account.cfop</field>
+	            <field name="type">search</field>
+	            <field name="arch" type="xml">
+	                <search string="CFOP">
+	                   <filter string="Entrada" icon="terp-accessories-archiver+" domain="[('type', '=', 'output')]" />
+	                   <filter string="Saída" icon="terp-accessories-archiver-minus" domain="[('type','=','input')]"/>
+	                   <separator orientation="vertical"/>
+	                   <field name="code"/>
+	                   <field name="name"/>
+	                   <field name="small_name"/>
+	                   <newline/>
+	                   <group  expand='0' string='Agrupar Por...' groups="base.group_extended">
+	                       <filter string='Tipo' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type'}" />
+	                   </group>
+	                </search>
+	            </field>
+	        </record>
+
+			<record model="ir.ui.view" id="view_l10n_br_account_cfop_tree">
+				<field name="name">l10n_br_account.cfop</field>
+				<field name="model">l10n_br_account.cfop</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="CFOP">
+						<field name="code" select="1"/>
+						<field name="name" select="1" />
+						<field name="type" select="2"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_document_form">
+				<field name="name">l10n_br_account.fiscal.document</field>
+				<field name="model">l10n_br_account.fiscal.document</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Documento Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="nfe" select="2"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_document_tree">
+				<field name="name">l10n_br_account.fiscal.document</field>
+				<field name="model">l10n_br_account.fiscal.document</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Documento Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="nfe" select="2"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_cst_form">
+				<field name="name">l10n_br_account.cst</field>
+				<field name="model">l10n_br_account.cst</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Código de Situação Tributária">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tax_code_id" select="2"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_cst_tree">
+				<field name="name">l10n_br_account.cst</field>
+				<field name="model">l10n_br_account.cst</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Código de Situação Tributária">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tax_code_id" select="2"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_category_form">
+				<field name="name">l10n_br_account.fiscal.operation.category</field>
+				<field name="model">l10n_br_account.fiscal.operation.category</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Operação Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_category_tree">
+				<field name="name">l10n_br_account.fiscal.operation.category</field>
+				<field name="model">l10n_br_account.fiscal.operation.category</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Operação Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_form">
+				<field name="name">l10n_br_account.fiscal.operation</field>
+				<field name="model">l10n_br_account.fiscal.operation</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Operação Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="fiscal_operation_category_id" select="1"/>
+						<field name="cfop_id" select="1"/>
+						<field name="fiscal_document_id"/>
+						<field name="fiscal_operation_line" colspan="4" nolabel="1"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_tree">
+				<field name="name">l10n_br_account.fiscal.operation</field>
+				<field name="model">l10n_br_account.fiscal.operation</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Operação Fiscal">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="fiscal_operation_category_id" select="1"/>
+						<field name="cfop_id" select="1"/>
+						<field name="fiscal_document_id" select="2"/>
+					</tree>
+				</field>
+			</record>
+			
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_form">
+				<field name="name">l10n_br_account.fiscal.operation.line</field>
+				<field name="model">l10n_br_account.fiscal.operation.line</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Linha da Operação Fiscal">
+						<field name="tax_code_id"/>
+						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_tree">
+				<field name="name">l10n_br_account.fiscal.operation.line</field>
+				<field name="model">l10n_br_account.fiscal.operation.line</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Linha da Operação Fiscal">
+						<field name="tax_code_id"/>
+						<field name="cst_id"/>
+					</tree>
+				</field>
+			</record>
+			
+			<record model="ir.ui.view" id="view_l10n_br_account_partner_fiscal_type_form">
+				<field name="name">l10n_br_account.partner.fiscal.type</field>
+				<field name="model">l10n_br_account.partner.fiscal.type</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tipo_pessoa" select="1"/>
+						<separator string="Recupera Impostos" colspan="4"/>
+						<field name="icms"/>
+						<field name="ipi"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_partner_fiscal_type_tree">
+				<field name="name">l10n_br_account.partner.fiscal.type</field>
+				<field name="model">l10n_br_account.partner.fiscal.type</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="tipo_pessoa" select="1"/>
+					</tree>
+				</field>
+			</record>
+			
+			<record model="ir.ui.view" id="view_l10n_br_account_document_serie_form">
+				<field name="name">l10n_br_account.document.serie</field>
+				<field name="model">l10n_br_account.document.serie</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Serie de Documentos Fiscais">
+						<field name="code" select="1"/>
+						<field name="active"/>
+						<field name="name" colspan="4" select="1"/>
+						<field name="fiscal_document_id" select="1"/>
+						<field name="company_id"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_document_serie_tree">
+				<field name="name">l10n_br_account.document.serie</field>
+				<field name="model">l10n_br_account.document.serie</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Tipo Fiscal de Parceiro">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="fiscal_document_id" select="1"/>
+						<field name="company_id" select="1"/>
+						<field name="active" select="1"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record model="ir.actions.act_window" id="action_l10n_br_account_cfop_form">
+				<field name="name">CFOP</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.cfop</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_cfop_tree"/>
+			</record>
+	
+			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_document_form">
+				<field name="name">Documento Fiscal</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.fiscal.document</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
+			</record>
+	
+			<record model="ir.actions.act_window" id="action_l10n_br_account_cst_form">
+				<field name="name">Código de Situação Tributária</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.cst</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_cst_tree"/>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_form">
+				<field name="name">Operação Fiscal</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.fiscal.operation</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_fiscal_operation_tree"/>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_category_form">
+				<field name="name">Operação Fiscal</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.fiscal.operation.category</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_fiscal_operation_category_tree"/>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_account_document_serie_form">
+				<field name="name">Document Serie</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.document.serie</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_l10n_br_account_partner_fiscal_type_form">
+				<field name="name">Tipo Fiscal de Parceiro</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.partner.fiscal.type</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_partner_fiscal_type_tree"/>
+			</record>
+			
+			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_partner_fiscal_type_form"/>
+	
+			<menuitem name="CFOP" id="menu_action_l10n_br_account_cfop_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_cfop_form"/>
+			
+			<menuitem name="Categoria de Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_category_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_operation_category_form"/>
+			
+			<menuitem name="Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_operation_form"/>
+	
+			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_document_form"/>
+	
+			<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_account_cst_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_cst_form"/>
+			
+			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_document_serie_form"/>
+
+	</data>
+
+</openerp>
+
