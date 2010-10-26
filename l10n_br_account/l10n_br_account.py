@@ -22,9 +22,9 @@ from osv import osv, fields
 #################################################################################
 # CFOP - Código Fiscal de Operações e Prestações
 #################################################################################
-class l10n_br_cfop(osv.osv):
+class l10n_br_account_cfop(osv.osv):
     _description = 'CFOP - Código Fiscal de Operações e Prestações'
-    _name = 'l10n_br.cfop'
+    _name = 'l10n_br_account.cfop'
     
     def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
         if not args:
@@ -49,101 +49,101 @@ class l10n_br_cfop(osv.osv):
         'small_name': fields.char('Nome Reduzido', size=32),
         'description': fields.text('Descrição'),
         'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
-        'parent_id': fields.many2one('l10n_br.cfop', 'CFOP Pai'),
-        'child_ids': fields.one2many('l10n_br.cfop', 'parent_id', 'CFOP filhos'),
+        'parent_id': fields.many2one('l10n_br_account.cfop', 'CFOP Pai'),
+        'child_ids': fields.one2many('l10n_br_account.cfop', 'parent_id', 'CFOP filhos'),
     }
-l10n_br_cfop()
+l10n_br_account_cfop()
 
 #################################################################################
 # Tipo de Documento Fiscal
 #################################################################################
-class l10n_br_fiscal_document(osv.osv):
-    _name = 'l10n_br.fiscal.document'
+class l10n_br_account_fiscal_document(osv.osv):
+    _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
     _columns = {
         'code': fields.char('Codigo', size=8),
         'name': fields.char('Descrição', size=64),
         'nfe': fields.boolean('NFe'),
     }
-l10n_br_fiscal_document()
+l10n_br_account_fiscal_document()
 
 #################################################################################
 # Código de Situação Tributária
 #################################################################################
-class l10n_br_cst(osv.osv):
-    _name = 'l10n_br.cst'
+class l10n_br_account_cst(osv.osv):
+    _name = 'l10n_br_account.cst'
     _description = 'Código de Situação Tributária'
     _columns = {
         'code': fields.char('Codigo', size=8,required=True),
         'name': fields.char('Descrição', size=64),
         'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
     }
-l10n_br_cst()
+l10n_br_account_cst()
 
 #################################################################################
 # Categorias Operações Fiscais
 #################################################################################
-class l10n_br_fiscal_operation_category(osv.osv):
-    _name = 'l10n_br.fiscal.operation.category'
+class l10n_br_account_fiscal_operation_category(osv.osv):
+    _name = 'l10n_br_account.fiscal.operation.category'
     _description = 'Categoria de Operações Fiscais'
     _columns = {
                 'code': fields.char('Código', size=24, required=True),
                 'name': fields.char('Descrição', size=64),
                 }
-l10n_br_fiscal_operation_category()
+l10n_br_account_fiscal_operation_category()
 
 #################################################################################
 # Operações Fiscais
 #################################################################################
-class l10n_br_fiscal_operation(osv.osv):
-    _name = 'l10n_br.fiscal.operation'
+class l10n_br_account_fiscal_operation(osv.osv):
+    _name = 'l10n_br_account.fiscal.operation'
     _description = 'Operações fiscais'
     _columns = {
                 'code': fields.char('Código', size=16, required=True),
                 'name': fields.char('Descrição', size=64),
-                'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', requeried=True),
-                'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP', requeried=True),
-                'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento Fiscal', requeried=True),
-                'fiscal_operation_line': fields.one2many('l10n_br.fiscal.operation.line', 'fiscal_operation_id', 'Fiscal Operation Lines'),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+                'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', requeried=True),
+                'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
+                'fiscal_operation_line': fields.one2many('l10n_br_account.fiscal.operation.line', 'fiscal_operation_id', 'Fiscal Operation Lines'),
                 }
 
-l10n_br_fiscal_operation()
+l10n_br_account_fiscal_operation()
 
 #################################################################################
 # Linhas das Operações fiscais
 #################################################################################
-class l10n_br_fiscal_operation_line(osv.osv):
-    _name = 'l10n_br.fiscal.operation.line'
+class l10n_br_account_fiscal_operation_line(osv.osv):
+    _name = 'l10n_br_account.fiscal.operation.line'
     _description = 'Linhas das operações ficais'
     _columns = {
                 'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto'),
-                'cst_id': fields.many2one('l10n_br.cst', 'Código de Situação Tributária'),
-                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
+                'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
                }
 
-l10n_br_fiscal_operation_line()
+l10n_br_account_fiscal_operation_line()
 
 #################################################################################
 # Serie de Documentos Fiscais
 #################################################################################
-class l10n_br_document_serie(osv.osv):
-    _name = 'l10n_br.document.serie'
+class l10n_br_account_document_serie(osv.osv):
+    _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
     _columns = {
                 'code': fields.char('Código', size=3, required=True),
                 'name': fields.char('Descrição', size=64),
-                'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento Fiscal', requeried=True),
+                'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
                 'active':fields.boolean('Ativo'),
                 }
 
-l10n_br_document_serie()
+l10n_br_account_document_serie()
 
 ################################################################################
 # Tipo Fiscal de Parceiros
 #################################################################################
-class l10n_br_partner_fiscal_type(osv.osv):
-    _name = 'l10n_br.partner.fiscal.type'
+class l10n_br_account_partner_fiscal_type(osv.osv):
+    _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
     _columns = {
                 'code': fields.char('Código', size=16, required=True),
@@ -153,6 +153,6 @@ class l10n_br_partner_fiscal_type(osv.osv):
                 'ipi':fields.boolean('Recupera IPI'), 
                 }
 
-l10n_br_partner_fiscal_type()
+l10n_br_account_partner_fiscal_type()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
