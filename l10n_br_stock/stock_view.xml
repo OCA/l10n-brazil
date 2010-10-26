@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-		<record id="l10n_br_view_picking_form" model="ir.ui.view">
+		<record id="l10n_br_stock_view_picking_form" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.form</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="stock.view_picking_form"/>
@@ -20,7 +20,7 @@
 	        </field>
 		</record>
 
-		<record id="l10n_br_view_picking_out_form1" model="ir.ui.view">
+		<record id="l10n_br_stock_view_picking_out_form1" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.out.form1</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="stock.view_picking_out_form"/>
@@ -38,7 +38,7 @@
 			</field>
 		</record>
 
-		<record id="l10n_br_view_picking_out_form2" model="ir.ui.view">
+		<record id="l10n_br_stock_view_picking_out_form2" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.out.form2</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="stock.view_picking_out_form"/>
@@ -50,7 +50,7 @@
 			</field>
 		</record>		
 
-		<record id="l10n_br_view_picking_in_form1" model="ir.ui.view">
+		<record id="l10n_br_stock_view_picking_in_form1" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.in.form1</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="stock.view_picking_in_form"/>
@@ -72,7 +72,7 @@
 	        </field>	
 		</record>
 		
-		<record id="l10n_br_view_picking_in_form2" model="ir.ui.view">
+		<record id="l10n_br_stock_view_picking_in_form2" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.in.form2</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="stock.view_picking_in_form"/>
