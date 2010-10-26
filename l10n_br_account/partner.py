@@ -20,6 +20,16 @@
 from osv import osv, fields
 
 ##############################################################################
+# Parceiro Personalizado
+##############################################################################
+class res_partner(osv.osv):
+    _inherit = 'res.partner'
+    _columns = {
+        'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+    }
+res_partner()
+
+##############################################################################
 # Posição Fiscal Personalizada
 ##############################################################################
 class account_fiscal_position(osv.osv):
