@@ -31,7 +31,6 @@ class res_partner(osv.osv):
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
         'suframa': fields.char('Suframa', size=18),
         'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
-        'partner_fiscal_type_id': fields.many2one('l10n_br.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
     }
 
     _defaults = {
