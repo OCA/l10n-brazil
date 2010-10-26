@@ -40,7 +40,7 @@
         'data/account_tax_template.xml',
 		],
     'update_xml' : [
-		'l10n_br_view.xml',
+		'l10n_br_account_view.xml',
 		'partner_view.xml',
 		'account_invoice_view.xml',
         'account_view.xml',
