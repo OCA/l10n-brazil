@@ -3,8 +3,8 @@
 	<data>
 
 		<!-- Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_form">
-			<field name="name">l10n_br.partner.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
+			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
@@ -17,8 +17,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="l10n_br_view_partner_form1" >
-	   		<field name="name">l10n_br.partner.form1</field>
+		<record model="ir.ui.view" id="l10n_br_base_view_partner_form1" >
+	   		<field name="name">l10n_br_base.partner.form1</field>
             		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">32</field>
@@ -30,8 +30,8 @@
         		</field>
    		</record>
 		
-		<record model="ir.ui.view" id="l10n_br_view_partner_form2">
-	   		<field name="name">l10n_br.partner.form2</field>
+		<record model="ir.ui.view" id="l10n_br_base_view_partner_form2">
+	   		<field name="name">l10n_br_base.partner.form2</field>
             		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">33</field>
@@ -42,8 +42,8 @@
         		</field>
    		</record>
 		
-		<record model="ir.ui.view" id="l10n_br_view_partner_form3">
-	   		<field name="name">l10n_br.partner.form3</field>
+		<record model="ir.ui.view" id="l10n_br_base_view_partner_form3">
+	   		<field name="name">l10n_br_base.partner.form3</field>
 		        <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">34</field>
@@ -54,8 +54,8 @@
         		</field>
    		</record>
 
-		<record model="ir.ui.view" id="l10n_br_view_partner_form4">
-	   		<field name="name">l10n_br.partner.form4</field>
+		<record model="ir.ui.view" id="l10n_br_base_view_partner_form4">
+	   		<field name="name">l10n_br_base.partner.form4</field>
 		        <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">34</field>
@@ -67,8 +67,8 @@
    		</record>
 		
 
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form5">
-			<field name="name">l10n_br_base.partner.form5</field>
+		<record model="ir.ui.view" id="l10n_br_base_base_view_partner_form5">
+			<field name="name">l10n_br_base_base.partner.form5</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
@@ -85,8 +85,8 @@
 		</record>
 		
 		<!-- Contato do Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form1">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form1">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
@@ -99,8 +99,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form2">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form2">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
@@ -110,8 +110,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form4">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form4">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
@@ -121,8 +121,8 @@
 			</field>
 		</record> 
 		 			
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form5">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form5">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
@@ -136,8 +136,8 @@
 		<!-- Contato do Parceiro Personalizado usado no form partner -->
 		
 		<!-- Contato do Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form6">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form6">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
@@ -147,8 +147,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form7">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form7">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
@@ -158,8 +158,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_partner_address_form8">
-			<field name="name">l10n_br.partner.address</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form8">
+			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
