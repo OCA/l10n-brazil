@@ -134,7 +134,7 @@ res_partner()
 class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
     _columns = {
-	'city_id': fields.many2one('l10n_br.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+	'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
     'number': fields.char('Número', size=10),
     }
 
@@ -145,7 +145,7 @@ class res_partner_address(osv.osv):
         if not city_id:
             return result
 
-        obj_city = self.pool.get('l10n_br.city').read(cr, uid, city_id, ['name'])
+        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, city_id, ['name'])
         
         if obj_city:
             result['value'] = {'city': obj_city['name']}
@@ -159,7 +159,7 @@ class res_partner_address(osv.osv):
         if not zip:
             return result
         
-        obj_cep = self.pool.get('l10n_br.cep').browse(cr, uid, zip)
+        obj_cep = self.pool.get('l10n_br_base.cep').browse(cr, uid, zip)
         
         result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
         result['value']['city_id'] = obj_cep.city_id.id
