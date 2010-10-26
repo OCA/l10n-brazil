@@ -90,11 +90,11 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'access_key_nfe': fields.char('Chave de Acesso', size=44, readonly=True, states={'draft':[('readonly',False)]}),
-        'fiscal_document_id': fields.many2one('l10n_br.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
-        'document_serie_id': fields.many2one('l10n_br.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
-        'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
-        'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
-        'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
+        'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
+        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
         'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -192,7 +192,7 @@ class account_invoice(osv.osv):
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
             result['value']['fiscal_position'] = obj_fpo.id
             result['value']['fiscal_operation_id'] = obj_foperation.id
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
@@ -227,7 +227,7 @@ class account_invoice(osv.osv):
         
         if obj_partner.property_account_position.id:
             obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
             result['value']['fiscal_position'] = obj_fpo.id
             result['value']['fiscal_operation_id'] = obj_foperation.id
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
@@ -244,7 +244,7 @@ class account_invoice(osv.osv):
         if fsc_pos_id: 
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
             result['value']['fiscal_position'] = obj_fpo.id
             result['value']['fiscal_operation_id'] = obj_foperation.id
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
@@ -279,7 +279,7 @@ class account_invoice(osv.osv):
         
         if obj_partner.property_account_position.id:
             obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
             result['value']['fiscal_position'] = obj_fpo.id
             result['value']['fiscal_operation_id'] = obj_foperation.id
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
@@ -296,7 +296,7 @@ class account_invoice(osv.osv):
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
             result['value']['fiscal_position'] = obj_fpo.id
             result['value']['fiscal_operation_id'] = obj_foperation.id
             result['value']['cfop_id'] = obj_foperation.cfop_id.id
@@ -329,7 +329,7 @@ class account_invoice_line(osv.osv):
         res = {} #super(account_invoice_line, self)._amount_line(cr, uid, ids, prop, unknow_none, unknow_dict)
         
         tax_obj = self.pool.get('account.tax')
-        fsc_op_line_obj = self.pool.get('l10n_br.fiscal.operation.line')
+        fsc_op_line_obj = self.pool.get('l10n_br_account.fiscal.operation.line')
         cur_obj = self.pool.get('res.currency')
         
         for line in self.browse(cr, uid, ids):
@@ -453,7 +453,7 @@ class account_invoice_line(osv.osv):
         return res
 
     _columns = {
-                'cfop_id': fields.many2one('l10n_br.cfop', 'CFOP'),
+                'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
                 'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal', type="float",
                                                   digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'price_total': fields.function(_amount_line, method=True, string='Total', type="float",
