@@ -14,16 +14,14 @@
             </field>
         </record>
 		
-		<record model="ir.ui.view" id="l10n_br_view_partner_form5">
+		<record model="ir.ui.view" id="l10n_br_account_view_partner_form5">
 			<field name="name">l10n_br_account.partner.form5</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="l10n_br_base.l10n_br_base_view_partner_form5"/>
 			<field name="arch" type="xml">
-				 <notebook>
-					<field name="suframa" position="after">		
-						<field name="partner_fiscal_type_id"/>
-		        	</field>
-				</notebook>
+				<field name="suframa" position="after">		
+					<field name="partner_fiscal_type_id"/>
+				</field>
 			</field>
 		</record>
 		
