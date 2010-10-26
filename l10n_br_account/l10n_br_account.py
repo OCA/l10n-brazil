@@ -139,4 +139,20 @@ class l10n_br_document_serie(osv.osv):
 
 l10n_br_document_serie()
 
+################################################################################
+# Tipo Fiscal de Parceiros
+#################################################################################
+class l10n_br_partner_fiscal_type(osv.osv):
+    _name = 'l10n_br.partner.fiscal.type'
+    _description = 'Tipo Fiscal de Parceiros'
+    _columns = {
+                'code': fields.char('Código', size=16, required=True),
+                'name': fields.char('Descrição', size=64),
+                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
+                'icms': fields.boolean('Recupera ICMS'),
+                'ipi':fields.boolean('Recupera IPI'), 
+                }
+
+l10n_br_partner_fiscal_type()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

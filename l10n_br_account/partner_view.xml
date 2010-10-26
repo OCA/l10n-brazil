@@ -2,8 +2,8 @@
 <openerp>
 	<data>
 		
-		<record id="view_l10n_br_position_form" model="ir.ui.view">
-            <field name="name">l10n_br.fiscal.position.form</field>
+		<record id="view_l10n_br_account_position_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.fiscal.position.form</field>
             <field name="model">account.fiscal.position</field>
             <field name="inherit_id" ref="account.view_account_position_form"/>
             <field name="type">form</field>
@@ -13,6 +13,19 @@
 				</field>
             </field>
         </record>
+		
+		<record model="ir.ui.view" id="l10n_br_view_partner_form5">
+			<field name="name">l10n_br_account.partner.form5</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="l10n_br_base.l10n_br_base_view_partner_form5"/>
+			<field name="arch" type="xml">
+				 <notebook>
+					<field name="suframa" position="after">		
+						<field name="partner_fiscal_type_id"/>
+		        	</field>
+				</notebook>
+			</field>
+		</record>
 		
 	</data>
 </openerp>
