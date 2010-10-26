@@ -166,7 +166,7 @@ class sale_order(osv.osv):
         for order in self.browse(cr, uid, ids):
             for invoice in order.invoice_ids:
                 if invoice.state in ('draft') and order.fiscal_operation_id:
-                    doc_serie_id = self.pool.get('l10n_br.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
+                    doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
                     if not doc_serie_id:
                         raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (order.company_id.name,))
                     self.pool.get('account.invoice').write(cr, uid, invoice.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'cfop_id': order.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 'document_serie_id': doc_serie_id[0]})
@@ -200,8 +200,8 @@ class sale_order(osv.osv):
         return result.keys()
 
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria'),
-                'fiscal_operation_id': fields.many2one('l10n_br.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
                 'amount_untaxed': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Sale Price'), string='Untaxed Amount',
                 store = {
                          'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
@@ -256,7 +256,7 @@ class sale_shop(osv.osv):
     
     _inherit = 'sale.shop'
     _columns = {
-                'default_fo_category_id': fields.many2one('l10n_br.fiscal.operation.category', 'Categoria Fiscal Padrão'),
+                'default_fo_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria Fiscal Padrão'),
     }
 
 sale_shop()
