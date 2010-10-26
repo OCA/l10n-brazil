@@ -3,7 +3,7 @@
 
 	<data>
 
-		<record id="view_l10n_br_order_form1" model="ir.ui.view">
+		<record id="view_l10n_br_sale_order_form1" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form1</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
@@ -17,7 +17,7 @@
 	        </field>
 		</record>
 		
-		<record id="view_l10n_br_order_form2" model="ir.ui.view">
+		<record id="view_l10n_br_sale_order_form2" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form2</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
@@ -31,7 +31,7 @@
 	        </field>
 		</record>
 		
-		<record id="view_l10n_br_order_form3" model="ir.ui.view">
+		<record id="view_l10n_br_sale_order_form3" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form3</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
@@ -43,7 +43,7 @@
 	        </field>
 		</record>
 
-		<record id="view_l10n_br_order_form4" model="ir.ui.view">
+		<record id="view_l10n_br_sale_order_form4" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form4</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale_fiscal_position_rule.view_order_form2"/>
@@ -56,7 +56,7 @@
 		</record>
 		
 		
-		<record id="l10n_br_view_shop_form" model="ir.ui.view">
+		<record id="l10n_br_sale_view_shop_form" model="ir.ui.view">
 			<field name="name">l10n_br_sale.sale.shop</field>
 	   		<field name="model">sale.shop</field>
 	   		<field name="inherit_id" ref="sale.view_shop_form"/>
