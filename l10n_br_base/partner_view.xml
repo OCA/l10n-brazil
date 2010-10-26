@@ -67,8 +67,8 @@
    		</record>
 		
 
-		<record model="ir.ui.view" id="l10n_br_base_base_view_partner_form5">
-			<field name="name">l10n_br_base_base.partner.form5</field>
+		<record model="ir.ui.view" id="l10n_br_base_view_partner_form5">
+			<field name="name">l10n_br_base.partner.form5</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">

@@ -3,8 +3,8 @@
 	<data>
 	
 		<!-- Customer Invoice views -->
-		<record model="ir.ui.view" id="view_l10n_br_invoice_form">
-			<field name="name">l10n_br.invoice.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form">
+			<field name="name">l10n_br_account.invoice.form</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
@@ -20,8 +20,8 @@
 			</field>
 		</record>
  
-		<record model="ir.ui.view" id="view_l10n_br_invoice_form1">
-			<field name="name">l10n_br.invoice.form1</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form1">
+			<field name="name">l10n_br_account.invoice.form1</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
@@ -30,8 +30,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_form2">
-			<field name="name">l10n_br.invoice.form2</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form2">
+			<field name="name">l10n_br_account.invoice.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
@@ -43,8 +43,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_form3">
-			<field name="name">l10n_br.invoice.form3</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form3">
+			<field name="name">l10n_br_account.invoice.form3</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form1" />
 			<field name="arch" type="xml">
@@ -54,8 +54,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_form4">
-			<field name="name">l10n_br.invoice.form4</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form4">
+			<field name="name">l10n_br_account.invoice.form4</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
 			<field name="arch" type="xml">
@@ -66,8 +66,8 @@
 		</record>
 		
 		<!-- Vendor Invoice views -->
-		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form">
-			<field name="name">l10n_br.invoice.supplier.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form">
+			<field name="name">l10n_br_account.invoice.supplier.form</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
@@ -82,8 +82,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form1">
-			<field name="name">l10n_br.invoice.supplier.form1</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form1">
+			<field name="name">l10n_br_account.invoice.supplier.form1</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
@@ -92,8 +92,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form2">
-			<field name="name">l10n_br.invoice.supplier.form2</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form2">
+			<field name="name">l10n_br_account.invoice.supplier.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
@@ -105,8 +105,8 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_invoice_supplier_form2" >
-	   		<field name="name">l10n_br.invoice.supplier.form3</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form2" >
+	   		<field name="name">l10n_br_account.invoice.supplier.form3</field>
       		<field name="model">account.invoice</field>
 	   		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 	   		<field name="arch" type="xml">
@@ -117,19 +117,20 @@
    		</record>
 
 		<!-- Invoice Line views -->
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form">
-			<field name="name">l10n_br.invoice.line.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form">
+			<field name="name">l10n_br_account.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field colspan="4" name="cfop_id" />
+					<field name="price_total"/>
 				</field>
 			</field>
 		</record>
  		
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form1">
-			<field name="name">l10n_br.invoice.line.form1</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form1">
+			<field name="name">l10n_br_account.invoice.line.form1</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
@@ -139,25 +140,14 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_tree">
-			<field name="name">l10n_br.invoice.line.tree1</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_tree">
+			<field name="name">l10n_br_account.invoice.line.tree1</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_tree" />
 			<field name="arch" type="xml">
 				<field position="replace" name="price_subtotal">
                     <field name="price_total"/>
 			    </field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
-			<field name="name">l10n_br.invoice.line.form2</field>
-			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="view_l10n_br_invoice_line_form" />
-			<field name="arch" type="xml">
-				<field position="after" name="cfop_id">
-					<field name="price_total"/>
-				</field>
 			</field>
 		</record>
 	</data>
