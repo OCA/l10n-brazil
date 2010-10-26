@@ -2,8 +2,8 @@
 <openerp>
 	<data>
 	   
-		<record model="ir.ui.view" id="view_l10n_br_fiscal_position_rule_template_form">
-			<field name="name">l10n_br.fiscal.position.rule.template.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_template_form">
+			<field name="name">l10n_br_account.fiscal.position.rule.template.form</field>
 			<field name="model">account.fiscal.position.rule.template</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_form"/>
 			<field name="arch" type="xml">
@@ -16,8 +16,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_fiscal_position_rule_form">
-			<field name="name">l10n_br.fiscal.position.rule.form</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_form">
+			<field name="name">l10n_br_account.fiscal.position.rule.form</field>
 			<field name="model">account.fiscal.position.rule</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_form"/>
 			<field name="arch" type="xml">
