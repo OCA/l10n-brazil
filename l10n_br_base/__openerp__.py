@@ -27,7 +27,7 @@
     'depends' : ['base'],
     'init_xml': [],
     'update_xml' : [
-		'l10n_br_view.xml',
+		'l10n_br_base_view.xml',
 		'country_view.xml',
 		'partner_view.xml',
         'security/ir.model.access.csv',
