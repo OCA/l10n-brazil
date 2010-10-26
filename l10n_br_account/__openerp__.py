@@ -25,7 +25,7 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-		'base', 
+		'l10n_br_base', 
 		'account', 
 		'account_chart', 
 		'account_fiscal_position_rule', 
