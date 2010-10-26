@@ -3,8 +3,8 @@
 	<data>
 
 		<!-- Incluir o campo desconto do imposto -->
-		<record model="ir.ui.view" id="view_l10n_br_tax_form">
-			<field name="name">l10n_br.tax.form</field>
+		<record model="ir.ui.view" id="view_l10n_br__account_tax_form">
+			<field name="name">l10n_br_account.tax.form</field>
 			<field name="model">account.tax</field>
 			<field name="inherit_id" ref="account.view_tax_form"/>
 			<field name="arch" type="xml">
