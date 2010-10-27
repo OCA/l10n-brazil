@@ -10,7 +10,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
-	        		<field name="fiscal_operation_category_id" required="1"/>
+					<field name="fiscal_operation_category_id" domain="[('use_sale','=',True)]" required="1"/>
 					<field name="fiscal_operation_id" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 	        	</field>
@@ -20,13 +20,11 @@
 		<record id="view_l10n_br_sale_order_form2" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form2</field>
 	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
+	   		<field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form3"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_id" position="replace">
-	        		<field name="partner_id" 
-	        		context="{'partner_id':partner_id, 'fiscal_operation_category_id': fiscal_operation_category_id, 'pricelist_id':pricelist_id, 'default_name':name}"  
-	        		on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
+					<field name="partner_id" on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
 	        	</field>
 	        </field>
 		</record>
@@ -46,7 +44,7 @@
 		<record id="view_l10n_br_sale_order_form4" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form4</field>
 	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale_fiscal_position_rule.view_order_form2"/>
+	   		<field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form2"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_invoice_id" position="replace">
