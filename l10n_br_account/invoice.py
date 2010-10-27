@@ -95,6 +95,8 @@ class account_invoice(osv.osv):
         'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
+        'vendor_number': fields.char('NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Número da Nota Fiscal do Fornecedor"),
+        'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
         'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
