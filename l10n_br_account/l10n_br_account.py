@@ -89,6 +89,10 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
     _columns = {
                 'code': fields.char('Código', size=24, required=True),
                 'name': fields.char('Descrição', size=64),
+                'use_sale' : fields.boolean('Usado em Vendas'),
+                'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
+                'use_purchase' : fields.boolean('Usado nas Compras'),
+                'use_picking' : fields.boolean('Usado nas Listas de Separações'),
                 }
 l10n_br_account_fiscal_operation_category()
 
@@ -105,6 +109,10 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', requeried=True),
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'fiscal_operation_line': fields.one2many('l10n_br_account.fiscal.operation.line', 'fiscal_operation_id', 'Fiscal Operation Lines'),
+                'use_sale' : fields.boolean('Usado em Vendas'),
+                'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
+                'use_purchase' : fields.boolean('Usado nas Compras'),
+                'use_picking' : fields.boolean('Usado nas Listas de Separações'),
                 }
 
 l10n_br_account_fiscal_operation()
