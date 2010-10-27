@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+	<data>
+
+		<record model="ir.ui.view" id="view_l10n_br_order_form">
+			<field name="name">l10n_br.purchase.order.form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+				<field name="fiscal_position" position="replace" >
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_address_id, company_id, fiscal_operation_category_id)" domain="[('use_purchase','=',True)]" required="1"/>
+					<field name="fiscal_operation_id" required="1"/>
+					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_order_form1">
+			<field name="name">l10n_br.purchase.order.form1</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form1"/>
+			<field name="arch" type="xml">
+				<field name="partner_id" position="replace" >
+                	<field name="partner_id" on_change="onchange_partner_id(partner_id, company_id, fiscal_operation_category_id)" context="{'search_default_supplier':1}"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_order_form2">
+			<field name="name">l10n_br.purchase.order.form2</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form2"/>
+			<field name="arch" type="xml">
+				<field name="partner_address_id" position="replace" >
+	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, company_id, fiscal_operation_category_id)"/>
+				</field>
+			</field>
+		</record>
+
+	</data>
+
+</openerp>
