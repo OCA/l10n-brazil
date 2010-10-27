@@ -34,7 +34,7 @@ class sale_order(osv.osv):
     
     def onchange_partner_id(self, cr, uid, ids, part, shop_id, fiscal_operation_category_id):
 
-        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part)
+        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, shop_id)
         result['value']['fiscal_position'] = False
 
         if not part or not shop_id:
