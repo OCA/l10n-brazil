@@ -18,17 +18,18 @@
 #################################################################################
 
 {
-    'name' : 'Brazilian Localization',
-    'description' : 'Brazilian Localization',
+    'name' : 'Brazilian Localization Sale',
+    'description' : 'Brazilian Localization for Sale',
     'category' : 'Localisation/Account Charts',
     'author' : 'OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
 		'l10n_br_account', 
+		'l10n_br_stock',
         'sale',
-        'sale_fiscal_position_rule',
-		'l10n_br_stock'
+        'account_fiscal_position_rule_sale',
+
 		],
     'init_xml': [],
     'update_xml' : [
