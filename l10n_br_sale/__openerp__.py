@@ -25,7 +25,7 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-		'l10n_br_account', 
+		'l10n_br_account',
 		'l10n_br_stock',
         'sale',
         'account_fiscal_position_rule_sale',
