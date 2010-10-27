@@ -31,7 +31,7 @@
 		'country_view.xml',
 		'partner_view.xml',
         'security/ir.model.access.csv',
-        'security/l10n_br_security.xml',
+        'security/l10n_br_base_security.xml',
     ],
     'installable': True
 }
