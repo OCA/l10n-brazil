@@ -42,7 +42,7 @@ class sale_order(osv.osv):
         for order in self.browse(cr, uid, ids):
             for invoice in order.invoice_ids:
                 if invoice.state in ('draft') and order.fiscal_operation_id:
-                    doc_serie_id = self.pool.get('l10n_br.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
+                    doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
                     if not doc_serie_id:
                         raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (order.company_id.name,))
                     
