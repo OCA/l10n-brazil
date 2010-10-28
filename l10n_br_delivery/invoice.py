@@ -35,7 +35,7 @@ class account_invoice(osv.osv):
                 'carrier_id':fields.many2one("delivery.carrier","Carrier", readonly=True, states={'draft':[('readonly',False)]}),
                 'weight': fields.float('Gross weight', help="The gross weight in Kg.", readonly=True, states={'draft':[('readonly',False)]}),
                 'weight_net': fields.float('Net weight', help="The net weight in Kg.", readonly=True, states={'draft':[('readonly',False)]}),
-                'volume': fields.float('Volume', readonly=True, states={'draft':[('readonly',False)]}),
+                'number_of_packages': fields.integer('Volume', readonly=True, states={'draft':[('readonly',False)]}),
                 'amount_insurance': fields.float('Valor do Seguro', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
                 'amount_costs': fields.float('Outros Custos', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
                 }
