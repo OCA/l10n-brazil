@@ -15,7 +15,7 @@
 						<field name="amount_costs"/>
 						<field name="weight"/>
 						<field name="weight_net"/>
-						<field name="volume"/>
+						<field name="number_of_packages"/>
 					</group>
 				</field>
 			</field>
@@ -34,7 +34,7 @@
 						<field name="amount_costs"/>
 						<field name="weight"/>
 						<field name="weight_net"/>
-						<field name="volume"/>
+						<field name="number_of_packages"/>
 					</group>
 				</field>
 			</field>
