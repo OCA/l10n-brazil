@@ -33,7 +33,7 @@ class stock_picking(osv.osv):
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         '''Call after the creation of the invoice'''
 
-        self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id, 'fiscal_operation_id': picking.fiscal_operation_id.id, 'cfop_id': picking.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': picking.fiscal_operation_id.fiscal_document_id.id, 'fiscal_position': picking.fiscal_position.id, 'carrier_id': picking.carrier_id, 'weight': picking.weight, 'weight_net': picking.weight_net, 'volume': picking.volume})
+        self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id, 'fiscal_operation_id': picking.fiscal_operation_id.id, 'cfop_id': picking.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': picking.fiscal_operation_id.fiscal_document_id.id, 'fiscal_position': picking.fiscal_position.id, 'carrier_id': picking.carrier_id, 'weight': picking.weight, 'weight_net': picking.weight_net, 'number_of_packages': picking.number_of_packages})
 
         return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
 
