@@ -25,19 +25,13 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
+        'l10n_br',
 		'l10n_br_base', 
-		'account', 
-		'account_chart', 
 		'account_fiscal_position_rule', 
 		'account_product_fiscal_classification'
 		],
     'init_xml': [
-		'data/account.account.type.csv',
-        'data/account.tax.code.template.csv',
-	    'data/account.account.template.csv',
 #		'data/l10n_br_account.cst.csv',
-		'data/l10n_br_account_chart_template.xml',
-        'data/account_tax_template.xml',
 		],
     'update_xml' : [
 		'l10n_br_account_view.xml',
