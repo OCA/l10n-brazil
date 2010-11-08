@@ -89,11 +89,15 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
     _columns = {
                 'code': fields.char('Código', size=24, required=True),
                 'name': fields.char('Descrição', size=64),
+                'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
                 'use_sale' : fields.boolean('Usado em Vendas'),
                 'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
                 'use_purchase' : fields.boolean('Usado nas Compras'),
                 'use_picking' : fields.boolean('Usado nas Listas de Separações'),
                 }
+    _defaults = {
+        'type': 'output',
+    }
 l10n_br_account_fiscal_operation_category()
 
 #################################################################################
@@ -105,7 +109,8 @@ class l10n_br_account_fiscal_operation(osv.osv):
     _columns = {
                 'code': fields.char('Código', size=16, required=True),
                 'name': fields.char('Descrição', size=64),
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+                'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo', requeried=True),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=',type)]", requeried=True),
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', requeried=True),
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'fiscal_operation_line': fields.one2many('l10n_br_account.fiscal.operation.line', 'fiscal_operation_id', 'Fiscal Operation Lines'),
@@ -114,6 +119,9 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'use_purchase' : fields.boolean('Usado nas Compras'),
                 'use_picking' : fields.boolean('Usado nas Listas de Separações'),
                 }
+    _defaults = {
+        'type': 'output',
+    }
 
 l10n_br_account_fiscal_operation()
 
