@@ -77,6 +77,8 @@
        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
 			            <field colspan="4" name="access_key_nfe"/>
 						<field name="fiscal_document_id"/>
+						<field name="vendor_number"/>
+						<field name="vendor_serie"/>
 			        	</page>
 				</notebook>
 			</field>
@@ -105,7 +107,7 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form2" >
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form3" >
 	   		<field name="name">l10n_br_account.invoice.supplier.form3</field>
       		<field name="model">account.invoice</field>
 	   		<field name="inherit_id" ref="account.invoice_supplier_form"/>
@@ -148,6 +150,17 @@
 				<field position="replace" name="price_subtotal">
                     <field name="price_total"/>
 			    </field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
+			<field name="name">l10n_br.invoice.line.form2</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="view_l10n_br_account_invoice_line_form" />
+			<field name="arch" type="xml">
+				<field position="after" name="cfop_id">
+					<field name="price_total"/>
+				</field>
 			</field>
 		</record>
 	</data>
