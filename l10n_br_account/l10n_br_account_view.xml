@@ -115,6 +115,7 @@
 					<form string="Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
+						<field name="type" select="1"/>
 						<field name="use_sale" />
 						<field name="use_invoice" />
 						<field name="use_purchase" />
@@ -131,6 +132,7 @@
 					<tree string="Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
+						<field name="type" select="1"/>
 					</tree>
 				</field>
 			</record>
@@ -143,6 +145,7 @@
 					<form string="Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
+						<field name="type" select="1"/>
 						<field name="fiscal_operation_category_id" select="1"/>
 						<field name="cfop_id" select="1"/>
 						<field name="fiscal_document_id"/>
@@ -163,6 +166,7 @@
 					<tree string="Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
+						<field name="type" select="1"/>
 						<field name="fiscal_operation_category_id" select="1"/>
 						<field name="cfop_id" select="1"/>
 						<field name="fiscal_document_id" select="2"/>
