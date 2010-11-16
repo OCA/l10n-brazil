@@ -2,7 +2,7 @@
 <openerp>
     <data>
         
-        <!-- Customização -->
+        <!-- Customização 
         <record id="act_sefaz_out" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_out</field>
@@ -45,6 +45,6 @@
             <field name="signal">sefaz_out</field>
             <field name="condition">not test_nfe()</field>
         </record>
-        
+        -->
     </data>
 </openerp>
