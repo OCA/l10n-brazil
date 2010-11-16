@@ -23,7 +23,7 @@
     "author" : "OpenERP Brasil",
     "version" : "0.1",
     "depends" : [
-                 "l10n_br_account"
+                 "l10n_br_account",
                  ],
     'init_xml': [
                 #Arquivos com dados Fiscais
