@@ -65,6 +65,19 @@
 			</field>
 		</record>
 		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form5">
+			<field name="name">l10n_br_account.invoice.form5</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<button name="invoice_open" position="replace">
+					<button name="invoice_open" states="sefaz_out,proforma2" string="Validate" icon="gtk-go-forward"/>
+                    <button name="sefaz_out" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    <field invisible="True" name="nfe" />
+			    </button>
+			</field>
+		</record>
+		
 		<!-- Vendor Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form">
 			<field name="name">l10n_br_account.invoice.supplier.form</field>
