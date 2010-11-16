@@ -85,7 +85,7 @@
 			<field name="name">IPI 8%</field>
             		<!-- <field name="tax_group">vat</field> -->
 			<field name="amount">0.08</field>
-			<field name="price_include">False</field>
+			<!-- <field name="price_include">False</field> -->
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
