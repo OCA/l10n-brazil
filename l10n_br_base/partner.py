@@ -135,6 +135,7 @@ class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
     _columns = {
 	'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+    'district': fields.char('Bairro', size=32),
     'number': fields.char('Número', size=10),
     }
 

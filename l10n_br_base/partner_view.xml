@@ -26,6 +26,7 @@
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='street']" position="replace">
 						<field name="street" />
 						<field name="number" />
+						<field name="district" />						
 	        		</xpath>
         		</field>
    		</record>
@@ -129,6 +130,7 @@
 				<field name="street" position="replace">
 					<field name="street"/>
 					<field name="number"/>
+					<field name="district"/>
 				</field>
 			</field>
 		</record>
@@ -166,6 +168,7 @@
 				<field name="street" position="replace">
 					<field name="street"/>
 					<field name="number"/>
+					<field name="district"/>					
 				</field>
 			</field>
 		</record>
