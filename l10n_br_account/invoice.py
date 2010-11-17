@@ -77,7 +77,7 @@ class account_invoice(osv.osv):
             ('proforma','Pro-forma'),
             ('proforma2','Pro-forma'),
             ('open','Open'),
-            ('sefaz_out','Enviar para Receita'),
+            ('sefaz_export','Enviar para Receita'),
             ('sefaz_exception','Erro de autorização da Receita'),
             ('paid','Paid'),
             ('cancel','Cancelled')
@@ -91,7 +91,7 @@ class account_invoice(osv.osv):
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'access_key_nfe': fields.char('Chave de Acesso', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
-        #'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
+        'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
