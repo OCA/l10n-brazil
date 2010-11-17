@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	
+		
+		<!--  
+		<act_window
+            domain="[('account_id', '=', active_id)]" 
+            id="act_account_invoice_nfe_export"
+            name="Exportar NFe"
+            res_model="account.invoice.nfe_export"
+	    	groups="base.group_extended"
+            src_model="account.invoice"
+            />
+            
+        <record id="action_account_invoice_nfe_export_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_in_form"/>
+            <field name="act_window_id" ref="act_account_invoice_nfe_export"/>
+        </record>
+ 		 -->
+ 		
 		<!-- Customer Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form">
 			<field name="name">l10n_br_account.invoice.form</field>
@@ -71,9 +89,20 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
-					<button name="invoice_open" states="sefaz_out,proforma2" string="Validate" icon="gtk-go-forward"/>
-                    <button name="sefaz_out" states="draft" string="Confirmar" icon="gtk-go-forward"/>
-                    <field invisible="True" name="nfe" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
+                    <button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    <field invisible="True" name="fiscal_document_nfe" />
+			    </button>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form6">
+			<field name="name">l10n_br_account.invoice.form6</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<button name="invoice_cancel" position="replace">
+					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancel" icon="gtk-cancel"/>
 			    </button>
 			</field>
 		</record>
@@ -130,6 +159,30 @@
 				</field>
        		</field>
    		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form4">
+			<field name="name">l10n_br_account.invoice.supplier.form4</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<button name="invoice_open" position="replace">
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
+                    <button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    <field invisible="True" name="fiscal_document_nfe" />
+			    </button>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form5">
+			<field name="name">l10n_br_account.invoice.supplier.form5</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<button name="invoice_cancel" position="replace">
+					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancel" icon="gtk-cancel"/>
+			    </button>
+			</field>
+		</record>
 
 		<!-- Invoice Line views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form">
