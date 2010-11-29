@@ -3,6 +3,17 @@
 	<data>
 
 		<!-- Incluir o campo desconto do imposto -->
+		<record model="ir.ui.view" id="view_l10n_br__account_tax_template_form">
+			<field name="name">l10n_br_account.tax.template.form</field>
+			<field name="model">account.tax.template</field>
+			<field name="inherit_id" ref="account.view_account_tax_template_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="price_include">
+					<field groups="base.group_extended" name="tax_discount"/>
+			    </field>
+			</field>
+		</record>
+
 		<record model="ir.ui.view" id="view_l10n_br__account_tax_form">
 			<field name="name">l10n_br_account.tax.form</field>
 			<field name="model">account.tax</field>
@@ -13,6 +24,19 @@
 			    </field>
 			</field>
 		</record>
+
+        <record id="view_l10n_br_journal_form_inherit" model="ir.ui.view">
+           <field name="name">l10n_br.journal.form.inherit</field>
+           <field name="model">account.journal</field>
+           <field name="type">form</field>
+           <field name="inherit_id" ref="account.view_account_journal_form"/>
+           <field name="arch" type="xml">
+                <field name="sequence_id" position="after">
+                    <field name="internal_sequence"/>
+                </field>
+           </field>
+        </record>
+
 	</data>
 	
 </openerp>
