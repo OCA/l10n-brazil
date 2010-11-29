@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_account_nfe_export" model="ir.ui.view">
+            <field name="name">Exportar Nota Fiscal</field>
+            <field name="model">l10n_br_account.nfe_export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Exportar Nota Fiscal">
+                    <group col="8">
+                        <group colspan="3">
+                            <field name="config_logo" widget="image" width="180" height="130" nolabel="1" colspan="1"/>
+                            <newline/>
+                            <label colspan="4" width="180" string="Este assistente vai exportar todas as notas fiscais com status exportada para sefaz."/>
+                            <label colspan="4" width="180"/>
+                            <label colspan="4" width="180" string="Esta operação pode durar alguns segundos..."/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                        <separator orientation="vertical" rowspan="15"/>
+                        <group colspan="4">
+                            <separator string="Exportar Nota Fiscal" colspan="4"/>
+                            <group states="init" colspan="4">
+                                <label string="Click em exportar para iniciar a exportação..." colspan="4"/>
+                                <field name="file_type" />
+                            </group>
+                            <group states="done" colspan="4">
+                                <field name="file" colspan="4"/>
+                            </group>
+                        </group>
+                        <group colspan="8" col="8" states="init">
+                            <separator string="" colspan="8"/>
+                            <label colspan="6" width="220"/>
+                            <button special="cancel" string="Cancelar" icon="gtk-cancel"/>
+                            <button name="nfe_export" string="Exportar" type="object" icon="gtk-ok"/>
+                        </group>
+                        <group colspan="8" col="8" states="done">
+                            <separator string="" colspan="8"/>
+                            <label colspan="6" width="220"/>
+                            <button special="cancel" string="Fechar" icon="gtk-go-forward"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_l10n_br_account_nfe_export" model="ir.actions.act_window">
+            <field name="name">Exportar Nota Fiscal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br_account.nfe_export</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+        name="Exportar Nota Fiscal"
+        action="action_view_l10n_br_account_nfe_export"
+        id="menu_view_l10n_br_account_nfe_export"
+       	parent="account.menu_finance_periodical_processing"
+       	sequence="2"
+       	/>
+
+    </data>
+</openerp>
