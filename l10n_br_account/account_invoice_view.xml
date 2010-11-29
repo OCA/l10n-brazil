@@ -107,6 +107,17 @@
 			</field>
 		</record>
 		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form6">
+			<field name="name">l10n_br_account.invoice.form6</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="replace" name="number">
+					<field name="internal_number" />
+			    </field>
+			</field>
+		</record>
+		
 		<!-- Vendor Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form">
 			<field name="name">l10n_br_account.invoice.supplier.form</field>
