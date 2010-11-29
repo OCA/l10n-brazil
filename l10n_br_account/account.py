@@ -32,6 +32,20 @@ from tools import config
 
 
 ##############################################################################
+# Cadastro de Modelos de Impostos Personalizado
+##############################################################################
+
+class account_tax_template(osv.osv):
+    _inherit = 'account.tax.template'
+    
+    _columns = {
+        'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
+    }
+
+account_tax_template()
+
+
+##############################################################################
 # Cadastro de Impostos Personalizado
 ##############################################################################
 class account_tax(osv.osv):
@@ -67,4 +81,17 @@ class account_tax(osv.osv):
         }
     
 account_tax()
+
+
+##############################################################################
+# Cadastro de Diários Contábeis
+##############################################################################
+class account_journal(osv.osv):
+    _inherit = "account.journal"
+
+    _columns = {
+        'internal_sequence': fields.many2one('ir.sequence', 'Internal Sequence'),
+    }
+
+account_journal()
     
