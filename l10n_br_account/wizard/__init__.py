@@ -17,12 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import l10n_br_account
-import partner
-import account
-import invoice
-import account_fiscal_position_rule
-import wizard
+import l10n_br_account_nfe_export
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
