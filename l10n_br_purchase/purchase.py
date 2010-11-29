@@ -158,7 +158,6 @@ class purchase_order(osv.osv):
         if not res: 
             return res
         
-        
         for order in self.browse(cr, uid, ids):
             #for invoice in order.invoice_id:
                 if order.invoice_id.state in ('draft') and order.fiscal_operation_id:
@@ -170,5 +169,16 @@ class purchase_order(osv.osv):
                         self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': order.fiscal_operation_id.cfop_id.id})
 
         return res
+    
+    def action_picking_create(self,cr, uid, ids, *args):
+
+        picking_id = False
+
+        for order in self.browse(cr, uid, ids):
+
+            picking_id = super(purchase_order, self).action_picking_create(cr, uid, ids, *args)
+            self.pool.get('stock.picking').write(cr, uid, picking_id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
+        
+        return picking_id
     
 purchase_order()
