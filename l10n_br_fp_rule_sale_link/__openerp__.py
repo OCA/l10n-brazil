@@ -17,12 +17,22 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import l10n_br_account
-import partner
-import account
-import invoice
-import account_fiscal_position_rule
-import wizard
+{
+    'name' : 'l10n_br_fp_rule_sale_link',
+    'description' : 'Módulo para compatibilizar a assinatura dos metodos partner_onchange do objeto sale.order usado em account_fiscal_position_rule_sale e delivery',
+    'category' : 'Localisation/Account Charts',
+    'author' : 'OpenERP Brasil',
+    'website' : 'http://openerpbrasil.org',
+    'version' : '0.6',
+    'depends' : [
+                'delivery',
+                'l10n_br_sale',
+		        'account_fiscal_position_rule_sale',
+        		],
+    'init_xml': [],
+    'update_xml' : [
+    ],
+    'installable': True
+}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

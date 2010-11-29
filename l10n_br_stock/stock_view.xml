@@ -9,7 +9,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
   				<field name="fiscal_position" position="replace">
-			            <field name="fiscal_operation_category_id" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
+			            <field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_id, company_id, fiscal_operation_category_id)" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_operation_id" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')]}" />
 				</field>
@@ -35,7 +35,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 				<field name="fiscal_position" position="replace">
-			            <field name="fiscal_operation_category_id" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
+			            <field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_id, company_id, fiscal_operation_category_id)" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_operation_id" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')]}" />
 				</field>
@@ -61,7 +61,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	   			<field name="fiscal_position" position="replace">
-			            <field name="fiscal_operation_category_id" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
+			            <field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_id, company_id, fiscal_operation_category_id)" domain="[('use_picking','=',True)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_operation_id" attrs="{'readonly':[('invoice_state','!=','2binvoiced')], 'required':[('invoice_state','=','2binvoiced')]}" />
 			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" attrs="{'readonly':[('invoice_state','!=','2binvoiced')]}" />
 				</field>

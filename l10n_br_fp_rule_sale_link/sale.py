@@ -17,12 +17,27 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import l10n_br_account
-import partner
-import account
-import invoice
-import account_fiscal_position_rule
-import wizard
+import time 
+import netsvc
+import decimal_precision as dp
+from osv import fields, osv
+import pooler
+from tools import config
+from tools.translate import _
+
+##############################################################################
+# Pedido de venda customizado
+##############################################################################
+#class sale_order(osv.osv):
+    
+#    _inherit = 'sale.order'
+    
+#    def onchange_partner_id(self, cr, uid, ids, part, shop_id, fiscal_operation_category_id):
+
+#        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part)
+#        return result
+
+
+#sale_order()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
-        <!-- Customização -->
+
+        <!-- Customização do Workflow para seguir a importação para Sefaz -->
         <record id="act_sefaz_export" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_export</field>
             <field name="action">write({'state':'sefaz_export'})</field>
             <field name="kind">function</field>
         </record>
-        
+
         <record id="act_sefaz_exception" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_exception</field>
-            <field name="action">write({'state':'sefaz_exception'})</field>
+            <field name="action">action_date_assign()
+action_move_create()
+action_number()
+action_internal_number()
+write({'state':'sefaz_export'})</field>
             <field name="kind">function</field>
         </record>
         
+        <record id="account.act_open" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">open</field>
+            <field name="action">write({'state':'open'})</field>
+            <field name="kind">function</field>
+        </record>
+
         <record id="tras_draft_sefaz_export" model="workflow.transition">
             <field name="act_from" ref="account.act_draft"/>
             <field name="act_to" ref="act_sefaz_export"/>          
             <field name="condition">fiscal_document_nfe == True</field>
             <field name="signal">invoice_sefaz_export</field>
         </record>
-        
+
         <record id="tras_sefaz_export_open" model="workflow.transition">
             <field name="act_from" ref="act_sefaz_export"/>
             <field name="act_to" ref="account.act_open"/>          
@@ -31,27 +42,34 @@
             <field name="signal">invoice_open</field>
         </record>
         
-        <record id="tras_sefaz_export_open" model="workflow.transition">
+        <record id="tras_sefaz_export_cancel" model="workflow.transition">
             <field name="act_from" ref="act_sefaz_export"/>
             <field name="act_to" ref="account.act_cancel"/>          
             <field name="condition">True</field>
             <field name="signal">invoice_cancel</field>
         </record>
-        
+
+        <record id="tras_sefaz_export_open" model="workflow.transition">
+            <field name="act_from" ref="act_sefaz_export"/>
+            <field name="act_to" ref="account.act_open"/>          
+            <field name="condition">True</field>
+            <field name="signal">invoice_open</field>
+        </record>
+
 		<record id="tras_sefaz_export_exception" model="workflow.transition">
             <field name="act_from" ref="act_sefaz_export"/>
             <field name="act_to" ref="act_sefaz_exception"/>
             <field name="condition">True</field>
             <field name="signal">invoice_sefaz_exception</field>
         </record>
-        
+
         <record id="tras_sefaz_exception_cancel" model="workflow.transition">
             <field name="act_from" ref="act_sefaz_exception"/>
             <field name="act_to" ref="account.act_cancel"/>
             <field name="condition">True</field>
             <field name="signal">invoice_cancel</field>
         </record>
-        
+
         <record id="account.t4" model="workflow.transition">
             <field name="act_from" ref="account.act_draft"/>
             <field name="act_to" ref="account.act_open"/>
