@@ -284,7 +284,7 @@ class account_invoice(osv.osv):
             StrRegB = {
                        'cUF': company_addr_default.state_id.ibge_code, 
                        'cNF': '',
-                       'NatOp': inv.cfop_id.name,
+                       'NatOp': normalize('NFKD',unicode(inv.cfop_id.name or '')).encode('ASCII','ignore'),
                        'intPag': '2', 
                        'mod': inv.fiscal_document_id.code,
                        'serie': inv.document_serie_id.code,
@@ -329,38 +329,38 @@ class account_invoice(osv.osv):
             
             StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'], StrRegC['XFant'], StrRegC['IE'], StrRegC['IEST'], 
                                                 StrRegC['IM'],StrRegC['CNAE'],StrRegC['CRT'])
-             
+
             StrFile += StrC
-             
+
             if inv.company_id.partner_id.tipo_pessoa == 'J':
                 StrC02 = 'C02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
             else:
                 StrC02 = 'C02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
 
             StrFile += StrC02
-            
+
             StrRegC05 = {
                        'XLgr': company_addr_default.street or '', 
                        'Nro': company_addr_default.number or '',
-                       'Cpl': company_addr_default.street2 or '',
-                       'Bairro': normalize('NFKD',unicode(company_addr_default.district or '')).encode('ASCII','ignore'),
+                       'Cpl': normalize('NFKD',unicode(company_addr_default.street2 or '')).encode('ASCII','ignore'),
+                       'Bairro': normalize('NFKD',unicode(company_addr_default.district or 'Sem Bairro')).encode('ASCII','ignore'),
                        'CMun': '%s%s' % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code),
                        'XMun':  normalize('NFKD',unicode(company_addr_default.city_id.name or '')).encode('ASCII','ignore'),
                        'UF': company_addr_default.state_id.code or '',
-                       'CEP': re.sub('[%s]' %  re.escape(string.punctuation), '', company_addr_default.zip or ''),
+                       'CEP': re.sub('[%s]' %  re.escape(string.punctuation), '', str(company_addr_default.zip or '').replace(' ','')),
                        'cPais': company_addr_default.country_id.bc_code or '',
-                       'xPais': company_addr_default.country_id.name or '',
-                       'fone': company_addr_default.phone or '',
+                       'xPais': normalize('NFKD',unicode(company_addr_default.country_id.name or '')).encode('ASCII','ignore'),
+                       'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(company_addr_default.phone or '').replace(' ','')),
                        }
-            
+
             StrC05 = 'C05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC05['XLgr'], StrRegC05['Nro'], StrRegC05['Cpl'], StrRegC05['Bairro'],
                                                                   StrRegC05['CMun'], StrRegC05['XMun'], StrRegC05['UF'], StrRegC05['CEP'],
                                                                   StrRegC05['cPais'], StrRegC05['xPais'], StrRegC05['fone'])
 
             StrFile += StrC05
-            
+
             StrRegE = {
-                       'xNome': inv.company_id.partner_id.legal_name, 
+                       'xNome': normalize('NFKD',unicode(inv.company_id.partner_id.legal_name or '')).encode('ASCII','ignore'), 
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or ''),
                        'ISUF': '',
                        'email': inv.company_id.partner_id.email,
@@ -374,21 +374,21 @@ class account_invoice(osv.osv):
                 StrE0 = 'E02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
             else:
                 StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
-    
+
             StrFile += StrE0
 
             StrRegE05 = {
                        'xLgr': inv.address_invoice_id.street or '',
                        'nro': inv.address_invoice_id.number,
                        'xCpl': normalize('NFKD',unicode(inv.address_invoice_id.street2 or '')).encode('ASCII','ignore'),
-                       'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or '')).encode('ASCII','ignore'),
+                       'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
                        'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.city_id.ibge_code),
                        'xMun': normalize('NFKD',unicode(inv.address_invoice_id.city_id.name or '')).encode('ASCII','ignore'),
                        'UF': inv.address_invoice_id.state_id.code,
-                       'CEP': re.sub('[%s]' % re.escape(string.punctuation), '', inv.address_invoice_id.zip or ''),
+                       'CEP': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ','')),
                        'cPais': inv.address_invoice_id.country_id.bc_code,
-                       'xPais': inv.address_invoice_id.country_id.name,
-                       'fone': inv.address_invoice_id.phone,
+                       'xPais': normalize('NFKD',unicode(inv.address_invoice_id.country_id.name or '')).encode('ASCII','ignore'),
+                       'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.phone or '').replace(' ','')),
                        }
             
             StrE05 = 'E05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegE05['xLgr'], StrRegE05['nro'], StrRegE05['xCpl'], StrRegE05['xBairro'],
@@ -408,7 +408,7 @@ class account_invoice(osv.osv):
                 StrRegI = {
                        'CProd': inv_line.product_id.code,
                        'CEAN': inv_line.product_id.ean13,
-                       'XProd': inv_line.product_id.name,
+                       'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
                        'NCM': re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.product_id.property_fiscal_classification.name or ''),
                        'EXTIPI': '',
                        'CFOP': inv_line.cfop_id.code,
@@ -466,8 +466,47 @@ class account_invoice(osv.osv):
                 #TODO - Fazer alteração para cada tipo de cst
                 StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
                                                      StrRegN02['VICMS'])
+
+
+                StrRegN03 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'ModBC': '0',
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       'ModBCST': '',
+                       'PMVAST': '',
+                       'PRedBCST': '',
+                       'VBCST': '',
+                       'PICMSST': '',
+                       'VICMSST': '',
+                }
                 
-                StrFile += StrN02
+                #TODO - Fazer alteração para cada tipo de cst
+                StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
+                                                                         StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
+                                                                         StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+                
+                
+                StrRegN06 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'vICMS': str("%.2f" % inv_line.icms_value),
+                       'motDesICMS': '', #TODO
+                }
+                
+                #TODO - Fazer alteração para cada tipo de cst
+                StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
+
+                if inv_line.icms_cst in ('00'):
+                    StrFile += StrN02
+                
+                if inv_line.icms_cst in ('10'):
+                    StrFile += StrN03
+                    
+                if inv_line.icms_cst in ('40', '41', '50', '51'):
+                    StrFile += StrN06
                 
                 StrRegO = {
                        'ClEnq': '',
@@ -652,7 +691,7 @@ class account_invoice(osv.osv):
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
             StrFile += StrZ
-
+            
         return unicode(StrFile.encode('utf-8'))
             
 
