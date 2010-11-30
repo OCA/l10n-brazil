@@ -24,7 +24,7 @@ class delivery_carrier(osv.osv):
 
     _columns = {
         'antt_code': fields.char('Codigo ANTT', size=32),
- #       'vehicle_ids': fields.one2many('l10n_br_delivey.carrier.vehicle', 'carrier_id', 'Vehicles'),
+        'vehicle_ids': fields.one2many('l10n_br_delivey.carrier.vehicle', 'carrier_id', 'Vehicles'),
     }
 
 delivery_carrier()
