@@ -11,6 +11,27 @@
 	            <field name="arch" type="xml">
 	            	<field name="product_id" position="after">
 						<field name="antt_code" />
+						<field colspan="4" mode="tree,form" name="vehicle_ids" nolabel="1" widget="one2many_list">
+                                <form string="Veículos">
+                                	<field name="name"/>
+                                	<field name="description"/>
+                                	<field name="plate"/>
+                                	<field name="driver"/>
+                                	<field name="antt_code"/>
+                                	<field name="country_id"/>
+                                	<field name="state_id"/>
+                                	<field name="city_id"/>
+                                	<field name="active"/>
+                                	<field name="manufacture_year"/>
+                                	<field name="model_year"/>
+                                	<field name="type"/>
+                                </form>
+                                <tree string="Veículos">
+                                    <field colspan="4" name="name"/>
+                                    <field name="plate" />
+                                    <field name="manufacture_year"/>
+                                </tree>
+						</field>
 					</field>
 				</field>
 		</record>
