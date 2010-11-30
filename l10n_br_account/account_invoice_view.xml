@@ -107,8 +107,8 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form6">
-			<field name="name">l10n_br_account.invoice.form6</field>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form7">
+			<field name="name">l10n_br_account.invoice.form7</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
