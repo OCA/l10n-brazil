@@ -23,7 +23,7 @@ class stock_picking(osv.osv):
     _inherit = "stock.picking"
     _description = "Picking List"
     _columns = {
-        'vehicle_id': fields.many2one('delivery.carrier.vehicle', 'Veículo', select=True, required=True, domain="[('carrier_id','=',carrier_id)]"),
+        'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle', 'Veículo'),
     }
 
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
