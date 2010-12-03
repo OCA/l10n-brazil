@@ -9,7 +9,7 @@
 	   		<field name="priority">32</field>
 		   		<field name="arch" type="xml">
 		        	<field name="carrier_id" position="after">
-		        		<field name="vehicle_id" />
+		        		<field name="vehicle_id" domain="[('carrier_id','=',carrier_id),('active','=',True)]" />
 		        	</field>
 		        </field>
 			</record>

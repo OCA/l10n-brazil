@@ -24,15 +24,15 @@ class delivery_carrier(osv.osv):
 
     _columns = {
         'antt_code': fields.char('Codigo ANTT', size=32),
-        'vehicle_ids': fields.one2many('l10n_br_delivey.carrier.vehicle', 'carrier_id', 'Vehicles'),
+        'vehicle_ids': fields.one2many('l10n_br_delivery.carrier.vehicle', 'carrier_id', 'Vehicles'),
     }
 
 delivery_carrier()
 
-class delivery_carrier_vehicle(osv.osv):    
+class l10n_br_delivery_carrier_vehicle(osv.osv):    
     
-    _name = "l10n_br_delivey.carrier.vehicle"
-    _description = "Veiculos das transportadoras"
+    _name = 'l10n_br_delivery.carrier.vehicle'
+    _description = 'Veiculos das transportadoras'
     
     _columns = {
         'name': fields.char('Nome', size=32),
@@ -41,7 +41,7 @@ class delivery_carrier_vehicle(osv.osv):
         'driver': fields.char('Condudor', size=64),
         'antt_code': fields.char('Codigo ANTT', size=32),
         'country_id': fields.many2one('res.country', 'País'),
-        'state_id': fields.many2one('res.country.state', 'Municipio', domain="[('country_id','=',country_id)]"),
+        'state_id': fields.many2one('res.country.state', 'Estado', domain="[('country_id','=',country_id)]"),
         'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
         'active': fields.boolean('Ativo'),
         'manufacture_year': fields.char('Ano de Fabricação', size=4),
@@ -50,9 +50,7 @@ class delivery_carrier_vehicle(osv.osv):
         'carrier_id': fields.many2one('delivery.carrier', 'Carrier', select=True, required=True, ondelete='cascade'),        
     }
 
-delivery_carrier_vehicle()
-
-
+l10n_br_delivery_carrier_vehicle()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
