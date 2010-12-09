@@ -74,10 +74,23 @@ class l10n_br_account_cst(osv.osv):
     _name = 'l10n_br_account.cst'
     _description = 'Código de Situação Tributária'
     _columns = {
-        'code': fields.char('Codigo', size=8,required=True),
-        'name': fields.char('Descrição', size=64),
-        'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
-    }
+                'code': fields.char('Codigo', size=8,required=True),
+                'name': fields.char('Descrição', size=64),
+                'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
+                }
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - '+name
+            res.append((record['id'], name))
+        return res
+    
 l10n_br_account_cst()
 
 #################################################################################
@@ -132,7 +145,8 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
     _name = 'l10n_br_account.fiscal.operation.line'
     _description = 'Linhas das operações ficais'
     _columns = {
-                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto'),
+                'company_id': fields.many2one('res.company', 'Código do Imposto'),
+                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', domain="[('company_id','=',company_id)]"),
                 'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária'),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
                }
