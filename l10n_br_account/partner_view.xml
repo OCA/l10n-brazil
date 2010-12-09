@@ -25,5 +25,49 @@
 			</field>
 		</record>
 		
+		<record model="ir.ui.view" id="l10n_br_view_account_position_form">
+			<field name="name">l10n_br_account.position.form</field>
+			<field name="model">account.fiscal.position</field>
+			<field name="inherit_id" ref="account.view_account_position_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/field/tree/field[@name='tax_dest_id']" position="after">
+						<field name="cst_id" />					
+        		</xpath>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_view_account_position_form1">
+			<field name="name">l10n_br_account.position.form1</field>
+			<field name="model">account.fiscal.position</field>
+			<field name="inherit_id" ref="account.view_account_position_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/field/tree/field[@name='tax_src_id']" position="before">
+						<field name="fiscal_classification_id" />	
+        		</xpath>
+			</field>
+		</record>
+			
+		<record model="ir.ui.view" id="l10n_br_view_account_position_form2">
+			<field name="name">l10n_br_account.position.form2</field>
+			<field name="model">account.fiscal.position</field>
+			<field name="inherit_id" ref="account.view_account_position_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/field/form/field[@name='tax_dest_id']" position="after">
+						<field name="cst_id" />					
+        		</xpath>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_view_account_position_form3">
+			<field name="name">l10n_br_account.position.form3</field>
+			<field name="model">account.fiscal.position</field>
+			<field name="inherit_id" ref="account.view_account_position_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/field/form/field[@name='tax_src_id']" position="before">
+						<field name="fiscal_classification_id" />	
+        		</xpath>
+			</field>
+		</record>
+		
 	</data>
 </openerp>
