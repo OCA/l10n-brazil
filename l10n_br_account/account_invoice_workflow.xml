@@ -6,18 +6,18 @@
         <record id="act_sefaz_export" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_export</field>
-            <field name="action">write({'state':'sefaz_export'})</field>
+            <field name="action">action_date_assign()
+action_move_create()
+action_number()
+action_internal_number()
+write({'state':'sefaz_export'})</field>
             <field name="kind">function</field>
         </record>
 
         <record id="act_sefaz_exception" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_exception</field>
-            <field name="action">action_date_assign()
-action_move_create()
-action_number()
-action_internal_number()
-write({'state':'sefaz_export'})</field>
+            <field name="action">write({'state':'sefaz_export'})</field>
             <field name="kind">function</field>
         </record>
         
