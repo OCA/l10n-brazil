@@ -40,4 +40,15 @@ class account_fiscal_position(osv.osv):
         
 account_fiscal_position()
 
+class account_fiscal_position_tax(osv.osv):
+    
+    _inherit = 'account.fiscal.position.tax'
+    
+    _columns = {
+        'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária', domain="[('tax_code_id','=',tax_dest_id.base_code_id)]"),
+        'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM'),
+    }
+
+account_fiscal_position_tax()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
