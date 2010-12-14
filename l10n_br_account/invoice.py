@@ -390,9 +390,9 @@ class account_invoice(osv.osv):
             StrFile += StrE
 
             if inv.partner_id.tipo_pessoa == 'J':
-                StrE0 = 'E02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
+                StrE0 = 'E02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
             else:
-                StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
+                StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
 
             StrFile += StrE0
 
@@ -501,7 +501,7 @@ class account_invoice(osv.osv):
                        'PICMSST': '',
                        'VICMSST': '',
                 }
-                
+
                 #TODO - Fazer alteração para cada tipo de cst
                 StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
                                                                          StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
@@ -518,6 +518,27 @@ class account_invoice(osv.osv):
                 #TODO - Fazer alteração para cada tipo de cst
                 StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
 
+
+                StrRegN09 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'ModBC': '0',
+                       'PRedBC': '33.33', # inv_line.icms_percent_reduction,
+                       'VBC': inv_line.icms_base,
+                       'PICMS': inv_line.icms_percent,
+                       'VICMS': inv_line.icms_value,
+                       'ModBCST': '4',
+                       'PMVAST': '',
+                       'PRedBCST': '',
+                       'VBCST': '',
+                       'PICMSST': '',
+                       'VICMSST': '',
+                }
+                
+                #TODO - Fazer alteração para cada tipo de cst
+                StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
+
+
                 if inv_line.icms_cst in ('00'):
                     StrFile += StrN02
                 
@@ -526,6 +547,9 @@ class account_invoice(osv.osv):
                     
                 if inv_line.icms_cst in ('40', '41', '50', '51'):
                     StrFile += StrN06
+                    
+                if inv_line.icms_cst in ('70'):
+                    StrFile += StrN09
                 
                 StrRegO = {
                        'ClEnq': '',
