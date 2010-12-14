@@ -38,8 +38,20 @@ from tools import config
 class account_tax_template(osv.osv):
     _inherit = 'account.tax.template'
     
+    def get_precision_tax():
+        def change_digit_tax(cr):
+            res = pooler.get_pool(cr.dbname).get('decimal.precision').precision_get(cr, 1, 'Account')
+            return (16, res+2)
+        return change_digit_tax
+    
     _columns = {
         'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
+        'base_reduction': fields.float('Redução de Base', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Por Pauta')], 'Tax Type', required=True,
+            help="The computation method for the tax amount."),
+    }
+    _defaults = {
+        'base_reduction': 0,
     }
 
 account_tax_template()
@@ -60,6 +72,8 @@ class account_tax(osv.osv):
     _columns = {
         'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
         'base_reduction': fields.float('Redução de Base', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Por Pauta')], 'Tax Type', required=True,
+            help="The computation method for the tax amount."),
     }
     _defaults = {
         'base_reduction': 0,
@@ -70,9 +84,9 @@ class account_tax(osv.osv):
         RETURN: {
                 'total': 0.0,                 # Total without taxes
                 'total_included': 0.0,        # Total with taxes
-                'total_base': 0.0,            # Total Base
                 'total_tax_discount': 0.0,    # Total Tax Discounts
                 'taxes': []                   # List of taxes, see compute for the format
+                        'total_base': 0.0,            # Total Base by tax
             }
         """
         
@@ -85,6 +99,9 @@ class account_tax(osv.osv):
         
         for tax in result['taxes']:
             tax_brw = tax_obj.browse(cr, uid, tax['id'])
+            
+            if tax_brw.type == 'quantity':
+                tax['amount'] = round(quantity * tax_brw.amount, prec)
             
             if tax_brw.tax_discount:
             
@@ -101,7 +118,6 @@ class account_tax(osv.osv):
         return {
             'total': result['total'],
             'total_included': result['total_included'],
-            #'total_base': totalbr,
             'total_tax_discount': totaldc,
             'taxes': result['taxes'],
         }
