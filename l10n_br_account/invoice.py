@@ -48,6 +48,8 @@ class account_invoice(osv.osv):
                 'amount_total': 0.0,
                 'icms_base': 0.0,
                 'icms_value': 0.0,
+                'icms_st_base': 0.0,
+                'icms_st_value': 0.0,
                 'ipi_base': 0.0,
                 'ipi_value': 0.0,
                 'pis_base': 0.0,
@@ -60,6 +62,8 @@ class account_invoice(osv.osv):
                 res[invoice.id]['amount_tax_discount'] += line.price_total - line.price_subtotal
                 res[invoice.id]['icms_base'] += line.icms_base
                 res[invoice.id]['icms_value'] += line.icms_value
+                res[invoice.id]['icms_st_base'] += line.icms_st_base
+                res[invoice.id]['icms_st_value'] += line.icms_st_value
                 res[invoice.id]['ipi_base'] += line.ipi_base
                 res[invoice.id]['ipi_value'] += line.ipi_value
                 res[invoice.id]['pis_base'] += line.pis_base
@@ -74,7 +78,7 @@ class account_invoice(osv.osv):
             if res[invoice.id]['amount_tax_discount'] > 0 and res[invoice.id]['amount_tax'] > 0:
                 res[invoice.id]['amount_tax'] = res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount']
                 
-            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
+            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed'] + res[invoice.id]['icms_st_value']
             
         return res
 
@@ -148,6 +152,21 @@ class account_invoice(osv.osv):
         #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
+        'icms_st_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base ICMS ST',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+                #'account.invoice.tax': (_get_invoice_tax, None, 20),
+                #'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+            },
+            multi='all'),
+        'icms_st_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor ICMS ST',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
+        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+            },
+            multi='all'),
+            
         'ipi_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base IPI',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -1313,7 +1332,7 @@ class account_invoice_line(osv.osv):
                 'icms_base_other': 0.0,
                 'icms_value': 0.0,
                 'icms_percent': 0.0,
-                'icms_st': 0.0,
+                'icms_st_value': 0.0,
                 'icms_st_base': 0.0,
                 'icms_st_base_other': 0.0,
                 'icms_cst': '',
@@ -1340,7 +1359,7 @@ class account_invoice_line(osv.osv):
             icms_base_other = 0.0
             icms_value = 0.0
             icms_percent = 0.0
-            icms_st = 0.0
+            icms_st_value = 0.0
             icms_st_base = 0.0
             icms_st_base_other =  0.0
             icms_cst = ''
@@ -1359,13 +1378,17 @@ class account_invoice_line(osv.osv):
             cofins_value = 0.0
             cofins_percent = 0.0
             cofins_cst = ''
+            taxes['taxes'].reverse()
             
             for tax in taxes['taxes']:
                 fsc_op_line_ids = 0
+                fsc_fp_tax_ids = 0
                 tax_brw = tax_obj.browse(cr, uid, tax['id'])
                 if line.invoice_id.fiscal_operation_id:
-                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('tax_code_id','=', tax_brw.tax_code_id.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id)])
+                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_classification_id','in', [False, line.product_id.property_fiscal_classification.id]),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
+                
                 cst_code = ''
+                
                 if fsc_op_line_ids:
                     fsc_op_line = fsc_op_line_obj.browse(cr, uid, fsc_op_line_ids)[0]
                     cst_code = fsc_op_line.cst_id.code 
@@ -1378,9 +1401,9 @@ class account_invoice_line(osv.osv):
                     icms_cst = cst_code
                 
                 if tax_brw.domain == 'icmsst':
-                    icms_st += 0.0
-                    icms_st_base += 0.0
-                    icms_st_base_other += 0.0
+                    icms_st_value += ((taxes['total'] * (1 + tax_brw.base_reduction)) * (icms_percent / 100)) - icms_value
+                    icms_st_base += taxes['total'] * (1 + tax_brw.base_reduction)
+                    icms_st_base_other += 0
                 
                 if tax_brw.domain == 'ipi':
                     ipi_base += tax['total_base']
@@ -1409,7 +1432,7 @@ class account_invoice_line(osv.osv):
                     'icms_base_other': icms_base_other,
                     'icms_value': icms_value,
                     'icms_percent': icms_percent,
-                    'icms_st': icms_st,
+                    'icms_st_value': icms_st_value,
                     'icms_st_base': icms_st_base,
                     'icms_st_base_other': icms_st_base_other,
                     'icms_cst': icms_cst,
@@ -1439,7 +1462,7 @@ class account_invoice_line(osv.osv):
                 'icms_base_other': cur_obj.round(cr, uid, cur, icms_base_other),
                 'icms_value': cur_obj.round(cr, uid, cur, icms_value),
                 'icms_percent': icms_percent,
-                'icms_st': cur_obj.round(cr, uid, cur, icms_st),
+                'icms_st_value': cur_obj.round(cr, uid, cur, icms_st_value),
                 'icms_st_base': cur_obj.round(cr, uid, cur, icms_st_base),
                 'icms_st_base_other': cur_obj.round(cr, uid, cur, icms_st_base_other),
                 'icms_cst': icms_cst,
@@ -1475,14 +1498,14 @@ class account_invoice_line(osv.osv):
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'icms_percent': fields.function(_amount_line, method=True, string='Perc ICMS', type="float",
                                                 digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st': fields.function(_amount_line, method=True, string='Valor ICMS ST', type="float",
+                'icms_st_value': fields.function(_amount_line, method=True, string='Valor ICMS ST', type="float",
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_base': fields.function(_amount_line, method=True, string='Base ICMS ST', type="float",
+                'icms_st_base': fields.function(_amount_line, method=True, string='Base ICMS ST', type="float",
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_base_other': fields.function(_amount_line, method=True, string='Base ICMS ST Outras', type="float",
+                'icms_st_base_other': fields.function(_amount_line, method=True, string='Base ICMS ST Outras', type="float",
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'icms_cst': fields.function(_amount_line, method=True, string='CST ICMS', type="char", size=2,
-                                            store=True, multi='all'),
+                                              store=True, multi='all'),
                 'ipi_base': fields.function(_amount_line, method=True, string='Base IPI', type="float",
                                             digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'ipi_base_other': fields.function(_amount_line, method=True, string='Base IPI Outras', type="float",
