@@ -145,7 +145,8 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
     _name = 'l10n_br_account.fiscal.operation.line'
     _description = 'Linhas das operações ficais'
     _columns = {
-                'company_id': fields.many2one('res.company', 'Código do Imposto'),
+                'company_id': fields.many2one('res.company', 'Empresa'),
+                'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM', domain="[('company_id','=',company_id)]"),
                 'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', domain="[('company_id','=',company_id)]"),
                 'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária'),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
