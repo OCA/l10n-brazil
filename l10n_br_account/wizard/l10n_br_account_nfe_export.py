@@ -34,7 +34,7 @@ class l10n_br_account_nfe_export(osv.osv_memory):
         'state':fields.selection([('init','init'),('done','done')], 'state', readonly=True),
     }
 
-    _defaults = {  
+    _defaults = {
         'state': 'init',
         'file_type': 'txt',
         'import_status_draft': False,
