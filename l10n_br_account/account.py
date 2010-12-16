@@ -72,11 +72,13 @@ class account_tax(osv.osv):
     _columns = {
         'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
         'base_reduction': fields.float('Redução de Base', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+        'amount_mva': fields.float('Percentual MVA', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
         'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Por Pauta')], 'Tax Type', required=True,
             help="The computation method for the tax amount."),
     }
     _defaults = {
         'base_reduction': 0,
+        'amount_mva': 0,
     }
     
     def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None):
