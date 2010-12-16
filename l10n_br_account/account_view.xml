@@ -32,6 +32,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="amount">
 					<field groups="base.group_extended" name="base_reduction"/>
+					<field groups="base.group_extended" name="amount_mva"/>
 			    </field>
 			</field>
 		</record>
@@ -43,6 +44,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="amount">
 					<field groups="base.group_extended" name="base_reduction"/>
+					<field groups="base.group_extended" name="amount_mva"/>
 			    </field>
 			</field>
 		</record>
