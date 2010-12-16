@@ -55,7 +55,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_operation_category_id" domain="[('use_invoice','=',True)]" required="1" />
-					<field name="fiscal_operation_id" required="1" />
+					<field name="fiscal_operation_id" domain="[('type','=','output')]" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 			    </field>
 			</field>
@@ -154,7 +154,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_operation_category_id" domain="[('use_invoice','=',True)]" required="1" />
-					<field name="fiscal_operation_id" required="1" />
+					<field name="fiscal_operation_id" domain="[('type','=','input')]" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 			    </field>
 			</field>
