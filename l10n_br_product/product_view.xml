@@ -8,9 +8,9 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
-		<field name="supply_method" position="after">
-			<field name="origin" />
-		</field>
+				<field name="supply_method" position="after">
+					<field name="origin" attrs="{'required': [('type', '!=', 'service')]}" />
+				</field>
             </field>
         </record>
 
