@@ -303,7 +303,7 @@ class account_invoice(osv.osv):
             StrRegB = {
                        'cUF': company_addr_default.state_id.ibge_code, 
                        'cNF': '',
-                       'NatOp': normalize('NFKD',unicode(inv.cfop_id.name or '')).encode('ASCII','ignore'),
+                       'NatOp': normalize('NFKD',unicode(inv.cfop_id.small_name or '')).encode('ASCII','ignore'),
                        'intPag': '2', 
                        'mod': inv.fiscal_document_id.code,
                        'serie': inv.document_serie_id.code,
