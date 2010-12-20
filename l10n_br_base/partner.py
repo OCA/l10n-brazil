@@ -140,17 +140,17 @@ class res_partner_address(osv.osv):
     }
 
     def on_change_city_id(self, cr, uid, ids, city_id):
-        
+
         result = {'value': {'city': None}}
 
         if not city_id:
             return result
 
         obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, city_id, ['name'])
-        
+
         if obj_city:
             result['value'] = {'city': obj_city['name']}
-        
+
         return result
 
     def on_change_zip(self, cr, uid, ids, zip):
