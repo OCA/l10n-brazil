@@ -108,7 +108,10 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
-        'access_key_nfe': fields.char('Chave de Acesso', size=44, readonly=True, states={'draft':[('readonly',False)]}),
+        'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
+        'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
+        'nfe_data': fields.date('Data do Status NFE', readonly=True),
+        'nfe_data_export': fields.date('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
@@ -301,7 +304,7 @@ class account_invoice(osv.osv):
             StrFile += StrA
             
             StrRegB = {
-                       'cUF': company_addr_default.state_id.ibge_code, 
+                       'cUF': company_addr_default.state_id.ibge_code,
                        'cNF': '',
                        'NatOp': normalize('NFKD',unicode(inv.cfop_id.small_name or '')).encode('ASCII','ignore'),
                        'intPag': '2', 
@@ -312,7 +315,7 @@ class account_invoice(osv.osv):
                        'dSaiEnt': inv.date_invoice or '',
                        'hSaiEnt': '',
                        'tpNF': '',
-                       'cMunFG': ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code), 
+                       'cMunFG': ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code),
                        'TpImp': '1',
                        'TpEmis': '1',
                        'cDV': '',
@@ -1411,8 +1414,13 @@ class account_invoice_line(osv.osv):
                 fsc_op_line_ids = 0
                 fsc_fp_tax_ids = 0
                 tax_brw = tax_obj.browse(cr, uid, tax['id'])
+                
                 if line.invoice_id.fiscal_operation_id:
-                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_classification_id','in', [False, line.product_id.property_fiscal_classification.id]),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
+                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_classification_id','=', line.product_id.property_fiscal_classification.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
+                
+                if line.invoice_id.fiscal_operation_id and not fsc_op_line_ids:
+                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
+                
                 
                 cst_code = ''
                 
