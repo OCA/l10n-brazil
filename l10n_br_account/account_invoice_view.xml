@@ -18,7 +18,7 @@
             <field name="view_id" ref="stock.view_picking_in_form"/>
             <field name="act_window_id" ref="act_account_invoice_nfe_export"/>
         </record>
- 		 -->
+ 		 -->           
  		
 		<!-- Customer Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form">
@@ -35,6 +35,17 @@
 						<field name="document_serie_id"/>
 		        	</page>
 				</notebook>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_tree">
+			<field name="name">l10n_br_account.invoice.tree</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_tree"/>
+			<field name="arch" type="xml">
+				<field position="number" name="fiscal_position">
+					<field name="internal_number"/>
+			    </field>
 			</field>
 		</record>
  
