@@ -83,11 +83,15 @@ class account_invoice(osv.osv):
         return res
 
     def _get_invoice_line(self, cr, uid, ids, context=None):
-        result = super(account_invoice, self)._get_invoice_line(cr, uid, ids, context)
+        result = {}
+        for line in self.pool.get('account.invoice.line').browse(cr, uid, ids, context=context):
+            result[line.invoice_id.id] = True
         return result.keys()
 
     def _get_invoice_tax(self, cr, uid, ids, context=None):
-        result = super(account_invoice, self)._get_invoice_tax(cr, uid, ids, context)
+        result = {}
+        for tax in self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context):
+            result[tax.invoice_id.id] = True
         return result.keys()
 
     _columns = {
@@ -429,7 +433,7 @@ class account_invoice(osv.osv):
             
                 StrRegI = {
                        'CProd': inv_line.product_id.code,
-                       'CEAN': inv_line.product_id.ean13,
+                       'CEAN': inv_line.product_id.ean13 or '',
                        'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
                        'NCM': re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.product_id.property_fiscal_classification.name or ''),
                        'EXTIPI': '',
@@ -1419,8 +1423,7 @@ class account_invoice_line(osv.osv):
                     fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_classification_id','=', line.product_id.property_fiscal_classification.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
                 
                 if line.invoice_id.fiscal_operation_id and not fsc_op_line_ids:
-                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
-                
+                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
                 
                 cst_code = ''
                 
@@ -1434,7 +1437,8 @@ class account_invoice_line(osv.osv):
                     icms_value += tax['amount']
                     icms_percent += tax_brw.amount * 100
                     icms_percent_reduction += tax_brw.base_reduction * 100
-                    icms_cst = icms_cst or cst_code
+                    if cst_code <> '':
+                        icms_cst = cst_code
                 
                 if tax_brw.domain == 'ipi':
                     ipi_base += tax['total_base']
@@ -1528,6 +1532,7 @@ class account_invoice_line(osv.osv):
                 'cofins_percent': cofins_percent,
                 'cofins_cst': cofins_cst,
                 }
+                
         return res
 
     _columns = {
