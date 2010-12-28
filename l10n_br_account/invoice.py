@@ -389,7 +389,7 @@ class account_invoice(osv.osv):
                        'xNome': normalize('NFKD',unicode(inv.partner_id.legal_name or '')).encode('ASCII','ignore'), 
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
                        'ISUF': '',
-                       'email': inv.partner_id.email,
+                       'email': inv.partner_id.email or '',
                        }
             
             StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'], StrRegE['IE'], StrRegE['ISUF'], StrRegE['email'])
