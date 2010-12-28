@@ -29,10 +29,10 @@
 				 <notebook>
 					<page position="inside" string="l10n br - NF">
 						<separator colspan="4" string="Dados Adicionais da NF"/>
-						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]"/>
+						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
                 		<field colspan="4" name="nfe_access_key"/>
-						<field name="fiscal_document_id"/>
-						<field name="document_serie_id"/>
+						<field name="fiscal_document_id" required="1" />
+						<field name="document_serie_id" required="1" />
 		        	</page>
 				</notebook>
 			</field>
@@ -43,7 +43,7 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_tree"/>
 			<field name="arch" type="xml">
-				<field position="number" name="fiscal_position">
+				<field position="replace" name="number">
 					<field name="internal_number"/>
 			    </field>
 			</field>
@@ -127,6 +127,18 @@
 					<field name="internal_number" />
 			    </field>
 			</field>
+		</record>
+		
+		<record id="view_l10n_br_account_invoice_filter" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.select</field>
+	   		<field name="model">account.invoice</field>
+	   		<field name="inherit_id" ref="account.view_account_invoice_filter"/>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+				<filter name="proforma" position="before">
+					<filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]"/>
+				</filter>
+        	</field>
 		</record>
 		
 		<!-- Vendor Invoice views -->
@@ -213,7 +225,7 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field colspan="4" name="cfop_id" />
+					<field colspan="4" name="cfop_id" required="1" />
 					<field name="price_total"/>
 				</field>
 			</field>
@@ -251,6 +263,8 @@
 				</field>
 			</field>
 		</record>
+	
+		
 	</data>
 
 </openerp>
