@@ -366,7 +366,7 @@ class account_invoice(osv.osv):
             StrFile += StrC02
 
             StrRegC05 = {
-                       'XLgr': company_addr_default.street or '', 
+                       'XLgr': normalize('NFKD',unicode(company_addr_default.street or '')).encode('ASCII','ignore'), 
                        'Nro': company_addr_default.number or '',
                        'Cpl': normalize('NFKD',unicode(company_addr_default.street2 or '')).encode('ASCII','ignore'),
                        'Bairro': normalize('NFKD',unicode(company_addr_default.district or 'Sem Bairro')).encode('ASCII','ignore'),
@@ -404,7 +404,7 @@ class account_invoice(osv.osv):
             StrFile += StrE0
 
             StrRegE05 = {
-                       'xLgr': inv.address_invoice_id.street or '',
+                       'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '',)).encode('ASCII','ignore'),
                        'nro': inv.address_invoice_id.number,
                        'xCpl': normalize('NFKD',unicode(inv.address_invoice_id.street2 or '')).encode('ASCII','ignore'),
                        'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
@@ -432,13 +432,13 @@ class account_invoice(osv.osv):
                 StrFile += StrH
             
                 StrRegI = {
-                       'CProd': inv_line.product_id.code,
+                       'CProd': normalize('NFKD',unicode(inv_line.product_id.code or '',)).encode('ASCII','ignore'),
                        'CEAN': inv_line.product_id.ean13 or '',
                        'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
                        'NCM': re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.product_id.property_fiscal_classification.name or ''),
                        'EXTIPI': '',
                        'CFOP': inv_line.cfop_id.code,
-                       'UCom': inv_line.uos_id.name,
+                       'UCom': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                        'QCom': str("%.4f" % inv_line.quantity),
                        'VUnCom': str("%.2f" % inv_line.price_unit),
                        'VProd': str("%.2f" % inv_line.price_total),
@@ -519,7 +519,7 @@ class account_invoice(osv.osv):
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
                        'vICMS': str("%.2f" % inv_line.icms_value),
-                       'motDesICMS': '', #TODO
+                       'motDesICMS': '9', #FIXME
                 }
                 
                 #TODO - Fazer alteração para cada tipo de cst
