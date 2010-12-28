@@ -27,6 +27,15 @@ write({'state':'sefaz_export'})</field>
             <field name="action">write({'state':'open'})</field>
             <field name="kind">function</field>
         </record>
+        
+        <record id="account.act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">cancel</field>
+            <field name="flow_stop">True</field>
+            <field name="action">action_cancel()
+write({'state':'cancel', 'internal_number':None, 'nfe_access_key':None, 'nfe_status':None, 'nfe_data':None, 'nfe_data_export':None})</field>
+            <field name="kind">function</field>
+        </record>
 
         <record id="tras_draft_sefaz_export" model="workflow.transition">
             <field name="act_from" ref="account.act_draft"/>
