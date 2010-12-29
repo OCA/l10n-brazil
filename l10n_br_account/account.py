@@ -103,7 +103,7 @@ class account_tax(osv.osv):
             tax_brw = tax_obj.browse(cr, uid, tax['id'])
             
             if tax_brw.type == 'quantity':
-                tax['amount'] = round(quantity * tax_brw.amount, prec)
+                tax['amount'] = round((quantity * product.weight_net) * tax_brw.amount, prec)
             
             if tax_brw.tax_discount:
             
