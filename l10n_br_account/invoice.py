@@ -461,7 +461,7 @@ class account_invoice(osv.osv):
                         StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
 
                 if inv_line.discount > 0:
-                    StrRegI['VDesc'] = str("%.2f" % inv_line.discount)
+                    StrRegI['VDesc'] = str("%.2f" % inv_line.quantity * (line.price_unit * (1-(line.discount or 0.0)/100.0)))
 
                 StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
                                                                                           StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI['UCom'], StrRegI['QCom'], 
