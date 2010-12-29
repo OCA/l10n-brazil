@@ -287,11 +287,11 @@ class account_invoice(osv.osv):
         
         StrFile = StrNF
         
-        for inv in self.browse(cr, uid, ids):
+        for inv in self.browse(cr, uid, ids, context={'lang': 'pt_BR'}):
             
             #Endereço do company
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
-            company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+            company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
             
             #nfe_key = unicode(company_addr_default.state_id.ibge_code).strip().rjust(2, u'0')
             #nfe_key += unicode(datetime.strptime(inv.date_invoice, '%Y-%m-%d').strftime(u'%y%m')).strip().rjust(4, u'0')
@@ -747,11 +747,11 @@ class account_invoice(osv.osv):
                 
         nfeProc = Element('nfeProc', {'versao': '2.00', 'xmlns': 'http://www.portalfiscal.inf.br/nfe' })
         
-        for inv in self.browse(cr, uid, ids):
+        for inv in self.browse(cr, uid, ids, context={'lang': 'pt_BR'}):
             
             #Endereço do company
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
-            company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+            company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
             
             #MontaChave da Nota Fiscal Eletronica
             nfe_key = unicode(company_addr_default.state_id.ibge_code).strip().rjust(2, u'0')
