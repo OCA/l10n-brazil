@@ -253,6 +253,7 @@
 			</field>
 		</record>
 
+		<!-- 
 		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
 			<field name="name">l10n_br.invoice.line.form2</field>
 			<field name="model">account.invoice.line</field>
@@ -263,7 +264,7 @@
 				</field>
 			</field>
 		</record>
-	
+		 -->
 		
 	</data>
 
