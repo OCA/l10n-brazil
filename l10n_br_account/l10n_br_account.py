@@ -171,6 +171,10 @@ class l10n_br_account_document_serie(osv.osv):
                 'active': True,
                 }
 
+    _defaults = {
+        'active' : True,
+    }
+
 l10n_br_account_document_serie()
 
 ################################################################################
