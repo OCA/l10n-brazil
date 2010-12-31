@@ -20,7 +20,7 @@
 {
     'name' : 'Brazilian Localization Base',
     'description' : 'Brazilian Localization Base',
-    'category' : 'Localisation/Account Charts',
+    'category' : 'Localisation',
     'author' : 'OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
