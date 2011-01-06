@@ -687,16 +687,16 @@ class account_invoice(osv.osv):
                 carrier_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
                 
                 if inv.carrier_id.partner_id.legal_name:
-                    StrX03['XNome'] = inv.carrier_id.partner_id.legal_name or ''
+                    StrRegX03['XNome'] = inv.carrier_id.partner_id.legal_name or ''
                 else:
-                    StrX03['XNome'] = inv.carrier_id.partner_id.name or ''
+                    StrRegX03['XNome'] = inv.carrier_id.partner_id.name or ''
                 
-                StrX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
-                StrX03['xEnder'] = carrier_addr_default.street or ''
-                StrX03['UF'] = carrier_addr_default.state_id.code or ''
+                StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
+                StrRegX03['xEnder'] = carrier_addr_default.street or ''
+                StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
                 
                 if carrier_addr_default.city_id:
-                    StrX03['xMun'] = carrier_addr_default.city_id.name or ''
+                    StrRegX03['xMun'] = carrier_addr_default.city_id.name or ''
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
                     StrX0 = 'X04|%s|\n' %  (inv.carrier_id.partner_id.cnpj_cpf)
