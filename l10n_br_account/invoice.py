@@ -687,27 +687,26 @@ class account_invoice(osv.osv):
                 carrier_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
                 
                 if inv.carrier_id.partner_id.legal_name:
-                    StrX03['XNome'] = inv.carrier_id.partner_id.legal_name 
+                    StrX03['XNome'] = inv.carrier_id.partner_id.legal_name or ''
                 else:
                     StrX03['XNome'] = inv.carrier_id.partner_id.name or ''
                 
-                StrX03['IE'] = inv.carrier_id.partner_id.inscr_est
-                StrX03['xEnder'] = carrier_addr_default.street
-                StrX03['UF'] = carrier_addr_default.state_id.code
+                StrX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
+                StrX03['xEnder'] = carrier_addr_default.street or ''
+                StrX03['UF'] = carrier_addr_default.state_id.code or ''
                 
-                StrX03['xMun'] = carrier_addr_default.city_id.name
+                if carrier_addr_default.city_id:
+                    StrX03['xMun'] = carrier_addr_default.city_id.name or ''
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
                     StrX0 = 'X04|%s|\n' %  (inv.carrier_id.partner_id.cnpj_cpf)
                 else:
                     StrX0 = 'X05|%s|\n' %  (inv.carrier_id.partner_id.cnpj_cpf)
 
-
             StrX03 = 'X03|%s|%s|%s|%s|%s|\n' % (StrRegX03['XNome'], StrRegX03['IE'], StrRegX03['XEnder'], StrRegX03['UF'], StrRegX03['XMun'])
             
             StrFile += StrX03
             StrFile += StrX0
-            
             
             StrRegX18 = {
                          'Placa': '',
