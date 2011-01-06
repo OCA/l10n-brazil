@@ -46,13 +46,15 @@ class l10n_br_account_nfe_export(osv.osv_memory):
         inv_ids = inv_obj.search(cr, uid, [('state','=','sefaz_export')])
 
         #for inv in inv_obj.browse(cr, uid, inv_ids):
-        data = self.read(cr, uid, ids, [], context=context)[0]
+        data = self.read(cr, uid, ids, [], context=context)[0] 
         if data['file_type'] == 'xml':
             file = inv_obj.nfe_export_xml(cr, uid, inv_ids)
         else:
             file = inv_obj.nfe_export_txt(cr, uid, inv_ids)
         file_total = file
-            
+        
+        
+        
         self.write(cr, uid, ids, {'file': base64.b64encode(file_total), 'state': 'done'}, context=context)
         return False
 
