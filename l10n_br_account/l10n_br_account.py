@@ -167,13 +167,6 @@ class l10n_br_account_document_serie(osv.osv):
                 'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
                 'active':fields.boolean('Ativo'),
                 }
-    _defaults = {
-                'active': True,
-                }
-
-    _defaults = {
-        'active' : True,
-    }
 
 l10n_br_account_document_serie()
 
