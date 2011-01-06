@@ -114,8 +114,8 @@ class account_invoice(osv.osv):
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
-        'nfe_data': fields.date('Data do Status NFE', readonly=True),
-        'nfe_data_export': fields.date('Exportação NFE', readonly=True),
+        'nfe_date': fields.date('Data do Status NFE', readonly=True),
+        'nfe_export_date': fields.date('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
@@ -217,6 +217,16 @@ class account_invoice(osv.osv):
             },
             multi='all'),
     }
+
+    def copy(self, cr, uid, id, default={}, context=None):
+        default.update({
+            'internal_number': False,
+            'nfe_access_key': False,
+            'nfe_status': False,
+            'nfe_date': False,
+            'nfe_export_date': False,
+        })
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def action_internal_number(self, cr, uid, ids, context=None):
         
@@ -461,7 +471,7 @@ class account_invoice(osv.osv):
                         StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
 
                 if inv_line.discount > 0:
-                    StrRegI['VDesc'] = str("%.2f" % inv_line.quantity * (line.price_unit * (1-(line.discount or 0.0)/100.0)))
+                    StrRegI['VDesc'] = str("%.2f" % inv_line.quantity * (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0)))
 
                 StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
                                                                                           StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI['UCom'], StrRegI['QCom'], 
@@ -739,6 +749,8 @@ class account_invoice(osv.osv):
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
             StrFile += StrZ
+            #self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
+            
             
         return unicode(StrFile.encode('utf-8'))
             
@@ -1367,22 +1379,22 @@ class account_invoice_line(osv.osv):
                 'icms_st_percent': 0.0,
                 'icms_st_mva': 0.0,
                 'icms_st_base_other': 0.0,
-                'icms_cst': '',
+                'icms_cst': '40', #Coloca como isento caso não tenha ICMS
                 'ipi_base': 0.0,
                 'ipi_base_other': 0.0,
                 'ipi_value': 0.0,
                 'ipi_percent': 0.0,
-                'ipi_cst': '',
+                'ipi_cst': '53', #Coloca como isento caso não tenha IPI
                 'pis_base': 0.0,
                 'pis_base_other': 0.0,
                 'pis_value': 0.0,
                 'pis_percent': 0.0,
-                'pis_cst': '',
+                'pis_cst': '99', #Coloca como isento caso não tenha PIS
                 'cofins_base': 0.0,
                 'cofins_base_other': 0.0,
                 'cofins_value': 0.0,
                 'cofins_percent': 0.0,
-                'cofins_cst': '',
+                'cofins_cst': '99', #Coloca como isento caso não tenha COFINS
             }
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id)
@@ -1413,23 +1425,27 @@ class account_invoice_line(osv.osv):
             cofins_value = 0.0
             cofins_percent = 0.0
             cofins_cst = ''
+
+            if line.invoice_id.fiscal_operation_id:
+                
+                for fo_line in line.invoice_id.fiscal_operation_id.fiscal_operation_line:
+
+                    if fo_line.tax_code_id.domain == 'icms' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                        icms_cst = fo_line.cst_id.code
             
+                    if fo_line.tax_code_id.domain == 'ipi' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                        ipi_cst = fo_line.cst_id.code
+                    
+                    if fo_line.tax_code_id.domain == 'pis' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                        pis_cst = fo_line.cst_id.code
+
+                    if fo_line.tax_code_id.domain == 'cofins' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                        ipi_cst = fo_line.cst_id.code
+ 
             for tax in taxes['taxes']:
                 fsc_op_line_ids = 0
                 fsc_fp_tax_ids = 0
                 tax_brw = tax_obj.browse(cr, uid, tax['id'])
-                
-                if line.invoice_id.fiscal_operation_id:
-                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_classification_id','=', line.product_id.property_fiscal_classification.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
-                
-                if line.invoice_id.fiscal_operation_id and not fsc_op_line_ids:
-                    fsc_op_line_ids = fsc_op_line_obj.search(cr, uid, [('company_id','=', line.invoice_id.company_id.id),('fiscal_operation_id','=',line.invoice_id.fiscal_operation_id.id),('tax_code_id','=', tax_brw.base_code_id.id)])
-                
-                cst_code = ''
-                
-                if fsc_op_line_ids:
-                    fsc_op_line = fsc_op_line_obj.browse(cr, uid, fsc_op_line_ids)[0]
-                    cst_code = fsc_op_line.cst_id.code 
                 
                 if tax_brw.domain == 'icms':
                     icms_base += tax['total_base']
@@ -1437,28 +1453,23 @@ class account_invoice_line(osv.osv):
                     icms_value += tax['amount']
                     icms_percent += tax_brw.amount * 100
                     icms_percent_reduction += tax_brw.base_reduction * 100
-                    if cst_code <> '':
-                        icms_cst = cst_code
                 
                 if tax_brw.domain == 'ipi':
                     ipi_base += tax['total_base']
                     ipi_value += tax['amount']
                     ipi_percent += tax_brw.amount * 100
-                    ipi_cst = cst_code
                 
                 if tax_brw.domain == 'pis':
                     pis_base += tax['total_base']
                     pis_base_other += taxes['total'] - tax['total_base']
                     pis_value += tax['amount'] 
                     pis_percent += tax_brw.amount * 100
-                    pis_cst = cst_code
                 
                 if tax_brw.domain == 'cofins':
                     cofins_base += tax['total_base']
                     cofins_base_other += taxes['total'] - tax['total_base']
                     cofins_value += tax['amount']
                     cofins_percent += tax_brw.amount * 100
-                    cofins_cst = cst_code
 
             for tax_sub in taxes['taxes']:
                 tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])

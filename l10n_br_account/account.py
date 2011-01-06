@@ -30,6 +30,28 @@ from tools.misc import currency
 from tools.translate import _
 from tools import config
 
+##############################################################################
+# Cadastro de Modelo de Códigos de Impostos Personalizado
+##############################################################################
+class account_tax_code_template(osv.osv):
+
+    _inherit = 'account.tax.code.template'
+    _columns = {
+        'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
+        }
+account_tax_code_template()
+
+##############################################################################
+# Cadastro de Códigos de Impostos Personalizado
+##############################################################################
+class account_tax_code(osv.osv):
+
+    _inherit = 'account.tax.code'
+    _columns = {
+        'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
+        }
+account_tax_code()
+
 
 ##############################################################################
 # Cadastro de Modelos de Impostos Personalizado
