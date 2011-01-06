@@ -1439,7 +1439,7 @@ class account_invoice_line(osv.osv):
                         pis_cst = fo_line.cst_id.code
 
                     if fo_line.tax_code_id.domain == 'cofins' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
-                        ipi_cst = fo_line.cst_id.code
+                        cofins_cst = fo_line.cst_id.code
  
             for tax in taxes['taxes']:
                 fsc_op_line_ids = 0
