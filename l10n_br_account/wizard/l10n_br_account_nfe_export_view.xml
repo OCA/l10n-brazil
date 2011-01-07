@@ -22,7 +22,8 @@
                             <separator string="Exportar Nota Fiscal" colspan="4"/>
                             <group states="init" colspan="4">
                                 <label string="Click em exportar para iniciar a exportação..." colspan="4"/>
-                                <field name="file_type" />
+                                <field colspan="4" name="company_id" widget="selection" />
+                                <field colspan="4" name="file_type" />
                             </group>
                             <group states="done" colspan="4">
                                 <field name="file" colspan="4"/>
