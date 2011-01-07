@@ -759,8 +759,8 @@ class account_invoice(osv.osv):
                 StrRegX26['Esp'] = 'Volume' #TODO
                 StrRegX26['Marca']
                 StrRegX26['NVol']
-                StrRegX26['PesoL'] = str("%.3f" % inv.weight_net),
-                StrRegX26['PesoB'] = str("%.3f" % inv.weight),
+                StrRegX26['PesoL'] = str("%.3f" % inv.weight_net)
+                StrRegX26['PesoB'] = str("%.3f" % inv.weight)
 
             StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
 
