@@ -415,7 +415,7 @@ class account_invoice(osv.osv):
 
             StrRegE05 = {
                        'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '',)).encode('ASCII','ignore'),
-                       'nro': inv.address_invoice_id.number,
+                       'nro': inv.address_invoice_id.number or '',
                        'xCpl': normalize('NFKD',unicode(inv.address_invoice_id.street2 or '')).encode('ASCII','ignore'),
                        'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
                        'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.city_id.ibge_code),
@@ -580,9 +580,7 @@ class account_invoice(osv.osv):
                     
                 if inv_line.icms_cst in ('70'):
                     StrFile += StrN09
-                    
-                    
-                
+
                 StrRegO = {
                        'ClEnq': '',
                        'CNPJProd': '',
@@ -775,7 +773,7 @@ class account_invoice(osv.osv):
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
             StrFile += StrZ
-            #self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
+            self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
         return unicode(StrFile.encode('utf-8'))
             
