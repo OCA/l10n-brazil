@@ -302,7 +302,7 @@ class account_invoice(osv.osv):
             #Endereço do company
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
             company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
-            
+
             #nfe_key = unicode(company_addr_default.state_id.ibge_code).strip().rjust(2, u'0')
             #nfe_key += unicode(datetime.strptime(inv.date_invoice, '%Y-%m-%d').strftime(u'%y%m')).strip().rjust(4, u'0')
             #nfe_key +=  re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or '')
@@ -312,9 +312,9 @@ class account_invoice(osv.osv):
             #fe_key += unicode('1').strip().rjust(1, u'0') # Homologação
             #nfe_key += unicode(inv.internal_number).strip().rjust(8, u'0')
             #nfe_key += unicode(self.nfe_dv(nfe_key)).strip().rjust(1, u'0')
-            
+
             StrA = 'A|%s|%s|\n' % ('2.00', '')
-            
+
             StrFile += StrA
             
             StrRegB = {
@@ -747,7 +747,7 @@ class account_invoice(osv.osv):
 
             StrRegX26 = {
                          'QVol': '',
-                         'Esp': '', # TODO
+                         'Esp': '', 
                          'Marca': '',
                          'NVol': '',
                          'PesoL': '',
@@ -756,11 +756,11 @@ class account_invoice(osv.osv):
 
             if inv.number_of_packages:
                 StrRegX26['QVol'] = inv.number_of_packages
-                StrRegX26['Esp'] = 'Volume'
+                StrRegX26['Esp'] = 'Volume' #TODO
                 StrRegX26['Marca']
                 StrRegX26['NVol']
-                StrRegX26['PesoL'] = inv.weight_net
-                StrRegX26['PesoB'] = inv.weight
+                StrRegX26['PesoL'] = str("%.3f" % inv.weight_net),
+                StrRegX26['PesoB'] = str("%.3f" % inv.weight),
 
             StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
 
