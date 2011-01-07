@@ -726,25 +726,25 @@ class account_invoice(osv.osv):
                     StrRegX03['xMun'] = carrier_addr_default.city_id.name or ''
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
-                    StrX0 = 'X04|%s|\n' %  (inv.carrier_id.partner_id.cnpj_cpf)
+                    StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
                 else:
-                    StrX0 = 'X05|%s|\n' %  (inv.carrier_id.partner_id.cnpj_cpf)
+                    StrX0 = 'X05|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
 
             StrX03 = 'X03|%s|%s|%s|%s|%s|\n' % (StrRegX03['XNome'], StrRegX03['IE'], StrRegX03['XEnder'], StrRegX03['UF'], StrRegX03['XMun'])
-            
+
             StrFile += StrX03
             StrFile += StrX0
-            
+
             StrRegX18 = {
                          'Placa': '',
                          'UF': '',
                          'RNTC': '',
                          }
-            
+
             StrX18 = 'X18|%s|%s|%s|\n' % (StrRegX18['Placa'], StrRegX18['UF'], StrRegX18['RNTC'])
-            
+
             StrFile += StrX18
-            
+
             StrRegX26 = {
                          'QVol': '',
                          'Esp': '', # TODO
@@ -753,9 +753,8 @@ class account_invoice(osv.osv):
                          'PesoL': '',
                          'PesoB': '',
                          }
-            
-            if inv.number_of_packages:
 
+            if inv.number_of_packages:
                 StrRegX26['QVol'] = inv.number_of_packages
                 StrRegX26['Esp'] = 'Volume'
                 StrRegX26['Marca']
@@ -776,8 +775,7 @@ class account_invoice(osv.osv):
 
             StrFile += StrZ
             #self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
-            
-            
+
         return unicode(StrFile.encode('utf-8'))
             
 
