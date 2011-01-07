@@ -551,9 +551,20 @@ class account_invoice(osv.osv):
                        'VICMSST': str("%.2f" % inv_line.icms_st_value),
                 }
                 
-                #TODO - Fazer alteração para cada tipo de cst
+                
                 StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
 
+
+                StrRegN08 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'VBCST': str("%.2f" % 0.00),
+                       'VICMSST': str("%.2f" % 0.00),
+                }
+
+                StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
+
+                #TODO - Fazer alteração para cada tipo de cst
                 if inv_line.icms_cst in ('00'):
                     StrFile += StrN02
                 
@@ -562,9 +573,14 @@ class account_invoice(osv.osv):
                     
                 if inv_line.icms_cst in ('40', '41', '50', '51'):
                     StrFile += StrN06
+                
+                if inv_line.icms_cst in ('60'):
+                    StrFile += StrN08
                     
                 if inv_line.icms_cst in ('70'):
                     StrFile += StrN09
+                    
+                    
                 
                 StrRegO = {
                        'ClEnq': '',
@@ -588,13 +604,24 @@ class account_invoice(osv.osv):
                     
                     StrFile += StrO07 
 
-                    StrRegO10 = {
-                       'QUnid': str("%.2f" % inv_line.ipi_base),
-                       'VUnid': str("%.2f" % inv_line.ipi_percent),
-                    }
+                    if inv_line.ipi_type == 'percent':
+                        StrRegO10 = {
+                           'VBC': str("%.2f" % inv_line.ipi_base),
+                           'PIPI': str("%.2f" % inv_line.ipi_percent),
+                        }
+                        StrO1 = 'O10|%s|%s|\n' % (StrRegO10['QUnid'], StrRegO10['VUnid'])
                     
-                    StrO1 = 'O10|%s|%s|\n' % (StrRegO10['QUnid'], StrRegO10['VUnid'])
-                    StrFile += StrO1 
+                    if inv_line.ipi_type == 'quantity':
+                        pesol = 0
+                        if inv_line.product_id:
+                             pesol = inv_line.product_id.weight_net
+                        StrRegO11 = {
+                           'QUnid': str("%.4f" % (inv_line.quantity * pesol)),
+                           'VUnid': str("%.4f" % inv_line.ipi_percent),
+                        }
+                        StrO1 = 'O11|%s|%s|\n' % (StrRegO11['QUnid'], StrRegO11['VUnid'])
+                    
+                    StrFile += StrO1
                     
                 else:
                     StrO1 = 'O08|%s|\n' % inv_line.ipi_cst
@@ -1379,6 +1406,7 @@ class account_invoice_line(osv.osv):
                 'icms_st_mva': 0.0,
                 'icms_st_base_other': 0.0,
                 'icms_cst': '40', #Coloca como isento caso não tenha ICMS
+                'ipi_type': 'percent',
                 'ipi_base': 0.0,
                 'ipi_base_other': 0.0,
                 'ipi_value': 0.0,
@@ -1409,6 +1437,7 @@ class account_invoice_line(osv.osv):
             icms_st_mva = 0.0
             icms_st_base_other =  0.0
             icms_cst = ''
+            ipi_type = ''
             ipi_base = 0.0
             ipi_base_other = 0.0
             ipi_value = 0.0
@@ -1429,16 +1458,16 @@ class account_invoice_line(osv.osv):
                 
                 for fo_line in line.invoice_id.fiscal_operation_id.fiscal_operation_line:
 
-                    if fo_line.tax_code_id.domain == 'icms' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                    if fo_line.tax_code_id.domain == 'icms' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
                         icms_cst = fo_line.cst_id.code
             
-                    if fo_line.tax_code_id.domain == 'ipi' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                    if fo_line.tax_code_id.domain == 'ipi' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
                         ipi_cst = fo_line.cst_id.code
                     
-                    if fo_line.tax_code_id.domain == 'pis' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                    if fo_line.tax_code_id.domain == 'pis' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
                         pis_cst = fo_line.cst_id.code
 
-                    if fo_line.tax_code_id.domain == 'cofins' and (fo_line.fiscal_classification_id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id):
+                    if fo_line.tax_code_id.domain == 'cofins' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
                         cofins_cst = fo_line.cst_id.code
  
             for tax in taxes['taxes']:
@@ -1454,6 +1483,7 @@ class account_invoice_line(osv.osv):
                     icms_percent_reduction += tax_brw.base_reduction * 100
                 
                 if tax_brw.domain == 'ipi':
+                    ipi_type = tax_brw.type
                     ipi_base += tax['total_base']
                     ipi_value += tax['amount']
                     ipi_percent += tax_brw.amount * 100
@@ -1493,6 +1523,7 @@ class account_invoice_line(osv.osv):
                     'icms_st_mva' : icms_st_mva,
                     'icms_st_base_other': icms_st_base_other,
                     'icms_cst': icms_cst,
+                    'ipi_type': ipi_type,
                     'ipi_base': ipi_base,
                     'ipi_base_other': ipi_base_other,
                     'ipi_value': ipi_value,
@@ -1526,6 +1557,7 @@ class account_invoice_line(osv.osv):
                 'icms_st_mva' : icms_st_mva,
                 'icms_st_base_other': cur_obj.round(cr, uid, cur, icms_st_base_other),
                 'icms_cst': icms_cst,
+                'ipi_type': ipi_type,
                 'ipi_base': cur_obj.round(cr, uid, cur, ipi_base),
                 'ipi_base_other': cur_obj.round(cr, uid, cur, ipi_base_other),
                 'ipi_value': cur_obj.round(cr, uid, cur, ipi_value),
@@ -1572,6 +1604,8 @@ class account_invoice_line(osv.osv):
                 'icms_st_base_other': fields.function(_amount_line, method=True, string='Base ICMS ST Outras', type="float",
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'icms_cst': fields.function(_amount_line, method=True, string='CST ICMS', type="char", size=2,
+                                              store=True, multi='all'),
+                'ipi_type': fields.function(_amount_line, method=True, string='Tipo do IPI', type="char", size=64,
                                               store=True, multi='all'),
                 'ipi_base': fields.function(_amount_line, method=True, string='Base IPI', type="float",
                                             digits_compute= dp.get_precision('Account'), store=True, multi='all'),
