@@ -450,7 +450,7 @@ class account_invoice(osv.osv):
                        'CFOP': inv_line.cfop_id.code,
                        'UCom': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                        'QCom': str("%.4f" % inv_line.quantity),
-                       'VUnCom': str("%.2f" % inv_line.price_unit),
+                       'VUnCom': str("%.2f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))),
                        'VProd': str("%.2f" % inv_line.price_total),
                        'CEANTrib': '',
                        'UTrib': inv_line.uos_id.name,
@@ -470,8 +470,9 @@ class account_invoice(osv.osv):
                 else:
                         StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
 
-                if inv_line.discount > 0:
-                    StrRegI['VDesc'] = str("%.2f" % (inv_line.quantity * (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))))
+                #No OpenERP já traz o valor unitário como desconto
+                #if inv_line.discount > 0:
+                #    StrRegI['VDesc'] = str("%.2f" % (inv_line.quantity * (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))))
 
                 StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
                                                                                           StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI['UCom'], StrRegI['QCom'], 
