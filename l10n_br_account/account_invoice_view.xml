@@ -31,6 +31,9 @@
 						<separator colspan="4" string="Dados Adicionais da NF"/>
 						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
                 		<field colspan="4" name="nfe_access_key"/>
+                		<field colspan="4" name="nfe_status"/>
+                		<field name="nfe_export_date"/>
+                		<field name="nfe_date" />
 						<field name="fiscal_document_id" required="1" />
 						<field name="document_serie_id" required="1" />
 		        	</page>
