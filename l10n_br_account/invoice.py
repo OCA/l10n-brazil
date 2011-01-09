@@ -114,8 +114,8 @@ class account_invoice(osv.osv):
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
-        'nfe_date': fields.date('Data do Status NFE', readonly=True),
-        'nfe_export_date': fields.date('Exportação NFE', readonly=True),
+        'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
+        'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
@@ -288,6 +288,180 @@ class account_invoice(osv.osv):
     def nfe_dv(self, key):
         
         return '2'
+
+    def nfe_check(self, cr, uid, ids, context=None):
+        
+        strErro = ''
+        
+        if context is None:
+            context = {}
+        
+        for inv in self.browse(cr, uid, ids):
+            
+            #Nota fiscal
+            
+            company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
+            company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
+            
+            if not inv.document_serie_id:
+                strErro = 'Nota Fiscal - Série da nota fiscal\n'
+            
+            if not inv.fiscal_document_id:
+                strErro = 'Nota Fiscal - Tipo de documento fiscal\n'
+            
+            #if not inv.date_invoice:
+            #    strErro = 'Nota Fiscal - Data da nota fiscal\n'
+            
+            if not inv.journal_id.internal_sequence:
+                strErro = 'Nota Fiscal - Número da nota fiscal, o diário deve ter uma sequência interna\n'
+                
+            if not inv.cfop_id:
+                strErro = 'Nota Fiscal - CFOP\n'
+            else:
+                if not inv.cfop_id.small_name:
+                    strErro = 'Nota Fiscal - Descrição reduzida do CFOP\n'
+
+            #Emitente
+            if not inv.company_id.partner_id.legal_name:
+                strErro = 'Emitente - Razão Social\n'
+
+            if not inv.company_id.partner_id.name:
+                strErro = 'Emitente - Fantasia\n'
+
+            if not inv.company_id.partner_id.cnpj_cpf:
+                strErro = 'Emitente - CNPJ/CPF\n'
+
+            if not company_addr_default.street:
+                strErro = 'Emitente / Endereço - Logradouro\n'
+            
+            if not company_addr_default.number:
+                strErro = 'Emitente / Endereço - Número\n'
+                
+            if not company_addr_default.zip:
+                strErro = 'Emitente / Endereço - CEP\n'
+
+            if not company_addr_default.state_id:
+                strErro = 'Emitente / Endereço - Estado\n'
+            else:
+                if not company_addr_default.state_id.ibge_code:
+                    strErro = 'Emitente / Endereço - Código do IBGE do estado\n'
+                if not company_addr_default.state_id.name:
+                    strErro = 'Emitente / Endereço - Nome do estado\n'
+                      
+            if not company_addr_default.city_id:
+                strErro = 'Emitente / Endereço - municipio\n'
+            else:
+                if not company_addr_default.city_id.name:
+                    strErro = 'Emitente / Endereço - Nome do municipio\n'
+                if not company_addr_default.city_id.ibge_code:
+                    strErro = 'Emitente / Endereço - Código do IBGE do municipio\n'
+                    
+            if not company_addr_default.country_id:
+                strErro = 'Emitente / Endereço - país\n'
+            else:
+                if not company_addr_default.country_id.name:
+                    strErro = 'Emitente / Endereço - Nome do país\n'
+                if not company_addr_default.country_id.bc_code:
+                    strErro = 'Emitente / Endereço - Código do BC do país\n'
+        
+            #Destinatário
+            if not inv.partner_id.legal_name:
+                strErro = 'Destinatário - Razão Social\n'
+            
+            if not inv.partner_id.cnpj_cpf:
+                strErro = 'Destinatário - CNPJ/CPF\n'
+            
+            if not inv.address_invoice_id.street:
+                strErro = 'Destinatário / Endereço - Logradouro\n'
+            
+            if not inv.address_invoice_id.number:
+                strErro = 'Destinatário / Endereço - Número\n'
+                
+            if not inv.address_invoice_id.zip:
+                strErro = 'Destinatário / Endereço - CEP\n'
+
+            if not inv.address_invoice_id.state_id:
+                strErro = 'Destinatário / Endereço - Estado\n'
+            else:
+                if not inv.address_invoice_id.state_id.ibge_code:
+                    strErro = 'Destinatário / Endereço - Código do IBGE do estado\n'
+                if not inv.address_invoice_id.state_id.name:
+                    strErro = 'Destinatário / Endereço - Nome do estado\n'
+                      
+            if not inv.address_invoice_id.city_id:
+                strErro = 'Destinatário / Endereço - Municipio\n'
+            else:
+                if not inv.address_invoice_id.city_id.name:
+                    strErro = 'Destinatário / Endereço - Nome do municipio\n'
+                if not inv.address_invoice_id.city_id.ibge_code:
+                    strErro = 'Destinatário / Endereço - Código do IBGE do municipio\n'
+                    
+            if not inv.address_invoice_id.country_id:
+                strErro = 'Destinatário / Endereço - País\n'
+            else:
+                if not inv.address_invoice_id.country_id.name:
+                    strErro = 'Destinatário / Endereço - Nome do país\n'
+                if not inv.address_invoice_id.country_id.bc_code:
+                    strErro = 'Destinatário / Endereço - Código do BC do país\n'
+                    
+            #produtos
+            for inv_line in inv.invoice_line:
+                
+                if inv_line.product_id:
+                    if not inv_line.product_id.code:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do produto\n' % (inv_line.product_id,inv_line.quantity)
+                        
+                    if not inv_line.product_id.name:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id,inv_line.quantity) 
+        
+                    if not inv_line.cfop_id:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CFOP\n' % (inv_line.product_id,inv_line.quantity)
+                    else:
+                        if not inv_line.cfop_id.code:
+                            strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id,inv_line.quantity)
+        
+                    if not inv_line.uos_id:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id,inv_line.quantity)
+                    
+                    if not inv_line.quantity:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id,inv_line.quantity)
+                    
+                    if not inv_line.price_unit:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Preço unitário\n' % (inv_line.product_id,inv_line.quantity)
+                        
+                    if not inv_line.icms_cst:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id,inv_line.quantity)
+                        
+                    if not inv_line.ipi_cst:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id,inv_line.quantity)
+                    
+                    if not inv_line.pis_cst:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id,inv_line.quantity)
+                        
+                    if not inv_line.cofins_cst:
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id,inv_line.quantity)
+                        
+                if inv.carrier_id:
+                    
+                    if not inv.carrier_id.partner_id.legal_name:
+                        strErro = 'Transportadora - Razão Social\n'
+                        
+                    if not inv.carrier_id.partner_id.cnpj_cpf:
+                        strErro = 'Transportadora - CNPJ/CPF\n'
+                
+                if inv.number_of_packages:
+                    
+                    if not inv.weight_net:
+                        strErro = 'Totais - Peso Liquido\n'
+                        
+                    if not inv.weight:
+                        strErro = 'Totais - Peso Bruto\n'
+
+        if strErro:
+            raise osv.except_osv(_('Error !'),_("Validação da Nota fiscal:\n '%s'") % (strErro,))
+        
+        return True
+        
 
     def nfe_export_txt(self, cr, uid, ids, context=False):
 
@@ -767,7 +941,7 @@ class account_invoice(osv.osv):
 
             StrRegZ = {
                        'InfAdFisco': '',
-                       'InfCpl': '',
+                       'InfCpl': inv.comment or '',
                        }
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
