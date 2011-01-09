@@ -6,7 +6,8 @@
         <record id="act_sefaz_export" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_export</field>
-            <field name="action">action_date_assign()
+            <field name="action">nfe_check()
+action_date_assign()
 action_move_create()
 action_number()
 action_internal_number()
