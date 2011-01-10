@@ -215,7 +215,7 @@ class account_invoice(osv.osv):
         #        'account.invoice.tax': (_get_invoice_tax, None, 20),
         #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
-            multi='all'),
+            multi='all'),            
     }
 
     def copy(self, cr, uid, id, default={}, context=None):
@@ -848,7 +848,7 @@ class account_invoice(osv.osv):
                          'vBCST': '0.00',
                          'vST': '0.00',
                          'vProd': str("%.2f" % inv.amount_untaxed),
-                         'vFrete': '0.00',
+                         'vFrete': str("%.2f" % inv.amount_freight),
                          'vSeg': str("%.2f" % inv.amount_insurance),
                          'vDesc': '0.00',
                          'vII': '0.00',
