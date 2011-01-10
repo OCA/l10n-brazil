@@ -11,6 +11,7 @@
 				 	<group colspan="4">
 						<separator colspan="4" string="Dados da Transportadora"/>
 						<field colspan="4" name="carrier_id"/>
+						<field name="amount_freight"/>
 						<field name="amount_insurance"/>
 						<field name="amount_costs"/>
 						<field name="weight"/>
