@@ -38,6 +38,7 @@ class account_invoice(osv.osv):
                 'number_of_packages': fields.integer('Volume', readonly=True, states={'draft':[('readonly',False)]}),
                 'amount_insurance': fields.float('Valor do Seguro', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
                 'amount_costs': fields.float('Outros Custos', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
+                'amount_freight': fields.float('Frete', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
                 }
 
 account_invoice()
