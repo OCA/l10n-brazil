@@ -244,6 +244,58 @@
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form2">
+			<field name="name">l10n_br_account.invoice.line.form2</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form" />
+			<field name="arch" type="xml">
+				<notebook>
+					<page position="inside" string="l10n br - Impostos">
+						<notebook>
+							<page string="ICMS">
+								<separator colspan="4" string="Detalhes do ICMS"/>
+		                		<field name="icms_cst"/>
+		                		<field name="icms_base" />
+		                		<field name="icms_base_other" />
+		                		<field name="icms_value" />
+		                		<field name="icms_percent" />
+		                		<field name="icms_percent_reduction" />
+		                		<separator colspan="4" string="Substituição Tributária ICMS"/>
+		                		<field name="icms_st_base"/>
+		                		<field name="icms_st_value"/>
+		                		<field name="icms_st_percent"/>
+		                		<field name="icms_st_mva"/>
+		                		<field name="icms_st_base_other"/>
+		                	</page>
+		                	<page string="IPI">
+								<separator colspan="4" string="Detalhes do IPI"/>
+		                		<field name="ipi_cst"/>
+		                		<field name="ipi_base" />
+		                		<field name="ipi_base_other" />
+		                		<field name="ipi_value" />
+		                		<field name="ipi_type" />
+		                		<field name="ipi_percent" />
+		                	</page>
+		                	<page string="PIS">
+								<separator colspan="4" string="Detalhes do PIS"/>
+		                		<field name="pis_cst"/>
+		                		<field name="pis_base" />
+		                		<field name="pis_value" />
+		                		<field name="pis_percent" />
+		                	</page>
+		                	<page string="COFINS">
+								<separator colspan="4" string="Detalhes do COFINS"/>
+		                		<field name="cofins_cst"/>
+		                		<field name="cofins_base" />
+		                		<field name="cofins_value" />
+		                		<field name="cofins_percent" />
+		                	</page>
+						</notebook>
+		        	</page>
+				</notebook>
+			</field>
+		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_tree">
 			<field name="name">l10n_br_account.invoice.line.tree1</field>
