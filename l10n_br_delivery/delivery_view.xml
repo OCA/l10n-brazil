@@ -17,7 +17,7 @@
                                 	<field name="description"/>
                                 	<field name="plate"/>
                                 	<field name="driver"/>
-                                	<field name="antt_code"/>
+                                	<field name="rntc_code"/>
                                 	<field name="country_id"/>
                                 	<field name="state_id"/>
                                 	<field name="city_id"/>
