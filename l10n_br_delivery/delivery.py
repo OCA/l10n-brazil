@@ -39,7 +39,7 @@ class l10n_br_delivery_carrier_vehicle(osv.osv):
         'description': fields.char('Descrição', size=132),
         'plate': fields.char('Placa', size=7),
         'driver': fields.char('Condudor', size=64),
-        'antt_code': fields.char('Codigo ANTT', size=32),
+        'rntc_code': fields.char('Codigo ANTT', size=32),
         'country_id': fields.many2one('res.country', 'País'),
         'state_id': fields.many2one('res.country.state', 'Estado', domain="[('country_id','=',country_id)]"),
         'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
