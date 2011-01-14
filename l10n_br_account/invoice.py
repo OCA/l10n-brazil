@@ -866,7 +866,17 @@ class account_invoice(osv.osv):
             
             StrFile += StrW02
             
-            StrX = 'X|%s|\n' % ('0')
+            
+            # Modo do Frete: 0- Por conta do emitente; 1- Por conta do destinatário/remetente; 2- Por conta de terceiros; 9- Sem frete (v2.0)
+            StrRegX0 = '0'
+            
+            if inv.incoterm.code == 'FOB':
+                StrRegX0 = '0'
+                            
+            if inv.incoterm.code == 'CIF':
+                StrRegX0 = '1'           
+            
+            StrX = 'X|%s|\n' % (StrRegX0)
             
             StrFile += StrX
             
@@ -887,16 +897,16 @@ class account_invoice(osv.osv):
                 carrier_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
                 
                 if inv.carrier_id.partner_id.legal_name:
-                    StrRegX03['XNome'] = inv.carrier_id.partner_id.legal_name or ''
+                    StrRegX03['XNome'] = normalize('NFKD',unicode(inv.carrier_id.partner_id.legal_name or '')).encode('ASCII','ignore')
                 else:
-                    StrRegX03['XNome'] = inv.carrier_id.partner_id.name or ''
+                    StrRegX03['XNome'] = normalize('NFKD',unicode(inv.carrier_id.partner_id.name or '')).encode('ASCII','ignore')
                 
                 StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
-                StrRegX03['xEnder'] = carrier_addr_default.street or ''
+                StrRegX03['xEnder'] = normalize('NFKD',unicode(carrier_addr_default.street or '')).encode('ASCII','ignore')
                 StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
                 
                 if carrier_addr_default.city_id:
-                    StrRegX03['xMun'] = carrier_addr_default.city_id.name or ''
+                    StrRegX03['xMun'] = normalize('NFKD',unicode(carrier_addr_default.city_id.name or '')).encode('ASCII','ignore')
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
                     StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
@@ -913,6 +923,12 @@ class account_invoice(osv.osv):
                          'UF': '',
                          'RNTC': '',
                          }
+
+            if inv.vehicle_id:
+                StrRegX18['Placa'] = inv.vehicle_id.plate or ''
+                StrRegX18['UF'] = inv.vehicle_id.plate.state_id.code or ''
+                StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
+                         
 
             StrX18 = 'X18|%s|%s|%s|\n' % (StrRegX18['Placa'], StrRegX18['UF'], StrRegX18['RNTC'])
 
@@ -941,7 +957,7 @@ class account_invoice(osv.osv):
 
             StrRegZ = {
                        'InfAdFisco': '',
-                       'InfCpl': inv.comment or '',
+                       'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
                        }
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
@@ -1790,7 +1806,7 @@ class account_invoice_line(osv.osv):
                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'pis_percent': fields.function(_amount_line, method=True, string='Perc PIS', type="float",
                                                digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'pis_cst': fields.function(_amount_line, method=True, string='Valor ICMS', type="char", size=2,
+                'pis_cst': fields.function(_amount_line, method=True, string='CST PIS', type="char", size=2,
                                            store=True, multi='all'),
                 'cofins_base': fields.function(_amount_line, method=True, string='Base COFINS', type="float",
                                                digits_compute= dp.get_precision('Account'), store=True, multi='all'),
