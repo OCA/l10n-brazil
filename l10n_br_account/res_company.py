@@ -17,35 +17,20 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-{
-    'name' : 'Brazilian Localization',
-    'description' : 'Brazilian Localization',
-    'category' : 'Localisation',
-    'author' : 'OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-        'l10n_br',
-		'l10n_br_base', 
-		'account_fiscal_position_rule', 
-		'account_product_fiscal_classification'
-		],
-    'init_xml': [
-#		'data/l10n_br_account.cst.csv',
-		],
-    'update_xml' : [
-		'l10n_br_account_view.xml',
-		'partner_view.xml',
-		'account_invoice_view.xml',
-        'account_invoice_workflow.xml',
-        'wizard/l10n_br_account_nfe_export_view.xml',
-        'account_view.xml',
-		'account_fiscal_position_rule_view.xml',
-        'res_company_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_account_security.xml',
-    ],
-    'installable': True
-}
+from osv import osv, fields
+
+##############################################################################
+# Empresa Personalizada
+##############################################################################
+class res_company(osv.osv):
+    _inherit = "res.company"
+    _columns = {
+        'fiscal_type': fields.selection([('1', 'Simples Nacional'), ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), ('3', 'Regime Normal')], 'Regime Tributário', required=True)
+    }
+    _defaults = {
+        'fiscal_type': '3',
+    }
+
+res_company()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
