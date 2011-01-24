@@ -38,6 +38,7 @@ class stock_picking(osv.osv):
         '''Call after the creation of the invoice'''
 
         self.pool.get('account.invoice').write(cr, uid, invoice_id, {
+                                                                     'partner_shipping_id': picking.address_id.id,
                                                                      'fiscal_operation_category_id': picking.fiscal_operation_category_id.id, 
                                                                      'fiscal_operation_id': picking.fiscal_operation_id.id, 
                                                                      'cfop_id': picking.fiscal_operation_id.cfop_id.id, 
