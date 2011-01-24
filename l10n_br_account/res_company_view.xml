@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_l10n_br_account_company_form">
+		<field name="name">l10n_br_account.company</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form" />
+		<field name="arch" type="xml">
+			<notebook>
+				<page position="inside" string="l10n_br - Fiscal">
+					<separator colspan="2" string="Dados Fiscaisl" />
+					<field name="fiscal_type" />
+				</page>
+			</notebook>
+		</field>
+	</record>
+
+    </data>
+</openerp>
+
