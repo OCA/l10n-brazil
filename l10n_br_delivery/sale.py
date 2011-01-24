@@ -47,6 +47,7 @@ class sale_order(osv.osv):
                         raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (order.company_id.name,))
                     
                     self.pool.get('account.invoice').write(cr, uid, invoice.id, {
+                                                                                 'partner_shipping_id': order.partner_shipping_id.id,
                                                                                  'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
                                                                                  'fiscal_operation_id': order.fiscal_operation_id.id, 
                                                                                  'cfop_id': order.fiscal_operation_id.cfop_id.id, 

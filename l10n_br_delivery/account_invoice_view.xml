@@ -42,6 +42,17 @@
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form2">
+			<field name="name">l10n_br_delivery.invoice.form2</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="address_contact_id">
+				<field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id" groups="base.group_extended"/>
+			    </field>
+			</field>
+		</record>
 
 	</data>
 </openerp>

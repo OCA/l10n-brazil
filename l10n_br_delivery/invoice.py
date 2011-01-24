@@ -32,9 +32,10 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     _columns = {
+                'partner_shipping_id': fields.many2one('res.partner.address', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
                 'carrier_id':fields.many2one("delivery.carrier","Carrier", readonly=True, states={'draft':[('readonly',False)]}),
-                'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle', 'Veículo'),
-                'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete', help="Incoterm which stands for 'International Commercial terms' implies its a series of sales terms which are used in the commercial transaction."),
+                'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle', 'Veículo', readonly=True, states={'draft': [('readonly', False)]}),
+                'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete', readonly=True, states={'draft': [('readonly', False)]}, help="Incoterm which stands for 'International Commercial terms' implies its a series of sales terms which are used in the commercial transaction."),
                 'weight': fields.float('Gross weight', help="The gross weight in Kg.", readonly=True, states={'draft':[('readonly',False)]}),
                 'weight_net': fields.float('Net weight', help="The net weight in Kg.", readonly=True, states={'draft':[('readonly',False)]}),
                 'number_of_packages': fields.integer('Volume', readonly=True, states={'draft':[('readonly',False)]}),
