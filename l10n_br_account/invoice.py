@@ -114,7 +114,7 @@ class account_invoice(osv.osv):
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
-        'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
+        'nfe_date': fields.datetime('Data do Status NFE', readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
@@ -364,6 +364,9 @@ class account_invoice(osv.osv):
                 if not company_addr_default.country_id.bc_code:
                     strErro = 'Emitente / Endereço - Código do BC do país\n'
         
+            if not company_addr_default.country_id:
+                strErro = 'Emitente / Regime Tributário\n'
+        
             #Destinatário
             if not inv.partner_id.legal_name:
                 strErro = 'Destinatário - Razão Social\n'
@@ -403,7 +406,46 @@ class account_invoice(osv.osv):
                     strErro = 'Destinatário / Endereço - Nome do país\n'
                 if not inv.address_invoice_id.country_id.bc_code:
                     strErro = 'Destinatário / Endereço - Código do BC do país\n'
+            
+            #endereco de entrega
+            if inv.partner_shipping_id:
+                
+                if inv.address_invoice_id != inv.partner_shipping_id: 
                     
+                    if not inv.partner_shipping_id.street:
+                        strErro = 'Destinatário / Endereço de Entrega - Logradouro\n'
+                    
+                    if not inv.partner_shipping_id.number:
+                        strErro = 'Destinatário / Endereço de Entrega - Número\n'
+                        
+                    if not inv.address_invoice_id.zip:
+                        strErro = 'Destinatário / Endereço de Entrega - CEP\n'
+        
+                    if not inv.partner_shipping_id.state_id:
+                        strErro = 'Destinatário / Endereço de Entrega - Estado\n'
+                    else:
+                        if not inv.partner_shipping_id.state_id.ibge_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do IBGE do estado\n'
+                        if not inv.partner_shipping_id.state_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do estado\n'
+                              
+                    if not inv.partner_shipping_id.city_id:
+                        strErro = 'Destinatário / Endereço - Municipio\n'
+                    else:
+                        if not inv.partner_shipping_id.city_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do municipio\n'
+                        if not inv.partner_shipping_id.city_id.ibge_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do IBGE do municipio\n'
+                            
+                    if not inv.partner_shipping_id.country_id:
+                        strErro = 'Destinatário / Endereço de Entrega - País\n'
+                    else:
+                        if not inv.partner_shipping_id.country_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do país\n'
+                        if not inv.partner_shipping_id.country_id.bc_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do BC do país\n'
+                    
+              
             #produtos
             for inv_line in inv.invoice_line:
                 
@@ -440,22 +482,35 @@ class account_invoice(osv.osv):
                         
                     if not inv_line.cofins_cst:
                         strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id,inv_line.quantity)
-                        
-                if inv.carrier_id:
-                    
-                    if not inv.carrier_id.partner_id.legal_name:
-                        strErro = 'Transportadora - Razão Social\n'
-                        
-                    if not inv.carrier_id.partner_id.cnpj_cpf:
-                        strErro = 'Transportadora - CNPJ/CPF\n'
                 
-                if inv.number_of_packages:
+            #Transportadora
+            if inv.carrier_id:
+                
+                if not inv.carrier_id.partner_id.legal_name:
+                    strErro = 'Transportadora - Razão Social\n'
                     
-                    if not inv.weight_net:
-                        strErro = 'Totais - Peso Liquido\n'
-                        
-                    if not inv.weight:
-                        strErro = 'Totais - Peso Bruto\n'
+                if not inv.carrier_id.partner_id.cnpj_cpf:
+                    strErro = 'Transportadora - CNPJ/CPF\n'
+
+            #Dados do Veiculo
+            if inv.vehicle_id:
+                
+                if not inv.vehicle_id.plate:
+                    strErro = 'Transportadora / Veículo - Placa\n'
+                    
+                if not inv.vehicle_id.plate.state_id.code:
+                    strErro = 'Transportadora / Veículo - UF da Placa\n'
+                
+                if not inv.vehicle_id.rntc_code:
+                    strErro = 'Transportadora / Veículo - RNTC\n'
+            
+            if inv.number_of_packages:
+                
+                if not inv.weight_net:
+                    strErro = 'Totais - Peso Liquido\n'
+                    
+                if not inv.weight:
+                    strErro = 'Totais - Peso Bruto\n'
 
         if strErro:
             raise osv.except_osv(_('Error !'),_("Validação da Nota fiscal:\n '%s'") % (strErro,))
@@ -534,7 +589,7 @@ class account_invoice(osv.osv):
                        'IEST': '',
                        'IM': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
                        'CNAE': '',
-                       'CRT': '3',
+                       'CRT': inv.company_id.fiscal_type or '',
                        }
             
             StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'], StrRegC['XFant'], StrRegC['IE'], StrRegC['IEST'], 
@@ -588,9 +643,9 @@ class account_invoice(osv.osv):
             StrFile += StrE0
 
             StrRegE05 = {
-                       'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '',)).encode('ASCII','ignore'),
-                       'nro': inv.address_invoice_id.number or '',
-                       'xCpl': normalize('NFKD',unicode(inv.address_invoice_id.street2 or '')).encode('ASCII','ignore'),
+                       'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '')).encode('ASCII','ignore'),
+                       'nro': normalize('NFKD',unicode(inv.address_invoice_id.number or '')).encode('ASCII','ignore'),
+                       'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.address_invoice_id.street2 or '' )).encode('ASCII','ignore')),
                        'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
                        'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.city_id.ibge_code),
                        'xMun': normalize('NFKD',unicode(inv.address_invoice_id.city_id.name or '')).encode('ASCII','ignore'),
@@ -606,6 +661,31 @@ class account_invoice(osv.osv):
                                                            StrRegE05['cPais'],StrRegE05['xPais'], StrRegE05['fone'],)
             
             StrFile += StrE05
+            
+            if inv.partner_shipping_id:
+                
+                if inv.address_invoice_id != inv.partner_shipping_id: 
+            
+                    StrRegG = {
+                               'XLgr': normalize('NFKD',unicode(inv.partner_shipping_id.street or '',)).encode('ASCII','ignore'),
+                               'Nro': normalize('NFKD',unicode(inv.partner_shipping_id.number or '')).encode('ASCII','ignore'),
+                               'XCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_shipping_id.street2 or '' )).encode('ASCII','ignore')),
+                               'XBairro': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_shipping_id.district or 'Sem Bairro' )).encode('ASCII','ignore')),
+                               'CMun': ('%s%s') % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.city_id.ibge_code),
+                               'XMun': normalize('NFKD',unicode(inv.partner_shipping_id.city_id.name or '')).encode('ASCII','ignore'),
+                               'UF': inv.address_invoice_id.state_id.code,
+                             }
+          
+                    StrG = 'G|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegG['XLgr'],StrRegG['Nro'],StrRegG['XCpl'],StrRegG['XBairro'],StrRegG['CMun'],StrRegG['XMun'],StrRegG['UF'])
+                    StrFile += StrG
+                    
+                    if inv.partner_id.tipo_pessoa == 'J':
+                        StrG0 = 'G02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
+                    else:
+                        StrG0 = 'G02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
+        
+                    StrFile += StrG0
+                    
             
             i = 0
             for inv_line in inv.invoice_line:
