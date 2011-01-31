@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 	
-		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil"/>
+		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil" web_icon_hover="images/l10n_br.png" web_icon="images/l10n_br-hover.png"/>
 		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="0"/>
 
 		<record model="ir.ui.view" id="view_l10n_br_account_cfop_form">
