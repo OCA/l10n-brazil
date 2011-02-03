@@ -192,6 +192,11 @@ class sale_order(osv.osv):
             for picking in order.picking_ids:
                 self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
         
+            for order_line in order.order_line:
+               for move in order_line.move_ids:
+                   if move.state not in ('draft', 'waiting'):
+                       self.pool.get('stock.move').write(cr, uid, move.id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id, 'fiscal_operation_id': order_line.fiscal_operation_id.id})
+
         return result
             
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
@@ -239,6 +244,32 @@ sale_order()
 class sale_order_line(osv.osv):
     _inherit = 'sale.order.line'
     
+    _columns = {
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+                }
+    
+    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
+            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
+
+        result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
+            uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
+
+        if fiscal_operation_category_id:
+            result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
+            
+        if fiscal_operation_id:
+            result['value']['fiscal_operation_id'] = fiscal_operation_id
+
+        #if product:
+        #    for fp_default in product.fiscal_category_operation_default_ids:
+        #        if fp_default.fiscal_operation_category_id.id == fiscal_operation_category_id:
+        #            result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
+                    
+        
+        return result
+    
     def create_sale_order_line_invoice(self, cr, uid, ids, context=None):
         result = super(sale_order_line, self).create_sale_order_line_invoice(cr, uid, ids, context)
         inv_ids = []
@@ -250,9 +281,7 @@ class sale_order_line(osv.osv):
                         if inv_line.invoice_id.id not in inv_ids: 
                             inv_ids.append(inv_line.id)
                             self.pool.get('account.invoice').write(cr, uid, inv_line.invoice_id.id, {'fiscal_operation_category_id': so_line.order_id.fiscal_operation_category_id.id, 'fiscal_operation_id': so_line.order_id.fiscal_operation_id.id, 'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': so_line.order_id.fiscal_operation_id.fiscal_document_id.id})
-                        self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id})
-            
-            
+                        self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': so_line.fiscal_operation_category_id.id, 'fiscal_operation_id': so_line.fiscal_operation_id.id})
             
         return result
 
