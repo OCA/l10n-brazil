@@ -9,7 +9,7 @@
 		<field name="arch" type="xml">
 			<notebook>
 				<page position="inside" string="l10n_br - Fiscal">
-					<separator colspan="2" string="Dados Fiscaisl" />
+					<separator colspan="4" string="Dados Fiscais" />
 					<field name="fiscal_type" />
 				</page>
 			</notebook>
