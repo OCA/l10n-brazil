@@ -30,7 +30,7 @@ class stock_picking(osv.osv):
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
 
-        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': move_line.picking_id.fiscal_operation_id.cfop_id.id})
+        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': move_line.fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': move_line.fiscal_operation_category_id.id ,'fiscal_operation_id': move_line.fiscal_operation_id.id})
 
         return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
 
