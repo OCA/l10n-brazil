@@ -41,6 +41,7 @@
         'wizard/l10n_br_account_nfe_export_view.xml',
         'account_view.xml',
 		'account_fiscal_position_rule_view.xml',
+        'product_view.xml',
         'res_company_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
