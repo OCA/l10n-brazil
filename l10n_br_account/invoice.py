@@ -39,6 +39,10 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
+        
+        obj_precision = self.pool.get('decimal.precision')
+        prec = obj_precision.precision_get(cr, uid, 'Account')
+        
         res = {}
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
@@ -73,11 +77,12 @@ class account_invoice(osv.osv):
                 
                
             for invoice_tax in invoice.tax_line:
-                    res[invoice.id]['amount_tax'] += invoice_tax.amount
-            
+                res[invoice.id]['amount_tax'] += invoice_tax.amount
+
             if res[invoice.id]['amount_tax_discount'] > 0 and res[invoice.id]['amount_tax'] > 0:
-                res[invoice.id]['amount_tax'] = res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount']
-                
+                res[invoice.id]['amount_tax'] = res[invoice.id]['ipi_value'] #FIXME round(res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount'], prec)
+                         
+             
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed'] + res[invoice.id]['icms_st_value']
             
         return res
@@ -451,37 +456,37 @@ class account_invoice(osv.osv):
                 
                 if inv_line.product_id:
                     if not inv_line.product_id.code:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do produto\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do produto\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.product_id.name:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id,inv_line.quantity) 
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name,inv_line.quantity) 
         
                     if not inv_line.cfop_id:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CFOP\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CFOP\n' % (inv_line.product_id.name,inv_line.quantity)
                     else:
                         if not inv_line.cfop_id.code:
-                            strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id,inv_line.quantity)
+                            strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id.name,inv_line.quantity)
         
                     if not inv_line.uos_id:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.quantity:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.price_unit:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Preço unitário\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Preço unitário\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.icms_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.ipi_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.pis_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.cofins_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name,inv_line.quantity)
                 
             #Transportadora
             if inv.carrier_id:
@@ -1263,8 +1268,6 @@ class account_invoice(osv.osv):
                 prod_uCom = SubElement(det_prod, 'uCom')
                 prod_uCom.text = inv_line.uos_id.name
                 
-                print ElementTree.tostring(infNFe, 'utf-8')
-                
                 prod_qCom = SubElement(det_prod, 'qCom')
                 prod_qCom.text = str("%.4f" % inv_line.quantity)
                 
@@ -1715,22 +1718,42 @@ class account_invoice_line(osv.osv):
             cofins_percent = 0.0
             cofins_cst = ''
 
-            if line.invoice_id.fiscal_operation_id:
-                
-                for fo_line in line.invoice_id.fiscal_operation_id.fiscal_operation_line:
+            if line.fiscal_operation_id:
 
-                    if fo_line.tax_code_id.domain == 'icms' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
-                        icms_cst = fo_line.cst_id.code
-            
-                    if fo_line.tax_code_id.domain == 'ipi' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
-                        ipi_cst = fo_line.cst_id.code
+                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)])
+
+                for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
                     
-                    if fo_line.tax_code_id.domain == 'pis' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
-                        pis_cst = fo_line.cst_id.code
+                        if fo_line.tax_code_id.domain == 'icms':
+                            icms_cst = fo_line.cst_id.code
+                
+                        if fo_line.tax_code_id.domain == 'ipi':
+                            ipi_cst = fo_line.cst_id.code
+                        
+                        if fo_line.tax_code_id.domain == 'pis':
+                            pis_cst = fo_line.cst_id.code
+    
+                        if fo_line.tax_code_id.domain == 'cofins':
+                            cofins_cst = fo_line.cst_id.code
 
-                    if fo_line.tax_code_id.domain == 'cofins' and (fo_line.fiscal_classification_id.id == line.product_id.property_fiscal_classification.id or not fo_line.fiscal_classification_id.id):
-                        cofins_cst = fo_line.cst_id.code
- 
+                if line.product_id:
+                    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
+    
+                    for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
+                        
+                            if fo_line_ncm.tax_code_id.domain == 'icms':
+                                icms_cst = fo_line_ncm.cst_id.code
+                    
+                            if fo_line_ncm.tax_code_id.domain == 'ipi':
+                                ipi_cst = fo_line_ncm.cst_id.code
+                            
+                            if fo_line_ncm.tax_code_id.domain == 'pis':
+                                pis_cst = fo_line_ncm.cst_id.code
+        
+                            if fo_line_ncm.tax_code_id.domain == 'cofins':
+                                cofins_cst = fo_line_ncm.cst_id.code
+                                                        
+
             for tax in taxes['taxes']:
                 fsc_op_line_ids = 0
                 fsc_fp_tax_ids = 0
@@ -1760,14 +1783,12 @@ class account_invoice_line(osv.osv):
                     cofins_base_other += taxes['total'] - tax['total_base']
                     cofins_value += tax['amount']
                     cofins_percent += tax_brw.amount * 100
-
-            for tax_sub in taxes['taxes']:
-                tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
-                if tax_brw_sub.domain == 'icmsst':
-                    icms_st_value += ((taxes['total'] * (1 + tax_brw_sub.amount_mva)) * (icms_percent / 100)) - icms_value
-                    icms_st_base += taxes['total'] * (1 + tax_brw_sub.amount_mva)
+                    
+                if tax_brw.domain == 'icmsst':
+                    icms_st_value += tax['amount']
+                    icms_st_base += tax['total_base']
                     icms_st_percent += icms_value
-                    icms_st_mva += tax_brw_sub.amount_mva * 100
+                    icms_st_mva += tax_brw.amount_mva * 100
                     icms_st_base_other += 0
 
             res[line.id] = {
@@ -1839,6 +1860,8 @@ class account_invoice_line(osv.osv):
         return res
 
     _columns = {
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
                 'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal', type="float",
                                                   digits_compute= dp.get_precision('Account'), store=True, multi='all'),
@@ -1908,6 +1931,8 @@ class account_invoice_line(osv.osv):
             return result
 
         result['value']['cfop_id'] =  cfop_id
+        result['value']['fiscal_operation_category_id'] =  cfop_id
+        result['value']['fiscal_operation_id'] =  cfop_id
 
         return result
 
