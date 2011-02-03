@@ -22,6 +22,7 @@ import res_company
 import partner
 import account
 import invoice
+import product
 import account_fiscal_position_rule
 import wizard
 
