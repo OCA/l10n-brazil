@@ -228,6 +228,8 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
+					<field name="fiscal_operation_category_id"/>
+					<field name="fiscal_operation_id"/>
 					<field colspan="4" name="cfop_id" required="1" />
 					<field name="price_total"/>
 				</field>
