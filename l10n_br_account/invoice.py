@@ -825,10 +825,10 @@ class account_invoice(osv.osv):
                 StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
 
                 #TODO - Fazer alteração para cada tipo de cst
-                if inv_line.icms_cst in ('00'):
+                if inv_line.icms_cst in ('00','20'):
                     StrFile += StrN02
                 
-                if inv_line.icms_cst in ('10','20'):
+                if inv_line.icms_cst in ('10'):
                     StrFile += StrN03
                     
                 if inv_line.icms_cst in ('40', '41', '50', '51'):
