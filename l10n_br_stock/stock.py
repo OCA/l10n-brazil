@@ -18,6 +18,7 @@
 #################################################################################
 
 from osv import osv, fields
+from tools.translate import _
 
 class stock_picking(osv.osv):
     _inherit = "stock.picking"
@@ -116,7 +117,7 @@ class stock_picking(osv.osv):
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
 
-        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': move_line.picking_id.fiscal_operation_id.cfop_id.id})
+        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': move_line.fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': move_line.fiscal_operation_category_id.id ,'fiscal_operation_id': move_line.fiscal_operation_id.id })
 
         return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
 
@@ -137,3 +138,12 @@ class stock_picking(osv.osv):
         return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
 
 stock_picking()
+
+class stock_move(osv.osv):
+    _inherit = 'stock.move'
+    _columns = {
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]"),
+                }
+
+stock_move()
