@@ -27,13 +27,6 @@ class stock_picking(osv.osv):
         'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete', help="Incoterm which stands for 'International Commercial terms' implies its a series of sales terms which are used in the commercial transaction."),
     }
 
-    def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
-        '''Call after the creation of the invoice line'''
-
-        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': move_line.fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': move_line.fiscal_operation_category_id.id ,'fiscal_operation_id': move_line.fiscal_operation_id.id})
-
-        return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
-
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         '''Call after the creation of the invoice'''
 
