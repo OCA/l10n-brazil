@@ -117,11 +117,11 @@ class stock_picking(osv.osv):
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
         
-        obj_fo = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, move_line.fiscal_operation_id.id)
-        
-        if not obj_fo:
+        if not move_line.fiscal_operation_id:
             raise osv.except_osv(_('Movimentação sem operação fiscal !'),_("Não existe operação fiscal para uma linha desta separação."))
         
+        obj_fo = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, move_line.fiscal_operation_id.id)
+
         self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': obj_fo.cfop_id.id, 'fiscal_operation_category_id': move_line.fiscal_operation_category_id.id ,'fiscal_operation_id': move_line.fiscal_operation_id.id})
 
         return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
