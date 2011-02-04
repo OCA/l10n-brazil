@@ -194,7 +194,7 @@ class sale_order(osv.osv):
         
             for order_line in order.order_line:
                for move in order_line.move_ids:
-                   if move.state in ('draft', 'waiting'):
+                   if move.state in ('draft', 'waiting','confirmed'):
                        self.pool.get('stock.move').write(cr, uid, move.id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id, 'fiscal_operation_id': order_line.fiscal_operation_id.id})
 
         return result
