@@ -192,11 +192,10 @@ class sale_order(osv.osv):
             for picking in order.picking_ids:
                 self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
         
-            for order_line in order.order_line:
-               for move in order_line.move_ids:
-                   if move.state in ('draft', 'waiting','confirmed'):
-                       self.pool.get('stock.move').write(cr, uid, move.id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id, 'fiscal_operation_id': order_line.fiscal_operation_id.id})
-
+            #for order_line in order.order_line:
+            #   for move in order_line.move_ids:
+            #       if move.state in ('draft', 'waiting','confirmed'):
+            #           self.pool.get('stock.move').write(cr, uid, move.id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id, 'fiscal_operation_id': order_line.fiscal_operation_id.id})
         return result
             
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
