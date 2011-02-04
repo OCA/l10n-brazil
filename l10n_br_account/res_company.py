@@ -25,7 +25,8 @@ from osv import osv, fields
 class res_company(osv.osv):
     _inherit = "res.company"
     _columns = {
-        'fiscal_type': fields.selection([('1', 'Simples Nacional'), ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), ('3', 'Regime Normal')], 'Regime Tributário', required=True)
+        'fiscal_type': fields.selection([('1', 'Simples Nacional'), ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), ('3', 'Regime Normal')], 'Regime Tributário', required=True),
+        'cnae_main': fields.char('CNAE', size=44),
     }
     _defaults = {
         'fiscal_type': '3',
