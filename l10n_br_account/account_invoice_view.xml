@@ -154,7 +154,7 @@
 					<page position="inside" string="l10n br - NF">
       					<separator colspan="4" string="Dados Adicionais da NF"/>
        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
-			            <field colspan="4" name="key_nfe_access"/>
+			            <field colspan="4" name="nfe_access_key"/>
 						<field name="fiscal_document_id"/>
 						<field name="vendor_number"/>
 						<field name="vendor_serie"/>
