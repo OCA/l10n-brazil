@@ -73,12 +73,12 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
    				<xpath expr="/form/notebook/page/field/form/notebook/page/field[@name='name']" position="after">
-		            	<field name="fiscal_operation_category_id" groups="base.group_extended"/>
-			   			<field name="fiscal_operation_id" groups="base.group_extended"/>
+		            	<field name="fiscal_operation_category_id" groups="base.group_sale_salesman" required="1"/>
+			   			<field name="fiscal_operation_id" groups="base.group_sale_salesman" required="1"/>
 			   	</xpath>
        		</field>        
    		</record>
-   		
+
    		<record id="l10n_br_sale_view_order_form5" model="ir.ui.view">
 	   		<field name="name">l10n_br_sale.order.form5</field>
 	   		<field name="model">sale.order</field>
