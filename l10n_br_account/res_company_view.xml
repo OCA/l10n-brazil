@@ -11,6 +11,7 @@
 				<page position="inside" string="l10n_br - Fiscal">
 					<separator colspan="4" string="Dados Fiscais" />
 					<field name="fiscal_type" />
+					<field name="cnae_main" />
 				</page>
 			</notebook>
 		</field>
