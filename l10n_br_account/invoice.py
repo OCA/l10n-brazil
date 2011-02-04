@@ -345,6 +345,12 @@ class account_invoice(osv.osv):
             if not company_addr_default.zip:
                 strErro = 'Emitente / Endereço - CEP\n'
 
+            if not inv.company_id.cnae_main:
+                strErro = 'Emitente / CNAE Principal\n'
+                
+            if not inv.company_id.partner_id.inscr_est:
+                strErro = 'Emitente / Inscrição Estadual\n'
+
             if not company_addr_default.state_id:
                 strErro = 'Emitente / Endereço - Estado\n'
             else:
@@ -592,8 +598,8 @@ class account_invoice(osv.osv):
                        'XFant': normalize('NFKD',unicode(inv.company_id.partner_id.name or '')).encode('ASCII','ignore'),
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or ''),
                        'IEST': '',
-                       'IM': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
-                       'CNAE': '',
+                       'IM': re.sub('[%s]' % rCRTe.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
+                       'CNAE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main or ''),
                        'CRT': inv.company_id.fiscal_type or '',
                        }
             
@@ -867,7 +873,7 @@ class account_invoice(osv.osv):
                            'VBC': str("%.2f" % inv_line.ipi_base),
                            'PIPI': str("%.2f" % inv_line.ipi_percent),
                         }
-                        StrO1 = 'O10|%s|%s|\n' % (StrRegO10['QUnid'], StrRegO10['VUnid'])
+                        StrO1 = 'O10|%s|%s|\n' % (StrRegO10['VBC'], StrRegO10['PIPI'])
                     
                     if inv_line.ipi_type == 'quantity':
                         pesol = 0
@@ -930,8 +936,8 @@ class account_invoice(osv.osv):
             StrRegW02 = {
                          'vBC': str("%.2f" % inv.icms_base),
                          'vICMS': str("%.2f" % inv.icms_value),
-                         'vBCST': '0.00',
-                         'vST': '0.00',
+                         'vBCST': str("%.2f" % inv.icms_st_base),
+                         'vST': str("%.2f" % inv.icms_st_value),
                          'vProd': str("%.2f" % inv.amount_untaxed),
                          'vFrete': str("%.2f" % inv.amount_freight),
                          'vSeg': str("%.2f" % inv.amount_insurance),
