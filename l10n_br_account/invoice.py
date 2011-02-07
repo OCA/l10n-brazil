@@ -800,8 +800,8 @@ class account_invoice(osv.osv):
                        'VICMS': str("%.2f" % inv_line.icms_value),
                 }
                 
-                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['PRedBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
-                                                     StrRegN02['VICMS'])
+                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'], StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
+                                                     StrRegN04['VICMS'])
 
                 StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
