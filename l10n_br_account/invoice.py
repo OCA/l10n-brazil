@@ -598,7 +598,7 @@ class account_invoice(osv.osv):
                        'XFant': normalize('NFKD',unicode(inv.company_id.partner_id.name or '')).encode('ASCII','ignore'),
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or ''),
                        'IEST': '',
-                       'IM': re.sub('[%s]' % rCRTe.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
+                       'IM': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
                        'CNAE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main or ''),
                        'CRT': inv.company_id.fiscal_type or '',
                        }
@@ -753,7 +753,8 @@ class account_invoice(osv.osv):
                 StrFile += StrM
                 
                 StrN = 'N|\n'
-                
+
+                #TODO - Fazer alteração para cada tipo de cst                
                 StrFile += StrN
 
                 StrRegN02 = {
@@ -765,7 +766,6 @@ class account_invoice(osv.osv):
                        'VICMS': str("%.2f" % inv_line.icms_value),
                 }
                 
-                #TODO - Fazer alteração para cada tipo de cst
                 StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
                                                      StrRegN02['VICMS'])
 
@@ -785,12 +785,24 @@ class account_invoice(osv.osv):
                        'VICMSST': str("%.2f" % inv_line.icms_st_value),
                 }
 
-                #TODO - Fazer alteração para cada tipo de cst
+                
                 StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
                                                                          StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
                                                                          StrRegN03['PICMSST'], StrRegN03['VICMSST'])
                 
+                StrRegN04 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'ModBC': '0',
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                }
                 
+                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['PRedBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
+                                                     StrRegN02['VICMS'])
+
                 StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
@@ -798,7 +810,6 @@ class account_invoice(osv.osv):
                        'motDesICMS': '9', #FIXME
                 }
                 
-                #TODO - Fazer alteração para cada tipo de cst
                 StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
 
                 StrRegN09 = {
@@ -831,8 +842,11 @@ class account_invoice(osv.osv):
                 StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
 
                 #TODO - Fazer alteração para cada tipo de cst
-                if inv_line.icms_cst in ('00','20'):
+                if inv_line.icms_cst in ('00'):
                     StrFile += StrN02
+                
+                if inv_line.icms_cst in ('20'):
+                    StrFile += StrN04
                 
                 if inv_line.icms_cst in ('10'):
                     StrFile += StrN03
@@ -1996,7 +2010,6 @@ class account_invoice_tax(osv.osv):
             t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
             t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
         return tax_grouped
-
     
 account_invoice_tax()
 
