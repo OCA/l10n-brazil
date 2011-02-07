@@ -7,3 +7,4 @@
 "l10n_br_account_fiscal_operation","l10n_br_account.fiscal.operation","model_l10n_br_account_fiscal_operation","account.group_account_invoice",1,1,1,1
 "l10n_br_account_fiscal_operation_line","l10n_br_account.fiscal.operation.line","model_l10n_br_account_fiscal_operation_line","account.group_account_invoice",1,1,1,1
 "l10n_br_account_document_serie","l10n_br_account.document.serie","model_l10n_br_account_document_serie","account.group_account_invoice",1,1,1,1
+"l10n_br_account_product_operation_category","l10n_br_account.product.operation.category","model_l10n_br_account_product_operation_category","base.group_sale_salesman",1,1,1,1
