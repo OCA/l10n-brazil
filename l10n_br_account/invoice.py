@@ -603,7 +603,7 @@ class account_invoice(osv.osv):
                        }
             
             #TODO - Verificar, pois quando e informado do CNAE ele exige que a inscricao municipal, parece um bug do emissor da NFE
-            if not StrRegC['IM']:
+            if not inv.company_id.partner_id.inscr_mun:
                 StrRegC['CNAE'] = ''
             
             StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'], StrRegC['XFant'], StrRegC['IE'], StrRegC['IEST'], 
