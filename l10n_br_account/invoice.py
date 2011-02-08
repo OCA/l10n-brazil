@@ -456,13 +456,12 @@ class account_invoice(osv.osv):
                         if not inv.partner_shipping_id.country_id.bc_code:
                             strErro = 'Destinatário / Endereço de Entrega - Código do BC do país\n'
                     
-              
             #produtos
             for inv_line in inv.invoice_line:
                 
                 if inv_line.product_id:
                     if not inv_line.product_id.code:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do produto\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Código do produto\n' % (inv_line.product_id.name, inv_line.quantity)
                         
                     if not inv_line.product_id.name:
                         strErro = 'Produtos e Servicos: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name,inv_line.quantity) 
@@ -524,7 +523,7 @@ class account_invoice(osv.osv):
                     strErro = 'Totais - Peso Bruto\n'
 
         if strErro:
-            raise osv.except_osv(_('Error !'),_("Validação da Nota fiscal:\n '%s'") % (strErro,))
+            raise osv.except_osv(_('Error !'),_("Validação da Nota fiscal:\n '%s'") % (strErro.encode('utf-8')))
         
         return True
         
@@ -602,6 +601,10 @@ class account_invoice(osv.osv):
                        'CNAE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main or ''),
                        'CRT': inv.company_id.fiscal_type or '',
                        }
+            
+            #TODO - Verificar, pois quando e informado do CNAE ele exige que a inscricao municipal, parece um bug do emissor da NFE
+            if not StrRegC['IM']:
+                StrRegC['CNAE'] = ''
             
             StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'], StrRegC['XFant'], StrRegC['IE'], StrRegC['IEST'], 
                                                 StrRegC['IM'],StrRegC['CNAE'],StrRegC['CRT'])
@@ -753,24 +756,44 @@ class account_invoice(osv.osv):
                 StrFile += StrM
                 
                 StrN = 'N|\n'
-
-                #TODO - Fazer alteração para cada tipo de cst                
+         
                 StrFile += StrN
 
-                StrRegN02 = {
+                #TODO - Fazer alteração para cada tipo de cst
+                if inv_line.icms_cst in ('00'):
+                    
+                    StrRegN02 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
                        'ModBC': '0',
                        'VBC': str("%.2f" % inv_line.icms_base),
                        'PICMS': str("%.2f" % inv_line.icms_percent),
                        'VICMS': str("%.2f" % inv_line.icms_value),
-                }
+                       }
                 
-                StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
+                    StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
                                                      StrRegN02['VICMS'])
+                    
+                    StrFile += StrN02
+                
+                if inv_line.icms_cst in ('20'):
 
-
-                StrRegN03 = {
+                    StrRegN04 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'ModBC': '0',
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       }
+                
+                    StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'], StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
+                                                              StrRegN04['VICMS'])
+                    StrFile += StrN04
+                
+                if inv_line.icms_cst in ('10'):
+                    StrRegN03 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
                        'ModBC': '0',
@@ -783,36 +806,39 @@ class account_invoice(osv.osv):
                        'VBCST': str("%.2f" % inv_line.icms_st_base),
                        'PICMSST': str("%.2f" % inv_line.icms_st_percent),
                        'VICMSST': str("%.2f" % inv_line.icms_st_value),
-                }
+                       }
 
-                
-                StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
-                                                                         StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
-                                                                         StrRegN03['PICMSST'], StrRegN03['VICMSST'])
-                
-                StrRegN04 = {
-                       'Orig': inv_line.product_id.origin or '0',
-                       'CST': inv_line.icms_cst,
-                       'ModBC': '0',
-                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
-                       'VBC': str("%.2f" % inv_line.icms_base),
-                       'PICMS': str("%.2f" % inv_line.icms_percent),
-                       'VICMS': str("%.2f" % inv_line.icms_value),
-                }
-                
-                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'], StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
-                                                     StrRegN04['VICMS'])
-
-                StrRegN06 = {
+                    StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
+                    StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
+                    StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+                    StrFile += StrN03
+                    
+                if inv_line.icms_cst in ('40', '41', '50', '51'):
+                    StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
                        'vICMS': str("%.2f" % inv_line.icms_value),
                        'motDesICMS': '9', #FIXME
-                }
+                       }
                 
-                StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
+                    StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
+                    
+                    StrFile += StrN06
+                
+                if inv_line.icms_cst in ('60'):                    
+                    StrRegN08 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': inv_line.icms_cst,
+                       'VBCST': str("%.2f" % 0.00),
+                       'VICMSST': str("%.2f" % 0.00),
+                       }
 
-                StrRegN09 = {
+                    StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
+                    
+                    StrFile += StrN08
+                    
+                if inv_line.icms_cst in ('70'):
+                    StrRegN09 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': inv_line.icms_cst,
                        'ModBC': '0',
@@ -826,38 +852,10 @@ class account_invoice(osv.osv):
                        'VBCST': str("%.2f" % inv_line.icms_st_base),
                        'PICMSST': str("%.2f" % inv_line.icms_st_percent),
                        'VICMSST': str("%.2f" % inv_line.icms_st_value),
-                }
+                       }
                 
-                
-                StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
+                    StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
 
-
-                StrRegN08 = {
-                       'Orig': inv_line.product_id.origin or '0',
-                       'CST': inv_line.icms_cst,
-                       'VBCST': str("%.2f" % 0.00),
-                       'VICMSST': str("%.2f" % 0.00),
-                }
-
-                StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
-
-                #TODO - Fazer alteração para cada tipo de cst
-                if inv_line.icms_cst in ('00'):
-                    StrFile += StrN02
-                
-                if inv_line.icms_cst in ('20'):
-                    StrFile += StrN04
-                
-                if inv_line.icms_cst in ('10'):
-                    StrFile += StrN03
-                    
-                if inv_line.icms_cst in ('40', '41', '50', '51'):
-                    StrFile += StrN06
-                
-                if inv_line.icms_cst in ('60'):
-                    StrFile += StrN08
-                    
-                if inv_line.icms_cst in ('70'):
                     StrFile += StrN09
 
                 StrRegO = {
@@ -1067,7 +1065,26 @@ class account_invoice(osv.osv):
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
-            StrFile += StrZ
+            StrY = 'Y|\n'
+            
+            StrFile += StrY
+            
+            #if inv.move_id:
+            #    move_ids = self.pool.get('account.move').search(cr, uid,[('invoice_id','=', inv.id),('active','=',True),('company_id','=',order.company_id.id)])
+            #    i = 0
+            #    for move in self.pool.get('account.move').browse(cr, uid, move_ids):
+            #        i += 1
+
+            #        StrRegY07 = {
+            #           'NDup': '',
+            #           'DVenc': '',
+            #           'VDup': '',
+            #           }
+           # 
+           #         StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
+           #     
+           #         StrFile += StrZ
+                    
             self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
         return unicode(StrFile.encode('utf-8'))
