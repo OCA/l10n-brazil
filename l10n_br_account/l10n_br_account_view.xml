@@ -4,6 +4,7 @@
 	
 		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil" web_icon="images/l10n_br.png" web_icon_hover="images/l10n_br-hover.png"/>
 		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="0"/>
+		<menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
 
 		<record model="ir.ui.view" id="view_l10n_br_account_cfop_form">
 			<field name="name">l10n_br_account.cfop.name</field>
@@ -11,13 +12,15 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="CFOP">
-					<field name="code" select="1"/>
+					<field name="code" select="1" />
 					<field name="name" select="1" />
 					<field name="small_name" select="2" />
 					<field name="parent_id" select="2"/>
-					<field name="type" select="2"/>
+					<field name="type" select="2" />
+					<field name="internal_type" select="2"/>
 					<newline/>
-					<field name="description" select="2" />
+					<separator string="Descrição do CFOP" colspan="4"/>
+					<field name="description" nolabel="1" colspan="4" select="2"/>
 				</form>
 			</field>
 		</record>
@@ -112,14 +115,17 @@
 				<field name="model">l10n_br_account.fiscal.operation.category</field>
 				<field name="type">form</field>
 				<field name="arch" type="xml">
-					<form string="Operação Fiscal">
+					<form string="Categoria de Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
-						<field name="use_sale" />
-						<field name="use_invoice" />
-						<field name="use_purchase" />
-						<field name="use_picking" />
+						<field name="fiscal_type" select="1"/>
+						<newline/>
+						<separator colspan="4" string="Utilização"/>
+						<field name="use_sale"/>
+						<field name="use_invoice"/>
+						<field name="use_purchase"/>
+						<field name="use_picking"/>
 					</form>
 				</field>
 			</record>
@@ -129,7 +135,7 @@
 				<field name="model">l10n_br_account.fiscal.operation.category</field>
 				<field name="type">tree</field>
 				<field name="arch" type="xml">
-					<tree string="Operação Fiscal">
+					<tree string="Categoria de Operação Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
@@ -143,17 +149,32 @@
 				<field name="type">form</field>
 				<field name="arch" type="xml">
 					<form string="Operação Fiscal">
-						<field name="code" select="1"/>
-						<field name="name" select="1"/>
-						<field name="type" select="1"/>
-						<field name="fiscal_operation_category_id" select="1"/>
-						<field name="cfop_id" select="1"/>
-						<field name="fiscal_document_id"/>
-						<field name="fiscal_operation_line" colspan="4" nolabel="1"/>
-						<field name="use_sale" />
-						<field name="use_invoice" />
-						<field name="use_purchase" />
-						<field name="use_picking" />
+	                    <group colspan="8" col="4">
+							<field name="code" select="1"/>
+							<field name="name" select="1"/>
+							<field name="type" select="1"/>
+							<field name="fiscal_operation_category_id" select="1"/>
+							<field name="cfop_id" domain="[('internal_type','=','normal'),('type','=',type)]" select="1"/>
+							<field name="fiscal_document_id"/>
+							<field name="refund_fiscal_operation_id" domain="[('type','!=',type)]"/>
+							<field name="fiscal_type"/>
+						</group>
+						<notebook colspan="4">
+							<page string="Principal">
+								<field name="fiscal_operation_line" colspan="4" nolabel="1"/>	
+							</page>
+							<page string="Outros">
+								<separator colspan="4" string="Observações"/>
+								<field name="inv_copy_note"/>
+								<field name="note" colspan="4" nolabel="1"/>
+							</page>
+						</notebook>
+	                    <group colspan="4" col="8">
+							<field name="use_sale"/>
+							<field name="use_invoice"/>
+							<field name="use_purchase"/>
+							<field name="use_picking"/>
+						</group>
 					</form>
 				</field>
 			</record>
@@ -174,16 +195,17 @@
 				</field>
 			</record>
 			
+			
 			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_form">
 				<field name="name">l10n_br_account.fiscal.operation.line</field>
 				<field name="model">l10n_br_account.fiscal.operation.line</field>
 				<field name="type">form</field>
 				<field name="arch" type="xml">
 					<form string="Linha da Operação Fiscal">
-						<field name="company_id"/>
+						<field name="company_id" required="1" />
 						<field name="fiscal_classification_id"/>
-						<field name="tax_code_id"/>
-						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]"/>
+						<field name="tax_code_id" required="1" />
+						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]" required="1" />
 					</form>
 				</field>
 			</record>
@@ -241,6 +263,7 @@
 						<field name="active"/>
 						<field name="name" colspan="4" select="1"/>
 						<field name="fiscal_document_id" select="1"/>
+						<field name="fiscal_type" select="1"/>
 						<field name="company_id"/>
 					</form>
 				</field>
@@ -260,6 +283,65 @@
 					</tree>
 				</field>
 			</record>
+			
+			
+			<record model="ir.ui.view" id="view_l10n_br_account_cnae_form">
+				<field name="name">l10n_br_account.cnae.form</field>
+				<field name="model">l10n_br_account.cnae</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="CNAE">
+						<field name="code" select="1"/>
+						<field name="name" colspan="4" select="1"/>
+						<field name="version" select="1"/>
+						<field name="internal_type" select="1"/>
+						<field name="parent_id"/>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="view_l10n_br_account_cnae_tree">
+				<field name="name">l10n_br_account.cnae.tree</field>
+				<field name="model">l10n_br_account.cnae</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="CNAE">
+						<field name="code" select="1"/>
+						<field name="name" select="1"/>
+						<field name="version" select="1"/>
+						<field name="parent_id" select="1"/>
+					</tree>
+				</field>
+			</record>
+	
+			<record id="view_l10n_br_account_cnae_structure" model="ir.ui.view">
+	            <field name="name">l10n_br_account.cnae.structure</field>
+	            <field name="model">l10n_br_account.cnae</field>
+	            <field name="type">tree</field>
+	            <field name="field_parent">child_ids</field>
+	            <field name="arch" type="xml">
+	                <tree string="Estrutura do CNAE">
+	                    <field name="code"/>
+	                    <field name="name"/>
+	                    <field name="version"/>
+	                    <field name="internal_type"/>
+	                </tree>
+	            </field>
+        	</record>
+        	
+        	<record id="view_l10n_br_account_cfop_structure" model="ir.ui.view">
+	            <field name="name">l10n_br_account.cfop.structure</field>
+	            <field name="model">l10n_br_account.cfop</field>
+	            <field name="type">tree</field>
+	            <field name="field_parent">child_ids</field>
+	            <field name="arch" type="xml">
+	                <tree string="Estrutura do CFOP">
+	                    <field name="code"/>
+	                    <field name="name"/>
+	                    <field name="internal_type"/>
+	                </tree>
+	            </field>
+        	</record>
 	
 			<record model="ir.actions.act_window" id="action_l10n_br_account_cfop_form">
 				<field name="name">CFOP</field>
@@ -324,20 +406,55 @@
 				<field name="view_id" ref="view_l10n_br_account_partner_fiscal_type_tree"/>
 			</record>
 			
-			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_partner_fiscal_type_form"/>
-	
-			<menuitem name="CFOP" id="menu_action_l10n_br_account_cfop_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_cfop_form"/>
+			<record model="ir.actions.act_window" id="action_l10n_br_account_cnae_form">
+				<field name="name">CNAE</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.cnae</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="view_l10n_br_account_cnae_tree"/>
+			</record>
 			
-			<menuitem name="Categoria de Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_category_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_operation_category_form"/>
+			<record id="action_l10n_br_account_cnae_structure" model="ir.actions.act_window">
+	            <field name="name">Estrutura do CNAE</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">l10n_br_account.cnae</field>
+	            <field name="view_type">tree</field>
+	            <field name="domain">[('parent_id','=',False)]</field>
+	            <field name="view_id" ref="view_l10n_br_account_cnae_structure"/>
+        	</record>
+        	
+        	<record id="action_l10n_br_account_cfop_structure" model="ir.actions.act_window">
+	            <field name="name">Estrutura do CFOP</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">l10n_br_account.cfop</field>
+	            <field name="view_type">tree</field>
+	            <field name="domain">[('parent_id','=',False)]</field>
+	            <field name="view_id" ref="view_l10n_br_account_cfop_structure"/>
+        	</record>
 			
-			<menuitem name="Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_operation_form"/>
-	
-			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_fiscal_document_form"/>
-	
-			<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_account_cst_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_cst_form"/>
+			<menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_fiscal" sequence="0"/>
 			
-			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_configuration" action="action_l10n_br_account_document_serie_form"/>
+			<menuitem name="CFOP" id="menu_action_l10n_br_account_cfop_form" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cfop_form" sequence="10" />
+			
+			<menuitem name="Estrutura do CFOP" id="menu_action_l10n_br_account_cfop_structure" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cfop_structure" sequence="20" />
 
+			<menuitem name="CNAE" id="menu_action_cnae_form" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_form" sequence="30" />
+			
+			<menuitem name="Estrutura do CNAE" id="menu_action_cnae_structure" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_structure" sequence="40" />
+			
+			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
+				
+			<menuitem name="Categoria de Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_category_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_operation_category_form"/>
+			
+			<menuitem name="Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_operation_form"/>
+	
+			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
+	
+			<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_account_cst_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_cst_form"/>
+			
+			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_serie_form"/>
+			
 	</data>
 
 </openerp>

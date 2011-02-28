@@ -31,77 +31,10 @@ from tools.translate import _
 from tools import config
 
 ##############################################################################
-# Cadastro de Modelo de Códigos de Impostos Personalizado
-##############################################################################
-class account_tax_code_template(osv.osv):
-
-    _inherit = 'account.tax.code.template'
-    _columns = {
-        'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
-        }
-account_tax_code_template()
-
-##############################################################################
-# Cadastro de Códigos de Impostos Personalizado
-##############################################################################
-class account_tax_code(osv.osv):
-
-    _inherit = 'account.tax.code'
-    _columns = {
-        'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
-        }
-account_tax_code()
-
-
-##############################################################################
-# Cadastro de Modelos de Impostos Personalizado
-##############################################################################
-
-class account_tax_template(osv.osv):
-    _inherit = 'account.tax.template'
-    
-    def get_precision_tax():
-        def change_digit_tax(cr):
-            res = pooler.get_pool(cr.dbname).get('decimal.precision').precision_get(cr, 1, 'Account')
-            return (16, res+2)
-        return change_digit_tax
-    
-    _columns = {
-        'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
-        'base_reduction': fields.float('Redução de Base', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Por Pauta')], 'Tax Type', required=True,
-            help="The computation method for the tax amount."),
-    }
-    _defaults = {
-        'base_reduction': 0,
-    }
-
-account_tax_template()
-
-
-##############################################################################
 # Cadastro de Impostos Personalizado
 ##############################################################################
 class account_tax(osv.osv):
     _inherit = 'account.tax'
-    
-    def get_precision_tax():
-        def change_digit_tax(cr):
-            res = pooler.get_pool(cr.dbname).get('decimal.precision').precision_get(cr, 1, 'Account')
-            return (16, res+2)
-        return change_digit_tax
-    
-    _columns = {
-        'tax_discount': fields.boolean('Descontar Imposto do Preço', help="Marque isso se este imposto é descontado no preço, exemplo: (ICMS, PIS e etc.)."),
-        'base_reduction': fields.float('Redução de Base', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'amount_mva': fields.float('Percentual MVA', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Por Pauta')], 'Tax Type', required=True,
-            help="The computation method for the tax amount."),
-    }
-    _defaults = {
-        'base_reduction': 0,
-        'amount_mva': 0,
-    }
     
     def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None):
         """
@@ -134,7 +67,7 @@ class account_tax(osv.osv):
             if tax_brw.type == 'quantity':
                 tax['amount'] = round((quantity * product.weight_net) * tax_brw.amount, prec)
             
-            if tax_brw.tax_discount:
+            if tax_brw.base_code_id.tax_discount:
             
                 if tax_brw.base_reduction <> 0:
                     tax['amount'] = round(tax['amount'] * (1 - tax_brw.base_reduction), prec)    
@@ -146,12 +79,13 @@ class account_tax(osv.osv):
             else:
                 tax['total_base'] = 0
             
-            #guarda o valor do icms para ser usado para calcular a st 
+            #Guarda o valor do icms para ser usado para calcular a st 
             if tax_brw.domain == 'icms':
                 icms_base = tax['total_base']
                 icms_value = tax['amount']
                 icms_percent = tax_brw.amount
-                
+            
+            #Guarda o valor do ipi para ser usado para calcular a st 
             if tax_brw.domain == 'ipi':
                 ipi_base = tax['total_base']
                 ipi_value = tax['amount']
@@ -161,12 +95,8 @@ class account_tax(osv.osv):
         for tax_sub in result['taxes']:
             tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
             if tax_brw_sub.domain == 'icmsst':
-                tax['total_base'] += (result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)
-                tax['amount'] += (((result['total'] + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
-                
-                #if tax_brw_sub.tax_discount:
-                #    
-                #    totaldc += tax['amount']
+                tax_sub['total_base'] += (result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)
+                tax_sub['amount'] += (((result['total'] + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
 
         return {
             'total': result['total'],
@@ -174,19 +104,7 @@ class account_tax(osv.osv):
             'total_tax_discount': totaldc,
             'taxes': result['taxes'],
         }
-    
+        
 account_tax()
 
-
-##############################################################################
-# Cadastro de Diários Contábeis
-##############################################################################
-class account_journal(osv.osv):
-    _inherit = "account.journal"
-
-    _columns = {
-        'internal_sequence': fields.many2one('ir.sequence', 'Internal Sequence'),
-    }
-
-account_journal()
     
