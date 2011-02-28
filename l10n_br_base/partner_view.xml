@@ -3,6 +3,28 @@
 	<data>
 
 		<!-- Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_filter">
+			<field name="name">l10n_br_base.partner.filter</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="cnpj_cpf" /> 	
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_tree">
+			<field name="name">l10n_br_base.partner.tree</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="cnpj_cpf" /> 	
+				</field>
+			</field>
+		</record>
+		
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
 			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
