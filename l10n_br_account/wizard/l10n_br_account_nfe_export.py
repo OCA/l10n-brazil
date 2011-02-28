@@ -47,7 +47,7 @@ class l10n_br_account_nfe_export(osv.osv_memory):
         data = self.read(cr, uid, ids, [], context=context)[0]
         
         inv_obj = self.pool.get('account.invoice')
-        inv_ids = inv_obj.search(cr, uid, [('state','=','sefaz_export'),('nfe_export_date','=',False),('company_id','=',data['company_id'])])
+        inv_ids = inv_obj.search(cr, uid, [('state','=','sefaz_export'),('nfe_export_date','=',False),('company_id','=',data['company_id']),('own_invoice','=',True)])
          
         if data['file_type'] == 'xml':
             file = inv_obj.nfe_export_xml(cr, uid, inv_ids)
