@@ -44,14 +44,19 @@ class l10n_br_account_cfop(osv.osv):
                 for x in reads]
             
     _columns = {
-        'code': fields.char('Código', size=4),
-        'name': fields.char('Nome', size=256),
-        'small_name': fields.char('Nome Reduzido', size=32),
+        'code': fields.char('Código', size=4, requeried=True),
+        'name': fields.char('Nome', size=256, requeried=True),
+        'small_name': fields.char('Nome Reduzido', size=32, requeried=True),
         'description': fields.text('Descrição'),
-        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
+        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo', requeried=True),
         'parent_id': fields.many2one('l10n_br_account.cfop', 'CFOP Pai'),
-        'child_ids': fields.one2many('l10n_br_account.cfop', 'parent_id', 'CFOP filhos'),
-    }
+        'child_ids': fields.one2many('l10n_br_account.cfop', 'parent_id', 'CFOP Filhos'),
+        'internal_type': fields.selection([('view', 'Visualização'), ('normal', 'Normal')], 'Tipo Interno', required=True),
+                }
+    _defaults = {
+                 'internal_type': 'normal',
+                 }
+
 l10n_br_account_cfop()
 
 #################################################################################
@@ -107,6 +112,7 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
                 'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
                 'use_purchase' : fields.boolean('Usado nas Compras'),
                 'use_picking' : fields.boolean('Usado nas Listas de Separações'),
+                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
                 }
     _defaults = {
         'type': 'output',
@@ -131,9 +137,14 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
                 'use_purchase' : fields.boolean('Usado nas Compras'),
                 'use_picking' : fields.boolean('Usado nas Listas de Separações'),
+                'refund_fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Op. Fiscal Devolução', domain="[('type','!=',type)]" ),
+                'note': fields.text('Observação'),
+                'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
+                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', domain="[('fiscal_type','=',fiscal_type)]", requeried=True),
                 }
     _defaults = {
         'type': 'output',
+        'fiscal_type': 'product', 
     }
 
 l10n_br_account_fiscal_operation()
@@ -145,10 +156,10 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
     _name = 'l10n_br_account.fiscal.operation.line'
     _description = 'Linhas das operações ficais'
     _columns = {
-                'company_id': fields.many2one('res.company', 'Empresa'),
-                'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM', domain="[('company_id','=',company_id)]"),
-                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', domain="[('company_id','=',company_id)]"),
-                'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária'),
+                'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
+                'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM', domain="[('company_id','=',company_id)]" ),
+                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', requeried=True, domain="[('company_id','=',company_id)]"),
+                'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária', requeried=True),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
                }
 
@@ -166,7 +177,11 @@ class l10n_br_account_document_serie(osv.osv):
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
                 'active':fields.boolean('Ativo'),
+                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
                 }
+    _defaults = {
+                 'active': True,
+                 }
 
 l10n_br_account_document_serie()
 
@@ -185,5 +200,38 @@ class l10n_br_account_partner_fiscal_type(osv.osv):
                 }
 
 l10n_br_account_partner_fiscal_type()
+
+################################################################################
+# Cadastro de CNAE
+#################################################################################
+class l10n_br_account_cnae(osv.osv):
+    _name = 'l10n_br_account.cnae'
+    _description = 'Cadastro de CNAE'
+    _columns = {
+                'code': fields.char('Código', size=16, required=True),
+                'name': fields.char('Descrição', size=64, required=True),
+                'version': fields.char('Versão', size=16, required=True),
+                'parent_id': fields.many2one('l10n_br_account.cnae', 'CNAE Pai'),
+                'child_ids': fields.one2many('l10n_br_account.cnae', 'parent_id', 'CNAEs Filhos'),
+                'internal_type': fields.selection([('view', 'Visualização'), ('normal', 'Normal')], 'Tipo Interno', required=True),
+                }
+    _defaults = {
+                 'internal_type': 'normal',
+                 }
+    
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - '+name
+            res.append((record['id'], name))
+        return res
+
+l10n_br_account_cnae()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
