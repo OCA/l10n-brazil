@@ -8,10 +8,34 @@
 		<field name="inherit_id" ref="base.view_company_form" />
 		<field name="arch" type="xml">
 			<notebook>
-				<page position="inside" string="l10n_br - Fiscal">
-					<separator colspan="4" string="Dados Fiscais" />
-					<field name="fiscal_type" />
-					<field name="cnae_main" />
+				<page position="inside" string="l10n_br">
+					<notebook>
+							<page string="Dados Fiscais">
+								<field name="fiscal_type" />
+								<separator colspan="4" string="CNAE Primário" />
+								<field colspan="4" name="cnae_main_id" />
+								<separator colspan="4" string="CNAE Secundários" />
+								<field colspan="4" nolabel="1" name="cnae_secondary_ids" />
+							</page>
+							<page string="Documento Fiscal">
+								<separator colspan="4" string="Série da Nota Fiscal de Serviço" />
+								<field colspan="4" name="document_serie_service_id" />
+								<separator colspan="4" string="Série de Documentos Fiscais" />
+								<field colspan="4" nolabel="1" name="document_serie_product_ids" required="1" />
+							</page>
+							<page string="NFe">
+								<field name="nfe_version" required="1" />
+								<newline/>
+								<field colspan="4" name="nfe_source_folder" />
+								<field colspan="4" name="nfe_destination_folder" />
+							</page>
+							<page string="NFse">
+								<field name="nfse_version" required="1" />
+								<newline/>
+								<field colspan="4" name="nfse_source_folder" />
+								<field colspan="4" name="nfse_destination_folder" />
+							</page>
+						</notebook>
 				</page>
 			</notebook>
 		</field>
