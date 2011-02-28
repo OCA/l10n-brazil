@@ -77,13 +77,14 @@ class account_invoice(osv.osv):
                 
                
             for invoice_tax in invoice.tax_line:
-                res[invoice.id]['amount_tax'] += invoice_tax.amount
+                if not invoice_tax.base_code_id.tax_discount:
+                    res[invoice.id]['amount_tax'] += invoice_tax.amount
 
-            if res[invoice.id]['amount_tax_discount'] > 0 and res[invoice.id]['amount_tax'] > 0:
-                res[invoice.id]['amount_tax'] = res[invoice.id]['ipi_value'] #FIXME round(res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount'], prec)
+            #if res[invoice.id]['amount_tax_discount'] > 0 and res[invoice.id]['amount_tax'] > 0:
+            #    res[invoice.id]['amount_tax'] = res[invoice.id]['ipi_value'] #FIXME round(res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount'], prec)
                          
              
-            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed'] + res[invoice.id]['icms_st_value']
+            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
             
         return res
 
@@ -99,6 +100,20 @@ class account_invoice(osv.osv):
             result[tax.invoice_id.id] = True
         return result.keys()
 
+    def _get_receivable_lines(self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for invoice in self.browse(cr, uid, ids, context=context):
+            id = invoice.id
+            res[id] = []
+            if not invoice.move_id:
+                continue
+            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable')]
+            New_ids = []
+            for line in data_lines:
+                New_ids.append(line.id)
+            res[id] = New_ids
+        return res
+    
     _columns = {
         'state': fields.selection([
             ('draft','Draft'),
@@ -117,18 +132,20 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
+        'own_invoice': fields.boolean('Nota Fiscal Própria',readonly=True, states={'draft':[('readonly',False)]}),
+        'internal_number': fields.char('Invoice Number', size=32, readonly=True , states={'draft':[('readonly',False)]}, help="Unique number of the invoice, computed automatically when the invoice is created."),
+        'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
-        'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+        'move_line_receivable_id': fields.function(_get_receivable_lines, method=True, type='many2many', relation='account.move.line', string='Entry Lines'),
+        'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Serie', domain="[('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', readonly=True, states={'draft':[('readonly',False)]}),
-        'vendor_number': fields.char('NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Número da Nota Fiscal do Fornecedor"),
-        'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
         'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -153,75 +170,79 @@ class account_invoice(osv.osv):
         'icms_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base ICMS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-                #'account.invoice.tax': (_get_invoice_tax, None, 20),
-                #'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'icms_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor ICMS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
-        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'icms_st_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base ICMS ST',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-                #'account.invoice.tax': (_get_invoice_tax, None, 20),
-                #'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'icms_st_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor ICMS ST',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
-        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
             
         'ipi_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base IPI',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-         #       'account.invoice.tax': (_get_invoice_tax, None, 20),
-         #       'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'ipi_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor IPI',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
-        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
          'pis_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base PIS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-         #       'account.invoice.tax': (_get_invoice_tax, None, 20),
-         #       'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'pis_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor PIS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
-        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),   
         'cofins_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base COFINS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-         #       'account.invoice.tax': (_get_invoice_tax, None, 20),
-         #       'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),
         'cofins_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor COFINS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
-        #        'account.invoice.tax': (_get_invoice_tax, None, 20),
-        #        'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='all'),            
     }
+    
+    _defaults = {
+                 'own_invoice': True
+                 }
 
     def copy(self, cr, uid, id, default={}, context=None):
         default.update({
@@ -239,10 +260,10 @@ class account_invoice(osv.osv):
             context = {}
         
         for obj_inv in self.browse(cr, uid, ids):
-            obj_sequence = self.pool.get('ir.sequence')
-            seq_no = obj_sequence.get_id(cr, uid, obj_inv.journal_id.internal_sequence.id, context=context)
-            self.write(cr, uid, obj_inv.id, {'internal_number': seq_no})
-            
+            if obj_inv.own_invoice: 
+                obj_sequence = self.pool.get('ir.sequence')
+                seq_no = obj_sequence.get_id(cr, uid, obj_inv.journal_id.internal_sequence.id, context=context)
+                self.write(cr, uid, obj_inv.id, {'internal_number': seq_no})
         
         return True
 
@@ -257,17 +278,18 @@ class account_invoice(osv.osv):
             invtype = obj_inv.type
             number = obj_inv.number
             move_id = obj_inv.move_id and obj_inv.move_id.id or False
-            reference = obj_inv.reference or ''
+            reference = obj_inv.internal_number or obj_inv.reference or ''
 
             #self.write(cr, uid, ids, {'internal_number':number})
 
-            if invtype in ('in_invoice', 'in_refund'):
-                if not reference:
-                    ref = self._convert_ref(cr, uid, number)
-                else:
-                    ref = reference
-            else:
-                ref = self._convert_ref(cr, uid, number)
+            #if invtype in ('in_invoice', 'in_refund'):
+            #    if not reference:
+            #        ref = self._convert_ref(cr, uid, number)
+            #    else:
+            #        ref = reference
+            #else:
+            #    ref = self._convert_ref(cr, uid, number)
+            ref = reference
 
             cr.execute('UPDATE account_move SET ref=%s ' \
                     'WHERE id=%s AND (ref is null OR ref = \'\')',
@@ -304,6 +326,8 @@ class account_invoice(osv.osv):
         for inv in self.browse(cr, uid, ids):
             
             #Nota fiscal
+            if not inv.own_invoice:
+                continue
             
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
             company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
@@ -345,7 +369,7 @@ class account_invoice(osv.osv):
             if not company_addr_default.zip:
                 strErro = 'Emitente / Endereço - CEP\n'
 
-            if not inv.company_id.cnae_main:
+            if not inv.company_id.cnae_main_id:
                 strErro = 'Emitente / CNAE Principal\n'
                 
             if not inv.company_id.partner_id.inscr_est:
@@ -598,7 +622,7 @@ class account_invoice(osv.osv):
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or ''),
                        'IEST': '',
                        'IM': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or ''),
-                       'CNAE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main or ''),
+                       'CNAE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main_id.code or ''),
                        'CRT': inv.company_id.fiscal_type or '',
                        }
             
@@ -1087,7 +1111,7 @@ class account_invoice(osv.osv):
                     
             self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
-        return unicode(StrFile.encode('utf-8'))
+        return unicode(StrFile.encode('utf-8'), errors='replace')
             
 
     def nfe_export_xml(self, cr, uid, ids, context=False):

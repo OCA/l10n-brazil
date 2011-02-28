@@ -25,7 +25,7 @@ from osv import osv, fields
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
-        'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+        'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro', domain="[('tipo_pessoa','=',tipo_pessoa)]"),
     }
 res_partner()
 
