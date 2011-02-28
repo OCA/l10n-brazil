@@ -178,23 +178,30 @@ class sale_order(osv.osv):
                 
                     invoice_id = inv_line.invoice_id
                     
-                    fiscal_operation_id = order.fiscal_operation_id or order_line.fiscal_operation_id 
-                    fiscal_operation_category_id = order.fiscal_operation_category_id or order_line.fiscal_operation_category_id
-                    
-                    if not fiscal_operation_id:
-                        doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
-                    
+                    fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id  
+                    fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
+                                        
                     if invoice_id == inv_line.invoice_id:
                         for invoice in order.invoice_ids:
                         
                             if invoice.state in ('draft'):
-                                if not doc_serie_id:
+                                company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+                                if not company_id.document_serie_product_ids:
                                     raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
-                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id, 'cfop_id': order.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 'document_serie_id': doc_serie_id[0]})
+                                comment = ''
+                                if picking.fiscal_operation_id.inv_copy_note:
+                                    comment = picking.fiscal_operation_id.note
+                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+                                                                                                'fiscal_operation_id': fiscal_operation_id.id, 'cfop_id': fiscal_operation_id.cfop_id.id, 
+                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
+                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id,
+                                                                                                'comment': comment})
 
                             invoice_id = inv_line.invoice_id
-
-                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 'fiscal_operation_id': fiscal_operation_id.id, 'cfop_id': fiscal_operation_id.cfop_id.id})   
+                    
+                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+                                                                                       'fiscal_operation_id': fiscal_operation_id.id, 
+                                                                                       'cfop_id': fiscal_operation_id.cfop_id.id})   
                     
         return result
     
@@ -206,10 +213,6 @@ class sale_order(osv.osv):
             for picking in order.picking_ids:
                 self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
         
-            #for order_line in order.order_line:
-            #   for move in order_line.DONA ANA TREMEMBEmove_ids:
-            #       if move.state in ('draft', 'waiting','confirmed'):
-            #           self.pool.get('stock.move').write(cr, uid, move.id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id, 'fiscal_operation_id': order_line.fiscal_operation_id.id})
         return result
             
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
@@ -227,8 +230,8 @@ class sale_order(osv.osv):
         return result.keys()
 
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]" ),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]" ),
                 'amount_untaxed': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Sale Price'), string='Untaxed Amount',
                 store = {
                          'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
@@ -258,8 +261,8 @@ class sale_order_line(osv.osv):
     _inherit = 'sale.order.line'
     
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
                 }
     
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
