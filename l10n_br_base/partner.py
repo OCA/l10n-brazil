@@ -38,14 +38,15 @@ class res_partner(osv.osv):
     }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
-        partner = self.browse(cr, uid, ids)[0]
-        if not partner.cnpj_cpf:
-            return True
-
-        if partner.tipo_pessoa == 'J':
-            return self.validate_cnpj(partner.cnpj_cpf)
-        elif partner.tipo_pessoa == 'F':
-            return self.validate_cpf(partner.cnpj_cpf)
+        
+        for partner in self.browse(cr, uid, ids):
+            if not partner.cnpj_cpf:
+                return True
+    
+            if partner.tipo_pessoa == 'J':
+                return self.validate_cnpj(partner.cnpj_cpf)
+            elif partner.tipo_pessoa == 'F':
+                return self.validate_cpf(partner.cnpj_cpf)
 
         return False
 
@@ -106,7 +107,13 @@ class res_partner(osv.osv):
             
         return False
 
-    _constraints = [(_check_cnpj_cpf, 'CNPJ/CPF invalido!', ['cnpj_cpf'])]
+    _constraints = [
+                    (_check_cnpj_cpf, 'CNPJ/CPF invalido!', ['cnpj_cpf'])
+    ]
+    
+    _sql_constraints = [
+                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', 'Já existe um parceiro cadastrado com este CPF/CNPJ !')
+    ]
 
     def on_change_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
         if not cnpj_cpf or not tipo_pessoa:
