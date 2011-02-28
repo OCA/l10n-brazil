@@ -54,7 +54,6 @@ class sale_order(osv.osv):
                                                                                  'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
                                                                                  'document_serie_id': doc_serie_id[0], 
                                                                                  'carrier_id': order.carrier_id.id,
-                                                                                 'vehicle_id': order.vehicle_id.id,
                                                                                  'incoterm': order.incoterm.id
                                                                                  })
                     for inv_line in invoice.invoice_line:
