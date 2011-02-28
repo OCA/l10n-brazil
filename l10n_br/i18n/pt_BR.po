@@ -1,0 +1,124 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_br
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.0\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-02-10 03:03+0000\n"
+"PO-Revision-Date: 2011-02-10 03:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br
+#: field:account.tax.code,domain:0
+#: field:account.tax.code.template,domain:0
+msgid "Domain"
+msgstr "Domínio"
+
+#. module: l10n_br
+#: field:account.tax,tax_discount:0
+#: field:account.tax.template,tax_discount:0
+msgid "Discount this Tax in Prince"
+msgstr "Descontar este Imposto do Preço"
+
+#. module: l10n_br
+#: constraint:account.tax.code:0
+msgid "Error ! You can not create recursive accounts."
+msgstr "Erro ! Você não pode criar contas recursivas"
+
+#. module: l10n_br
+#: model:ir.actions.todo,note:l10n_br.config_call_account_template_brazilian_localization
+msgid "Generate Chart of Accounts from a Chart Template. You will be asked to pass the name of the company, the chart template to follow, the no. of digits to generate the code for your accounts and Bank account, currency to create Journals. Thus,the pure copy of chart Template is generated.\n"
+"    This is the same wizard that runs from Financial Management/Configuration/Financial Accounting/Financial Accounts/Generate Chart of Accounts from a Chart Template."
+msgstr "Generate Chart of Accounts from a Chart Template. You will be asked to pass the name of the company, the chart template to follow, the no. of digits to generate the code for your accounts and Bank account, currency to create Journals. Thus,the pure copy of chart Template is generated.\n"
+"    This is the same wizard that runs from Financial Management/Configuration/Financial Accounting/Financial Accounts/Generate Chart of Accounts from a Chart Template."
+
+#. module: l10n_br
+#: model:ir.model,name:l10n_br.model_account_tax_template
+msgid "account.tax.template"
+msgstr "account.tax.template"
+
+#. module: l10n_br
+#: model:ir.model,name:l10n_br.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_br
+#: help:account.tax.code,domain:0
+#: help:account.tax.code.template,domain:0
+msgid "This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."
+msgstr "This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."
+
+#. module: l10n_br
+#: sql_constraint:account.journal:0
+msgid "The name of the journal must be unique per company !"
+msgstr "O nome do diário deve ser único por empresa !"
+
+#. module: l10n_br
+#: model:ir.module.module,description:l10n_br.module_meta_information
+#: model:ir.module.module,shortdesc:l10n_br.module_meta_information
+msgid "Brazilian Localization"
+msgstr "Localização Brasileira"
+
+#. module: l10n_br
+#: field:account.tax,base_reduction:0
+#: field:account.tax.template,base_reduction:0
+msgid "Redution"
+msgstr "Redução de Base"
+
+#. module: l10n_br
+#: model:ir.model,name:l10n_br.model_account_tax_code
+msgid "Tax Code"
+msgstr "Código da taxa"
+
+#. module: l10n_br
+#: sql_constraint:account.journal:0
+msgid "The code of the journal must be unique per company !"
+msgstr "O código do diário deve ser único por empresa !"
+
+#. module: l10n_br
+#: field:account.journal,internal_sequence:0
+msgid "Internal Sequence"
+msgstr "Seguência Interna"
+
+#. module: l10n_br
+#: constraint:account.tax.code.template:0
+msgid "Error ! You can not create recursive Tax Codes."
+msgstr "Erro ! Você não pode criar Códigos de Impostos recursivos"
+
+#. module: l10n_br
+#: help:account.tax,tax_discount:0
+#: help:account.tax.template,tax_discount:0
+msgid "Mark it for (ICMS, PIS e etc.)."
+msgstr "Marque isso para impostos já incluido no preço (ICMS, PIS, COFINS e etc.)."
+
+#. module: l10n_br
+#: model:ir.model,name:l10n_br.model_account_tax_code_template
+msgid "Tax Code Template"
+msgstr "Modelo de código de taxa"
+
+#. module: l10n_br
+#: help:account.tax,amount_mva:0
+#: help:account.tax,base_reduction:0
+#: help:account.tax.template,amount_mva:0
+#: help:account.tax.template,base_reduction:0
+msgid "Um percentual decimal em % entre 0-1."
+msgstr "Um percentual decimal em % entre 0-1."
+
+#. module: l10n_br
+#: field:account.tax,amount_mva:0
+#: field:account.tax.template,amount_mva:0
+msgid "MVA Percent"
+msgstr "Percentual de MVA"
+
+#. module: l10n_br
+#: model:ir.model,name:l10n_br.model_account_tax
+msgid "account.tax"
+msgstr "account.tax"
+

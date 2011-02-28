@@ -117,31 +117,53 @@ class stock_picking(osv.osv):
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
         
-        fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id 
-        fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
+        if move_line.sale_line_id:
+            fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id 
+            fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
+        
+        if move_line.purchase_line_id:
+            fiscal_operation_id = move_line.purchase_line_id.fiscal_operation_id or move_line.purchase_line_id.order_id.fiscal_operation_id 
+            fiscal_operation_category_id = move_line.purchase_line_id.fiscal_operation_category_id or move_line.purchase_line_id.order_id.fiscal_operation_category_id       
         
         if not fiscal_operation_id:
             raise osv.except_osv(_('Movimentação sem operação fiscal !'),_("Não existe operação fiscal para uma linha de vendas relacionada ao produto %s .") % (move_line.product_id.name))
-        
-        obj_fo = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id.id)
 
-        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': obj_fo.cfop_id.id, 'fiscal_operation_category_id': fiscal_operation_category_id.id ,'fiscal_operation_id': fiscal_operation_id.id})
+        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': fiscal_operation_category_id.id ,'fiscal_operation_id': fiscal_operation_id.id})
 
         return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         '''Call after the creation of the invoice'''
 
+        own_invoice = True
+
         if picking.sale_id:
             salesman = picking.sale_id.user_id.id
         else:
             salesman = uid
+        
+        if picking.purchase_id:
+            salesman = picking.purchase_id.validator.id
+            own_invoice = False
+        else:
+            salesman = uid
+        
+        company_id = self.pool.get('res.company').browse(cr, uid, picking.company_id.id)
+        if not company_id.document_serie_product_ids:
+            raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (picking.company_id.name,))
 
-        doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', picking.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',picking.company_id.id)])
-        if not doc_serie_id:
-            raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (picking.company_id.name,))
+        comment = ''
+        if picking.fiscal_operation_id.inv_copy_note:
+            comment = picking.fiscal_operation_id.note
 
-        self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id, 'fiscal_operation_id': picking.fiscal_operation_id.id, 'cfop_id': picking.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': picking.fiscal_operation_id.fiscal_document_id.id, 'fiscal_position': picking.fiscal_position.id, 'document_serie_id': doc_serie_id[0], 'user_id': salesman})
+        self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id,
+                                                                     'fiscal_operation_id': picking.fiscal_operation_id.id, 
+                                                                     'cfop_id': picking.fiscal_operation_id.cfop_id.id, 
+                                                                     'fiscal_document_id': picking.fiscal_operation_id.fiscal_document_id.id, 
+                                                                     'fiscal_position': picking.fiscal_position.id, 
+                                                                     'document_serie_id': company_id.document_serie_product_ids[0].id, 
+                                                                     'user_id': salesman,
+                                                                     'comment': comment})
 
         return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
 
