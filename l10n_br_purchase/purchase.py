@@ -25,8 +25,8 @@ from osv import osv, fields
 class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     _columns = {
-        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
-        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]" ),
+        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]" ),
+        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),(type,'=','input'),('use_purchase','=',True)]" ),
     }
     
     def onchange_partner_id(self, cr, uid, ids, part, company_id=False, fiscal_operation_category_id=False):
@@ -166,6 +166,44 @@ class purchase_order(osv.osv):
             return res
         
         for order in self.browse(cr, uid, ids):
+            for order_line in order.order_line: 
+                for inv_line in order_line.invoice_lines: 
+                
+                    invoice_id = inv_line.invoice_id
+                    
+                    fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id 
+                    fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
+
+                    if invoice_id == inv_line.invoice_id:
+                        for invoice in order.invoice_ids:
+                        
+                            if invoice.state in ('draft'):
+                                company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+                                if not company_id.document_serie_product_ids:
+                                    raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
+                                comment = ''
+                                if picking.fiscal_operation_id.inv_copy_note:
+                                    comment = picking.fiscal_operation_id.note
+                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+                                                                                                'fiscal_operation_id': order.fiscal_operation_id, 
+                                                                                                'cfop_id': order.fiscal_operation_id.cfop_id.id, 
+                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
+                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id, 
+                                                                                                'own_invoice': False,
+                                                                                                'comment': comment})
+
+                            invoice_id = inv_line.invoice_id
+                    
+                    
+                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {
+                                                                                       'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+                                                                                       'fiscal_operation_id': fiscal_operation_id.id, 
+                                                                                       'cfop_id': fiscal_operation_id.cfop_id.id})   
+                    
+        return res
+        
+        
+        for order in self.browse(cr, uid, ids):
             for invoice in order.invoice_ids:
                 if invoice.state in ('draft') and order.fiscal_operation_id:
                     #doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
@@ -189,3 +227,31 @@ class purchase_order(osv.osv):
         return picking_id
     
 purchase_order()
+
+
+##############################################################################
+# Linhas da Ordem de Compra Customizada
+##############################################################################
+class purchase_order_line(osv.osv):
+    _inherit = 'purchase.order.line'
+    _columns = {
+        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]"),
+        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','input'),('use_purchase','=',True)]" ),
+    }
+    
+    def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
+            partner_id, date_order=False, fiscal_position=False, date_planned=False,
+            name=False, price_unit=False, notes=False,fiscal_operation_category_id=False, fiscal_operation_id=False):
+        
+        result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
+            partner_id, date_order, fiscal_position, date_planned, name, price_unit, notes)
+
+        if fiscal_operation_category_id:
+            result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
+            
+        if fiscal_operation_id:
+            result['value']['fiscal_operation_id'] = fiscal_operation_id
+
+        return result
+    
+purchase_order_line()
