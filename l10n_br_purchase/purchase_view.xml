@@ -4,20 +4,20 @@
 	<data>
 
 		<record model="ir.ui.view" id="view_l10n_br_order_form">
-			<field name="name">l10n_br.purchase.order.form</field>
+			<field name="name">l10n_br_purchase.order.form</field>
 			<field name="model">purchase.order</field>
 			<field name="inherit_id" ref="purchase.purchase_order_form"/>
 			<field name="arch" type="xml">
 				<field name="fiscal_position" position="replace" >
-					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_address_id, company_id, fiscal_operation_category_id)" domain="[('use_purchase','=',True)]" required="1"/>
-					<field name="fiscal_operation_id" required="1"/>
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_address_id, company_id, fiscal_operation_category_id)" required="1"/>
+					<field name="fiscal_operation_id" domain="[('type','=','input'),('use_purchase','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)]" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 				</field>
 			</field>
 		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_order_form1">
-			<field name="name">l10n_br.purchase.order.form1</field>
+			<field name="name">l10n_br_purchase.order.form1</field>
 			<field name="model">purchase.order</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form1"/>
 			<field name="arch" type="xml">
@@ -28,12 +28,35 @@
 		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_order_form2">
-			<field name="name">l10n_br.purchase.order.form2</field>
+			<field name="name">l10n_br_purchase.order.form2</field>
 			<field name="model">purchase.order</field>
 			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form2"/>
 			<field name="arch" type="xml">
 				<field name="partner_address_id" position="replace" >
 	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, company_id, fiscal_operation_category_id)"/>
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_purchase_order_line_form">
+			<field name="name">l10n_br_purchase.order.line.form</field>
+			<field name="model">purchase.order.line</field>
+			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+			<field name="arch" type="xml">
+				<field name="product_id" position="replace" >
+	               <field name="product_id" colspan="4" context="partner_id=parent.partner_id,quantity=product_qty,pricelist=parent.pricelist_id,uom=product_uom,warehouse=parent.warehouse_id" on_change="product_id_change(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,price_unit,notes,parent.fiscal_operation_category_id,parent.fiscal_operation_id)"/>
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_purchase_order_line_form2">
+			<field name="name">l10n_br_purchase.order.line.form2</field>
+			<field name="model">purchase.order.line</field>
+			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after" >
+	               <field name="fiscal_operation_category_id" required="1" />
+	               <field name="fiscal_operation_id" required="1" />
 				</field>
 			</field>
 		</record>
