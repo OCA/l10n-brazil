@@ -155,7 +155,10 @@ class stock_picking(osv.osv):
         comment = ''
         if picking.fiscal_operation_id.inv_copy_note:
             comment = picking.fiscal_operation_id.note
-
+        
+        if picking.note:
+            comment += ' - ' + picking.note
+        
         self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id,
                                                                      'fiscal_operation_id': picking.fiscal_operation_id.id, 
                                                                      'cfop_id': picking.fiscal_operation_id.cfop_id.id, 
