@@ -189,8 +189,12 @@ class sale_order(osv.osv):
                                 if not company_id.document_serie_product_ids:
                                     raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
                                 comment = ''
-                                if picking.fiscal_operation_id.inv_copy_note:
-                                    comment = picking.fiscal_operation_id.note
+                                if order_line.fiscal_operation_id.inv_copy_note:
+                                    comment = order_line.fiscal_operation_id.note
+                                
+                                if order.note:
+                                    comment += ' - ' + order.note 
+                                
                                 self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
                                                                                                 'fiscal_operation_id': fiscal_operation_id.id, 'cfop_id': fiscal_operation_id.cfop_id.id, 
                                                                                                 'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
@@ -294,10 +298,20 @@ class sale_order_line(osv.osv):
             for so_line in self.browse(cr, uid, ids):
                 for inv_line in so_line.invoice_lines:
                     if inv_line.invoice_id.state in ('draft'):
+                        company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+                        if not company_id.document_serie_product_ids:
+                            raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
                         if inv_line.invoice_id.id not in inv_ids: 
                             inv_ids.append(inv_line.id)
-                            self.pool.get('account.invoice').write(cr, uid, inv_line.invoice_id.id, {'fiscal_operation_category_id': so_line.order_id.fiscal_operation_category_id.id, 'fiscal_operation_id': so_line.order_id.fiscal_operation_id.id, 'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': so_line.order_id.fiscal_operation_id.fiscal_document_id.id})
-                        self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': so_line.fiscal_operation_category_id.id, 'fiscal_operation_id': so_line.fiscal_operation_id.id})
+                            self.pool.get('account.invoice').write(cr, uid, inv_line.invoice_id.id, {'fiscal_operation_category_id': so_line.order_id.fiscal_operation_category_id.id,
+                                                                                                     'fiscal_operation_id': so_line.order_id.fiscal_operation_id.id, 
+                                                                                                     'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id, 
+                                                                                                     'fiscal_document_id': so_line.order_id.fiscal_operation_id.fiscal_document_id.id,
+                                                                                                     'document_serie_id': company_id.document_serie_product_ids[0].id})
+                        
+                        self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.fiscal_operation_id.cfop_id.id, 
+                                                                                           'fiscal_operation_category_id': so_line.fiscal_operation_category_id.id, 
+                                                                                           'fiscal_operation_id': so_line.fiscal_operation_id.id})
             
         return result
 
