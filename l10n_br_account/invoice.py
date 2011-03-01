@@ -63,7 +63,6 @@ class account_invoice(osv.osv):
             }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
-                res[invoice.id]['amount_tax_discount'] += line.price_total - line.price_subtotal
                 res[invoice.id]['icms_base'] += line.icms_base
                 res[invoice.id]['icms_value'] += line.icms_value
                 res[invoice.id]['icms_st_base'] += line.icms_st_base
@@ -74,16 +73,11 @@ class account_invoice(osv.osv):
                 res[invoice.id]['pis_value'] += line.pis_value
                 res[invoice.id]['cofins_base'] += line.cofins_base
                 res[invoice.id]['cofins_value'] += line.cofins_value
-                
-               
+           
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.base_code_id.tax_discount:
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
 
-            #if res[invoice.id]['amount_tax_discount'] > 0 and res[invoice.id]['amount_tax'] > 0:
-            #    res[invoice.id]['amount_tax'] = res[invoice.id]['ipi_value'] #FIXME round(res[invoice.id]['amount_tax'] - res[invoice.id]['amount_tax_discount'], prec)
-                         
-             
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
             
         return res
@@ -1081,6 +1075,22 @@ class account_invoice(osv.osv):
             StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
 
             StrFile += StrX26
+            
+            #StrY = 'Y|\n'
+            #
+            #StrFile += StrY
+            #
+            #for line in inv.move_line_receivable_id:
+            #    y += 1
+            #    StrRegY07 = {
+            #       'NDup': i,
+            #       'DVenc': line.date_maturity or inv.date_due or inv.date_invoice,
+            #       'VDup': str("%.2f" % line.debit),
+            #       }
+            #
+            #    StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
+            #    
+            #    StrFile += StrY07
 
             StrRegZ = {
                        'InfAdFisco': '',
@@ -1089,26 +1099,8 @@ class account_invoice(osv.osv):
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
-            StrY = 'Y|\n'
+            StrFile += StrZ              
             
-            StrFile += StrY
-            
-            #if inv.move_id:
-            #    move_ids = self.pool.get('account.move').search(cr, uid,[('invoice_id','=', inv.id),('active','=',True),('company_id','=',order.company_id.id)])
-            #    i = 0
-            #    for move in self.pool.get('account.move').browse(cr, uid, move_ids):
-            #        i += 1
-
-            #        StrRegY07 = {
-            #           'NDup': '',
-            #           'DVenc': '',
-            #           'VDup': '',
-            #           }
-           # 
-           #         StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
-           #     
-           #         StrFile += StrZ
-                    
             self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
         return unicode(StrFile.encode('utf-8'), errors='replace')
