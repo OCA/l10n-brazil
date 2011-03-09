@@ -39,6 +39,7 @@
 		'account_invoice_view.xml',
         'account_invoice_workflow.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
+        'wizard/l10n_br_account_nfe_reexport_view.xml',
 		'account_fiscal_position_rule_view.xml',
         'product_view.xml',
         'res_company_view.xml',
