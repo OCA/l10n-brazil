@@ -18,6 +18,7 @@
 #################################################################################
 
 import l10n_br_account_nfe_export
+import l10n_br_account_nfe_reexport
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
