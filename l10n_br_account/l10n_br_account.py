@@ -108,6 +108,8 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
                 'code': fields.char('Código', size=24, required=True),
                 'name': fields.char('Descrição', size=64),
                 'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
+                'journal_ids': fields.many2many('account.journal', 'l10n_br_account_fiscal_operation_category_rel', 'fiscal_operation_category_id', 'journal_id', 'Consolidated Children', domain="[('company_id','=',user.company_id)]" ),
+                'revenue' : fields.boolean('Gera Financeiro'),
                 'use_sale' : fields.boolean('Usado em Vendas'),
                 'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
                 'use_purchase' : fields.boolean('Usado nas Compras'),
