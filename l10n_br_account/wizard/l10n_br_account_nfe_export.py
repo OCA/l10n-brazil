@@ -24,7 +24,7 @@ class l10n_br_account_nfe_export(osv.osv_memory):
     """ Exportar Nota Fiscal Eletrônica """
 
     _name = "l10n_br_account.nfe_export"
-    _description = "Update Module"
+    _description = "Exportação de Nota Fiscal Eletrônica"
     _inherit = "ir.wizard.screen"
 
     _columns = {
@@ -55,22 +55,9 @@ class l10n_br_account_nfe_export(osv.osv_memory):
             file = inv_obj.nfe_export_txt(cr, uid, inv_ids)
         file_total = file
         
-        
-        
         self.write(cr, uid, ids, {'file': base64.b64encode(file_total), 'state': 'done'}, context=context)
+        
         return False
-
-    #def action_module_open(self, cr, uid, ids, context):
-    #    res = {
-    #        'domain': str([]),
-    #        'name': 'Modules',
-    #        'view_type': 'form',
-    #        'view_mode': 'tree,form',
-    #        'res_model': 'ir.module.module',
-    #        'view_id': False,
-    #        'type': 'ir.actions.act_window',
-    #    }
-    #    return res
 
 l10n_br_account_nfe_export()
 
