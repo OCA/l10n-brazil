@@ -193,16 +193,25 @@ class sale_order(osv.osv):
                                     comment = order_line.fiscal_operation_id.note
                                 
                                 if order.note:
-                                    comment += ' - ' + order.note 
-                                
+                                    comment += ' - ' + order.note
+
+                                journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id == invoice.company_id]
+
+                                if journal_ids:
+                                    journal_id = journal_ids[0].id
+                                else:
+                                    journal_id = invoice_id.journal_id.id
+
                                 self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
                                                                                                 'fiscal_operation_id': fiscal_operation_id.id, 'cfop_id': fiscal_operation_id.cfop_id.id, 
                                                                                                 'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
                                                                                                 'document_serie_id': company_id.document_serie_product_ids[0].id,
-                                                                                                'comment': comment})
+                                                                                                'comment': comment,
+                                                                                                'journal_id': journal_id
+                                                                                                })
 
                             invoice_id = inv_line.invoice_id
-                    
+
                     self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
                                                                                        'fiscal_operation_id': fiscal_operation_id.id, 
                                                                                        'cfop_id': fiscal_operation_id.cfop_id.id})   
