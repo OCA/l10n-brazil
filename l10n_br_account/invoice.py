@@ -19,6 +19,7 @@
 
 import time
 import netsvc
+import glob
 from osv import fields, osv
 import decimal_precision as dp
 import pooler
@@ -31,6 +32,7 @@ from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 from xml.dom import minidom
 from datetime import datetime
+
 
 ##############################################################################
 # Fatura (Nota Fiscal) Personalizado
@@ -105,6 +107,7 @@ class account_invoice(osv.osv):
             New_ids = []
             for line in data_lines:
                 New_ids.append(line.id)
+                New_ids.sort()
             res[id] = New_ids
         return res
     
@@ -262,10 +265,11 @@ class account_invoice(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, context=None):
+        
         if context is None:
             context = {}
         #TODO: not correct fix but required a frech values before reading it.
-        self.write(cr, uid, ids, {})
+        #self.write(cr, uid, ids, {})
 
         for obj_inv in self.browse(cr, uid, ids):
             id = obj_inv.id
@@ -305,6 +309,25 @@ class account_invoice(osv.osv):
                 self.log(cr, uid, inv_id, message, context=ctx)
         return True
 
+    def action_move_create(self, cr, uid, ids, *args):
+        
+        result = super(account_invoice, self).action_move_create(cr, uid, ids, *args)
+        
+        for inv in self.browse(cr, uid, ids):
+            #print 'Agora vai: %s aqui tbm: %s' % (inv.move_id.id, inv.move_id.ref) 
+            if inv.move_id:
+                self.pool.get('account.move').write(cr, uid, [inv.move_id.id], {'ref': inv.internal_number})
+                for move_line in inv.move_id.line_id:    
+                    self.pool.get('account.move.line').write(cr, uid, [move_line.id], {'ref': inv.internal_number})   
+                
+                move_lines = [x for x in inv.move_id.line_id if x.account_id.id == inv.account_id.id and x.account_id.type in ('receivable', 'payable')]
+                i = len(move_lines)
+                for move_line in move_lines:
+                    move_line_name = '%s/%s' % (inv.internal_number, i)
+                    self.pool.get('account.move.line').write(cr, uid, [move_line.id], {'name': move_line_name})   
+                    i -= 1
+                
+        return result
 
     def nfe_dv(self, key):
         
@@ -1075,27 +1098,28 @@ class account_invoice(osv.osv):
             StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
 
             StrFile += StrX26
-            
-            #StrY = 'Y|\n'
-            #
-            #StrFile += StrY
-            #
-            #for line in inv.move_line_receivable_id:
-            #    y += 1
-            #    StrRegY07 = {
-            #       'NDup': i,
-            #       'DVenc': line.date_maturity or inv.date_due or inv.date_invoice,
-            #       'VDup': str("%.2f" % line.debit),
-            #       }
-            #
-            #    StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
-            #    
-            #    StrFile += StrY07
 
-            StrRegZ = {
-                       'InfAdFisco': '',
-                       'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
+            if inv.fiscal_operation_category_id.revenue:
+            
+                StrY = 'Y|\n'
+                
+                StrFile += StrY
+                
+                for line in inv.move_line_receivable_id:
+                    StrRegY07 = {
+                       'NDup': line.name,
+                       'DVenc': line.date_maturity or inv.date_due or inv.date_invoice,
+                       'VDup': str("%.2f" % line.debit),
                        }
+                
+                    StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
+                    
+                    StrFile += StrY07
+    
+                StrRegZ = {
+                           'InfAdFisco': '',
+                           'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
+                           }
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
@@ -1104,7 +1128,6 @@ class account_invoice(osv.osv):
             self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
         return unicode(StrFile.encode('utf-8'), errors='replace')
-            
 
     def nfe_export_xml(self, cr, uid, ids, context=False):
                 
