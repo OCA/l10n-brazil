@@ -120,12 +120,16 @@
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
 						<field name="fiscal_type" select="1"/>
+						<field name="revenue" />
 						<newline/>
 						<separator colspan="4" string="Utilização"/>
 						<field name="use_sale"/>
 						<field name="use_invoice"/>
 						<field name="use_purchase"/>
 						<field name="use_picking"/>
+						<newline/>
+						<separator colspan="4" string="Diários Contábeis"/>
+						<field colspan="4" name="journal_ids" nolabel="1" />
 					</form>
 				</field>
 			</record>
@@ -380,7 +384,7 @@
 			</record>
 			
 			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_category_form">
-				<field name="name">Operação Fiscal</field>
+				<field name="name">Categoria de Operação Fiscal</field>
 				<field name="type">ir.actions.act_window</field>
 				<field name="res_model">l10n_br_account.fiscal.operation.category</field>
 				<field name="view_mode">tree,form</field>
