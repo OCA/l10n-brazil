@@ -30,6 +30,7 @@
     'init_xml': [],
     'update_xml' : [
 		'stock_view.xml',
+        'wizard/stock_invoice_onshipping_view.xml',
     ],
     'installable': True
 }
