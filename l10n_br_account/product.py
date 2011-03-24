@@ -27,7 +27,11 @@ class product_product(osv.osv):
     _inherit = 'product.product'
     _columns = {
                 'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 'product_id', 'Categoria de Operação Fiscal Padrões'),
-     }
+                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
+                }
+    _defaults = {
+                'fiscal_type': 'product',
+                }
 
 product_product()
 
