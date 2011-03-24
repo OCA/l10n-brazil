@@ -8,9 +8,9 @@
             <field name="name">sefaz_export</field>
             <field name="action">nfe_check()
 action_date_assign()
+action_internal_number()
 action_move_create()
 action_number()
-action_internal_number()
 write({'state':'sefaz_export'})</field>
             <field name="kind">function</field>
         </record>
