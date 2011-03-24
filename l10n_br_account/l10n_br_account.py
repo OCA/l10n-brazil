@@ -118,6 +118,7 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
                 }
     _defaults = {
         'type': 'output',
+        'fiscal_type': 'product',
     }
 l10n_br_account_fiscal_operation_category()
 
@@ -146,7 +147,7 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 }
     _defaults = {
         'type': 'output',
-        'fiscal_type': 'product', 
+        'fiscal_type': 'product',
     }
 
 l10n_br_account_fiscal_operation()
@@ -159,8 +160,8 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
     _description = 'Linhas das operações ficais'
     _columns = {
                 'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
-                'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM', domain="[('company_id','=',company_id)]" ),
-                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', requeried=True, domain="[('company_id','=',company_id)]"),
+                'fiscal_classification_id': fields.many2one('account.product.fiscal.classification', 'NCM', domain="['|',('company_id','=',False),('company_id','=',company_id)]" ),
+                'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', requeried=True, domain="['|',('company_id','=',False),('company_id','=',company_id)]"),
                 'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária', requeried=True),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', ondelete='cascade', select=True),
                }
