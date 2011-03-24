@@ -127,7 +127,31 @@
 			    </field>
 			</field>
 		</record>
-				
+
+		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
+        </record>
+
+		<record id="action_invoice_tree_service" model="ir.actions.act_window">
+            <field name="name">Nota Fiscal de Serviço</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('fiscal_type','=','service')]</field>
+            <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="account.invoice_form"/>
+            <field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
+        </record>
+
+        <record id="action_invoice_service_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_invoice_tree_service"/>
+        </record>
+        
+        <menuitem action="action_invoice_tree_service" id="menu_action_invoice_tree_service" parent="account.menu_finance_receivables"/>
+
 		<record id="view_l10n_br_account_invoice_filter" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.select</field>
 	   		<field name="model">account.invoice</field>
@@ -272,7 +296,7 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
 				<field name="product_id" position="replace">
-					<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id}, parent.cfop_id)" select="1"/>
+					<field name="product_id" domain="[('fiscal_type','=','product')]" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id}, parent.cfop_id)" select="1"/>
 				</field>
 			</field>
 		</record>
