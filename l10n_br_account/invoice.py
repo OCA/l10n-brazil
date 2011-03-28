@@ -103,7 +103,7 @@ class account_invoice(osv.osv):
             res[id] = []
             if not invoice.move_id:
                 continue
-            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable')]
+            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.fiscal_operation_category_id.revenue]
             New_ids = []
             for line in data_lines:
                 New_ids.append(line.id)
@@ -242,6 +242,16 @@ class account_invoice(osv.osv):
                  'own_invoice': True,
                  'fiscal_type': 'product',
                  }
+
+    # go from canceled state to draft state
+    def action_cancel_draft(self, cr, uid, ids, *args):
+        self.write(cr, uid, ids, {'state':'draft', 'internal_number':False, 'nfe_access_key':False, 
+                                  'nfe_status':False, 'nfe_date':False, 'nfe_export_date':False})
+        wf_service = netsvc.LocalService("workflow")
+        for inv_id in ids:
+            wf_service.trg_delete(uid, 'account.invoice', inv_id, cr)
+            wf_service.trg_create(uid, 'account.invoice', inv_id, cr)
+        return True
 
     def copy(self, cr, uid, id, default={}, context=None):
         default.update({
