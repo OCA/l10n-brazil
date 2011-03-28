@@ -42,7 +42,7 @@ class l10n_br_account_product_fiscal_operation_category(osv.osv):
     _name = 'l10n_br_account.product.operation.category'
     _columns = {
                 'fiscal_operation_category_source_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Origem'),
-                'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Origem'),
+                'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Destino'),
                 'product_id': fields.many2one('product.product', 'Produto', ondelete='cascade'),
                 }
     
