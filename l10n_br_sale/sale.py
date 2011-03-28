@@ -277,7 +277,7 @@ class sale_order_line(osv.osv):
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
                 }
-    
+
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, fiscal_operation_category_id=False, fiscal_operation_id=False, shop_id=False):
@@ -285,25 +285,50 @@ class sale_order_line(osv.osv):
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
             uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
 
-        #print partner_id
-        
-        for line in self.browse(cr, uid, ids):
-            print line.company_id
-        
-        if fiscal_operation_category_id:
-            result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
-            
-        if fiscal_operation_id:
-            result['value']['fiscal_operation_id'] = fiscal_operation_id
+        if not fiscal_operation_category_id:
+            return result
 
-        #if product:
-        #    for fp_default in product.fiscal_category_operation_default_ids:
-        #        if fp_default.fiscal_operation_category_id.id == fiscal_operation_category_id:
-        #            result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
-                    
+        #print partner_id
+        default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_id','=', product),('fiscal_operation_category_source_id','=',fiscal_operation_category_id)])
+
+        if not default_product_category:
+            if fiscal_operation_category_id:
+                result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
+            
+            if fiscal_operation_id:
+                result['value']['fiscal_operation_id'] = fiscal_operation_id
+            
+            return result
+
+        obj_default_prod_categ = self.pool.get('l10n_br_account.product.operation.category').browse(cr, uid, default_product_category)[0]
+        result['value']['fiscal_operation_category_id'] = obj_default_prod_categ.fiscal_operation_category_destination_id.id
+        result['value']['fiscal_operation_id'] = False
+        
+        obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+        partner_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_partner.id], ['default'])
+        partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
+        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [obj_partner.id])[0]
+        to_country = partner_addr_default.country_id.id
+        to_state = partner_addr_default.state_id.id
+
+        #Dados da Empresa
+        obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+        company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_shop.company_id.partner_id.id], ['default'])
+        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+        from_country = company_addr_default.country_id.id
+        from_state = company_addr_default.state_id.id
+            
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id),('partner_fiscal_type_id','=',partner_fiscal_type)])
+        if not fsc_pos_id:
+            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id)])
+        
+        if fsc_pos_id:
+            obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
+            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
+            result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
         
         return result
-    
+
     def create_sale_order_line_invoice(self, cr, uid, ids, context=None):
         result = super(sale_order_line, self).create_sale_order_line_invoice(cr, uid, ids, context)
         inv_ids = []
