@@ -34,7 +34,7 @@ write({'state':'sefaz_export'})</field>
             <field name="name">cancel</field>
             <field name="flow_stop">True</field>
             <field name="action">action_cancel()
-write({'state':'cancel', 'internal_number':False, 'nfe_access_key':False, 'nfe_status':False, 'nfe_date':False, 'nfe_export_date':False})</field>
+write({'state':'cancel'})</field>
             <field name="kind">function</field>
         </record>
 
