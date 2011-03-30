@@ -307,7 +307,7 @@ class sale_order_line(osv.osv):
         obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
         partner_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_partner.id], ['default'])
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [obj_partner.id])[0]
+        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['default']])[0]
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
 
