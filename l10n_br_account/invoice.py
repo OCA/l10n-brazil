@@ -1128,10 +1128,10 @@ class account_invoice(osv.osv):
                     
                     StrFile += StrY07
     
-                StrRegZ = {
-                           'InfAdFisco': '',
-                           'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
-                           }
+            StrRegZ = {
+                       'InfAdFisco': '',
+                       'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
+                       }
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
