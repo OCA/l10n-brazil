@@ -31,6 +31,7 @@
                 'l10n_br_account.fiscal.document.csv',
                 'account_product_fiscal_classification_data.xml',
                 'l10n_br_account.cnae.csv',
+                'l10n_br_account.service.type.csv',
                 ],
     "update_xml" : [
 
