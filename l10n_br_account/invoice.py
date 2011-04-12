@@ -97,58 +97,47 @@ class account_invoice(osv.osv):
         
         if context is None:
             context = {}
-
-        if 'fiscal_type' not in context.keys():
+        
+        if not 'fiscal_type' in context.keys():
             return res
         
         journal_obj = self.pool.get('account.journal')
 
-        if context.get('active_model', '') in ['res.partner'] and context.get('active_ids', False) and context['active_ids']:
-            partner = self.pool.get(context['active_model']).read(cr, uid, context['active_ids'], ['supplier','customer'])[0]
-            if view_type == 'form' and context['fiscal_type'] == 'service':
-                if partner['supplier'] and not partner['customer']:
-                    view_id = self.pool.get('ir.ui.view').search(cr,uid,[('name', '=', 'account.invoice.supplier.form')])
-                else:
-                    view_id = self.pool.get('ir.ui.view').search(cr,uid,[('name', '=', 'account.invoice.form')])
-                    res['arch'] = '''<form string="Invoice">
+        ui_view_ids = self.pool.get('ir.ui.view').search(cr,uid,[('name', '=', 'account.invoice.form')])
+        field_names = ['service_type_id']
+        res['fields'].update(self.fields_get(cr, uid, field_names, context))
+        if view_type == 'form' and context['fiscal_type'] == 'service':
+            if view_id in ui_view_ids:
+                res['arch'] = '''<form string="Fatura">
                     <group colspan="4" col="8">
-                    <field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id)" widget="selection"/>
-                    <field name="number"/>
-                    <field name="type" invisible="1"/>
+                    <field name="journal_id" on_change="onchange_journal_id(journal_id)" widget="selection"/>
+                    <field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}"/>
+    <field name="type" invisible="1"/>
                     <field name="currency_id" width="50"/>
-                    <button name="%(account.action_account_change_currency)d" type="action" icon="terp-stock_effects-object-colorize" string="Change" attrs="{'invisible':[('state','!=','draft')]}" groups="account.group_account_user"/>
+                    <button name="240" type="action" icon="terp-stock_effects-object-colorize" string="Alterar" attrs="{'invisible':[('state','!=','draft')]}"/>
                     <newline/>
-                    <field string="Customer" name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id)" groups="base.group_user" context="{'search_default_customer': 1}"/>
-                    <field domain="[('partner_id','=',partner_id)]" name="address_invoice_id"/>
-                    <newline/>
+                    <field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)"/>
+    <field domain="[('partner_id','=',partner_id)]" name="address_invoice_id"/>
+                    <field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}"/>
+    <newline/>
                     <field name="date_invoice"/>
-                    <field name="period_id" domain="[('state', '=', 'draft')]" groups="account.group_account_user" widget="selection"/>
-                    <group colspan="2" col="1" groups="account.group_account_user">
-                        <label align="0.0" string="(keep empty to use the current period)"/>
+                    <field name="period_id" domain="[('state', '=', 'draft')]" widget="selection"/>
+                    <group colspan="2" col="1">
+                        <label align="0.0" string="(Mantenha vazio para usar o período atual)"/>
                     </group>
                     </group>
                     <notebook colspan="4">
-                        <page string="Invoice">
-                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id" groups="account.group_account_user"/>
+                        <page string="Fatura">
+                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id"/>
                             <field name="name"/>
                             <field name="payment_term" widget="selection"/>
                             <field colspan="4" name="invoice_line" nolabel="1" widget="one2many_list"/>
                             <group col="1" colspan="2">
                                 <field name="tax_line" nolabel="1">
-                                    <tree editable="bottom" string="Taxes">
-                                        <field name="name"/>
-                                        <field name="account_id" groups="account.group_account_invoice"/>
-                                        <field name="base" on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)" readonly="1"/>
-                                        <field name="amount" on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)"/>
-                                        <field invisible="True" name="base_amount"/>
-                                        <field invisible="True" name="tax_amount"/>
-                                        <field name="factor_base" invisible="True"/>
-                                        <field name="factor_tax" invisible="True"/>
-                                    </tree>
-                                </field>
+                                    </field>
                             </group>
                             <group col="4" colspan="2">
-                                <button colspan="2" name="button_reset_taxes" states="draft" string="Compute Taxes" type="object" groups="base.group_user" icon="terp-stock_format-scientific"/>
+                                <button colspan="2" name="button_reset_taxes" states="draft" string="Computar Impostos" type="object" icon="terp-stock_format-scientific"/>
                                 <field name="amount_untaxed"/>
                                 <label string="" colspan="2"/>
                                 <field name="amount_tax"/>
@@ -156,66 +145,60 @@ class account_invoice(osv.osv):
                                 <field name="amount_total"/>
                                 <field name="state"/>
                                 <field name="residual"/>
-                                <group col="8" colspan="4" groups="base.group_user">
-                                    <button name="invoice_cancel" states="draft,proforma2,sale,open" string="Cancel" icon="gtk-cancel"/>
-                                    <button name="action_cancel_draft" states="cancel" string="Reset to Draft" type="object" icon="terp-stock_effects-object-colorize"/>
+                                <group col="8" colspan="4">
+                                    <button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancelar" icon="gtk-cancel"/>
+    <button name="action_cancel_draft" states="cancel" string="Restaurar para o Rascunho" type="object" icon="terp-stock_effects-object-colorize"/>
 
-                                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
-                                    <button name='%(account.action_account_state_open)d' type='action' string='Re-Open' states='paid' icon="gtk-convert" groups="base.group_no_one"/>
-                                    <button name="invoice_proforma2" states="draft" string="PRO-FORMA" icon="terp-gtk-media-pause" groups="account.group_account_user"/>
-                                    <button name="invoice_open" states="draft,proforma2" string="Validate" icon="gtk-go-forward"/>
-                                    <button name="%(account.account_invoices)d" string="Print Invoice" type="action" icon="gtk-print" states="open,paid,proforma,sale,proforma2"/>
+                                    <button name="222" type="action" string="Reembolso" states="open,paid" icon="gtk-execute"/>
+                                    <button name="238" type="action" string="Re-abrir" states="paid" icon="gtk-convert"/>
+                                    <button name="invoice_proforma2" states="draft" string="Pro-forma" icon="terp-gtk-media-pause"/>
+                                    <button name="invoice_open" states="sefaz_export,proforma2" string="Validar" icon="gtk-go-forward"/>
+                    <button name="invoice_pay_customer" type="object" string="Pagamento" states="open" icon="gtk-go-forward"/>
+       <button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    <field invisible="True" name="fiscal_document_nfe"/>
+    <button name="215" string="Imprimir Fatura" type="action" icon="gtk-print" states="open,paid,proforma,sale,proforma2"/>
                                 </group>
                             </group>
                         </page>
-                        <page string="Other Info">
-                            <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
-                            <newline/>
+                        <page string="Outras informações">
+                            <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)" widget="selection"/>       
+<newline/>
                             <field name="date_due"/>
                             <field name="user_id"/>
                             <newline/>
-                            <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"
-                                groups="base.group_extended"/>
+                            <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
                             <field name="origin"/>
-                            <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"
-                                groups="base.group_extended"/>
-                            <field name="move_id" groups="account.group_account_user"/>
-                            <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','service')]" required="1" />
-                            <field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','service')]" required="1" />
-                            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
-                            <separator colspan="4" string="Additional Information"/>
+                            <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"/>
+                            <field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
+    <field name="move_id"/>
+                            <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1"/>
+<field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','product')]" required="1"/>
+<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+    <separator colspan="4" string="Informação Adicional"/>
                             <field colspan="4" name="comment" nolabel="1"/>
-                            <field invisible="True" name="fiscal_document_nfe" />
                         </page>
-                        <page string="Payments">
+                        <page string="Pagamentos">
                             <field name="payment_ids" colspan="4" nolabel="1">
-                                <tree string="Payments">
-                                    <field name="date"/>
-                                    <field name="ref"/>
-                                    <field name="name"/>
-                                    <field name="journal_id" groups="base.group_user"/>
-                                    <field name="debit"/>
-                                    <field name="credit"/>
-                                    <field name="amount_currency"/>
-                                    <field name="currency_id"/>
-                                </tree>
-                            </field>
+                                </field>
                         </page>
-                        <page position="inside" string="l10n br - Vencimentos">
-                             <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
-                         </page>
-                        <page position="inside" string="l10n br - NF">
-                            <separator colspan="4" string="Dados Adicionais da NF"/>
-                            <field colspan="4" name="service_type_id" domain="[('internal_type','=','normal')]" required="1" />
-                            <field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
-                            <field colspan="4" name="nfe_status"/>
-                            <field name="nfe_export_date"/>
-                            <field name="nfe_date" />
-                            <field required="1" name="fiscal_document_id" />
-                            <field required="1" name="document_serie_id" domain="[('fiscal_type','=','service')]" />
-                        </page>
-                    </notebook>
+                    <page position="inside" string="l10n br - Vencimentos">
+ <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
+ </page>
+<page position="inside" string="l10n br - NF">
+<separator colspan="4" string="Dados Adicionais da NF" colspan="4"/>
+                <field name="service_type_id" />
+                <field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
+                <field colspan="4" name="nfe_status"/>
+                <field name="nfe_export_date"/>
+                <field name="nfe_date"/>
+<field name="fiscal_document_id"/>
+<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}"/><group colspan="4">
+</group>
+        </page>
+</notebook>
                 </form>'''
+        
+        
         return res
 
     def _get_invoice_line(self, cr, uid, ids, context=None):
