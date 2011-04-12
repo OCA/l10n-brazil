@@ -136,6 +136,8 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', requeried=True),
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'fiscal_operation_line': fields.one2many('l10n_br_account.fiscal.operation.line', 'fiscal_operation_id', 'Fiscal Operation Lines'),
+                'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
+                'service_type_id': fields.many2one('l10n_br_account.service.type', 'Tipo de Serviço'),
                 'use_sale' : fields.boolean('Usado em Vendas'),
                 'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
                 'use_purchase' : fields.boolean('Usado nas Compras'),
@@ -236,5 +238,39 @@ class l10n_br_account_cnae(osv.osv):
         return res
 
 l10n_br_account_cnae()
+
+################################################################################
+# Cadastro de Tabelas de Serviços
+#################################################################################
+class l10n_br_account_service_type(osv.osv):
+    _name = 'l10n_br_account.service.type'
+    _description = 'Cadastro de CNAE'
+    _columns = {
+                'code': fields.char('Código', size=16, required=True),
+                'name': fields.char('Descrição', size=256, required=True),
+                'parent_id': fields.many2one('l10n_br_account.service.type', 'Tipo de Serviço Pai'),
+                'child_ids': fields.one2many('l10n_br_account.service.type', 'parent_id', 'Tipo de Serviço Filhos'),
+                'country_id': fields.many2one('res.country', 'País'),
+                'state_id': fields.many2one('res.country.state', 'Estado'),
+                'city_id': fields.many2one('l10n_br_base.city', 'Município'),
+                'internal_type': fields.selection([('view', 'Visualização'), ('normal', 'Normal')], 'Tipo Interno', required=True),
+                }
+    _defaults = {
+                 'internal_type': 'normal',
+                 }
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - '+name
+            res.append((record['id'], name))
+        return res
+
+l10n_br_account_service_type()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
