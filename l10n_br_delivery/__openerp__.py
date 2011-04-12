@@ -20,7 +20,7 @@
 {
     'name' : 'Delivery for Brazilian Localization',
     'description' : 'Extend delivery module for Brazilian Localization',
-    'author' : 'OpenERP Brasil',
+    'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
