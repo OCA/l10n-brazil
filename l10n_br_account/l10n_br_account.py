@@ -64,7 +64,7 @@ l10n_br_account_cfop()
 #################################################################################
 class l10n_br_account_service_type(osv.osv):
     _name = 'l10n_br_account.service.type'
-    _description = 'Cadastro de CNAE'
+    _description = 'Cadastro de Operações Fiscais de Serviço'
     _columns = {
                 'code': fields.char('Código', size=16, required=True),
                 'name': fields.char('Descrição', size=256, required=True),
