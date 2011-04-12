@@ -26,7 +26,7 @@
     'description': """
     Modulo de Produtos
     """,
-    'author': 'OpenERP Brasil',
+    'author': 'Akretion, OpenERP Brasil',
     'website': 'http://www.openerpbrasil.org',
     'depends': ['l10n_br_account'],
     'init_xml': [],

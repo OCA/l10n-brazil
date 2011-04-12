@@ -20,7 +20,7 @@
 {
     "name" : "Brazilian Localisation Data Extension for Base with brazilian zip codes",
     "description" : "Brazilian Localisation Data Extension for Base with brazilian zip codes",
-    "author" : "OpenERP Brasil",
+    "author" : "Akretion, OpenERP Brasil",
     "version" : "0.1",
     "depends" : [
                  "l10n_br_base"
