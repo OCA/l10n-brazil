@@ -21,7 +21,7 @@
     'name' : 'Brazilian Localization Base',
     'description' : 'Brazilian Localization Base',
     'category' : 'Localisation',
-    'author' : 'OpenERP Brasil',
+    'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : ['base'],
