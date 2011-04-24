@@ -40,7 +40,7 @@ class l10n_br_account_cfop(osv.osv):
         if isinstance(ids, (int, long)):
             ids = [ids]
         reads = self.read(cr, uid, ids, ['name','code'], context, load='_classic_write')
-        return [(x['id'], (x['code'] and x['code'] + ' - ' or '') + x['name']) \
+        return [(x['id'], (x['code'] and x['code'] or '') + (x['name'] and ' - ' + x['name'] or '')) \
                 for x in reads]
             
     _columns = {
