@@ -44,6 +44,73 @@ class account_invoice(osv.osv):
                 'amount_freight': fields.float('Frete', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
                 }
 
+    def nfe_check(self, cr, uid, ids, context=None):
+        res = super(account_invoice, self).nfe_check(cr, uid, ids)
+        strErro = ''
+        for inv in self.browse(cr, uid, ids):
+            #endereco de entrega
+            if inv.partner_shipping_id:
+
+                if inv.address_invoice_id != inv.partner_shipping_id:
+
+                    if not inv.partner_shipping_id.street:
+                        strErro = 'Destinatario / Endereco de Entrega - Logradouro\n'
+
+                    if not inv.partner_shipping_id.number:
+                        strErro = 'Destinatario / Endereco de Entrega - Numero\n'
+
+                    if not inv.address_invoice_id.zip:
+                        strErro = 'Destinatario / Endereco de Entrega - CEP\n'
+
+                    if not inv.partner_shipping_id.state_id:
+                        strErro = 'Destinatario / Endereco de Entrega - Estado\n'
+                    else:
+                        if not inv.partner_shipping_id.state_id.ibge_code:
+                            strErro = 'Destinatario / Endereco de Entrega - Código do IBGE do estado\n'
+                        if not inv.partner_shipping_id.state_id.name:
+                            strErro = 'Destinatario / Endereco de Entrega - Nome do estado\n'
+
+                    if not inv.partner_shipping_id.city_id:
+                        strErro = 'Destinatario / Endereco - Municipio\n'
+                    else:
+                        if not inv.partner_shipping_id.city_id.name:
+                            strErro = 'Destinatario / Endereco de Entrega - Nome do municipio\n'
+                        if not inv.partner_shipping_id.city_id.ibge_code:
+                            strErro = 'Destinatario / Endereco de Entrega - Codigo do IBGE do municipio\n'
+
+                    if not inv.partner_shipping_id.country_id:
+                        strErro = 'Destinatario / Endereco de Entrega - País\n'
+                    else:
+                        if not inv.partner_shipping_id.country_id.name:
+                            strErro = 'Destinatario / Endereço de Entrega - Nome do pais\n'
+                        if not inv.partner_shipping_id.country_id.bc_code:
+                            strErro = 'Destinatario / Endereço de Entrega - Codigo do BC do pais\n'
+                            
+            #Transportadora
+            if inv.carrier_id:
+
+                if not inv.carrier_id.partner_id.legal_name:
+                    strErro = 'Transportadora - Razão Social\n'
+
+                if not inv.carrier_id.partner_id.cnpj_cpf:
+                    strErro = 'Transportadora - CNPJ/CPF\n'
+
+            #Dados do Veiculo
+            if inv.vehicle_id:
+
+                if not inv.vehicle_id.plate:
+                    strErro = 'Transportadora / Veículo - Placa\n'
+
+                if not inv.vehicle_id.plate.state_id.code:
+                    strErro = 'Transportadora / Veículo - UF da Placa\n'
+
+                if not inv.vehicle_id.rntc_code:
+                    strErro = 'Transportadora / Veículo - RNTC\n'
+        if strErro:
+            raise osv.except_osv(_('Error !'),_("Validação da Nota fiscal:\n '%s'") % (strErro.encode('utf-8')))
+            
+        return res
+
 account_invoice()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
