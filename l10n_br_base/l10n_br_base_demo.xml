@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<openerp>
+		<data>
+
+			<record id="res_partner_akretion" model="res.partner">
+				<field name="title" ref="base.res_partner_title_pvt_ltd"/>
+				<field name="cnpj_cpf">11.034.414/0001-58</field>
+				<field eval="0" name="employee"/>
+				<field eval="0" name="customer"/>
+				<field eval="1" name="supplier"/>
+				<field name="tipo_pessoa">J</field>
+				<field eval="1" name="active"/>
+				<field name="legal_name">AKRETION LTDA</field>
+				<field name="name">AKRETION</field>
+			</record>
+	
+			<record id="res_partner_address_2" model="res.partner.address">
+				<field name="district">Alumínio</field>
+				<field name="zip">18125-000</field>
+				<field name="country_id" ref="base.br"/>
+				<field name="number">586</field>
+				<field name="phone">(21) 3010 9965</field>
+				<field name="street">Rua Paulo Dias</field>
+				<field eval="1" name="active"/>
+				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="partner_id" ref="res_partner_akretion"/>
+			</record>
+			
+			<record id="res_partner_address_2" model="res.partner.address">
+				<field name="district">Rio de Janeiro</field>
+				<field name="zip">20081-000</field>
+				<field name="country_id" ref="base.br"/>
+				<field name="number">47</field>
+				<field name="phone">(21) 3010 9965</field>
+				<field name="street">Rua Acre</field>
+				<field eval="1" name="active"/>
+				<field name="state_id" ref="l10n_br_data_base.br_rj"/>
+				<field name="partner_id" ref="res_partner_akretion"/>
+			</record>
+
+			<record id="res_partner_chinenbox0" model="res.partner">
+				<field name="title" ref="base.res_partner_title_pvt_ltd"/>
+				<field name="cnpj_cpf">61.914.875/0001-93</field>
+				<field eval="0" name="employee"/>
+				<field eval="1" name="customer"/>
+				<field eval="0" name="supplier"/>
+				<field name="tipo_pessoa">J</field>
+				<field eval="1" name="active"/>
+				<field name="inscr_est">110.151.908.119</field>
+				<field name="legal_name">SUPERMERCADO CHINEN BOX LTDA</field>
+				<field name="name">CHINEN BOX</field>
+			</record>
+	
+			<record id="res_partner_address_2" model="res.partner.address">
+				<field name="district">Agua Fria</field>
+				<field name="zip">02333-001</field>
+				<field name="type">delivery</field>
+				<field name="country_id" ref="base.br"/>
+				<field name="number">875</field>
+				<field name="phone">(11)2204-0816</field>
+				<field name="street">AVENIDA AGUA BRANCA</field>
+				<field eval="1" name="active"/>
+				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="partner_id" ref="res_partner_chinenbox0"/>
+			</record>
+
+			<record id="res_partner_cybercafe0" model="res.partner">
+				<field name="title" ref="base.res_partner_title_ltd"/>
+				<field name="cnpj_cpf">09.517.808/0001-15</field>
+				<field eval="0" name="employee"/>
+				<field eval="1" name="customer"/>
+				<field eval="0" name="supplier"/>
+				<field name="tipo_pessoa">J</field>
+				<field eval="1" name="active"/>
+				<field name="inscr_est">148104109110</field>
+				<field name="legal_name">LANCHONETE CYBER CAFE ALMEIDA LTDA - ME</field>
+				<field name="name">CYBER CAFE</field>
+			</record>
+			
+			<record id="res_partner_address_3" model="res.partner.address">
+				<field name="city">São Paulo</field>
+				<field name="district">Mirandopolis</field>
+				<field name="zip">04142010</field>
+				<field name="city_id" ref="l10n_br_data_base.city_3828"/>
+				<field name="type">default</field>
+				<field name="country_id" ref="base.br"/>
+				<field name="number">91</field>
+				<field name="phone">25287546</field>
+				<field name="street">GENERAL SERRA MARTINS </field>
+				<field eval="1" name="active"/>
+				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="partner_id" ref="res_partner_cybercafe0" />
+			</record>
+		</data>
+	</openerp>
