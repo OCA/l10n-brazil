@@ -6,12 +6,12 @@
 				<field name="title" ref="base.res_partner_title_pvt_ltd"/>
 				<field name="cnpj_cpf">11.034.414/0001-58</field>
 				<field eval="0" name="employee"/>
-				<field eval="0" name="customer"/>
+				<field eval="1" name="customer"/>
 				<field eval="1" name="supplier"/>
 				<field name="tipo_pessoa">J</field>
 				<field eval="1" name="active"/>
 				<field name="legal_name">AKRETION LTDA</field>
-				<field name="name">AKRETION</field>
+				<field name="name">Akretion</field>
 			</record>
 	
 			<record id="res_partner_address_2" model="res.partner.address">
