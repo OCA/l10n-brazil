@@ -34,8 +34,8 @@
                 'l10n_br_account.service.type.csv',
                 ],
     "update_xml" : [
-
                    ],
+    'demo_xml': ['l10n_br_account_demo.xml'],
     "category" : "Localisation",
     "active": False,
     "installable": True
