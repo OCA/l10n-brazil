@@ -22,7 +22,7 @@
 				<field name="phone">(21) 3010 9965</field>
 				<field name="street">Rua Paulo Dias</field>
 				<field eval="1" name="active"/>
-				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="state_id" ref="l10n_br_base.br_sp"/>
 				<field name="partner_id" ref="res_partner_akretion"/>
 			</record>
 			
@@ -34,7 +34,7 @@
 				<field name="phone">(21) 3010 9965</field>
 				<field name="street">Rua Acre</field>
 				<field eval="1" name="active"/>
-				<field name="state_id" ref="l10n_br_data_base.br_rj"/>
+				<field name="state_id" ref="l10n_br_base.br_rj"/>
 				<field name="partner_id" ref="res_partner_akretion"/>
 			</record>
 
@@ -60,7 +60,7 @@
 				<field name="phone">(11)2204-0816</field>
 				<field name="street">AVENIDA AGUA BRANCA</field>
 				<field eval="1" name="active"/>
-				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="state_id" ref="l10n_br_base.br_sp"/>
 				<field name="partner_id" ref="res_partner_chinenbox0"/>
 			</record>
 
@@ -88,7 +88,7 @@
 				<field name="phone">25287546</field>
 				<field name="street">GENERAL SERRA MARTINS </field>
 				<field eval="1" name="active"/>
-				<field name="state_id" ref="l10n_br_data_base.br_sp"/>
+				<field name="state_id" ref="l10n_br_base.br_sp"/>
 				<field name="partner_id" ref="res_partner_cybercafe0" />
 			</record>
 		</data>
