@@ -20,7 +20,7 @@
 {
     'name' : 'Brazilian Localization Purchase',
     'description' : 'Brazilian Localization for Purchase',
-    'category' : 'Localisation/Account Charts',
+    'category' : 'Localisation',
     'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
