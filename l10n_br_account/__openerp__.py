@@ -34,6 +34,7 @@
 #		'data/l10n_br_account.cst.csv',
 		],
     'update_xml' : [
+         'l10n_br_account_data.xml',
 		'l10n_br_account_view.xml',
 		'partner_view.xml',
 		'account_invoice_view.xml',
@@ -46,6 +47,7 @@
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
     ],
+    'demo_xml': ['l10n_br_account_demo.xml'],
     'installable': True
 }
 
