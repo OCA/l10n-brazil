@@ -26,15 +26,11 @@
                  "l10n_br_base"
                  ],
     'init_xml': [
-                #Dados dos cadastros de parceiros
                 'res.bank.csv',
-                'res.country.state.csv',
-                'l10n_br_base.city.csv',
                 ],
     "update_xml" : [
 
                    ],
-    'demo_xml': ['l10n_br_base_demo.xml'],
     "category" : "Localisation",
     "active": False,
     "installable": True
