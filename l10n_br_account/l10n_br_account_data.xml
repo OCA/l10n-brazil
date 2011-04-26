@@ -12,8 +12,8 @@
                 </record>
 
                 <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
-                        <field name="code">Não Contribuinte</field>
-                        <field name="name">Não Contribuinte</field>
+                        <field name="code">NÃ£o Contribuinte</field>
+                        <field name="name">NÃ£o Contribuinte</field>
                         <field name="tipo_pessoa">F</field>
                         <field name="ipi">False</field>
                         <field name="icms">False</field>
