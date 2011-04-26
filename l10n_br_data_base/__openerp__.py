@@ -34,6 +34,7 @@
     "update_xml" : [
 
                    ],
+    'demo_xml': ['l10n_br_base_demo.xml'],
     "category" : "Localisation",
     "active": False,
     "installable": True
