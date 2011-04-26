@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<openerp>
+		<data>
+
+                <!-- l10n_br_account.partner.fiscal.type -->
+                <record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
+                        <field name="code">Contribuinte</field>
+                        <field name="name">Contribuinte</field>
+                        <field name="tipo_pessoa">J</field>
+                        <field name="ipi">True</field>
+                        <field name="icms">True</field>
+                </record>
+
+                <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
+                        <field name="code">Não Contribuinte</field>
+                        <field name="name">Não Contribuinte</field>
+                        <field name="tipo_pessoa">F</field>
+                        <field name="ipi">False</field>
+                        <field name="icms">False</field>
+                </record>
+
+		</data>
+	</openerp>
