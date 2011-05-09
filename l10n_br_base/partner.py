@@ -141,28 +141,29 @@ res_partner()
 class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
     _columns = {
-	'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+	'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
     'district': fields.char('Bairro', size=32),
     'number': fields.char('Número', size=10),
     }
 
-    def on_change_city_id(self, cr, uid, ids, city_id):
+    def on_change_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
 
-        result = {'value': {'city': None}}
+        result = {}
 
-        if not city_id:
-            return result
+        if not l10n_br_city_id:
+            return True
 
-        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, city_id, ['name'])
+        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, l10n_br_city_id, ['name','id'])
 
         if obj_city:
-            result['value'] = {'city': obj_city['name']}
+            result['city'] = obj_city['name']
+            result['l10n_br_city_id'] = obj_city['id']
 
-        return result
+        return {'value': result}
 
     def on_change_zip(self, cr, uid, ids, zip):
         
-        result = {'value': {'street': None, 'city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
+        result = {'value': {'street': None, 'l10n_br_city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
 
         if not zip:
             return result
@@ -170,8 +171,8 @@ class res_partner_address(osv.osv):
         obj_cep = self.pool.get('l10n_br_base.cep').browse(cr, uid, zip)
         
         result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
-        result['value']['city_id'] = obj_cep.city_id.id
-        result['value']['city'] = obj_cep.city_id.name
+        result['value']['l10n_br_city_id'] = obj_cep.l10n_br_city_id.id
+        result['value']['city'] = obj_cep.l10n_br_city_id.name
         result['value']['state_id'] = obj_cep.state_id.id
         result['value']['country_id'] = obj_cep.state_id.country_id.id
         result['value']['zip'] = obj_cep.code
