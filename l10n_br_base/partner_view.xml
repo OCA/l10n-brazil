@@ -72,7 +72,7 @@
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='state_id']" position="after">
-						<field name="city_id" on_change="on_change_city_id(city_id)" />
+						<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
         			</xpath>
         		</field>
    		</record>
@@ -139,7 +139,7 @@
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="state_id" position="after">
-					<field name="city_id" on_change="on_change_city_id(city_id)" />
+					<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 			</field>
 		</record> 
@@ -177,7 +177,7 @@
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
 				<field name="state_id" position="after">
-					 <field name="city_id" on_change="on_change_city_id(city_id)" />
+					 <field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 			</field>
 		</record>
