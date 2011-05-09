@@ -20,7 +20,7 @@
                 		<field name="nfe_export_date"/>
                 		<field name="nfe_date" />
 						<field name="fiscal_document_id" />
-						<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+						<field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 		        	</page>
 				</notebook>
 			</field>
@@ -283,9 +283,9 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field name="fiscal_operation_category_id" required="1"/>
-					<field name="fiscal_operation_id" required="1" />
-					<field colspan="4" name="cfop_id" required="1" />
+					<field name="fiscal_operation_category_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
+					<field name="fiscal_operation_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
+					<field colspan="4" name="cfop_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
 					<field name="price_total"/>
 				</field>
 			</field>
