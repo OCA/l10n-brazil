@@ -72,7 +72,7 @@ class l10n_br_account_service_type(osv.osv):
                 'child_ids': fields.one2many('l10n_br_account.service.type', 'parent_id', 'Tipo de Serviço Filhos'),
                 'country_id': fields.many2one('res.country', 'País'),
                 'state_id': fields.many2one('res.country.state', 'Estado'),
-                'city_id': fields.many2one('l10n_br_base.city', 'Município'),
+                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Município'),
                 'internal_type': fields.selection([('view', 'Visualização'), ('normal', 'Normal')], 'Tipo Interno', required=True),
                 }
     _defaults = {

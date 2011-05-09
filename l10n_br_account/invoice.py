@@ -131,7 +131,7 @@ class account_invoice(osv.osv):
                             <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id"/>
                             <field name="name"/>
                             <field name="payment_term" widget="selection"/>
-                            <field colspan="4" name="invoice_line" nolabel="1" widget="one2many_list"/>
+                            <field colspan="4" name="invoice_line" nolabel="1" widget="one2many_list" />
                             <group col="1" colspan="2">
                                 <field name="tax_line" nolabel="1">
                                     </field>
@@ -171,8 +171,8 @@ class account_invoice(osv.osv):
                             <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"/>
                             <field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
     <field name="move_id"/>
-                            <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1"/>
-<field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','product')]" required="1"/>
+                            <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
+<field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
 <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
     <separator colspan="4" string="Informação Adicional"/>
                             <field colspan="4" name="comment" nolabel="1"/>
@@ -185,14 +185,14 @@ class account_invoice(osv.osv):
  <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
  </page>
 <page position="inside" string="l10n br - NF">
-<separator colspan="4" string="Dados Adicionais da NF" colspan="4"/>
-                <field name="service_type_id" />
+<separator colspan="4" string="Dados Adicionais da NF" />
+                <field name="service_type_id" colspan="4" />
                 <field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
                 <field colspan="4" name="nfe_status"/>
                 <field name="nfe_export_date"/>
                 <field name="nfe_date"/>
 <field name="fiscal_document_id"/>
-<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}"/><group colspan="4">
+<field name="document_serie_id" domain="[('fiscal_type','=','service')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}"/><group colspan="4">
 </group>
         </page>
 </notebook>
@@ -530,13 +530,13 @@ class account_invoice(osv.osv):
                 if not company_addr_default.state_id.name:
                     strErro = 'Emitente / Endereco - Nome do estado\n'
                       
-            if not company_addr_default.city_id:
-                strErro = 'Emitente / Endereco - municipio\n'
+            if not company_addr_default.l10n_br_city_id:
+                strErro = 'Emitente / Endereço - municipio\n'
             else:
-                if not company_addr_default.city_id.name:
-                    strErro = 'Emitente / Endereco - Nome do municipio\n'
-                if not company_addr_default.city_id.ibge_code:
-                    strErro = 'Emitente / Endereco - Codigo do IBGE do municipio\n'
+                if not company_addr_default.l10n_br_city_id.name:
+                    strErro = 'Emitente / Endereço - Nome do municipio\n'
+                if not company_addr_default.l10n_br_city_id.ibge_code:
+                    strErro = 'Emitente / Endereço - Código do IBGE do municipio\n'
                     
             if not company_addr_default.country_id:
                 strErro = 'Emitente / Endereco - pais\n'
@@ -573,13 +573,13 @@ class account_invoice(osv.osv):
                 if not inv.address_invoice_id.state_id.name:
                     strErro = 'Destinatario / Endereco - Nome do estado\n'
                       
-            if not inv.address_invoice_id.city_id:
-                strErro = 'Destinatario / Endereço - Municipio\n'
+            if not inv.address_invoice_id.l10n_br_city_id:
+                strErro = 'Destinatário / Endereço - Municipio\n'
             else:
-                if not inv.address_invoice_id.city_id.name:
-                    strErro = 'Destinatario / Endereco - Nome do municipio\n'
-                if not inv.address_invoice_id.city_id.ibge_code:
-                    strErro = 'Destinatario / Endereco - Código do IBGE do municipio\n'
+                if not inv.address_invoice_id.l10n_br_city_id.name:
+                    strErro = 'Destinatário / Endereço - Nome do municipio\n'
+                if not inv.address_invoice_id.l10n_br_city_id.ibge_code:
+                    strErro = 'Destinatário / Endereço - Código do IBGE do municipio\n'
                     
             if not inv.address_invoice_id.country_id:
                 strErro = 'Destinatario / Endereco - Pais\n'
@@ -589,6 +589,44 @@ class account_invoice(osv.osv):
                 if not inv.address_invoice_id.country_id.bc_code:
                     strErro = 'Destinatario / Endereco - Codigo do BC do pais\n'
             
+            #endereco de entrega
+            if inv.partner_shipping_id:
+                
+                if inv.address_invoice_id != inv.partner_shipping_id: 
+                    
+                    if not inv.partner_shipping_id.street:
+                        strErro = 'Destinatário / Endereço de Entrega - Logradouro\n'
+                    
+                    if not inv.partner_shipping_id.number:
+                        strErro = 'Destinatário / Endereço de Entrega - Número\n'
+                        
+                    if not inv.address_invoice_id.zip:
+                        strErro = 'Destinatário / Endereço de Entrega - CEP\n'
+        
+                    if not inv.partner_shipping_id.state_id:
+                        strErro = 'Destinatário / Endereço de Entrega - Estado\n'
+                    else:
+                        if not inv.partner_shipping_id.state_id.ibge_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do IBGE do estado\n'
+                        if not inv.partner_shipping_id.state_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do estado\n'
+                              
+                    if not inv.partner_shipping_id.l10n_br_city_id:
+                        strErro = 'Destinatário / Endereço - Municipio\n'
+                    else:
+                        if not inv.partner_shipping_id.l10n_br_city_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do municipio\n'
+                        if not inv.partner_shipping_id.l10n_br_city_id.ibge_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do IBGE do municipio\n'
+                            
+                    if not inv.partner_shipping_id.country_id:
+                        strErro = 'Destinatário / Endereço de Entrega - País\n'
+                    else:
+                        if not inv.partner_shipping_id.country_id.name:
+                            strErro = 'Destinatário / Endereço de Entrega - Nome do país\n'
+                        if not inv.partner_shipping_id.country_id.bc_code:
+                            strErro = 'Destinatário / Endereço de Entrega - Código do BC do país\n'
+                    
             #produtos
             for inv_line in inv.invoice_line:
                 
@@ -672,7 +710,7 @@ class account_invoice(osv.osv):
                        'dSaiEnt': inv.date_invoice or '',
                        'hSaiEnt': '',
                        'tpNF': '',
-                       'cMunFG': ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code),
+                       'cMunFG': ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.l10n_br_city_id.ibge_code),
                        'TpImp': '1',
                        'TpEmis': '1',
                        'cDV': '',
@@ -727,8 +765,8 @@ class account_invoice(osv.osv):
                        'Nro': company_addr_default.number or '',
                        'Cpl': normalize('NFKD',unicode(company_addr_default.street2 or '')).encode('ASCII','ignore'),
                        'Bairro': normalize('NFKD',unicode(company_addr_default.district or 'Sem Bairro')).encode('ASCII','ignore'),
-                       'CMun': '%s%s' % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code),
-                       'XMun':  normalize('NFKD',unicode(company_addr_default.city_id.name or '')).encode('ASCII','ignore'),
+                       'CMun': '%s%s' % (company_addr_default.state_id.ibge_code, company_addr_default.l10n_br_city_id.ibge_code),
+                       'XMun':  normalize('NFKD',unicode(company_addr_default.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
                        'UF': company_addr_default.state_id.code or '',
                        'CEP': re.sub('[%s]' %  re.escape(string.punctuation), '', str(company_addr_default.zip or '').replace(' ','')),
                        'cPais': company_addr_default.country_id.bc_code or '',
@@ -765,8 +803,8 @@ class account_invoice(osv.osv):
                        'nro': normalize('NFKD',unicode(inv.address_invoice_id.number or '')).encode('ASCII','ignore'),
                        'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.address_invoice_id.street2 or '' )).encode('ASCII','ignore')),
                        'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
-                       'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.city_id.ibge_code),
-                       'xMun': normalize('NFKD',unicode(inv.address_invoice_id.city_id.name or '')).encode('ASCII','ignore'),
+                       'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.l10n_br_city_id.ibge_code),
+                       'xMun': normalize('NFKD',unicode(inv.address_invoice_id.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
                        'UF': inv.address_invoice_id.state_id.code,
                        'CEP': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ','')),
                        'cPais': inv.address_invoice_id.country_id.bc_code,
@@ -789,8 +827,8 @@ class account_invoice(osv.osv):
                                'Nro': normalize('NFKD',unicode(inv.partner_shipping_id.number or '')).encode('ASCII','ignore'),
                                'XCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_shipping_id.street2 or '' )).encode('ASCII','ignore')),
                                'XBairro': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_shipping_id.district or 'Sem Bairro' )).encode('ASCII','ignore')),
-                               'CMun': ('%s%s') % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.city_id.ibge_code),
-                               'XMun': normalize('NFKD',unicode(inv.partner_shipping_id.city_id.name or '')).encode('ASCII','ignore'),
+                               'CMun': ('%s%s') % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code),
+                               'XMun': normalize('NFKD',unicode(inv.partner_shipping_id.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
                                'UF': inv.address_invoice_id.state_id.code,
                              }
           
@@ -1112,8 +1150,8 @@ class account_invoice(osv.osv):
                 StrRegX03['xEnder'] = normalize('NFKD',unicode(carrier_addr_default.street or '')).encode('ASCII','ignore')
                 StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
                 
-                if carrier_addr_default.city_id:
-                    StrRegX03['xMun'] = normalize('NFKD',unicode(carrier_addr_default.city_id.name or '')).encode('ASCII','ignore')
+                if carrier_addr_default.l10n_br_city_id:
+                    StrRegX03['xMun'] = normalize('NFKD',unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII','ignore')
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
                     StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
@@ -1254,7 +1292,7 @@ class account_invoice(osv.osv):
                 ide_tpNF.text = '1'
             
             ide_cMunFG = SubElement(ide, 'cMunFG')
-            ide_cMunFG.text = ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code)
+            ide_cMunFG.text = ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.l10n_br_city_id.ibge_code)
             
             ide_tpImp = SubElement(ide, 'tpImp')
             ide_tpImp.text = "1"
@@ -1302,10 +1340,10 @@ class account_invoice(osv.osv):
             enderEmit_xBairro.text = company_addr_default.district
             
             enderEmit_cMun = SubElement(enderEmit, 'cMun')
-            enderEmit_cMun.text = ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.city_id.ibge_code)
+            enderEmit_cMun.text = ('%s%s') % (company_addr_default.state_id.ibge_code, company_addr_default.l10n_br_city_id.ibge_code)
             
             enderEmit_xMun = SubElement(enderEmit, 'xMun')
-            enderEmit_xMun.text = company_addr_default.city_id.name
+            enderEmit_xMun.text = company_addr_default.l10n_br_city_id.name
             
             enderEmit_UF = SubElement(enderEmit, 'UF')
             enderEmit_UF.text = company_addr_default.state_id.code
@@ -1357,10 +1395,10 @@ class account_invoice(osv.osv):
             enderDest_xBairro.text = inv.address_invoice_id.district
             
             enderDest_cMun = SubElement(enderDest, 'cMun')
-            enderDest_cMun.text = ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.city_id.ibge_code)
+            enderDest_cMun.text = ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.l10n_br_city_id.ibge_code)
             
             enderDest_xMun = SubElement(enderDest, 'xMun')
-            enderDest_xMun.text = inv.address_invoice_id.city_id.name
+            enderDest_xMun.text = inv.address_invoice_id.l10n_br_city_id.name
             
             enderDest_UF = SubElement(enderDest, 'UF')
             enderDest_UF.text = inv.address_invoice_id.state_id.code
@@ -1590,7 +1628,7 @@ class account_invoice(osv.osv):
                 transporta_xEnder.text = carrier_addr_default.street
                 
                 transporta_xMun = SubElement(transp_transporta, 'xMun')
-                transporta_xMun.text = ('%s%s') % (carrier_addr_default.state_id.ibge_code, carrier_addr_default.city_id.ibge_code)
+                transporta_xMun.text = ('%s%s') % (carrier_addr_default.state_id.ibge_code, carrier_addr_default.l10n_br_city_id.ibge_code)
                 
                 transporta_UF = SubElement(transp_transporta, 'UF')
                 transporta_UF.text = carrier_addr_default.state_id.code
