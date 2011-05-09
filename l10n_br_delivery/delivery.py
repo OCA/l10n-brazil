@@ -42,13 +42,17 @@ class l10n_br_delivery_carrier_vehicle(osv.osv):
         'rntc_code': fields.char('Codigo ANTT', size=32),
         'country_id': fields.many2one('res.country', 'País'),
         'state_id': fields.many2one('res.country.state', 'Estado', domain="[('country_id','=',country_id)]"),
-        'city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
         'active': fields.boolean('Ativo'),
         'manufacture_year': fields.char('Ano de Fabricação', size=4),
         'model_year': fields.char('Ano do Modelo', size=4),
         'type': fields.selection([('bau','Caminhão Baú')], 'Ano do Modelo'),
         'carrier_id': fields.many2one('delivery.carrier', 'Carrier', select=True, required=True, ondelete='cascade'),        
     }
+    
+    _defaults = {
+                 'carrier_id': True,
+                 }
 
 l10n_br_delivery_carrier_vehicle()
 
