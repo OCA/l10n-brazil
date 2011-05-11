@@ -55,7 +55,7 @@
 					<field name="street" select="1"/>
 					<field name="district" select="2"/>
 					<field name="state_id" select="2"/>
-					<field name="city_id" select="2"/>
+					<field name="l10n_br_city_id" select="2"/>
 				</form>
 			</field>
 		</record>
