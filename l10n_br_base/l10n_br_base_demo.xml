@@ -22,14 +22,14 @@
 				<field name="phone">(21) 3010 9965</field>
 				<field name="street">Rua Paulo Dias</field>
 				<field eval="1" name="active"/>
-				<field name="city_id" ref="l10n_br_base.city_3279"/>
+				<field name="l10n_br_city_id" ref="l10n_br_base.city_3279"/>
 				<field name="state_id" ref="l10n_br_base.br_sp"/>
 				<field name="partner_id" ref="res_partner_akretion"/>
 			</record>
 			
 			<record id="res_partner_address_ak2" model="res.partner.address">
 				<field name="district">Rio de Janeiro</field>
-				<field name="city_id" ref="l10n_br_base.city_3241"/>
+				<field name="l10n_br_city_id" ref="l10n_br_base.city_3241"/>
 				<field name="zip">20081-000</field>
 				<field name="country_id" ref="base.br"/>
 				<field name="number">47</field>
@@ -83,7 +83,7 @@
 				<field name="city">São Paulo</field>
 				<field name="district">Mirandopolis</field>
 				<field name="zip">04142010</field>
-				<field name="city_id" ref="l10n_br_base.city_3828"/>
+				<field name="l10n_br_city_id" ref="l10n_br_base.city_3828"/>
 				<field name="type">default</field>
 				<field name="country_id" ref="base.br"/>
 				<field name="number">91</field>
