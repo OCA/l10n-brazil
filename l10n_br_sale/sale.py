@@ -235,40 +235,6 @@ class sale_order(osv.osv):
             if not tax_brw.tax_code_id.tax_discount:
                 val += c.get('amount', 0.0)
         return val
-            
-    #def _amount_all(self, cr, uid, ids, field_name, arg, context):
-    #
-    #    cur_obj = self.pool.get('res.currency')
-    #    res = {}
-    #    for order in self.browse(cr, uid, ids, context=context):
-    #        res[order.id] = {
-    #            'amount_untaxed': 0.0,
-    #            'amount_tax': 0.0,
-    #            'amount_total': 0.0,
-    #        }
-    #
-    #        val = val1 = 0.0
-    #        cur = order.pricelist_id.currency_id
-    #        for line in order.order_line:
-    #            val1 += line.price_subtotal
-    #            for c in self.pool.get('account.tax').compute_all(cr, uid, line.tax_id, line.price_unit, line.product_uom_qty, order.partner_invoice_id.id, line.product_id.id, order.partner_id)['taxes']:
-    #                tax_brw = self.pool.get('account.tax').browse(cr, uid, c['id'])
-    #                if not tax_brw.tax_code_id.tax_discount:
-    #                    val += self._amount_line_tax(cr, uid, line, context=context)
-    #        res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-    #        res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
-    #        res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
-    #
-    #    return res
-        
-        #res = super(sale_order, self)._amount_all(cr, uid, ids, field_name, arg, context)
-        #
-        #Não é mostrado valores de impostos na ordem de venda                
-        #for order in self.browse(cr, uid, ids):
-        #    res[order.id]['amount_tax'] = 0
-        #    res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
-        #    
-        #return res
 
     def _get_order(self, cr, uid, ids, context={}):
         result = super(sale_order, self)._get_order(cr, uid, ids, context)
@@ -277,24 +243,6 @@ class sale_order(osv.osv):
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]" ),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]" ),
-                #'amount_untaxed': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Sale Price'), string='Untaxed Amount',
-                #store = {
-                #         'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                #         'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
-                #         },
-                #multi='sums'),
-                #'amount_tax': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Sale Price'), string='Taxes',
-                #store = {
-                #         'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                #         'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
-                #         },
-                #multi='sums'),
-                #'amount_total': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Sale Price'), string='Total',
-                #store = {
-                #'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                #         'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
-                #         },
-                #multi='sums'),
                }
     
 sale_order()
