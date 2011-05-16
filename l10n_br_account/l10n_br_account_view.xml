@@ -31,8 +31,8 @@
 	            <field name="type">search</field>
 	            <field name="arch" type="xml">
 	                <search string="CFOP">
-	                   <filter string="Entrada" icon="terp-accessories-archiver+" domain="[('type', '=', 'output')]" />
-	                   <filter string="Saída" icon="terp-accessories-archiver-minus" domain="[('type','=','input')]"/>
+	                   <filter string="Entrada" icon="terp-accessories-archiver+" domain="[('type', '=', 'input')]" />
+	                   <filter string="Saída" icon="terp-accessories-archiver-minus" domain="[('type','=','output')]"/>
 	                   <separator orientation="vertical"/>
 	                   <field name="code"/>
 	                   <field name="name"/>
