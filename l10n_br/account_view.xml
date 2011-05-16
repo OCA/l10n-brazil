@@ -49,7 +49,7 @@
 			    </field>
 			</field>
 		</record>
-		
+				
 		<record model="ir.ui.view" id="view_l10n_br_account_tax_template_form1">
 			<field name="name">l10n_br_account.tax.template.form1</field>
 			<field name="model">account.tax.template</field>
@@ -70,6 +70,28 @@
 				<field position="after" name="amount">
 					<field groups="base.group_extended" name="base_reduction"/>
 					<field groups="base.group_extended" name="amount_mva"/>
+			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_tax_form2">
+			<field name="name">l10n_br_account.tax.form2</field>
+			<field name="model">account.tax</field>
+			<field name="inherit_id" ref="account.view_tax_form"/>
+			<field name="arch" type="xml">
+				<field name="tax_code_id" position="replace" >
+					<field name="tax_code_id" on_change="onchange_tax_code_id(tax_code_id)" />
+			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_tax_template_form2">
+			<field name="name">l10n_br_account.tax.template.form2</field>
+			<field name="model">account.tax.template</field>
+			<field name="inherit_id" ref="account.view_account_tax_template_form"/>
+			<field name="arch" type="xml">
+				<field name="tax_code_id" position="replace" >
+					<field name="tax_code_id" on_change="onchange_tax_code_id(tax_code_id)" />
 			    </field>
 			</field>
 		</record>

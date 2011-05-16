@@ -43,8 +43,8 @@ class account_tax_code(osv.osv):
 
     _inherit = 'account.tax.code'
     _columns = {
-        'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
-	'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
+                'domain':fields.char('Domain', size=32, help="This field is only used if you develop your own module allowing developers to create specific taxes in a custom domain."),
+                'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
         }
 account_tax_code()
 
@@ -58,16 +58,31 @@ class account_tax_template(osv.osv):
         return change_digit_tax
     
     _columns = {
-        'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
-        'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Quantity')], 'Tax Type', required=True,
-            help="The computation method for the tax amount."),
+                'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
+                'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+                'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+                'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Quantity')], 'Tax Type', required=True,
+                                          help="The computation method for the tax amount."),
     }
     _defaults = {
-        'base_reduction': 0,
-        'amount_mva': 0,
+                'base_reduction': 0,
+                'amount_mva': 0,
     }
+    
+    def onchange_tax_code_id(self, cr, uid, ids, tax_code_id, context=None):
+        
+        result = {'value': {}}
+            
+        if not tax_code_id:
+            return result
+        
+        obj_tax_code = self.pool.get('account.tax.code.template').browse(cr, uid, tax_code_id)     
+    
+        if obj_tax_code:
+            result['value']['tax_discount'] = obj_tax_code.tax_discount
+            result['value']['domain'] = obj_tax_code.domain
+
+        return result
 
 account_tax_template()
 
@@ -81,16 +96,31 @@ class account_tax(osv.osv):
         return change_digit_tax
     
     _columns = {
-        'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
-        'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-        'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Quantity')], 'Tax Type', required=True,
-            help="The computation method for the tax amount."),
+                'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
+                'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+                'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+                'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Quantity')], 'Tax Type', required=True,
+                                          help="The computation method for the tax amount."),
     }
     _defaults = {
-        'base_reduction': 0,
+                 'base_reduction': 0,
 	'amount_mva': 0,
     }
+    
+    def onchange_tax_code_id(self, cr, uid, ids, tax_code_id, context=None):
+        
+        result = {'value': {}}
+            
+        if not tax_code_id:
+            return result
+        
+        obj_tax_code = self.pool.get('account.tax.code').browse(cr, uid, tax_code_id)      
+    
+        if obj_tax_code:
+            result['value']['tax_discount'] = obj_tax_code.tax_discount
+            result['value']['domain'] = obj_tax_code.domain
+
+        return result
 
 account_tax()
 
@@ -98,7 +128,38 @@ class account_journal(osv.osv):
     _inherit = "account.journal"
 
     _columns = {
-        'internal_sequence': fields.many2one('ir.sequence', 'Internal Sequence'),
+                'internal_sequence': fields.many2one('ir.sequence', 'Internal Sequence'),
     }
 
 account_journal()
+
+class wizard_multi_charts_accounts(osv.osv_memory):
+
+    _inherit = 'wizard.multi.charts.accounts'
+    
+    def execute(self, cr, uid, ids, context=None):
+        
+        super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
+        
+        obj_multi = self.browse(cr, uid, ids[0])
+        obj_acc_tax = self.pool.get('account.tax')
+        obj_acc_tax_tmp = self.pool.get('account.tax.template')
+        obj_tax_code = self.pool.get('account.tax.code')
+        obj_tax_code_tmp = self.pool.get('account.tax.code.template')
+        
+        # Creating Account
+        obj_acc_root = obj_multi.chart_template_id.account_root_id
+        tax_code_root_id = obj_multi.chart_template_id.tax_code_root_id.id
+        company_id = obj_multi.company_id.id
+        
+        children_tax_code_template = self.pool.get('account.tax.code.template').search(cr, uid, [('parent_id','child_of',[tax_code_root_id]),('company_id','=',company_id)], order='id')
+        children_tax_code_template.sort()
+        for tax_code_template in self.pool.get('account.tax.code.template').browse(cr, uid, children_tax_code_template, context=context):
+            tax_code_id = self.pool.get('account.tax.code').search(cr, uid, [('code','=',tax_code_template.code)])
+            if tax_code_id:
+                obj_tax_code.write(cr, uid, {'domain': tax_code_template.domain,'tax_discount': tax_code_template.tax_discount})
+        
+        tax_template_ids = self.pool.get('account.tax').search(cr, uid, [('company_id','=',company_id)])
+        
+        
+wizard_multi_charts_accounts()
