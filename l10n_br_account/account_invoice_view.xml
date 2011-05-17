@@ -77,7 +77,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
 			<field name="arch" type="xml">
 				<field position="replace" name="company_id">
-				<field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
+					<field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
 			    </field>
 			</field>
 		</record>
@@ -88,9 +88,9 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
-				<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
-				<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
-				<field invisible="True" name="fiscal_document_nfe" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
+					<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+					<field invisible="True" name="fiscal_document_nfe" />
 			    </button>
 			</field>
 		</record>
@@ -129,7 +129,7 @@
 		</record>
 		
 		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form9">
-			<field name="name">l10n_br_delivery.invoice.form9</field>
+			<field name="name">l10n_br_account.invoice.form9</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
@@ -139,21 +139,21 @@
 			</field>
 		</record>
 
-	<record id="account.action_invoice_tree1" model="ir.actions.act_window">
-		<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
+		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
+			<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
         </record>
 
-	<record id="action_invoice_tree_service" model="ir.actions.act_window">
-		<field name="name">Nota Fiscal de Serviço</field>
-		<field name="res_model">account.invoice</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form,calendar,graph</field>
-		<field eval="False" name="view_id"/>
-		<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','service')]</field>
-		<field name="context">{'type':'out_invoice', 'journal_type': 'sale','fiscal_type': 'service'}</field>
-		<field name="view_id" ref="account.invoice_form"/>
-		<field name="search_view_id" ref="account.view_account_invoice_filter"/>
-		<field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
+		<record id="action_invoice_tree_service" model="ir.actions.act_window">
+			<field name="name">Nota Fiscal de Serviço</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar,graph</field>
+			<field eval="False" name="view_id"/>
+			<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','service')]</field>
+			<field name="context">{'type':'out_invoice', 'journal_type': 'sale','fiscal_type': 'service'}</field>
+			<field name="view_id" ref="account.invoice_form"/>
+			<field name="search_view_id" ref="account.view_account_invoice_filter"/>
+			<field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
         </record>
 
         <record id="action_invoice_service_view" model="ir.actions.act_window.view">
@@ -375,19 +375,6 @@
 			    </field>
 			</field>
 		</record>
-
-		<!-- 
-		<record model="ir.ui.view" id="view_l10n_br_invoice_line_form2">
-			<field name="name">l10n_br.invoice.line.form2</field>
-			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="view_l10n_br_account_invoice_line_form" />
-			<field name="arch" type="xml">
-				<field position="after" name="cfop_id">
-					<field name="price_total"/>
-				</field>
-			</field>
-		</record>
-		 -->
 		
 	</data>
 
