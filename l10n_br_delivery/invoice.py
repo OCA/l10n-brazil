@@ -32,7 +32,6 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     _columns = {
-                'partner_shipping_id': fields.many2one('res.partner.address', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
                 'carrier_id':fields.many2one("delivery.carrier","Carrier", readonly=True, states={'draft':[('readonly',False)]}),
                 'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle', 'Veículo', readonly=True, states={'draft': [('readonly', False)]}),
                 'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete', readonly=True, states={'draft': [('readonly', False)]}, help="Incoterm which stands for 'International Commercial terms' implies its a series of sales terms which are used in the commercial transaction."),
@@ -48,44 +47,6 @@ class account_invoice(osv.osv):
         res = super(account_invoice, self).nfe_check(cr, uid, ids)
         strErro = ''
         for inv in self.browse(cr, uid, ids):
-            #endereco de entrega
-            if inv.partner_shipping_id:
-
-                if inv.address_invoice_id != inv.partner_shipping_id:
-
-                    if not inv.partner_shipping_id.street:
-                        strErro = 'Destinatario / Endereco de Entrega - Logradouro\n'
-
-                    if not inv.partner_shipping_id.number:
-                        strErro = 'Destinatario / Endereco de Entrega - Numero\n'
-
-                    if not inv.address_invoice_id.zip:
-                        strErro = 'Destinatario / Endereco de Entrega - CEP\n'
-
-                    if not inv.partner_shipping_id.state_id:
-                        strErro = 'Destinatario / Endereco de Entrega - Estado\n'
-                    else:
-                        if not inv.partner_shipping_id.state_id.ibge_code:
-                            strErro = 'Destinatario / Endereco de Entrega - Código do IBGE do estado\n'
-                        if not inv.partner_shipping_id.state_id.name:
-                            strErro = 'Destinatario / Endereco de Entrega - Nome do estado\n'
-
-                    if not inv.partner_shipping_id.city_id:
-                        strErro = 'Destinatario / Endereco - Municipio\n'
-                    else:
-                        if not inv.partner_shipping_id.city_id.name:
-                            strErro = 'Destinatario / Endereco de Entrega - Nome do municipio\n'
-                        if not inv.partner_shipping_id.city_id.ibge_code:
-                            strErro = 'Destinatario / Endereco de Entrega - Codigo do IBGE do municipio\n'
-
-                    if not inv.partner_shipping_id.country_id:
-                        strErro = 'Destinatario / Endereco de Entrega - País\n'
-                    else:
-                        if not inv.partner_shipping_id.country_id.name:
-                            strErro = 'Destinatario / Endereço de Entrega - Nome do pais\n'
-                        if not inv.partner_shipping_id.country_id.bc_code:
-                            strErro = 'Destinatario / Endereço de Entrega - Codigo do BC do pais\n'
-                            
             #Transportadora
             if inv.carrier_id:
 
