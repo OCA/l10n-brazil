@@ -143,16 +143,16 @@ class stock_picking(osv.osv):
 
         own_invoice = True
 
+        if not picking.sale_id and not picking.purchase_id:
+            salesman = uid
+
         if picking.sale_id:
             salesman = picking.sale_id.user_id.id
-        else:
-            salesman = uid
         
         if picking.purchase_id:
             salesman = picking.purchase_id.validator.id
             own_invoice = False
-        else:
-            salesman = uid
+
         
         company_id = self.pool.get('res.company').browse(cr, uid, picking.company_id.id)
         if not company_id.document_serie_product_ids:
