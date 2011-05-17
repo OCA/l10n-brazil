@@ -474,7 +474,7 @@ class account_invoice(osv.osv):
         for inv in self.browse(cr, uid, ids):
             
             #Nota fiscal
-            if not inv.own_invoice:
+            if not inv.own_invoice or not context['fiscal_type'] == 'service':
                 continue
             
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
