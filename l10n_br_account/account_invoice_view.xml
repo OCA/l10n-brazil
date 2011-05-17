@@ -15,10 +15,10 @@
 					<page position="inside" string="l10n br - NF">
 						<separator colspan="4" string="Dados Adicionais da NF"/>
 						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
-                		<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
-                		<field colspan="4" name="nfe_status"/>
-                		<field name="nfe_export_date"/>
-                		<field name="nfe_date" />
+						<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
+						<field colspan="4" name="nfe_status"/>
+						<field name="nfe_export_date"/>
+						<field name="nfe_date" />
 						<field name="fiscal_document_id" />
 						<field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 		        	</page>
@@ -77,7 +77,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
 			<field name="arch" type="xml">
 				<field position="replace" name="company_id">
-                    <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
+				<field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
 			    </field>
 			</field>
 		</record>
@@ -88,9 +88,9 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
-					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
-                    <button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
-                    <field invisible="True" name="fiscal_document_nfe" />
+				<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
+				<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+				<field invisible="True" name="fiscal_document_nfe" />
 			    </button>
 			</field>
 		</record>
@@ -127,22 +127,33 @@
 			    </field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form9">
+			<field name="name">l10n_br_delivery.invoice.form9</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="address_contact_id">
+					<field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id" groups="base.group_extended"/>
+				</field>
+			</field>
+		</record>
 
-		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
-            <field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
+	<record id="account.action_invoice_tree1" model="ir.actions.act_window">
+		<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
         </record>
 
-		<record id="action_invoice_tree_service" model="ir.actions.act_window">
-            <field name="name">Nota Fiscal de Serviço</field>
-            <field name="res_model">account.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar,graph</field>
-            <field eval="False" name="view_id"/>
-            <field name="domain">[('type','=','out_invoice'),('fiscal_type','=','service')]</field>
-            <field name="context">{'type':'out_invoice', 'journal_type': 'sale','fiscal_type': 'service'}</field>
-            <field name="view_id" ref="account.invoice_form"/>
-            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
-            <field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
+	<record id="action_invoice_tree_service" model="ir.actions.act_window">
+		<field name="name">Nota Fiscal de Serviço</field>
+		<field name="res_model">account.invoice</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form,calendar,graph</field>
+		<field eval="False" name="view_id"/>
+		<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','service')]</field>
+		<field name="context">{'type':'out_invoice', 'journal_type': 'sale','fiscal_type': 'service'}</field>
+		<field name="view_id" ref="account.invoice_form"/>
+		<field name="search_view_id" ref="account.view_account_invoice_filter"/>
+		<field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
         </record>
 
         <record id="action_invoice_service_view" model="ir.actions.act_window.view">
@@ -162,7 +173,7 @@
 				<filter name="proforma" position="before">
 					<filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]"/>
 				</filter>
-        	</field>
+			</field>
 		</record>
 		
 		<record id="view_l10n_br_account_invoice_filter1" model="ir.ui.view">
@@ -174,7 +185,7 @@
 				<field name="number" position="replace">
 					<field name="internal_number" />
 				</field>
-        	</field>
+			</field>
 		</record>
 		
 		<!-- Vendor Invoice views -->
@@ -187,10 +198,10 @@
 					<page position="inside" string="l10n br - NF">
       					<separator colspan="4" string="Dados Adicionais da NF"/>
        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
-			            <field colspan="4" name="nfe_access_key"/>
-						<field name="fiscal_document_id" />
-						<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
-						<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+					<field colspan="4" name="nfe_access_key"/>
+					<field name="fiscal_document_id" />
+					<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 			        	</page>
 				</notebook>
 			</field>
