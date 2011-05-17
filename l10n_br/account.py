@@ -104,7 +104,7 @@ class account_tax(osv.osv):
     }
     _defaults = {
                  'base_reduction': 0,
-	'amount_mva': 0,
+                 'amount_mva': 0,
     }
     
     def onchange_tax_code_id(self, cr, uid, ids, tax_code_id, context=None):
@@ -152,14 +152,16 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         tax_code_root_id = obj_multi.chart_template_id.tax_code_root_id.id
         company_id = obj_multi.company_id.id
         
-        children_tax_code_template = self.pool.get('account.tax.code.template').search(cr, uid, [('parent_id','child_of',[tax_code_root_id]),('company_id','=',company_id)], order='id')
+        children_tax_code_template = self.pool.get('account.tax.code.template').search(cr, uid, [('parent_id','child_of',[tax_code_root_id])], order='id')
         children_tax_code_template.sort()
         for tax_code_template in self.pool.get('account.tax.code.template').browse(cr, uid, children_tax_code_template, context=context):
-            tax_code_id = self.pool.get('account.tax.code').search(cr, uid, [('code','=',tax_code_template.code)])
+            tax_code_id = self.pool.get('account.tax.code').search(cr, uid, [('code','=',tax_code_template.code),('company_id','=',company_id)])
             if tax_code_id:
-                obj_tax_code.write(cr, uid, {'domain': tax_code_template.domain,'tax_discount': tax_code_template.tax_discount})
+                obj_tax_code.write(cr, uid, tax_code_id, {'domain': tax_code_template.domain,'tax_discount': tax_code_template.tax_discount})
         
-        tax_template_ids = self.pool.get('account.tax').search(cr, uid, [('company_id','=',company_id)])
-        
+        tax_ids = self.pool.get('account.tax').search(cr, uid, [('company_id','=',company_id)])
+        for tax in self.pool.get('account.tax').browse(cr, uid, tax_ids, context=context):
+            if tax.tax_code_id:
+                obj_acc_tax.write(cr, uid, tax.id, {'domain': tax.tax_code_id.domain,'tax_discount': tax.tax_code_id.tax_discount})
         
 wizard_multi_charts_accounts()

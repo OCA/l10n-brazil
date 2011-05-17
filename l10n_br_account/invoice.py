@@ -246,6 +246,7 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
+        'partner_shipping_id': fields.many2one('res.partner.address', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
         'own_invoice': fields.boolean('Nota Fiscal Própria',readonly=True, states={'draft':[('readonly',False)]}),
         'internal_number': fields.char('Invoice Number', size=32, readonly=True , states={'draft':[('readonly',False)]}, help="Unique number of the invoice, computed automatically when the invoice is created."),
         'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
