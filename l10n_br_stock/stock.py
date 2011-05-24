@@ -130,7 +130,7 @@ class stock_picking(osv.osv):
         if not move_line.purchase_line_id and not move_line.sale_line_id:
             fiscal_operation_id = move_line.picking_id.fiscal_operation_id
             fiscal_operation_category_id = move_line.picking_id.fiscal_operation_category_id
-        
+
         if not fiscal_operation_id:
             raise osv.except_osv(_('Movimentação sem operação fiscal !'),_("Não existe operação fiscal para uma linha de vendas relacionada ao produto %s .") % (move_line.product_id.name))
 
