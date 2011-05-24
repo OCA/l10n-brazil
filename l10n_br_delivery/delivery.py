@@ -23,9 +23,9 @@ class delivery_carrier(osv.osv):
     _inherit = "delivery.carrier"
 
     _columns = {
-        'antt_code': fields.char('Codigo ANTT', size=32),
-        'vehicle_ids': fields.one2many('l10n_br_delivery.carrier.vehicle', 'carrier_id', 'Vehicles'),
-    }
+                'antt_code': fields.char('Codigo ANTT', size=32),
+                'vehicle_ids': fields.one2many('l10n_br_delivery.carrier.vehicle', 'carrier_id', 'Vehicles'),
+                }
 
 delivery_carrier()
 
@@ -35,27 +35,26 @@ class l10n_br_delivery_carrier_vehicle(osv.osv):
     _description = 'Veiculos das transportadoras'
     
     _columns = {
-        'name': fields.char('Nome', size=32),
-        'description': fields.char('Descrição', size=132),
-        'plate': fields.char('Placa', size=7),
-        'driver': fields.char('Condudor', size=64),
-        'rntc_code': fields.char('Codigo ANTT', size=32),
-        'country_id': fields.many2one('res.country', 'País'),
-        'state_id': fields.many2one('res.country.state', 'Estado', domain="[('country_id','=',country_id)]"),
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
-        'active': fields.boolean('Ativo'),
-        'manufacture_year': fields.char('Ano de Fabricação', size=4),
-        'model_year': fields.char('Ano do Modelo', size=4),
-        'type': fields.selection([('bau','Caminhão Baú')], 'Ano do Modelo'),
-        'carrier_id': fields.many2one('delivery.carrier', 'Carrier', select=True, required=True, ondelete='cascade'),        
-    }
+                'name': fields.char('Nome', size=32),
+                'description': fields.char('Descrição', size=132),
+                'plate': fields.char('Placa', size=7),
+                'driver': fields.char('Condudor', size=64),
+                'rntc_code': fields.char('Codigo ANTT', size=32),
+                'country_id': fields.many2one('res.country', 'País'),
+                'state_id': fields.many2one('res.country.state', 'Estado', domain="[('country_id','=',country_id)]"),
+                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+                'active': fields.boolean('Ativo'),
+                'manufacture_year': fields.char('Ano de Fabricação', size=4),
+                'model_year': fields.char('Ano do Modelo', size=4),
+                'type': fields.selection([('bau','Caminhão Baú')], 'Ano do Modelo'),
+                'carrier_id': fields.many2one('delivery.carrier', 'Carrier', select=True, required=True, ondelete='cascade'),        
+                }
     
     _defaults = {
                  'carrier_id': True,
                  }
 
 l10n_br_delivery_carrier_vehicle()
-
 
 class l10n_br_delivery_shipment(osv.osv):    
     
@@ -103,8 +102,7 @@ class l10n_br_delivery_shipment(osv.osv):
         'carrier_tracking_ref': fields.char('Carrier Tracking Ref', size=32),
         'number_of_packages': fields.integer('Number of Packages'),
     }
-    
-        
+
 l10n_br_delivery_shipment()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
