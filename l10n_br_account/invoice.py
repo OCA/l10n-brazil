@@ -78,7 +78,7 @@ class account_invoice(osv.osv):
                 res[invoice.id]['cofins_value'] += line.cofins_value
            
             for invoice_tax in invoice.tax_line:
-                if not invoice_tax.base_code_id.tax_discount:
+                if not invoice_tax.tax_code_id.tax_discount:
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
 
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
@@ -86,7 +86,7 @@ class account_invoice(osv.osv):
         return res
     
     def _get_fiscal_type(self, cr, uid, context=None):
-        print context
+
         if context is None:
             context = {}
         return context.get('fiscal_type', 'product')
@@ -445,7 +445,7 @@ class account_invoice(osv.osv):
         result = super(account_invoice, self).action_move_create(cr, uid, ids, *args)
         
         for inv in self.browse(cr, uid, ids):
-            #print 'Agora vai: %s aqui tbm: %s' % (inv.move_id.id, inv.move_id.ref) 
+            
             if inv.move_id:
                 self.pool.get('account.move').write(cr, uid, [inv.move_id.id], {'ref': inv.internal_number})
                 for move_line in inv.move_id.line_id:    
@@ -461,7 +461,7 @@ class account_invoice(osv.osv):
         return result
 
     def nfe_dv(self, key):
-        
+        #Testing
         return '2'
 
     def nfe_check(self, cr, uid, ids, context=None):
@@ -581,7 +581,7 @@ class account_invoice(osv.osv):
                     strErro = 'Destinatário / Endereço - Nome do municipio\n'
                 if not inv.address_invoice_id.l10n_br_city_id.ibge_code:
                     strErro = 'Destinatário / Endereço - Código do IBGE do municipio\n'
-                    
+
             if not inv.address_invoice_id.country_id:
                 strErro = 'Destinatario / Endereco - Pais\n'
             else:
@@ -589,7 +589,7 @@ class account_invoice(osv.osv):
                     strErro = 'Destinatario / Endereco - Nome do pais\n'
                 if not inv.address_invoice_id.country_id.bc_code:
                     strErro = 'Destinatario / Endereco - Codigo do BC do pais\n'
-            
+
             #endereco de entrega
             if inv.partner_shipping_id:
                 
