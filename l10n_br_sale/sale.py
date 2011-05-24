@@ -32,14 +32,14 @@ class sale_order(osv.osv):
     
     _inherit = 'sale.order'
     
-    def onchange_partner_id(self, cr, uid, ids, part, shop_id, fiscal_operation_category_id):
+    def onchange_partner_id(self, cr, uid, ids, part, shop_id=False, fiscal_operation_category_id=False):
 
-        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, shop_id)
+        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part)
         result['value']['fiscal_position'] = False
 
         if not part or not shop_id:
             return {'value': {'partner_invoice_id': False, 'partner_shipping_id': False, 'partner_order_id': False, 'payment_term': False, 'fiscal_position': False, 'fiscal_operation_id': False}}
-        
+
         obj_partner = self.pool.get('res.partner').browse(cr, uid, part)
         fiscal_position = obj_partner.property_account_position.id
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
@@ -215,19 +215,18 @@ class sale_order(osv.osv):
                     self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
                                                                                        'fiscal_operation_id': fiscal_operation_id.id, 
                                                                                        'cfop_id': fiscal_operation_id.cfop_id.id})   
-                    
         return result
     
     def action_ship_create(self, cr, uid, ids, *args):
-   
+
         result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
-        
+
         for order in self.browse(cr, uid, ids, context={}):
             for picking in order.picking_ids:
                 self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
-        
+
         return result
-    
+
     def _amount_line_tax(self, cr, uid, line, context=None):
         val = 0.0
         for c in self.pool.get('account.tax').compute_all(cr, uid, line.tax_id, line.price_unit * (1-(line.discount or 0.0)/100.0), line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id)['taxes']:
@@ -251,6 +250,7 @@ sale_order()
 # Linha da Ordem de Venda Customizada
 ##############################################################################
 class sale_order_line(osv.osv):
+    
     _inherit = 'sale.order.line'
     
     _columns = {
@@ -268,7 +268,6 @@ class sale_order_line(osv.osv):
         if not fiscal_operation_category_id:
             return result
 
-        #print partner_id
         default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_id','=', product),('fiscal_operation_category_source_id','=',fiscal_operation_category_id)])
 
         if not default_product_category:
@@ -331,11 +330,11 @@ class sale_order_line(osv.osv):
                         self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': so_line.fiscal_operation_id.cfop_id.id, 
                                                                                            'fiscal_operation_category_id': so_line.fiscal_operation_category_id.id, 
                                                                                            'fiscal_operation_id': so_line.fiscal_operation_id.id})
-            
+
         return result
 
 sale_order_line()
-    
+
 ##############################################################################
 # Estabelecimento Customizado
 ##############################################################################
