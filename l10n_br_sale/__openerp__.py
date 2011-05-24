@@ -26,10 +26,8 @@
     'version' : '0.6',
     'depends' : [
 		'l10n_br_account',
+		'account_fiscal_position_rule_sale',
 		'l10n_br_stock',
-        'sale',
-        'account_fiscal_position_rule_sale',
-
 		],
     'init_xml': [],
     'update_xml' : [
