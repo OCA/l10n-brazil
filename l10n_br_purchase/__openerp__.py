@@ -25,7 +25,8 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-		'account_fiscal_position_rule_purchase',
+                 'l10n_br_account',
+		         'account_fiscal_position_rule_purchase',
 		],
     'init_xml': [
 		'data/l10n_br_purchase_data.xml',
