@@ -24,7 +24,7 @@
 			    </field>
 			</field>
 		</record>
-		
+
 		<record model="ir.ui.view" id="view_l10n_br_account_tax_template_form1">
 			<field name="name">l10n_br_account.tax.template.form1</field>
 			<field name="model">account.tax.template</field>
@@ -36,7 +36,7 @@
 			    </field>
 			</field>
 		</record>
-
+		
 		<record model="ir.ui.view" id="view_l10n_br_account_tax_form1">
 			<field name="name">l10n_br_account.tax.form1</field>
 			<field name="model">account.tax</field>
@@ -62,5 +62,5 @@
         </record>
 
 	</data>
-	
+
 </openerp>
