@@ -41,7 +41,7 @@
 		
 		<record model="ir.ui.view" id="l10n_br_base_view_partner_form1" >
 	   		<field name="name">l10n_br_base.partner.form1</field>
-            		<field name="model">res.partner</field>
+       		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
@@ -55,7 +55,7 @@
 		
 		<record model="ir.ui.view" id="l10n_br_base_view_partner_form2">
 	   		<field name="name">l10n_br_base.partner.form2</field>
-            		<field name="model">res.partner</field>
+      		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">33</field>
 	   		<field name="arch" type="xml">
@@ -67,7 +67,7 @@
 		
 		<record model="ir.ui.view" id="l10n_br_base_view_partner_form3">
 	   		<field name="name">l10n_br_base.partner.form3</field>
-		        <field name="model">res.partner</field>
+		    <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
@@ -79,7 +79,7 @@
 
 		<record model="ir.ui.view" id="l10n_br_base_view_partner_form4">
 	   		<field name="name">l10n_br_base.partner.form4</field>
-		        <field name="model">res.partner</field>
+		    <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
@@ -191,6 +191,36 @@
 					<field name="street"/>
 					<field name="number"/>
 					<field name="district"/>					
+				</field>
+			</field>
+		</record>
+		
+		<!-- res.partner.bank -->
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_form">
+			<field name="name">view_l10n_br_base.partner.bank.form</field>
+			<field name="model">res.partner.bank</field>
+			<field name="inherit_id" ref="base.view_partner_bank_form"/>
+			<field name="arch" type="xml">
+				<field name="acc_number" position="replace">
+					<field name="acc_number" select="1"/>
+					<field name="acc_number_dig" select="1"/>
+					<newline/>
+					<field name="bra_number" select="1"/>
+					<field name="bra_number_dig" select="1"/>				
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_tree">
+			<field name="name">view_l10n_br_base.partner.bank.tree</field>
+			<field name="model">res.partner.bank</field>
+			<field name="inherit_id" ref="base.view_partner_bank_tree"/>
+			<field name="arch" type="xml">
+				<field name="acc_number" position="replace">
+					<field name="acc_number"/>
+					<field name="acc_number_dig"/>
+					<field name="bra_number"/>
+					<field name="bra_number_dig"/>				
 				</field>
 			</field>
 		</record>
