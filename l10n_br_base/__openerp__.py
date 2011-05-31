@@ -30,11 +30,12 @@
                 'l10n_br_base.city.csv',
                 ],
     'update_xml' : [
-		'l10n_br_base_view.xml',
-		'country_view.xml',
-		'partner_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_base_security.xml',
+                'l10n_br_base_data.xml',
+        		'l10n_br_base_view.xml',
+        		'country_view.xml',
+        		'partner_view.xml',
+                'security/ir.model.access.csv',
+                'security/l10n_br_base_security.xml',
     ],
     'demo_xml': ['l10n_br_base_demo.xml'],
     'installable': True

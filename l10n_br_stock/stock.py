@@ -153,7 +153,6 @@ class stock_picking(osv.osv):
             salesman = picking.purchase_id.validator.id
             own_invoice = False
 
-        
         company_id = self.pool.get('res.company').browse(cr, uid, picking.company_id.id)
         if not company_id.document_serie_product_ids:
             raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (picking.company_id.name,))
