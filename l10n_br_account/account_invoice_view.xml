@@ -8,21 +8,11 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
-				 <notebook>
-				 	<page position="inside" string="l10n br - Vencimentos">
+				 <page string="Payments" position="before">
+				 	<page string="l10n br - Vencimentos">
 				 		<field colspan="4" nolabel="1" name="move_line_receivable_id"/>
 				 	</page>
-					<page position="inside" string="l10n br - NF">
-						<separator colspan="4" string="Dados Adicionais da NF"/>
-						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
-						<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
-						<field colspan="4" name="nfe_status"/>
-						<field name="nfe_export_date"/>
-						<field name="nfe_date" />
-						<field name="fiscal_document_id" />
-						<field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
-		        	</page>
-				</notebook>
+				</page>
 			</field>
 		</record>
 		
@@ -138,6 +128,26 @@
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form10">
+			<field name="name">l10n_br_account.invoice.form10</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				 <notebook>
+				 	<page position="inside" string="l10n br - NF">
+						<separator colspan="4" string="Dados Adicionais da NF"/>
+						<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
+						<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
+						<field colspan="4" name="nfe_status"/>
+						<field name="nfe_export_date"/>
+						<field name="nfe_date" />
+						<field name="fiscal_document_id" />
+						<field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+		        	</page>
+				</notebook>
+			</field>
+		</record>
 
 		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
 			<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
@@ -196,13 +206,13 @@
 			<field name="arch" type="xml">
 				 <notebook>
 					<page position="inside" string="l10n br - NF">
-      					<separator colspan="4" string="Dados Adicionais da NF"/>
+     					<separator colspan="4" string="Dados Adicionais da NF"/>
        					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
-					<field colspan="4" name="nfe_access_key"/>
-					<field name="fiscal_document_id" />
-					<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
-					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-			        	</page>
+						<field colspan="4" name="nfe_access_key"/>
+						<field name="fiscal_document_id" />
+						<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+						<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+		        	</page>
 				</notebook>
 			</field>
 		</record>
@@ -284,6 +294,19 @@
 				<field position="replace" name="number">
 					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 			    </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form8">
+			<field name="name">l10n_br_account.invoice.supplier.form8</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+				 <page string="Payments" position="before">
+				 	<page string="l10n br - Vencimentos">
+				 		<field colspan="4" nolabel="1" name="move_line_receivable_id"/>
+				 	</page>
+				</page>
 			</field>
 		</record>
 
