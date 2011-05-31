@@ -181,4 +181,18 @@ class res_partner_address(osv.osv):
 
 res_partner_address()
 
+class res_partner_bank(osv.osv):
+    '''Bank Accounts'''
+    _inherit = 'res.partner.bank'
+
+    _columns = {
+                'acc_number': fields.char('Account Number', size=64, required=False),
+                'bank': fields.many2one('res.bank', 'Bank', required=False),
+                'acc_number_dig': fields.char("Digito Conta", size=8),
+                'bra_number': fields.char("Agência", size=8),
+                'bra_number_dig': fields.char("Dígito Agência", size=8),
+               }
+
+res_partner_bank()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
