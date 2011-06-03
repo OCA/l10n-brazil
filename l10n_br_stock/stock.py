@@ -29,7 +29,7 @@ class stock_picking(osv.osv):
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]"),
                 'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal', domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 }
-    
+
     def onchange_partner_in(self, cr, uid, context=None, partner_id=None,company_id=False,fiscal_operation_category_id=False):
 
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_id)
@@ -57,10 +57,10 @@ class stock_picking(osv.osv):
 
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
-        
+
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
-        
+
         fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
                                                                                         ('company_id','=', company_id),
                                                                                         ('use_picking','=',True),
