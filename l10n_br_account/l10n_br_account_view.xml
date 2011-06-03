@@ -120,7 +120,6 @@
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
 						<field name="fiscal_type" select="1"/>
-						<field name="revenue" />
 						<newline/>
 						<separator colspan="4" string="Utilização"/>
 						<field name="use_sale"/>
