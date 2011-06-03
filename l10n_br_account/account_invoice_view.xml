@@ -56,7 +56,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form1" />
 			<field name="arch" type="xml">
 				<field position="replace" name="partner_id">
-					<field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)" groups="base.group_user" />
+					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)" groups="base.group_user" />
 			    </field>
 			</field>
 		</record>
@@ -153,8 +153,8 @@
 			<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
         </record>
 
-		<record id="action_invoice_tree_service" model="ir.actions.act_window">
-			<field name="name">Nota Fiscal de Serviço</field>
+		<record id="action_invoice_tree_service_out" model="ir.actions.act_window">
+			<field name="name">Nota Fiscal de Serviço de Saida</field>
 			<field name="res_model">account.invoice</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar,graph</field>
@@ -165,14 +165,35 @@
 			<field name="search_view_id" ref="account.view_account_invoice_filter"/>
 			<field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
         </record>
+        
+        <record id="action_invoice_tree_service_in" model="ir.actions.act_window">
+			<field name="name">Nota Fiscal de Serviço de Entrada</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar,graph</field>
+			<field eval="False" name="view_id"/>
+			<field name="domain">[('type','=','in_invoice'),('fiscal_type','=','service')]</field>
+			<field name="context">{'type':'in_invoice', 'journal_type': 'purchase','fiscal_type': 'service'}</field>
+			<field name="view_id" ref="account.invoice_form"/>
+			<field name="search_view_id" ref="account.view_account_invoice_filter"/>
+			<field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
+        </record>
 
-        <record id="action_invoice_service_view" model="ir.actions.act_window.view">
+        <record id="action_invoice_service_in_view" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="act_window_id" ref="action_invoice_tree_service"/>
+            <field name="act_window_id" ref="action_invoice_tree_service_in"/>
         </record>
         
-        <menuitem action="action_invoice_tree_service" id="menu_action_invoice_tree_service" parent="account.menu_finance_receivables"/>
+        <menuitem action="action_invoice_tree_service_in" id="menu_action_invoice_tree_service_in" parent="account.menu_finance_payables"/>
+        
+        <record id="action_invoice_service_out_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_invoice_tree_service_out"/>
+        </record>
+        
+        <menuitem action="action_invoice_tree_service_out" id="menu_action_invoice_tree_service_out" parent="account.menu_finance_receivables"/>
 
 		<record id="view_l10n_br_account_invoice_filter" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.select</field>
