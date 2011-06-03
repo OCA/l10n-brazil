@@ -219,6 +219,103 @@
 			</field>
 		</record>
 		
+		<record id="l10n_br_account_invoice_service_out_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.service.out.form</field>
+	   		<field name="model">account.invoice</field>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+				<form string="Nota Fiscal de Serviço de Saida">
+                	<group colspan="4" col="8">
+                		<field name="journal_id" on_change="onchange_journal_id(journal_id)" widget="selection"/>
+                		<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}"/>
+						<field name="type" invisible="1"/>
+                		<field name="currency_id" width="50"/>
+                		<button name="240" type="action" icon="terp-stock_effects-object-colorize" string="Alterar" attrs="{'invisible':[('state','!=','draft')]}"/>
+                		<newline/>
+                		<field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)"/>
+						<field domain="[('partner_id','=',partner_id)]" name="address_invoice_id"/>
+                		<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}"/>
+						<newline/>
+		                <field name="date_invoice"/>
+		                <field name="period_id" domain="[('state', '=', 'draft')]" widget="selection"/>
+                		<group colspan="2" col="1">
+                    		<label align="0.0" string="(Mantenha vazio para usar o período atual)"/>
+                		</group>
+                	</group>
+                	<notebook colspan="4">
+                    	<page string="Fatura">
+	                        <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id"/>
+	                        <field name="name"/>
+	                        <field name="payment_term" widget="selection"/>
+	                        <field colspan="4" name="invoice_line" nolabel="1" widget="one2many_list" />
+	                        <group col="1" colspan="2">
+                            	<field name="tax_line" nolabel="1">
+                               	</field>
+                        	</group>
+	                        <group col="4" colspan="2">
+	                            <button colspan="2" name="button_reset_taxes" states="draft" string="Computar Impostos" type="object" icon="terp-stock_format-scientific"/>
+	                            <field name="amount_untaxed"/>
+	                            <label string="" colspan="2"/>
+	                            <field name="amount_tax"/>
+	                            <field name="reconciled"/>
+	                            <field name="amount_total"/>
+	                            <field name="state"/>
+	                            <field name="residual"/>
+                            	<group col="8" colspan="4">
+	                                <button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancelar" icon="gtk-cancel"/>
+									<button name="action_cancel_draft" states="cancel" string="Restaurar para o Rascunho" type="object" icon="terp-stock_effects-object-colorize"/>
+	                                <button name="222" type="action" string="Reembolso" states="open,paid" icon="gtk-execute"/>
+	                                <button name="238" type="action" string="Re-abrir" states="paid" icon="gtk-convert"/>
+	                                <button name="invoice_proforma2" states="draft" string="Pro-forma" icon="terp-gtk-media-pause"/>
+	                                <button name="invoice_open" states="sefaz_export,proforma2" string="Validar" icon="gtk-go-forward"/>
+                					<button name="invoice_pay_customer" type="object" string="Pagamento" states="open" icon="gtk-go-forward"/>
+   									<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                					<field invisible="True" name="fiscal_document_nfe"/>
+									<button name="215" string="Imprimir Fatura" type="action" icon="gtk-print" states="open,paid,proforma,sale,proforma2"/>
+                            	</group>
+                        	</group>
+                    	</page>
+                    	<page string="Outras informações">
+	                        <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)" widget="selection"/>       
+	                        <newline/>
+	                        <field name="date_due"/>
+	                        <field name="user_id"/>
+	                        <newline/>
+	                        <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
+	                        <field name="origin"/>
+	                        <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"/>
+	                        <field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
+	                        <field name="move_id"/>
+	                        <field name="fiscal_operation_category_id" domain="[('fiscal_type','=','service'),('type','=','output'),('use_invoice','=',True)]" required="1"/>
+	                        <field name="fiscal_operation_id" domain="[('fiscal_type','=','service'),('type','=','output'),('use_invoice','=',True)]" required="1"/>
+	                        <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+	                        <separator colspan="4" string="Informação Adicional"/>
+	                        <field colspan="4" name="comment" nolabel="1"/>
+                    	</page>
+	                    <page string="l10n br - Vencimentos">
+	                        <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
+	                     </page>
+	                     <page string="Pagamentos">
+	                        <field name="payment_ids" colspan="4" nolabel="1">
+	                        </field>
+	                    </page>
+						<page position="inside" string="l10n br - NF">
+							<separator colspan="4" string="Dados Adicionais da NF" />
+				            <field name="service_type_id" colspan="4" />
+				            <field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
+				            <field colspan="4" name="nfe_status"/>
+				            <field name="nfe_export_date"/>
+				            <field name="nfe_date"/>
+							<field name="fiscal_document_id"/>
+							<field name="document_serie_id" domain="[('fiscal_type','=','service')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}"/>
+							<group colspan="4">
+							</group>
+    					</page>
+					</notebook>
+            	</form>
+			</field>
+		</record>
+		
 		<!-- Vendor Invoice views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form">
 			<field name="name">l10n_br_account.invoice.supplier.form</field>
@@ -328,6 +425,103 @@
 				 		<field colspan="4" nolabel="1" name="move_line_receivable_id"/>
 				 	</page>
 				</page>
+			</field>
+		</record>
+		
+		<record id="l10n_br_account_invoice_service_in_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.service.in.form</field>
+	   		<field name="model">account.invoice</field>
+	   		<field name="priority">32</field>
+	   		<field name="arch" type="xml">
+				<form string="Nota Fiscal de Serviço de Entrada">
+                    <group colspan="4" col="8">
+	                    <field name="journal_id" on_change="onchange_journal_id(journal_id)" widget="selection"/>
+	                    <field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}"/>
+	    				<field name="type" invisible="1"/>
+	                    <field name="currency_id" width="50"/>
+	                    <button name="240" type="action" icon="terp-stock_effects-object-colorize" string="Alterar" attrs="{'invisible':[('state','!=','draft')]}"/>
+	                    <newline/>
+	                    <field name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, fiscal_operation_category_id)"/>
+	    				<field domain="[('partner_id','=',partner_id)]" name="address_invoice_id"/>
+	                    <field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}"/>
+	    				<newline/>
+	                    <field name="date_invoice"/>
+	                    <field name="period_id" domain="[('state', '=', 'draft')]" widget="selection"/>
+	                    <group colspan="2" col="1">
+	                        <label align="0.0" string="(Mantenha vazio para usar o período atual)"/>
+	                    </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Fatura">
+                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id"/>
+                            <field name="name"/>
+                            <field name="payment_term" widget="selection"/>
+                            <field colspan="4" name="invoice_line" nolabel="1" widget="one2many_list" />
+                            <group col="1" colspan="2">
+                                <field name="tax_line" nolabel="1">
+                                </field>
+                            </group>
+                            <group col="4" colspan="2">
+                                <button colspan="2" name="button_reset_taxes" states="draft" string="Computar Impostos" type="object" icon="terp-stock_format-scientific"/>
+                                <field name="amount_untaxed"/>
+                                <label string="" colspan="2"/>
+                                <field name="amount_tax"/>
+                                <field name="reconciled"/>
+                                <field name="amount_total"/>
+                                <field name="state"/>
+                                <field name="residual"/>
+                                <group col="8" colspan="4">
+                                    <button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancelar" icon="gtk-cancel"/>
+    								<button name="action_cancel_draft" states="cancel" string="Restaurar para o Rascunho" type="object" icon="terp-stock_effects-object-colorize"/>
+                                    <button name="222" type="action" string="Reembolso" states="open,paid" icon="gtk-execute"/>
+                                    <button name="238" type="action" string="Re-abrir" states="paid" icon="gtk-convert"/>
+                                    <button name="invoice_proforma2" states="draft" string="Pro-forma" icon="terp-gtk-media-pause"/>
+                                    <button name="invoice_open" states="sefaz_export,proforma2" string="Validar" icon="gtk-go-forward"/>
+                    				<button name="invoice_pay_customer" type="object" string="Pagamento" states="open" icon="gtk-go-forward"/>
+       								<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    				<field invisible="True" name="fiscal_document_nfe"/>
+    								<button name="215" string="Imprimir Fatura" type="action" icon="gtk-print" states="open,paid,proforma,sale,proforma2"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Outras informações">
+                            <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)" widget="selection"/>       
+                            <newline/>
+                            <field name="date_due"/>
+                            <field name="user_id"/>
+                            <newline/>
+                            <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
+                            <field name="origin"/>
+                            <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"/>
+                            <field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
+                            <field name="move_id"/>
+                            <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','service'),('type','=','input')]" required="1"/>
+                            <field name="fiscal_operation_id" domain="[('type','=','input'),('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
+                            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+                            <separator colspan="4" string="Informação Adicional"/>
+                            <field colspan="4" name="comment" nolabel="1"/>
+                        </page>
+                        <page string="l10n br - Vencimentos">
+                            <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
+                        </page>
+						<page string="Pagamentos">
+                            <field name="payment_ids" colspan="4" nolabel="1">
+                            </field>
+                        </page>
+						<page position="inside" string="l10n br - NF">
+							<separator colspan="4" string="Dados Adicionais da NF" />
+			                <field name="service_type_id" colspan="4" />
+			                <field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
+			                <field colspan="4" name="nfe_status"/>
+			                <field name="nfe_export_date"/>
+			                <field name="nfe_date"/>
+							<field name="fiscal_document_id"/>
+							<field name="document_serie_id" domain="[('fiscal_type','=','service')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}"/>
+							<group colspan="4">
+							</group>
+        				</page>
+					</notebook>
+                </form>
 			</field>
 		</record>
 
