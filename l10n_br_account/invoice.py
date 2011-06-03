@@ -99,9 +99,7 @@ class account_invoice(osv.osv):
             context = {}
         
         if not 'fiscal_type' in context.keys():
-            return res
-        
-        journal_obj = self.pool.get('account.journal')
+            return res        
 
         ui_view_ids = self.pool.get('ir.ui.view').search(cr,uid,[('name', '=', 'account.invoice.form')])
         field_names = ['service_type_id']
@@ -177,13 +175,13 @@ class account_invoice(osv.osv):
     <separator colspan="4" string="Informação Adicional"/>
                             <field colspan="4" name="comment" nolabel="1"/>
                         </page>
-                        <page string="Pagamentos">
+                        <page string="l10n br - Vencimentos">
+                            <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
+                         </page>
+                         <page string="Pagamentos">
                             <field name="payment_ids" colspan="4" nolabel="1">
-                                </field>
+                            </field>
                         </page>
-                    <page position="inside" string="l10n br - Vencimentos">
- <field colspan="4" nolabel="1" name="move_line_receivable_id"/>
- </page>
 <page position="inside" string="l10n br - NF">
 <separator colspan="4" string="Dados Adicionais da NF" />
                 <field name="service_type_id" colspan="4" />
@@ -220,7 +218,7 @@ class account_invoice(osv.osv):
             res[id] = []
             if not invoice.move_id:
                 continue
-            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.fiscal_operation_category_id.revenue]
+            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.journal_id.revenue_expense]
             New_ids = []
             for line in data_lines:
                 New_ids.append(line.id)
@@ -1201,7 +1199,7 @@ class account_invoice(osv.osv):
 
             StrFile += StrX26
 
-            if inv.fiscal_operation_category_id.revenue:
+            if inv.journal_id.revenue_expense:
             
                 StrY = 'Y|\n'
                 
