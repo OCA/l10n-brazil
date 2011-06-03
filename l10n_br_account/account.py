@@ -30,9 +30,16 @@ from tools.misc import currency
 from tools.translate import _
 from tools import config
 
-##############################################################################
-# Cadastro de Impostos Personalizado
-##############################################################################
+class account_journal(osv.osv):
+    
+    _inherit = 'account.journal'
+    
+    _columns = {
+                'revenue_expense' : fields.boolean('Gera Financeiro'),
+                }
+    
+account_journal()
+
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     
