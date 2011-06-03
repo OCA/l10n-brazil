@@ -160,7 +160,7 @@ class account_invoice(osv.osv):
                         </page>
                         <page string="Outras informações">
                             <field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)" widget="selection"/>       
-<newline/>
+                            <newline/>
                             <field name="date_due"/>
                             <field name="user_id"/>
                             <newline/>
@@ -168,11 +168,11 @@ class account_invoice(osv.osv):
                             <field name="origin"/>
                             <field colspan="4" domain="[('partner_id','=',partner_id)]" name="address_contact_id"/>
                             <field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
-    <field name="move_id"/>
+                            <field name="move_id"/>
                             <field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
-<field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
-<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
-    <separator colspan="4" string="Informação Adicional"/>
+                            <field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','service')]" required="1"/>
+                            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
+                            <separator colspan="4" string="Informação Adicional"/>
                             <field colspan="4" name="comment" nolabel="1"/>
                         </page>
                         <page string="l10n br - Vencimentos">
