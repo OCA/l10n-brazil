@@ -23,7 +23,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
   				<field name="address_id" position="replace">
-					<field name="address_id" on_change="onchange_partner_in(address_id,company_id, fiscal_operation_category_id)" context="{'contact_display':'partner'}" colspan="4"/>
+					<field name="address_id" on_change="onchange_partner_in(address_id, company_id, fiscal_operation_category_id)" context="{'contact_display':'partner'}" colspan="4"/>
 	            </field>
 	        </field>
 		</record>

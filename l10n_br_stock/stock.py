@@ -30,7 +30,7 @@ class stock_picking(osv.osv):
                 'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal', domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 }
     
-    def onchange_partner_in(self, cr, uid, context=None, partner_id=None,fiscal_operation_category_id=False,company_id=False):
+    def onchange_partner_in(self, cr, uid, context=None, partner_id=None,company_id=False,fiscal_operation_category_id=False):
 
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_id)
         
@@ -50,7 +50,7 @@ class stock_picking(osv.osv):
 
         if fiscal_position:
             result['value']['fiscal_position'] = fiscal_position
-            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
+            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id and obj_partner.property_account_position.fiscal_operation_id.id
             return result
 
         obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
@@ -61,10 +61,22 @@ class stock_picking(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
         
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', company_id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),('partner_fiscal_type_id','=',partner_fiscal_type),('use_picking','=',True)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', company_id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_picking','=',True)])
-        
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
+                                                                                        ('company_id','=', company_id),
+                                                                                        ('use_picking','=',True),
+                                                                                        ('fiscal_operation_category_id','=',fiscal_operation_category_id),
+                                                                                    '|',
+                                                                                    ('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',
+                                                                                    ('to_country','=',to_country), ('to_country','=',False),
+                                                                                    '|',
+                                                                                        ('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',
+                                                                                        ('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',
+                                                                                        ('partner_fiscal_type_id','=',False),('partner_fiscal_type_id','=',partner_fiscal_type)
+                                                                                    ])
+
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
@@ -96,21 +108,32 @@ class stock_picking(osv.osv):
 
         obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_addr_default.partner_id.id])[0]
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
+        
         if obj_partner.property_account_position:
             result['value']['fiscal_position'] = obj_partner.property_account_position
-            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
+            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id and obj_partner.property_account_position.fiscal_operation_id.id
             return result
         
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',company_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_picking','=',True),('partner_fiscal_type_id','=',partner_fiscal_type),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',company_id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_picking','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
+                                                                                        ('company_id','=', company_id),
+                                                                                        ('use_picking','=',True),
+                                                                                        ('fiscal_operation_category_id','=',fiscal_operation_category_id),
+                                                                                    '|',
+                                                                                    ('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',
+                                                                                    ('to_country','=',to_country), ('to_country','=',False),
+                                                                                    '|',
+                                                                                        ('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',
+                                                                                        ('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',
+                                                                                        ('partner_fiscal_type_id','=',False),('partner_fiscal_type_id','=',partner_fiscal_type)
+                                                                                    ])
         
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            obj_fpo = self.pool.get('account.fiscal.position').browse(cr, uid, [obj_fpo_rule.fiscal_position_id.id])[0]
-            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, [obj_fpo.fiscal_operation_id.id])[0]
-            result['value']['fiscal_position'] = obj_fpo.id
-            result['value']['fiscal_operation_id'] = obj_foperation.id
+            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
+            result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
             
         return result
 
