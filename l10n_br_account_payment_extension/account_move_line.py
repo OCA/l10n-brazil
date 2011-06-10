@@ -17,32 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-{
-    'name' : 'Account Payment Extension',
-    'description' : 'Brazilian Localization Account Payment Extension',
-    'category' : 'Localisation',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-		        'l10n_br_base', 
-                'l10n_br_account',
-                'account_payment_extension',
-		        ],
-    'init_xml' : [
-		        #'l10n_br_account_payment_extension.csv',
-		        ],
-    'update_xml' : [
-                    'payment_view.xml',
-                    'l10n_br_account_payment_extension_data.xml',
-		            'account_invoice_view.xml',
-                    'security/ir.model.access.csv',
-                    'security/l10n_br_account_payment_extension_security.xml',
-                    ],
-    'demo_xml': [
-                'l10n_br_account_payment_extension_demo.xml'
-                ],
-    'installable': True
-}
+from osv import fields, osv
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+#class account_move_line(osv.osv):
+#    _inherit = 'account.move.line'
+#    _columns = {
+#                'revenue_expense': fields.related('journal_id', 'revenue_expense', type='many2one', relation='account.journal', string='Revenue Expense', store=True, readonly=True),
+#                }
+#    
+#account_move_line()
