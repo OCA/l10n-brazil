@@ -97,27 +97,76 @@ class account_invoice(osv.osv):
         
         if context is None:
             context = {}
-        
-        if not 'fiscal_type' in context.keys():
-            return result
+
+        field_names = ['service_type_id']
+        result['fields'].update(self.fields_get(cr, uid, field_names, context))
 
         if not view_type:
             view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'account.invoice.tree')])
             view_type = 'tree'
 
         if view_type == 'form':
-            if context['fiscal_type'] == 'service' and context['type'] in ('in_invoice', 'out_refund'):
-                view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'l10n_br_account.invoice.service.in.form')])
-            else:
-                view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'l10n_br_account.invoice.service.out.form')])
+            
+            eview = etree.fromstring(result['arch'])
+            
+            if 'type' in context.keys():
 
-        if view_id and isinstance(view_id, (list, tuple)):
-            view_id = view_id[0]
+                operation_type = {'out_invoice': 'output', 'in_invoice': 'input', 'out_refund': 'input', 'in_refund': 'output'}
+
+                cfops = eview.xpath("//field[@name='cfop_id']")
+                for cfop_id in cfops:
+                    cfop_id.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
+                    cfop_id.set('required', '1')
+
+                fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                for fiscal_operation_category_id in fiscal_operation_categories:
+                    fiscal_operation_category_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('use_invoice','=',True)]" % (operation_type[context['type']],))
+                    fiscal_operation_category_id.set('required', '1')
+                    
+                fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                for fiscal_operation_id in fiscal_operations:
+                    fiscal_operation_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]" % (operation_type[context['type']],))
+                    fiscal_operation_id.set('required', '1')
+    
+            
+            if context.get('fiscal_type', False) == 'service':
+                
+                delivery_infos = eview.xpath("//group[@name='delivery_info']")
+                for delivery_info in delivery_infos:
+                    delivery_info.set('invisible', '1')
+                
+                cfops = eview.xpath("/form/notebook/page/field[@name='cfop_id']")
+                for cfop_id in cfops:
+                    cfop_id.set('name', 'service_type_id')
+                    cfop_id.set('domain', '[]')
+                
+                document_series = eview.xpath("//field[@name='document_serie_id']")
+                for document_serie_id in document_series:
+                    document_serie_id.set('domain', "[('fiscal_type','=','service')]")
         
-        result = super(account_invoice,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
-        
-        field_names = ['service_type_id']
-        result['fields'].update(self.fields_get(cr, uid, field_names, context))
+                if context['type'] in ('in_invoice', 'out_refund'):    
+                    fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                    for fiscal_operation_category_id in fiscal_operation_categories:
+                        fiscal_operation_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','input'),('use_invoice','=',True)]")
+                        fiscal_operation_category_id.set('required', '1')
+                        
+                    fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                    for fiscal_operation_id in fiscal_operations:
+                        fiscal_operation_id.set('domain', "[('fiscal_type','=','service'),('type','=','input'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]")
+                        fiscal_operation_id.set('required', '1')
+                
+                if context['type'] in ('out_invoice', 'in_refund'):  
+                    fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                    for fiscal_operation_category_id in fiscal_operation_categories:
+                        fiscal_operation_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','output'),('use_invoice','=',True)]")
+                        fiscal_operation_category_id.set('required', '1')
+                    
+                    fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                    for fiscal_operation_id in fiscal_operations:
+                        fiscal_operation_id.set('domain', "[('fiscal_type','=','service'),('type','=','output'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]")
+                        fiscal_operation_id.set('required', '1')
+            
+            result['arch'] = etree.tostring(eview)
         
         if view_type == 'tree':
             doc = etree.XML(result['arch'])
@@ -648,7 +697,7 @@ class account_invoice(osv.osv):
                        'tpAmb': '2',
                        'finNFe': '1',
                        'procEmi': '0',
-                       'VerProc': '2.0.4',
+                       'VerProc': '2.0.9',
                        'dhCont': '',
                        'xJust': '',
                        }
@@ -1895,7 +1944,8 @@ class account_invoice_line(osv.osv):
                 if tax_brw.domain == 'icmsst':
                     icms_st_value += tax['amount']
                     icms_st_base += tax['total_base']
-                    icms_st_percent += icms_value
+                    #cst do tipo pauta 
+                    #icms_st_percent += icms_value
                     icms_st_mva += tax_brw.amount_mva * 100
                     icms_st_base_other += 0
 
