@@ -8,7 +8,7 @@
 			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_invoice_form"/>
 			<field name="arch" type="xml">
 				 <field name="document_serie_id" position="after">
-				 	<group colspan="4">
+				 	<group name="delivery_info" colspan="4">
 						<separator colspan="4" string="Dados da Transportadora"/>
 						<field colspan="4" name="carrier_id"/>
 						<field name="vehicle_id"/>
@@ -30,7 +30,7 @@
 			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_invoice_supplier_form"/>
 			<field name="arch" type="xml">
 				 <field name="fiscal_document_id" position="after">
-				 	<group colspan="4">
+				 	<group name="delivery_info" colspan="4">
 						<separator colspan="4" string="Dados da Transportadora"/>
 						<field colspan="4" name="carrier_id"/>
 						<field name="amount_insurance"/>
