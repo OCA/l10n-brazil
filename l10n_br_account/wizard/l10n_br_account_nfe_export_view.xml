@@ -10,11 +10,11 @@
                 <form string="Exportar Nota Fiscal">
                     <group col="8">
                         <group colspan="3">
-                            <field name="config_logo" widget="image" width="180" height="130" nolabel="1" colspan="1"/>
+                            <field name="config_logo" widget="image" width="130" height="130" nolabel="1" colspan="1"/>
                             <newline/>
-                            <label colspan="4" width="180" string="Este assistente vai exportar todas as notas fiscais com status exportada para sefaz."/>
-                            <label colspan="4" width="180"/>
-                            <label colspan="4" width="180" string="Esta operação pode durar alguns segundos..."/>
+                            <label colspan="4" width="130" string="Este assistente vai exportar todas as notas fiscais com status exportada para sefaz."/>
+                            <label colspan="4" width="130"/>
+                            <label colspan="4" width="130" string="Esta operação pode durar alguns segundos..."/>
                             <field name="state" invisible="1"/>
                         </group>
                         <separator orientation="vertical" rowspan="15"/>
@@ -26,7 +26,7 @@
                                 <field colspan="4" name="file_type" />
                             </group>
                             <group states="done" colspan="4">
-                                <field name="file" colspan="4"/>
+                                <field name="file" width="250" colspan="4"/>
                             </group>
                         </group>
                         <group colspan="8" col="8" states="init">
