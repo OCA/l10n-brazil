@@ -135,7 +135,7 @@ class account_invoice(osv.osv):
                 for delivery_info in delivery_infos:
                     delivery_info.set('invisible', '1')
                 
-                cfops = eview.xpath("/form/notebook/page/field[@name='cfop_id']")
+                cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
                     cfop_id.set('name', 'service_type_id')
                     cfop_id.set('domain', '[]')
