@@ -112,6 +112,10 @@ class account_invoice(osv.osv):
             if 'type' in context.keys():
 
                 operation_type = {'out_invoice': 'output', 'in_invoice': 'input', 'out_refund': 'input', 'in_refund': 'output'}
+                    
+                types = eview.xpath("//field[@name='invoice_line']")
+                for type in types:
+                    type.set('context', "{'type': '%s', 'fiscal_type': '%s'}" % (context['type'],context.get('fiscal_type','product'),))
 
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
@@ -1803,6 +1807,84 @@ account_invoice()
 
 class account_invoice_line(osv.osv):
     _inherit = 'account.invoice.line'
+    
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+        
+        result = super(account_invoice_line,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        
+        if context is None:
+            context = {}
+
+        if view_type == 'form':
+            
+            eview = etree.fromstring(result['arch'])
+            
+            if 'type' in context.keys():
+
+                operation_type = {'out_invoice': 'output', 'in_invoice': 'input', 'out_refund': 'input', 'in_refund': 'output'}
+
+                cfops = eview.xpath("//field[@name='cfop_id']")
+                for cfop_id in cfops:
+                    cfop_id.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
+                    cfop_id.set('required', '1')
+
+                fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                for fiscal_operation_category_id in fiscal_operation_categories:
+                    fiscal_operation_category_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('use_invoice','=',True)]" % (operation_type[context['type']],))
+                    fiscal_operation_category_id.set('required', '1')
+                    
+                fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                for fiscal_operation_id in fiscal_operations:
+                    fiscal_operation_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]" % (operation_type[context['type']],))
+                    fiscal_operation_id.set('required', '1')
+    
+            
+            if context.get('fiscal_type', False) == 'service':
+                
+                products = eview.xpath("//field[@name='product_id']")
+                for product_id in products:
+                    product_id.set('domain', "[('fiscal_type','=', '%s')]" % (context['fiscal_type']))
+                
+                cfops = eview.xpath("//field[@name='cfop_id']")
+                for cfop_id in cfops:
+                    cfop_id.set('invisible', '1')
+                    cfop_id.set('required', '0')
+        
+                if context['type'] in ('in_invoice', 'out_refund'):    
+                    fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                    for fiscal_operation_category_id in fiscal_operation_categories:
+                        fiscal_operation_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','input'),('use_invoice','=',True)]")
+                        fiscal_operation_category_id.set('required', '1')
+                        
+                    fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                    for fiscal_operation_id in fiscal_operations:
+                        fiscal_operation_id.set('domain', "[('fiscal_type','=','service'),('type','=','input'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]")
+                        fiscal_operation_id.set('required', '1')
+                
+                if context['type'] in ('out_invoice', 'in_refund'):  
+                    fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
+                    for fiscal_operation_category_id in fiscal_operation_categories:
+                        fiscal_operation_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','output'),('use_invoice','=',True)]")
+                        fiscal_operation_category_id.set('required', '1')
+                    
+                    fiscal_operations = eview.xpath("//field[@name='fiscal_operation_id']")
+                    for fiscal_operation_id in fiscal_operations:
+                        fiscal_operation_id.set('domain', "[('fiscal_type','=','service'),('type','=','output'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]")
+                        fiscal_operation_id.set('required', '1')
+            
+            result['arch'] = etree.tostring(eview)
+        
+        if view_type == 'tree':
+            doc = etree.XML(result['arch'])
+            nodes = doc.xpath("//field[@name='partner_id']")
+            partner_string = _('Customer')
+            if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
+                partner_string = _('Supplier')
+            for node in nodes:
+                node.set('string', partner_string)
+            result['arch'] = etree.tostring(doc)
+        
+        return result
     
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         
