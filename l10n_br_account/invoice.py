@@ -530,9 +530,6 @@ class account_invoice(osv.osv):
                 if not company_addr_default.country_id.bc_code:
                     strErro = 'Emitente / Endereco - Codigo do BC do pais\n'
         
-            if not company_addr_default.country_id:
-                strErro = 'Emitente / Regime Tributario\n'
-        
             #Destinatário
             if not inv.partner_id.legal_name:
                 strErro = 'Destinatario - Razao Social\n'
@@ -1959,13 +1956,15 @@ class account_invoice_line(osv.osv):
 
             if line.fiscal_operation_id:
 
-                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)])
+                if line.product_id:
+                    fiscal_classification = line.product_id.property_fiscal_classification.id
 
+                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),'|',('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
                 for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
-                    
+
                         if fo_line.tax_code_id.domain == 'icms':
                             icms_cst = fo_line.cst_id.code
-                
+
                         if fo_line.tax_code_id.domain == 'ipi':
                             ipi_cst = fo_line.cst_id.code
                         
@@ -1975,22 +1974,22 @@ class account_invoice_line(osv.osv):
                         if fo_line.tax_code_id.domain == 'cofins':
                             cofins_cst = fo_line.cst_id.code
 
-                if line.product_id:
-                    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
+                #if line.product_id:
+                #    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
     
-                    for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
+                #    for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
                         
-                            if fo_line_ncm.tax_code_id.domain == 'icms':
-                                icms_cst = fo_line_ncm.cst_id.code
+               #             if fo_line_ncm.tax_code_id.domain == 'icms':
+               #                 icms_cst = fo_line_ncm.cst_id.code
                     
-                            if fo_line_ncm.tax_code_id.domain == 'ipi':
-                                ipi_cst = fo_line_ncm.cst_id.code
+               #             if fo_line_ncm.tax_code_id.domain == 'ipi':
+               #                 ipi_cst = fo_line_ncm.cst_id.code
                             
-                            if fo_line_ncm.tax_code_id.domain == 'pis':
-                                pis_cst = fo_line_ncm.cst_id.code
+               #             if fo_line_ncm.tax_code_id.domain == 'pis':
+               #                 pis_cst = fo_line_ncm.cst_id.code
         
-                            if fo_line_ncm.tax_code_id.domain == 'cofins':
-                                cofins_cst = fo_line_ncm.cst_id.code
+               #             if fo_line_ncm.tax_code_id.domain == 'cofins':
+               #                 cofins_cst = fo_line_ncm.cst_id.code
                                                         
 
             for tax in taxes['taxes']:
@@ -2102,6 +2101,7 @@ class account_invoice_line(osv.osv):
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True, domain="[('fiscal_operation_id','=',fiscal_operation_id)]", states={'draft':[('readonly',False)]}),
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
                 'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal', type="float",
                                                   digits_compute= dp.get_precision('Account'), store=True, multi='all'),
