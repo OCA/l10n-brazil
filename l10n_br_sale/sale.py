@@ -184,7 +184,6 @@ class sale_order(osv.osv):
         lines_service = []
         lines_product = []
         inv_ids = []
-        comment = ''
         if context is None:
             context = {}
 
@@ -218,21 +217,14 @@ class sale_order(osv.osv):
         
         for inv in inv_obj.browse(cr, uid, inv_ids,context=None):
             
+            service_type_id = False
+            comment = False
+            
             if order.fiscal_operation_id.inv_copy_note:
                comment = order.fiscal_operation_id.note
             
             if order.note:
                 comment += ' - ' + order.note
-            
-            inv_l10n_br = {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
-                           'fiscal_operation_id': order.fiscal_operation_id.id, 
-                           'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
-                           'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
-                           'document_serie_id': fiscal_document_serie_ids[0].id,
-                           'comment': comment,
-                           }
-            
-            inv_obj.write(cr, uid, inv.id, inv_l10n_br , context=context)
             
             inv_line_ids = map(lambda x: x.id, inv.invoice_line)
             
@@ -242,7 +234,21 @@ class sale_order(osv.osv):
                 if inv_line_id:
                     obj_invoice_line.write(cr, uid, inv_line_id[0].id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id or order.fiscal_operation_category_id.id, 
                                                                         'fiscal_operation_id': order_line.fiscal_operation_id.id or order.fiscal_operation_id.id, 
-                                                                        'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id) or ''})   
+                                                                        'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id) or False})
+                    
+                    if order_line.product_id.fiscal_type == 'service':
+                        service_type_id = (order_line.fiscal_operation_id and order_line.fiscal_operation_id.service_type_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.service_type_id.id) or False
+        
+            inv_l10n_br = {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
+                           'fiscal_operation_id': order.fiscal_operation_id.id, 
+                           'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
+                           'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
+                           'document_serie_id': fiscal_document_serie_ids[0].id,
+                           'service_type_id': service_type_id,
+                           'comment': comment,
+                           }
+            
+            inv_obj.write(cr, uid, inv.id, inv_l10n_br , context=context)
         
         return inv_id_product or inv_id_service
     
