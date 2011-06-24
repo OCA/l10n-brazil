@@ -62,9 +62,13 @@ class sale_order(osv.osv):
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
         
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),('partner_fiscal_type_id','=',partner_fiscal_type)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
+                                                                                    '|',('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',('to_country','=',to_country),('to_country','=',False),
+                                                                                    '|',('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
+                                                                                    ])
         
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
@@ -104,10 +108,14 @@ class sale_order(osv.osv):
         to_state = partner_addr_invoice.state_id.id
         
         
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',obj_shop.company_id.id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),('partner_fiscal_type_id','=',partner_fiscal_type)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=',obj_shop.company_id.id), ('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
-        
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=',obj_shop.company_id.id), ('use_sale','=',True), ('fiscal_operation_category_id','=',fiscal_operation_category_id),
+                                                                                    '|',('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',('to_country','=',to_country),('to_country','=',False),
+                                                                                    '|',('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
+                                                                                    ])
+    
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
@@ -154,9 +162,13 @@ class sale_order(osv.osv):
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
             
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),('partner_fiscal_type_id','=',partner_fiscal_type)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)])
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
+                                                                                    '|',('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',('to_country','=',to_country),('to_country','=',False),
+                                                                                    '|',('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
+                                                                                    ])
         
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
@@ -165,57 +177,151 @@ class sale_order(osv.osv):
         
         return result
     
+    def _make_invoice(self, cr, uid, order, lines, context=None):
+        journal_obj = self.pool.get('account.journal')
+        inv_obj = self.pool.get('account.invoice')
+        obj_invoice_line = self.pool.get('account.invoice.line')
+        lines_service = []
+        lines_product = []
+        comment = ''
+        
+        if order.fiscal_operation_id.inv_copy_note:
+           comment = order.fiscal_operation_id.note
+        
+        if order.note:
+            comment += ' - ' + order.note
+
+        if context is None:
+            context = {}
+
+        company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+        fiscal_document_serie_ids = [fdoc for fdoc in company_id.document_serie_product_ids if fdoc.fiscal_document_id.id == order.fiscal_operation_id.fiscal_document_id.id]
+        
+        if not fiscal_document_serie_ids:
+            raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s, fiscal operation: '%s' and fiscal documento %s") % (order.company_id.name, order.fiscal_operation_id.code, order.fiscal_operation_id.fiscal_document_id.name))
+
+        journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id.id == company_id.id]
+        if journal_ids:
+            journal_id = journal_ids[0].id
+        else:
+            raise osv.except_osv(_('Error !'),
+                _('There is no sales journal defined for this company in Fiscal Operation Category: "%s" (id:%d)') % (order.company_id.name, order.company_id.id))
+        
+        a = order.partner_id.property_account_receivable.id
+        pay_term = order.payment_term and order.payment_term.id or False
+        invoiced_sale_line_ids = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', order.id), ('invoiced', '=', True)], context=context)
+        from_line_invoice_ids = []
+        for invoiced_sale_line_id in self.pool.get('sale.order.line').browse(cr, uid, invoiced_sale_line_ids, context=context):
+            for invoice_line_id in invoiced_sale_line_id.invoice_lines:
+                if invoice_line_id.invoice_id.id not in from_line_invoice_ids:
+                    from_line_invoice_ids.append(invoice_line_id.invoice_id.id)
+        for preinv in order.invoice_ids:
+            if preinv.state not in ('cancel',) and preinv.id not in from_line_invoice_ids:
+                for preline in preinv.invoice_line:
+                    inv_line_id = obj_invoice_line.copy(cr, uid, preline.id, {'invoice_id': False, 'price_unit': -preline.price_unit})
+                    lines.append(inv_line_id)
+        
+        
+        order_lines = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', order.id), ('invoice_lines', 'in', lines)], context=context)
+        for order_line in self.pool.get('sale.order.line').browse(cr, uid, order_lines, context=context):
+            inv_line_id = [inv_line for inv_line in order_line.invoice_lines if inv_line.id in lines]
+            if inv_line_id:
+                obj_invoice_line.write(cr, uid, inv_line_id[0].id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id or order.fiscal_operation_category_id.id, 
+                                                                    'fiscal_operation_id': order_line.fiscal_operation_id.id or order.fiscal_operation_id.id, 
+                                                                    'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id)})   
+            
+        for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
+            if inv_line.product_id.fiscal_type == 'service':
+                lines_service.append(inv_line.id)
+                
+            if inv_line.product_id.fiscal_type == 'product': 
+                lines_product.append(inv_line.id)
+           
+        inv = {
+            'name': order.client_order_ref or '',
+            'origin': order.name,
+            'type': 'out_invoice',
+            'reference': order.client_order_ref or order.name,
+            'account_id': a,
+            'partner_id': order.partner_id.id,
+            'journal_id': journal_id,
+            'address_invoice_id': order.partner_invoice_id.id,
+            'address_contact_id': order.partner_order_id.id,
+            'invoice_line': [(6, 0, lines)],
+            'currency_id': order.pricelist_id.currency_id.id,
+            'comment': order.note,
+            'payment_term': pay_term,
+            'fiscal_position': order.fiscal_position.id or order.partner_id.property_account_position.id,
+            'date_invoice': context.get('date_invoice',False),
+            'company_id': order.company_id.id,
+            'user_id': order.user_id and order.user_id.id or False,
+            #l10n_br
+            'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
+            'fiscal_operation_id': order.fiscal_operation_id.id, 
+            'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
+            'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
+            'document_serie_id': fiscal_document_serie_ids[0].id,
+            'comment': comment,
+        }
+        inv.update(self._inv_get(cr, uid, order))
+        inv_id = inv_obj.create(cr, uid, inv, context=context)
+        data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], pay_term, time.strftime('%Y-%m-%d'))
+        if data.get('value', False):
+            inv_obj.write(cr, uid, [inv_id], data['value'], context=context)
+        inv_obj.button_compute(cr, uid, [inv_id])
+        return inv_id
+    
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception'], date_inv = False, context=None):
         
         result = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
 
-        if not result: 
-            return result
-
-        for order in self.browse(cr, uid, ids):
-            for order_line in order.order_line: 
-                for inv_line in order_line.invoice_lines: 
-                
-                    invoice_id = inv_line.invoice_id
-                    
-                    fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id  
-                    fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
-                                        
-                    if invoice_id == inv_line.invoice_id:
-                        for invoice in order.invoice_ids:
-                        
-                            if invoice.state in ('draft'):
-                                company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
-                                if not company_id.document_serie_product_ids:
-                                    raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
-                                comment = ''
-                                if order_line.fiscal_operation_id.inv_copy_note:
-                                    comment = order_line.fiscal_operation_id.note
-                                
-                                if order.note:
-                                    comment += ' - ' + order.note
-
-                                journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id == invoice.company_id]
-
-                                if journal_ids:
-                                    journal_id = journal_ids[0].id
-                                else:
-                                    journal_id = invoice_id.journal_id.id
-
-                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
-                                                                                                'fiscal_operation_id': fiscal_operation_id.id, 'cfop_id': fiscal_operation_id.cfop_id.id, 
-                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
-                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id,
-                                                                                                'comment': comment,
-                                                                                                'journal_id': journal_id
-                                                                                                })
-
-                            invoice_id = inv_line.invoice_id
-
-                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
-                                                                                       'fiscal_operation_id': fiscal_operation_id.id, 
-                                                                                       'cfop_id': fiscal_operation_id.cfop_id.id})   
+        #if not result: 
         return result
+
+        #for order in self.browse(cr, uid, ids):
+        #    for order_line in order.order_line: 
+        #        for inv_line in order_line.invoice_lines: 
+        #        
+        #            invoice_id = inv_line.invoice_id
+        #            
+        #            fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id  
+        #            fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
+        #                                
+        #            if invoice_id == inv_line.invoice_id:
+        #                for invoice in order.invoice_ids:
+        #                
+        #                    if invoice.state in ('draft'):
+        #                        company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+        #                        if not company_id.document_serie_product_ids:
+        #                            raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
+        #                       comment = ''
+        #                        if order_line.fiscal_operation_id.inv_copy_note:
+        #                           comment = order_line.fiscal_operation_id.note
+        #                        
+        #                        if order.note:
+        #                            comment += ' - ' + order.note
+
+ #                               journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id == invoice.company_id]
+#
+#                                if journal_ids:
+#                                    journal_id = journal_ids[0].id
+#                                else:
+#                                    journal_id = invoice_id.journal_id.id
+#                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+#                                                                                                'fiscal_operation_id': fiscal_operation_id.id, 
+#                                                                                                'cfop_id': fiscal_operation_id.cfop_id.id, 
+#                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
+#                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id,
+#                                                                                                'comment': comment,
+#                                                                                                'journal_id': journal_id
+#                                                                                                })
+#
+#                            invoice_id = inv_line.invoice_id
+#
+#                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
+#                                                                                       'fiscal_operation_id': fiscal_operation_id.id, 
+#                                                                                       'cfop_id': fiscal_operation_id.cfop_id.id})   
+#        return result
     
     def action_ship_create(self, cr, uid, ids, *args):
 
@@ -239,13 +345,44 @@ class sale_order(osv.osv):
         result = super(sale_order, self)._get_order(cr, uid, ids, context)
         return result.keys()
 
+    def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
+        res = {}
+        for sale in self.browse(cursor, user, ids, context=context):
+            if sale.invoiced:
+                res[sale.id] = 100.0
+                continue
+            tot = 0.0
+            for invoice in sale.invoice_ids:
+                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_operation_id.id == sale.fiscal_operation_id.id:
+                    tot += invoice.amount_untaxed - invoice.residual
+            if tot:
+                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
+            else:
+                res[sale.id] = 0.0
+        return res
+
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]" ),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]" ),
+                'invoiced_rate': fields.function(_invoiced_rate, method=True, string='Invoiced', type='float'),
                }
     
 sale_order()
-
+def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
+        res = {}
+        for sale in self.browse(cursor, user, ids, context=context):
+            if sale.invoiced:
+                res[sale.id] = 100.0
+                continue
+            tot = 0.0
+            for invoice in sale.invoice_ids:
+                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_operation_id.id == sale.fiscal_operation_id.id:
+                    tot += invoice.amount_untaxed - invoice.residual
+            if tot:
+                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
+            else:
+                res[sale.id] = 0.0
+        return res
 ##############################################################################
 # Linha da Ordem de Venda Customizada
 ##############################################################################
@@ -256,11 +393,12 @@ class sale_order_line(osv.osv):
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
                 'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','output'),('use_sale','=',True)]", readonly=True, states={'draft':[('readonly',False)]}),
+                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True, domain="[('fiscal_operation_id','=',fiscal_operation_id)]", states={'draft':[('readonly',False)]}),
                 }
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, fiscal_operation_category_id=False, fiscal_operation_id=False, shop_id=False):
+            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, fiscal_operation_category_id=False, fiscal_operation_id=False, shop_id=False, parent_fiscal_position=False):
 
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
             uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
@@ -277,12 +415,16 @@ class sale_order_line(osv.osv):
             if fiscal_operation_id:
                 result['value']['fiscal_operation_id'] = fiscal_operation_id
             
+            #if fiscal_position:
+            #    result['value']['fiscal_position'] = fiscal_position
+            
             return result
 
         obj_default_prod_categ = self.pool.get('l10n_br_account.product.operation.category').browse(cr, uid, default_product_category)[0]
         result['value']['fiscal_operation_category_id'] = obj_default_prod_categ.fiscal_operation_category_destination_id.id
         result['value']['fiscal_operation_id'] = False
         
+        #Dados do Parceiro
         obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
         partner_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_partner.id], ['default'])
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
@@ -296,16 +438,24 @@ class sale_order_line(osv.osv):
         company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
-            
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id),('partner_fiscal_type_id','=',partner_fiscal_type)])
-        if not fsc_pos_id:
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('company_id','=', obj_shop.company_id.id),('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True),('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id)])
         
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id), ('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id), ('use_sale','=',True),
+                                                                                    '|',('from_country','=',from_country),('from_country','=',False),
+                                                                                    '|',('to_country','=',to_country),('to_country','=',False),
+                                                                                    '|',('from_state','=',from_state),('from_state','=',False),
+                                                                                    '|',('to_state','=',to_state),('to_state','=',False),
+                                                                                    '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
+                                                                                    ])
+                                                                                    
+                                                                                        
+                                                                                            
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
+            #if fiscal_position != obj_fpo_rule.fiscal_position_id.id:
+            #    result['tax_id'] = self.pool.get('account.fiscal.position').map_tax(cr, uid, obj_fpo_rule.fiscal_position_id.id, product_obj.taxes_id)
+            #    result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
             result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
-        
+            
         return result
 
     def create_sale_order_line_invoice(self, cr, uid, ids, context=None):
