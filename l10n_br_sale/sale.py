@@ -183,14 +183,8 @@ class sale_order(osv.osv):
         obj_invoice_line = self.pool.get('account.invoice.line')
         lines_service = []
         lines_product = []
+        inv_ids = []
         comment = ''
-        
-        if order.fiscal_operation_id.inv_copy_note:
-           comment = order.fiscal_operation_id.note
-        
-        if order.note:
-            comment += ' - ' + order.note
-
         if context is None:
             context = {}
 
@@ -207,69 +201,50 @@ class sale_order(osv.osv):
             raise osv.except_osv(_('Error !'),
                 _('There is no sales journal defined for this company in Fiscal Operation Category: "%s" (id:%d)') % (order.company_id.name, order.company_id.id))
         
-        a = order.partner_id.property_account_receivable.id
-        pay_term = order.payment_term and order.payment_term.id or False
-        invoiced_sale_line_ids = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', order.id), ('invoiced', '=', True)], context=context)
-        from_line_invoice_ids = []
-        for invoiced_sale_line_id in self.pool.get('sale.order.line').browse(cr, uid, invoiced_sale_line_ids, context=context):
-            for invoice_line_id in invoiced_sale_line_id.invoice_lines:
-                if invoice_line_id.invoice_id.id not in from_line_invoice_ids:
-                    from_line_invoice_ids.append(invoice_line_id.invoice_id.id)
-        for preinv in order.invoice_ids:
-            if preinv.state not in ('cancel',) and preinv.id not in from_line_invoice_ids:
-                for preline in preinv.invoice_line:
-                    inv_line_id = obj_invoice_line.copy(cr, uid, preline.id, {'invoice_id': False, 'price_unit': -preline.price_unit})
-                    lines.append(inv_line_id)
-        
-        
-        order_lines = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', order.id), ('invoice_lines', 'in', lines)], context=context)
-        for order_line in self.pool.get('sale.order.line').browse(cr, uid, order_lines, context=context):
-            inv_line_id = [inv_line for inv_line in order_line.invoice_lines if inv_line.id in lines]
-            if inv_line_id:
-                obj_invoice_line.write(cr, uid, inv_line_id[0].id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id or order.fiscal_operation_category_id.id, 
-                                                                    'fiscal_operation_id': order_line.fiscal_operation_id.id or order.fiscal_operation_id.id, 
-                                                                    'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id)})   
-            
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
             if inv_line.product_id.fiscal_type == 'service':
                 lines_service.append(inv_line.id)
                 
             if inv_line.product_id.fiscal_type == 'product': 
                 lines_product.append(inv_line.id)
-           
-        inv = {
-            'name': order.client_order_ref or '',
-            'origin': order.name,
-            'type': 'out_invoice',
-            'reference': order.client_order_ref or order.name,
-            'account_id': a,
-            'partner_id': order.partner_id.id,
-            'journal_id': journal_id,
-            'address_invoice_id': order.partner_invoice_id.id,
-            'address_contact_id': order.partner_order_id.id,
-            'invoice_line': [(6, 0, lines)],
-            'currency_id': order.pricelist_id.currency_id.id,
-            'comment': order.note,
-            'payment_term': pay_term,
-            'fiscal_position': order.fiscal_position.id or order.partner_id.property_account_position.id,
-            'date_invoice': context.get('date_invoice',False),
-            'company_id': order.company_id.id,
-            'user_id': order.user_id and order.user_id.id or False,
-            #l10n_br
-            'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
-            'fiscal_operation_id': order.fiscal_operation_id.id, 
-            'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
-            'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
-            'document_serie_id': fiscal_document_serie_ids[0].id,
-            'comment': comment,
-        }
-        inv.update(self._inv_get(cr, uid, order))
-        inv_id = inv_obj.create(cr, uid, inv, context=context)
-        data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], pay_term, time.strftime('%Y-%m-%d'))
-        if data.get('value', False):
-            inv_obj.write(cr, uid, [inv_id], data['value'], context=context)
-        inv_obj.button_compute(cr, uid, [inv_id])
-        return inv_id
+        
+        if lines_service:
+            inv_id_service =  super(sale_order, self)._make_invoice(cr, uid, order, lines_service, context=None)
+            inv_ids.append(inv_id_service)
+        
+        if lines_product:
+            inv_id_product =  super(sale_order, self)._make_invoice(cr, uid, order, lines_product, context=None)
+            inv_ids.append(inv_id_product)
+        
+        for inv in inv_obj.browse(cr, uid, inv_ids,context=None):
+            
+            if order.fiscal_operation_id.inv_copy_note:
+               comment = order.fiscal_operation_id.note
+            
+            if order.note:
+                comment += ' - ' + order.note
+            
+            inv_l10n_br = {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 
+                           'fiscal_operation_id': order.fiscal_operation_id.id, 
+                           'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
+                           'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
+                           'document_serie_id': fiscal_document_serie_ids[0].id,
+                           'comment': comment,
+                           }
+            
+            inv_obj.write(cr, uid, inv.id, inv_l10n_br , context=context)
+            
+            inv_line_ids = map(lambda x: x.id, inv.invoice_line)
+            
+            order_lines = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', order.id), ('invoice_lines', 'in', inv_line_ids)], context=context)
+            for order_line in self.pool.get('sale.order.line').browse(cr, uid, order_lines, context=context):
+                inv_line_id = [inv_line for inv_line in order_line.invoice_lines if inv_line.id in inv_line_ids]
+                if inv_line_id:
+                    obj_invoice_line.write(cr, uid, inv_line_id[0].id, {'fiscal_operation_category_id': order_line.fiscal_operation_category_id.id or order.fiscal_operation_category_id.id, 
+                                                                        'fiscal_operation_id': order_line.fiscal_operation_id.id or order.fiscal_operation_id.id, 
+                                                                        'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id) or ''})   
+        
+        return inv_id_product or inv_id_service
     
     def action_ship_create(self, cr, uid, ids, *args):
 
