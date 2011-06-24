@@ -287,6 +287,7 @@ class purchase_order_line(osv.osv):
     _columns = {
         'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]"),
         'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','input'),('use_purchase','=',True)]" ),
+        'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True, domain="[('fiscal_operation_id','=',fiscal_operation_id)]", states={'draft':[('readonly',False)]}),
     }
     
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
@@ -301,7 +302,10 @@ class purchase_order_line(osv.osv):
             
         if fiscal_operation_id:
             result['value']['fiscal_operation_id'] = fiscal_operation_id
-
+            
+        if fiscal_position:
+            result['value']['fiscal_position'] = fiscal_position
+        
         return result
     
 purchase_order_line()
