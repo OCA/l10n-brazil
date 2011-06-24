@@ -271,58 +271,6 @@ class sale_order(osv.osv):
         inv_obj.button_compute(cr, uid, [inv_id])
         return inv_id
     
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception'], date_inv = False, context=None):
-        
-        result = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
-
-        #if not result: 
-        return result
-
-        #for order in self.browse(cr, uid, ids):
-        #    for order_line in order.order_line: 
-        #        for inv_line in order_line.invoice_lines: 
-        #        
-        #            invoice_id = inv_line.invoice_id
-        #            
-        #            fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id  
-        #            fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
-        #                                
-        #            if invoice_id == inv_line.invoice_id:
-        #                for invoice in order.invoice_ids:
-        #                
-        #                    if invoice.state in ('draft'):
-        #                        company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
-        #                        if not company_id.document_serie_product_ids:
-        #                            raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
-        #                       comment = ''
-        #                        if order_line.fiscal_operation_id.inv_copy_note:
-        #                           comment = order_line.fiscal_operation_id.note
-        #                        
-        #                        if order.note:
-        #                            comment += ' - ' + order.note
-
- #                               journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id == invoice.company_id]
-#
-#                                if journal_ids:
-#                                    journal_id = journal_ids[0].id
-#                                else:
-#                                    journal_id = invoice_id.journal_id.id
-#                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
-#                                                                                                'fiscal_operation_id': fiscal_operation_id.id, 
-#                                                                                                'cfop_id': fiscal_operation_id.cfop_id.id, 
-#                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
-#                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id,
-#                                                                                                'comment': comment,
-#                                                                                                'journal_id': journal_id
-#                                                                                                })
-#
-#                            invoice_id = inv_line.invoice_id
-#
-#                    self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
-#                                                                                       'fiscal_operation_id': fiscal_operation_id.id, 
-#                                                                                       'cfop_id': fiscal_operation_id.cfop_id.id})   
-#        return result
-    
     def action_ship_create(self, cr, uid, ids, *args):
 
         result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
@@ -368,21 +316,7 @@ class sale_order(osv.osv):
                }
     
 sale_order()
-def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
-        res = {}
-        for sale in self.browse(cursor, user, ids, context=context):
-            if sale.invoiced:
-                res[sale.id] = 100.0
-                continue
-            tot = 0.0
-            for invoice in sale.invoice_ids:
-                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_operation_id.id == sale.fiscal_operation_id.id:
-                    tot += invoice.amount_untaxed - invoice.residual
-            if tot:
-                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
-            else:
-                res[sale.id] = 0.0
-        return res
+
 ##############################################################################
 # Linha da Ordem de Venda Customizada
 ##############################################################################
