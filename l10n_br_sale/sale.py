@@ -259,6 +259,7 @@ class sale_order(osv.osv):
                            'fiscal_type': fiscal_type or 'product',
                            'fiscal_position': fiscal_position,
                            'comment': comment,
+                           'journal_id': journal_id,
                            }
             
             inv_obj.write(cr, uid, inv.id, inv_l10n_br , context=context)
