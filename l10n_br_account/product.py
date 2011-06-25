@@ -28,9 +28,11 @@ class product_product(osv.osv):
     _columns = {
                 'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 'product_id', 'Categoria de Operação Fiscal Padrões'),
                 'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
+                'is_on_service_invoice': fields.boolean('On Service Invoice?', help='True if invoiced along with service'),
                 }
     _defaults = {
                 'fiscal_type': 'product',
+                'is_on_service_invoice': False,
                 }
 
 product_product()
