@@ -30,6 +30,7 @@
             <field name="model">product.product</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">2</field>
 			<field name="arch" type="xml">
 				<field position="after" name="type">
 					<field name="fiscal_type" required="1" />
@@ -46,6 +47,18 @@
 				<field name="fiscal_operation_category_destination_id" required="1" />
             </field>
         </record>
-	
+        
+         <record id="product_is_on_service_invoice_form_view" model="ir.ui.view">
+            <field name="name">product_is_on_service_invoice_form_view</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+				<field name="fiscal_type" position="after">
+				    <field name="is_on_service_invoice" attrs="{'invisible':[('fiscal_type','=','service')]}"/>
+				</field>
+         	</field>
+       </record>
+        
 	</data>		
 </openerp>						
