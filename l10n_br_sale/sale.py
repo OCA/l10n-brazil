@@ -161,7 +161,7 @@ class sale_order(osv.osv):
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
-            
+        
         fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id),('use_sale','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
                                                                                     '|',('from_country','=',from_country),('from_country','=',False),
                                                                                     '|',('to_country','=',to_country),('to_country','=',False),
@@ -184,6 +184,8 @@ class sale_order(osv.osv):
         lines_service = []
         lines_product = []
         inv_ids = []
+        inv_id_product = False
+        inv_id_service = False
         if context is None:
             context = {}
 
@@ -201,7 +203,7 @@ class sale_order(osv.osv):
                 _('There is no sales journal defined for this company in Fiscal Operation Category: "%s" (id:%d)') % (order.company_id.name, order.company_id.id))
         
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
-            if inv_line.product_id.fiscal_type == 'service':
+            if inv_line.product_id.fiscal_type == 'service' or inv_line.product_id.is_on_service_invoice:
                 lines_service.append(inv_line.id)
                 
             if inv_line.product_id.fiscal_type == 'product': 
@@ -234,7 +236,7 @@ class sale_order(osv.osv):
                                                                         'fiscal_operation_id': order_line.fiscal_operation_id.id or order.fiscal_operation_id.id, 
                                                                         'cfop_id': (order_line.fiscal_operation_id and order_line.fiscal_operation_id.cfop_id.id) or (order.fiscal_operation_id and order.fiscal_operation_id.cfop_id.id) or False})
                     
-                    if order_line.product_id.fiscal_type == 'service':
+                    if order_line.product_id.fiscal_type == 'service' or inv_line.product_id.is_on_service_invoice:
                         fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id or False
                         fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id or False
                         #Em quanto não tem as posições fiscais na linha coloca falso na nota de serviço
@@ -371,9 +373,7 @@ class sale_order_line(osv.osv):
                                                                                     '|',('from_state','=',from_state),('from_state','=',False),
                                                                                     '|',('to_state','=',to_state),('to_state','=',False),
                                                                                     '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
-                                                                                    ])
-                                                                                    
-                                                                                        
+                                                                                    ])                                                                    
                                                                                             
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
