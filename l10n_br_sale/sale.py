@@ -224,7 +224,7 @@ class sale_order(osv.osv):
             fiscal_type = ''
             fiscal_operation_category_id = order.fiscal_operation_category_id or False
             fiscal_operation_id = order.fiscal_operation_id or False
-
+            fiscal_position = order.fiscal_position and order.fiscal_position.id or False
             
             inv_line_ids = map(lambda x: x.id, inv.invoice_line)
             
