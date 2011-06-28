@@ -29,9 +29,8 @@ from tools.translate import _
 
 import re, string
 from unicodedata import normalize
-from xml.etree import ElementTree
-from xml.etree.ElementTree import Element, SubElement, Comment, tostring
-from xml.dom import minidom
+from lxml.etree import ElementTree
+from lxml.etree import Element, SubElement, Comment, tostring
 from datetime import datetime
 
 
