@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	   
+	   	<!-- CRM Lead Form View  -->
+	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads1">
+			<field name="name">l10n_br_crm.leads1</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+			<field name="arch" type="xml">
+				<field name="city" position="replace">
+					<field name="city" invisible="1" />
+				</field>
+			</field>
+		</record>
+	   	
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads2">
+			<field name="name">l10n_br_crm.leads2</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+			<field name="arch" type="xml">
+				<field name="state_id" position="replace">
+					<field name="state_id" />
+					<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads3">
+			<field name="name">l10n_br_crm.leads3</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+			<field name="arch" type="xml">
+				<field name="street2" position="replace">
+					<field name="number" />
+					<field name="street2" />
+				</field>
+			</field>
+		</record>
+	
+	</data>
+</openerp>

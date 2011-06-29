@@ -32,7 +32,8 @@
 
 		],
     'update_xml' : [
-                    'crm_view.xml',
+                    'crm_lead_view.xml',
+                    'crm_opportunity_view.xml',
                     ],
     'demo_xml': [],
     'installable': True
