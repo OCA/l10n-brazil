@@ -842,7 +842,7 @@ class account_invoice(osv.osv):
                        'QCom': str("%.4f" % inv_line.quantity),
                        'VUnCom': str("%.2f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))),
                        'VProd': str("%.2f" % inv_line.price_total),
-                       'CEANTrib': '',
+                       'CEANTrib': inv_line.product_id.ean13 or '',
                        'UTrib': inv_line.uos_id.name,
                        'QTrib': str("%.4f" % inv_line.quantity),
                        'VUnTrib': str("%.2f" % inv_line.price_unit),

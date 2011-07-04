@@ -9,8 +9,8 @@
 			<field name="amount">0.00</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -25,8 +25,8 @@
 			<field name="amount">0.02</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -41,8 +41,8 @@
 			<field name="amount">0.03</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -57,8 +57,8 @@
 			<field name="amount">0.04</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -73,8 +73,8 @@
 			<field name="amount">0.05</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -89,8 +89,8 @@
 			<field name="amount">0.07</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -105,8 +105,8 @@
 			<field name="amount">0.08</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -121,8 +121,8 @@
 			<field name="amount">0.10</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -137,8 +137,8 @@
 			<field name="amount">0.12</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -153,8 +153,8 @@
 			<field name="amount">0.13</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -169,8 +169,8 @@
 			<field name="amount">0.15</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -185,8 +185,8 @@
 			<field name="amount">0.16</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -201,8 +201,8 @@
 			<field name="amount">0.18</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -217,8 +217,8 @@
 			<field name="amount">0.20</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -233,8 +233,8 @@
 			<field name="amount">0.22</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -249,8 +249,8 @@
 			<field name="amount">0.25</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -265,8 +265,8 @@
 			<field name="amount">0.27</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -281,8 +281,8 @@
 			<field name="amount">0.30</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -297,8 +297,8 @@
 			<field name="amount">0.35</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -313,8 +313,8 @@
 			<field name="amount">0.40</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -329,8 +329,8 @@
 			<field name="amount">0.42</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -345,8 +345,8 @@
 			<field name="amount">0.45</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -361,8 +361,8 @@
 			<field name="amount">0.50</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -377,8 +377,8 @@
 			<field name="amount">0.60</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -393,8 +393,8 @@
 			<field name="amount">3.30</field>
 			<field ref="account_template_244" name="account_collected_id"/>
 			<field ref="account_template_44" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_4" name="base_code_id"/>
 			<field ref="tax_code_4" name="tax_code_id"/>
@@ -409,8 +409,8 @@
 			<field name="amount">0.00</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_1" name="base_code_id"/>
 			<field ref="tax_code_1" name="tax_code_id"/>
@@ -425,8 +425,8 @@
 			<field name="amount">0.00</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_2" name="base_code_id"/>
 			<field ref="tax_code_2" name="tax_code_id"/>
@@ -439,8 +439,8 @@
 			<field name="name">ICMS Subist</field>
       		<field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
-			<field name="price_include">False</field>
-			<field name="tax_discount">False</field>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_3" name="base_code_id"/>
 			<field ref="tax_code_3" name="tax_code_id"/>
@@ -455,8 +455,8 @@
 			<field name="amount">0.07</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_2" name="base_code_id"/>
 			<field ref="tax_code_2" name="tax_code_id"/>
@@ -471,8 +471,8 @@
 			<field name="amount">0.12</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_2" name="base_code_id"/>
 			<field ref="tax_code_2" name="tax_code_id"/>
@@ -487,8 +487,8 @@
 			<field name="amount">0.19</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_1" name="base_code_id"/>
 			<field ref="tax_code_1" name="tax_code_id"/>
@@ -503,8 +503,8 @@
 			<field name="amount">0.26</field>
 			<field ref="account_template_241" name="account_collected_id"/>
 			<field ref="account_template_42" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_1" name="base_code_id"/>
 			<field ref="tax_code_1" name="tax_code_id"/>
@@ -519,8 +519,8 @@
 			<field name="amount">0.00</field>
 			<field ref="account_template_243" name="account_collected_id"/>
 			<field ref="account_template_49" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_5" name="base_code_id"/>
 			<field ref="tax_code_5" name="tax_code_id"/>
@@ -535,8 +535,8 @@
 			<field name="amount">0.0065</field>
 			<field ref="account_template_243" name="account_collected_id"/>
 			<field ref="account_template_49" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_5" name="base_code_id"/>
 			<field ref="tax_code_5" name="tax_code_id"/>
@@ -551,8 +551,8 @@
 			<field name="amount">0.00</field>
 			<field ref="account_template_242" name="account_collected_id"/>
 			<field ref="account_template_39" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_6" name="base_code_id"/>
 			<field ref="tax_code_6" name="tax_code_id"/>
@@ -567,8 +567,8 @@
 			<field name="amount">0.03</field>
 			<field ref="account_template_242" name="account_collected_id"/>
 			<field ref="account_template_39" name="account_paid_id"/>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_6" name="base_code_id"/>
 			<field ref="tax_code_6" name="tax_code_id"/>
@@ -581,8 +581,8 @@
 			<field name="name">IRPJ</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_7" name="base_code_id"/>
 			<field ref="tax_code_7" name="tax_code_id"/>
@@ -595,8 +595,8 @@
 			<field name="name">IR</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_8" name="base_code_id"/>
 			<field ref="tax_code_8" name="tax_code_id"/>
@@ -609,8 +609,8 @@
 			<field name="name">ISS</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_9" name="base_code_id"/>
 			<field ref="tax_code_9" name="tax_code_id"/>
@@ -623,8 +623,8 @@
 			<field name="name">CSLL</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
-			<field name="price_include">False</field>
-			<field name="tax_discount">True</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_10" name="base_code_id"/>
 			<field ref="tax_code_10" name="tax_code_id"/>

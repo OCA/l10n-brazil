@@ -27,6 +27,7 @@
                  ],
     'init_xml': [
                 'res.bank.csv',
+                'l10n_br_base_data.xml',
                 ],
     "update_xml" : [
 
