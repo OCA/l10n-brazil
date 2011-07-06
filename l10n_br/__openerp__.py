@@ -31,10 +31,14 @@
         'data/account.tax.code.template.csv',
         'data/account.account.template.csv',
         'data/l10n_br_account_chart_template.xml',
-        'data/account_tax_template.xml'
+        'data/account_tax_template.xml',
+        'data/l10n_br_data.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_security.xml',
                 ],
     'update_xml': [
         'account_view.xml',
+        'l10n_br_view.xml',
     ],
     'installable': True,
     'certificate' : '001280994939126801405',

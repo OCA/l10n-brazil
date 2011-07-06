@@ -1,7 +1,7 @@
 "id","code","name","parent_id:id","sign","domain","tax_discount"
 "tax_code_chart_root","","Códigos de Impostos Brasileiros","","1","",0
-"tax_code_1","ICMS","ICMS Interno","tax_code_chart_root","1","icms",1
-"tax_code_2","ICMS","ICMS Externo","tax_code_chart_root","1","icms",1
+"tax_code_1","ICMS Interno","ICMS Interno","tax_code_chart_root","1","icms",1
+"tax_code_2","ICMS Externo","ICMS Externo","tax_code_chart_root","1","icms",1
 "tax_code_3","ICMS Subist","ICMS Subist","tax_code_chart_root","1","icmsst",0
 "tax_code_4","IPI","IPI","tax_code_chart_root","1","ipi",0
 "tax_code_5","PIS","PIS","tax_code_chart_root","1","pis",1
