@@ -107,32 +107,6 @@ class l10n_br_account_fiscal_document(osv.osv):
 l10n_br_account_fiscal_document()
 
 #################################################################################
-# Código de Situação Tributária
-#################################################################################
-class l10n_br_account_cst(osv.osv):
-    _name = 'l10n_br_account.cst'
-    _description = 'Código de Situação Tributária'
-    _columns = {
-                'code': fields.char('Codigo', size=8,required=True),
-                'name': fields.char('Descrição', size=64),
-                'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
-                }
-    
-    def name_get(self, cr, uid, ids, context=None):
-        if not ids:
-            return []
-        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
-        res = []
-        for record in reads:
-            name = record['name']
-            if record['code']:
-                name = record['code'] + ' - '+name
-            res.append((record['id'], name))
-        return res
-    
-l10n_br_account_cst()
-
-#################################################################################
 # Categorias Operações Fiscais
 #################################################################################
 class l10n_br_account_fiscal_operation_category(osv.osv):
