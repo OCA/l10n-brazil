@@ -84,32 +84,6 @@
 				</field>
 			</record>
 	
-			<record model="ir.ui.view" id="view_l10n_br_account_cst_form">
-				<field name="name">l10n_br_account.cst</field>
-				<field name="model">l10n_br_account.cst</field>
-				<field name="type">form</field>
-				<field name="arch" type="xml">
-					<form string="Código de Situação Tributária">
-						<field name="code" select="1"/>
-						<field name="name" select="1"/>
-						<field name="tax_code_id" select="2"/>
-					</form>
-				</field>
-			</record>
-	
-			<record model="ir.ui.view" id="view_l10n_br_account_cst_tree">
-				<field name="name">l10n_br_account.cst</field>
-				<field name="model">l10n_br_account.cst</field>
-				<field name="type">tree</field>
-				<field name="arch" type="xml">
-					<tree string="Código de Situação Tributária">
-						<field name="code" select="1"/>
-						<field name="name" select="1"/>
-						<field name="tax_code_id" select="2"/>
-					</tree>
-				</field>
-			</record>
-	
 			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_category_form">
 				<field name="name">l10n_br_account.fiscal.operation.category</field>
 				<field name="model">l10n_br_account.fiscal.operation.category</field>
@@ -196,21 +170,6 @@
 						<field name="cfop_id" select="1"/>
 						<field name="fiscal_document_id" select="2"/>
 					</tree>
-				</field>
-			</record>
-			
-			
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_form">
-				<field name="name">l10n_br_account.fiscal.operation.line</field>
-				<field name="model">l10n_br_account.fiscal.operation.line</field>
-				<field name="type">form</field>
-				<field name="arch" type="xml">
-					<form string="Linha da Operação Fiscal">
-						<field name="company_id" required="1" />
-						<field name="fiscal_classification_id"/>
-						<field name="tax_code_id" required="1" />
-						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]" required="1" />
-					</form>
 				</field>
 			</record>
 	
@@ -409,13 +368,18 @@
 				<field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
 			</record>
 	
-			<record model="ir.actions.act_window" id="action_l10n_br_account_cst_form">
-				<field name="name">Código de Situação Tributária</field>
-				<field name="type">ir.actions.act_window</field>
-				<field name="res_model">l10n_br_account.cst</field>
-				<field name="view_mode">tree,form</field>
-				<field name="view_type">form</field>
-				<field name="view_id" ref="view_l10n_br_account_cst_tree"/>
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_form">
+				<field name="name">l10n_br_account.fiscal.operation.line</field>
+				<field name="model">l10n_br_account.fiscal.operation.line</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Linha da Operação Fiscal">
+						<field name="company_id" required="1" />
+						<field name="fiscal_classification_id"/>
+						<field name="tax_code_id" required="1" />
+						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]" required="1" />
+					</form>
+				</field>
 			</record>
 			
 			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_form">
@@ -520,8 +484,6 @@
 			<menuitem name="Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_operation_form"/>
 	
 			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
-	
-			<menuitem name="Código de Situação Tributária" id="menu_action_l10n_br_account_cst_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_cst_form"/>
 			
 			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_serie_form"/>
 			
