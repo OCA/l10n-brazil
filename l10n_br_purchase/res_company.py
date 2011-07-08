@@ -17,27 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-{
-    'name' : 'Brazilian Localization Purchase',
-    'description' : 'Brazilian Localization for Purchase',
-    'category' : 'Localisation',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-                 'l10n_br_account',
-		         'account_fiscal_position_rule_purchase',
-		],
-    'init_xml': [
-                 'data/l10n_br_purchase_data.xml',
-		],
-    'update_xml' : [
-                    'purchase_view.xml',
-                    'res_company_view.xml',
-                    'security/ir.model.access.csv',
-                    'security/l10n_br_purchase_security.xml',
-    ],
-    'installable': True
-}
+from osv import osv, fields
+
+class res_company(osv.osv):
+    _inherit = "res.company"
+    _columns = {
+        'purchase_fiscal_category_operation_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria Fiscal Padrão Compras', domain="[('use_purchase','=',True)]"),
+    }
+
+res_company()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
