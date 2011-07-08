@@ -25,13 +25,14 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-        'account_fiscal_position_rule_stock',
+                 'account_fiscal_position_rule_stock',
 		],
     'init_xml': [],
     'update_xml' : [
-		'stock_view.xml',
-        'wizard/stock_invoice_onshipping_view.xml',
-    ],
+		          'stock_view.xml',
+                  'res_company_view.xml',
+                  'wizard/stock_invoice_onshipping_view.xml',
+                  ],
     'installable': True
 }
 
