@@ -79,6 +79,15 @@ class purchase_order(osv.osv):
             }, multi="sums",help="The total amount"),
     }
     
+    def _default_fiscal_operation_category(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
+    
+    _defaults = {
+        'fiscal_operation_category_id': _default_fiscal_operation_category,
+    }
+
+    
     def onchange_partner_id(self, cr, uid, ids, part, company_id=False, fiscal_operation_category_id=False):
 
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, part, company_id)
