@@ -27,26 +27,26 @@ class l10n_br_account_cst_template(osv.osv):
                 'name': fields.char('Descrição', size=64),
                 'tax_code_template_id': fields.many2one('account.tax.code.template', 'Código do Imposto',required=True),
                 }
-
-	def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
-		if not args:
-		    args = []
-		if context is None:
-		    context = {}
-		ids = self.search(cr, user, ['|',('name',operator,name),('code',operator,name)] + args, limit=limit, context=context)
-		return self.name_get(cr, user, ids, context)
     
-	def name_get(self, cr, uid, ids, context=None):
-        	if not ids:
-            		return []
-        	reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
-        	res = []
-		for record in reads:
-		    name = record['name']
-		    if record['code']:
-			name = record['code'] + ' - '+name
-		    res.append((record['id'], name))
-		return res
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
+        if not args:
+            args = []
+        if context is None:
+            context = {}
+        ids = self.search(cr, user, ['|',('name',operator,name),('code',operator,name)] + args, limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - '+name
+            res.append((record['id'], name))
+        return res
     
 l10n_br_account_cst_template()
 
@@ -58,25 +58,27 @@ class l10n_br_account_cst(osv.osv):
                 'name': fields.char('Descrição', size=64),
                 'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
                 }
-	
-	def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
-		if not args:
-		    args = []
-		if context is None:
-		    context = {}
-		ids = self.search(cr, user, ['|',('name',operator,name),('code',operator,name)] + args, limit=limit, context=context)
-		return self.name_get(cr, user, ids, context)
     
-    	def name_get(self, cr, uid, ids, context=None):
-		if not ids:
-		    return []
-		reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
-		res = []
-		for record in reads:
-		    name = record['name']
-		    if record['code']:
-			name = record['code'] + ' - '+name
-		    res.append((record['id'], name))
-		return res
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
+        if not args:
+            args = []
+        if context is None:
+            context = {}
+        ids = self.search(cr, user, ['|',('name',operator,name),('code',operator,name)] + args, limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - '+name
+            res.append((record['id'], name))
+        return res
     
 l10n_br_account_cst()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
