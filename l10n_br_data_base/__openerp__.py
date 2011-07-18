@@ -4,7 +4,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU General Public License as published by           #
+#it under the terms of the GNU Affero General Public License as published by    #
 #the Free Software Foundation, either version 3 of the License, or              #
 #(at your option) any later version.                                            #
 #                                                                               #
@@ -20,6 +20,7 @@
 {
     "name" : "Brazilian Localisation Data Extension for Base",
     "description" : "Brazilian Localisation Data Extension for Base",
+    'license': 'Affero GPL-3',
     "author" : "Akretion, OpenERP Brasil",
     "version" : "0.1",
     "depends" : [
