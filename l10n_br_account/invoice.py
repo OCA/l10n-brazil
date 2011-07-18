@@ -4,7 +4,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU General Public License as published by           #
+#it under the terms of the Affero GNU General Public License as published by    #
 #the Free Software Foundation, either version 3 of the License, or              #
 #(at your option) any later version.                                            #
 #                                                                               #
@@ -739,6 +739,9 @@ class account_invoice(osv.osv):
                 StrC02 = 'C02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
 
             StrFile += StrC02
+            
+            if company_addr_default.country_id.bc_code:
+                address_company_bc_code = company_addr_default.country_id.bc_code[1:]
 
             StrRegC05 = {
                        'XLgr': normalize('NFKD',unicode(company_addr_default.street or '')).encode('ASCII','ignore'), 
@@ -749,7 +752,7 @@ class account_invoice(osv.osv):
                        'XMun':  normalize('NFKD',unicode(company_addr_default.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
                        'UF': company_addr_default.state_id.code or '',
                        'CEP': re.sub('[%s]' %  re.escape(string.punctuation), '', str(company_addr_default.zip or '').replace(' ','')),
-                       'cPais': company_addr_default.country_id.bc_code or '',
+                       'cPais': address_company_bc_code,
                        'xPais': normalize('NFKD',unicode(company_addr_default.country_id.name or '')).encode('ASCII','ignore'),
                        'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(company_addr_default.phone or '').replace(' ','')),
                        }
@@ -777,6 +780,10 @@ class account_invoice(osv.osv):
                 StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
 
             StrFile += StrE0
+            
+            address_invoice_bc_code = ''
+            if inv.address_invoice_id.country_id.bc_code:
+                address_invoice_bc_code = inv.address_invoice_id.country_id.bc_code[1:]
 
             StrRegE05 = {
                        'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '')).encode('ASCII','ignore'),
@@ -787,7 +794,7 @@ class account_invoice(osv.osv):
                        'xMun': normalize('NFKD',unicode(inv.address_invoice_id.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
                        'UF': inv.address_invoice_id.state_id.code,
                        'CEP': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ','')),
-                       'cPais': inv.address_invoice_id.country_id.bc_code,
+                       'cPais': address_invoice_bc_code,
                        'xPais': normalize('NFKD',unicode(inv.address_invoice_id.country_id.name or '')).encode('ASCII','ignore'),
                        'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.phone or '').replace(' ','')),
                        }
@@ -1958,7 +1965,7 @@ class account_invoice_line(osv.osv):
                 if line.product_id:
                     fiscal_classification = line.product_id.property_fiscal_classification.id
 
-                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),'|',('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
+                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
                 for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
 
                         if fo_line.tax_code_id.domain == 'icms':
@@ -1973,22 +1980,22 @@ class account_invoice_line(osv.osv):
                         if fo_line.tax_code_id.domain == 'cofins':
                             cofins_cst = fo_line.cst_id.code
 
-                #if line.product_id:
-                #    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
+                if line.product_id:
+                    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
     
-                #    for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
+                    for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
                         
-               #             if fo_line_ncm.tax_code_id.domain == 'icms':
-               #                 icms_cst = fo_line_ncm.cst_id.code
-                    
-               #             if fo_line_ncm.tax_code_id.domain == 'ipi':
-               #                 ipi_cst = fo_line_ncm.cst_id.code
-                            
-               #             if fo_line_ncm.tax_code_id.domain == 'pis':
-               #                 pis_cst = fo_line_ncm.cst_id.code
+                            if fo_line_ncm.tax_code_id.domain == 'icms':
+                                icms_cst = fo_line_ncm.cst_id.code
+                   
+                            if fo_line_ncm.tax_code_id.domain == 'ipi':
+                                ipi_cst = fo_line_ncm.cst_id.code
+                           
+                            if fo_line_ncm.tax_code_id.domain == 'pis':
+                                pis_cst = fo_line_ncm.cst_id.code
         
-               #             if fo_line_ncm.tax_code_id.domain == 'cofins':
-               #                 cofins_cst = fo_line_ncm.cst_id.code
+                            if fo_line_ncm.tax_code_id.domain == 'cofins':
+                                cofins_cst = fo_line_ncm.cst_id.code
                                                         
 
             for tax in taxes['taxes']:
