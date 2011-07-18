@@ -20,7 +20,7 @@
 {
     'name' : 'Brazilian Localization Purchase',
     'description' : 'Brazilian Localization for Purchase',
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     'category' : 'Localisation',
     'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
