@@ -22,7 +22,7 @@
     'name': 'Brazilian Localization',
     'description': 'Brazilian Localization',
     'category': 'Localisation/Account Charts',
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
     'version': '0.6',
