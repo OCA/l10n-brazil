@@ -23,7 +23,7 @@
     'name': 'l10n_br Produto',
     'version': '0.1',
     'category': 'Generic Modules',
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     'description': """
     Modulo de Produtos
     """,

@@ -20,7 +20,7 @@
 {
     "name" : "Brazilian Localisation Data Extension for Base with brazilian zip codes",
     "description" : "Brazilian Localisation Data Extension for Base with brazilian zip codes",
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     "author" : "Akretion, OpenERP Brasil",
     "version" : "0.1",
     "depends" : [

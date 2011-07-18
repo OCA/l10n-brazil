@@ -21,7 +21,7 @@
     'name' : 'Account Payment Extension',
     'description' : 'Brazilian Localization Account Payment Extension',
     'category' : 'Localisation',
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',

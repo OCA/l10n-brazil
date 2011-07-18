@@ -20,7 +20,7 @@
 {
     "name" : "Brazilian Localisation Data Extension for Account",
     "description" : "Brazilian Localisation Data Extension for Account",
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     "author" : "Akretion, OpenERP Brasil",
     "version" : "0.1",
     "depends" : [
