@@ -21,7 +21,7 @@
     'name' : 'CRM',
     'description' : 'Brazilian Localization for CRM module',
     'category' : 'Localisation',
-    'license': 'Affero GPL-3',
+    'license': 'AGPL-3',
     'author' : 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
