@@ -37,7 +37,7 @@ class sale_order(osv.osv):
         result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part)
         result['value']['fiscal_position'] = False
 
-        if not part or not shop_id:
+        if not part or not shop_id or not result['value']['partner_invoice_id']:
             return {'value': {'partner_invoice_id': False, 'partner_shipping_id': False, 'partner_order_id': False, 'payment_term': False, 'fiscal_position': False, 'fiscal_operation_id': False}}
 
         obj_partner = self.pool.get('res.partner').browse(cr, uid, part)
