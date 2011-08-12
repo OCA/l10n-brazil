@@ -24,7 +24,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_id" position="replace">
-					<field name="partner_id" on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
+					<field name="partner_id" on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
 	        	</field>
 	        </field>
 		</record>
