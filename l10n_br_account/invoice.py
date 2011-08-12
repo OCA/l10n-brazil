@@ -740,6 +740,7 @@ class account_invoice(osv.osv):
 
             StrFile += StrC02
             
+            address_company_bc_code = ''
             if company_addr_default.country_id.bc_code:
                 address_company_bc_code = company_addr_default.country_id.bc_code[1:]
 
