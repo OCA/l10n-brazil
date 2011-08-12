@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+	<data noupdate="1">
 
 		<!-- l10n_br_account.partner.fiscal.type -->
 		<record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
@@ -18,6 +18,6 @@
 			<field name="ipi">False</field>
 			<field name="icms">False</field>
 		</record>
-
+		
 	</data>
 </openerp>
