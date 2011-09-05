@@ -353,7 +353,7 @@ class sale_order_line(osv.osv):
         result['value']['fiscal_operation_category_id'] = obj_default_prod_categ.fiscal_operation_category_destination_id.id
         result['value']['fiscal_operation_id'] = False
         
-        #Dados do Parceiro
+        #res.parnter address information
         obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
         partner_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_partner.id], ['default'])
         partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
@@ -361,7 +361,7 @@ class sale_order_line(osv.osv):
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
 
-        #Dados da Empresa
+        #res.company address information
         obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_shop.company_id.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
