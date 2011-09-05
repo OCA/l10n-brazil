@@ -1,0 +1,12 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_account_cfop","l10n_br_account.cfop","l10n_br_account.model_l10n_br_account_cfop","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_fiscal_document","l10n_br_account.fiscal.document","l10n_br_account.model_l10n_br_account_fiscal_document","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_fiscal_operation_category","l10n_br_account.fiscal.operation.category","l10n_br_account.model_l10n_br_account_fiscal_operation_category","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_fiscal_operation","l10n_br_account.fiscal.operation","l10n_br_account.model_l10n_br_account_fiscal_operation","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_fiscal_operation_line","l10n_br_account.fiscal.operation.line","l10n_br_account.model_l10n_br_account_fiscal_operation_line","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_document_serie","l10n_br_account.document.serie","l10n_br_account.model_l10n_br_account_document_serie","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_product_operation_category","l10n_br_account.product.operation.category","l10n_br_account.model_l10n_br_account_product_operation_category","base.group_sale_salesman",1,0,0,0
+"l10n_br_account_product_operation_category","l10n_br_account.product.operation.category","l10n_br_account.model_l10n_br_account_product_operation_category","base.group_sale_manager",1,1,1,1
+"l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","base.group_sale_salesman",1,0,0,0
+"account_fiscal_position_rule","account.fiscal.position.rule","account_fiscal_position_rule.model_account_fiscal_position_rule","base.group_sale_salesman",1,0,0,0
+"account_fiscal_position_rule_template","account.fiscal.position.rule.template","account_fiscal_position_rule.model_account_fiscal_position_rule_template","base.group_sale_salesman",1,0,0,0
