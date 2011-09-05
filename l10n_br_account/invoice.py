@@ -17,7 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-
 from lxml import etree
 import time
 import netsvc
@@ -739,7 +738,7 @@ class account_invoice(osv.osv):
                 StrC02 = 'C02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
 
             StrFile += StrC02
-            
+
             address_company_bc_code = ''
             if company_addr_default.country_id.bc_code:
                 address_company_bc_code = company_addr_default.country_id.bc_code[1:]
