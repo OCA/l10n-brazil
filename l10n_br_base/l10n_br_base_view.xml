@@ -60,6 +60,7 @@
 			</field>
 		</record>
 		
+		<!-- 
 			<record model="ir.ui.view" id="view_l10n_br_base_partner_fiscal_type_form">
 				<field name="name">l10n_br_base.partner.fiscal.type</field>
 				<field name="model">l10n_br_base.partner.fiscal.type</field>
@@ -88,6 +89,7 @@
 					</tree>
 				</field>
 			</record>
+		 -->
 	
 			<record model="ir.actions.act_window" id="action_l10n_br_base_city_form">
 				<field name="name">Município</field>
