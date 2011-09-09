@@ -35,7 +35,6 @@
         'data/account_tax_template.xml',
         'data/l10n_br_data.xml',
         'security/ir.model.access.csv',
-        'security/l10n_br_security.xml',
                 ],
     'update_xml': [
         'account_view.xml',

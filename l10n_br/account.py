@@ -59,8 +59,8 @@ class account_tax_template(osv.osv):
     
     _columns = {
                 'tax_discount': fields.boolean('Discount this Tax in Prince', help="Mark it for (ICMS, PIS e etc.)."),
-                'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
-                'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="Um percentual decimal em % entre 0-1."),
+                'base_reduction': fields.float('Redution', required=True, digits_compute=get_precision_tax(), help="For taxes of type percentage, enter % ratio between 0-1."),
+                'amount_mva': fields.float('MVA Percent', required=True, digits_compute=get_precision_tax(), help="For taxes of type percentage, enter % ratio between 0-1."),
                 'type': fields.selection( [('percent','Percentage'), ('fixed','Fixed Amount'), ('none','None'), ('code','Python Code'), ('balance','Balance'), ('quantity','Quantity')], 'Tax Type', required=True,
                                           help="The computation method for the tax amount."),
     }

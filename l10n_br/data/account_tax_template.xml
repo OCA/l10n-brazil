@@ -12,10 +12,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_3" model="account.tax.template">
@@ -28,10 +28,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_4" model="account.tax.template">
@@ -44,10 +44,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_5" model="account.tax.template">
@@ -60,10 +60,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_6" model="account.tax.template">
@@ -76,10 +76,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_7" model="account.tax.template">
@@ -92,10 +92,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
         	</record>
 
 		<record id="tax_template_8" model="account.tax.template">
@@ -108,10 +108,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_9" model="account.tax.template">
@@ -124,10 +124,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_10" model="account.tax.template">
@@ -140,10 +140,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_11" model="account.tax.template">
@@ -156,10 +156,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_12" model="account.tax.template">
@@ -172,10 +172,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_13" model="account.tax.template">
@@ -188,10 +188,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_14" model="account.tax.template">
@@ -204,10 +204,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_15" model="account.tax.template">
@@ -220,10 +220,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
         	</record>
 
 		<record id="tax_template_16" model="account.tax.template">
@@ -236,10 +236,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_17" model="account.tax.template">
@@ -252,10 +252,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_18" model="account.tax.template">
@@ -268,10 +268,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_19" model="account.tax.template">
@@ -284,10 +284,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_20" model="account.tax.template">
@@ -300,10 +300,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
         	</record>
 
 		<record id="tax_template_21" model="account.tax.template">
@@ -316,10 +316,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_22" model="account.tax.template">
@@ -332,10 +332,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_23" model="account.tax.template">
@@ -348,10 +348,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_24" model="account.tax.template">
@@ -364,10 +364,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_25" model="account.tax.template">
@@ -380,10 +380,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_26" model="account.tax.template">
@@ -396,10 +396,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_4" name="base_code_id"/>
-			<field ref="tax_code_4" name="tax_code_id"/>
-			<field ref="tax_code_4" name="ref_base_code_id"/>
-			<field ref="tax_code_4" name="ref_tax_code_id"/>
+			<field ref="tax_code_3" name="base_code_id"/>
+			<field ref="tax_code_3" name="tax_code_id"/>
+			<field ref="tax_code_3" name="ref_base_code_id"/>
+			<field ref="tax_code_3" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_27" model="account.tax.template">
@@ -428,10 +428,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_2" name="base_code_id"/>
-			<field ref="tax_code_2" name="tax_code_id"/>
-			<field ref="tax_code_2" name="ref_base_code_id"/>
-			<field ref="tax_code_2" name="ref_tax_code_id"/>
+			<field ref="tax_code_1" name="base_code_id"/>
+			<field ref="tax_code_1" name="tax_code_id"/>
+			<field ref="tax_code_1" name="ref_base_code_id"/>
+			<field ref="tax_code_1" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_29" model="account.tax.template">
@@ -442,15 +442,15 @@
 			<field eval="0" name="price_include"/>
 			<field eval="0" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_3" name="base_code_id"/>
-			<field ref="tax_code_3" name="tax_code_id"/>
-			<field ref="tax_code_3" name="ref_base_code_id"/>
-			<field ref="tax_code_3" name="ref_tax_code_id"/>
+			<field ref="tax_code_2" name="base_code_id"/>
+			<field ref="tax_code_2" name="tax_code_id"/>
+			<field ref="tax_code_2" name="ref_base_code_id"/>
+			<field ref="tax_code_2" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_30" model="account.tax.template">
-			<field name="description">ICMS 7%</field>
-			<field name="name">ICMS 7%</field>
+			<field name="description">ICMS Externo 7%</field>
+			<field name="name">ICMS Externo 7%</field>
        		<field name="tax_group">vat</field>
 			<field name="amount">0.07</field>
 			<field ref="account_template_241" name="account_collected_id"/>
@@ -458,15 +458,15 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_2" name="base_code_id"/>
-			<field ref="tax_code_2" name="tax_code_id"/>
-			<field ref="tax_code_2" name="ref_base_code_id"/>
-			<field ref="tax_code_2" name="ref_tax_code_id"/>
+			<field ref="tax_code_1" name="base_code_id"/>
+			<field ref="tax_code_1" name="tax_code_id"/>
+			<field ref="tax_code_1" name="ref_base_code_id"/>
+			<field ref="tax_code_1" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_31" model="account.tax.template">
-			<field name="description">ICMS 12%</field>
-			<field name="name">ICMS 12%</field>
+			<field name="description">ICMS Externo 12%</field>
+			<field name="name">ICMS Externo 12%</field>
        		<field name="tax_group">vat</field>
 			<field name="amount">0.12</field>
 			<field ref="account_template_241" name="account_collected_id"/>
@@ -474,15 +474,15 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_2" name="base_code_id"/>
-			<field ref="tax_code_2" name="tax_code_id"/>
-			<field ref="tax_code_2" name="ref_base_code_id"/>
-			<field ref="tax_code_2" name="ref_tax_code_id"/>
+			<field ref="tax_code_1" name="base_code_id"/>
+			<field ref="tax_code_1" name="tax_code_id"/>
+			<field ref="tax_code_1" name="ref_base_code_id"/>
+			<field ref="tax_code_1" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_32" model="account.tax.template">
-			<field name="description">ICMS 19%</field>
-			<field name="name">ICMS 19%</field>
+			<field name="description">ICMS Interno 19%</field>
+			<field name="name">ICMS Interno 19%</field>
        		<field name="tax_group">vat</field>
 			<field name="amount">0.19</field>
 			<field ref="account_template_241" name="account_collected_id"/>
@@ -497,8 +497,8 @@
        	</record>
 
 		<record id="tax_template_33" model="account.tax.template">
-			<field name="description">ICMS 26%</field>
-			<field name="name">ICMS 26%</field>
+			<field name="description">ICMS Interno 26%</field>
+			<field name="name">ICMS Interno 26%</field>
       		<field name="tax_group">vat</field>
 			<field name="amount">0.26</field>
 			<field ref="account_template_241" name="account_collected_id"/>
@@ -522,10 +522,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_5" name="base_code_id"/>
-			<field ref="tax_code_5" name="tax_code_id"/>
-			<field ref="tax_code_5" name="ref_base_code_id"/>
-			<field ref="tax_code_5" name="ref_tax_code_id"/>
+			<field ref="tax_code_4" name="base_code_id"/>
+			<field ref="tax_code_4" name="tax_code_id"/>
+			<field ref="tax_code_4" name="ref_base_code_id"/>
+			<field ref="tax_code_4" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_35" model="account.tax.template">
@@ -538,10 +538,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_5" name="base_code_id"/>
-			<field ref="tax_code_5" name="tax_code_id"/>
-			<field ref="tax_code_5" name="ref_base_code_id"/>
-			<field ref="tax_code_5" name="ref_tax_code_id"/>
+			<field ref="tax_code_4" name="base_code_id"/>
+			<field ref="tax_code_4" name="tax_code_id"/>
+			<field ref="tax_code_4" name="ref_base_code_id"/>
+			<field ref="tax_code_4" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_36" model="account.tax.template">
@@ -554,10 +554,10 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_6" name="base_code_id"/>
-			<field ref="tax_code_6" name="tax_code_id"/>
-			<field ref="tax_code_6" name="ref_base_code_id"/>
-			<field ref="tax_code_6" name="ref_tax_code_id"/>
+			<field ref="tax_code_5" name="base_code_id"/>
+			<field ref="tax_code_5" name="tax_code_id"/>
+			<field ref="tax_code_5" name="ref_base_code_id"/>
+			<field ref="tax_code_5" name="ref_tax_code_id"/>
        	</record>
 
 		<record id="tax_template_37" model="account.tax.template">
@@ -570,15 +570,29 @@
 			<field eval="0" name="price_include"/>
 			<field eval="1" name="tax_discount"/>
 			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_5" name="base_code_id"/>
+			<field ref="tax_code_5" name="tax_code_id"/>
+			<field ref="tax_code_5" name="ref_base_code_id"/>
+			<field ref="tax_code_5" name="ref_tax_code_id"/>
+        </record>
+
+		<record id="tax_template_38" model="account.tax.template">
+			<field name="description">IRPJ</field>
+			<field name="name">IRPJ</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.00</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
 			<field ref="tax_code_6" name="base_code_id"/>
 			<field ref="tax_code_6" name="tax_code_id"/>
 			<field ref="tax_code_6" name="ref_base_code_id"/>
 			<field ref="tax_code_6" name="ref_tax_code_id"/>
         </record>
 
-		<record id="tax_template_38" model="account.tax.template">
-			<field name="description">IRPJ</field>
-			<field name="name">IRPJ</field>
+		<record id="tax_template_39" model="account.tax.template">
+			<field name="description">IR</field>
+			<field name="name">IR</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
 			<field eval="0" name="price_include"/>
@@ -590,9 +604,9 @@
 			<field ref="tax_code_7" name="ref_tax_code_id"/>
         </record>
 
-		<record id="tax_template_39" model="account.tax.template">
-			<field name="description">IR</field>
-			<field name="name">IR</field>
+		<record id="tax_template_40" model="account.tax.template">
+			<field name="description">ISS</field>
+			<field name="name">ISS</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
 			<field eval="0" name="price_include"/>
@@ -603,10 +617,80 @@
 			<field ref="tax_code_8" name="ref_base_code_id"/>
 			<field ref="tax_code_8" name="ref_tax_code_id"/>
         </record>
+        
+        <record id="tax_template_41" model="account.tax.template">
+			<field name="description">ISS 1%</field>
+			<field name="name">ISS 1%</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.01</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_8" name="base_code_id"/>
+			<field ref="tax_code_8" name="tax_code_id"/>
+			<field ref="tax_code_8" name="ref_base_code_id"/>
+			<field ref="tax_code_8" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_42" model="account.tax.template">
+			<field name="description">ISS 2%</field>
+			<field name="name">ISS 2%</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.02</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_8" name="base_code_id"/>
+			<field ref="tax_code_8" name="tax_code_id"/>
+			<field ref="tax_code_8" name="ref_base_code_id"/>
+			<field ref="tax_code_8" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_43" model="account.tax.template">
+			<field name="description">ISS 3%</field>
+			<field name="name">ISS 3%</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.03</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_8" name="base_code_id"/>
+			<field ref="tax_code_8" name="tax_code_id"/>
+			<field ref="tax_code_8" name="ref_base_code_id"/>
+			<field ref="tax_code_8" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_44" model="account.tax.template">
+			<field name="description">ISS 4%</field>
+			<field name="name">ISS 4%</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.04</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_8" name="base_code_id"/>
+			<field ref="tax_code_8" name="tax_code_id"/>
+			<field ref="tax_code_8" name="ref_base_code_id"/>
+			<field ref="tax_code_8" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_45" model="account.tax.template">
+			<field name="description">ISS 5%</field>
+			<field name="name">ISS 5%</field>
+            <field name="tax_group">vat</field>
+			<field name="amount">0.05</field>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_8" name="base_code_id"/>
+			<field ref="tax_code_8" name="tax_code_id"/>
+			<field ref="tax_code_8" name="ref_base_code_id"/>
+			<field ref="tax_code_8" name="ref_tax_code_id"/>
+        </record>
 
-		<record id="tax_template_40" model="account.tax.template">
-			<field name="description">ISS</field>
-			<field name="name">ISS</field>
+		<record id="tax_template_46" model="account.tax.template">
+			<field name="description">CSLL</field>
+			<field name="name">CSLL</field>
             <field name="tax_group">vat</field>
 			<field name="amount">0.00</field>
 			<field eval="0" name="price_include"/>
@@ -617,19 +701,6 @@
 			<field ref="tax_code_9" name="ref_base_code_id"/>
 			<field ref="tax_code_9" name="ref_tax_code_id"/>
         </record>
-
-		<record id="tax_template_41" model="account.tax.template">
-			<field name="description">CSLL</field>
-			<field name="name">CSLL</field>
-            <field name="tax_group">vat</field>
-			<field name="amount">0.00</field>
-			<field eval="0" name="price_include"/>
-			<field eval="1" name="tax_discount"/>
-			<field ref="l10n_br_account_chart_template" name="chart_template_id"/>
-			<field ref="tax_code_10" name="base_code_id"/>
-			<field ref="tax_code_10" name="tax_code_id"/>
-			<field ref="tax_code_10" name="ref_base_code_id"/>
-			<field ref="tax_code_10" name="ref_tax_code_id"/>
-        </record>
+        
 	</data>
 </openerp>

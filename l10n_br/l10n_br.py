@@ -21,11 +21,11 @@ from osv import fields, osv
 
 class l10n_br_account_cst_template(osv.osv):
     _name = 'l10n_br_account.cst.template'
-    _description = 'Modelo de Código de Situação Tributária'
+    _description = 'Tax Situation Code Template' 
     _columns = {
-                'code': fields.char('Codigo', size=8,required=True),
-                'name': fields.char('Descrição', size=64),
-                'tax_code_template_id': fields.many2one('account.tax.code.template', 'Código do Imposto',required=True),
+                'code': fields.char('Code', size=8,required=True),
+                'name': fields.char('Description', size=64),
+                'tax_code_template_id': fields.many2one('account.tax.code.template', 'Tax Code Template',required=True),
                 }
     
     def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
@@ -52,11 +52,11 @@ l10n_br_account_cst_template()
 
 class l10n_br_account_cst(osv.osv):
     _name = 'l10n_br_account.cst'
-    _description = 'Código de Situação Tributária'
+    _description = 'Tax Situation Code'
     _columns = {
-                'code': fields.char('Codigo', size=8,required=True),
-                'name': fields.char('Descrição', size=64),
-                'tax_code_id': fields.many2one('account.tax.code', 'Modelo do Imposto',required=True),
+                'code': fields.char('Code', size=8,required=True),
+                'name': fields.char('Description', size=64),
+                'tax_code_id': fields.many2one('account.tax.code', 'Tax Code',required=True),
                 }
     
     def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
