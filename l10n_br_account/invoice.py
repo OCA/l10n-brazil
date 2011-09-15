@@ -80,7 +80,7 @@ class account_invoice(osv.osv):
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
 
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
-            
+
         return res
     
     def _get_fiscal_type(self, cr, uid, context=None):
