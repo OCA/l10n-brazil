@@ -19,5 +19,6 @@
 
 
 import stock_invoice_onshipping
+import stock_return_picking
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
