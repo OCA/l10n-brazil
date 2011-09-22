@@ -31,7 +31,7 @@ class stock_picking(osv.osv):
                 }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)       
         return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id or False
     
     _defaults = {

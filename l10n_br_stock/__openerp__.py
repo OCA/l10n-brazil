@@ -33,6 +33,7 @@
 		          'stock_view.xml',
                   'res_company_view.xml',
                   'wizard/stock_invoice_onshipping_view.xml',
+                  'security/ir.model.access.csv',
                   ],
     'installable': True
 }
