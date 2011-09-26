@@ -79,7 +79,7 @@
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
-					<button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward"/>
 					<field invisible="True" name="fiscal_document_nfe" />
 			    </button>
 			</field>
@@ -283,7 +283,7 @@
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward"/>
-                    <button name="invoice_sefaz_export" states="draft" string="Confirmar" icon="gtk-go-forward"/>
+                    <button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward"/>
                     <field invisible="True" name="fiscal_document_nfe" />
 			    </button>
 			</field>
