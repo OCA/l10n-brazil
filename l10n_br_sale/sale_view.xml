@@ -10,7 +10,8 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
-					<field name="fiscal_operation_category_id" domain="[('use_sale','=',True)]" required="1"/>
+					<field name="fiscal_operation_category_id" domain="[('use_sale','=',True)]" on_change="onchange_fiscal_operation_category_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
+
 					<field name="fiscal_operation_id" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 	        	</field>
@@ -24,7 +25,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_id" position="replace">
-					<field name="partner_id" on_change="onchange_partner_id(partner_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
+					<field name="partner_id" on_change="onchange_partner_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
 	        	</field>
 	        </field>
 		</record>
@@ -36,7 +37,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="shop_id" position="replace">
-					<field name="shop_id"  on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id)"  widget="selection" />
+					<field name="shop_id"  on_change="onchange_shop_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" />
 	        	</field>
 	        </field>
 		</record>
