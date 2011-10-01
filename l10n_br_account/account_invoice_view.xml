@@ -41,9 +41,10 @@
 			<field name="name">l10n_br_account.invoice.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
+                        <field name="priority">15</field>
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
-					<field name="fiscal_operation_category_id" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id)"  domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
 					<field name="fiscal_operation_id" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 			    </field>
@@ -53,7 +54,8 @@
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form3">
 			<field name="name">l10n_br_account.invoice.form3</field>
 			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form1" />
+                        <field name="inherit_id" ref="account.invoice_form" />
+                        <field name="priority">15</field>
 			<field name="arch" type="xml">
 				<field position="replace" name="partner_id">
 					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)" groups="base.group_user" />
@@ -64,7 +66,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form4">
 			<field name="name">l10n_br_account.invoice.form4</field>
 			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
+			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<field position="replace" name="company_id">
 					<field name="company_id" on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)" widget="selection" groups="base.group_multi_company"/>
@@ -258,7 +260,7 @@
 			<field name="inherit_id" ref="account.invoice_supplier_form"/>
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
-					<field name="fiscal_operation_category_id" domain="[('use_invoice','=',True)]" required="1" />
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id)" domain="[('use_invoice','=',True)]" required="1" />
 					<field name="fiscal_operation_id" domain="[('type','=','input')]" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 			    </field>
