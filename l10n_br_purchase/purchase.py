@@ -88,138 +88,50 @@ class purchase_order(osv.osv):
     }
 
     
-    def onchange_partner_id(self, cr, uid, ids, part, company_id=False, fiscal_operation_category_id=False):
+    def _fiscal_position_map(self, cr, uid, ids, partner_invoice_id, partner_id, company_id, fiscal_operation_category_id):
 
-        result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, part, company_id)
+        rule = self.pool.get('account.fiscal.position.rule')
+	    
+        result = rule.fiscal_position_map_purchase(cr, uid, partner_invoice_id, partner_id, company_id, fiscal_operation_category_id)
 
-        if (not part or not company_id or not result['value']['partner_address_id'] or not fiscal_operation_category_id):
-            result['value']['fiscal_position'] = False
-            result['value']['fiscal_operation_id'] = False
-            return result
-
-        obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
-
-        company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
-
-        from_country = company_addr_default.country_id.id
-        from_state = company_addr_default.state_id.id
-
-        obj_partner = self.pool.get('res.partner').browse(cr, uid, [part])[0]
-        partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
+        return result
         
-        if obj_partner.property_account_position:
-            result['value']['fiscal_position'] = obj_partner.property_account_position
-            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
-            result['value']['fiscal_operation_category_id'] = obj_partner.property_account_position.fiscal_operation_id.fiscal_operation_category_id.id
-            return result
+    def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
+
+        result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
         
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [result['value']['partner_address_id']])[0]
+        my_partner_address_id = partner_address_id
 
-        to_country = partner_addr_default.country_id.id
-        to_state = partner_addr_default.state_id.id
+        #gets new partner address
+        if not result['value']['partner_address_id']:
+            my_partner_address_id = result['value']['partner_address_id']
 
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=',company_id), ('use_purchase','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
-                                                                                    '|',('from_country','=',False),('from_country','=',from_country),
-                                                                                    '|',('to_country','=',False),('to_country','=',to_country),
-                                                                                    '|',('from_state','=',False),('from_state','=',from_state),
-                                                                                    '|',('to_state','=',False),('to_state','=',to_state),
-                                                                                    '|',('partner_fiscal_type_id','=',False),('partner_fiscal_type_id','=',partner_fiscal_type),                                                                                    
-                                                                                    ])
-
-        if fsc_pos_id:
-            obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
-            result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, my_partner_address_id, partner_id, company_id, fiscal_operation_category_id)
+        
+        result['value'].update(fiscal_data)
 
         return result
 
-    def onchange_partner_address_id(self, cr, uid, ids, partner_address_id, company_id=False, fiscal_operation_category_id=False):
+
+    def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
         
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
 
-        if not partner_address_id or not company_id:
-            result['value']['fiscal_position'] = False
-            result['value']['fiscal_operation_id'] = False
-            return result
-        
-        obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_address_id, partner_id, company_id, fiscal_operation_category_id)
 
-        company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
-
-        from_country = company_addr_default.country_id.id
-        from_state = company_addr_default.state_id.id
-       
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_address_id])[0]
-
-        to_country = partner_addr_default.country_id.id
-        to_state = partner_addr_default.state_id.id
-
-        obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_addr_default.partner_id.id])[0]
-        partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
-        if obj_partner.property_account_position:
-            result['value']['fiscal_position'] = obj_partner.property_account_position
-            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
-            return result
-
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=',company_id), ('use_purchase','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
-                                                                                    '|',('from_country','=',False),('from_country','=',from_country),
-                                                                                    '|',('to_country','=',False),('to_country','=',to_country),
-                                                                                    '|',('from_state','=',False),('from_state','=',from_state),
-                                                                                    '|',('to_state','=',False),('to_state','=',to_state),
-                                                                                    '|',('partner_fiscal_type_id','=',False),('partner_fiscal_type_id','=',partner_fiscal_type),                                                                                    
-                                                                                    ])
-
-        if fsc_pos_id:
-            obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
-            result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
+        result['value'].update(fiscal_data)
 
         return result
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, company_id=False, fiscal_operation_category_id=False):
+
+    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
         
         result = {'value': {} }
-        
-        if not partner_address_id or not company_id or not fiscal_operation_category_id:
-            result['value']['fiscal_position'] = False
-            result['value']['fiscal_operation_id'] = False
-            return result
-        
-        obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
 
-        company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_address_id, partner_id, company_id, fiscal_operation_category_id)
 
-        from_country = company_addr_default.country_id.id
-        from_state = company_addr_default.state_id.id
+        result['value'].update(fiscal_data)
 
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_address_id])[0]
-
-        to_country = partner_addr_default.country_id.id
-        to_state = partner_addr_default.state_id.id
-
-        obj_partner = self.pool.get('res.partner').browse(cr, uid, [partner_addr_default.partner_id.id])[0]
-        partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
-        if obj_partner.property_account_position:
-            result['value']['fiscal_position'] = obj_partner.property_account_position
-            result['value']['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
-            return result
-        
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=',company_id), ('use_purchase','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id),
-                                                                                    '|',('from_country','=',False),('from_country','=',from_country),
-                                                                                    '|',('to_country','=',False),('to_country','=',to_country),
-                                                                                    '|',('from_state','=',False),('from_state','=',from_state),
-                                                                                    '|',('to_state','=',False),('to_state','=',to_state),
-                                                                                    '|',('partner_fiscal_type_id','=',False),('partner_fiscal_type_id','=',partner_fiscal_type),                                                                                    
-                                                                                    ])
-
-        if fsc_pos_id:
-            obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            result['value']['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
-            result['value']['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
-            
         return result
     
     def action_invoice_create(self, cr, uid, ids, *args):
