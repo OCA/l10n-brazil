@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="purchase.purchase_order_form"/>
 			<field name="arch" type="xml">
 				<field name="fiscal_position" position="replace" >
-					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_address_id, company_id, fiscal_operation_category_id)" required="1"/>
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_id, partner_address_id, company_id, fiscal_operation_category_id)" required="1"/>
 					<field name="fiscal_operation_id" domain="[('type','=','input'),('use_purchase','=',True),('fiscal_operation_category_id','=',fiscal_operation_category_id)]" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 				</field>
@@ -22,7 +22,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form1"/>
 			<field name="arch" type="xml">
 				<field name="partner_id" position="replace" >
-                	<field name="partner_id" on_change="onchange_partner_id(partner_id, company_id, fiscal_operation_category_id)" context="{'search_default_supplier':1}"/>
+                	<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_address_id, company_id, fiscal_operation_category_id)" context="{'search_default_supplier':1}"/>
 				</field>
 			</field>
 		</record>
@@ -33,7 +33,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form2"/>
 			<field name="arch" type="xml">
 				<field name="partner_address_id" position="replace" >
-	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, company_id, fiscal_operation_category_id)"/>
+	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_id partner_address_id, company_id, fiscal_operation_category_id)"/>
 				</field>
 			</field>
 		</record>
