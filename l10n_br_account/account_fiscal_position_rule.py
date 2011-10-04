@@ -70,7 +70,7 @@ class account_fiscal_position_rule(osv.osv):
         #Case 1: Parnter Specific Fiscal Posigion
         if not Partner.property_account_position.id == False and use_partner_default == True:
             result['fiscal_position'] = Partner.property_account_position.id
-            result['fiscal_operation_id'] = Partner.property_account_position.id.fiscal_operation_id.id
+            result['fiscal_operation_id'] = Partner.property_account_position.fiscal_operation_id.id
             return result
 		
 		#Case 2: Rule based determination
