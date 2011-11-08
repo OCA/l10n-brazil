@@ -17,31 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-{
-    'name' : 'Brazilian Localization Base',
-    'description' : 'Brazilian Localization Base',
-    'category' : 'Localisation',
-    'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : ['base'],
-    'init_xml': [
-                'res.country.state.csv',
-                'l10n_br_base.city.csv',
-                ],
-    'update_xml' : [
-                'l10n_br_base_data.xml',
-        		'l10n_br_base_view.xml',
-        		'country_view.xml',
-                'wizard/l10n_br_base_cep_search_view.xml',
-        		'partner_view.xml',
-                'security/ir.model.access.csv',
-                'security/l10n_br_base_security.xml',
-
-    ],
-    'demo_xml': ['l10n_br_base_demo.xml'],
-    'installable': True
-}
+import l10n_br_base_cep_search
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		
+        <record id="view_l10n_br_account_nfe_export" model="ir.ui.view">
+            <field name="name">Pesquisar CEP</field>
+            <field name="model">l10n_br_base.cep.search</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pesquisar CEP">
+                    <group col="8">
+                        <group colspan="3">
+                            <field name="config_logo" widget="image" width="130" height="130" nolabel="1" colspan="1"/>
+                            <newline/>
+                            <label colspan="4" width="130" string="Este assistente ."/>
+                            <label colspan="4" width="130"/>
+                            <label colspan="4" width="130" string="..."/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                        <separator orientation="vertical" rowspan="15"/>
+                        <group colspan="4">
+                            <separator string="Pesquisar CEP" colspan="4"/>
+                            <group states="init" colspan="4">
+                                <label string="Click em exportar para iniciar a exportação..." colspan="4"/>
+                                <field colspan="4" name="street" />
+                                <field colspan="4" name="district" />
+                                <field colspan="4" name="state_id" />
+                                <field colspan="4" name="l10n_br_city_id" />
+                            </group>
+                            <group states="done" colspan="4">
+
+                            </group>
+                        </group>
+                        <group colspan="8" col="8" states="init">
+                            <separator string="" colspan="8"/>
+                            <label colspan="6" width="220"/>
+                            <button special="cancel" string="Cancelar" icon="gtk-cancel"/>
+                            <button name="cep_search" string="Pesquisar" type="object" icon="gtk-ok"/>
+                        </group>
+                        <group colspan="8" col="8" states="done">
+                            <separator string="" colspan="8"/>
+                            <label colspan="6" width="220"/>
+                            <button special="cancel" string="Fechar" icon="gtk-go-forward"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+         
+        <record id="action_l10n_br_base_cep_search" model="ir.actions.act_window">
+            <field name="name">Pesquisar CEP</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br_base.cep.search</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+		
+	</data>
+</openerp>
