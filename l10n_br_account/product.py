@@ -22,9 +22,9 @@ from osv import osv, fields
 ##############################################################################
 # Produto Customizado
 ##############################################################################
-class product_product(osv.osv):
+class product_template(osv.osv):
 
-    _inherit = 'product.product'
+    _inherit = 'product.template'
     _columns = {
                 'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 'product_id', 'Categoria de Operação Fiscal Padrões'),
                 'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
@@ -35,7 +35,7 @@ class product_product(osv.osv):
                 'is_on_service_invoice': False,
                 }
 
-product_product()
+product_template()
 
 ##############################################################################
 # Categorias fiscais de operações padrões por produto
