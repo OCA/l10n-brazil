@@ -22,10 +22,10 @@
 
 from osv import fields,osv
 
-class product_product(osv.osv):
-    _inherit = "product.product"         
+class product_template(osv.osv):
+    _inherit = "product.template"         
     _columns = {
 		'origin': fields.selection((('0','Nacional'), ('1','Internacional'),('2','Inter. Adiquirido Internamente')), 'Origem'),
     }
     
-product_product()
+product_template()
