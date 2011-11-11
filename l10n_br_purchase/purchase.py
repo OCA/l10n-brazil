@@ -88,25 +88,22 @@ class purchase_order(osv.osv):
     }
 
     
-    def _fiscal_position_map(self, cr, uid, ids, partner_invoice_id, partner_id, company_id, fiscal_operation_category_id):
+    def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
 
         rule = self.pool.get('account.fiscal.position.rule')
 	    
-        result = rule.fiscal_position_map_purchase(cr, uid, partner_invoice_id, partner_id, company_id, fiscal_operation_category_id)
+        result = rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_purchase', '=', True)})
 
         return result
         
     def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
 
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
-        
-        my_partner_address_id = partner_address_id
 
-        #gets new partner address
-        if not result['value']['partner_address_id']:
-            my_partner_address_id = result['value']['partner_address_id']
+        if result['value']['partner_address_id']:
+            partner_address_id = result['value']['partner_address_id']
 
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, my_partner_address_id, partner_id, company_id, fiscal_operation_category_id)
+        fiscal_data = self._fiscal_position_map(cr, uid, ids,partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         
         result['value'].update(fiscal_data)
 
@@ -117,7 +114,7 @@ class purchase_order(osv.osv):
         
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
 
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_address_id, partner_id, company_id, fiscal_operation_category_id)
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
 
         result['value'].update(fiscal_data)
 
@@ -128,7 +125,7 @@ class purchase_order(osv.osv):
         
         result = {'value': {} }
 
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_address_id, partner_id, company_id, fiscal_operation_category_id)
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
 
         result['value'].update(fiscal_data)
 
@@ -217,7 +214,7 @@ class purchase_order_line(osv.osv):
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
             partner_id, date_order=False, fiscal_position=False, date_planned=False,
-            name=False, price_unit=False, notes=False,fiscal_operation_category_id=False, fiscal_operation_id=False):
+            name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False, fiscal_operation_id=False):
         
         result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
             partner_id, date_order, fiscal_position, date_planned, name, price_unit, notes)
