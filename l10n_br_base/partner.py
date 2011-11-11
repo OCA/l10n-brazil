@@ -108,35 +108,40 @@ class res_partner(osv.osv):
         return False
     
     def _check_ie(self, cr, uid, ids):
-        
+        """ Verificação da Inscrição Estadual """
         for partner in self.browse(cr, uid, ids):
             if not partner.inscr_est:
                 return True
             
             if partner.tipo_pessoa == 'J':
-                    
-                return self.validate_cnpj(partner.inscr_est)
+                #TODO
+                return self.validate_ie_sp(partner.inscr_est)
 
         return False
 
     def validate_ie_ac(self, inscr_est):
         """ Verificação da Inscrição Estadual-Acre """
+        #TODO
         return True
     
     def validate_ie_al(self, inscr_est):
         """ Verificação da Inscrição Estadual-Alagoas """
+        #TODO
         return True
     
     def validate_ie_am(self, inscr_est):
         """ Verificação da Inscrição Estadual-Amazonas """
+        #TODO
         return True
     
     def validate_ie_ap(self, inscr_est):
         """ Verificação da Inscrição Estadual-Amapá """
+        #TODO
         return True
     
     def validate_ie_ba(self, inscr_est):
         """ Verificação da Inscrição Estadual-Bahia """
+        #TODO
         return True
     
     def validate_ie_ce(self, inscr_est):
@@ -145,96 +150,117 @@ class res_partner(osv.osv):
     
     def validate_ie_df(self, inscr_est):
         """ Verificação da Inscrição Estadual-Distitro Federal """
+        #TODO
         return True
     
     def validate_ie_es(self, inscr_est):
         """ Verificação da Inscrição Estadual-Espirito Santo """
+        #TODO
         return True
     
     def validate_ie_go(self, inscr_est):
         """ Verificação da Inscrição Estadual-Goiais """
+        #TODO
         return True
     
     def validate_ie_ma(self, inscr_est):
         """ Verificação da Inscrição Estadual-Maranhão """
+        #TODO
         return True
     
     def validate_ie_mg(self, inscr_est):
         """ Verificação da Inscrição Estadual-Minas Gerais """
+        #TODO
         return True
     
     def validate_ie_ms(self, inscr_est):
         """ Verificação da Inscrição Estadual-Mato Grosso do Sul """
+        #TODO
         return True
     
     def validate_ie_mt(self, inscr_est):
         """ Verificação da Inscrição Estadual-Mato Grosso """
+        #TODO
         return True
     
     def validate_ie_pa(self, inscr_est):
         """ Verificação da Inscrição Estadual-Pará """
+        #TODO
         return True
     
     def validate_ie_pb(self, inscr_est):
         """ Verificação da Inscrição Estadual-Paraíba """
+        #TODO
         return True
     
     def validate_ie_pe(self, inscr_est):
         """ Verificação da Inscrição Estadual-Pernambuco """
+        #TODO
         return True
     
     def validate_ie_pi(self, inscr_est):
         """ Verificação da Inscrição Estadual-Piauí """
+        #TODO
         return True
     
     def validate_ie_pr(self, inscr_est):
         """ Verificação da Inscrição Estadual-Paraná """
+        #TODO
         return True
     
     def validate_ie_rj(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rio de Janeiro """
+        #TODO
         return True
     
     def validate_ie_rn(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rio Grande do Norte """
+        #TODO
         return True
     
     def validate_ie_ro(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rondônia """
+        #TODO
         return True
     
     def validate_ie_rr(self, inscr_est):
         """ Verificação da Inscrição Estadual-Roraima """
+        #TODO
         return True
     
     def validate_ie_rs(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rio Grande do Sul """
+        #TODO
         return True
     
     def validate_ie_sc(self, inscr_est):
         """ Verificação da Inscrição Estadual-Santa Catarina """
+        #TODO
         return True
     
     def validate_ie_se(self, inscr_est):
         """ Verificação da Inscrição Estadual-Sergipe """
+        #TODO
         return True
     
     def validate_ie_sp(self, inscr_est):
         """ Verificação da Inscrição Estadual-São Paulo """
+        #TODO
         return True
     
     def validate_ie_to(self, inscr_est):
         """ Verificação da Inscrição Estadual-Tocantins """
+        #TODO
         return True
     
     _constraints = [
-                    (_check_cnpj_cpf, 'CNPJ/CPF invalido!', ['cnpj_cpf']),
-                    (_check_ie, 'Inscrição Estadual invalida!', ['inscr_est'])
+                    (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
+                    (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
     ]
     
     _sql_constraints = [
-                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', 'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-                    ('res_partner_inscr_est_uniq', 'unique (inscr_est)', 'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
+                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
+                    ('res_partner_inscr_est_uniq', 'unique (inscr_est)', u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
 
     def on_change_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
