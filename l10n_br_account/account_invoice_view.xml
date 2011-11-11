@@ -41,7 +41,7 @@
 			<field name="name">l10n_br_account.invoice.form2</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
-                        <field name="priority">15</field>
+            <field name="priority">15</field>
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id)"  domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
@@ -54,12 +54,12 @@
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form3">
 			<field name="name">l10n_br_account.invoice.form3</field>
 			<field name="model">account.invoice</field>
-                        <field name="inherit_id" ref="account.invoice_form" />
-                        <field name="priority">15</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="priority">15</field>
 			<field name="arch" type="xml">
 				<field position="replace" name="partner_id">
 					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)" groups="base.group_user" />
-			    </field>
+				</field>
 			</field>
 		</record>
 		
@@ -138,9 +138,10 @@
 			<field name="arch" type="xml">
 				 <notebook>
 				 	<page string="l10n br - NF">
-				 		<group colspan="4" name="l10n_br_nf" >
-							<separator colspan="4" string="Dados Adicionais da NF"/>
-							<field colspan="4" on_change="onchange_cfop_id(cfop_id)" name="cfop_id" domain="[('type','=','output')]" required="1" />
+						<separator colspan="4" string="CFOP"/>
+						<field colspan="4" nolabel="1" name="cfop_ids" />
+	 					<group colspan="4" name="l10n_br_nf" >
+		 					<separator colspan="4" string="Dados Adicionais da NF"/>
 							<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}"/>
 							<field colspan="4" name="nfe_status"/>
 							<field name="nfe_export_date"/>
@@ -231,9 +232,10 @@
 			<field name="arch" type="xml">
 				 <notebook>
 					<page string="l10n br - NF">
+						<separator colspan="4" string="CFOP"/>
+						<field colspan="4" nolabel="1" name="cfop_ids" />
 						<group colspan="4" name="l10n_br_nf">
 	     					<separator colspan="4" string="Dados Adicionais da NF"/>
-	       					<field colspan="4" name="cfop_id" domain="[('type','=','input')]"/>
 							<field colspan="4" name="nfe_access_key"/>
 							<field name="fiscal_document_id" />
 							<field name="document_serie_id" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
@@ -336,27 +338,89 @@
 				</page>
 			</field>
 		</record>
-		
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form9">
-			<field name="name">l10n_br_account.invoice.supplier.form9</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form"/>
-			<field name="arch" type="xml">
-				 <page string="Payments" position="before">
-				 	<page string="l10n br - Vencimentos">
-				 		<field colspan="4" nolabel="1" name="move_line_receivable_id"/>
-				 	</page>
-				</page>
-			</field>
-		</record>
 
 		<!-- Invoice Line views -->
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form">
 			<field name="name">l10n_br_account.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="account.view_invoice_line_form"/>
+			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
-				<field name="name" position="after">
+				<form position="replace" string="Invoice Line" >
+					<form string="Invoice Line">
+						<notebook>
+							<page string="General">
+			                    <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id}, parent.company_id, parent.fiscal_operation_category_id, parent.fiscal_operation_id)"/>
+			                    <field colspan="2" name="name"/>
+			                    <label string="Quantity :" align="1.0"/>
+			                    <group colspan="1" col="2">
+			                        <field name="quantity" nolabel="1"/>
+			                        <field name="uos_id" on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, context, parent.company_id)" nolabel="1"/>
+			                    </group>
+			                    <field name="price_unit"/>
+			                    <field domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(parent.fiscal_position,account_id)"/>
+			                    <field name="discount" groups="base.group_extended"/>
+			                    <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id), ('parent_id', '!=', False)]" name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+			                    <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+			                    <separator string="Notes" colspan="4"/>
+			                    <field colspan="4" name="note" nolabel="1"/>
+			                    <separator colspan="4" string="Taxes"/>
+			                    <field colspan="4" name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" nolabel="1"/>
+							</page>
+							<page position="inside" string="l10n br - Impostos">
+							<notebook>
+								<page string="ICMS">
+									<separator colspan="4" string="Detalhes do ICMS"/>
+			                		<field name="icms_cst"/>
+			                		<field name="icms_base" />
+			                		<field name="icms_base_other" />
+			                		<field name="icms_value" />
+			                		<field name="icms_percent" />
+			                		<field name="icms_percent_reduction" />
+			                		<separator colspan="4" string="Substituição Tributária ICMS"/>
+			                		<field name="icms_st_base"/>
+			                		<field name="icms_st_value"/>
+			                		<field name="icms_st_percent"/>
+			                		<field name="icms_st_mva"/>
+			                		<field name="icms_st_base_other"/>
+			                	</page>
+			                	<page string="IPI">
+									<separator colspan="4" string="Detalhes do IPI"/>
+			                		<field name="ipi_cst"/>
+			                		<field name="ipi_base" />
+			                		<field name="ipi_base_other" />
+			                		<field name="ipi_value" />
+			                		<field name="ipi_type" />
+			                		<field name="ipi_percent" />
+			                	</page>
+			                	<page string="PIS">
+									<separator colspan="4" string="Detalhes do PIS"/>
+			                		<field name="pis_cst"/>
+			                		<field name="pis_base" />
+			                		<field name="pis_value" />
+			                		<field name="pis_percent" />
+			                	</page>
+			                	<page string="COFINS">
+									<separator colspan="4" string="Detalhes do COFINS"/>
+			                		<field name="cofins_cst"/>
+			                		<field name="cofins_base" />
+			                		<field name="cofins_value" />
+			                		<field name="cofins_percent" />
+			                	</page>
+							</notebook>
+		        		</page>
+		        	</notebook>
+	                </form>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form1">
+			<field name="name">l10n_br_account.invoice.line.form1</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form"/>
+			<field name="priority">26</field>
+			<field name="arch" type="xml">
+				<field name="price_unit" position="before">
 					<field name="fiscal_operation_category_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
 					<field name="fiscal_operation_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
 					<field colspan="4" name="cfop_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
@@ -365,66 +429,15 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form1">
-			<field name="name">l10n_br_account.invoice.line.form1</field>
-			<field name="model">account.invoice.line</field>
-			<field name="inherit_id" ref="account.view_invoice_line_form" />
-			<field name="arch" type="xml">
-				<field name="product_id" position="replace">
-					<field name="product_id" domain="[('fiscal_type','=','product')]" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id}, parent.cfop_id)" select="1"/>
-				</field>
-			</field>
-		</record>
-		
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_form2">
 			<field name="name">l10n_br_account.invoice.line.form2</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
+			<field name="priority">26</field>
 			<field name="arch" type="xml">
-				<notebook>
-					<page position="inside" string="l10n br - Impostos">
-						<notebook>
-							<page string="ICMS">
-								<separator colspan="4" string="Detalhes do ICMS"/>
-		                		<field name="icms_cst"/>
-		                		<field name="icms_base" />
-		                		<field name="icms_base_other" />
-		                		<field name="icms_value" />
-		                		<field name="icms_percent" />
-		                		<field name="icms_percent_reduction" />
-		                		<separator colspan="4" string="Substituição Tributária ICMS"/>
-		                		<field name="icms_st_base"/>
-		                		<field name="icms_st_value"/>
-		                		<field name="icms_st_percent"/>
-		                		<field name="icms_st_mva"/>
-		                		<field name="icms_st_base_other"/>
-		                	</page>
-		                	<page string="IPI">
-								<separator colspan="4" string="Detalhes do IPI"/>
-		                		<field name="ipi_cst"/>
-		                		<field name="ipi_base" />
-		                		<field name="ipi_base_other" />
-		                		<field name="ipi_value" />
-		                		<field name="ipi_type" />
-		                		<field name="ipi_percent" />
-		                	</page>
-		                	<page string="PIS">
-								<separator colspan="4" string="Detalhes do PIS"/>
-		                		<field name="pis_cst"/>
-		                		<field name="pis_base" />
-		                		<field name="pis_value" />
-		                		<field name="pis_percent" />
-		                	</page>
-		                	<page string="COFINS">
-								<separator colspan="4" string="Detalhes do COFINS"/>
-		                		<field name="cofins_cst"/>
-		                		<field name="cofins_base" />
-		                		<field name="cofins_value" />
-		                		<field name="cofins_percent" />
-		                	</page>
-						</notebook>
-		        	</page>
-				</notebook>
+				<field name="product_id" position="replace">
+					<field name="product_id" domain="[('fiscal_type','=','product')]" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id},parent.company_id, parent.fiscal_operation_category_id, parent.fiscal_operation_id)" select="1"/>
+				</field>
 			</field>
 		</record>
 
@@ -432,6 +445,7 @@
 			<field name="name">l10n_br_account.invoice.line.tree1</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_tree" />
+			<field name="priority">26</field>
 			<field name="arch" type="xml">
 				<field position="replace" name="price_subtotal">
                     <field name="price_total"/>
