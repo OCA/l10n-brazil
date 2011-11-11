@@ -162,7 +162,6 @@ class purchase_order(osv.osv):
                                     comment = picking.fiscal_operation_id.note
                                 self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
                                                                                                 'fiscal_operation_id': order.fiscal_operation_id, 
-                                                                                                'cfop_id': order.fiscal_operation_id.cfop_id.id, 
                                                                                                 'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
                                                                                                 'document_serie_id': company_id.document_serie_product_ids[0].id, 
                                                                                                 'own_invoice': False,
@@ -185,7 +184,7 @@ class purchase_order(osv.osv):
                     #doc_serie_id = self.pool.get('l10n_br_account.document.serie').search(cr, uid,[('fiscal_document_id','=', order.fiscal_operation_id.fiscal_document_id.id),('active','=',True),('company_id','=',order.company_id.id)])
                     #if not doc_serie_id:
                     #    raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Não existe nenhuma série de documento fiscal cadastrada para empresa:  '%s'") % (order.company_id.name,))
-                    self.pool.get('account.invoice').write(cr, uid, invoice.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'cfop_id': order.fiscal_operation_id.cfop_id.id, 'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 'fiscal_position': order.fiscal_position.id})
+                    self.pool.get('account.invoice').write(cr, uid, invoice.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 'fiscal_position': order.fiscal_position.id})
                     for inv_line in invoice.invoice_line:
                         self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': order.fiscal_operation_id.cfop_id.id})
 
