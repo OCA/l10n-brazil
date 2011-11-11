@@ -44,7 +44,7 @@
 			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
 			<field name="arch" type="xml">
 				<field name="product_id" position="replace" >
-	               <field name="product_id" colspan="4" context="partner_id=parent.partner_id,quantity=product_qty,pricelist=parent.pricelist_id,uom=product_uom,warehouse=parent.warehouse_id" on_change="product_id_change(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,price_unit,notes,parent.fiscal_operation_category_id,parent.fiscal_operation_id)"/>
+	               <field name="product_id" colspan="4" context="{'partner_id':parent.partner_id, 'quantity':product_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'warehouse':parent.warehouse_id}" on_change="product_id_change(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,price_unit,notes,context,parent.fiscal_operation_category_id,parent.fiscal_operation_id)"/>
 				</field>
 			</field>
 		</record>
