@@ -135,13 +135,13 @@ class sale_order(osv.osv):
         if context is None:
             context = {}
 
-        company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
-        fiscal_document_serie_ids = [fdoc for fdoc in company_id.document_serie_product_ids if fdoc.fiscal_document_id.id == order.fiscal_operation_id.fiscal_document_id.id]
+        obj_company = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
+        fiscal_document_serie_ids = [fdoc for fdoc in obj_company.document_serie_product_ids if fdoc.fiscal_document_id.id == order.fiscal_operation_id.fiscal_document_id.id and fdoc.active]
         
         if not fiscal_document_serie_ids:
             raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s, fiscal operation: '%s' and fiscal documento %s") % (order.company_id.name, order.fiscal_operation_id.code, order.fiscal_operation_id.fiscal_document_id.name))
 
-        journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id.id == company_id.id]
+        journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id.id == obj_company.id]
         if journal_ids:
             journal_id = journal_ids[0].id
         else:
@@ -198,7 +198,6 @@ class sale_order(osv.osv):
             
             inv_l10n_br = {'fiscal_operation_category_id': fiscal_operation_category_id and fiscal_operation_category_id.id, 
                            'fiscal_operation_id': fiscal_operation_id and fiscal_operation_id.id, 
-                           'cfop_id': order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id, 
                            'fiscal_document_id': order.fiscal_operation_id.fiscal_document_id.id, 
                            'document_serie_id': fiscal_document_serie_ids[0].id,
                            'service_type_id': service_type_id,
@@ -346,7 +345,6 @@ class sale_order_line(osv.osv):
                             inv_ids.append(inv_line.id)
                             self.pool.get('account.invoice').write(cr, uid, inv_line.invoice_id.id, {'fiscal_operation_category_id': so_line.order_id.fiscal_operation_category_id.id,
                                                                                                      'fiscal_operation_id': so_line.order_id.fiscal_operation_id.id, 
-                                                                                                     'cfop_id': so_line.order_id.fiscal_operation_id.cfop_id.id, 
                                                                                                      'fiscal_document_id': so_line.order_id.fiscal_operation_id.fiscal_document_id.id,
                                                                                                      'document_serie_id': company_id.document_serie_product_ids[0].id})
                         
