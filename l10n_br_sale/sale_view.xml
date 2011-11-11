@@ -7,7 +7,7 @@
 			<field name="name">l10n_br_sale.order.form1</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
 					<field name="fiscal_operation_category_id" domain="[('use_sale','=',True)]" on_change="onchange_fiscal_operation_category_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
@@ -22,10 +22,10 @@
 			<field name="name">l10n_br_sale.order.form2</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form3"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_id" position="replace">
-					<field name="partner_id" on_change="onchange_partner_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
+					<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_invoice_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
 	        	</field>
 	        </field>
 		</record>
@@ -34,10 +34,10 @@
 			<field name="name">l10n_br_sale.order.form3</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="shop_id" position="replace">
-					<field name="shop_id"  on_change="onchange_shop_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" />
+					<field name="shop_id" widget="selection" on_change="onchange_shop_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" />
 	        	</field>
 	        </field>
 		</record>
@@ -58,7 +58,7 @@
 			<field name="name">l10n_br_sale.sale.shop</field>
 	   		<field name="model">sale.shop</field>
 	   		<field name="inherit_id" ref="sale.view_shop_form"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="project_id" position="after">
 					<field name="default_fo_category_id" required="1"/>
@@ -71,7 +71,7 @@
 	   		<field name="name">l10n_br_sale.order.form</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
    				<xpath expr="/form/notebook/page/field/form/notebook/page/field[@name='name']" position="after">
 		            	<field name="fiscal_operation_category_id" groups="base.group_sale_salesman" required="1"/>
@@ -84,7 +84,7 @@
 	   		<field name="name">l10n_br_sale.order.form5</field>
 	   		<field name="model">sale.order</field>
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">32</field>
+	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
    				<xpath expr="/form/notebook/page/field/form/notebook/page/field[@name='product_id']" position="replace">
 		            	<field colspan="4" 
