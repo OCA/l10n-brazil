@@ -21,6 +21,7 @@ import sale
 import delivery
 import stock
 import invoice
+import l10n_br_delivery
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
