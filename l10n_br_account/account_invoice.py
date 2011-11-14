@@ -1650,7 +1650,7 @@ class account_invoice(osv.osv):
         result = {'fiscal_operation_id': False, 'fiscal_document_id': False, 'document_serie_id': False}
 
         obj_rule = self.pool.get('account.fiscal.position.rule')
-        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice','=',True)})
+        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice','=',True)})   
 
         result.update(fiscal_result)
 
@@ -1665,10 +1665,10 @@ class account_invoice(osv.osv):
                 raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (obj_company.name,))
             else:
                 result['document_serie_id'] = document_serie_id[0].id
-                
+
             for inv in self.browse(cr,uid,ids):
                 for line in inv.invoice_line:
-                    line.cfop_id = obj_foperation.cfop_id.id
+                        line.cfop_id = obj_foperation.cfop_id.id
 
         return result
 
@@ -1712,18 +1712,46 @@ class account_invoice(osv.osv):
 
         result['value'].update(fiscal_data)
        
-        return result  
-
-    def onchange_cfop_id(self, cr, uid, ids, cfop_id):
+        return result
     
-        if not cfop_id:
-            return False
-        
-        for inv in self.browse(cr, uid, ids):    
-            for inv_line in inv.invoice_line:
-                self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': inv.fiscal_operation_id.cfop_id.id})
-            
-        return {'value': {'cfop_id': cfop_id}}
+    def onchange_fiscal_operation_id(self, cr, uid, ids, partner_address_id=False, partner_id=False, company_id=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
+
+        result = {'value': {} }
+
+        if not company_id or not fiscal_operation_category_id:
+            return result
+
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+        result['value'].update(fiscal_data)
+       
+        if fiscal_operation_id:
+            obj_fiscal_position = self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_operation_id)
+            if not fiscal_operation_id == obj_fiscal_position.fiscal_operation_id.id:
+                obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
+        else:
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, result['value']['fiscal_operation_id'])
+            result['value']['fiscal_position'] = False
+            result['fiscal_document_id'] = False
+            result['document_serie_id'] = False
+            del result['value']['fiscal_operation_id']            
+
+        for inv in self.browse(cr,uid,ids):
+            for line in inv.invoice_line:
+                    line.cfop_id = obj_foperation.cfop_id.id
+
+        return result
+
+    #REMOVE
+    #def onchange_cfop_id(self, cr, uid, ids, cfop_id):
+    #
+    #    if not cfop_id:
+    #        return False
+    #    
+    #    for inv in self.browse(cr, uid, ids):    
+    #        for inv_line in inv.invoice_line:
+    #            self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': inv.fiscal_operation_id.cfop_id.id})
+    #        
+    #    return {'value': {'cfop_id': cfop_id}}
 
 account_invoice()
 
@@ -2103,6 +2131,18 @@ class account_invoice_line(osv.osv):
 
         return result
 
+    #def onchange_fiscal_operation_id(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=False, fiscal_operation_id=False):
+    #
+    #    result = {'value': {'cfop_id': False}}
+    #    print context
+    #    
+    #    if not fiscal_operation_id:
+    #        return result
+   # 
+   #     result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
+   # 
+   #     return result
+
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
 
         result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
@@ -2116,20 +2156,19 @@ class account_invoice_line(osv.osv):
 
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
             
-            if fiscal_operation_id:
-                result['value']['fiscal_operation_id'] = fiscal_operation_id
-                result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
+        if fiscal_operation_id:
+            result['value']['fiscal_operation_id'] = fiscal_operation_id
+            result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
             
             return result
 
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_operation_category_id)
         
         result['value'].update(fiscal_data)
-            
+
         return result
 
 account_invoice_line()
-
 
 class account_invoice_tax(osv.osv):
     _inherit = "account.invoice.tax"
