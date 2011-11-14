@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <!-- Delivery Carriers -->
+		<!-- Delivery Carriers -->
 		<record id="view_l10n_br_delivery_carrier_form" model="ir.ui.view">
 	            <field name="name">l10n_br_delivery.carrier.form</field>
 	            <field name="model">delivery.carrier</field>
@@ -11,27 +11,7 @@
 	            <field name="arch" type="xml">
 	            	<field name="product_id" position="after">
 						<field name="antt_code" />
-						<field colspan="4" mode="tree,form" name="vehicle_ids" nolabel="1" widget="one2many_list">
-                                <form string="Veículos">
-                                	<field name="name"/>
-                                	<field name="description"/>
-                                	<field name="plate"/>
-                                	<field name="driver"/>
-                                	<field name="rntc_code"/>
-                                	<field name="country_id"/>
-                                	<field name="state_id"/>
-                                	<field name="l10n_br_city_id"/>
-                                	<field name="active"/>
-                                	<field name="manufacture_year"/>
-                                	<field name="model_year"/>
-                                	<field name="type"/>
-                                </form>
-                                <tree string="Veículos">
-                                    <field colspan="4" name="name"/>
-                                    <field name="plate" />
-                                    <field name="manufacture_year"/>
-                                </tree>
-						</field>
+						<field colspan="4" name="vehicle_ids" nolabel="1" widget="one2many_list" />
 					</field>
 				</field>
 		</record>
