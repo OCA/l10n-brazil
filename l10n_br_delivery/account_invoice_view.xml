@@ -7,20 +7,22 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_invoice_form10"/>
 			<field name="arch" type="xml">
-				 <field name="document_serie_id" position="after">
-				 	<group name="delivery_info" colspan="4">
-						<separator colspan="4" string="Dados da Transportadora"/>
-						<field colspan="4" name="carrier_id"/>
-						<field name="vehicle_id"/>
-						<field name="incoterm" widget="selection" />
-						<field name="amount_freight"/>
-						<field name="amount_insurance"/>
-						<field name="amount_costs"/>
-						<field name="weight"/>
-						<field name="weight_net"/>
-						<field name="number_of_packages"/>
-					</group>
-				</field>
+				<page position="after" string="CFOP">
+					<page string="Transporte">
+					 	<group name="delivery_info" colspan="4">
+							<separator colspan="4" string="Dados da Transportadora"/>
+							<field colspan="4" name="carrier_id"/>
+							<field name="vehicle_id"/>
+							<field name="incoterm" widget="selection" />
+							<field name="amount_freight"/>
+							<field name="amount_insurance"/>
+							<field name="amount_costs"/>
+							<field name="weight"/>
+							<field name="weight_net"/>
+							<field name="number_of_packages"/>
+						</group>
+					</page>
+				</page>
 			</field>
 		</record>
 		
@@ -29,17 +31,19 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_invoice_supplier_form"/>
 			<field name="arch" type="xml">
-				 <field name="fiscal_document_id" position="after">
-				 	<group name="delivery_info" colspan="4">
-						<separator colspan="4" string="Dados da Transportadora"/>
-						<field colspan="4" name="carrier_id"/>
-						<field name="amount_insurance"/>
-						<field name="amount_costs"/>
-						<field name="weight"/>
-						<field name="weight_net"/>
-						<field name="number_of_packages"/>
-					</group>
-				</field>
+				<page position="after" string="CFOP">
+					<page string="Transporte">
+					 	<group name="delivery_info" colspan="4">
+							<separator colspan="4" string="Dados da Transportadora"/>
+							<field colspan="4" name="carrier_id"/>
+							<field name="amount_insurance"/>
+							<field name="amount_costs"/>
+							<field name="weight"/>
+							<field name="weight_net"/>
+							<field name="number_of_packages"/>
+						</group>
+					</page>
+				</page>
 			</field>
 		</record>
 
