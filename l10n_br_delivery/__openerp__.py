@@ -35,6 +35,8 @@
             		'delivery_view.xml',
             		'sale_view.xml',
             		'stock_view.xml',
+                    'l10n_br_delivery_view.xml',
+                    'security/ir.model.access.csv',
                     ],
     'category' : 'Localisation',
     'active': False,
