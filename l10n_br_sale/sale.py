@@ -278,7 +278,7 @@ class sale_order_line(osv.osv):
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
             uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
 
-        if not fiscal_operation_category_id:
+        if not fiscal_operation_category_id or not product:
             return result
 
         default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_id','=', product),('fiscal_operation_category_source_id','=',fiscal_operation_category_id)])
@@ -289,9 +289,6 @@ class sale_order_line(osv.osv):
             
             if fiscal_operation_id:
                 result['value']['fiscal_operation_id'] = fiscal_operation_id
-            
-            #if fiscal_position:
-            #    result['value']['fiscal_position'] = fiscal_position
             
             return result
 
