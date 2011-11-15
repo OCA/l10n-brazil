@@ -11,7 +11,6 @@
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
 					<field name="fiscal_operation_category_id" domain="[('use_sale','=',True)]" on_change="onchange_fiscal_operation_category_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)" required="1"/>
-
 					<field name="fiscal_operation_id" required="1"/>
 					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
 	        	</field>
@@ -73,7 +72,7 @@
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
-   				<xpath expr="/form/notebook/page/field/form/notebook/page/field[@name='name']" position="after">
+   				<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='name']" position="after">
 		            	<field name="fiscal_operation_category_id" groups="base.group_sale_salesman" required="1"/>
 			   			<field name="fiscal_operation_id" groups="base.group_sale_salesman" required="1"/>
 			   	</xpath>
@@ -86,7 +85,7 @@
 	   		<field name="inherit_id" ref="sale.view_order_form"/>
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
-   				<xpath expr="/form/notebook/page/field/form/notebook/page/field[@name='product_id']" position="replace">
+   				<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_id']" position="replace">
 		            	<field colspan="4" 
                         context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
                         name="product_id"
