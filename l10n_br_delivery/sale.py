@@ -31,7 +31,7 @@ from tools.translate import _
 class sale_order(osv.osv):
     
     _inherit = 'sale.order'
-        
+    
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception'], date_inv = False, context=None):
         
         result = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
