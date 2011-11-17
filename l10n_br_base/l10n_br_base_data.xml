@@ -51,6 +51,12 @@
             <field name="bank_type_id" ref="base.bank_normal"/>
         </record>
         
+        <record id="bank_acc_number_field" model="res.partner.bank.type.field">
+            <field name="name">acc_number</field>
+            <field eval="True" name="required"/>
+            <field name="bank_type_id" ref="base.bank_normal"/>
+        </record>
+        
         <record id="bank_acc_number_dig_field" model="res.partner.bank.type.field">
             <field name="name">acc_number_dig</field>
             <field eval="True" name="required"/>
