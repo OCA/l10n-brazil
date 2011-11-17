@@ -220,7 +220,7 @@
 					<field name="acc_number"/>
 					<field name="acc_number_dig"/>
 					<field name="bra_number"/>
-					<field name="bra_number_dig"/>				
+					<field name="bra_number_dig"/>		
 				</field>
 			</field>
 		</record>
