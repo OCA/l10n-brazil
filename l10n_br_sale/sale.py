@@ -108,8 +108,7 @@ class sale_order(osv.osv):
         company_id = obj_shop.company_id.id
         
         result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id or (obj_shop.default_fo_category_id and obj_shop.default_fo_category_id.id)
-        #if not fiscal_operation_category_id:
-        #   fiscal_operation_category_id = 
+
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_fiscal_position_rule.fiscal_position_map(cr, uid,  partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_sale','=',True)})
         
@@ -353,7 +352,7 @@ sale_order_line()
 # Estabelecimento Customizado
 ##############################################################################
 class sale_shop(osv.osv):
-    
+
     _inherit = 'sale.shop'
     _columns = {
                 'default_fo_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria Fiscal Padrão'),
