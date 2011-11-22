@@ -11,31 +11,30 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
 from osv import osv, fields
 
-##############################################################################
-# Parceiro Personalizado
-##############################################################################
 class res_partner(osv.osv):
+
     _inherit = 'res.partner'
+
     _columns = {
-        'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-        'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-        'inscr_mun': fields.char('Inscr. Municipal', size=18),
-        'suframa': fields.char('Suframa', size=18),
-        'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
-    }
+                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
+                'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
+                'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
+                'inscr_mun': fields.char('Inscr. Municipal', size=18),
+                'suframa': fields.char('Suframa', size=18),
+                'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
+                }
 
     _defaults = {
-        'tipo_pessoa': lambda *a: 'J',
-    }
+                'tipo_pessoa': lambda *a: 'J',
+                }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
         
@@ -283,16 +282,15 @@ class res_partner(osv.osv):
     
 res_partner()
 
-##############################################################################
-# Contato do Parceiro Personalizado
-##############################################################################
 class res_partner_address(osv.osv):
+    
     _inherit = 'res.partner.address'
+
     _columns = {
-	'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
-    'district': fields.char('Bairro', size=32),
-    'number': fields.char('Número', size=10),
-    }
+	            'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
+                'district': fields.char('Bairro', size=32),
+                'number': fields.char('Número', size=10),
+                }
 
     def on_change_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
 
@@ -330,7 +328,7 @@ class res_partner_address(osv.osv):
 res_partner_address()
 
 class res_partner_bank(osv.osv):
-    '''Bank Accounts'''
+
     _inherit = 'res.partner.bank'
 
     _columns = {
