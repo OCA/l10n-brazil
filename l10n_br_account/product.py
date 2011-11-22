@@ -11,25 +11,25 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
 from osv import osv, fields
 
-##############################################################################
-# Produto Customizado
-##############################################################################
 class product_template(osv.osv):
 
     _inherit = 'product.template'
+
     _columns = {
-                'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 'product_id', 'Categoria de Operação Fiscal Padrões'),
+                'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 
+									 'product_id', 'Categoria de Operação Fiscal Padrões'),
                 'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
                 'is_on_service_invoice': fields.boolean('On Service Invoice?', help='True if invoiced along with service'),
                 }
+    
     _defaults = {
                 'fiscal_type': 'product',
                 'is_on_service_invoice': False,
@@ -37,11 +37,10 @@ class product_template(osv.osv):
 
 product_template()
 
-##############################################################################
-# Categorias fiscais de operações padrões por produto
-##############################################################################
 class l10n_br_account_product_fiscal_operation_category(osv.osv):
+
     _name = 'l10n_br_account.product.operation.category'
+
     _columns = {
                 'fiscal_operation_category_source_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Origem'),
                 'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Destino'),
@@ -49,3 +48,5 @@ class l10n_br_account_product_fiscal_operation_category(osv.osv):
                 }
     
 l10n_br_account_product_fiscal_operation_category()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
