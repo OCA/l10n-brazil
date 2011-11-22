@@ -40,7 +40,7 @@
                         <group colspan="8" col="8" states="done">
                             <separator string="" colspan="8"/>
                             <label colspan="6" width="220"/>
-                            <button special="cancel" string="Fechar" icon="gtk-go-forward"/>
+                            <button special="cancel" string="Fechar" icon="gtk-cancel"/>
                         </group>
                     </group>
                 </form>
