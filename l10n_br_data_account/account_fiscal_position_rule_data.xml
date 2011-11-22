@@ -1,0 +1,1747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- Regras de posições fiscais para contribuintes -->
+		<!-- Venda -->
+		<record id="account_fiscal_position_rule_1" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ac" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_2" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_al" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_3" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_am" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_4" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ap" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_5" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ba" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_6" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ce" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_7" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_df" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />	    
+   		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_8" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_es" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_9" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_go" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_10" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ma" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_11" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mg" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_12" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ms" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_13" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mt" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_14" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pa" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_15" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>		    
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pb" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_16" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pe" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_17" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pi" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+   		    <field name="use_sale">True</field>
+		    <field name="use_invoice">True</field>
+		</record>
+
+		<record id="account_fiscal_position_rule_18" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pr" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_19" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rj" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaparadentrodoestado0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_20" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rn" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_21" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ro" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_22" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rr" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_23" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rs" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+   		    <field name="use_sale">True</field>
+		    <field name="use_invoice">True</field>
+		</record>
+
+		<record id="account_fiscal_position_rule_24" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sc" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+
+		<record id="account_fiscal_position_rule_25" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_se" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_26" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Dentro do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sp" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="account_fiscal_position_rule_27" model="account.fiscal.position.rule.template">
+		    <field name="name">Vendas</field>
+		    <field name="description">Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_to" />
+		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<!-- Venda de serviço -->
+		<record id="fiscal_position_rule_servico" model="account.fiscal.position.rule.template">
+		    <field name="name">Venda Serviço</field>
+		    <field name="description">Venda de Serviço</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="fiscal_position_id" ref="template_fp_vendadeservico1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_servico" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<!-- Devolução de Venda -->
+		<record id="fiscal_position_rule_dev_vendas_ac" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ac" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_al" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_al" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_am" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_am" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ap" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ap" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ba" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ba" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+ 		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ce" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ce" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_df" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_df" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />	    
+   		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_es" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_es" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_go" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_go" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ma" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ma" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_mg" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mg" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ms" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ms" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_mt" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mt" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_pa" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pa" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_pb" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>		    
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pb" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_pe" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pe" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_pi" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pi" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_pr" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pr" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_rj" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rj" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaodentrodoestado0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_rn" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rn" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_ro" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ro" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_rr" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rr" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_rs" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rs" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_sc" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sc" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_se" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_se" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_sp" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Dentro do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sp" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_dev_vendas_to" model="account.fiscal.position.rule.template">
+		    <field name="name">Dev Vendas</field>
+		    <field name="description">Devolução de Vendas para Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_to" />
+		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<!-- Simples Remessa -->
+		<record id="fiscal_position_rule_simples_remessa_ac" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ac" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_al" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_al" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_am" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_am" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ap" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ap" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ba" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ba" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ce" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ce" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_df" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_df" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />	    
+   		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_es" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_es" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_go" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_go" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ma" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ma" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_mg" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mg" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ms" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ms" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_mt" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mt" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_pa" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pa" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_pb" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>		    
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pb" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_pe" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pe" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_pi" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pi" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_pr" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pr" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_rj" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rj" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessadentrodoestado0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_rn" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rn" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_ro" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ro" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_rr" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rr" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_rs" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rs" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_sc" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sc" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_se" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_se" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_sp" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Dentro do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sp" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_simples_remessa_to" model="account.fiscal.position.rule.template">
+		    <field name="name">Simples Remessa</field>
+		    <field name="description">Simples Remessa Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_to" />
+		    <field name="fiscal_position_id" ref="template_fp_simplesremessaforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		    <field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<!-- Compras para Indutrialização -->
+		<record id="fiscal_position_rule_compras_ind_ac" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ac" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_al" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_al" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_am" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_am" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ap" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ap" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+   		    <field name="use_purchase">True</field>
+		    <field name="use_invoice">True</field>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ba" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ba" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ce" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ce" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_df" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_df" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />	    
+   		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_es" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_es" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_go" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_go" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ma" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ma" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_mg" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mg" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ms" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ms" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_mt" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_mt" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_pa" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pa" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_pb" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>		    
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pb" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_pe" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pe" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_pi" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pi" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+   		    <field name="use_purchase">True</field>
+		    <field name="use_invoice">True</field>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_pr" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_pr" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_rj" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rj" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasinddentrodoestado0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_rn" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rn" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_ro" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_ro" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_rr" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rr" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_rs" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_rs" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_sc" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sc" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_se" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_se" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_sp" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Dentro do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_sp" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms1" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_position_rule_compras_ind_to" model="account.fiscal.position.rule.template">
+		    <field name="name">Compras Ind</field>
+		    <field name="description">Compras para Industrialização Fora do Estado</field>
+		    <field name="from_country" ref="base.br" />
+		    <field name="from_state" ref="l10n_br_base.br_rj" />
+		    <field name="to_country" ref="base.br" />
+		    <field name="to_state" ref="l10n_br_base.br_to" />
+		    <field name="fiscal_position_id" ref="template_fp_comprasindforadoestadoicms0" />
+		    <field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+	</data>
+</openerp>

@@ -77,17 +77,17 @@ class stock_picking(osv.osv):
 
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
-        
+
         fiscal_operation_id = fiscal_operation_category_id = False
-        
+
         if move_line.sale_line_id:
             fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id 
             fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
-        
+
         if move_line.purchase_line_id:
             fiscal_operation_id = move_line.purchase_line_id.fiscal_operation_id or move_line.purchase_line_id.order_id.fiscal_operation_id 
             fiscal_operation_category_id = move_line.purchase_line_id.fiscal_operation_category_id or move_line.purchase_line_id.order_id.fiscal_operation_category_id       
-        
+
         if not move_line.purchase_line_id and not move_line.sale_line_id:
             fiscal_operation_id = move_line.picking_id.fiscal_operation_id
             fiscal_operation_category_id = move_line.picking_id.fiscal_operation_category_id

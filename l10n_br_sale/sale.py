@@ -152,7 +152,7 @@ class sale_order(osv.osv):
         if lines_service:
             inv_id_service =  super(sale_order, self)._make_invoice(cr, uid, order, lines_service, context=None)
             inv_ids.append(inv_id_service)
-        
+
         if lines_product:
             inv_id_product =  super(sale_order, self)._make_invoice(cr, uid, order, lines_product, context=None)
             inv_ids.append(inv_id_product)

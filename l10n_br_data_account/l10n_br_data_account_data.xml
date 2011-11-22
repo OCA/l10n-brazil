@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- l10n_br_account.fiscal.operation.category -->
+		<record id="fo_category_devolucao_venda" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">DevoluçãoVenda</field>
+			<field name="name">Devolução de Venda</field>
+			<field name="type">input</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fo_category_venda" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Venda</field>
+			<field name="name">Venda</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fo_category_servico" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Venda de Serviço</field>
+			<field name="name">Venda de Serviço</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">service</field>
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">SimplesRemessa</field>
+			<field name="name">Simples Remessa</field>
+			<field name="type">output</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+	
+		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Compras para Ind</field>
+			<field name="name">Compras para Industrialização</field>
+			<field name="type">input</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<!-- l10n_br_account.fiscal.operation -->
+		<record id="fiscal_operation_devolucao_venda_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">Devolução</field>
+			<field name="name">Devolução Dentro do Estado</field>
+			<field name="type">input</field>
+			<field name="cfop_id" ref="cfop_309" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_devolucao_venda_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">Devolução</field>
+			<field name="name">Devolução Fora do Estado</field>
+			<field name="type">input</field>
+			<field name="cfop_id" ref="cfop_461" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_venda_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">venda</field>
+			<field name="name">Venda para Dentro do Estado para Contribuinte</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field name="cfop_id" ref="cfop_280" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_venda" />
+			<field name="refund_fiscal_operation_id" ref="fiscal_operation_devolucao_venda_interna" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_venda_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">Venda</field>
+			<field name="name">Venda para Fora do Estado para Contribuinte</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field name="cfop_id" ref="cfop_430" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_venda" />
+			<field name="refund_fiscal_operation_id" ref="fiscal_operation_devolucao_venda_externa" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_revenda_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">Revenda</field>
+			<field name="name">Revenda para Dentro do Estado para Contribuinte</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field name="cfop_id" ref="cfop_281" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_venda" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_revenda_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">Revenda</field>
+			<field name="name">Revenda para Fora do Estado para Contribuinte</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field name="cfop_id" ref="cfop_431" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_venda" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<record id="fiscal_operation_servico" model="l10n_br_account.fiscal.operation">
+			<field name="code">Venda de Serviço</field>
+			<field name="name">Venda de Serviço</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">service</field>
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_servico" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_simples_remessa_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">SimplesRemessa</field>
+			<field name="name">Simples Remessa Dentro do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="cfop_427" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_simples_remessa_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">SimplesRemessa</field>
+			<field name="name">Simples Remessa Fora do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="cfop_571" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_compras_ind_interno" model="l10n_br_account.fiscal.operation">
+			<field name="code">ComprasInd</field>
+			<field name="name">Remessa de Compras para Manufatura de Dentro do Estado</field>
+			<field name="type">input</field>
+			<field name="cfop_id" ref="cfop_3" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>		
+		</record>
+	
+		<record id="fiscal_operation_compras_ind_externo" model="l10n_br_account.fiscal.operation">
+			<field name="code">ComprasInd</field>
+			<field name="name">Remessa de Compras para Manufatura de Fora do Estado</field>
+			<field name="type">input</field>
+			<field name="cfop_id" ref="cfop_123" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>					
+		</record>
+
+		<!-- res.company -->
+		<record id="base.main_company" model="res.company">
+			<field ref="fo_category_compras_ind" name="purchase_fiscal_category_operation_id" />
+			<field ref="fo_category_simples_remessa" name="stock_fiscal_category_operation_id" />
+		</record>
+
+		<!-- account.fiscal.position -->
+		<record id="template_fp_vendaparadentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Venda para Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendaforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+
+		<record id="template_fp_vendaforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_revendademercadoriasparadentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_revenda_interna"/>
+		</record>
+		
+		<record id="template_fp_revendademercadoriasparaforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_revenda_externa"/>
+		</record>
+
+		<record id="fp_revendademercadoriasparaforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_revenda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendadeservico1" model="account.fiscal.position.template">
+			<field name="name">Venda de Serviço</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_servico"/>
+		</record>
+
+		<record id="template_fp_devolucaodentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Devolução Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_devolucao_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_devolucaoforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Devolução Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_devolucao_venda_externa"/>
+		</record>
+
+		<record id="template_fp_devolucaoforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Devolução Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_devolucao_venda_externa"/>
+		</record>
+
+		<record id="template_fp_simplesremessadentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_simples_remessa_interna"/>
+		</record>
+		
+		<record id="template_fp_simplesremessaforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_simples_remessa_externa"/>
+		</record>
+
+		<record id="template_fp_simplesremessaforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_simples_remessa_externa"/>
+		</record>
+
+		<record id="template_fp_comprasinddentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_compras_ind_interno"/>
+		</record>
+		
+		<record id="template_fp_comprasindforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_compras_ind_externo"/>
+		</record>
+
+		<record id="template_fp_comprasindforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_compras_ind_externo"/>
+		</record>
+
+	</data>
+</openerp>
