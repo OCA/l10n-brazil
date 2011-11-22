@@ -11,34 +11,37 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
 from osv import osv, fields
 
-##############################################################################
-# Modelo de Regras de Posições Fiscais Personalizadas
-##############################################################################
 class account_fiscal_position_rule_template(osv.osv):
+    
     _inherit = 'account.fiscal.position.rule.template'
 
     _columns = {
                 'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
-                'use_picking' : fields.boolean('Use in Picking'),
                 }
 
 account_fiscal_position_rule_template()
 
 class account_fiscal_position_rule(osv.osv):
+    
     _inherit = 'account.fiscal.position.rule'
+    
+    _columns = {
+            'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+            'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+            }
 
     def fiscal_position_map(self, cr, uid, partner_id=False, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False, context=None):
 
-        # initiate result
+        #Initiate variable result
         result = {'fiscal_position': False, 'fiscal_operation_id': False}
 
         if partner_id == False or not partner_invoice_id or company_id == False or fiscal_operation_category_id == False:
@@ -47,13 +50,13 @@ class account_fiscal_position_rule(osv.osv):
         obj_partner = self.pool.get("res.partner").browse(cr, uid, partner_id)
         obj_company = self.pool.get("res.company").browse(cr, uid, company_id)
 		
-        #Case 1: Parnter Specific Fiscal Posigion
+        #Case 1: If Partner has Specific Fiscal Posigion
         if obj_partner.property_account_position.id:
             result['fiscal_position'] = obj_partner.property_account_position.id
             result['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
             return result
 		
-		#Case 2: Rule based determination
+		#Case 2: Search fiscal position using Account Fiscal Position Rule
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
         
@@ -85,26 +88,62 @@ class account_fiscal_position_rule(osv.osv):
             result['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
         
         return result
-
-    #def fiscal_position_map_purchase(self, cr, uid, partner_address_id=False, partner_id=False, company_id=False, fiscal_operation_category_id=False):
-
-    #    result = self._fiscal_position_map(cr, uid, partner_address_id, partner_id, partner_id, company_id, fiscal_operation_category_id, False, {'use_domain': [('use_purchase','=',True)]})
-        
-    #    return result
-
-    def fiscal_position_map_stock(self, cr, uid, partner_id=False, company_id=False, fiscal_operation_category_id=False):
-
-        result = self._fiscal_position_map(cr, uid, partner_id, partner_id, partner_id, company_id, fiscal_operation_category_id, False, [('use_picking', '=', True)])
-        
-        return result
-
-    _columns = {
-                'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
-                'use_picking' : fields.boolean('Use in Picking'),
-                }
-    
     
 account_fiscal_position_rule()
+
+class wizard_account_fiscal_position_rule(osv.osv_memory):
+    
+    _inherit = 'wizard.account.fiscal.position.rule'
+    
+    def action_create(self, cr, uid, ids, context=None):
+
+        super(wizard_account_fiscal_position_rule, self).action_create(cr, uid, ids, context)
+
+        obj_wizard = self.browse(cr,uid,ids[0])
+
+        obj_fiscal_position = self.pool.get('account.fiscal.position.rule')
+        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
+        obj_fiscal_position_rule_template = self.pool.get('account.fiscal.position.rule.template')
+
+        company_id = obj_wizard.company_id.id
+
+        pfr_ids = obj_fiscal_position_rule_template.search(cr, uid, [])
+
+        for fpr_template in obj_fiscal_position_rule_template.browse(cr, uid, pfr_ids):
+
+            from_country = fpr_template.from_country.id or False
+            from_state = fpr_template.from_state.id or False
+            to_country = fpr_template.to_country.id or False
+            to_state = fpr_template.to_state.id or False
+            partner_fiscal_type_id = fpr_template.partner_fiscal_type_id.id or False
+            fiscal_operation_category_id = fpr_template.fiscal_operation_category_id.id or False
+            
+            
+            fiscal_position_id = False
+            fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fpr_template.fiscal_position_id.name),('company_id','=',company_id)])
+            
+            if fp_id:
+                fiscal_position_id = fp_id[0]
+            
+            fpr_id = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr_template.name),
+                                                               ('company_id','=',company_id),
+                                                               ('description','=',fpr_template.description),
+                                                               ('from_country','=',from_country),
+                                                               ('from_state','=',from_state),
+                                                               ('to_country','=',to_country),
+                                                               ('to_state','=',to_state),
+                                                               ('use_sale','=',fpr_template.use_sale),
+                                                               ('use_invoice','=',fpr_template.use_invoice),
+                                                               ('use_purchase','=',fpr_template.use_purchase),
+                                                               ('use_picking','=',fpr_template.use_picking),
+                                                               ('fiscal_position_id','=',fiscal_position_id),
+                                                               ])
+
+            if fpr_id:
+                obj_fiscal_position_rule.write(cr, uid, fpr_id, {'partner_fiscal_type_id': fp_template.partner_fiscal_type_id.id, 'fiscal_operation_category_id': fp_template.fiscal_operation_category_id.id})
+
+        return {}
+
+wizard_account_fiscal_position_rule()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

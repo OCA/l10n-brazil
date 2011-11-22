@@ -26,14 +26,13 @@
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends' : [
-        'l10n_br',
-		'l10n_br_base', 
-		'account_fiscal_position_rule', 
-		'account_product_fiscal_classification'
-		],
+                'l10n_br',
+        		'l10n_br_base', 
+        		'account_fiscal_position_rule', 
+        		'account_product_fiscal_classification'
+		        ],
     'init_xml': [
-#		'data/l10n_br_account.cst.csv',
-		],
+                 ],
     'update_xml' : [
                     'account_view.xml',
                     'account_fiscal_position_rule_view.xml',
