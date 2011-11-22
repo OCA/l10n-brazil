@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -37,7 +37,7 @@ class account_journal(osv.osv):
     _columns = {
                 'revenue_expense' : fields.boolean('Gera Financeiro'),
                 }
-    
+
 account_journal()
 
 class account_tax(osv.osv):
@@ -126,7 +126,6 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         obj_fiscal_position_template = self.pool.get('account.fiscal.position.template')
         obj_fiscal_position = self.pool.get('account.fiscal.position')
 
-        # Creating Account
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
         
@@ -140,4 +139,4 @@ class wizard_multi_charts_accounts(osv.osv_memory):
 
 wizard_multi_charts_accounts()
 
-    
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
