@@ -32,6 +32,14 @@ res_partner()
 ##############################################################################
 # Posição Fiscal Personalizada
 ##############################################################################
+class account_fiscal_position_template(osv.osv):
+    _inherit = 'account.fiscal.position.template'
+    _columns = {
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal'),
+                }
+        
+account_fiscal_position_template()
+
 class account_fiscal_position(osv.osv):
     _inherit = 'account.fiscal.position'
     _columns = {

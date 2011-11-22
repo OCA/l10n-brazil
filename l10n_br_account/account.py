@@ -114,4 +114,30 @@ class account_tax(osv.osv):
         
 account_tax()
 
+class wizard_multi_charts_accounts(osv.osv_memory):
+
+    _inherit = 'wizard.multi.charts.accounts'
+    
+    def execute(self, cr, uid, ids, context=None):
+        
+        super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
+        
+        obj_multi = self.browse(cr, uid, ids[0])
+        obj_fiscal_position_template = self.pool.get('account.fiscal.position.template')
+        obj_fiscal_position = self.pool.get('account.fiscal.position')
+
+        # Creating Account
+        chart_template_id = obj_multi.chart_template_id.id
+        company_id = obj_multi.company_id.id
+        
+        fp_template_ids = obj_fiscal_position_template.search(cr, uid, [('chart_template_id', '=', chart_template_id)])
+        
+        for fp_template in obj_fiscal_position_template.browse(cr, uid, fp_template_ids, context=context):
+            if fp_template.fiscal_operation_id:
+                fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fp_template.name),('company_id','=',company_id)])
+                if fp_id:
+                    obj_fiscal_position.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
+
+wizard_multi_charts_accounts()
+
     
