@@ -11,15 +11,16 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
 from osv import fields,osv
 
 class delivery_carrier(osv.osv):
+
     _inherit = "delivery.carrier"
 
     _columns = {
@@ -30,4 +31,3 @@ class delivery_carrier(osv.osv):
 delivery_carrier()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
