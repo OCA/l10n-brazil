@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -22,7 +22,6 @@ from tools.translate import _
 import re
 
 class crm_lead2partner(osv.osv_memory):
-    """ Converts lead to partner """
 
     _inherit = 'crm.lead2partner'
     
@@ -37,6 +36,7 @@ class crm_lead2partner(osv.osv_memory):
 
         @return : Dictionary {}.
         """
+
         if context is None:
             context = {}
 
