@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -21,54 +21,63 @@ from osv import osv, fields
 from tools.translate import _
 
 class stock_picking(osv.osv):
+    
     _inherit = "stock.picking"
     _description = "Picking List"
 
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]"),
-                'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal', domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal',
+                                                       domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]"),
+                'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal',
+                                                   domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
+
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)       
         return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id or False
     
     _defaults = {
-        'fiscal_operation_category_id': _default_fiscal_operation_category,
-    }
+                'fiscal_operation_category_id': _default_fiscal_operation_category,
+                }
 
-    def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False):
+    def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False, 
+                             company_id=False, fiscal_operation_category_id=False):
 
-        rule = self.pool.get('account.fiscal.position.rule')
+        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
         
-        result = rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_picking','=',True)})
+        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, 
+                                                              company_id, fiscal_operation_category_id, 
+                                                              context={'use_domain': ('use_picking','=',True)})
         
         return result
 
-    def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,company_id=False,fiscal_operation_category_id=False):
+    def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,
+                            company_id=False,fiscal_operation_category_id=False):
 
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_address_id)
 
         if not result or not partner_address_id:
-            result = {'value': {} }
+            result = {'value': {}}
         
-        obj_partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-        partner_id =  obj_partner_addr.partner_id and obj_partner_addr.partner_id.id
+        partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+        partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
         fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
         
         return result
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, company_id=False, fiscal_operation_category_id=False):
+    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, 
+                                              company_id=False, fiscal_operation_category_id=False):
         
         result = {'value': {} }
         
         if not partner_address_id:
             return result
         
-        obj_partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-        partner_id =  obj_partner_addr.partner_id and obj_partner_addr.partner_id.id
+        partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+        partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
         fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
 
@@ -136,3 +145,5 @@ class stock_picking(osv.osv):
         return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
 
 stock_picking()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

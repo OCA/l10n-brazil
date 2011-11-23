@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -22,8 +22,11 @@ from osv import fields, osv
 from tools.translate import _
 
 class stock_invoice_onshipping(osv.osv_memory):
+    
+    _inherit = "stock.invoice.onshipping"
 
     def _get_journal_id(self, cr, uid, context=None):
+
         if context is None:
             context = {}
 
@@ -54,8 +57,6 @@ class stock_invoice_onshipping(osv.osv_memory):
                    t1 = jr_type.id,jr_type.name
                    vals.append(t1)
         return vals
-
-    _inherit = "stock.invoice.onshipping"
 
     _columns = {
                 'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),

@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -25,14 +25,12 @@ import pooler
 from tools import config
 from tools.translate import _
 
-##############################################################################
-# Pedido de venda customizado
-##############################################################################
 class sale_order(osv.osv):
     
     _inherit = 'sale.order'
     
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception'], date_inv = False, context=None):
+    def action_invoice_create(self, cr, uid, ids, grouped=False, \ 
+                              states=['confirmed', 'done', 'exception'], date_inv = False, context=None):
         
         result = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_inv, context)
         
@@ -73,10 +71,8 @@ class sale_order(osv.osv):
     
 sale_order()
 
-##############################################################################
-# Linha da Ordem de Venda Customizada
-##############################################################################
 class sale_order_line(osv.osv):
+    
     _inherit = 'sale.order.line'
     
     def create_sale_order_line_invoice(self, cr, uid, ids, context=None):
