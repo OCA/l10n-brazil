@@ -11,9 +11,9 @@
 #This program is distributed in the hope that it will be useful,                #
 #but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
+#GNU Affero General Public License for more details.                            #
 #                                                                               #
-#You should have received a copy of the GNU General Public License              #
+#You should have received a copy of the GNU Affero General Public License       #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
@@ -28,10 +28,8 @@ from tools.translate import _
 import decimal_precision as dp
 from osv.orm import browse_record, browse_null
 
-##############################################################################
-# Ordem de Compra Customizada
-##############################################################################
 class purchase_order(osv.osv):
+    
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -63,40 +61,44 @@ class purchase_order(osv.osv):
         return result.keys()
     
     _columns = {
-        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]" ),
-        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),(type,'=','input'),('use_purchase','=',True)]" ),
-        'amount_untaxed': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'), string='Untaxed Amount',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums", help="The amount without tax"),
-        'amount_tax': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'), string='Taxes',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums", help="The tax amount"),
-        'amount_total': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'), string='Total',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums",help="The total amount"),
-    }
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category',
+                                                                'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]" ),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal',
+                                                       domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),(type,'=','input'),('use_purchase','=',True)]"),
+                'amount_untaxed': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'),
+                                                  string='Untaxed Amount', store={'purchase.order.line': (_get_order, None, 10),},
+                                                  multi="sums", help="The amount without tax"),
+                'amount_tax': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'), 
+                                              string='Taxes', store={'purchase.order.line': (_get_order, None, 10),}, 
+                                              multi="sums", help="The tax amount"),
+                'amount_total': fields.function(_amount_all, method=True, digits_compute= dp.get_precision('Purchase Price'),
+                                                string='Total', store={'purchase.order.line': (_get_order, None, 10),},
+                                                multi="sums",help="The total amount"),
+                }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
+
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+
         return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
     
     _defaults = {
-        'fiscal_operation_category_id': _default_fiscal_operation_category,
-    }
+                'fiscal_operation_category_id': _default_fiscal_operation_category,
+                }
 
     
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
 
-        rule = self.pool.get('account.fiscal.position.rule')
+        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
 	    
-        result = rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_purchase', '=', True)})
+        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, \
+                                                              fiscal_operation_category_id, \
+                                                              context={'use_domain': ('use_purchase', '=', True)})
 
         return result
         
-    def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
+    def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \ 
+                            company_id=False, fiscal_operation_category_id=False):
 
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
 
@@ -110,7 +112,8 @@ class purchase_order(osv.osv):
         return result
 
 
-    def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
+    def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \
+                                    company_id=False, fiscal_operation_category_id=False):
         
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
 
@@ -121,9 +124,10 @@ class purchase_order(osv.osv):
         return result
 
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, company_id=False, fiscal_operation_category_id=False):
+    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \ 
+                                              company_id=False, fiscal_operation_category_id=False):
         
-        result = {'value': {} }
+        result = {'value': {}}
 
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
 
@@ -200,24 +204,28 @@ class purchase_order(osv.osv):
     
 purchase_order()
 
-
-##############################################################################
-# Linhas da Ordem de Compra Customizada
-##############################################################################
 class purchase_order_line(osv.osv):
+    
     _inherit = 'purchase.order.line'
+
     _columns = {
-        'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]"),
-        'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','input'),('use_purchase','=',True)]" ),
-        'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True, domain="[('fiscal_operation_id','=',fiscal_operation_id)]", states={'draft':[('readonly',False)]}),
-    }
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria',
+                                                                domain="[('type','=','input'),('use_purchase','=',True)]"),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal',
+                                                       domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','input'),('use_purchase','=',True)]" ),
+                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True,
+                                                   domain="[('fiscal_operation_id','=',fiscal_operation_id)]", 
+                                                   states={'draft':[('readonly',False)]}),
+                }
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
-            partner_id, date_order=False, fiscal_position=False, date_planned=False,
-            name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False, fiscal_operation_id=False):
+                          partner_id, date_order=False, fiscal_position=False, date_planned=False,
+                          name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False,
+                          fiscal_operation_id=False):
         
         result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
-            partner_id, date_order, fiscal_position, date_planned, name, price_unit, notes)
+                                                                    partner_id, date_order, fiscal_position, 
+                                                                    date_planned, name, price_unit, notes)
 
         if fiscal_operation_category_id:
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
@@ -231,3 +239,5 @@ class purchase_order_line(osv.osv):
         return result
 
 purchase_order_line()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
