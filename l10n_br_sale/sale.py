@@ -28,7 +28,7 @@ from tools.translate import _
 class sale_shop(osv.osv):
 
     _inherit = 'sale.shop'
-
+    
     _columns = {
                 'default_fo_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria Fiscal Padrão'),
     }
@@ -38,6 +38,26 @@ sale_shop()
 class sale_order(osv.osv):
     
     _inherit = 'sale.order'
+
+    def _get_order(self, cr, uid, ids, context={}):
+        result = super(sale_order, self)._get_order(cr, uid, ids, context)
+        return result.keys()
+
+    def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
+        res = {}
+        for sale in self.browse(cursor, user, ids, context=context):
+            if sale.invoiced:
+                res[sale.id] = 100.0
+                continue
+            tot = 0.0
+            for invoice in sale.invoice_ids:
+                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_operation_id.id == sale.fiscal_operation_id.id:
+                    tot += invoice.amount_untaxed - invoice.residual
+            if tot:
+                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
+            else:
+                res[sale.id] = 0.0
+        return res
 
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria',
@@ -253,26 +273,6 @@ class sale_order(osv.osv):
             if not tax_brw.tax_code_id.tax_discount:
                 val += c.get('amount', 0.0)
         return val
-
-    def _get_order(self, cr, uid, ids, context={}):
-        result = super(sale_order, self)._get_order(cr, uid, ids, context)
-        return result.keys()
-
-    def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
-        res = {}
-        for sale in self.browse(cursor, user, ids, context=context):
-            if sale.invoiced:
-                res[sale.id] = 100.0
-                continue
-            tot = 0.0
-            for invoice in sale.invoice_ids:
-                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_operation_id.id == sale.fiscal_operation_id.id:
-                    tot += invoice.amount_untaxed - invoice.residual
-            if tot:
-                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
-            else:
-                res[sale.id] = 0.0
-        return res
     
 sale_order()
 
