@@ -91,13 +91,13 @@ class purchase_order(osv.osv):
 
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
 	    
-        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, \
-                                                              fiscal_operation_category_id, \
+        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id,
+                                                              fiscal_operation_category_id,
                                                               context={'use_domain': ('use_purchase', '=', True)})
 
         return result
         
-    def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \ 
+    def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False,
                             company_id=False, fiscal_operation_category_id=False):
 
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
@@ -112,7 +112,7 @@ class purchase_order(osv.osv):
         return result
 
 
-    def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \
+    def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False,
                                     company_id=False, fiscal_operation_category_id=False):
         
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
@@ -124,7 +124,7 @@ class purchase_order(osv.osv):
         return result
 
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, \ 
+    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, 
                                               company_id=False, fiscal_operation_category_id=False):
         
         result = {'value': {}}
