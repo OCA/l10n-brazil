@@ -41,6 +41,7 @@ class account_journal(osv.osv):
 account_journal()
 
 class account_tax(osv.osv):
+    
     _inherit = 'account.tax'
     
     def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None):
@@ -50,7 +51,7 @@ class account_tax(osv.osv):
                 'total_included': 0.0,        # Total with taxes
                 'total_tax_discount': 0.0,    # Total Tax Discounts
                 'taxes': []                   # List of taxes, see compute for the format
-                        'total_base': 0.0,            # Total Base by tax
+                'total_base': 0.0,            # Total Base by tax
             }
         """
         
