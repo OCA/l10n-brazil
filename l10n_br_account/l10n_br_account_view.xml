@@ -227,6 +227,7 @@
 						<field name="name" colspan="4" select="1"/>
 						<field name="fiscal_document_id" select="1"/>
 						<field name="fiscal_type" select="1"/>
+						<field name="internal_sequence_id" select="1"/>
 						<field name="company_id"/>
 					</form>
 				</field>

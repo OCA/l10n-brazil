@@ -194,14 +194,42 @@ class l10n_br_account_document_serie(osv.osv):
                 'code': fields.char('Código', size=3, required=True),
                 'name': fields.char('Descrição', size=64),
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
-                'company_id': fields.many2one('res.company', 'Empresa', requeried=True),
-                'active':fields.boolean('Ativo'),
-                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
+                'company_id': fields.many2one('res.company', 'Company', requeried=True),
+                'active':fields.boolean('Active'),
+                'fiscal_type': fields.selection([('product', 'Product'), ('service', 'Service')], 'Tipo Fiscal', requeried=True),
+                'internal_sequence_id': fields.many2one('ir.sequence', 'Sequência Interna'),
                 }
 
     _defaults = {
-                 'active': True,
-                 }
+                'active': True,
+                }
+    
+    def create_sequence(self, cr, uid, vals, context=None):
+        """ Create new no_gap entry sequence for every new Joural
+        """
+
+        prefix = vals['code'].upper()
+
+        seq = {
+               'name': vals['name'],
+               'implementation':'no_gap',
+               'padding': 1,
+               'number_increment': 1
+               }
+        
+        if 'company_id' in vals:
+            seq['company_id'] = vals['company_id']
+        
+        return self.pool.get('ir.sequence').create(cr, uid, seq)
+
+    def create(self, cr, uid, vals, context=None):
+        """ Overwrite method to before create one new ir.sequence if this field is null
+        """
+        
+        if not 'internal_sequence_id' in vals or not vals['internal_sequence_id']:
+            vals.update({'internal_sequence_id': self.create_sequence(cr, uid, vals, context)})
+        
+        return super(l10n_br_account_document_serie, self).create(cr, uid, vals, context)
 
 l10n_br_account_document_serie()
 
