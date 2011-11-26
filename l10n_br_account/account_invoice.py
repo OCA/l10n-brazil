@@ -380,7 +380,7 @@ class account_invoice(osv.osv):
         for obj_inv in self.browse(cr, uid, ids):
             if obj_inv.own_invoice:
                 obj_sequence = self.pool.get('ir.sequence')
-                seq_no = obj_sequence.get_id(cr, uid, obj_inv.journal_id.internal_sequence.id, context=context)
+                seq_no = obj_sequence.get_id(cr, uid, obj_inv.document_serie_id.internal_sequence_id.id, context=context)
                 self.write(cr, uid, obj_inv.id, {'internal_number': seq_no})
         
         return True
@@ -479,8 +479,8 @@ class account_invoice(osv.osv):
             #if not inv.date_invoice:
             #    strErro = 'Nota Fiscal - Data da nota fiscal\n'
             
-            if not inv.journal_id.internal_sequence:
-                strErro = 'Nota Fiscal - Numero da nota fiscal, o diário deve ter uma sequencia interna\n'
+            if not inv.document_serie_id.internal_sequence_id:
+                strErro = 'Nota Fiscal - Numero da nota fiscal, a série deve ter uma sequencia interna\n'
 
             #Emitente
             if not inv.company_id.partner_id.legal_name:
@@ -1710,7 +1710,7 @@ class account_invoice(osv.osv):
         result['value'].update(fiscal_data)
        
         return result
-    
+
     def onchange_fiscal_operation_id(self, cr, uid, ids, partner_address_id=False, partner_id=False, company_id=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
 
         result = {'value': {} }
@@ -1722,33 +1722,21 @@ class account_invoice(osv.osv):
         result['value'].update(fiscal_data)
        
         if fiscal_operation_id:
-            obj_fiscal_position = self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_operation_id)
-            if not fiscal_operation_id == obj_fiscal_position.fiscal_operation_id.id:
-                obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
-        else:
-            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, result['value']['fiscal_operation_id'])
+        #    obj_fiscal_position = self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_operation_id)
+        #    if not fiscal_operation_id == obj_fiscal_position.fiscal_operation_id.id:
+        #        obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
+        #else:
+            obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
             result['value']['fiscal_position'] = False
-            result['fiscal_document_id'] = False
-            result['document_serie_id'] = False
-            del result['value']['fiscal_operation_id']            
+            result['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
+            #result['document_serie_id'] = obj_foperation.document_serie_id.id
+            del result['value']['fiscal_operation_id']
 
         for inv in self.browse(cr,uid,ids):
             for line in inv.invoice_line:
                     line.cfop_id = obj_foperation.cfop_id.id
 
         return result
-
-    #REMOVE
-    #def onchange_cfop_id(self, cr, uid, ids, cfop_id):
-    #
-    #    if not cfop_id:
-    #        return False
-    #    
-    #    for inv in self.browse(cr, uid, ids):    
-    #        for inv_line in inv.invoice_line:
-    #            self.pool.get('account.invoice.line').write(cr, uid, inv_line.id, {'cfop_id': inv.fiscal_operation_id.cfop_id.id})
-    #        
-    #    return {'value': {'cfop_id': cfop_id}}
 
 account_invoice()
 
