@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="base.view_res_partner_filter"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field name="cnpj_cpf" /> 	
+					<field name="cnpj_cpf" />
 				</field>
 			</field>
 		</record>
@@ -61,7 +61,7 @@
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='zip']" position="replace">
 						<field name="zip" />
-						<button name="%(action_l10n_br_base_cep_search)d" colspan="2" string="Pesquisar CEP" type="action" icon="gtk-select-all"/>
+						<button name="zip_search" colspan="2" string="Pesquisar CEP" type="object" icon="gtk-select-all"/>
         			</xpath>
         		</field>
    		</record>
@@ -73,7 +73,7 @@
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='state_id']" position="after">
-						<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
         			</xpath>
         		</field>
    		</record>
@@ -116,7 +116,7 @@
 			<field name="arch" type="xml">
 				<field name="zip" position="replace">
 					<field name="zip" />
-					<button name="%(action_l10n_br_base_cep_search)d" string="Pesquisar CEP" colspan="2" type="action" icon="gtk-select-all"/>
+					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
 				</field>
 
 			</field>
