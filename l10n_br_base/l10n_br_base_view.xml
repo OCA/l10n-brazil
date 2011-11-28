@@ -31,9 +31,9 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_base_cep_tree">
-			<field name="name">l10n_br_base.cep</field>
-			<field name="model">l10n_br_base.cep</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_zip_tree">
+			<field name="name">l10n_br_base.zip</field>
+			<field name="model">l10n_br_base.zip</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="CEPs">
@@ -44,9 +44,9 @@
 			</field>
  		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_base_cep_form">
-			<field name="name">l10n_br_base.cep</field>
-			<field name="model">l10n_br_base.cep</field>
+		<record model="ir.ui.view" id="view_l10n_br_base_zip_form">
+			<field name="name">l10n_br_base.zip</field>
+			<field name="model">l10n_br_base.zip</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="CEPs">
@@ -100,18 +100,18 @@
 				<field name="view_id" ref="view_l10n_br_base_city_tree"/>
 			</record>
 	
-			<record model="ir.actions.act_window" id="action_l10n_br_base_cep_form">
+			<record model="ir.actions.act_window" id="action_l10n_br_base_zip_form">
 				<field name="name">CEPs</field>
 				<field name="type">ir.actions.act_window</field>
-				<field name="res_model">l10n_br_base.cep</field>
+				<field name="res_model">l10n_br_base.zip</field>
 				<field name="view_mode">tree,form</field>
 				<field name="view_type">form</field>
-				<field name="view_id" ref="view_l10n_br_base_cep_tree"/>
+				<field name="view_id" ref="view_l10n_br_base_zip_tree"/>
 			</record>
 		
 	       	<menuitem id="menu_l10n_br_base_fiscal" name="Fiscal" parent="menu_l10n_br_base_configuration" sequence="0"/>
 
-			<menuitem name="CEPs" id="menu_action_l10n_br_base_cep_form" parent="base.menu_localisation" action="action_l10n_br_base_cep_form"/>
+			<menuitem name="CEPs" id="menu_action_l10n_br_base_zip_form" parent="base.menu_localisation" action="action_l10n_br_base_zip_form"/>
 	
 			<menuitem name="Municípios" id="menu_action_l10n_br_base_city_form" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
 
