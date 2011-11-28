@@ -197,7 +197,7 @@ class l10n_br_account_document_serie(osv.osv):
                 'company_id': fields.many2one('res.company', 'Company', requeried=True),
                 'active':fields.boolean('Active'),
                 'fiscal_type': fields.selection([('product', 'Product'), ('service', 'Service')], 'Tipo Fiscal', requeried=True),
-                'internal_sequence_id': fields.many2one('ir.sequence', 'Sequência Interna'),
+                'internal_sequence_id': fields.many2one('ir.sequence', 'Sequência Interna', requeried=True),
                 }
 
     _defaults = {
@@ -205,7 +205,7 @@ class l10n_br_account_document_serie(osv.osv):
                 }
     
     def create_sequence(self, cr, uid, vals, context=None):
-        """ Create new no_gap entry sequence for every new Joural
+        """ Create new no_gap entry sequence for every new document serie
         """
 
         prefix = vals['code'].upper()
