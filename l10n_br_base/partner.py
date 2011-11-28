@@ -277,9 +277,6 @@ class res_partner(osv.osv):
         
         return {'value': {'tipo_pessoa': tipo_pessoa, 'cnpj_cpf': cnpj_cpf}}
     
-    def zip_search(self, cr, uid, ids, context={}):
-        return True    
-    
 res_partner()
 
 class res_partner_address(osv.osv):
@@ -307,21 +304,21 @@ class res_partner_address(osv.osv):
 
         return {'value': result}
 
-    def on_change_zip(self, cr, uid, ids, zip):
+    def zip_search(self, cr, uid, ids, context=None):
         
         result = {'value': {'street': None, 'l10n_br_city_id': None, 'city': None, 'state_id': None, 'country_id': None, 'zip': None }}
 
         if not zip:
             return result
         
-        obj_cep = self.pool.get('l10n_br_base.cep').browse(cr, uid, zip)
+        obj_zip = self.pool.get('l10n_br_base.zip').browse(cr, uid, zip)
         
-        result['value']['street'] = obj_cep.street_type + ' ' + obj_cep.street
-        result['value']['l10n_br_city_id'] = obj_cep.l10n_br_city_id.id
-        result['value']['city'] = obj_cep.l10n_br_city_id.name
-        result['value']['state_id'] = obj_cep.state_id.id
-        result['value']['country_id'] = obj_cep.state_id.country_id.id
-        result['value']['zip'] = obj_cep.code
+        result['value']['street'] = obj_zip.street_type + ' ' + obj_zip.street
+        result['value']['l10n_br_city_id'] = obj_zip.l10n_br_city_id.id
+        result['value']['city'] = obj_zip.l10n_br_city_id.name
+        result['value']['state_id'] = obj_zip.state_id.id
+        result['value']['country_id'] = obj_zip.state_id.country_id.id
+        result['value']['zip'] = obj_zip.code
         
         return result
 
