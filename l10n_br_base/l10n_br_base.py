@@ -32,9 +32,9 @@ class l10n_br_base_city(osv.osv):
 
 l10n_br_base_city()
 
-class l10n_br_base_cep(osv.osv):
+class l10n_br_base_zip(osv.osv):
 
-    _name = 'l10n_br_base.cep'
+    _name = 'l10n_br_base.zip'
     _rec_name = 'code'
 
     _columns = {
@@ -46,6 +46,6 @@ class l10n_br_base_cep(osv.osv):
                 'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Cidade', required=True, domain="[('state_id','=',state_id)]"),
                 }
 
-l10n_br_base_cep()
+l10n_br_base_zip()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
