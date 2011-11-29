@@ -20,9 +20,9 @@
 
 from osv import osv, fields
 
-class l10n_br_base_cep_search(osv.osv_memory):
+class l10n_br_base_zip_search(osv.osv_memory):
     
-    _name = 'l10n_br_base.cep.search'
+    _name = 'l10n_br_base.zip.search'
     _description = 'Zipcode Search'
 
     _inherit = "ir.wizard.screen"
@@ -42,12 +42,12 @@ class l10n_br_base_cep_search(osv.osv_memory):
                 'state': 'init'
                 }
     
-    def cep_search(self, cr, uid, ids, context=None):
+    def zip_search(self, cr, uid, ids, context=None):
         
         data = self.read(cr, uid, ids, [], context=context)[0]
         
-        obj_cep = self.pool.get('l10n_br_base.cep')
-        cep_ids = inv_obj.search(cr, uid, [
+        obj_zip = self.pool.get('l10n_br_base.zip')
+        zip_ids = inv_obj.search(cr, uid, [
                                            '|',('code','=',data['code']),('code','=',False),
                                            '|',('street','=',data['street']),('street','=',False),
                                            '|',('district','=',data['district']),('district','=',False),
@@ -56,6 +56,6 @@ class l10n_br_base_cep_search(osv.osv_memory):
          
         return False
     
-l10n_br_base_cep_search()
+l10n_br_base_zip_search()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
