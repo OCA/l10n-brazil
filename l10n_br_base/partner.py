@@ -26,6 +26,20 @@ class res_partner(osv.osv):
 
     _inherit = 'res.partner'
 
+    def _address_default_fs(self, cr, uid, ids, name, arg, context=None):
+        
+        res = {}
+        for partner in self.browse(cr, uid, ids, context=context):
+            res[partner.id] = {'addr_fs_code': False}
+            
+            partner_addr = self.pool.get('res.partner').address_get(cr, uid, [partner.id], ['invoice'])
+            if partner_addr:
+                partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['invoice']])[0]
+                addr_fs_code = partner_addr_default.state_id and partner_addr_default.state_id.code or ''
+                res[partner.id]['addr_fs_code'] = addr_fs_code.lower()
+                
+        return res
+
     _columns = {
                 'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
                 'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
@@ -33,6 +47,8 @@ class res_partner(osv.osv):
                 'inscr_mun': fields.char('Inscr. Municipal', size=18),
                 'suframa': fields.char('Suframa', size=18),
                 'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
+                'addr_fs_code': fields.function(_address_default_fs, method=True, string='Address Federal State Code',
+                                                type="char", size=2, store=True, multi='all')
                 }
 
     _defaults = {
@@ -111,13 +127,15 @@ class res_partner(osv.osv):
     
     def _check_ie(self, cr, uid, ids):
         """ Verificação da Inscrição Estadual """
+        
         for partner in self.browse(cr, uid, ids):
             if not partner.inscr_est:
                 return True
-            
+
             if partner.tipo_pessoa == 'J':
-                #TODO
-                return self.validate_ie_sp(partner.inscr_est)
+                if callable(getattr(self, 'validate_ie_%s' % (partner.addr_fs_code or ''))):
+                    validate = getattr(self, 'validate_ie_%s' % (partner.addr_fs_code or ''))
+                    return validate(partner.inscr_est)
 
         return False
 
@@ -212,8 +230,33 @@ class res_partner(osv.osv):
     
     def validate_ie_rj(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rio de Janeiro """
-        #TODO
-        return True
+        # Limpando o cnpj
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamano do  cnpj
+        if len(inscr_est) != 8:
+            return False
+
+        # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
+        inscr_est= map(int, inscr_est)
+        nova_ie = inscr_est[:7]
+
+        prod = [2, 7, 6, 5, 4, 3, 2]
+        while len(nova_ie) < 8:
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r > 1:
+                f = 11 - r
+            else:
+                f = 0
+            nova_ie.append(f)
+            prod.insert(0, 6)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def validate_ie_rn(self, inscr_est):
         """ Verificação da Inscrição Estadual-Rio Grande do Norte """
@@ -318,7 +361,7 @@ class res_partner_address(osv.osv):
 
         if len(val) == 8:
             zip = "%s-%s" % (val[0:5], val[5:8])
-            result['zip'] = zip
+            result['value']['zip'] = zip
         return result
 
     def zip_search(self, cr, uid, ids, context=None):
