@@ -294,10 +294,10 @@ class res_partner_address(osv.osv):
 
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
 
-        result = {}
+        result = {'value': {'city': False, 'l10n_br_city_id': False}}
 
         if not l10n_br_city_id:
-            return True
+            return result
 
         obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, l10n_br_city_id, ['name','id'])
 
@@ -305,19 +305,21 @@ class res_partner_address(osv.osv):
             result['city'] = obj_city['name']
             result['l10n_br_city_id'] = obj_city['id']
 
-        return {'value': result}
+        return result
     
     def onchange_mask_zip(self, cr, uid, ids, zip):
         
+        result = {'value': {'zip': False}}
+        
         if not zip:
-            return {}
+            return result
 
         val = re.sub('[^0-9]', '', zip)
 
         if len(val) == 8:
             zip = "%s-%s" % (val[0:5], val[5:8])
-            
-        return {'value': {'zip': zip}}
+            result['zip'] = zip
+        return result
 
     def zip_search(self, cr, uid, ids, context=None):
         
