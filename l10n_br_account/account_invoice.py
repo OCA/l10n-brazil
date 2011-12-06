@@ -18,19 +18,20 @@
 #################################################################################
 
 from lxml import etree
-import time
-import netsvc
-from osv import fields, osv
-import decimal_precision as dp
-import pooler
-from tools import config
-from tools.translate import _
-
-import re, string
-from unicodedata import normalize
 from lxml.etree import ElementTree
 from lxml.etree import Element, SubElement, Comment, tostring
+import time
 from datetime import datetime
+import netsvc
+import re
+import string
+from unicodedata import normalize
+
+from osv import fields, osv
+from tools import config
+from tools.translate import _
+import decimal_precision as dp
+import pooler
 
 class account_invoice(osv.osv):
 
@@ -2128,9 +2129,15 @@ class account_invoice_line(osv.osv):
    # 
    #     return result
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
+    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', 
+                          type='out_invoice', partner_id=False, fposition_id=False, 
+                          price_unit=False, address_invoice_id=False, currency_id=False, 
+                          context=None, company_id=False, fiscal_operation_category_id=False, 
+                          fiscal_operation_id=False):
 
-        result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
+        result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, 
+                                                                     type, partner_id, fposition_id, price_unit, 
+                                                                     address_invoice_id, currency_id, context, company_id)
         
         if not fiscal_operation_category_id:
             return result
