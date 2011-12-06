@@ -329,7 +329,7 @@ class res_partner_address(osv.osv):
                   'country_id': False, 
                   'zip': False
                   }
-        
+
         obj_zip = self.pool.get('l10n_br_base.zip')
         
         for res_partner_address in self.browse(cr, uid, ids):
@@ -357,6 +357,7 @@ class res_partner_address(osv.osv):
                                 'state_id': res_partner_address.state_id.id,
                                 'l10n_br_city_id': res_partner_address.l10n_br_city_id.id,
                                 'address_id': ids,
+                                'object_name': self._name,
                                 })
 
                 result = {
