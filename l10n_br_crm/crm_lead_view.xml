@@ -37,6 +37,18 @@
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads4">
+			<field name="name">l10n_br_crm.leads4</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					<field name="zip" on_change="onchange_mask_zip(zip)" />
+					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
+				</field>
+			</field>
+		</record>
 	
 	</data>
 </openerp>
