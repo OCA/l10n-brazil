@@ -26,6 +26,12 @@ class res_partner(osv.osv):
 
     _inherit = 'res.partner'
 
+    def _get_partner_address(self, cr, uid, ids, context=None):
+        result = {}
+        for parnter_addr in self.pool.get('res.partner.address').browse(cr, uid, ids, context=context):
+            result[parnter_addr.partner_id.id] = True
+        return result.keys()
+
     def _address_default_fs(self, cr, uid, ids, name, arg, context=None):
         
         res = {}
@@ -47,8 +53,11 @@ class res_partner(osv.osv):
                 'inscr_mun': fields.char('Inscr. Municipal', size=18),
                 'suframa': fields.char('Suframa', size=18),
                 'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
-                'addr_fs_code': fields.function(_address_default_fs, method=True, string='Address Federal State Code',
-                                                type="char", size=2, store=True, multi='all')
+                'addr_fs_code': fields.function(_address_default_fs, method=True, 
+                                                string='Address Federal State Code', 
+                                                type="char", size=2, multi='all',
+                                                store={'res.partner.address': (_get_partner_address, ['country_id', 'state_id'], 20),}),
+                
                 }
 
     _defaults = {
@@ -129,12 +138,13 @@ class res_partner(osv.osv):
         """ Verificação da Inscrição Estadual """
         
         for partner in self.browse(cr, uid, ids):
-            if not partner.inscr_est:
+            validate = getattr(self, 'validate_ie_%s' % partner.addr_fs_code, None)
+
+            if not partner.inscr_est or not validate or partner.tipo_pessoa == 'F':
                 return True
 
             if partner.tipo_pessoa == 'J':
-                if callable(getattr(self, 'validate_ie_%s' % (partner.addr_fs_code or ''))):
-                    validate = getattr(self, 'validate_ie_%s' % (partner.addr_fs_code or ''))
+                if callable(validate):
                     return validate(partner.inscr_est)
 
         return False
@@ -345,8 +355,8 @@ class res_partner_address(osv.osv):
         obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, l10n_br_city_id, ['name','id'])
 
         if obj_city:
-            result['city'] = obj_city['name']
-            result['l10n_br_city_id'] = obj_city['id']
+            result['value']['city'] = obj_city['name']
+            result['value']['l10n_br_city_id'] = obj_city['id']
 
         return result
     
