@@ -65,19 +65,22 @@ class res_partner(osv.osv):
                 }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
-        
+
         for partner in self.browse(cr, uid, ids):
             if not partner.cnpj_cpf:
-                return True
+                continue
     
             if partner.tipo_pessoa == 'J':
-                return self.validate_cnpj(partner.cnpj_cpf)
+                if not self._validate_cnpj(partner.cnpj_cpf):
+                    return False
             elif partner.tipo_pessoa == 'F':
-                return self.validate_cpf(partner.cnpj_cpf)
+                if not self._validate_cpf(partner.cnpj_cpf):
+                    return False
 
-        return False
+        return True
 
-    def validate_cnpj(self, cnpj):
+    def _validate_cnpj(self, cnpj):
+        
         # Limpando o cnpj
         if not cnpj.isdigit():
             import re
@@ -107,7 +110,8 @@ class res_partner(osv.osv):
             
         return False
     
-    def validate_cpf(self, cpf):           
+    def _validate_cpf(self, cpf):  
+        
         if not cpf.isdigit():
             import re
             cpf = re.sub('[^0-9]', '', cpf)
@@ -135,111 +139,217 @@ class res_partner(osv.osv):
         return False
     
     def _check_ie(self, cr, uid, ids):
-        """ Verificação da Inscrição Estadual """
-        
-        for partner in self.browse(cr, uid, ids):
-            validate = getattr(self, 'validate_ie_%s' % partner.addr_fs_code, None)
+        """Checks if company register number in field insc_est is valid, 
+        this method call others methods because this validation is State wise
+        @param self: The object pointer
+        @param cr: the current row, from the database cursor,
+        @param uid: the current user’s ID for security checks,
+        @param ids: List of partner Ids,
+        @return: True or False.
+        """
 
-            if not partner.inscr_est or not validate or partner.tipo_pessoa == 'F':
-                return True
+        for partner in self.browse(cr, uid, ids):
+            
+            validate = getattr(self, '_validate_ie_%s' % partner.addr_fs_code, None)
+
+            if not partner.inscr_est or partner.inscr_est == 'ISENTO' or not validate or partner.tipo_pessoa == 'F':
+                continue
 
             if partner.tipo_pessoa == 'J':
                 if callable(validate):
-                    return validate(partner.inscr_est)
+                    if not validate(partner.inscr_est):
+                        return False
 
-        return False
+        return True
 
-    def validate_ie_ac(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Acre """
+    def _validate_ie_ac(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Acre
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_al(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Alagoas """
+    def _validate_ie_al(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Alagoas
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_am(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Amazonas """
+    def _validate_ie_am(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Amazonas
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ap(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Amapá """
+    def _validate_ie_ap(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Amapá
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ba(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Bahia """
+    def _validate_ie_ba(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Bahia
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ce(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Ceará """
-        return True
-    
-    def validate_ie_df(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Distitro Federal """
+    def _validate_ie_ce(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Ceará
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_es(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Espirito Santo """
+    def _validate_ie_df(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Distitro Federal
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False._check_ie
+        """
         #TODO
         return True
     
-    def validate_ie_go(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Goiais """
+    def _validate_ie_es(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Espirito Santo
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ma(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Maranhão """
+    def _validate_ie_go(self, inscr_est):
+        """Checks if company register number is val_check_ieid to Brazilian
+        state Goiais
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_mg(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Minas Gerais """
+    def _validate_ie_ma(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Maranhão
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
+        #TODO_check_ie
+        return True
+    
+    def _validate_ie_mg(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Minas Gerais
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ms(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Mato Grosso do Sul """
+    def _validate_ie_ms(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Mato Grosso do Sul
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_mt(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Mato Grosso """
+    def _validate_ie_mt(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Mato Grosso
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_pa(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Pará """
+    def _validate_ie_pa(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Pará
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_pb(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Paraíba """
+    def _validate_ie_pb(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Paraíba
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_pe(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Pernambuco """
+    def _validate_ie_pe(self, inscr_est):
+        """Check if number in insc_est is valid to Brazilian
+        state of Pernambuco
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_pi(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Piauí """
+    def _validate_ie_pi(self, inscr_est):
+        """Check if number in insc_est is valid to Brazilian
+        state of Piauí
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_pr(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Paraná """
+    def _validate_ie_pr(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Rio de Paraná
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_rj(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Rio de Janeiro """
+    def _validate_ie_rj(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Rio de janeiro
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
+        
         # Limpando o cnpj
         if not inscr_est.isdigit():
             inscr_est = re.sub('[^0-9]', '', inscr_est)
@@ -268,43 +378,83 @@ class res_partner(osv.osv):
 
         return False
     
-    def validate_ie_rn(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Rio Grande do Norte """
+    def _validate_ie_rn(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Rio Grande do Norte
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_ro(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Rondônia """
+    def _validate_ie_ro(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Rondônia
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_rr(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Roraima """
+    def _validate_ie_rr(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Roraima
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_rs(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Rio Grande do Sul """
+    def _validate_ie_rs(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Rio Grande do Sul
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_sc(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Santa Catarina """
+    def _validate_ie_sc(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Santa Catarina
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_se(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Sergipe """
+    def _validate_ie_se(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Sergipe
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_sp(self, inscr_est):
-        """ Verificação da Inscrição Estadual-São Paulo """
+    def _validate_ie_sp(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state São Paulo
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
-    def validate_ie_to(self, inscr_est):
-        """ Verificação da Inscrição Estadual-Tocantins """
+    def _validate_ie_to(self, inscr_est):
+        """Checks if company register number is valid to Brazilian
+        state Tocantins
+        @param self: The object pointer
+        @param inscr_est: The company state number value,
+        @return: True or False.
+        """
         #TODO
         return True
     
@@ -332,7 +482,7 @@ class res_partner(osv.osv):
             cnpj_cpf = "%s.%s.%s-%s" % (val[0:3], val[3:6], val[6:9], val[9:11])
         
         return {'value': {'tipo_pessoa': tipo_pessoa, 'cnpj_cpf': cnpj_cpf}}
-
+    
 res_partner()
 
 class res_partner_address(osv.osv):
