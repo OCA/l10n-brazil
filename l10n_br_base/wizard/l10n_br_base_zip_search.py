@@ -117,7 +117,7 @@ class l10n_br_base_zip_search(osv.osv_memory):
                 if len(zip) == 8:
                     zip = '%s-%s' % (zip[0:5], zip[5:8])
                 
-                result['street'] = (zip_read['street_type'] + ' ' + zip_read['street'] or '')
+                result['street'] = ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or ''))
                 result['district'] = zip_read['district']
                 result['zip'] = zip
                 result['l10n_br_city_id'] = zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][0] or False
