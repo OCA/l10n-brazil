@@ -158,13 +158,14 @@ class purchase_order(osv.osv):
                                 company_id = self.pool.get('res.company').browse(cr, uid,order.company_id.id)
                                 if not company_id.document_serie_product_ids:
                                     raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
-                                comment = ''
-                                if picking.fiscal_operation_id.inv_copy_note:
-                                    comment = picking.fiscal_operation_id.note
-                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id, 
-                                                                                                'fiscal_operation_id': order.fiscal_operation_id, 
-                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id, 
-                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id, 
+                                comment = order.fiscal_operation_id.note or ''
+                                if order.note:
+                                    comment += ' - ' + order.note
+                                self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id,
+                                                                                                'fiscal_operation_id': order.fiscal_operation_id.id,
+                                                                                                'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id,
+                                                                                                'fiscal_position': order.fiscal_position.id,
+                                                                                                'document_serie_id': company_id.document_serie_product_ids[0].id,
                                                                                                 'own_invoice': False,
                                                                                                 'comment': comment})
 
