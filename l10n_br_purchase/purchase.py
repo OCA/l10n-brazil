@@ -159,8 +159,8 @@ class purchase_order(osv.osv):
                                 if not company_id.document_serie_product_ids:
                                     raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
                                 comment = order.fiscal_operation_id.note or ''
-                                if order.note:
-                                    comment += ' - ' + order.note
+                                if order.notes:
+                                    comment += ' - ' + order.notes
                                 self.pool.get('account.invoice').write(cr, uid, invoice_id.id, {'fiscal_operation_category_id': fiscal_operation_category_id.id,
                                                                                                 'fiscal_operation_id': order.fiscal_operation_id.id,
                                                                                                 'fiscal_document_id': fiscal_operation_id.fiscal_document_id.id,
