@@ -27,7 +27,7 @@
     'version' : '0.6',
     'depends' : [
                 'l10n_br',
-        		'l10n_br_base', 
+        		'l10n_br_base',
         		'account_fiscal_position_rule', 
         		'account_product_fiscal_classification'
 		        ],
