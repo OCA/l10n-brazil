@@ -18,13 +18,20 @@
 #################################################################################
 
 from osv import osv, fields
+import decimal_precision as dp
 
 class res_company(osv.osv):
 
     _inherit = "res.company"
 
     _columns = {
-                'fiscal_type': fields.selection([('1', 'Simples Nacional'), ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), ('3', 'Regime Normal')], 'Regime Tributário', required=True),
+                'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
+                                                 ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
+                                                 ('3', 'Regime Normal')], 
+                                                'Regime Tributário', required=True),
+                'annual_revenue': fields.float('Faturamento Anual', required=True,
+                                               digits_compute=dp.get_precision('Account'),
+                                               help="Faturamento Bruto dos últimos 12 meses"),
                 'document_serie_product_ids': fields.many2many('l10n_br_account.document.serie',
                                                                'res_company_l10n_br_account_document_serie', 'company_id',
                                                                'document_serie_product_id', 'Série de Documentos Fiscais',
@@ -46,6 +53,7 @@ class res_company(osv.osv):
                 'fiscal_type': '3',
                 'nfe_version': '2.00',
                 'nfse_version': '1.00',
+                'annual_revenue': 0.0,
                 }
 
 res_company()
