@@ -13,7 +13,6 @@
 				</field>
 			</field>
 		</record>
-		
 
 		<record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_tree">
 			<field name="name">l10n_br_account.fiscal.position.rule.tree</field>
@@ -35,7 +34,14 @@
 				<field name="to_state" position="after">
 					<separator string="l10n br" colspan="4"/>
 					<field name="partner_fiscal_type_id"/>
+					<field name="fiscal_type"/>
 					<field name="fiscal_operation_category_id"/>
+					<newline/>
+					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
+						<separator string="Faixa de Faturamento" colspan="4"/>
+						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start"/>
+						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end"/>
+					</group>
 				</field>
 			</field>
 		</record>
@@ -48,7 +54,14 @@
 				<field name="to_state" position="after">
 					<separator string="l10n br" colspan="4"/>
 					<field name="partner_fiscal_type_id"/>
+					<field name="fiscal_type"/>
 					<field name="fiscal_operation_category_id"/>
+					<newline/>
+					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
+						<separator string="Faixa de Faturamento" colspan="4"/>
+						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start"/>
+						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end"/>
+					</group>
 				</field>
 			</field>
 		</record>
@@ -63,10 +76,12 @@
 					<group expand="0" string="Extended Filters..." colspan="4" col="8">
 						<field name="fiscal_operation_category_id"/>
 						<field name="partner_fiscal_type_id"/>
+						<field name="fiscal_type"/>
 					</group>
 					<newline/>
 					<group expand="0" string="Group By..." colspan="4" col="8">
 						<filter icon="terp-stock_effects-object-colorize" string="Fiscal Category" domain="[]" context="{'group_by':'fiscal_operation_category_id'}"/>
+						<filter icon="terp-stock_effects-object-colorize" string="Company Fiscal Type" domain="[]" context="{'group_by':'fiscal_type'}"/>
 						<filter icon="terp-stock_effects-object-colorize" string="Fiscal Type" domain="[]" context="{'group_by':'partner_fiscal_type_id'}"/>
 						<filter icon="terp-stock_effects-object-colorize" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
 					</group>
