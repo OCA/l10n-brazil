@@ -990,6 +990,44 @@ class account_invoice(osv.osv):
                     StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
 
                     StrFile += StrN09
+                    
+                if inv_line.icms_cst in ('90', '900'):
+                    StrRegN10h = {
+                                  'Orig': inv_line.product_id.origin or '0',
+                                  'CSOSN': inv_line.icms_cst,
+                                  'modBC': '0',
+                                  'vBC': str("%.2f" % 0.00),
+                                  'pRedBC': '',
+                                  'pICMS': str("%.2f" % 0.00),
+                                  'vICMS': str("%.2f" % 0.00),
+                                  'modBCST': '',
+                                  'pMVAST': '',
+                                  'pRedBCST': '',
+                                  'vBCST': '',
+                                  'pICMSST': '',
+                                  'vICMSST': '',
+                                  'pCredSN': str("%.2f" % 0.00),
+                                  'vCredICMSSN': str("%.2f" % 0.00),
+                                  }
+                                    
+                    StrN10h = 'N10h|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10h['Orig'], 
+                                                                                        StrRegN10h['CSOSN'], 
+                                                                                        StrRegN10h['modBC'],
+                                                                                        StrRegN10h['vBC'],
+                                                                                        StrRegN10h['pRedBC'],
+                                                                                        StrRegN10h['pICMS'],
+                                                                                        StrRegN10h['vICMS'],
+                                                                                        StrRegN10h['modBCST'],
+                                                                                        StrRegN10h['pMVAST'],
+                                                                                        StrRegN10h['pRedBCST'],
+                                                                                        StrRegN10h['vBCST'],
+                                                                                        StrRegN10h['pICMSST'],
+                                                                                        StrRegN10h['vICMSST'],
+                                                                                        StrRegN10h['pCredSN'],
+                                                                                        StrRegN10h['vCredICMSSN'])
+
+                    StrFile += StrN10h
+
 
                 StrRegO = {
                        'ClEnq': '',
@@ -1003,7 +1041,7 @@ class account_invoice(osv.osv):
                 
                 StrFile += StrO
 
-                if inv_line.ipi_percent > 0:
+                if inv_line.ipi_cst in ('50','51','52') and inv_line.ipi_percent > 0:
                     StrRegO07 = {
                        'CST': inv_line.ipi_cst,
                        'VIPI': str("%.2f" % inv_line.ipi_value),
@@ -1013,7 +1051,7 @@ class account_invoice(osv.osv):
                     
                     StrFile += StrO07 
 
-                    if inv_line.ipi_type == 'percent':
+                    if inv_line.ipi_type == 'percent' or '':
                         StrRegO10 = {
                            'VBC': str("%.2f" % inv_line.ipi_base),
                            'PIPI': str("%.2f" % inv_line.ipi_percent),
@@ -1031,8 +1069,25 @@ class account_invoice(osv.osv):
                         StrO1 = 'O11|%s|%s|\n' % (StrRegO11['QUnid'], StrRegO11['VUnid'])
                     
                     StrFile += StrO1
+                
+                if inv_line.ipi_cst in ('99'):
+                    StrRegO07 = {
+                                 'CST': inv_line.ipi_cst,
+                                 'VIPI': str("%.2f" % inv_line.ipi_value),
+                                 }
                     
-                else:
+                    StrO07 = ('O07|%s|%s|\n') % (StrRegO07['CST'], StrRegO07['VIPI'])
+                    StrFile += StrO07
+                    
+                    StrRegO10 = {
+                                 'VBC': str("%.2f" % inv_line.ipi_base),
+                                 'PIPI': str("%.2f" % inv_line.ipi_percent),
+                                 }
+                    
+                    StrO10 = ('O10|%s|%s|\n') % (StrRegO10['VBC'], StrRegO10['PIPI'])
+                    StrFile += StrO10
+                    
+                if inv_line.ipi_percent == 0 and not inv_line.ipi_cst in ('99'):
                     StrO1 = 'O08|%s|\n' % inv_line.ipi_cst
                     StrFile += StrO1
                     
@@ -1040,26 +1095,50 @@ class account_invoice(osv.osv):
                 
                 StrFile += StrQ
 
-                if inv_line.pis_percent > 0:
+
+                    
+                if inv_line.pis_cst in ('01') and inv_line.pis_percent > 0:
                     StrRegQ02 = {
-                       'CST': inv_line.pis_cst,
-                       'VBC': str("%.2f" % inv_line.pis_base),
-                       'PPIS': str("%.2f" % inv_line.pis_percent),
-                       'VPIS': str("%.2f" % inv_line.pis_value),
-                    }
+                                 'CST': inv_line.pis_cst,
+                                 'VBC': str("%.2f" % inv_line.pis_base),
+                                 'PPIS': str("%.2f" % inv_line.pis_percent),
+                                 'VPIS': str("%.2f" % inv_line.pis_value),
+                                 }
                     
-                    StrQ02 = ('Q02|%s|%s|%s|%s|\n') % (StrRegQ02['CST'], StrRegQ02['VBC'], StrRegQ02['PPIS'], StrRegQ02['VPIS']) 
+                    StrQ02 = ('Q02|%s|%s|%s|%s|\n') % (StrRegQ02['CST'], 
+                                                       StrRegQ02['VBC'], 
+                                                       StrRegQ02['PPIS'], 
+                                                       StrRegQ02['VPIS'])
                     
-                else:
+                    StrFile += StrQ02
+                    
+                if inv_line.pis_cst in ('99'):
+                    StrRegQ05 = {
+                                 'CST': inv_line.pis_cst,
+                                 'VPIS': str("%.2f" % inv_line.pis_value),
+                                 }
+                    
+                    StrQ05 = ('Q05|%s|%s|\n') % (StrRegQ05['CST'], StrRegQ05['VPIS'])
+                    StrFile += StrQ05
+                    
+                    StrRegQ07 = {
+                                 'VBC': str("%.2f" % inv_line.pis_base),
+                                 'PPIS': str("%.2f" % inv_line.pis_percent),
+                                 }
+                    
+                    StrQ07 = ('Q07|%s|%s|\n') % (StrRegQ07['VBC'], StrRegQ07['PPIS'])
+                    StrFile += StrQ07
+                    
+                if inv_line.pis_percent == 0 and not inv_line.pis_cst in ('99'):
                     StrQ02 = 'Q04|%s|\n' % inv_line.pis_cst
-                    
-                StrFile += StrQ02
+                    StrFile += StrQ02
+                
                     
                 StrQ = 'S|\n'
                 
                 StrFile += StrQ
 
-                if inv_line.cofins_percent > 0:
+                if inv_line.cofins_cst in ('01') and inv_line.cofins_percent > 0:
                     StrRegS02 = {
                        'CST': inv_line.cofins_cst,
                        'VBC': str("%.2f" % inv_line.cofins_base),
@@ -1068,11 +1147,29 @@ class account_invoice(osv.osv):
                     }
 
                     StrS02 = ('S02|%s|%s|%s|%s|\n') % (StrRegS02['CST'], StrRegS02['VBC'], StrRegS02['PCOFINS'], StrRegS02['VCOFINS'])
+                    StrFile += StrS02
                     
-                else:
-                    StrS02 = 'S04|%s|\n' % inv_line.cofins_cst
-
+                if inv_line.cofins_cst in ('99'):
+                    StrRegS05 = {
+                                 'CST': inv_line.cofins_cst,
+                                 'VCOFINS': str("%.2f" % inv_line.cofins_value),
+                                 }
+                    
+                    StrS05 = ('S05|%s|%s|\n') % (StrRegS05['CST'], StrRegS05['VCOFINS'])
+                    StrFile += StrS05
+                    
+                    StrRegS07 = {
+                                 'VBC': str("%.2f" % inv_line.cofins_base),
+                                 'PCOFINS': str("%.2f" % inv_line.cofins_percent),
+                                 }
+                    
+                    StrS07 = ('S07|%s|%s|\n') % (StrRegS07['VBC'], StrRegS07['PCOFINS'])
+                    StrFile += StrS07
+                        
+            if inv_line.cofins_percent == 0 and not inv_line.cofins_cst in ('99'):
+                StrS02 = 'S04|%s|\n' % inv_line.cofins_cst
                 StrFile += StrS02
+                
                 
             StrW = 'W|\n'
             
