@@ -307,6 +307,1655 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="fiscal_operation_id" ref="fiscal_operation_compras_ind_externo"/>
 		</record>
+		
+		<record id="template_fp_vendainternasimples0" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples180k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 180.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples180k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_48"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+		</record>
+		
+		<record id="fp_vendainternasimples180k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples180k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples360k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 360.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples360k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_49"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+		</record>
+		
+		<record id="fp_vendainternasimples360k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples360k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_89"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples540k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 540.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+				<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples540k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_50"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_68"/>
+		</record>
+		
+		<record id="fp_vendainternasimples540k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples540k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_90"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples720k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 720.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+				<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples720k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_51"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_69"/>
+		</record>
+		
+		<record id="fp_vendainternasimples720k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples720k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_90"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples900k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 900.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+				<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples900k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_52"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_69"/>
+		</record>
+		
+		<record id="fp_vendainternasimples900k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples900k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_91"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1080k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.080.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples1080k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_53"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_70"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1080k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1080k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_92"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1260k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.260.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples1260k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_54"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_71"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1260k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1260k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_93"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1440k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.440.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<!-- account.fiscal.position.tax.template -->
+		<record id="fp_vendainternasimples1440k_icms" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_27"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_56"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_1" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_1"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_3" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_3"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_4" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_4"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_5" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_5"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_6" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_6"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_7" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_7"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_8" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_8"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_9" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_9"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_10" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_10"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_11" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_11"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_12" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_12"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_13" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_13"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_14" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_14"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_15" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_15"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_16" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_16"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_17" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_17"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_18" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_18"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_19" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_19"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_20" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_20"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_21" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_21"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_22" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_22"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_23" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_23"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_24" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_24"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_25" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_25"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_ipi_26" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_26"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_47"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_pis" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_34"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_71"/>
+		</record>
+		
+		<record id="fp_vendainternasimples1440k_cofins" model="account.fiscal.position.tax.template">
+			<field name="position_id" ref="template_fp_vendainternasimples1440k"/>
+			<field name="tax_src_id" ref="l10n_br.tax_template_36"/>
+			<field name="tax_dest_id" ref="l10n_br_account.tax_template_94"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1620k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.620.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1800k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.800.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples1980k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 1.980.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples2160k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 2.160.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples2340k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 2.340.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples2520k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 2.520.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples2700k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 2.700.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples2880k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 2.880.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples3060k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 3.060.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples3240k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 3.240.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples3420k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 3.420.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendainternasimples3600k" model="account.fiscal.position.template">
+			<field name="name">Venda Dentro do Estado Simples Nacional Até 3.600.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_interna"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples0" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples180k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 180.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples360k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 360.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples540k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 540.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples720k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 720.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples900k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 900.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1080k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.080.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1260k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.260.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1440k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.440.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1620k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.620.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1800k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.800.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples1980k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 1.980.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples2160k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 2.160.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples2340k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 2.340.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples2520k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 2.520.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples2700k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 2.700.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples2880k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 2.880.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples3060k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 3.060.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples3240k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 3.240.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples3420k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 3.420.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
+		
+		<record id="template_fp_vendaexternasimples3600k" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado Simples Nacional Até 3.600.000,00</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
+		</record>
 
 	</data>
 </openerp>
