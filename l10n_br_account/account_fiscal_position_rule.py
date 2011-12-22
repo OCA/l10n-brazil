@@ -17,7 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
+import time
+
 from osv import osv, fields
+import decimal_precision as dp
 
 class account_fiscal_position_rule_template(osv.osv):
     
@@ -26,6 +29,20 @@ class account_fiscal_position_rule_template(osv.osv):
     _columns = {
                 'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+                'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
+                                                 ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
+                                                 ('3', 'Regime Normal')], 
+                                                'Regime Tributário', required=True),
+                'revenue_start': fields.float('Faturamento Inicial',
+                                               digits_compute=dp.get_precision('Account'),
+                                               help="Faixa inicial de faturamento bruto"),
+                'revenue_end': fields.float('Faturamento Final',
+                                               digits_compute=dp.get_precision('Account'),
+                                               help="Faixa inicial de faturamento bruto"),
+                }
+    
+    _defaults = {
+                'fiscal_type': '3',
                 }
 
 account_fiscal_position_rule_template()
@@ -35,9 +52,23 @@ class account_fiscal_position_rule(osv.osv):
     _inherit = 'account.fiscal.position.rule'
     
     _columns = {
-            'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-            'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+                'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
+                'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
+                                                 ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
+                                                 ('3', 'Regime Normal')], 
+                                                'Regime Tributário', required=True),
+                'revenue_start': fields.float('Faturamento Inicial',
+                                               digits_compute=dp.get_precision('Account'),
+                                               help="Faixa inicial de faturamento bruto"),
+                'revenue_end': fields.float('Faturamento Final',
+                                               digits_compute=dp.get_precision('Account'),
+                                               help="Faixa inicial de faturamento bruto"),
             }
+    
+    _defaults = {
+                'fiscal_type': '3',
+                }
 
     def fiscal_position_map(self, cr, uid, partner_id=False, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False, context=None):
 
@@ -72,13 +103,22 @@ class account_fiscal_position_rule(osv.osv):
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
         
+        document_date = context.get('date', time.strftime('%Y-%m-%d'))
+        
         use_domain = context.get('use_domain', ('use_sale', '=', True))
         
-        domain = ['&',('company_id','=', company_id), ('fiscal_operation_category_id','=',fiscal_operation_category_id), use_domain,
+        domain = ['&',('company_id','=', company_id), 
+                  ('fiscal_operation_category_id','=',fiscal_operation_category_id), 
+                  use_domain,
+                  ('fiscal_type', '=', obj_company.fiscal_type),
                   '|',('from_country','=',from_country),('from_country','=',False), 
                   '|',('to_country','=',to_country),('to_country','=',False), 
                   '|',('from_state','=',from_state),('from_state','=',False), 
-                  '|',('to_state','=',to_state),('to_state','=',False),]
+                  '|',('to_state','=',to_state),('to_state','=',False),
+                  '|',('date_start', '=', False),('date_start', '<=', document_date),
+                  '|',('date_end', '=', False),('date_end', '>=', document_date),
+                  '|',('revenue_start', '=', False),('revenue_start', '<=', obj_company.annual_revenue),
+                  '|',('revenue_end', '=', False),('revenue_end', '>=', obj_company.annual_revenue),]
         
         fsc_pos_id = self.search(cr, uid, domain)
         
@@ -137,6 +177,9 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                ('use_purchase','=',fpr_template.use_purchase),
                                                                ('use_picking','=',fpr_template.use_picking),
                                                                ('fiscal_position_id','=',fiscal_position_id),
+                                                               ('fiscal_type','=',fpr_template.fiscal_type),
+                                                               ('revenue_start','=',fpr_template.revenue_start),
+                                                               ('revenue_end','=',fpr_template.revenue_end),
                                                                ])
 
             if fpr_id:

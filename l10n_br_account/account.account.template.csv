@@ -1,0 +1,4 @@
+"id","code","name","parent_id:id","type","user_type:id","reconcile"
+"account_template_642","2.1.04.03.0006","CSLL a Recolher","l10n_br.account_template_240","other","l10n_br.passivo","True"
+"account_template_643","2.1.04.03.0007","CPP a Recolher","l10n_br.account_template_240","other","l10n_br.passivo","True"
+"account_template_644","1.1.02.09.0023","CPP a Recuperar","l10n_br.account_template_36","other","l10n_br.ativo","True"
