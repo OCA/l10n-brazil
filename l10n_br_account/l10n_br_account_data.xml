@@ -14,10 +14,1332 @@
 		<record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
 			<field name="code">Não Contribuinte</field>
 			<field name="name">Não Contribuinte</field>
+			<field name="tipo_pessoa">J</field>
+			<field name="ipi">False</field>
+			<field name="icms">False</field>
+		</record>
+
+		<record id="partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
+			<field name="code">Simples Nacional</field>
+			<field name="name">Simples Nacional</field>
+			<field name="tipo_pessoa">J</field>
+			<field name="ipi">False</field>
+			<field name="icms">False</field>
+		</record>
+
+		<record id="partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
+			<field name="code">Não Contribuinte</field>
+			<field name="name">Não Contribuinte</field>
 			<field name="tipo_pessoa">F</field>
 			<field name="ipi">False</field>
 			<field name="icms">False</field>
 		</record>
-		
+
+		<!-- account.tax.template -->
+		<record id="tax_template_47" model="account.tax.template">
+			<field name="description">IPI Simples Nacional 0,50%</field>
+			<field name="name">IPI Simples Nacional 0,50%</field>
+			<field name="amount">0.005</field>
+			<field ref="l10n_br.account_template_244" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_44" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="0" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_3" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_3" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_3" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_3" name="ref_tax_code_id"/>
+       	</record>     	
+       	
+       	<record id="tax_template_48" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 1,25%</field>
+			<field name="name">ICMS Simples Nacional 1,25%</field>
+			<field name="amount">0.0125</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_49" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 1,86%</field>
+			<field name="name">ICMS Simples Nacional 1,86%</field>
+			<field name="amount">0.0186</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_50" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,33%</field>
+			<field name="name">ICMS Simples Nacional 2,33%</field>
+			<field name="amount">0.0233</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_51" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,56%</field>
+			<field name="name">ICMS Simples Nacional 2,56%</field>
+			<field name="amount">0.0256</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_52" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,58%</field>
+			<field name="name">ICMS Simples Nacional 2,58%</field>
+			<field name="amount">0.0258</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_53" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,82%</field>
+			<field name="name">ICMS Simples Nacional 2,82%</field>
+			<field name="amount">0.0282</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_54" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,84%</field>
+			<field name="name">ICMS Simples Nacional 2,84%</field>
+			<field name="amount">0.0284</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_56" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 2,87%</field>
+			<field name="name">ICMS Simples Nacional 2,87%</field>
+			<field name="amount">0.0287</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_57" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,07%</field>
+			<field name="name">ICMS Simples Nacional 3,07%</field>
+			<field name="amount">0.0307</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_58" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,10%</field>
+			<field name="name">ICMS Simples Nacional 3,10%</field>
+			<field name="amount">0.0310</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_59" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,38%</field>
+			<field name="name">ICMS Simples Nacional 3,38%</field>
+			<field name="amount">0.0338</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_60" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,41%</field>
+			<field name="name">ICMS Simples Nacional 3,41%</field>
+			<field name="amount">0.0341</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_61" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,45%</field>
+			<field name="name">ICMS Simples Nacional 3,45%</field>
+			<field name="amount">0.0345</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_61" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,48%</field>
+			<field name="name">ICMS Simples Nacional 3,48%</field>
+			<field name="amount">0.0348</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_62" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,51%</field>
+			<field name="name">ICMS Simples Nacional 3,51%</field>
+			<field name="amount">0.0351</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_63" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,82%</field>
+			<field name="name">ICMS Simples Nacional 3,82%</field>
+			<field name="amount">0.0382</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_64" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,85%</field>
+			<field name="name">ICMS Simples Nacional 3,85%</field>
+			<field name="amount">0.0385</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_65" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,88%</field>
+			<field name="name">ICMS Simples Nacional 3,88%</field>
+			<field name="amount">0.0388</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_66" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,91%</field>
+			<field name="name">ICMS Simples Nacional 3,91%</field>
+			<field name="amount">0.0391</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_67" model="account.tax.template">
+			<field name="description">ICMS Simples Nacional 3,95%</field>
+			<field name="name">ICMS Simples Nacional 3,95%</field>
+			<field name="amount">0.0395</field>
+			<field ref="l10n_br.account_template_241" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_42" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_1" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_1" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_68" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,23%</field>
+			<field name="name">PIS Simples Nacional 0,23%</field>
+			<field name="amount">0.0023</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_69" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,25%</field>
+			<field name="name">PIS Simples Nacional 0,25%</field>
+			<field name="amount">0.0025</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_70" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,27%</field>
+			<field name="name">PIS Simples Nacional 0,27%</field>
+			<field name="amount">0.0027</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_71" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,28%</field>
+			<field name="name">PIS Simples Nacional 0,28%</field>
+			<field name="amount">0.0028</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_72" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,30%</field>
+			<field name="name">PIS Simples Nacional 0,30%</field>
+			<field name="amount">0.0028</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_73" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,33%</field>
+			<field name="name">PIS Simples Nacional 0,33%</field>
+			<field name="amount">0.0033</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_74" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,34%</field>
+			<field name="name">PIS Simples Nacional 0,34%</field>
+			<field name="amount">0.0034</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_75" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,37%</field>
+			<field name="name">PIS Simples Nacional 0,37%</field>
+			<field name="amount">0.0037</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_76" model="account.tax.template">
+			<field name="description">PIS Simples Nacional 0,38%</field>
+			<field name="name">PIS Simples Nacional 0,38%</field>
+			<field name="amount">0.0038</field>
+			<field ref="l10n_br.account_template_243" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_49" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_4" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_4" name="ref_tax_code_id"/>
+       	</record>
+       	
+       	<record id="tax_template_77" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,31%</field>
+			<field name="name">CSLL Simples Nacional 0,31%</field>
+			<field name="amount">0.0031</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_78" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,35%</field>
+			<field name="name">CSLL Simples Nacional 0,35%</field>
+			<field name="amount">0.0035</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_79" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,38%</field>
+			<field name="name">CSLL Simples Nacional 0,38%</field>
+			<field name="amount">0.0038</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_80" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,39%</field>
+			<field name="name">CSLL Simples Nacional 0,39%</field>
+			<field name="amount">0.0039</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_81" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,42%</field>
+			<field name="name">CSLL Simples Nacional 0,42%</field>
+			<field name="amount">0.0042</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_82" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,46%</field>
+			<field name="name">CSLL Simples Nacional 0,46%</field>
+			<field name="amount">0.0046</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_83" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,47%</field>
+			<field name="name">CSLL Simples Nacional 0,47%</field>
+			<field name="amount">0.0047</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_84" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,48%</field>
+			<field name="name">CSLL Simples Nacional 0,48%</field>
+			<field name="amount">0.0048</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_85" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,52%</field>
+			<field name="name">CSLL Simples Nacional 0,52%</field>
+			<field name="amount">0.0052</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_86" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,53%</field>
+			<field name="name">CSLL Simples Nacional 0,53%</field>
+			<field name="amount">0.0053</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_87" model="account.tax.template">
+			<field name="description">CSLL Simples Nacional 0,54%</field>
+			<field name="name">CSLL Simples Nacional 0,54%</field>
+			<field name="amount">0.0054</field>
+			<field ref="account_template_642" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_37" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_9" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_9" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_88" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 0,86%</field>
+			<field name="name">COFINS Simples Nacional 0,86%</field>
+			<field name="amount">0.0086</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_89" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 0,95%</field>
+			<field name="name">COFINS Simples Nacional 0,95%</field>
+			<field name="amount">0.0095</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_90" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,04%</field>
+			<field name="name">COFINS Simples Nacional 1,04%</field>
+			<field name="amount">0.0104</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_91" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,05%</field>
+			<field name="name">COFINS Simples Nacional 1,05%</field>
+			<field name="amount">0.0104</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_92" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,15%</field>
+			<field name="name">COFINS Simples Nacional 1,15%</field>
+			<field name="amount">0.0115</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_93" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,16%</field>
+			<field name="name">COFINS Simples Nacional 1,16%</field>
+			<field name="amount">0.0116</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_94" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,17%</field>
+			<field name="name">COFINS Simples Nacional 1,17%</field>
+			<field name="amount">0.0117</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_95" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,26%</field>
+			<field name="name">COFINS Simples Nacional 1,26%</field>
+			<field name="amount">0.0126</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_96" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,38%</field>
+			<field name="name">COFINS Simples Nacional 1,38%</field>
+			<field name="amount">0.0138</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_97" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,39%</field>
+			<field name="name">COFINS Simples Nacional 1,39%</field>
+			<field name="amount">0.0139</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_98" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,40%</field>
+			<field name="name">COFINS Simples Nacional 1,40%</field>
+			<field name="amount">0.0140</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_100" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,42%</field>
+			<field name="name">COFINS Simples Nacional 1,42%</field>
+			<field name="amount">0.0142</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_101" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,43%</field>
+			<field name="name">COFINS Simples Nacional 1,43%</field>
+			<field name="amount">0.0143</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_102" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,56%</field>
+			<field name="name">COFINS Simples Nacional 1,56%</field>
+			<field name="amount">0.0156</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_103" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,57%</field>
+			<field name="name">COFINS Simples Nacional 1,57%</field>
+			<field name="amount">0.0157</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_105" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,58%</field>
+			<field name="name">COFINS Simples Nacional 1,58%</field>
+			<field name="amount">0.0158</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_106" model="account.tax.template">
+			<field name="description">COFINS Simples Nacional 1,60%</field>
+			<field name="name">COFINS Simples Nacional 1,60%</field>
+			<field name="amount">0.0160</field>
+			<field ref="l10n_br.account_template_242" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_39" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_5" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_5" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_107" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 2,75%</field>
+			<field name="name">CPP Simples Nacional 2,75%</field>
+			<field name="amount">0.0275</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_108" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 2,99%</field>
+			<field name="name">CPP Simples Nacional 2,99%</field>
+			<field name="amount">0.0299</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_109" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,02%</field>
+			<field name="name">CPP Simples Nacional 3,02%</field>
+			<field name="amount">0.0302</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_110" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,28%</field>
+			<field name="name">CPP Simples Nacional 3,28%</field>
+			<field name="amount">0.0328</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_111" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,30%</field>
+			<field name="name">CPP Simples Nacional 3,30%</field>
+			<field name="amount">0.0330</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_112" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,35%</field>
+			<field name="name">CPP Simples Nacional 3,35%</field>
+			<field name="amount">0.0335</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_113" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,57%</field>
+			<field name="name">CPP Simples Nacional 3,57%</field>
+			<field name="amount">0.0357</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_114" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,62%</field>
+			<field name="name">CPP Simples Nacional 3,62%</field>
+			<field name="amount">0.0362</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_115" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,94%</field>
+			<field name="name">CPP Simples Nacional 3,94%</field>
+			<field name="amount">0.0394</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_116" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 3,99%</field>
+			<field name="name">CPP Simples Nacional 3,99%</field>
+			<field name="amount">0.0399</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_117" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,01%</field>
+			<field name="name">CPP Simples Nacional 4,01%</field>
+			<field name="amount">0.0401</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_118" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,05%</field>
+			<field name="name">CPP Simples Nacional 4,05%</field>
+			<field name="amount">0.0405</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_119" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,08%</field>
+			<field name="name">CPP Simples Nacional 4,08%</field>
+			<field name="amount">0.0408</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_120" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,44%</field>
+			<field name="name">CPP Simples Nacional 4,44%</field>
+			<field name="amount">0.0444</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_121" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,49%</field>
+			<field name="name">CPP Simples Nacional 4,49%</field>
+			<field name="amount">0.0449</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_122" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,52%</field>
+			<field name="name">CPP Simples Nacional 4,52%</field>
+			<field name="amount">0.0452</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_122" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,56%</field>
+			<field name="name">CPP Simples Nacional 4,56%</field>
+			<field name="amount">0.0456</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_123" model="account.tax.template">
+			<field name="description">CPP Simples Nacional 4,60%</field>
+			<field name="name">CPP Simples Nacional 4,60%</field>
+			<field name="amount">0.0460</field>
+			<field ref="account_template_643" name="account_collected_id"/>
+			<field ref="account_template_644" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="tax_code_10" name="base_code_id"/>
+			<field ref="tax_code_10" name="tax_code_id"/>
+			<field ref="tax_code_10" name="ref_base_code_id"/>
+			<field ref="tax_code_10" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_124" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,27%</field>
+			<field name="name">IRPJ Simples Nacional 0,27%</field>
+			<field name="amount">0.0027</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_125" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,35%</field>
+			<field name="name">IRPJ Simples Nacional 0,35%</field>
+			<field name="amount">0.0035</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_126" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,38%</field>
+			<field name="name">IRPJ Simples Nacional 0,38%</field>
+			<field name="amount">0.0038</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_127" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,39%</field>
+			<field name="name">IRPJ Simples Nacional 0,39%</field>
+			<field name="amount">0.0039</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_128" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,42%</field>
+			<field name="name">IRPJ Simples Nacional 0,42%</field>
+			<field name="amount">0.0042</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_129" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,46%</field>
+			<field name="name">IRPJ Simples Nacional 0,46%</field>
+			<field name="amount">0.0046</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_130" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,47%</field>
+			<field name="name">IRPJ Simples Nacional 0,47%</field>
+			<field name="amount">0.0047</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_130" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,48%</field>
+			<field name="name">IRPJ Simples Nacional 0,48%</field>
+			<field name="amount">0.0048</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_131" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,52%</field>
+			<field name="name">IRPJ Simples Nacional 0,52%</field>
+			<field name="amount">0.0052</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_131" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,53%</field>
+			<field name="name">IRPJ Simples Nacional 0,53%</field>
+			<field name="amount">0.0053</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
+        <record id="tax_template_132" model="account.tax.template">
+			<field name="description">IRPJ Simples Nacional 0,54%</field>
+			<field name="name">IRPJ Simples Nacional 0,54%</field>
+			<field name="amount">0.0054</field>
+			<field ref="l10n_br.account_template_48" name="account_collected_id"/>
+			<field ref="l10n_br.account_template_48" name="account_paid_id"/>
+			<field eval="0" name="price_include"/>
+			<field eval="1" name="tax_discount"/>
+			<field ref="l10n_br.l10n_br_account_chart_template" name="chart_template_id"/>
+			<field ref="l10n_br.tax_code_6" name="base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="tax_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_base_code_id"/>
+			<field ref="l10n_br.tax_code_6" name="ref_tax_code_id"/>
+        </record>
+        
 	</data>
 </openerp>
