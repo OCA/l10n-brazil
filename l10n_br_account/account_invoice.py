@@ -627,25 +627,25 @@ class account_invoice(osv.osv):
                             strErro = 'Produtos e Servicos: %s, Qtde: %s - Codigo do CFOP\n' % (inv_line.product_id.name,inv_line.quantity)
         
                     if not inv_line.uos_id:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.quantity:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.price_unit:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.icms_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.ipi_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name,inv_line.quantity)
                     
                     if not inv_line.pis_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name,inv_line.quantity)
                         
                     if not inv_line.cofins_cst:
-                        strErro = 'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Servicos: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name,inv_line.quantity)
                 
         if strErro:
             raise osv.except_osv(_('Error !'),_("Error Validating NFE:\n '%s'") % (strErro.encode('utf-8')))
@@ -2163,7 +2163,7 @@ class account_invoice_line(osv.osv):
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
                 'icms_st_base_other': fields.function(_amount_line, method=True, string='Base ICMS ST Outras', type="float",
                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_cst': fields.function(_amount_line, method=True, string='CST ICMS', type="char", size=2,
+                'icms_cst': fields.function(_amount_line, method=True, string='CST ICMS', type="char", size=3,
                                               store=True, multi='all'),
                 'ipi_type': fields.function(_amount_line, method=True, string='Tipo do IPI', type="char", size=64,
                                               store=True, multi='all'),
