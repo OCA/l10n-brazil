@@ -653,7 +653,7 @@ class account_invoice(osv.osv):
         return True
         
 
-    def nfe_export_txt(self, cr, uid, ids, context=False):
+    def nfe_export_txt(self, cr, uid, ids, nfe_environment='1', context=False):
 
         StrFile = ''
 
@@ -697,7 +697,7 @@ class account_invoice(osv.osv):
                        'TpImp': '1',
                        'TpEmis': '1',
                        'cDV': '',
-                       'tpAmb': '2',
+                       'tpAmb': nfe_environment,
                        'finNFe': '1',
                        'procEmi': '0',
                        'VerProc': '2.0.9',
@@ -766,9 +766,15 @@ class account_invoice(osv.osv):
                                                                   StrRegC05['cPais'], StrRegC05['xPais'], StrRegC05['fone'])
 
             StrFile += StrC05
+            
+            #Se o ambiente for de teste deve ser escrito na razão do destinatário
+            if nfe_environment == '2': 
+                xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
+            else:
+                xNome = normalize('NFKD',unicode(inv.partner_id.legal_name or '')).encode('ASCII','ignore')
 
             StrRegE = {
-                       'xNome': normalize('NFKD',unicode(inv.partner_id.legal_name or '')).encode('ASCII','ignore'), 
+                       'xNome': xNome, 
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
                        'ISUF': '',
                        'email': inv.partner_id.email or '',
@@ -1318,7 +1324,7 @@ class account_invoice(osv.osv):
 
         return unicode(StrFile.encode('utf-8'), errors='replace')
 
-    def nfe_export_xml(self, cr, uid, ids, context=False):
+    def nfe_export_xml(self, cr, uid, ids, nfe_environment='1', context=False):
                 
         nfeProc = Element('nfeProc', {'versao': '2.00', 'xmlns': 'http://www.portalfiscal.inf.br/nfe' })
         
