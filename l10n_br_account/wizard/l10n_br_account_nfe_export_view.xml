@@ -24,6 +24,7 @@
                                 <label string="Click em exportar para iniciar a exportação..." colspan="4"/>
                                 <field colspan="4" name="company_id" widget="selection" />
                                 <field colspan="4" name="file_type" />
+                                <field colspan="4" name="nfe_environment" />
                             </group>
                             <group states="done" colspan="4">
                                 <field name="file" width="250" colspan="4"/>
