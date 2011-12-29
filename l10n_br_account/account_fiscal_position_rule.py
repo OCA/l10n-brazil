@@ -68,6 +68,8 @@ class account_fiscal_position_rule(osv.osv):
     
     _defaults = {
                 'fiscal_type': '3',
+                'revenue_start': 0.00,
+                'revenue_end': 0.00,
                 }
 
     def fiscal_position_map(self, cr, uid, partner_id=False, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False, context=None):
@@ -141,7 +143,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
 
         obj_wizard = self.browse(cr,uid,ids[0])
 
-        obj_fiscal_position = self.pool.get('account.fiscal.position.rule')
+        obj_fiscal_position = self.pool.get('account.fiscal.position')
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
         obj_fiscal_position_rule_template = self.pool.get('account.fiscal.position.rule.template')
 
@@ -157,7 +159,8 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
             to_state = fpr_template.to_state.id or False
             partner_fiscal_type_id = fpr_template.partner_fiscal_type_id.id or False
             fiscal_operation_category_id = fpr_template.fiscal_operation_category_id.id or False
-            
+            revenue_start = fpr_template.revenue_start or False
+            revenue_end = fpr_template.revenue_end or False
             
             fiscal_position_id = False
             fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fpr_template.fiscal_position_id.name),('company_id','=',company_id)])
@@ -178,12 +181,14 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                ('use_picking','=',fpr_template.use_picking),
                                                                ('fiscal_position_id','=',fiscal_position_id),
                                                                ('fiscal_type','=',fpr_template.fiscal_type),
-                                                               ('revenue_start','=',fpr_template.revenue_start),
-                                                               ('revenue_end','=',fpr_template.revenue_end),
+                                                               ('revenue_start','=',revenue_start),
+                                                               ('revenue_end','=',revenue_end),
                                                                ])
 
             if fpr_id:
-                obj_fiscal_position_rule.write(cr, uid, fpr_id, {'partner_fiscal_type_id': fp_template.partner_fiscal_type_id.id, 'fiscal_operation_category_id': fp_template.fiscal_operation_category_id.id})
+                obj_fiscal_position_rule.write(cr, uid, fpr_id, {
+                                                                 'partner_fiscal_type_id': partner_fiscal_type_id, 
+                                                                 'fiscal_operation_category_id': fiscal_operation_category_id})
 
         return {}
 
