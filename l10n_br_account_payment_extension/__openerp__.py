@@ -27,7 +27,7 @@
     'version' : '0.6',
     'depends' : [
 		        'l10n_br_base', 
-                'l10n_br_account',
+                'l10n_br_account_payment',
                 'account_payment_extension',
 		        ],
     'init_xml' : [
