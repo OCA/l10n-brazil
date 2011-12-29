@@ -391,25 +391,16 @@ class account_invoice(osv.osv):
         if context is None:
             context = {}
         #TODO: not correct fix but required a frech values before reading it.
-        #self.write(cr, uid, ids, {})
+        self.write(cr, uid, ids, {})
 
-        for obj_inv in self.browse(cr, uid, ids):
+        for obj_inv in self.browse(cr, uid, ids, context=context):
             id = obj_inv.id
             invtype = obj_inv.type
             number = obj_inv.number
             move_id = obj_inv.move_id and obj_inv.move_id.id or False
-            reference = obj_inv.internal_number or obj_inv.reference or ''
+            reference = obj_inv.reference or ''
 
-            #self.write(cr, uid, ids, {'internal_number':number})
-
-            #if invtype in ('in_invoice', 'in_refund'):
-            #    if not reference:
-            #        ref = self._convert_ref(cr, uid, number)
-            #    else:
-            #        ref = reference
-            #else:
-            #    ref = self._convert_ref(cr, uid, number)
-            ref = reference
+            ref = obj_inv.internal_number
 
             cr.execute('UPDATE account_move SET ref=%s ' \
                     'WHERE id=%s AND (ref is null OR ref = \'\')',
@@ -427,8 +418,9 @@ class account_invoice(osv.osv):
                 ctx = context.copy()
                 if obj_inv.type in ('out_invoice', 'out_refund'):
                     ctx = self.get_log_context(cr, uid, context=ctx)
-                message = _('Invoice ') + " '" + name + "' "+ _("is validated.")
+                message = _("Invoice  '%s' is validated.") % ref
                 self.log(cr, uid, inv_id, message, context=ctx)
+        
         return True
 
     def action_move_create(self, cr, uid, ids, *args):
