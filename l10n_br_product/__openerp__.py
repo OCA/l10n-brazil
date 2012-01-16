@@ -31,7 +31,8 @@
     'init_xml': [],
     'update_xml': ['product_view.xml'],
     'test': [],
-    'demo_xml': [],
+    'demo_xml': [
+                 ],
     'installable': True,
     'active': False,
 

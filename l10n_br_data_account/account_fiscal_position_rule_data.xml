@@ -12,7 +12,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ac" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -29,7 +29,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_al" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -46,7 +46,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_am" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -63,7 +63,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ap" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -80,7 +80,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ba" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -97,7 +97,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ce" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -114,7 +114,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_df" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />	    
-   		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+   		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -131,7 +131,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_es" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -148,7 +148,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_go" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -165,7 +165,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ma" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -182,7 +182,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mg" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -199,7 +199,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ms" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -216,7 +216,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mt" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -233,7 +233,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pa" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -250,7 +250,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pb" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -267,7 +267,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pe" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -284,7 +284,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pi" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -298,7 +298,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pr" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -315,7 +315,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaparadentrodoestado0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -332,7 +332,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rn" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -349,7 +349,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ro" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -366,7 +366,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rr" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -382,7 +382,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rs" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -397,7 +397,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sc" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -415,7 +415,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_se" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -432,7 +432,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sp" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -449,7 +449,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_to" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1857,7 +1857,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1876,7 +1876,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples180k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1895,7 +1895,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples360k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1914,7 +1914,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples540k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1933,7 +1933,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples720k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1952,7 +1952,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples900k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1971,7 +1971,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1080k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -1990,7 +1990,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1260k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2009,7 +2009,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1440k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2028,7 +2028,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1620k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2047,7 +2047,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1800k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2066,7 +2066,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1980k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2085,7 +2085,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples2160k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2104,7 +2104,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples2340k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2123,7 +2123,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples2520k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2142,7 +2142,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples2700k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2161,7 +2161,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples2880k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2180,7 +2180,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples3060k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2199,7 +2199,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples3240k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2218,7 +2218,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples3420k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2237,7 +2237,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples3600k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2285,7 +2285,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2304,7 +2304,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples180k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2323,7 +2323,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples360k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2342,7 +2342,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples540k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2361,7 +2361,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples720k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2380,7 +2380,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples900k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2399,7 +2399,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1080k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2418,7 +2418,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1260k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2437,7 +2437,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1440k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2456,7 +2456,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1620k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2475,7 +2475,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1800k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2494,7 +2494,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples1980k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2513,7 +2513,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples2160k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2532,7 +2532,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples2340k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2551,7 +2551,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples2520k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2570,7 +2570,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples2700k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2589,7 +2589,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples2880k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2608,7 +2608,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples3060k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2627,7 +2627,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples3240k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2646,7 +2646,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples3420k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -2665,7 +2665,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="to_country" ref="base.br" />
 		    <field name="fiscal_position_id" ref="template_fp_vendainternasimples3600k" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
