@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	
+		<record id="sale.shop" model="sale.shop">
+		    <field name="default_fo_category_id" ref="l10n_br_account.fo_category_venda"/>
+		</record>
+	
+	</data>
+</openerp>
