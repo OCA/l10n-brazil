@@ -50,7 +50,9 @@
                     'wizard/l10n_br_account_nfe_export_view.xml',
                     'wizard/l10n_br_account_nfe_reexport_view.xml',
                     ],
-    'demo_xml': ['l10n_br_account_demo.xml'],
+    'demo_xml': [
+                 'l10n_br_account_demo.xml',
+                 ],
     'installable': True
 }
 
