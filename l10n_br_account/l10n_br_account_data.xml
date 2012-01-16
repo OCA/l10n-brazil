@@ -34,6 +34,18 @@
 			<field name="ipi">False</field>
 			<field name="icms">False</field>
 		</record>
+		
+		<!-- l10n_br_account.fiscal.operation.category -->
+		<record id="fo_category_venda" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Venda</field>
+			<field name="name">Venda</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
 
 		<!-- account.tax.template -->
 		<record id="tax_template_47" model="account.tax.template">
