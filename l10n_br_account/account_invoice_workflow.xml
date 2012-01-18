@@ -87,7 +87,8 @@ write({'state':'cancel'})</field>
         <record id="account.t4" model="workflow.transition"> 
             <field name="act_from" ref="act_router"/> 
             <field name="act_to" ref="account.act_open"/> 
-            <field name="condition">fiscal_document_nfe == False or own_invoice == False</field> 
+            <field name="condition">fiscal_document_nfe == False or own_invoice == False</field>
+            <field name="signal" eval="False" /> 
         </record> 
  
     </data> 
