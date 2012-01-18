@@ -606,8 +606,8 @@ class account_invoice(osv.osv):
             for inv_line in inv.invoice_line:
                 
                 if inv_line.product_id:
-                    if not inv_line.product_id.code:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Codigo do produto\n' % (inv_line.product_id.name, inv_line.quantity)
+                    if not inv_line.product_id.default_code:
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Referência/Codigo do produto\n' % (inv_line.product_id.name, inv_line.quantity)
                         
                     if not inv_line.product_id.name:
                         strErro = u'Produtos e Serviços: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name,inv_line.quantity) 
