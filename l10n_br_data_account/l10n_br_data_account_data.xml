@@ -22,27 +22,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
-		</record>
-
-		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.operation.category">
-			<field name="code">SimplesRemessa</field>
-			<field name="name">Simples Remessa</field>
-			<field name="type">output</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
-		</record>
-	
-		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
-			<field name="code">Compras para Ind</field>
-			<field name="name">Compras para Industrialização</field>
-			<field name="type">input</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="1" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
-		</record>
+		</record>		
 		
 		<!-- l10n_br_account.fiscal.operation -->
 		<record id="fiscal_operation_devolucao_venda_interna" model="l10n_br_account.fiscal.operation">
@@ -148,7 +128,7 @@
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_427" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
@@ -161,7 +141,7 @@
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_571" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="fo_category_simples_remessa" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
@@ -174,7 +154,7 @@
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_3" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="1" name="use_purchase"/>
@@ -187,17 +167,11 @@
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_123" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="fo_category_compras_ind" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="1" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>					
-		</record>
-
-		<!-- res.company -->
-		<record id="base.main_company" model="res.company">
-			<field ref="fo_category_compras_ind" name="purchase_fiscal_category_operation_id" />
-			<field ref="fo_category_simples_remessa" name="stock_fiscal_category_operation_id" />
 		</record>
 
 		<!-- account.fiscal.position -->
@@ -1933,7 +1907,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="fiscal_operation_id" ref="fiscal_operation_venda_externa"/>
 		</record>
-		
+
 		<record id="template_fp_vendaexternasimples3420k" model="account.fiscal.position.template">
 			<field name="name">Venda Fora do Estado Simples Nacional Até 3.420.000,00</field>
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>

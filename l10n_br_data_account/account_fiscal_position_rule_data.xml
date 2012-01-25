@@ -1867,7 +1867,7 @@
 			<field name="revenue_start">0.00</field>
 			<field name="revenue_end">0.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_180k" model="account.fiscal.position.rule.template">
@@ -1886,7 +1886,7 @@
 			<field name="revenue_start">0.01</field>
 			<field name="revenue_end">180000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_360k" model="account.fiscal.position.rule.template">
@@ -1905,7 +1905,7 @@
 			<field name="revenue_start">180000.01</field>
 			<field name="revenue_end">360000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_540k" model="account.fiscal.position.rule.template">
@@ -1924,7 +1924,7 @@
 			<field name="revenue_start">360000.01</field>
 			<field name="revenue_end">540000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 
 		<record id="fiscal_position_rule_simples_nacional_720k" model="account.fiscal.position.rule.template">
@@ -1943,7 +1943,7 @@
 			<field name="revenue_start">540000.01</field>
 			<field name="revenue_end">720000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_900k" model="account.fiscal.position.rule.template">
@@ -1962,7 +1962,7 @@
 			<field name="revenue_start">720000.01</field>
 			<field name="revenue_end">900000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1080k" model="account.fiscal.position.rule.template">
@@ -1981,7 +1981,7 @@
 			<field name="revenue_start">900000.01</field>
 			<field name="revenue_end">1080000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1260k" model="account.fiscal.position.rule.template">
@@ -2000,7 +2000,7 @@
 			<field name="revenue_start">1080000.01</field>
 			<field name="revenue_end">1260000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1440k" model="account.fiscal.position.rule.template">
@@ -2019,7 +2019,7 @@
 			<field name="revenue_start">1260000.01</field>
 			<field name="revenue_end">1440000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1620k" model="account.fiscal.position.rule.template">
@@ -2038,7 +2038,7 @@
 			<field name="revenue_start">1440000.01</field>
 			<field name="revenue_end">1620000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1800k" model="account.fiscal.position.rule.template">
@@ -2057,7 +2057,7 @@
 			<field name="revenue_start">1620000.01</field>
 			<field name="revenue_end">1800000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1980k" model="account.fiscal.position.rule.template">
@@ -2076,7 +2076,7 @@
 			<field name="revenue_start">1800000.01</field>
 			<field name="revenue_end">1980000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2160k" model="account.fiscal.position.rule.template">
@@ -2095,7 +2095,7 @@
 			<field name="revenue_start">1980000.01</field>
 			<field name="revenue_end">2160000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2340k" model="account.fiscal.position.rule.template">
@@ -2114,7 +2114,7 @@
 			<field name="revenue_start">2160000.01</field>
 			<field name="revenue_end">2340000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2520k" model="account.fiscal.position.rule.template">
@@ -2133,7 +2133,7 @@
 			<field name="revenue_start">2340000.01</field>
 			<field name="revenue_end">2520000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2700k" model="account.fiscal.position.rule.template">
@@ -2152,7 +2152,7 @@
 			<field name="revenue_start">2520000.01</field>
 			<field name="revenue_end">2700000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2880k" model="account.fiscal.position.rule.template">
@@ -2171,7 +2171,7 @@
 			<field name="revenue_start">2700000.01</field>
 			<field name="revenue_end">2880000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3060k" model="account.fiscal.position.rule.template">
@@ -2190,7 +2190,7 @@
 			<field name="revenue_start">2880000.01</field>
 			<field name="revenue_end">3060000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3240k" model="account.fiscal.position.rule.template">
@@ -2209,7 +2209,7 @@
 			<field name="revenue_start">3060000.01</field>
 			<field name="revenue_end">3240000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3420k" model="account.fiscal.position.rule.template">
@@ -2228,7 +2228,7 @@
 			<field name="revenue_start">3240000.01</field>
 			<field name="revenue_end">3420000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3600k" model="account.fiscal.position.rule.template">
@@ -2247,7 +2247,7 @@
 			<field name="revenue_start">3420000.01</field>
 			<field name="revenue_end">3600000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		
@@ -2295,7 +2295,7 @@
 			<field name="revenue_start">0.00</field>
 			<field name="revenue_end">0.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_180k" model="account.fiscal.position.rule.template">
@@ -2314,7 +2314,7 @@
 			<field name="revenue_start">0.01</field>
 			<field name="revenue_end">180000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_360k" model="account.fiscal.position.rule.template">
@@ -2333,7 +2333,7 @@
 			<field name="revenue_start">180000.01</field>
 			<field name="revenue_end">360000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_540k" model="account.fiscal.position.rule.template">
@@ -2352,7 +2352,7 @@
 			<field name="revenue_start">360000.01</field>
 			<field name="revenue_end">540000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 
 		<record id="fiscal_position_rule_simples_nacional_720k" model="account.fiscal.position.rule.template">
@@ -2371,7 +2371,7 @@
 			<field name="revenue_start">540000.01</field>
 			<field name="revenue_end">720000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_900k" model="account.fiscal.position.rule.template">
@@ -2390,7 +2390,7 @@
 			<field name="revenue_start">720000.01</field>
 			<field name="revenue_end">900000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1080k" model="account.fiscal.position.rule.template">
@@ -2409,7 +2409,7 @@
 			<field name="revenue_start">900000.01</field>
 			<field name="revenue_end">1080000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1260k" model="account.fiscal.position.rule.template">
@@ -2428,7 +2428,7 @@
 			<field name="revenue_start">1080000.01</field>
 			<field name="revenue_end">1260000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1440k" model="account.fiscal.position.rule.template">
@@ -2447,7 +2447,7 @@
 			<field name="revenue_start">1260000.01</field>
 			<field name="revenue_end">1440000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1620k" model="account.fiscal.position.rule.template">
@@ -2466,7 +2466,7 @@
 			<field name="revenue_start">1440000.01</field>
 			<field name="revenue_end">1620000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1800k" model="account.fiscal.position.rule.template">
@@ -2485,7 +2485,7 @@
 			<field name="revenue_start">1620000.01</field>
 			<field name="revenue_end">1800000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_1980k" model="account.fiscal.position.rule.template">
@@ -2504,7 +2504,7 @@
 			<field name="revenue_start">1800000.01</field>
 			<field name="revenue_end">1980000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2160k" model="account.fiscal.position.rule.template">
@@ -2523,7 +2523,7 @@
 			<field name="revenue_start">1980000.01</field>
 			<field name="revenue_end">2160000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2340k" model="account.fiscal.position.rule.template">
@@ -2542,7 +2542,7 @@
 			<field name="revenue_start">2160000.01</field>
 			<field name="revenue_end">2340000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2520k" model="account.fiscal.position.rule.template">
@@ -2561,7 +2561,7 @@
 			<field name="revenue_start">2340000.01</field>
 			<field name="revenue_end">2520000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2700k" model="account.fiscal.position.rule.template">
@@ -2580,7 +2580,7 @@
 			<field name="revenue_start">2520000.01</field>
 			<field name="revenue_end">2700000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_2880k" model="account.fiscal.position.rule.template">
@@ -2599,7 +2599,7 @@
 			<field name="revenue_start">2700000.01</field>
 			<field name="revenue_end">2880000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3060k" model="account.fiscal.position.rule.template">
@@ -2618,7 +2618,7 @@
 			<field name="revenue_start">2880000.01</field>
 			<field name="revenue_end">3060000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3240k" model="account.fiscal.position.rule.template">
@@ -2637,7 +2637,7 @@
 			<field name="revenue_start">3060000.01</field>
 			<field name="revenue_end">3240000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3420k" model="account.fiscal.position.rule.template">
@@ -2656,7 +2656,7 @@
 			<field name="revenue_start">3240000.01</field>
 			<field name="revenue_end">3420000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 		
 		<record id="fiscal_position_rule_simples_nacional_3600k" model="account.fiscal.position.rule.template">
@@ -2675,7 +2675,7 @@
 			<field name="revenue_start">3420000.01</field>
 			<field name="revenue_end">3600000.00</field>
 			<field name="date_start">2012-12-31</field>
-			<!--<field name="date_end">2012-12-21</field> -->
+			<!--<field name="date_end"></field> -->
 		</record>
 
 	</data>

@@ -29,7 +29,9 @@
                 'account_fiscal_position_rule_stock', 
                 'l10n_br_account',
 		        ],
-    'init_xml': [],
+    'init_xml': [
+                 'l10n_br_stock_data.xml',
+                 ],
     'update_xml' : [
 		          'stock_view.xml',
                   'res_company_view.xml',

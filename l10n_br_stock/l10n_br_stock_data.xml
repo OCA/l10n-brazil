@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<openerp>
+
+	<data noupdate="1">
+
+		<!-- res.company -->
+		<record id="base.main_company" model="res.company">
+			<field name="stock_fiscal_category_operation_id" ref="l10n_br_account.fo_category_simples_remessa" />
+		</record>
+
+	</data>
+
+</openerp>
