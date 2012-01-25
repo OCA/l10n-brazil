@@ -28,16 +28,16 @@
     'depends' : [
                  'l10n_br_account',
 		         'account_fiscal_position_rule_purchase',
-		],
+		         ],
     'init_xml': [
-                 'data/l10n_br_purchase_data.xml',
-		],
+                 'l10n_br_purchase_data.xml',
+		         ],
     'update_xml' : [
                     'purchase_view.xml',
                     'res_company_view.xml',
                     'security/ir.model.access.csv',
                     'security/l10n_br_purchase_security.xml',
-    ],
+                    ],
     'installable': True
 }
 
