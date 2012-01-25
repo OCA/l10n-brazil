@@ -2258,6 +2258,7 @@ class account_invoice_line(osv.osv):
 account_invoice_line()
 
 class account_invoice_tax(osv.osv):
+
     _inherit = "account.invoice.tax"
     _description = "Invoice Tax"
 
@@ -2307,6 +2308,7 @@ class account_invoice_tax(osv.osv):
             t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
             t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
             t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
+        
         return tax_grouped
     
 account_invoice_tax()
