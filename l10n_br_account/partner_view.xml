@@ -8,12 +8,12 @@
             <field name="inherit_id" ref="account.view_account_position_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<field name="company_id" position="after">
+            	<field name="company_id" position="before">
 					<field name="fiscal_operation_id"/>
 				</field>
             </field>
         </record>
-		
+        
 		<record model="ir.ui.view" id="l10n_br_account_view_partner_form">
 			<field name="name">l10n_br_account.partner.form</field>
 			<field name="model">res.partner</field>
