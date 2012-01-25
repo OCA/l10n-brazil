@@ -46,6 +46,26 @@
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
 		</record>
+		
+		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Compras para Ind</field>
+			<field name="name">Compras para Industrialização</field>
+			<field name="type">input</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="1" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">SimplesRemessa</field>
+			<field name="name">Simples Remessa</field>
+			<field name="type">output</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
 
 		<!-- account.tax.template -->
 		<record id="tax_template_47" model="account.tax.template">
