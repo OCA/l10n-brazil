@@ -243,7 +243,7 @@ class account_invoice(osv.osv):
         'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
-        'nfe_date': fields.datetime('Data do Status NFE', readonly=True, states={'draft':[('readonly',False)]}),
+        'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, size=64, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
