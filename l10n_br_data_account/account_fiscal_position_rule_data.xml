@@ -2444,7 +2444,6 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="from_state" ref="l10n_br_base.br_rj" />
 		    <field name="to_country" ref="base.br" />
-		    <field name="to_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="template_fp_vendaexternasimples1080k" />
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
