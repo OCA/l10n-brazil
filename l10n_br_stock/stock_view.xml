@@ -74,42 +74,24 @@
 	   		<field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_view_picking_in_form1"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
-	   			<field name="address_id" position="replace">
+	   				<field name="address_id" position="replace">
 			        	<field name="address_id" string="Supplier" context="{'contact_display':'partner'}" on_change="onchange_partner_in(address_id, company_id, fiscal_operation_category_id)" />
-	            		</field>
-	        	</field>	
+            		</field>
+        	</field>	
 		</record>
-		<!-- 
-		<record id="l10n_br_view_picking_delivery_form" model="ir.ui.view">
-			<field name="name">l10n_br_stock.picking.delivery.form</field>
-	   		<field name="model">stock.picking</field>
-	   		<field name="inherit_id" ref="stock.view_picking_delivery_form"/>
-	   		<field name="priority">32</field>
-	   		<field name="arch" type="xml">
-  				<field name="move_type" position="after">
-			            <group colspan="2" attrs="{'invisible':[('invoice_state','!=','2binvoiced')]}">
-			            <field name="fiscal_operation_category_id" />
-		                <newline/>
-			            <field name="fiscal_operation_id" />
-			            <newline/>
-			            <field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]"/>
-					</group>
-	            </field>
-	        </field>
-		</record>
-		
-		<record id="l10n_br_view_picking_delivery_form1" model="ir.ui.view">
-			<field name="name">l10n_br_stock.picking.delivery.form1</field>
-	   		<field name="model">stock.picking</field>
-	   		<field name="inherit_id" ref="stock.view_picking_delivery_form"/>
-	   		<field name="priority">32</field>
-	   		<field name="arch" type="xml">
-  				<field name="address_id" position="replace">
-			           <field name="address_id" required="1" on_change="onchange_partner_in(address_id, fiscal_operation_category_id, company_id)" />
-	            </field>
-	        </field>
-		</record>
-		 -->
+
+		<record id="l10n_br_stock_incoterms_form" model="ir.ui.view">
+            <field name="name">l10n_br_stock.incoterms.form</field>
+            <field name="model">stock.incoterms</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.stock_incoterms_form"/>
+            <field name="arch" type="xml">
+            	<field name="code" position="after">
+			        	<field name="freight_responsibility" />
+	        	</field>
+            </field>
+        </record>
+
 	</data>
 
 </openerp>

@@ -20,6 +20,20 @@
 from osv import osv, fields
 from tools.translate import _
 
+class stock_incoterms(osv.osv):
+    
+    _inherit = "stock.incoterms"
+    
+    _columns = {
+                'freight_responsibility': fields.selection([('0','Emitente'),('1','Destinatário'),('2','Terceiros'),('9','Sem Frete')], 'Frete por Conta', required=True),
+                }
+    
+    _defaults = {
+                 'freight_responsibility': 0,
+                 }
+    
+stock_incoterms()
+
 class stock_picking(osv.osv):
     
     _inherit = "stock.picking"
