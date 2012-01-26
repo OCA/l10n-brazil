@@ -68,6 +68,7 @@ write({'state':'cancel'})</field>
             <field name="act_from" ref="act_sefaz_export"/> 
             <field name="act_to" ref="account.act_open"/>          
             <field name="condition">True</field>
+            <field name="signal">invoice_open</field>
         </record> 
  
 		<record id="tras_sefaz_export_exception" model="workflow.transition"> 
