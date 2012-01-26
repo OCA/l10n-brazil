@@ -44,7 +44,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-				<field name="default_code" position="after">
+				<field name="default_code" position="replace">
 				    <field name="default_code" attrs="{'required':[('fiscal_type','=','product'),('is_on_service_invoice','=',False)]}"/>
 				</field>
          	</field>
