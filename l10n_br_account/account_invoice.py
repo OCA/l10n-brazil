@@ -1199,14 +1199,11 @@ class account_invoice(osv.osv):
             
             
             # Modo do Frete: 0- Por conta do emitente; 1- Por conta do destinatário/remetente; 2- Por conta de terceiros; 9- Sem frete (v2.0)
-            StrRegX0 = '0'
-            
-            if inv.incoterm.code == 'FOB':
-                StrRegX0 = '0'
-                            
-            if inv.incoterm.code == 'CIF':
-                StrRegX0 = '1'           
-            
+            if not inv.incoterm:
+                StrRegX0 = '9'
+            else:
+                StrRegX0 = inv.incoterm.freight_responsibility                      
+
             StrX = 'X|%s|\n' % (StrRegX0)
             
             StrFile += StrX
