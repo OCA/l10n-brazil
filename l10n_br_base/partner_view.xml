@@ -20,7 +20,8 @@
 			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field name="cnpj_cpf" /> 	
+					<field name="cnpj_cpf" />
+					<field name="inscr_est" />
 				</field>
 			</field>
 		</record>
@@ -60,7 +61,8 @@
 	   		<field name="priority">33</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='zip']" position="replace">
-						<field name="zip" />
+						<field name="zip" on_change="onchange_mask_zip(zip)" />
+						<button name="zip_search" colspan="2" string="Pesquisar CEP" type="object" icon="gtk-select-all"/>
         			</xpath>
         		</field>
    		</record>
@@ -72,7 +74,7 @@
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='state_id']" position="after">
-						<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
         			</xpath>
         		</field>
    		</record>
@@ -114,9 +116,8 @@
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="zip" position="replace">
-					<field name="zip" />
-					<!-- <field name="zip" on_change="on_change_zip(zip)" />
-					<button name="search_cep" string="Open Margins" type="object" default_focus="1"/> -->
+					<field name="zip" on_change="onchange_mask_zip(zip)" />
+					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
 				</field>
 
 			</field>
@@ -139,7 +140,7 @@
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
 			<field name="arch" type="xml">
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 			</field>
 		</record> 
@@ -177,7 +178,7 @@
 			<field name="inherit_id" ref="base.view_partner_address_form2"/>
 			<field name="arch" type="xml">
 				<field name="state_id" position="after">
-					 <field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+					 <field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 			</field>
 		</record>
