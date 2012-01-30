@@ -1830,7 +1830,7 @@ class account_invoice(osv.osv):
             for line in inv.invoice_line:
                     line.cfop_id = obj_foperation.cfop_id.id
 
-        return result        
+        return result
 
 account_invoice()
 

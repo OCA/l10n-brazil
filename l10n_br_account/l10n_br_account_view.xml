@@ -131,8 +131,8 @@
 							<field name="name" select="1"/>
 							<field name="type" select="1"/>
 							<field name="fiscal_operation_category_id" select="1"/>
-							<field name="cfop_id" attrs="{'invisible': [('fiscal_type', '!=', 'product')], 'required': [('own_invoice', '!=', 'product')]}" domain="[('internal_type','=','normal'),('type','=',type)]" select="1"/>
-							<field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', 'service')], 'required': [('own_invoice', '!=', 'service')]}" domain="[('internal_type','=','normal')]" select="1"/>
+							<field name="cfop_id" attrs="{'invisible': [('fiscal_type', '!=', 'product')], 'required': [('fiscal_type', '=', 'product')]}" domain="[('internal_type','=','normal'),('type','=',type)]" select="1"/>
+							<field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', 'service')], 'required': [('fiscal_type', '=', 'service')]}" domain="[('internal_type','=','normal')]" select="1"/>
 							<field name="fiscal_document_id"/>
 							<field name="refund_fiscal_operation_id" domain="[('type','!=',type)]"/>
 							<field name="fiscal_type"/>
