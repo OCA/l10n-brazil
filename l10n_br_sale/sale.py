@@ -344,8 +344,8 @@ class sale_order_line(osv.osv):
                                                                                     '|',('to_state','=',to_state),('to_state','=',False),
                                                                                     '|',('partner_fiscal_type_id','=',partner_fiscal_type),('partner_fiscal_type_id','=',False),
                                                                                     '|',('to_state','=',to_state),('to_state','=',False),
-                                                                                    '|',('date_start', '=', False),('date_start', '<=', document_date),
-                                                                                    '|',('date_end', '=', False),('date_end', '>=', document_date),
+                                                                                    '|',('date_start', '=', False),('date_start', '<=', date_order),
+                                                                                    '|',('date_end', '=', False),('date_end', '>=', date_order),
                                                                                     '|',('revenue_start', '=', False),('revenue_start', '<=', obj_shop.company_id.annual_revenue),
                                                                                     '|',('revenue_end', '=', False),('revenue_end', '>=', obj_shop.company_id.annual_revenue),
                                                                                     ])                                                                    
