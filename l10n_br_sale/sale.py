@@ -337,7 +337,7 @@ class sale_order_line(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
         
-        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id), ('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id), ('use_sale','=',True),('fiscal_type', '=', obj_company.fiscal_type),
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',('company_id','=', obj_shop.company_id.id), ('fiscal_operation_category_id','=',obj_default_prod_categ.fiscal_operation_category_destination_id.id), ('use_sale','=',True),('fiscal_type', '=', obj_shop.company_id.fiscal_type),
                                                                                     '|',('from_country','=',from_country),('from_country','=',False),
                                                                                     '|',('to_country','=',to_country),('to_country','=',False),
                                                                                     '|',('from_state','=',from_state),('from_state','=',False),
@@ -346,8 +346,8 @@ class sale_order_line(osv.osv):
                                                                                     '|',('to_state','=',to_state),('to_state','=',False),
                                                                                     '|',('date_start', '=', False),('date_start', '<=', document_date),
                                                                                     '|',('date_end', '=', False),('date_end', '>=', document_date),
-                                                                                    '|',('revenue_start', '=', False),('revenue_start', '<=', obj_company.annual_revenue),
-                                                                                    '|',('revenue_end', '=', False),('revenue_end', '>=', obj_company.annual_revenue),
+                                                                                    '|',('revenue_start', '=', False),('revenue_start', '<=', obj_shop.company_id.annual_revenue),
+                                                                                    '|',('revenue_end', '=', False),('revenue_end', '>=', obj_shop.company_id.annual_revenue),
                                                                                     ])                                                                    
                                                                                             
         if fsc_pos_id:
