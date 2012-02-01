@@ -453,7 +453,7 @@
 				<field name="company_id" position="after">
 					<field name="fiscal_operation_category_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
 					<field name="fiscal_operation_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
-					<field colspan="4" name="cfop_id" attrs="{'invisible': [('fiscal_type', '=', 'service')], 'required': [('fiscal_type', '!=', 'service')]}" />
+					<field colspan="4" name="cfop_id" />
 					<field name="price_total"/>
 				</field>
 			</field>
