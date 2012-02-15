@@ -24,7 +24,7 @@
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
 	        	<field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
-			<field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]" />
+				<field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]" />
 		</record>
                 
 	</data>

@@ -88,7 +88,7 @@
 			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_281" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
@@ -102,7 +102,33 @@
 			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_431" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
-			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_revenda" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<record id="fiscal_operation_vendast_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">VendaST</field>
+			<field name="name">Venda com Subistitução Tributária Dentro do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="l10n_br_data_account.cfop_344" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_vendast" />
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
+		<record id="fiscal_operation_vendast_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">VendaST</field>
+			<field name="name">Venda com Subistitução Tributária Fora do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="l10n_br_data_account.cfop_496" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
@@ -209,6 +235,24 @@
 			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 7%</field>
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="fiscal_operation_id" ref="fiscal_operation_revenda_externa"/>
+		</record>
+
+		<record id="template_fp_vendastparadentrodoestado0" model="account.fiscal.position.template">
+			<field name="name">Venda com ST para Dentro do Estado</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_vendast_interna"/>
+		</record>
+		
+		<record id="template_fp_vendastforadoestadoicms0" model="account.fiscal.position.template">
+			<field name="name">Venda com ST Fora do Estado ICMS 7%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_vendast_externa"/>
+		</record>
+
+		<record id="template_fp_vendastforadoestadoicms1" model="account.fiscal.position.template">
+			<field name="name">Venda com ST Fora do Estado ICMS 12%</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="fiscal_operation_id" ref="fiscal_operation_vendast_externa"/>
 		</record>
 		
 		<record id="template_fp_vendadeservico1" model="account.fiscal.position.template">
