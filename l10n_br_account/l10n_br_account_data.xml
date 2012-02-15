@@ -47,6 +47,27 @@
 			<field eval="1" name="use_picking"/>
 		</record>
 		
+		<record id="fo_category_vendast" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">VendaST</field>
+			<field name="name">Venda de Mercadoria Sujeita a Substituição Tributária</field>
+			<field name="type">output</field>
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>			
+		</record>
+
+		<record id="fo_category_revenda" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Revenda</field>
+			<field name="name">Revenda</field>
+			<field name="type">output</field>
+			<field name="fiscal_type">product</field>
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+		</record>
+
 		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
 			<field name="code">Compras para Ind</field>
 			<field name="name">Compras para Industrialização</field>
