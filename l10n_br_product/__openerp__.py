@@ -28,7 +28,7 @@
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://www.openerpbrasil.org',
     'depends': ['l10n_br_account'],
-    'init_xml': [],
+    'init_xml': ['l10n_br_product_data.xml'],
     'update_xml': ['product_view.xml'],
     'test': [],
     'demo_xml': [

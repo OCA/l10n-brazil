@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		
+		<!-- product.pricelist -->
+		<record id="product.list0" model="product.pricelist">
+			<field name="currency_id" ref="base.BRL" />
+       		</record>
+
+	</data>
+</openerp>

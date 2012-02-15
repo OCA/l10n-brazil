@@ -4,9 +4,9 @@
 	<data noupdate="1">
 		
 		<!-- product.pricelist -->
-	    <record id="purchase.list0" model="product.pricelist">
+	    	<record id="purchase.list0" model="product.pricelist">
 			<field name="currency_id" ref="base.BRL" />
-	    </record>
+	    	</record>
 
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
