@@ -146,8 +146,12 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
         obj_fiscal_position = self.pool.get('account.fiscal.position')
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
         obj_fiscal_position_rule_template = self.pool.get('account.fiscal.position.rule.template')
+        obj_res_partner = self.pool.get('res.partner')
+        obj_res_country_state = self.pool.get('res.country.state')
 
         company_id = obj_wizard.company_id.id
+        company_addr = obj_res_partner.address_get(cr, uid, [company_id], ['default'])
+        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
 
         pfr_ids = obj_fiscal_position_rule_template.search(cr, uid, [])
 
@@ -159,16 +163,16 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
             to_state = fpr_template.to_state.id or False
             partner_fiscal_type_id = fpr_template.partner_fiscal_type_id.id or False
             fiscal_operation_category_id = fpr_template.fiscal_operation_category_id.id or False
-            revenue_start = fpr_template.revenue_start or False
-            revenue_end = fpr_template.revenue_end or False
-            
+    
             fiscal_position_id = False
-            fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fpr_template.fiscal_position_id.name),('company_id','=',company_id)])
+            fp_id = obj_fiscal_position.search(cr, uid, [
+                                                         ('name','=',fpr_template.fiscal_position_id.name),
+                                                         ('company_id','=',company_id)],)
             
             if fp_id:
                 fiscal_position_id = fp_id[0]
             
-            fpr_id = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr_template.name),
+            fprt_id = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr_template.name),
                                                                ('company_id','=',company_id),
                                                                ('description','=',fpr_template.description),
                                                                ('from_country','=',from_country),
@@ -180,16 +184,80 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                ('use_purchase','=',fpr_template.use_purchase),
                                                                ('use_picking','=',fpr_template.use_picking),
                                                                ('fiscal_position_id','=',fiscal_position_id),
-                                                               ('fiscal_type','=',fpr_template.fiscal_type),
-                                                               ('revenue_start','=',revenue_start),
-                                                               ('revenue_end','=',revenue_end),
                                                                ])
 
-            if fpr_id:
-                obj_fiscal_position_rule.write(cr, uid, fpr_id, {
-                                                                 'partner_fiscal_type_id': partner_fiscal_type_id, 
-                                                                 'fiscal_operation_category_id': fiscal_operation_category_id})
+            if fprt_id:
+                obj_fiscal_position_rule.write(cr, uid, fprt_id, {
+                                                                  'partner_fiscal_type_id': partner_fiscal_type_id, 
+                                                                  'fiscal_operation_category_id': fiscal_operation_category_id,
+                                                                  'fiscal_type': fpr_template.fiscal_type,
+                                                                  'revenue_start': fpr_template.revenue_start,
+                                                                  'revenue_end': fpr_template.revenue_end,})
 
+        pfr_ids = obj_fiscal_position_rule.search(cr, uid, [])
+        
+        for fpr in obj_fiscal_position_rule.browse(cr, uid, pfr_ids):
+        
+            values = {}
+        
+            if from_state != company_addr_default.state_id.id:
+                
+                from_country = fpr.from_country.id or False
+                from_state = fpr.from_state.id or False
+                to_country = fpr.to_country.id or False
+                to_state = fpr.to_state.id or False
+                
+                values['from_state'] = company_addr_default.state_id.id
+                
+                if company_addr_default.state_id.id == to_state:
+                    values['to_state'] = company_addr_default.state_id.id
+                    
+                    state_rj = obj_res_country_state.search(cr, uid, [('name','=','Rio de Janeiro')])
+                    
+                    pfr_internal = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr.name),
+                                                                             ('company_id','=',company_id),
+                                                                             ('from_country','=',from_country),
+                                                                             ('to_country','=',to_country),
+                                                                             ('to_state','=',state_rj[0]),
+                                                                             ('use_sale','=',fpr.use_sale),
+                                                                             ('use_invoice','=',fpr.use_invoice),
+                                                                             ('use_purchase','=',fpr.use_purchase),
+                                                                             ('use_picking','=',fpr.use_picking),
+                                                                             ('partner_fiscal_type_id','=',fpr.partner_fiscal_type_id.id),
+                                                                             ('fiscal_operation_category_id','=',fpr.fiscal_operation_category_id.id),
+                                                                             ('fiscal_type','=',fpr.fiscal_type),
+                                                                             ('revenue_start','=',fpr.revenue_start),
+                                                                             ('revenue_end','=',fpr.revenue_end),
+                                                                             ])
+            
+                    fiscal_position_rule_internal = obj_fiscal_position_rule.browse(cr, uid, pfr_internal)
+                    if fiscal_position_rule_internal:
+                        values['fiscal_position_id'] = fiscal_position_rule_internal[0].fiscal_position_id.id
+                
+                    state_sp = obj_res_country_state.search(cr, uid, [('name','=','São Paulo')])
+                
+                    pfr_external = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr.name),
+                                                                             ('company_id','=',company_id),
+                                                                             ('from_country','=',from_country),
+                                                                             ('to_country','=',to_country),
+                                                                             ('to_state','=',state_sp[0]),
+                                                                             ('use_sale','=',fpr.use_sale),
+                                                                             ('use_invoice','=',fpr.use_invoice),
+                                                                             ('use_purchase','=',fpr.use_purchase),
+                                                                             ('use_picking','=',fpr.use_picking),
+                                                                             ('partner_fiscal_type_id','=',fpr.partner_fiscal_type_id.id),
+                                                                             ('fiscal_operation_category_id','=',fpr.fiscal_operation_category_id.id),
+                                                                             ('fiscal_type','=',fpr.fiscal_type),
+                                                                             ('revenue_start','=',fpr.revenue_start),
+                                                                             ('revenue_end','=',fpr.revenue_end),
+                                                                             ])    
+                
+                    fiscal_position_rule_external = obj_fiscal_position_rule.browse(cr, uid, pfr_external)
+                    if fiscal_position_rule_external:
+                        obj_fiscal_position_rule.write(cr, uid, pfr_internal, {'fiscal_position_id': fiscal_position_rule_external[0].fiscal_position_id.id})
+                
+                obj_fiscal_position_rule.write(cr, uid, fpr.id, values)                
+        
         return {}
 
 wizard_account_fiscal_position_rule()
