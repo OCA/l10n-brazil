@@ -169,8 +169,39 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 13:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '01':
+            return False
+
+        # Pega apenas os 11 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:11]
+
+        prod = [4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        while len(nova_ie) < 13:
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r > 1:
+                f = 11 - r
+            else:
+                f = 0
+            nova_ie.append(f)
+            prod.insert(0, 5)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_al(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -179,9 +210,40 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '24':
+            return False
+
+        # verificando o tipo de empresa
+        #if not inscr_est[2] in ['0', '3', '5', '7', '8']:
+        #    return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = (sum([x*y for (x, y) in zip(nova_ie, prod)]) * 10) % 11
+        if r > 9:
+            r = 0
+        nova_ie.append(r)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+   
     def _validate_ie_am(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Amazonas
@@ -189,8 +251,33 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_ap(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -199,8 +286,52 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '03':
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # define os valores de 'p' e 'd'
+        inscr_est_int = int(inscr_est[:8])
+        if (inscr_est_int <= 3017000):
+            inscr_est_p = 5
+            inscr_est_d = 0
+        if (inscr_est_int >= 3017001) and (inscr_est_int <= 3019022):
+            inscr_est_p = 9
+            inscr_est_d = 1
+        if (inscr_est_int >= 3019023):
+            inscr_est_p = 0
+            inscr_est_d = 0
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = (inscr_est_p + sum([x*y for (x, y) in zip(nova_ie, prod)])) % 11
+        if r > 1:
+            f = 11 - r
+        elif r == 1:
+            f = 0
+        else:
+            f = inscr_est_d
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_ba(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -209,8 +340,80 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if (len(inscr_est) != 8) and (len(inscr_est) != 9):
+            return False
+
+        inscr_est = map(int, inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 8:
+
+            # Pega apenas os 6 primeiros dígitos da inscrição estadual e
+            # gera os dígitos verificadores
+            nova_ie = inscr_est[:6]
+
+            prod = [7, 6, 5, 4, 3, 2]
+
+            if inscr_est[0] in [0, 1, 2, 3, 4, 5, 8]:
+                modulo = 10
+            else:
+                modulo = 11
+
+            while len(nova_ie) < 8:
+
+                r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % modulo
+                if r > 0:
+                    f = modulo - r
+                else:
+                    f = 0
+
+                if len(nova_ie) < 7:
+                    nova_ie.append(f)
+                else:
+                    nova_ie.insert(6, f)
+
+                prod.insert(0, 8)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 9:
+
+            # Pega apenas os 7 primeiros dígitos da inscrição estadual e
+            # gera os dígitos verificadores
+            nova_ie = inscr_est[:7]
+
+            prod = [8, 7, 6, 5, 4, 3, 2]
+
+            if inscr_est[1] in [0, 1, 2, 3, 4, 5, 8]:
+                modulo = 10
+            else:
+                modulo = 11
+
+            while len(nova_ie) < 9:
+
+                r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % modulo
+                if r > 0:
+                    f = modulo - r
+                else:
+                    f = 0
+
+                if len(nova_ie) < 8:
+                    nova_ie.append(f)
+                else:
+                    nova_ie.insert(7, f)
+
+                prod.insert(0, 9)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_ce(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -219,8 +422,33 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_df(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -229,8 +457,39 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False._check_ie
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 13:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '07':
+            return False
+
+        # Pega apenas os 11 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:11]
+
+        prod = [4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        while len(nova_ie) < 13:
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r > 1:
+                f = 11 - r
+            else:
+                f = 0
+            nova_ie.append(f)
+            prod.insert(0, 5)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_es(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -239,9 +498,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_go(self, inscr_est):
         """Checks if company register number is val_check_ieid to Brazilian
         state Goiais
@@ -249,9 +533,48 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if not inscr_est[:2] in ['10', '11', '15']:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # define os valores de 'p' e 'd'
+        inscr_est_int = int(inscr_est[:8])
+        if ( inscr_est_int >= 10103105 ) and ( inscr_est_int <= 10119997 ):
+            inscr_est_d = 1
+        else:
+            inscr_est_d = 0
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        elif r == 1:
+            f = inscr_est_d
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+      
     def _validate_ie_ma(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Maranhão
@@ -259,9 +582,38 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO_check_ie
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '12':
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_mg(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Minas Gerais
@@ -269,9 +621,45 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 13:
+            return False
+
+        # Pega apenas os 11 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:11]
+
+        nova_ie_aux = list(nova_ie)
+        nova_ie_aux.insert(3, 0)
+        prod = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2]
+        r = str([x*y for (x, y) in zip(nova_ie_aux, prod)])
+        r = re.sub('[^0-9]', '', r)
+        r = map(int, r)
+        r = sum(r)
+        r2 = (r/10+1)*10
+        r = r2 - r
+        nova_ie.append(r)
+
+        prod = [3, 2, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+      
     def _validate_ie_ms(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Mato Grosso do Sul
@@ -279,8 +667,37 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '28':
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_mt(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -289,9 +706,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 11:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:10]
+
+        prod = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_pa(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Pará
@@ -299,9 +741,38 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '15':
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_pb(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Paraíba
@@ -309,9 +780,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_pe(self, inscr_est):
         """Check if number in insc_est is valid to Brazilian
         state of Pernambuco
@@ -319,9 +815,56 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if (len(inscr_est) != 9) and (len(inscr_est) != 14):
+            return False
+
+        inscr_est = map(int, inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 9:
+
+            # Pega apenas os 7 primeiros dígitos da inscrição estadual e
+            # gera os dígitos verificadores
+            inscr_est = map(int, inscr_est)
+            nova_ie = inscr_est[:7]
+
+            prod = [8, 7, 6, 5, 4, 3, 2]
+            while len(nova_ie) < 9:
+                r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+                if r > 1:
+                    f = 11 - r
+                else:
+                    f = 0
+                nova_ie.append(f)
+                prod.insert(0, 9)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 14:
+
+            # Pega apenas os 13 primeiros dígitos da inscrição estadual e
+            # gera o dígito verificador
+            inscr_est = map(int, inscr_est)
+            nova_ie = inscr_est[:13]
+
+            prod = [5, 4, 3, 2, 1, 9, 8, 7, 6, 5, 4, 3, 2]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            f = 11 - r
+            if f > 10:
+                f = f - 10
+            nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+      
     def _validate_ie_pi(self, inscr_est):
         """Check if number in insc_est is valid to Brazilian
         state of Piauí
@@ -329,9 +872,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_pr(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Rio de Paraná
@@ -339,9 +907,36 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 10:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [3, 2, 7, 6, 5, 4, 3, 2]
+        while len(nova_ie) < 10:
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r > 1:
+                f = 11 - r
+            else:
+                f = 0
+            nova_ie.append(f)
+            prod.insert(0, 4)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_rj(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Rio de janeiro
@@ -350,27 +945,26 @@ class res_partner(osv.osv):
         @return: True or False.
         """
         
-        # Limpando o cnpj
+        # Limpando a inscrição estadual
         if not inscr_est.isdigit():
             inscr_est = re.sub('[^0-9]', '', inscr_est)
 
-        # verificando o tamano do  cnpj
+        # verificando o tamanho da inscrição estadual
         if len(inscr_est) != 8:
             return False
 
-        # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
-        inscr_est= map(int, inscr_est)
+        # Pega apenas os 12 primeiros dígitos da inscrição estadual e
+        # gera os dígitos verificadores
+        inscr_est = map(int, inscr_est)
         nova_ie = inscr_est[:7]
 
         prod = [2, 7, 6, 5, 4, 3, 2]
-        while len(nova_ie) < 8:
-            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
-            if r > 1:
-                f = 11 - r
-            else:
-                f = 0
-            nova_ie.append(f)
-            prod.insert(0, 6)
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
 
         # Se o número gerado coincidir com o número original, é válido
         if nova_ie == inscr_est:
@@ -385,9 +979,54 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if (len(inscr_est) != 9) and (len(inscr_est) != 10):
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '20':
+            return False
+
+        inscr_est = map(int, inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 9:
+
+            # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+            # gera o dígito verificador
+            nova_ie = inscr_est[:8]
+
+            prod = [9, 8, 7, 6, 5, 4, 3, 2]
+            r = (sum([x*y for (x, y) in zip(nova_ie, prod)]) * 10) % 11
+            if r > 9:
+                r = 0
+            nova_ie.append(r)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 10:
+
+            # Pega apenas os 9 primeiros dígitos da inscrição estadual e
+            # gera o dígito verificador
+            nova_ie = inscr_est[:9]
+
+            prod = [10, 9, 8, 7, 6, 5, 4, 3, 2]
+            r = (sum([x*y for (x, y) in zip(nova_ie, prod)]) * 10) % 11
+            if r > 9:
+                r = 0
+            nova_ie.append(r)
+
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_ro(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Rondônia
@@ -395,9 +1034,55 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if (len(inscr_est) != 9) and (len(inscr_est) != 14):
+            return False
+
+        inscr_est = map(int, inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 9:
+
+            # Despreza-se os 3 primeiros dígitos, pega apenas os 8 primeiros
+            # dígitos da inscrição estadual e gera o dígito verificador
+            nova_ie = inscr_est[3:8]
+
+            prod = [6, 5, 4, 3, 2]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            f = 11 - r
+            if f > 9:
+                f = f - 10
+            nova_ie.append(f)
+
+            nova_ie.insert(0, inscr_est[0])
+            nova_ie.insert(1, inscr_est[1])
+            nova_ie.insert(2, inscr_est[2])
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) == 14:
+
+            # Pega apenas os 13 primeiros dígitos da inscrição estadual e
+            # gera o dígito verificador
+            nova_ie = inscr_est[:13]
+
+            prod = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            f = 11 - r
+            if f > 9:
+                f = f - 10
+            nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_rr(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Roraima
@@ -405,9 +1090,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando a inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # verificando os dois primeiros dígitos
+        if inscr_est[:2] != '24':
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [1, 2, 3, 4, 5, 6, 7, 8]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 9
+        nova_ie.append(r)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_rs(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Rio Grande do Sul
@@ -415,8 +1125,33 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 10:
+            return False
+
+        # Pega apenas os 9 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:9]
+
+        prod = [2, 9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
     
     def _validate_ie_sc(self, inscr_est):
         """Checks if company register number is valid to Brazilian
@@ -425,9 +1160,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_se(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Sergipe
@@ -435,9 +1195,34 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 9:
+            return False
+
+        # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+        # gera o dígito verificador
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:8]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_sp(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state São Paulo
@@ -445,9 +1230,86 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Industriais e comerciais
+        if inscr_est[0] != 'P':
+
+            # Limpando o campo inscrição estadual
+            if not inscr_est.isdigit():
+                inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+            # verificando o tamanho da inscrição estadual
+            if len(inscr_est) != 12:
+                return False
+
+            # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+            # gera o primeiro dígito verificador
+            inscr_est = map(int, inscr_est)
+            nova_ie = inscr_est[:8]
+
+            prod = [1, 3, 4, 5, 6, 7, 8, 10]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r < 10:
+                f = r
+            if r == 10:
+                f = 0
+            if r == 11:
+                f = 1
+            nova_ie.append(f)
+
+            # gera o segundo dígito verificador
+            nova_ie.append(inscr_est[9])
+            nova_ie.append(inscr_est[10])
+            prod = [3, 2, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r < 10:
+                f = r
+            if r == 10:
+                f = 0
+            if r == 11:
+                f = 1
+            nova_ie.append(f)
+
+        # Produtor rural
+        else:
+
+            # Limpando o campo inscrição estadual
+            if not inscr_est.isdigit():
+                inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+            # verificando o tamanho da inscrição estadual
+            if len(inscr_est) != 12:
+                return False
+
+            # verificando o primeiro dígito depois do 'P'
+            if inscr_est[0] != '0':
+                return False
+
+            # Pega apenas os 8 primeiros dígitos da inscrição estadual e
+            # gera o dígito verificador
+            inscr_est = map(int, inscr_est)
+            nova_ie = inscr_est[:8]
+
+            prod = [1, 3, 4, 5, 6, 7, 8, 10]
+            r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r < 10:
+                f = r
+            if r == 10:
+                f = 0
+            if r == 11:
+                f = 1
+            nova_ie.append(f)
+
+            nova_ie.append(inscr_est[9])
+            nova_ie.append(inscr_est[10])
+            nova_ie.append(inscr_est[11])
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     def _validate_ie_to(self, inscr_est):
         """Checks if company register number is valid to Brazilian
         state Tocantins
@@ -455,9 +1317,40 @@ class res_partner(osv.osv):
         @param inscr_est: The company state number value,
         @return: True or False.
         """
-        #TODO
-        return True
-    
+
+        # Limpando o campo inscrição estadual
+        if not inscr_est.isdigit():
+            inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+        # verificando o tamanho da inscrição estadual
+        if len(inscr_est) != 11:
+            return False
+
+        # verificando os dígitos 3 e 4
+        if not inscr_est[2:4] in ['01', '02', '03', '99']:
+            return False
+
+        # Pega apenas os dígitos que entram no cálculo
+        inscr_est = map(int, inscr_est)
+        nova_ie = inscr_est[:2] + inscr_est[4:10]
+
+        prod = [9, 8, 7, 6, 5, 4, 3, 2]
+        r = sum([x*y for (x, y) in zip(nova_ie, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        nova_ie.append(f)
+
+        nova_ie.insert(2, inscr_est[2])
+        nova_ie.insert(3, inscr_est[3])
+
+        # Se o número gerado coincidir com o número original, é válido
+        if nova_ie == inscr_est:
+            return True
+
+        return False
+     
     _constraints = [
                     (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
                     (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
