@@ -2,6 +2,11 @@
 <openerp>
 	<data noupdate="1">
 
+		<!-- res.company -->
+		<record id="base.main_company" model="res.company">
+			<field name="currency_id" ref="base.BRL"/>
+		</record>
+
 		<!-- l10n_br_account.partner.fiscal.type -->
 		<record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
 			<field name="code">Contribuinte</field>
