@@ -3,7 +3,7 @@
 
     <data noupdate="True">
 
- 		<!-- Default bank account description -->
+ 	<!-- Default bank account description -->
         <record id="fund" model="res.partner.bank.type">
             <field name="name">Conta Corrente</field>
             <field name="code">fund</field>
