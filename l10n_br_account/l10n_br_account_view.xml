@@ -126,7 +126,7 @@
 				<field name="type">form</field>
 				<field name="arch" type="xml">
 					<form string="Operação Fiscal">
-	                    <group colspan="8" col="4">
+	                    			<group colspan="8" col="4">
 							<field name="code" select="1"/>
 							<field name="name" select="1"/>
 							<field name="type" select="1"/>
@@ -141,13 +141,16 @@
 							<page string="Principal">
 								<field name="fiscal_operation_line" colspan="4" nolabel="1"/>
 							</page>
+							<page string="Avançado">
+								<field name="asset_operation" />
+							</page>							
 							<page string="Outros">
 								<separator colspan="4" string="Observações"/>
 								<field name="inv_copy_note"/>
 								<field name="note" colspan="4" nolabel="1"/>
 							</page>
 						</notebook>
-	                    <group colspan="4" col="8">
+	                    			<group colspan="4" col="8">
 							<field name="use_sale"/>
 							<field name="use_invoice"/>
 							<field name="use_purchase"/>
