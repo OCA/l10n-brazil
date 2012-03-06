@@ -157,11 +157,14 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
                 'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal',
                                                   domain="[('fiscal_type','=',fiscal_type)]", requeried=True),
+                'asset_operation': fields.boolean('Operação de Aquisição de Ativo', 
+                                                  help="Caso seja marcada essa opção, será incluido o IPI na base de calculo do ICMS.")
                 }
 
     _defaults = {
                 'type': 'output',
                 'fiscal_type': 'product',
+                'fiscal_type': False,
                 }
 
 l10n_br_account_fiscal_operation()
