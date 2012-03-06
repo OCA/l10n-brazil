@@ -44,7 +44,7 @@ class account_tax(osv.osv):
     
     _inherit = 'account.tax'
     
-    def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None):
+    def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None, force_excluded=False, fiscal_operation=False):
         """
         RETURN: {
                 'total': 0.0,                 # Total without taxes
@@ -56,7 +56,7 @@ class account_tax(osv.osv):
         """
         
         tax_obj = self.pool.get('account.tax')        
-        result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner)
+        result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner, force_excluded)
         totaldc = 0.0 
         totalbr = 0.0
         obj_precision = self.pool.get('decimal.precision')
@@ -71,35 +71,61 @@ class account_tax(osv.osv):
         
         for tax in result['taxes']:
             tax_brw = tax_obj.browse(cr, uid, tax['id'])
-            
+
+            if tax_brw.domain in ['icms', 'icmsst']:            
+                continue            
+
             if tax_brw.type == 'quantity':
                 tax['amount'] = round((quantity * product.weight_net) * tax_brw.amount, prec)
             
             if tax_brw.base_code_id.tax_discount:
-            
+                
                 if tax_brw.base_reduction <> 0:
-                    tax['amount'] = round(tax['amount'] * (1 - tax_brw.base_reduction), prec)    
-
+                    tax['amount'] = round(tax['amount'] * (1 - tax_brw.base_reduction), prec)  
                 totaldc += tax['amount']
-            
+
             if tax_brw.amount <> 0:
                 tax['total_base'] = round(result['total'] * (1 - tax_brw.base_reduction), prec)
             else:
                 tax['total_base'] = 0
-            
-            #Guarda o valor do icms para ser usado para calcular a st 
-            if tax_brw.domain == 'icms':
-                icms_base = tax['total_base']
-                icms_value = tax['amount']
-                icms_percent = tax_brw.amount
-            
+    
             #Guarda o valor do ipi para ser usado para calcular a st 
             if tax_brw.domain == 'ipi':
                 ipi_base = tax['total_base']
                 ipi_value = tax['amount']
                 ipi_percent = tax_brw.amount
 
-            
+
+        for tax_icms in result['taxes']:        
+            #Guarda o valor do icms para ser usado para calcular a st
+            tax_brw_icms = tax_obj.browse(cr, uid, tax_icms['id']) 
+            if tax_brw_icms.domain == 'icms':
+
+                if fiscal_operation and fiscal_operation.asset_operation or False:
+                    tax_base = result['total'] + ipi_value
+                    tax_icms['amount'] = round(tax_base * tax_brw_icms.amount, prec)
+                else:
+                    tax_base = result['total']
+
+                if tax_brw_icms.type == 'quantity':
+                    tax_icms['amount'] = round((quantity * product.weight_net) * tax_brw_icms.amount, prec)
+
+                if tax_brw_icms.base_reduction <> 0:
+                    tax_icms['amount'] = round(tax_icms['amount'] * (1 - tax_brw_icms.base_reduction), prec)
+
+                if tax_brw_icms.base_code_id.tax_discount:
+
+                    totaldc += tax_icms['amount']
+
+                if tax_brw.amount <> 0:
+                    tax_icms['total_base'] = round(tax_base * (1 - tax_brw_icms.base_reduction), prec)
+                else:
+                    tax_icms['total_base'] = 0
+
+                icms_base = tax_icms['total_base']
+                icms_value = tax_icms['amount']
+                icms_percent = tax_brw_icms.amount
+
         for tax_sub in result['taxes']:
             tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
             if tax_brw_sub.domain == 'icmsst':
