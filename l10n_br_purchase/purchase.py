@@ -77,7 +77,6 @@ class purchase_order(osv.osv):
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-
         return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
     
     _defaults = {
@@ -102,45 +101,32 @@ class purchase_order(osv.osv):
             partner_address_id = result['value']['partner_address_id']
 
         fiscal_data = self._fiscal_position_map(cr, uid, ids,partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-        
         result['value'].update(fiscal_data)
-
         return result
-
 
     def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False,
                                     company_id=False, fiscal_operation_category_id=False):
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-
         result['value'].update(fiscal_data)
-
         return result
-
 
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, 
                                               company_id=False, fiscal_operation_category_id=False):
         result = {'value': {}}
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-
         result['value'].update(fiscal_data)
-
         return result
     
     def action_invoice_create(self, cr, uid, ids, *args):
         res = super(purchase_order, self).action_invoice_create(cr, uid, ids, *args)
-
         if not res: 
             return res
         
         for order in self.browse(cr, uid, ids):
             for order_line in order.order_line: 
                 for inv_line in order_line.invoice_lines: 
-                
                     invoice_id = inv_line.invoice_id
-                    
                     fiscal_operation_id = order_line.fiscal_operation_id or order.fiscal_operation_id 
                     fiscal_operation_category_id = order_line.fiscal_operation_category_id or order.fiscal_operation_category_id
 
@@ -187,15 +173,14 @@ class purchase_order(osv.osv):
     
     def action_picking_create(self,cr, uid, ids, *args):
         picking_id = False
-
         for order in self.browse(cr, uid, ids):
 
             picking_id = super(purchase_order, self).action_picking_create(cr, uid, ids, *args)
             self.pool.get('stock.picking').write(cr, uid, picking_id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
-        
         return picking_id
     
 purchase_order()
+
 
 class purchase_order_line(osv.osv):
     _inherit = 'purchase.order.line'
