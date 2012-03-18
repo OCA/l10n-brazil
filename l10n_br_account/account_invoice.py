@@ -90,7 +90,7 @@ class account_invoice(osv.osv):
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
         
         result = super(account_invoice,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
-        
+
         if context is None:
             context = {}
 
@@ -113,9 +113,9 @@ class account_invoice(osv.osv):
                 for type in types:
                     type.set('context', "{'type': '%s', 'fiscal_type': '%s'}" % (context['type'],context.get('fiscal_type','product'),))
 
-                cfops = eview.xpath("//field[@name='cfop_ids']")
-                for cfop_ids in cfops:
-                    cfop_ids.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
+                #cfops = eview.xpath("//field[@name='cfop_ids']")
+                #for cfop_ids in cfops:
+                #    cfop_ids.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
 
                 fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
                 for fiscal_operation_category_id in fiscal_operation_categories:
@@ -1835,9 +1835,11 @@ class account_invoice(osv.osv):
 account_invoice()
 
 class account_invoice_line(osv.osv):
+    
     _inherit = 'account.invoice.line'
     
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False, 
+                        context=None, toolbar=False, submenu=False):
         
         result = super(account_invoice_line,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         
@@ -1850,7 +1852,10 @@ class account_invoice_line(osv.osv):
             
             if 'type' in context.keys():
 
-                operation_type = {'out_invoice': 'output', 'in_invoice': 'input', 'out_refund': 'input', 'in_refund': 'output'}
+                operation_type = {'out_invoice': 'output', 
+                                  'in_invoice': 'input', 
+                                  'out_refund': 'input', 
+                                  'in_refund': 'output'}
 
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
@@ -1870,9 +1875,10 @@ class account_invoice_line(osv.osv):
             
             if context.get('fiscal_type', False) == 'service':
                 
-                products = eview.xpath("//field[@name='product_id']")
-                for product_id in products:
-                    product_id.set('domain', "[('fiscal_type','=', '%s')]" % (context['fiscal_type']))
+                #products = eview.xpath("//field[@name='product_id']")
+                #for product_id in products:
+                #    print context['fiscal_type']
+                #    product_id.set('domain', "[('fiscal_type','=', '%s')]" % (context['fiscal_type']))
                 
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
@@ -2030,33 +2036,33 @@ class account_invoice_line(osv.osv):
                 tax_brw = tax_obj.browse(cr, uid, tax['id'])
                 
                 if tax_brw.domain == 'icms':
-                    icms_base += tax['total_base']
-                    icms_base_other += taxes['total'] - tax['total_base']
-                    icms_value += tax['amount']
+                    icms_base += tax.get('total_base', 0.0)
+                    icms_base_other += taxes['total'] - tax.get('total_base', 0.0)
+                    icms_value += tax.get('amount', 0.0)
                     icms_percent += tax_brw.amount * 100
                     icms_percent_reduction += tax_brw.base_reduction * 100
                 
                 if tax_brw.domain == 'ipi':
                     ipi_type = tax_brw.type
-                    ipi_base += tax['total_base']
-                    ipi_value += tax['amount']
+                    ipi_base += tax.get('total_base', 0.0)
+                    ipi_value += tax.get('amount', 0.0)
                     ipi_percent += tax_brw.amount * 100
                 
                 if tax_brw.domain == 'pis':
-                    pis_base += tax['total_base']
+                    pis_base += tax.get('total_base', 0.0)
                     pis_base_other += taxes['total'] - tax['total_base']
-                    pis_value += tax['amount'] 
+                    pis_value += tax.get('amount', 0.0) 
                     pis_percent += tax_brw.amount * 100
                 
                 if tax_brw.domain == 'cofins':
-                    cofins_base += tax['total_base']
-                    cofins_base_other += taxes['total'] - tax['total_base']
-                    cofins_value += tax['amount']
+                    cofins_base += tax.get('total_base', 0.0)
+                    cofins_base_other += taxes['total'] - tax.get('total_base', 0.0)
+                    cofins_value += tax.get('amount', 0.0)
                     cofins_percent += tax_brw.amount * 100
                     
                 if tax_brw.domain == 'icmsst':
-                    icms_st_value += tax['amount']
-                    icms_st_base += tax['total_base']
+                    icms_st_value += tax.get('amount', 0.0)
+                    icms_st_base += tax.get('total_base', 0.0)
                     #cst do tipo pauta 
                     #icms_st_percent += icms_value
                     icms_st_mva += tax_brw.amount_mva * 100
@@ -2131,9 +2137,9 @@ class account_invoice_line(osv.osv):
         return res
 
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]", readonly=True, states={'draft':[('readonly',False)]}),
-                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True, domain="[('fiscal_operation_id','=',fiscal_operation_id)]", states={'draft':[('readonly',False)]}),
+                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal', domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id)]"),
+                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
                 'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal', type="float",
                                                   digits_compute= dp.get_precision('Account'), store=True, multi='all'),
