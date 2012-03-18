@@ -33,7 +33,7 @@
 			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form2"/>
 			<field name="arch" type="xml">
 				<field name="partner_address_id" position="replace" >
-	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_id partner_address_id, company_id, fiscal_operation_category_id)"/>
+	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_id, partner_address_id, company_id, fiscal_operation_category_id)"/>
 				</field>
 			</field>
 		</record>
