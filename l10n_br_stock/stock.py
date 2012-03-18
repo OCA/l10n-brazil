@@ -21,7 +21,6 @@ from osv import osv, fields
 from tools.translate import _
 
 class stock_incoterms(osv.osv):
-    
     _inherit = "stock.incoterms"
     
     _columns = {
@@ -34,8 +33,8 @@ class stock_incoterms(osv.osv):
     
 stock_incoterms()
 
+
 class stock_picking(osv.osv):
-    
     _inherit = "stock.picking"
     _description = "Picking List"
 
@@ -48,7 +47,6 @@ class stock_picking(osv.osv):
                 }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
-
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)       
         return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id or False
     
@@ -58,18 +56,15 @@ class stock_picking(osv.osv):
 
     def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False, 
                              company_id=False, fiscal_operation_category_id=False):
-
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
         
         result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, 
                                                               company_id, fiscal_operation_category_id, 
                                                               context={'use_domain': ('use_picking','=',True)})
-        
         return result
 
     def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,
                             company_id=False,fiscal_operation_category_id=False):
-
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_address_id)
 
         if not result or not partner_address_id:
@@ -79,12 +74,10 @@ class stock_picking(osv.osv):
         partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
         fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
-        
         return result
 
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, 
                                               company_id=False, fiscal_operation_category_id=False):
-        
         result = {'value': {} }
         
         if not partner_address_id:
@@ -94,13 +87,10 @@ class stock_picking(osv.osv):
         partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
         fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
-
         return result
-
 
     def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
         '''Call after the creation of the invoice line'''
-
         fiscal_operation_id = fiscal_operation_category_id = False
 
         if move_line.sale_line_id:
@@ -119,12 +109,10 @@ class stock_picking(osv.osv):
             raise osv.except_osv(_('Movimentação sem operação fiscal !'),_("Não existe operação fiscal para uma linha de vendas relacionada ao produto %s .") % (move_line.product_id.name))
 
         self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': fiscal_operation_category_id.id ,'fiscal_operation_id': fiscal_operation_id.id})
-
         return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         '''Call after the creation of the invoice'''
-
         own_invoice = True
 
         if not picking.sale_id and not picking.purchase_id:
@@ -155,7 +143,6 @@ class stock_picking(osv.osv):
                                                                      'document_serie_id': company_id.document_serie_product_ids[0].id, 
                                                                      'user_id': salesman,
                                                                      'comment': comment})
-
         return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
 
 stock_picking()
