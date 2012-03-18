@@ -20,7 +20,6 @@
 from osv import fields,osv
 
 class delivery_carrier(osv.osv):
-
     _inherit = "delivery.carrier"
 
     _columns = {
