@@ -54,20 +54,16 @@ class account_tax(osv.osv):
                 'total_base': 0.0,            # Total Base by tax
             }
         """
-        
+
         tax_obj = self.pool.get('account.tax')        
         result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner, force_excluded)
-        totaldc = 0.0 
-        totalbr = 0.0
+        totaldc = totalbr = 0.0
+        
         obj_precision = self.pool.get('decimal.precision')
         prec = obj_precision.precision_get(cr, uid, 'Account')
         
-        icms_base = 0
-        icms_value = 0
-        icms_percent = 0
-        ipi_base = 0
-        ipi_value = 0
-        ipi_percent = 0
+        icms_base = icms_value = icms_percent = 0.0
+        ipi_base = ipi_value = ipi_percent = 0.0
         
         for tax in result['taxes']:
             tax_brw = tax_obj.browse(cr, uid, tax['id'])
@@ -96,7 +92,7 @@ class account_tax(osv.osv):
                 ipi_percent = tax_brw.amount
 
 
-        for tax_icms in result['taxes']:        
+        for tax_icms in result['taxes']:
             #Guarda o valor do icms para ser usado para calcular a st
             tax_brw_icms = tax_obj.browse(cr, uid, tax_icms['id']) 
             if tax_brw_icms.domain == 'icms':
@@ -129,7 +125,7 @@ class account_tax(osv.osv):
         for tax_sub in result['taxes']:
             tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
             if tax_brw_sub.domain == 'icmsst':
-                tax_sub['total_base'] += (result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)
+                tax_sub['total_base'] = (result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)
                 tax_sub['amount'] += (((result['total'] + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
 
         return {
