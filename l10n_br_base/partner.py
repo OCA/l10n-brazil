@@ -94,7 +94,6 @@ class res_partner(osv.osv):
         return result.keys()
 
     def _address_default_fs(self, cr, uid, ids, name, arg, context=None):
-
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
             res[partner.id] = {'addr_fs_code': False}
@@ -144,7 +143,6 @@ class res_partner(osv.osv):
 
         # Limpando o cnpj
         if not cnpj.isdigit():
-            import re
             cnpj = re.sub('[^0-9]', '', cnpj)
 
         # verificando o tamano do  cnpj
@@ -170,11 +168,9 @@ class res_partner(osv.osv):
             return True
 
         return False
-
-    def _validate_cpf(self, cpf):
-
+    
+    def _validate_cpf(self, cpf):  
         if not cpf.isdigit():
-            import re
             cpf = re.sub('[^0-9]', '', cpf)
 
         if len(cpf) != 11:
@@ -554,8 +550,6 @@ class res_partner(osv.osv):
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
         if not cnpj_cpf or not tipo_pessoa:
             return {}
-
-        import re
         val = re.sub('[^0-9]', '', cnpj_cpf)
 
         if tipo_pessoa == 'J' and len(val) == 14:
