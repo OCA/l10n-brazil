@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+ encoding: utf-8 -*-
 #################################################################################
 #                                                                               #
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
@@ -254,14 +254,12 @@ class sale_order(osv.osv):
             inv_obj.button_compute(cr, uid, [inv.id])
         return inv_id_product or inv_id_service
     
-
     def _prepare_order_picking(self, cr, uid, order, context=None):
         result = super(sale_order, self)._prepare_order_picking(cr, uid, order, context)
         result['fiscal_operation_category_id'] = order.fiscal_operation_category_id and order.fiscal_operation_category_id.id
         result['fiscal_operation_id'] = order.fiscal_operation_id and order.fiscal_operation_id.id
         result['fiscal_position'] = order.fiscal_position and order.fiscal_position.id
         return result
-
 
     def _amount_line_tax(self, cr, uid, line, context=None):
         val = 0.0
