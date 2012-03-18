@@ -29,7 +29,6 @@ import decimal_precision as dp
 from osv.orm import browse_record, browse_null
 
 class purchase_order(osv.osv):
-    
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -77,7 +76,6 @@ class purchase_order(osv.osv):
                 }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
-
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
 
         return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
@@ -88,7 +86,6 @@ class purchase_order(osv.osv):
 
     
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
-
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
 	    
         result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id,
@@ -99,7 +96,6 @@ class purchase_order(osv.osv):
         
     def onchange_partner_id(self, cr, uid, ids, partner_id=False, partner_address_id=False,
                             company_id=False, fiscal_operation_category_id=False):
-
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
 
         if result['value']['partner_address_id']:
@@ -114,7 +110,6 @@ class purchase_order(osv.osv):
 
     def onchange_partner_address_id(self, cr, uid, ids, partner_id=False, partner_address_id=False,
                                     company_id=False, fiscal_operation_category_id=False):
-        
         result = super(purchase_order, self ).onchange_partner_address_id(cr, uid, ids, partner_address_id, company_id)
 
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
@@ -126,7 +121,6 @@ class purchase_order(osv.osv):
 
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_id=False, partner_address_id=False, 
                                               company_id=False, fiscal_operation_category_id=False):
-        
         result = {'value': {}}
 
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
@@ -136,7 +130,6 @@ class purchase_order(osv.osv):
         return result
     
     def action_invoice_create(self, cr, uid, ids, *args):
-        
         res = super(purchase_order, self).action_invoice_create(cr, uid, ids, *args)
 
         if not res: 
@@ -193,7 +186,6 @@ class purchase_order(osv.osv):
         return res
     
     def action_picking_create(self,cr, uid, ids, *args):
-
         picking_id = False
 
         for order in self.browse(cr, uid, ids):
@@ -206,7 +198,6 @@ class purchase_order(osv.osv):
 purchase_order()
 
 class purchase_order_line(osv.osv):
-    
     _inherit = 'purchase.order.line'
 
     _columns = {
@@ -223,7 +214,6 @@ class purchase_order_line(osv.osv):
                           partner_id, date_order=False, fiscal_position=False, date_planned=False,
                           name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False,
                           fiscal_operation_id=False):
-        
         result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
                                                                     partner_id, date_order, fiscal_position, 
                                                                     date_planned, name, price_unit, notes)
