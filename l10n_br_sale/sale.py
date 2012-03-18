@@ -26,7 +26,6 @@ from tools import config
 from tools.translate import _
 
 class sale_shop(osv.osv):
-
     _inherit = 'sale.shop'
     
     _columns = {
@@ -36,7 +35,6 @@ class sale_shop(osv.osv):
 sale_shop()
 
 class sale_order(osv.osv):
-    
     _inherit = 'sale.order'
 
     def _get_order(self, cr, uid, ids, context={}):
@@ -277,7 +275,6 @@ sale_order()
 
 
 class sale_order_line(osv.osv):
-    
     _inherit = 'sale.order.line'
     
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
