@@ -21,7 +21,7 @@
 			<field name="arch" type="xml">
 				<field name="state_id" position="replace">
 					<field name="state_id" />
-					<field name="l10n_br_city_id" on_change="on_change_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 			</field>
 		</record>
