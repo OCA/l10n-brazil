@@ -20,7 +20,6 @@
 from osv import osv, fields
 
 class l10n_br_account_cfop(osv.osv):
-
     _name = 'l10n_br_account.cfop'
     _description = 'CFOP - Código Fiscal de Operações e Prestações'
 
@@ -58,8 +57,8 @@ class l10n_br_account_cfop(osv.osv):
 
 l10n_br_account_cfop()
 
-class l10n_br_account_service_type(osv.osv):
 
+class l10n_br_account_service_type(osv.osv):
     _name = 'l10n_br_account.service.type'
     _description = 'Cadastro de Operações Fiscais de Serviço'
 
@@ -92,8 +91,8 @@ class l10n_br_account_service_type(osv.osv):
 
 l10n_br_account_service_type()
 
+
 class l10n_br_account_fiscal_document(osv.osv):
-    
     _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
 
@@ -105,8 +104,8 @@ class l10n_br_account_fiscal_document(osv.osv):
 
 l10n_br_account_fiscal_document()
 
-class l10n_br_account_fiscal_operation_category(osv.osv):
 
+class l10n_br_account_fiscal_operation_category(osv.osv):
     _name = 'l10n_br_account.fiscal.operation.category'
     _description = 'Categoria de Operações Fiscais'
 
@@ -130,8 +129,8 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
 
 l10n_br_account_fiscal_operation_category()
 
-class l10n_br_account_fiscal_operation(osv.osv):
 
+class l10n_br_account_fiscal_operation(osv.osv):
     _name = 'l10n_br_account.fiscal.operation'
     _description = 'Operações fiscais'
 
@@ -169,8 +168,8 @@ class l10n_br_account_fiscal_operation(osv.osv):
 
 l10n_br_account_fiscal_operation()
 
+
 class l10n_br_account_fiscal_operation_line(osv.osv):
-    
     _name = 'l10n_br_account.fiscal.operation.line'
     _description = 'Linhas das operações ficais'
 
@@ -187,8 +186,8 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
 
 l10n_br_account_fiscal_operation_line()
 
-class l10n_br_account_document_serie(osv.osv):
 
+class l10n_br_account_document_serie(osv.osv):
     _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
     
@@ -209,34 +208,28 @@ class l10n_br_account_document_serie(osv.osv):
     def create_sequence(self, cr, uid, vals, context=None):
         """ Create new no_gap entry sequence for every new document serie
         """
-
         prefix = vals['code'].upper()
-
         seq = {
                'name': vals['name'],
                'implementation':'no_gap',
                'padding': 1,
                'number_increment': 1
                }
-        
         if 'company_id' in vals:
             seq['company_id'] = vals['company_id']
-        
         return self.pool.get('ir.sequence').create(cr, uid, seq)
 
     def create(self, cr, uid, vals, context=None):
-        """ Overwrite method to before create one new ir.sequence if this field is null
+        """ Overwrite method to create a new ir.sequence if this field is null
         """
-        
         if not 'internal_sequence_id' in vals or not vals['internal_sequence_id']:
             vals.update({'internal_sequence_id': self.create_sequence(cr, uid, vals, context)})
-        
         return super(l10n_br_account_document_serie, self).create(cr, uid, vals, context)
 
 l10n_br_account_document_serie()
 
-class l10n_br_account_partner_fiscal_type(osv.osv):
 
+class l10n_br_account_partner_fiscal_type(osv.osv):
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
 
@@ -250,8 +243,8 @@ class l10n_br_account_partner_fiscal_type(osv.osv):
 
 l10n_br_account_partner_fiscal_type()
 
-class l10n_br_account_cnae(osv.osv):
 
+class l10n_br_account_cnae(osv.osv):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
 
