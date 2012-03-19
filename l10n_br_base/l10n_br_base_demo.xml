@@ -2,7 +2,6 @@
 	<openerp>
 		<data>
 
-
 			<!-- Axelor -->
 			<record id="base.res_partner_desertic_hispafuentes" model="res.partner">
 			    	<field name="name">Axelor</field>
