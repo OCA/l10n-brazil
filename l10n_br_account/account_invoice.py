@@ -34,11 +34,9 @@ import decimal_precision as dp
 import pooler
 
 class account_invoice(osv.osv):
-
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
-        
         obj_precision = self.pool.get('decimal.precision')
         prec = obj_precision.precision_get(cr, uid, 'Account')
         
@@ -78,17 +76,14 @@ class account_invoice(osv.osv):
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
 
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
-
         return res
     
     def _get_fiscal_type(self, cr, uid, context=None):
-
         if context is None:
             context = {}
         return context.get('fiscal_type', 'product')
     
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        
         result = super(account_invoice,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
 
         if context is None:
@@ -127,7 +122,6 @@ class account_invoice(osv.osv):
                     fiscal_operation_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('fiscal_operation_category_id','=',fiscal_operation_category_id),('use_invoice','=',True)]" % (operation_type[context['type']],))
                     fiscal_operation_id.set('required', '1')
     
-            
             if context.get('fiscal_type', False) == 'service':
                 
                 delivery_infos = eview.xpath("//group[@name='delivery_info']")
@@ -176,7 +170,6 @@ class account_invoice(osv.osv):
             for node in nodes:
                 node.set('string', partner_string)
             result['arch'] = etree.tostring(doc)
-        
         return result
 
     def _get_invoice_line(self, cr, uid, ids, context=None):
@@ -374,7 +367,6 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def action_internal_number(self, cr, uid, ids, context=None):
-        
         if context is None:
             context = {}
         
@@ -387,7 +379,6 @@ class account_invoice(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
         #TODO: not correct fix but required a frech values before reading it.
@@ -420,15 +411,11 @@ class account_invoice(osv.osv):
                     ctx = self.get_log_context(cr, uid, context=ctx)
                 message = _("Invoice  '%s' is validated.") % ref
                 self.log(cr, uid, inv_id, message, context=ctx)
-        
         return True
 
     def action_move_create(self, cr, uid, ids, *args):
-        
         result = super(account_invoice, self).action_move_create(cr, uid, ids, *args)
-        
         for inv in self.browse(cr, uid, ids):
-            
             if inv.move_id:
                 self.pool.get('account.move').write(cr, uid, [inv.move_id.id], {'ref': inv.internal_number})
                 for move_line in inv.move_id.line_id:    
@@ -440,7 +427,6 @@ class account_invoice(osv.osv):
                     move_line_name = '%s/%s' % (inv.internal_number, i)
                     self.pool.get('account.move.line').write(cr, uid, [move_line.id], {'name': move_line_name})   
                     i -= 1
-                
         return result
 
     def nfe_dv(self, key):
@@ -448,7 +434,6 @@ class account_invoice(osv.osv):
         return '2'
 
     def nfe_check(self, cr, uid, ids, context=None):
-        
         strErro = ''
         
         if context is None:
@@ -604,11 +589,9 @@ class account_invoice(osv.osv):
                     
             #produtos
             for inv_line in inv.invoice_line:
-                
                 if inv_line.product_id:
                     if not inv_line.product_id.default_code:
                         strErro = u'Produtos e Serviços: %s, Qtde: %s - Referência/Codigo do produto\n' % (inv_line.product_id.name, inv_line.quantity)
-                        
                     if not inv_line.product_id.name:
                         strErro = u'Produtos e Serviços: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name,inv_line.quantity) 
         
@@ -646,7 +629,6 @@ class account_invoice(osv.osv):
         
 
     def nfe_export_txt(self, cr, uid, ids, nfe_environment='1', context=False):
-
         StrFile = ''
 
         StrNF = 'NOTA FISCAL|%s|\n' % len(ids)
@@ -830,7 +812,6 @@ class account_invoice(osv.osv):
                         StrG0 = 'G02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
         
                     StrFile += StrG0
-                    
             
             i = 0
             for inv_line in inv.invoice_line:
@@ -1026,7 +1007,6 @@ class account_invoice(osv.osv):
 
                     StrFile += StrN10h
 
-
                 StrRegO = {
                        'ClEnq': '',
                        'CNPJProd': '',
@@ -1092,8 +1072,6 @@ class account_invoice(osv.osv):
                 StrQ = 'Q|\n'
                 
                 StrFile += StrQ
-
-
                     
                 if inv_line.pis_cst in ('01') and inv_line.pis_percent > 0:
                     StrRegQ02 = {
@@ -1131,7 +1109,6 @@ class account_invoice(osv.osv):
                     StrQ02 = 'Q04|%s|\n' % inv_line.pis_cst
                     StrFile += StrQ02
                 
-                    
                 StrQ = 'S|\n'
                 
                 StrFile += StrQ
@@ -1168,7 +1145,6 @@ class account_invoice(osv.osv):
                 StrS02 = 'S04|%s|\n' % inv_line.cofins_cst
                 StrFile += StrS02
                 
-                
             StrW = 'W|\n'
             
             StrFile += StrW
@@ -1194,9 +1170,7 @@ class account_invoice(osv.osv):
                                                                          StrRegW02['vFrete'], StrRegW02['vSeg'], StrRegW02['vDesc'], StrRegW02['vII'], StrRegW02['vIPI'],
                                                                          StrRegW02['vPIS'], StrRegW02['vCOFINS'], StrRegW02['vOutro'], StrRegW02['vNF'])
             
-            
             StrFile += StrW02
-            
             
             # Modo do Frete: 0- Por conta do emitente; 1- Por conta do destinatário/remetente; 2- Por conta de terceiros; 9- Sem frete (v2.0)
             if not inv.incoterm:
@@ -1736,9 +1710,7 @@ class account_invoice(osv.osv):
         return xml_string
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
-
         result = {'fiscal_operation_id': False, 'fiscal_document_id': False, 'document_serie_id': False}
-
         obj_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice','=',True)})   
 
@@ -1750,68 +1722,47 @@ class account_invoice(osv.osv):
             
             obj_company = self.pool.get('res.company').browse(cr, uid, company_id)
             document_serie_id = [doc_serie for doc_serie in obj_company.document_serie_product_ids if doc_serie.fiscal_document_id.id == obj_foperation.fiscal_document_id.id and doc_serie.active]
-            
             if not document_serie_id:
                 raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (obj_company.name,))
             else:
                 result['document_serie_id'] = document_serie_id[0].id
-
             for inv in self.browse(cr,uid,ids):
                 for line in inv.invoice_line:
                         line.cfop_id = obj_foperation.cfop_id.id
-
         return result
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, date_invoice=False, 
                             payment_term=False, partner_bank_id=False, company_id=False, 
                             fiscal_operation_category_id=False):
-        
         result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
-
         partner_invoice_id = result['value'].get('address_invoice_id', False)
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id)
-
         result['value'].update(fiscal_data)
-
         return result
     
     def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id=False):
         
         result = super(account_invoice, self).onchange_company_id(cr, uid, ids, company_id, partner_id, type, invoice_line, currency_id, address_invoice_id)
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_operation_category_id)
-                    
         result['value'].update(fiscal_data)
-
         return result
 
     def onchange_address_invoice_id(self, cr, uid, ids, company_id, partner_id, address_invoice_id, fiscal_operation_category_id=False):
-        
         result = super(account_invoice, self).onchange_address_invoice_id(cr,uid,ids,company_id,partner_id,address_invoice_id)
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_operation_category_id)
-       
         result['value'].update(fiscal_data)
-
         return result  
 
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id=False, partner_id=False, company_id=False, fiscal_operation_category_id=False):
-        
         result = {'value': {} }
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-
         result['value'].update(fiscal_data)
-       
         return result
 
     def onchange_fiscal_operation_id(self, cr, uid, ids, partner_address_id=False, partner_id=False, company_id=False, fiscal_operation_category_id=False, fiscal_operation_id=False):
-
         result = {'value': {} }
-
         if not company_id or not fiscal_operation_category_id:
             return result
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
        
@@ -1834,8 +1785,8 @@ class account_invoice(osv.osv):
 
 account_invoice()
 
+
 class account_invoice_line(osv.osv):
-    
     _inherit = 'account.invoice.line'
     
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, 
@@ -1922,13 +1873,10 @@ class account_invoice_line(osv.osv):
         return result
     
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
-        
         res = {} #super(account_invoice_line, self)._amount_line(cr, uid, ids, prop, unknow_none, unknow_dict)
-        
         tax_obj = self.pool.get('account.tax')
         fsc_op_line_obj = self.pool.get('l10n_br_account.fiscal.operation.line')
         cur_obj = self.pool.get('res.currency')
-
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
                 'price_subtotal': 0.0,
@@ -2202,18 +2150,13 @@ class account_invoice_line(osv.osv):
                 }
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
-
         result = {'fiscal_operation_id': False, 'cfop_id': False}
-
         obj_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice','=',True)})
-
         result.update(fiscal_result)
-
         if result.get('fiscal_operation_id', False):
             obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, result['fiscal_operation_id'])
             result['cfop_id'] = obj_foperation.cfop_id.id
-
         return result
 
     #def onchange_fiscal_operation_id(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=False, fiscal_operation_id=False):
@@ -2233,36 +2176,26 @@ class account_invoice_line(osv.osv):
                           price_unit=False, address_invoice_id=False, currency_id=False, 
                           context=None, company_id=False, fiscal_operation_category_id=False, 
                           fiscal_operation_id=False):
-
         result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, 
                                                                      type, partner_id, fposition_id, price_unit, 
                                                                      address_invoice_id, currency_id, context, company_id)
-        
         if not fiscal_operation_category_id:
             return result
-
         default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_id','=', product),('fiscal_operation_category_source_id','=',fiscal_operation_category_id)])
-
         if not default_product_category:
-
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
-            
         if fiscal_operation_id:
             result['value']['fiscal_operation_id'] = fiscal_operation_id
             result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
-            
             return result
-
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_operation_category_id)
-        
         result['value'].update(fiscal_data)
-
         return result
 
 account_invoice_line()
 
-class account_invoice_tax(osv.osv):
 
+class account_invoice_tax(osv.osv):
     _inherit = "account.invoice.tax"
     _description = "Invoice Tax"
 
@@ -2284,7 +2217,6 @@ class account_invoice_tax(osv.osv):
                 val['manual'] = False
                 val['sequence'] = tax['sequence']
                 val['base'] = tax['total_base']
-
                 if inv.type in ('out_invoice','in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
@@ -2306,13 +2238,11 @@ class account_invoice_tax(osv.osv):
                     tax_grouped[key]['base'] += val['base']
                     tax_grouped[key]['base_amount'] += val['base_amount']
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
-
         for t in tax_grouped.values():
             t['base'] = cur_obj.round(cr, uid, cur, t['base'])
             t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
             t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
             t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
-        
         return tax_grouped
     
 account_invoice_tax()
