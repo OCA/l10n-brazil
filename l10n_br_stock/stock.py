@@ -36,7 +36,6 @@ stock_incoterms()
 
 class stock_picking(osv.osv):
     _inherit = "stock.picking"
-    _description = "Picking List"
 
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria'),
@@ -57,7 +56,6 @@ class stock_picking(osv.osv):
     def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False, 
                              company_id=False, fiscal_operation_category_id=False):
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
-        
         result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, 
                                                               company_id, fiscal_operation_category_id, 
                                                               context={'use_domain': ('use_picking','=',True)})
@@ -66,25 +64,21 @@ class stock_picking(osv.osv):
     def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,
                             company_id=False,fiscal_operation_category_id=False):
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_address_id)
-
-        if not result or not partner_address_id:
-            result = {'value': {}}
-        
-        partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-        partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
-        fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-        result['value'].update(fiscal_data)
+        if result and partner_address_id:
+            partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+            partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
+            fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+            result['value'].update(fiscal_data)
         return result
 
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, 
                                               company_id=False, fiscal_operation_category_id=False):
         result = {'value': {} }
-        if not partner_address_id:
-            return result
-        partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-        partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
-        fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
-        result['value'].update(fiscal_data)
+        if partner_address_id:
+            partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+            partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
+            fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+            result['value'].update(fiscal_data)
         return result
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line, invoice_id,
