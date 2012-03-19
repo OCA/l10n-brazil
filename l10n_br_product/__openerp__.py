@@ -32,6 +32,7 @@
     'update_xml': ['product_view.xml'],
     'test': [],
     'demo_xml': [
+                'l10n_br_product_demo.xml',
                  ],
     'installable': True,
     'active': False,
