@@ -129,11 +129,11 @@ class purchase_order(osv.osv):
 
     def action_invoice_create(self, cr, uid, ids, *args):#TODO ask OpenERP SA for a _prepare_invoice method!
         inv_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, *args)
-        company_id = order.company_id
-        if not company_id.document_serie_product_ids:
-            raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
         for order in self.browse(cr, uid, ids):
             if inv_id: #REMARK: super method is ugly as it assumes only one invoice for possibly several purchase orders.
+                company_id = order.company_id
+                if not company_id.document_serie_product_ids:
+                    raise osv.except_osv(_('No fiscal document serie found !'),_("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
                 comment = order.fiscal_operation_id.note or ''
                 if order.notes:
                     comment += ' - ' + order.notes
