@@ -2,6 +2,7 @@
 #################################################################################
 #                                                                               #
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
+# Copyright (C) 2012  Raphaël Valyi - Akretion                                  #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -25,8 +26,8 @@ import pooler
 from tools import config
 from tools.translate import _
 
-class sale_shop(osv.osv):
 
+class sale_shop(osv.osv):
     _inherit = 'sale.shop'
     
     _columns = {
@@ -35,8 +36,8 @@ class sale_shop(osv.osv):
 
 sale_shop()
 
+
 class sale_order(osv.osv):
-    
     _inherit = 'sale.order'
 
     def _get_order(self, cr, uid, ids, context={}):
@@ -167,7 +168,6 @@ class sale_order(osv.osv):
         return result
 		
     def _make_invoice(self, cr, uid, order, lines, context=None):
-        
         journal_obj = self.pool.get('account.journal')
         inv_obj = self.pool.get('account.invoice')
         obj_invoice_line = self.pool.get('account.invoice.line')
@@ -213,9 +213,9 @@ class sale_order(osv.osv):
             service_type_id = False
             comment = ''
             fiscal_type = ''
-            fiscal_operation_category_id = order.fiscal_operation_category_id or False
-            fiscal_operation_id = order.fiscal_operation_id or False
-            fiscal_position = order.fiscal_position and order.fiscal_position.id or False
+            fiscal_operation_category_id = order.fiscal_operation_category_id
+            fiscal_operation_id = order.fiscal_operation_id
+            fiscal_position = order.fiscal_position and order.fiscal_position.id
             
             inv_line_ids = map(lambda x: x.id, inv.invoice_line)
             
@@ -256,14 +256,11 @@ class sale_order(osv.osv):
             inv_obj.button_compute(cr, uid, [inv.id])
         return inv_id_product or inv_id_service
     
-    def action_ship_create(self, cr, uid, ids, *args):
-
-        result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
-
-        for order in self.browse(cr, uid, ids, context={}):
-            for picking in order.picking_ids:
-                self.pool.get('stock.picking').write(cr, uid, picking.id, {'fiscal_operation_category_id': order.fiscal_operation_category_id.id, 'fiscal_operation_id': order.fiscal_operation_id.id, 'fiscal_position': order.fiscal_position.id})
-
+    def _prepare_order_picking(self, cr, uid, order, context=None):
+        result = super(sale_order, self)._prepare_order_picking(cr, uid, order, context)
+        result['fiscal_operation_category_id'] = order.fiscal_operation_category_id and order.fiscal_operation_category_id.id
+        result['fiscal_operation_id'] = order.fiscal_operation_id and order.fiscal_operation_id.id
+        result['fiscal_position'] = order.fiscal_position and order.fiscal_position.id
         return result
 
     def _amount_line_tax(self, cr, uid, line, context=None):
@@ -276,8 +273,8 @@ class sale_order(osv.osv):
     
 sale_order()
 
+
 class sale_order_line(osv.osv):
-    
     _inherit = 'sale.order.line'
     
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
