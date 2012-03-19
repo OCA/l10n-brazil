@@ -2,6 +2,7 @@
 #################################################################################
 #                                                                               #
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
+# Copyright (C) 2012  Raphaël Valyi - Akretion                                  #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -25,6 +26,7 @@ import pooler
 from tools import config
 from tools.translate import _
 
+
 class sale_shop(osv.osv):
     _inherit = 'sale.shop'
     
@@ -33,6 +35,7 @@ class sale_shop(osv.osv):
     }
 
 sale_shop()
+
 
 class sale_order(osv.osv):
     _inherit = 'sale.order'
@@ -165,7 +168,6 @@ class sale_order(osv.osv):
         return result
 		
     def _make_invoice(self, cr, uid, order, lines, context=None):
-        
         journal_obj = self.pool.get('account.journal')
         inv_obj = self.pool.get('account.invoice')
         obj_invoice_line = self.pool.get('account.invoice.line')
@@ -211,9 +213,9 @@ class sale_order(osv.osv):
             service_type_id = False
             comment = ''
             fiscal_type = ''
-            fiscal_operation_category_id = order.fiscal_operation_category_id or False
-            fiscal_operation_id = order.fiscal_operation_id or False
-            fiscal_position = order.fiscal_position and order.fiscal_position.id or False
+            fiscal_operation_category_id = order.fiscal_operation_category_id
+            fiscal_operation_id = order.fiscal_operation_id
+            fiscal_position = order.fiscal_position and order.fiscal_position.id
             
             inv_line_ids = map(lambda x: x.id, inv.invoice_line)
             
