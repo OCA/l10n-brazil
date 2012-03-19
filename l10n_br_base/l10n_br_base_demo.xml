@@ -80,7 +80,7 @@
 			</record>
 
 			<!-- Vicking Direct -->
-			<record id="res_partner_vickingdirect0" model="res.partner">
+			<record id="base.res_partner_vickingdirect0" model="res.partner">
 				<field name="name">Vicking Direct</field>
 				<field name="legal_name">Vicking Direct</field>
 				<field name="website">vicking-direct.be</field>
@@ -91,7 +91,7 @@
 			</record>
 
 			<!-- Wood y Wood Pecker -->
-			<record id="res_partner_woodywoodpecker0" model="res.partner">
+			<record id="base.res_partner_woodywoodpecker0" model="res.partner">
 				<field name="name">Wood y Wood Pecker</field>
 				<field name="legal_name">Wood y Wood Pecker</field>
 				<field name="website">woodywoodpecker.com</field>
@@ -102,7 +102,7 @@
 			</record>
 
 			<!-- ZeroOne Inc -->
-			<record id="res_partner_zerooneinc0" model="res.partner">
+			<record id="base.res_partner_zerooneinc0" model="res.partner">
 				<field name="name">ZeroOne Inc</field>
 				<field name="legal_name">ZeroOne Inc</field>
 				<field name="website">http://www.zerooneinc.com/</field>
