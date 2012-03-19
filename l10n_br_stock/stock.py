@@ -97,7 +97,7 @@ class stock_picking(osv.osv):
         res['cfop_id'] = fiscal_operation_id and fiscal_operation_id.cfop_id and fiscal_operation_id.cfop_id.id
         res['fiscal_operation_category_id'] = fiscal_operation_category_id and fiscal_operation_category_id.id
         res['fiscal_operation_id'] = fiscal_operation_id and fiscal_operation_id.id
-        resturn res
+        return res
 
     def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
         res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
