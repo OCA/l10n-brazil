@@ -1,0 +1,411 @@
+<openerp>
+		
+	<data>
+
+		<!-- account.payment.term -->
+		<record id="account_payment_term_0" model="account.payment.term">
+       		<field name="active">True</field>
+			<field name="note"></field>
+			<field name="name">A Vista</field>
+   		</record>
+
+		<record id="account_payment_term_ddl0" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">07 e 14 dias liquidos</field>
+			<field name="name">07 / 14 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl1" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">07 e 28 dias liquidos</field>
+			<field name="name">07 / 28 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl2" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">7 dias liquidos</field>
+			<field name="name">07 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl3" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">10 dias liquidos</field>
+			<field name="name">10 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl4" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">14 e 28 dias liquidos</field>
+			<field name="name">14 / 28 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl5" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">14 dias liquidos</field>
+			<field name="name">14 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl6" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">14 e 45 dias liquidos</field>
+			<field name="name">15 / 45 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl7" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">15 dias liquidos</field>
+			<field name="name">15 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl8" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">21 dias liquidos</field>
+			<field name="name">21 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl9" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">28, 35, 42, 49 dias liquidos</field>
+			<field name="name">28 / 35 / 42 / 49 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl10" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">28 e 35 dias liquidos</field>
+			<field name="name">28 / 35 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl11" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">28 dias liquidos</field>
+			<field name="name">28 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl12" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">30, 60, 90 e 120 dias liquidos</field>
+			<field name="name">30 / 60 / 90 / 120 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl13" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">30, 60, e 90 dias liquidos</field>
+			<field name="name">30 / 60 / 90 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl14" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">30 e 60 dias liquidos</field>
+			<field name="name">30 / 60 DDL</field>
+		</record>
+
+		<record id="account_payment_term_diasforaoms0" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">30 dias fora o mês </field>
+			<field name="name">30 Dias Fora o mês </field>
+		</record>
+
+		<record id="account_payment_term_ddl15" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">35 dias liquidos</field>
+			<field name="name">35 DDL</field>
+		</record>
+
+		<record id="account_payment_term_ddl16" model="account.payment.term">
+			<field eval="1" name="active"/>
+			<field name="note">45 dias liquidos</field>
+			<field name="name">45 DDL</field>
+		</record>
+
+		<record id="account_payment_term_line_dias0" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 28 DDL')]"/>
+			<field name="name">7 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="7" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias1" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'15 / 45 DDL')]"/>
+			<field name="name">15 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="15" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias2" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 DDL')]"/>
+			<field name="name">30 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="30" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias3" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 / 42 / 49 DDL')]"/>
+			<field name="name">28 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="28" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias4" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 14 DDL')]"/>
+			<field name="name">07 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="7" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias5" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 DDL')]"/>
+			<field name="name">28 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="28" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias6" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 / 120 DDL')]"/>
+			<field name="name">30 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="30" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias7" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'14 / 28 DDL')]"/>
+			<field name="name">14 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="14" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias8" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 DDL')]"/>
+			<field name="name">30 Dias</field>
+			<field eval="1" name="sequence"/>
+			<field eval="30" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.34" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias9" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'15 / 45 DDL')]"/>
+			<field name="name">45 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="45" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias10" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 / 120 DDL')]"/>
+			<field name="name">60 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="60" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias11" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 14 DDL')]"/>
+			<field name="name">14 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="14" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias12" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'14 / 28 DDL')]"/>
+			<field name="name">28 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="28" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias13" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 DDL')]"/>
+			<field name="name">60 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="60" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.33" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias14" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 28 DDL')]"/>
+			<field name="name">28 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="28" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias15" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 DDL')]"/>
+			<field name="name">35 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="35" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias16" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 / 42 / 49 DDL')]"/>
+			<field name="name">35 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="35" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias17" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 DDL')]"/>
+			<field name="name">60 Dias</field>
+			<field eval="2" name="sequence"/>
+			<field eval="60" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.5" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias18" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 / 42 / 49 DDL')]"/>
+			<field name="name">42 Dias</field>
+			<field eval="3" name="sequence"/>
+			<field eval="42" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias19" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 / 120 DDL')]"/>
+			<field name="name">90 Dias</field>
+			<field eval="3" name="sequence"/>
+			<field eval="90" name="days"/>
+			<field name="value">procent</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias20" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 DDL')]"/>
+			<field name="name">90 Dias</field>
+			<field eval="3" name="sequence"/>
+			<field eval="90" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.33" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias21" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 / 35 / 42 / 49 DDL')]"/>
+			<field name="name">49 Dias</field>
+			<field eval="4" name="sequence"/>
+			<field eval="49" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias22" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 / 60 / 90 / 120 DDL')]"/>
+			<field name="name">120 Dias</field>
+			<field eval="4" name="sequence"/>
+			<field eval="120" name="days"/>
+			<field name="value">balance</field>
+			<field eval="0.25" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_daysendofmonth0" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'30 Dias Fora o m\xeas ')]"/>
+			<field name="name">30 Days End of Month</field>
+			<field eval="5" name="sequence"/>
+			<field eval="-1" name="days2"/>
+			<field eval="30" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias23" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'10 DDL')]"/>
+			<field name="name">10 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="10" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias24" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'14 DDL')]"/>
+			<field name="name">14 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="14" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias25" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'15 DDL')]"/>
+			<field name="name">15 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="15" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias26" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'21 DDL')]"/>
+			<field name="name">21 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="21" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias27" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'28 DDL')]"/>
+			<field name="name">28 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="28" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias28" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'35 DDL')]"/>
+			<field name="name">35 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="35" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias29" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'45 DDL')]"/>
+			<field name="name">45 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="45" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+		<record id="account_payment_term_line_dias30" model="account.payment.term.line">
+			<field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 DDL')]"/>
+			<field name="name">7 Dias</field>
+			<field eval="5" name="sequence"/>
+			<field eval="7" name="days"/>
+			<field name="value">balance</field>
+			<field eval="1.0" name="value_amount"/>
+		</record>
+
+	</data>
+
+</openerp>
