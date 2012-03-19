@@ -22,7 +22,6 @@ from tools.translate import _
 import re
 
 class crm_lead2partner(osv.osv_memory):
-
     _inherit = 'crm.lead2partner'
     
     def _create_partner(self, cr, uid, ids, context=None):
