@@ -38,7 +38,8 @@
                   'wizard/stock_invoice_onshipping_view.xml',
                   'security/ir.model.access.csv',
                   ],
-    'installable': True
+    'installable': True,
+    'auto_install': True
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
