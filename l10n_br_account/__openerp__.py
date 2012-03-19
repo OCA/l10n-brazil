@@ -57,7 +57,7 @@
 		        'l10n_br_account_demo.xml',
                 'demo/product_demo.xml',
                 'demo/account_financial_demo.xml',
-                'demo/account_fiscal_demo.xml',
+                #'demo/account_fiscal_demo.xml',
                  ],
     'installable': True,
     'auto_install': True,
