@@ -29,7 +29,7 @@
     'init_xml': [
                 'l10n_br_account.cfop.csv',
                 'l10n_br_account.fiscal.document.csv',
-                'account_product_fiscal_classification_data.xml',
+                #'account_product_fiscal_classification_data.xml',
                 'l10n_br_account.cnae.csv',
                 'l10n_br_account.service.type.csv',
                 'l10n_br_data_account_data.xml',
@@ -37,7 +37,9 @@
                 ],
     "update_xml" : [
                    ],
-    'demo_xml': ['l10n_br_account_demo.xml'],
+    'demo_xml': [
+                'l10n_br_data_account_demo.xml'
+                ],
     "category" : "Localisation",
     "active": False,
     "installable": True

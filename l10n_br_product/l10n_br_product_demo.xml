@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- product.product -->
+
+		<!-- Mainboard ASUStek A7N8X -->
+		<record id="product.product_product_mb1" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Mainboard ASUStek A7V8X-X -->
+		<record id="product.product_product_mb2" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Onsite Senior Intervention -->
+		<record id="product.product_product_0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Onsite Intervention -->
+		<record id="product.product_product_1" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Basic+ PC (assembly on order) -->
+		<record id="product.product_product_pc2" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Processor AMD Athlon XP 1800+ -->
+		<record id="product.product_product_cpu1" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Basic PC -->
+		<record id="product.product_product_pc1" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Medium PC -->
+		<record id="product.product_product_pc3" model="product.product">
+			<field name="origin">0</field>
+		</record>
+		
+		<!-- HDD Seagate 7200.8 120GB -->
+		<record id="product.product_product_hdd2" model="product.product">
+			<field name="origin">1</field>
+		</record>
+
+		<!-- DDR 256MB PC400 -->
+		<record id="product.product_product_ram" model="product.product">
+			<field name="origin">1</field>
+		</record>
+
+		<!-- DDR 512MB PC400 -->
+		<record id="product.product_product_ram512" model="product.product">
+			<field name="origin">1</field>
+		</record>
+
+		<!-- Regular case fan 80mm -->
+		<record id="product.product_product_fan" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Silent fan -->
+		<record id="product.product_product_fan2" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- KIT Shelf of 100cm -->
+		<record id="product.product_product_kitshelfofcm0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Shelf Panel -->
+		<record id="product.product_product_span100" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Wood 2mm -->
+		<record id="product.product_product_woodmm0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Wooden Table -->
+		<record id="product.product_product_woodentable0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Wood 10mm -->
+		<record id="product.product_product_woodmm10" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Kitchen Design Project -->
+		<record id="product.product_product_kitchendesignproject0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- Employee -->
+		<record id="product.product_product_employee0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+		<!-- KIT Shelf of 100cm -->
+		<record id="product.product_product_kitshelfofcm0" model="product.product">
+			<field name="origin">0</field>
+		</record>
+
+	</data>
+</openerp>
