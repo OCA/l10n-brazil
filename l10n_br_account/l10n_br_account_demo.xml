@@ -1,6 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-	
+
+	<data noupdate="1">
+
+		<!-- account.journal -->
+		<record id="profile_diario_bonificacao" model="account.journal">
+		    <field name="name">Incas-Bonificação</field>
+		    <field name="code">IBON</field>
+		    <field name="type">sale</field>
+		    <field name="view_id" ref="account.account_sp_journal_view"/>
+		    <field name="sequence_id" ref="account.sequence_sale_journal"/>
+		    <field name="update_posted" eval="1" />
+		    <field name="group_invoice_lines" eval="0" />
+		    <field name="default_credit_account_id" ref="account_demo_602"/>
+		    <field name="default_debit_account_id" ref="account_demo_602"/>
+		    <field name="user_id" ref="base.user_root"/>
+		    <field name="company_id" ref="base.main_company"/>
+		</record>
+
+		<!-- account.tax -->
+		<record id="demo_tax_template_1" model="account.tax">
+			<field name="description">IPI</field>
+			<field name="name">IPI</field>
+			<field name="amount">0.00</field>
+			<field ref="account_demo_244" name="account_collected_id" />
+			<field ref="account_demo_44" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">ipi</field>
+			<field ref="demo_tax_code_3" name="base_code_id" />
+			<field ref="demo_tax_code_3" name="tax_code_id" />
+			<field ref="demo_tax_code_3" name="ref_base_code_id" />
+			<field ref="demo_tax_code_3" name="ref_tax_code_id" />
+       		</record>
+
+		<record id="demo_tax_template_3" model="account.tax">
+			<field name="description">IPI 2%</field>
+			<field name="name">IPI 2%</field>
+			<field name="amount">0.02</field>
+			<field ref="account_demo_244" name="account_collected_id" />
+			<field ref="account_demo_44" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">ipi</field>
+			<field ref="demo_tax_code_3" name="base_code_id" />
+			<field ref="demo_tax_code_3" name="tax_code_id" />
+			<field ref="demo_tax_code_3" name="ref_base_code_id" />
+			<field ref="demo_tax_code_3" name="ref_tax_code_id" />
+       		</record>
+
+		<record id="demo_tax_template_6" model="account.tax">
+			<field name="description">IPI 5%</field>
+			<field name="name">IPI 5%</field>
+			<field name="amount">0.05</field>
+			<field ref="account_demo_244" name="account_collected_id" />
+			<field ref="account_demo_44" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">ipi</field>
+			<field ref="demo_tax_code_3" name="base_code_id" />
+			<field ref="demo_tax_code_3" name="tax_code_id" />
+			<field ref="demo_tax_code_3" name="ref_base_code_id" />
+			<field ref="demo_tax_code_3" name="ref_tax_code_id" />
+       		</record>
+
+
+		<record id="demo_tax_template_9" model="account.tax">
+			<field name="description">IPI 10%</field>
+			<field name="name">IPI 10%</field>
+			<field name="amount">0.10</field>
+			<field ref="account_demo_244" name="account_collected_id" />
+			<field ref="account_demo_44" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">ipi</field>
+			<field ref="demo_tax_code_3" name="base_code_id" />
+			<field ref="demo_tax_code_3" name="tax_code_id" />
+			<field ref="demo_tax_code_3" name="ref_base_code_id" />
+			<field ref="demo_tax_code_3" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_12" model="account.tax">
+			<field name="description">IPI 15%</field>
+			<field name="name">IPI 15%</field>
+			<field name="amount">0.15</field>
+			<field ref="account_demo_244" name="account_collected_id" />
+			<field ref="account_demo_44" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">ipi</field>
+			<field ref="demo_tax_code_3" name="base_code_id" />
+			<field ref="demo_tax_code_3" name="tax_code_id" />
+			<field ref="demo_tax_code_3" name="ref_base_code_id" />
+			<field ref="demo_tax_code_3" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_27" model="account.tax">
+			<field name="description">ICMS Interno</field>
+			<field name="name">ICMS Interno</field>
+			<field name="amount">0.00</field>
+			<field ref="account_demo_241" name="account_collected_id" />
+			<field ref="account_demo_42" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="1" name="tax_discount" />
+			<field name="domain">icms</field>
+			<field ref="demo_tax_code_1" name="base_code_id" />
+			<field ref="demo_tax_code_1" name="tax_code_id" />
+			<field ref="demo_tax_code_1" name="ref_base_code_id" />
+			<field ref="demo_tax_code_1" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_28" model="account.tax">
+			<field name="description">ICMS Externo</field>
+			<field name="name">ICMS Externo</field>
+			<field name="amount">0.00</field>
+			<field ref="account_demo_241" name="account_collected_id" />
+			<field ref="account_demo_42" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="1" name="tax_discount" />
+			<field name="domain">icms</field>
+			<field ref="demo_tax_code_1" name="base_code_id" />
+			<field ref="demo_tax_code_1" name="tax_code_id" />
+			<field ref="demo_tax_code_1" name="ref_base_code_id" />
+			<field ref="demo_tax_code_1" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_29" model="account.tax">
+			<field name="description">ICMS Subist</field>
+			<field name="name">ICMS Subist</field>
+			<field name="amount">0.00</field>
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">icms</field>
+			<field ref="demo_tax_code_2" name="base_code_id" />
+			<field ref="demo_tax_code_2" name="tax_code_id" />
+			<field ref="demo_tax_code_2" name="ref_base_code_id" />
+			<field ref="demo_tax_code_2" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_34" model="account.tax">
+			<field name="description">PIS</field>
+			<field name="name">PIS</field>
+			<field name="amount">0.00</field>
+			<field ref="account_demo_243" name="account_collected_id" />
+			<field ref="account_demo_49" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="1" name="tax_discount" />
+			<field name="domain">pis</field>
+			<field ref="demo_tax_code_4" name="base_code_id" />
+			<field ref="demo_tax_code_4" name="tax_code_id" />
+			<field ref="demo_tax_code_4" name="ref_base_code_id" />
+			<field ref="demo_tax_code_4" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_template_36" model="account.tax">
+			<field name="description">COFINS</field>
+			<field name="name">COFINS</field>
+			<field name="amount">0.00</field>
+			<field ref="account_demo_242" name="account_collected_id" />
+			<field ref="account_demo_39" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="1" name="tax_discount" />
+			<field name="domain">cofins</field>
+			<field ref="demo_tax_code_5" name="base_code_id" />
+			<field ref="demo_tax_code_5" name="tax_code_id" />
+			<field ref="demo_tax_code_5" name="ref_base_code_id" />
+			<field ref="demo_tax_code_5" name="ref_tax_code_id" />
+		</record>
+
+		<!-- account.product.fiscal.classification -->
+		<record id="demo_fiscal_classification_motherboad" model="account.product.fiscal.classification">
+			<field name="name">8473.30.41</field>
+			<field name="description">Placas-mãe ("mother boards")</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_hd" model="account.product.fiscal.classification">
+			<field name="name">8471.70.12</field>
+			<field name="description">Para discos rígidos, com um só conjunto
+				cabeça-disco (HDA-"Head Disk Assembly")</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_memory" model="account.product.fiscal.classification">
+			<field name="name">8473.30.42</field>
+			<field name="description">Placas (módulos) de memória com uma superfície
+				inferior ou igual a 50cm2</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_processor" model="account.product.fiscal.classification">
+			<field name="name">8542.32.10</field>
+			<field name="description">Não montadas</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_3'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_3'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_pc" model="account.product.fiscal.classification">
+			<field name="name">8471.30.12</field>
+			<field name="description">De peso inferior a 3,5kg com teclado alfanumérico
+				de no mínimo 70 teclas e com uma tela de área superior a 140cm2 e
+				inferior a 560cm2</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_fan" model="account.product.fiscal.classification">
+			<field name="name">8414.59.10</field>
+			<field name="description">Microventiladores com área de carcaça inferior a
+				90cm²</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_keyboard" model="account.product.fiscal.classification">
+			<field name="name">8471.60.52</field>
+			<field name="description">Teclados</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_mouse" model="account.product.fiscal.classification">
+			<field name="name">8471.60.53</field>
+			<field name="description">Indicadores ou apontadores (mouse e track-ball, por
+				exemplo)</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_power" model="account.product.fiscal.classification">
+			<field name="name">8504.40.30</field>
+			<field name="description">Conversores de corrente contínua</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_cabinet" model="account.product.fiscal.classification">
+			<field name="name">8473.30.19</field>
+			<field name="description">Outros</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_shelf" model="account.product.fiscal.classification">
+			<field name="name">7326.90.90</field>
+			<field name="description">Outras</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_wood" model="account.product.fiscal.classification">
+			<field name="name">4403.10.00</field>
+			<field name="description">Tratada com tinta, creosoto ou com outros agentes
+				de conservação</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_cleats" model="account.product.fiscal.classification">
+			<field name="name">8305.20.00</field>
+			<field name="description">Grampos apresentados em barretas</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+		</record>
+
 	</data>
 </openerp>
