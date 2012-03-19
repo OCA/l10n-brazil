@@ -31,7 +31,6 @@ from tools.translate import _
 from tools import config
 
 class account_journal(osv.osv):
-    
     _inherit = 'account.journal'
     
     _columns = {
@@ -41,7 +40,6 @@ class account_journal(osv.osv):
 account_journal()
 
 class account_tax(osv.osv):
-    
     _inherit = 'account.tax'
     
     def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None, force_excluded=False, fiscal_operation=False):
@@ -137,13 +135,12 @@ class account_tax(osv.osv):
         
 account_tax()
 
-class wizard_multi_charts_accounts(osv.osv_memory):
 
+class wizard_multi_charts_accounts(osv.osv_memory):
     _inherit = 'wizard.multi.charts.accounts'
     
     def execute(self, cr, uid, ids, context=None):
-        
-        super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
+        res = super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
         
         obj_multi = self.browse(cr, uid, ids[0])
         obj_fiscal_position_template = self.pool.get('account.fiscal.position.template')
@@ -159,6 +156,7 @@ class wizard_multi_charts_accounts(osv.osv_memory):
                 fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fp_template.name),('company_id','=',company_id)])
                 if fp_id:
                     obj_fiscal_position.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
+        return res
 
 wizard_multi_charts_accounts()
 
