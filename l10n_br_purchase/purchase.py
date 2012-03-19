@@ -123,7 +123,8 @@ class purchase_order(osv.osv):
                                               or order.fiscal_operation_category_id and order.fiscal_operation_category_id.id
         result['fiscal_operation_id'] = order_line.fiscal_operation_id and order_line.fiscal_operation_id.id \
                                      or order.fiscal_operation_id and order.fiscal_operation_id.id
-        result['cfop_id'] = order_line.cfop_id and order_line.cfop_id.id or order.cfop_id and order.cfop_id.id
+        result['cfop_id'] = order.fiscal_operation_id and order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id \
+                          or order.fiscal_operation_id and order.fiscal_operation_id.cfop_id and order.fiscal_operation_id.cfop_id.id
         return result
 
     def action_invoice_create(self, cr, uid, ids, *args):#TODO ask OpenERP SA for a _prepare_invoice method!
