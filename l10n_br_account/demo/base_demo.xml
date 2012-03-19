@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<!-- Axelor -->
+		<record id="base.res_partner_desertic_hispafuentes" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Agrolait -->
+		<record id="base.res_partner_agrolait" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- China Export -->
+		<record id="base.res_partner_3" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Distrib PC -->
+		<record id="base.res_partner_4" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Maxtor -->
+		<record id="base.res_partner_maxtor" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Ecole de Commerce de Liege -->
+		<record id="base.res_partner_5" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+	
+		<!-- Bank Wealthy and sons -->
+		<record id="base.res_partner_2" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Vicking Direct -->
+		<record id="base.res_partner_vickingdirect0" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Wood y Wood Pecker -->
+		<record id="base.res_partner_woodywoodpecker0" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- ZeroOne Inc -->
+		<record id="base.res_partner_zerooneinc0" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+	</data>
+</openerp>
