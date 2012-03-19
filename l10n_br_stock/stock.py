@@ -2,6 +2,7 @@
 #################################################################################
 #                                                                               #
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
+# Copyright (C) 2012  Raphaël Valyi - Akretion
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -47,7 +48,7 @@ class stock_picking(osv.osv):
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)       
-        return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id or False
+        return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id
     
     _defaults = {
                 'fiscal_operation_category_id': _default_fiscal_operation_category,
@@ -98,39 +99,14 @@ class stock_picking(osv.osv):
         res['fiscal_operation_id'] = fiscal_operation_id and fiscal_operation_id.id
         resturn res
 
-    def _invoice_hook(self, cr, uid, picking, invoice_id):
-        '''Call after the creation of the invoice'''
-        own_invoice = True
-
-        if not picking.sale_id and not picking.purchase_id:
-            salesman = uid
-
-        if picking.sale_id:
-            salesman = picking.sale_id.user_id.id
-        
-        if picking.purchase_id:
-            salesman = picking.purchase_id.validator.id
-            own_invoice = False
-
-        company_id = self.pool.get('res.company').browse(cr, uid, picking.company_id.id)
-        if not company_id.document_serie_product_ids:
-            raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (picking.company_id.name,))
-
-        comment = ''
-        if picking.fiscal_operation_id.inv_copy_note:
-            comment = picking.fiscal_operation_id.note
-        
-        if picking.note:
-            comment += ' - ' + picking.note
-        
-        self.pool.get('account.invoice').write(cr, uid, invoice_id, {'fiscal_operation_category_id': picking.fiscal_operation_category_id.id,
-                                                                     'fiscal_operation_id': picking.fiscal_operation_id.id, 
-                                                                     'fiscal_document_id': picking.fiscal_operation_id.fiscal_document_id.id, 
-                                                                     'fiscal_position': picking.fiscal_position.id, 
-                                                                     'document_serie_id': company_id.document_serie_product_ids[0].id, 
-                                                                     'user_id': salesman,
-                                                                     'comment': comment})
-        return super(stock_picking, self)._invoice_hook(cr, uid, picking, invoice_id)
+    def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
+        res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
+        res['fiscal_operation_category_id'] = picking.fiscal_operation_category_id and picking.fiscal_operation_category_id.id
+        res['fiscal_operation_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.id
+        res['fiscal_document_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.fiscal_document_id and picking.fiscal_operation_id.fiscal_document_id.id
+        res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
+        res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id #TODO pick 1st active one!!
+        return res
 
 stock_picking()
 
