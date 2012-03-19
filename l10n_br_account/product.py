@@ -20,7 +20,6 @@
 from osv import osv, fields
 
 class product_template(osv.osv):
-
     _inherit = 'product.template'
 
     _columns = {
@@ -37,8 +36,8 @@ class product_template(osv.osv):
 
 product_template()
 
-class l10n_br_account_product_fiscal_operation_category(osv.osv):
 
+class l10n_br_account_product_fiscal_operation_category(osv.osv):
     _name = 'l10n_br_account.product.operation.category'
 
     _columns = {
