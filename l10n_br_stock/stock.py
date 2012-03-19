@@ -84,7 +84,7 @@ class stock_picking(osv.osv):
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line, invoice_id,
         invoice_vals, context=None):
-        res = super(stock_picking, self).prepare_invoice_line(cr, uid, group, picking, move_line, invoice_id, invoice_vals, context)
+        res = super(stock_picking, self)._prepare_invoice_line(cr, uid, group, picking, move_line, invoice_id, invoice_vals, context)
         if move_line.sale_line_id:
             fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id
             fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
