@@ -21,7 +21,6 @@ from osv import osv, fields
 
 
 class res_partner(osv.osv):
-
     _inherit = 'res.partner'
 
     _columns = {
@@ -31,8 +30,8 @@ class res_partner(osv.osv):
 
 res_partner()
 
+
 class account_fiscal_position_template(osv.osv):
-    
     _inherit = 'account.fiscal.position.template'
     
     _columns = {
@@ -41,8 +40,8 @@ class account_fiscal_position_template(osv.osv):
         
 account_fiscal_position_template()
 
+
 class account_fiscal_position(osv.osv):
-    
     _inherit = 'account.fiscal.position'
 
     _columns = {
@@ -50,11 +49,5 @@ class account_fiscal_position(osv.osv):
                 }
         
 account_fiscal_position()
-
-class account_fiscal_position_tax(osv.osv):
-    
-    _inherit = 'account.fiscal.position.tax'
-
-account_fiscal_position_tax()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
