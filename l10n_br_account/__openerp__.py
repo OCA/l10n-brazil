@@ -51,7 +51,7 @@
                     'wizard/l10n_br_account_nfe_reexport_view.xml',
                     ],
     'demo_xml': [
-                'demo/base_demo.xml',                
+                'demo/base_demo.xml',
                 'demo/account.account.csv',
                 'demo/account.tax.code.csv',
 		        'l10n_br_account_demo.xml',
