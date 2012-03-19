@@ -79,37 +79,30 @@ class stock_picking(osv.osv):
     def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, 
                                               company_id=False, fiscal_operation_category_id=False):
         result = {'value': {} }
-        
         if not partner_address_id:
             return result
-        
         partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
         partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
         fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
         return result
 
-    def _invoice_line_hook(self, cr, uid, move_line, invoice_line_id):
-        '''Call after the creation of the invoice line'''
-        fiscal_operation_id = fiscal_operation_category_id = False
-
+    def _prepare_invoice_line(self, cr, uid, group, picking, move_line, invoice_id,
+        invoice_vals, context=None):
+        res = super(stock_picking, self).prepare_invoice_line(cr, uid, group, picking, move_line, invoice_id, invoice_vals, context)
         if move_line.sale_line_id:
-            fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id 
+            fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id
             fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
-
-        if move_line.purchase_line_id:
-            fiscal_operation_id = move_line.purchase_line_id.fiscal_operation_id or move_line.purchase_line_id.order_id.fiscal_operation_id 
-            fiscal_operation_category_id = move_line.purchase_line_id.fiscal_operation_category_id or move_line.purchase_line_id.order_id.fiscal_operation_category_id       
-
-        if not move_line.purchase_line_id and not move_line.sale_line_id:
+        elif move_line.purchase_line_id:
+            fiscal_operation_id = move_line.purchase_line_id.fiscal_operation_id or move_line.purchase_line_id.order_id.fiscal_operation_id
+            fiscal_operation_category_id = move_line.purchase_line_id.fiscal_operation_category_id or move_line.purchase_line_id.order_id.fiscal_operation_category_id
+        else:
             fiscal_operation_id = move_line.picking_id.fiscal_operation_id
             fiscal_operation_category_id = move_line.picking_id.fiscal_operation_category_id
-
-        if not fiscal_operation_id:
-            raise osv.except_osv(_('Movimentação sem operação fiscal !'),_("Não existe operação fiscal para uma linha de vendas relacionada ao produto %s .") % (move_line.product_id.name))
-
-        self.pool.get('account.invoice.line').write(cr, uid, invoice_line_id, {'cfop_id': fiscal_operation_id.cfop_id.id, 'fiscal_operation_category_id': fiscal_operation_category_id.id ,'fiscal_operation_id': fiscal_operation_id.id})
-        return super(stock_picking, self)._invoice_line_hook(cr, uid, move_line, invoice_line_id)
+        res['cfop_id'] = fiscal_operation_id and fiscal_operation_id.cfop_id and fiscal_operation_id.cfop_id.id
+        res['fiscal_operation_category_id'] = fiscal_operation_category_id and fiscal_operation_category_id.id
+        res['fiscal_operation_id'] = fiscal_operation_id and fiscal_operation_id.id
+        resturn res
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         '''Call after the creation of the invoice'''
