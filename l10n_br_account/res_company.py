@@ -21,7 +21,6 @@ from osv import osv, fields
 import decimal_precision as dp
 
 class res_company(osv.osv):
-
     _inherit = "res.company"
 
     _columns = {
