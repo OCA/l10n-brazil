@@ -18,11 +18,9 @@
 #################################################################################
 
 from osv import fields, osv
-
 from tools.translate import _
 
 class stock_invoice_onshipping(osv.osv_memory):
-    
     _inherit = "stock.invoice.onshipping"
 
     def _get_journal_id(self, cr, uid, context=None):
@@ -111,7 +109,6 @@ class stock_invoice_onshipping(osv.osv_memory):
         return action
 
     def create_invoice(self, cr, uid, ids, context=None):
-        
         onshipdata_obj = self.read(cr, uid, ids, ['journal_id', 'group', 'invoice_date', 'operation_category_journal'])
         res = super(stock_invoice_onshipping, self).create_invoice(cr, uid,  ids, context)
         
@@ -122,14 +119,10 @@ class stock_invoice_onshipping(osv.osv_memory):
             context = {}
         
         for inv in self.pool.get('account.invoice').browse(cr, uid, res.values(), context=context):
-            
             journal_ids = [jou for jou in inv.fiscal_operation_category_id.journal_ids if jou.company_id == inv.company_id]
-            
             if not journal_ids:
-                raise osv.except_osv(_('Invalid Journal !'), _('There is not journal defined for this company in fiscal operation %s !') % (fiscal_operation_category_id.name))
-
+                raise osv.except_osv(_('Invalid Journal !'), _('There is not journal defined for this company in fiscal operation %s !') % (inv.fiscal_operation_category_id.name))
             self.pool.get('account.invoice').write(cr, uid, inv.id, {'journal_id': journal_ids[0].id}, context=context)
-        
         return res
 
 stock_invoice_onshipping()
