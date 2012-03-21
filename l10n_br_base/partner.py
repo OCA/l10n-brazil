@@ -89,7 +89,7 @@ class res_partner(osv.osv):
             return False
             
         # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
-        cnpj= map(int, cnpj)
+        cnpj = map(int, cnpj)
         novo = cnpj[:12]
 
         prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
@@ -120,7 +120,7 @@ class res_partner(osv.osv):
         novo = cpf[:9]
 
         while len(novo) < 11:
-            r = sum([(len(novo)+1-i)*v for i,v in enumerate(novo)]) % 11
+            r = sum([(len(novo)+1-i)*v for i, v in enumerate(novo)]) % 11
 
             if r > 1:
                 f = 11 - r
@@ -355,7 +355,7 @@ class res_partner(osv.osv):
             return False
 
         # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
-        inscr_est= map(int, inscr_est)
+        inscr_est = map(int, inscr_est)
         nova_ie = inscr_est[:7]
 
         prod = [2, 7, 6, 5, 4, 3, 2]
@@ -538,13 +538,13 @@ class res_partner_address(osv.osv):
             domain = []
             if res_partner_address.zip:
                 zip = re.sub('[^0-9]', '', res_partner_address.zip or '')
-                domain.append(('code','=',zip))
+                domain.append(('code', '=', zip))
             else:
-                domain.append(('street','=',res_partner_address.street))
-                domain.append(('district','=',res_partner_address.district))
-                domain.append(('country_id','=',res_partner_address.country_id.id))
-                domain.append(('state_id','=',res_partner_address.state_id.id))
-                domain.append(('l10n_br_city_id','=',res_partner_address.l10n_br_city_id.id))
+                domain.append(('street', '=', res_partner_address.street))
+                domain.append(('district', '=', res_partner_address.district))
+                domain.append(('country_id', '=', res_partner_address.country_id.id))
+                domain.append(('state_id', '=', res_partner_address.state_id.id))
+                domain.append(('l10n_br_city_id', '=', res_partner_address.l10n_br_city_id.id))
             
             zip_id = obj_zip.search(cr, uid, domain)
 
