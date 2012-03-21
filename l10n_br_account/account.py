@@ -153,7 +153,7 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         
         for fp_template in obj_fiscal_position_template.browse(cr, uid, fp_template_ids, context=context):
             if fp_template.fiscal_operation_id:
-                fp_id = obj_fiscal_position.search(cr, uid, [('name','=',fp_template.name),('company_id','=',company_id)])
+                fp_id = obj_fiscal_position.search(cr, uid, [('name', '=', fp_template.name), ('company_id', '=', company_id)])
                 if fp_id:
                     obj_fiscal_position.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
         return res
