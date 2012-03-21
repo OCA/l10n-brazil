@@ -43,7 +43,7 @@ class l10n_br_account_cfop(osv.osv):
             args = []
         if context is None:
             context = {}
-        ids = self.search(cr, user, ['|',('name',operator,name),('code',operator,name)] + args, limit=limit, context=context)
+        ids = self.search(cr, user, ['|', ('name', operator, name), ('code', operator, name)] + args, limit=limit, context=context)
         return self.name_get(cr, user, ids, context)
     
     def name_get(self, cr, uid, ids, context=None):
