@@ -34,7 +34,7 @@ class purchase_order(osv.osv):
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        cur_obj=self.pool.get('res.currency')
+        cur_obj = self.pool.get('res.currency')
         for order in self.browse(cr, uid, ids, context=context):
             res[order.id] = {
                 'amount_untaxed': 0.0,
@@ -49,9 +49,9 @@ class purchase_order(osv.osv):
                     tax_brw = self.pool.get('account.tax').browse(cr, uid, c['id'])
                     if not tax_brw.tax_code_id.tax_discount:
                         val += c.get('amount', 0.0)
-            res[order.id]['amount_tax']=cur_obj.round(cr, uid, cur, val)
-            res[order.id]['amount_untaxed']=cur_obj.round(cr, uid, cur, val1)
-            res[order.id]['amount_total']=res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
+            res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
+            res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
+            res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
         return res
     
     def _get_order(self, cr, uid, ids, context=None):
@@ -98,7 +98,7 @@ class purchase_order(osv.osv):
         result = super(purchase_order, self ).onchange_partner_id(cr, uid, ids, partner_id, company_id)
         if result['value']['partner_address_id']:
             partner_address_id = result['value']['partner_address_id']
-        fiscal_data = self._fiscal_position_map(cr, uid, ids,partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
         result['value'].update(fiscal_data)
         return result
 
@@ -147,7 +147,7 @@ class purchase_order(osv.osv):
                      'comment': comment})
         return inv_id
     
-    def action_picking_create(self,cr, uid, ids, *args):
+    def action_picking_create(self, cr, uid, ids, *args):
         picking_id = False
         for order in self.browse(cr, uid, ids):
             picking_id = super(purchase_order, self).action_picking_create(cr, uid, ids, *args)
