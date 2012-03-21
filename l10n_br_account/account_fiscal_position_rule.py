@@ -23,7 +23,6 @@ from osv import osv, fields
 import decimal_precision as dp
 
 class account_fiscal_position_rule_template(osv.osv):
-    
     _inherit = 'account.fiscal.position.rule.template'
 
     _columns = {
@@ -47,8 +46,8 @@ class account_fiscal_position_rule_template(osv.osv):
 
 account_fiscal_position_rule_template()
 
+
 class account_fiscal_position_rule(osv.osv):
-    
     _inherit = 'account.fiscal.position.rule'
     
     _columns = {
@@ -109,18 +108,18 @@ class account_fiscal_position_rule(osv.osv):
         
         use_domain = context.get('use_domain', ('use_sale', '=', True))
         
-        domain = ['&',('company_id','=', company_id), 
-                  ('fiscal_operation_category_id','=',fiscal_operation_category_id), 
+        domain = ['&', ('company_id', '=', company_id), 
+                  ('fiscal_operation_category_id', '=', fiscal_operation_category_id), 
                   use_domain,
                   ('fiscal_type', '=', obj_company.fiscal_type),
-                  '|',('from_country','=',from_country),('from_country','=',False), 
-                  '|',('to_country','=',to_country),('to_country','=',False), 
-                  '|',('from_state','=',from_state),('from_state','=',False), 
-                  '|',('to_state','=',to_state),('to_state','=',False),
-                  '|',('date_start', '=', False),('date_start', '<=', document_date),
-                  '|',('date_end', '=', False),('date_end', '>=', document_date),
-                  '|',('revenue_start', '=', False),('revenue_start', '<=', obj_company.annual_revenue),
-                  '|',('revenue_end', '=', False),('revenue_end', '>=', obj_company.annual_revenue),]
+                  '|', ('from_country','=',from_country), ('from_country', '=', False), 
+                  '|', ('to_country', '=', to_country), ('to_country', '=', False), 
+                  '|', ('from_state', '=', from_state), ('from_state', '=', False), 
+                  '|', ('to_state','=', to_state), ('to_state', '=', False),
+                  '|', ('date_start', '=', False), ('date_start', '<=', document_date),
+                  '|', ('date_end', '=', False), ('date_end', '>=', document_date),
+                  '|', ('revenue_start', '=', False), ('revenue_start', '<=', obj_company.annual_revenue),
+                  '|', ('revenue_end', '=', False), ('revenue_end', '>=', obj_company.annual_revenue),]
         
         fsc_pos_id = self.search(cr, uid, domain)
         
@@ -133,15 +132,14 @@ class account_fiscal_position_rule(osv.osv):
     
 account_fiscal_position_rule()
 
+
 class wizard_account_fiscal_position_rule(osv.osv_memory):
-    
     _inherit = 'wizard.account.fiscal.position.rule'
     
     def action_create(self, cr, uid, ids, context=None):
-
         super(wizard_account_fiscal_position_rule, self).action_create(cr, uid, ids, context)
 
-        obj_wizard = self.browse(cr,uid,ids[0])
+        obj_wizard = self.browse(cr, uid, ids[0])
 
         obj_fiscal_position = self.pool.get('account.fiscal.position')
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
@@ -166,24 +164,24 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
     
             fiscal_position_id = False
             fp_id = obj_fiscal_position.search(cr, uid, [
-                                                         ('name','=',fpr_template.fiscal_position_id.name),
-                                                         ('company_id','=',company_id)],)
+                                                         ('name', '=', fpr_template.fiscal_position_id.name),
+                                                         ('company_id', '=', company_id)],)
             
             if fp_id:
                 fiscal_position_id = fp_id[0]
             
-            fprt_id = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr_template.name),
-                                                               ('company_id','=',company_id),
-                                                               ('description','=',fpr_template.description),
-                                                               ('from_country','=',from_country),
-                                                               ('from_state','=',from_state),
-                                                               ('to_country','=',to_country),
-                                                               ('to_state','=',to_state),
-                                                               ('use_sale','=',fpr_template.use_sale),
-                                                               ('use_invoice','=',fpr_template.use_invoice),
-                                                               ('use_purchase','=',fpr_template.use_purchase),
-                                                               ('use_picking','=',fpr_template.use_picking),
-                                                               ('fiscal_position_id','=',fiscal_position_id),
+            fprt_id = obj_fiscal_position_rule.search(cr, uid, [('name', '=', fpr_template.name),
+                                                               ('company_id', '=', company_id),
+                                                               ('description', '=', fpr_template.description),
+                                                               ('from_country', '=', from_country),
+                                                               ('from_state', '=', from_state),
+                                                               ('to_country', '=', to_country),
+                                                               ('to_state', '=', to_state),
+                                                               ('use_sale', '=', fpr_template.use_sale),
+                                                               ('use_invoice', '=', fpr_template.use_invoice),
+                                                               ('use_purchase', '=', fpr_template.use_purchase),
+                                                               ('use_picking', '=', fpr_template.use_picking),
+                                                               ('fiscal_position_id', '=', fiscal_position_id),
                                                                ])
 
             if fprt_id:
