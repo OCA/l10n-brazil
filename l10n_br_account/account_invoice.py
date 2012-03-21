@@ -104,9 +104,9 @@ class account_invoice(osv.osv):
 
                 operation_type = {'out_invoice': 'output', 'in_invoice': 'input', 'out_refund': 'input', 'in_refund': 'output'}
                     
-                types = eview.xpath("//field[@name='invoice_line']")
-                for type in types:
-                    type.set('context', "{'type': '%s', 'fiscal_type': '%s'}" % (context['type'],context.get('fiscal_type','product'),))
+                fiscal_types = eview.xpath("//field[@name='invoice_line']")
+                for fiscal_type in fiscal_types:
+                    fiscal_type.set('context', "{'type': '%s', 'fiscal_type': '%s'}" % (context['type'], context.get('fiscal_type', 'product'),))
 
                 #cfops = eview.xpath("//field[@name='cfop_ids']")
                 #for cfop_ids in cfops:
@@ -385,12 +385,8 @@ class account_invoice(osv.osv):
         self.write(cr, uid, ids, {})
 
         for obj_inv in self.browse(cr, uid, ids, context=context):
-            id = obj_inv.id
-            invtype = obj_inv.type
-            number = obj_inv.number
+            inv_id = obj_inv.id
             move_id = obj_inv.move_id and obj_inv.move_id.id or False
-            reference = obj_inv.reference or ''
-
             ref = obj_inv.internal_number
 
             cr.execute('UPDATE account_move SET ref=%s ' \
@@ -405,7 +401,7 @@ class account_invoice(osv.osv):
                         'AND account_analytic_line.move_id = account_move_line.id',
                         (ref, move_id))
 
-            for inv_id, name in self.name_get(cr, uid, [id]):
+            for inv_id, name in self.name_get(cr, uid, [inv_id]):
                 ctx = context.copy()
                 if obj_inv.type in ('out_invoice', 'out_refund'):
                     ctx = self.get_log_context(cr, uid, context=ctx)
@@ -420,7 +416,6 @@ class account_invoice(osv.osv):
                 self.pool.get('account.move').write(cr, uid, [inv.move_id.id], {'ref': inv.internal_number})
                 for move_line in inv.move_id.line_id:    
                     self.pool.get('account.move.line').write(cr, uid, [move_line.id], {'ref': inv.internal_number})   
-                
                 move_lines = [x for x in inv.move_id.line_id if x.account_id.id == inv.account_id.id and x.account_id.type in ('receivable', 'payable')]
                 i = len(move_lines)
                 for move_line in move_lines:
@@ -593,34 +588,34 @@ class account_invoice(osv.osv):
                     if not inv_line.product_id.default_code:
                         strErro = u'Produtos e Serviços: %s, Qtde: %s - Referência/Codigo do produto\n' % (inv_line.product_id.name, inv_line.quantity)
                     if not inv_line.product_id.name:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name,inv_line.quantity) 
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name, inv_line.quantity) 
         
                     if not inv_line.cfop_id:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CFOP\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CFOP\n' % (inv_line.product_id.name, inv_line.quantity)
                     else:
                         if not inv_line.cfop_id.code:
-                            strErro = u'Produtos e Serviços: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id.name,inv_line.quantity)
+                            strErro = u'Produtos e Serviços: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id.name, inv_line.quantity)
         
                     if not inv_line.uos_id:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name, inv_line.quantity)
                     
                     if not inv_line.quantity:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name, inv_line.quantity)
                     
                     if not inv_line.price_unit:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name, inv_line.quantity)
                         
                     if not inv_line.icms_cst:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name, inv_line.quantity)
                         
                     if not inv_line.ipi_cst:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name, inv_line.quantity)
                     
                     if not inv_line.pis_cst:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name, inv_line.quantity)
                         
                     if not inv_line.cofins_cst:
-                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name,inv_line.quantity)
+                        strErro = u'Produtos e Serviços: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name, inv_line.quantity)
                 
         if strErro:
             raise osv.except_osv(_('Error !'),_("Error Validating NFE:\n %s") % (strErro))  #(strErro.encode('utf-8')))
@@ -630,17 +625,13 @@ class account_invoice(osv.osv):
 
     def nfe_export_txt(self, cr, uid, ids, nfe_environment='1', context=False):
         StrFile = ''
-
         StrNF = 'NOTA FISCAL|%s|\n' % len(ids)
-        
         StrFile = StrNF
         
         for inv in self.browse(cr, uid, ids, context={'lang': 'pt_BR'}):
-            
             #Endereço do company
             company_addr = self.pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
             company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
-
             #nfe_key = unicode(company_addr_default.state_id.ibge_code).strip().rjust(2, u'0')
             #nfe_key += unicode(datetime.strptime(inv.date_invoice, '%Y-%m-%d').strftime(u'%y%m')).strip().rjust(4, u'0')
             #nfe_key +=  re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or '')
@@ -745,7 +736,7 @@ class account_invoice(osv.osv):
             if nfe_environment == '2': 
                 xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
             else:
-                xNome = normalize('NFKD',unicode(inv.partner_id.legal_name or '')).encode('ASCII','ignore')
+                xNome = normalize('NFKD', unicode(inv.partner_id.legal_name or '')).encode('ASCII', 'ignore')
 
             StrRegE = {
                        'xNome': xNome, 
@@ -846,9 +837,9 @@ class account_invoice(osv.osv):
                        }
 
                 if inv_line.product_id.code:
-                        StrRegI['CProd'] = inv_line.product_id.code
+                    StrRegI['CProd'] = inv_line.product_id.code
                 else:
-                        StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
+                    StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
 
                 #No OpenERP já traz o valor unitário como desconto
                 #if inv_line.discount > 0:
@@ -1019,7 +1010,7 @@ class account_invoice(osv.osv):
                 
                 StrFile += StrO
 
-                if inv_line.ipi_cst in ('50','51','52') and inv_line.ipi_percent > 0:
+                if inv_line.ipi_cst in ('50', '51', '52') and inv_line.ipi_percent > 0:
                     StrRegO07 = {
                        'CST': inv_line.ipi_cst,
                        'VIPI': str("%.2f" % inv_line.ipi_value),
@@ -1039,7 +1030,7 @@ class account_invoice(osv.osv):
                     if inv_line.ipi_type == 'quantity':
                         pesol = 0
                         if inv_line.product_id:
-                             pesol = inv_line.product_id.weight_net
+                            pesol = inv_line.product_id.weight_net
                         StrRegO11 = {
                            'QUnid': str("%.4f" % (inv_line.quantity * pesol)),
                            'VUnid': str("%.4f" % inv_line.ipi_percent),
@@ -1199,16 +1190,16 @@ class account_invoice(osv.osv):
                 carrier_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
                 
                 if inv.carrier_id.partner_id.legal_name:
-                    StrRegX03['XNome'] = normalize('NFKD',unicode(inv.carrier_id.partner_id.legal_name or '')).encode('ASCII','ignore')
+                    StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.legal_name or '')).encode('ASCII', 'ignore')
                 else:
-                    StrRegX03['XNome'] = normalize('NFKD',unicode(inv.carrier_id.partner_id.name or '')).encode('ASCII','ignore')
+                    StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.name or '')).encode('ASCII', 'ignore')
                 
                 StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
-                StrRegX03['xEnder'] = normalize('NFKD',unicode(carrier_addr_default.street or '')).encode('ASCII','ignore')
+                StrRegX03['xEnder'] = normalize('NFKD', unicode(carrier_addr_default.street or '')).encode('ASCII', 'ignore')
                 StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
                 
                 if carrier_addr_default.l10n_br_city_id:
-                    StrRegX03['xMun'] = normalize('NFKD',unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII','ignore')
+                    StrRegX03['xMun'] = normalize('NFKD', unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII', 'ignore')
                 
                 if inv.carrier_id.partner_id.tipo_pessoa == 'J':
                     StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
@@ -1712,7 +1703,7 @@ class account_invoice(osv.osv):
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
         result = {'fiscal_operation_id': False, 'fiscal_document_id': False, 'document_serie_id': False}
         obj_rule = self.pool.get('account.fiscal.position.rule')
-        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice','=',True)})   
+        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice', '=', True)})   
 
         result.update(fiscal_result)
 
@@ -1726,9 +1717,9 @@ class account_invoice(osv.osv):
                 raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (obj_company.name,))
             else:
                 result['document_serie_id'] = document_serie_id[0].id
-            for inv in self.browse(cr,uid,ids):
+            for inv in self.browse(cr, uid, ids):
                 for line in inv.invoice_line:
-                        line.cfop_id = obj_foperation.cfop_id.id
+                    line.cfop_id = obj_foperation.cfop_id.id
         return result
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, date_invoice=False, 
@@ -1777,9 +1768,9 @@ class account_invoice(osv.osv):
             #result['document_serie_id'] = obj_foperation.document_serie_id.id
             del result['value']['fiscal_operation_id']
 
-        for inv in self.browse(cr,uid,ids):
+        for inv in self.browse(cr, uid, ids):
             for line in inv.invoice_line:
-                    line.cfop_id = obj_foperation.cfop_id.id
+                line.cfop_id = obj_foperation.cfop_id.id
 
         return result
 
@@ -1792,7 +1783,7 @@ class account_invoice_line(osv.osv):
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, 
                         context=None, toolbar=False, submenu=False):
         
-        result = super(account_invoice_line,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        result = super(account_invoice_line, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         
         if context is None:
             context = {}
@@ -1947,35 +1938,27 @@ class account_invoice_line(osv.osv):
 
                 fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
                 for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
-
-                        if fo_line.tax_code_id.domain == 'icms':
-                            icms_cst = fo_line.cst_id.code
-
-                        if fo_line.tax_code_id.domain == 'ipi':
-                            ipi_cst = fo_line.cst_id.code
-                        
-                        if fo_line.tax_code_id.domain == 'pis':
-                            pis_cst = fo_line.cst_id.code
-    
-                        if fo_line.tax_code_id.domain == 'cofins':
-                            cofins_cst = fo_line.cst_id.code
+                    if fo_line.tax_code_id.domain == 'icms':
+                        icms_cst = fo_line.cst_id.code
+                    elif fo_line.tax_code_id.domain == 'ipi':
+                        ipi_cst = fo_line.cst_id.code
+                    elif fo_line.tax_code_id.domain == 'pis':
+                        pis_cst = fo_line.cst_id.code
+                    elif fo_line.tax_code_id.domain == 'cofins':
+                        cofins_cst = fo_line.cst_id.code
 
                 if line.product_id:
                     fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
     
                     for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
-                        
-                            if fo_line_ncm.tax_code_id.domain == 'icms':
-                                icms_cst = fo_line_ncm.cst_id.code
-                   
-                            if fo_line_ncm.tax_code_id.domain == 'ipi':
-                                ipi_cst = fo_line_ncm.cst_id.code
-                           
-                            if fo_line_ncm.tax_code_id.domain == 'pis':
-                                pis_cst = fo_line_ncm.cst_id.code
-        
-                            if fo_line_ncm.tax_code_id.domain == 'cofins':
-                                cofins_cst = fo_line_ncm.cst_id.code
+                        if fo_line_ncm.tax_code_id.domain == 'icms':
+                            icms_cst = fo_line_ncm.cst_id.code
+                        elif fo_line_ncm.tax_code_id.domain == 'ipi':
+                            ipi_cst = fo_line_ncm.cst_id.code
+                        elif fo_line_ncm.tax_code_id.domain == 'pis':
+                            pis_cst = fo_line_ncm.cst_id.code
+                        elif fo_line_ncm.tax_code_id.domain == 'cofins':
+                            cofins_cst = fo_line_ncm.cst_id.code
                                                         
 
             for tax in taxes['taxes']:
@@ -1990,25 +1973,25 @@ class account_invoice_line(osv.osv):
                     icms_percent += tax_brw.amount * 100
                     icms_percent_reduction += tax_brw.base_reduction * 100
                 
-                if tax_brw.domain == 'ipi':
+                elif tax_brw.domain == 'ipi':
                     ipi_type = tax_brw.type
                     ipi_base += tax.get('total_base', 0.0)
                     ipi_value += tax.get('amount', 0.0)
                     ipi_percent += tax_brw.amount * 100
                 
-                if tax_brw.domain == 'pis':
+                elif tax_brw.domain == 'pis':
                     pis_base += tax.get('total_base', 0.0)
                     pis_base_other += taxes['total'] - tax['total_base']
                     pis_value += tax.get('amount', 0.0) 
                     pis_percent += tax_brw.amount * 100
                 
-                if tax_brw.domain == 'cofins':
+                elif tax_brw.domain == 'cofins':
                     cofins_base += tax.get('total_base', 0.0)
                     cofins_base_other += taxes['total'] - tax.get('total_base', 0.0)
                     cofins_value += tax.get('amount', 0.0)
                     cofins_percent += tax_brw.amount * 100
                     
-                if tax_brw.domain == 'icmsst':
+                elif tax_brw.domain == 'icmsst':
                     icms_st_value += tax.get('amount', 0.0)
                     icms_st_base += tax.get('total_base', 0.0)
                     #cst do tipo pauta 
@@ -2210,7 +2193,7 @@ class account_invoice_tax(osv.osv):
         for line in inv.invoice_line:
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id, fiscal_operation=line.fiscal_operation_id)
             for tax in taxes['taxes']:
-                val={}
+                val = {}
                 val['invoice_id'] = inv.id
                 val['name'] = tax['name']
                 val['amount'] = tax['amount']
