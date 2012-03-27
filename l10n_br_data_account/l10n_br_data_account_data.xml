@@ -11,44 +11,96 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+
+		<record id="fo_category_devolucao_compra" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">DevoluçãoCompra</field>
+			<field name="name">Devolução de Compra</field>
+			<field name="type">output</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+
+		<!-- l10n_br_account.fiscal.operation.category -->
+		<record id="l10n_br_account.fo_category_venda" model="l10n_br_account.fiscal.operation.category">
+			<field name="refund_fiscal_operation_id" ref="fo_category_devolucao_venda" />
+		</record>
+
+		<record id="l10n_br_account.fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
+			<field name="refund_fiscal_operation_id" ref="fo_category_devolucao_compra" />
 		</record>
 
 		<record id="fo_category_servico" model="l10n_br_account.fiscal.operation.category">
 			<field name="code">Venda de Serviço</field>
 			<field name="name">Venda de Serviço</field>
 			<field name="type">output</field>
-			<field name="fiscal_type">service</field>
+			<field name="service_type_id" ref="l10n_br_data_account.fiscal_operation_service_26" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">service</field>
 		</record>		
 		
 		<!-- l10n_br_account.fiscal.operation -->
 		<record id="fiscal_operation_devolucao_venda_interna" model="l10n_br_account.fiscal.operation">
 			<field name="code">Devolução</field>
-			<field name="name">Devolução Dentro do Estado</field>
+			<field name="name">Devolução de Venda Dentro do Estado</field>
 			<field name="type">input</field>
-			<field name="cfop_id" ref="cfop_309" />
+			<field name="cfop_id" ref="cfop_22" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_devolucao_venda_externa" model="l10n_br_account.fiscal.operation">
 			<field name="code">Devolução</field>
-			<field name="name">Devolução Fora do Estado</field>
+			<field name="name">Devolução de Venda Fora do Estado</field>
 			<field name="type">input</field>
-			<field name="cfop_id" ref="cfop_461" />
+			<field name="cfop_id" ref="cfop_142" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+
+		<record id="fiscal_operation_devolucao_compra_interna" model="l10n_br_account.fiscal.operation">
+			<field name="code">Devolução</field>
+			<field name="name">Devolução de Compra Dentro do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="cfop_309" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_compra" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+
+		<record id="fiscal_operation_devolucao_compra_externa" model="l10n_br_account.fiscal.operation">
+			<field name="code">Devolução</field>
+			<field name="name">Devolução de Compra Fora do Estado</field>
+			<field name="type">output</field>
+			<field name="cfop_id" ref="cfop_461" />
+			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_operation_category_id" ref="fo_category_devolucao_compra" />
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_venda_interna" model="l10n_br_account.fiscal.operation">
@@ -70,7 +122,6 @@
 			<field name="code">Venda</field>
 			<field name="name">Venda para Fora do Estado para Contribuinte</field>
 			<field name="type">output</field>
-			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_430" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
@@ -79,6 +130,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_revenda_interna" model="l10n_br_account.fiscal.operation">
@@ -99,7 +151,6 @@
 			<field name="code">Revenda</field>
 			<field name="name">Revenda para Fora do Estado para Contribuinte</field>
 			<field name="type">output</field>
-			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_431" />
 			<field name="fiscal_document_id" ref="fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_revenda" />
@@ -107,6 +158,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 		
 		<record id="fiscal_operation_vendast_interna" model="l10n_br_account.fiscal.operation">
@@ -120,6 +172,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_vendast_externa" model="l10n_br_account.fiscal.operation">
@@ -133,6 +186,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 		
 		<record id="fiscal_operation_servico" model="l10n_br_account.fiscal.operation">
@@ -146,6 +200,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">service</field>
 		</record>
 
 		<record id="fiscal_operation_simples_remessa_interna" model="l10n_br_account.fiscal.operation">
@@ -159,6 +214,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_simples_remessa_externa" model="l10n_br_account.fiscal.operation">
@@ -172,6 +228,7 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_compras_ind_interno" model="l10n_br_account.fiscal.operation">
@@ -197,7 +254,8 @@
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="1" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>					
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>				
 		</record>
 
 		<!-- account.fiscal.position -->

@@ -10,7 +10,7 @@
 	        <field name="search_view_id" ref="account_payment_extension.view_payments_filter"/>
 	        <field name="domain">[('account_id.type','in',['receivable','payable']),('invoice','&lt;&gt;',False),('journal_id.revenue_expense','=',True)]</field>
    		</record>
-		
+
 	</data>
 
 </openerp>

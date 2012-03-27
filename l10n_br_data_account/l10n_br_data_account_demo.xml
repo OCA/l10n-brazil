@@ -23,8 +23,10 @@
 
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
-			<field name="cnae_main_id" ref="l10n_br_data_account.l10n_br_cnae_2012" />
-	        	<field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
+			<field name="currency_id" ref="base.BRL"/>
+			<field name="fiscal_type">3</field>
+			<field name="cnae_main_id" ref="l10n_br_data_account.l10n_br_cnae_1760" />
+        	<field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
 			<field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]" />
 		</record>
 
@@ -39,7 +41,8 @@
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>			
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<record id="fiscal_operation_bonificacao_externa" model="l10n_br_account.fiscal.operation">
@@ -52,7 +55,8 @@
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>		
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
 		</record>
 
 		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
@@ -107,7 +111,7 @@
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field name="use_sale">True</field>
 			<field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_2" model="account.fiscal.position.rule">
@@ -123,6 +127,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
+		    <field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_3" model="account.fiscal.position.rule">
@@ -138,7 +143,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_4" model="account.fiscal.position.rule">
@@ -154,7 +159,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_5" model="account.fiscal.position.rule">
@@ -170,7 +175,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_6" model="account.fiscal.position.rule">
@@ -186,7 +191,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_7" model="account.fiscal.position.rule">
@@ -202,7 +207,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_8" model="account.fiscal.position.rule">
@@ -218,7 +223,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_9" model="account.fiscal.position.rule">
@@ -234,7 +239,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_10" model="account.fiscal.position.rule">
@@ -250,7 +255,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_11" model="account.fiscal.position.rule">
@@ -266,7 +271,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_12" model="account.fiscal.position.rule">
@@ -282,7 +287,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_13" model="account.fiscal.position.rule">
@@ -298,7 +303,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_14" model="account.fiscal.position.rule">
@@ -314,7 +319,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_15" model="account.fiscal.position.rule">
@@ -330,7 +335,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_16" model="account.fiscal.position.rule">
@@ -346,7 +351,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_17" model="account.fiscal.position.rule">
@@ -362,7 +367,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_18" model="account.fiscal.position.rule">
@@ -378,7 +383,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_19" model="account.fiscal.position.rule">
@@ -394,7 +399,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_20" model="account.fiscal.position.rule">
@@ -410,7 +415,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_21" model="account.fiscal.position.rule">
@@ -426,7 +431,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_22" model="account.fiscal.position.rule">
@@ -442,7 +447,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_23" model="account.fiscal.position.rule">
@@ -458,7 +463,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_24" model="account.fiscal.position.rule">
@@ -474,7 +479,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 
@@ -491,7 +496,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>	
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_26" model="account.fiscal.position.rule">
@@ -507,7 +512,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_27" model="account.fiscal.position.rule">
@@ -523,7 +528,7 @@
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<!-- Regras de posições fiscais para contribuintes -->
@@ -540,7 +545,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_29" model="account.fiscal.position.rule">
@@ -555,7 +560,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_30" model="account.fiscal.position.rule">
@@ -570,7 +575,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_31" model="account.fiscal.position.rule">
@@ -585,7 +590,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_32" model="account.fiscal.position.rule">
@@ -600,7 +605,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_33" model="account.fiscal.position.rule">
@@ -615,7 +620,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_34" model="account.fiscal.position.rule">
@@ -630,7 +635,7 @@
    		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_35" model="account.fiscal.position.rule">
@@ -645,7 +650,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_36" model="account.fiscal.position.rule">
@@ -660,7 +665,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_37" model="account.fiscal.position.rule">
@@ -675,7 +680,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_38" model="account.fiscal.position.rule">
@@ -690,7 +695,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_39" model="account.fiscal.position.rule">
@@ -705,7 +710,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_40" model="account.fiscal.position.rule">
@@ -720,7 +725,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_41" model="account.fiscal.position.rule">
@@ -735,7 +740,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_42" model="account.fiscal.position.rule">
@@ -750,7 +755,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_43" model="account.fiscal.position.rule">
@@ -765,7 +770,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_44" model="account.fiscal.position.rule">
@@ -780,7 +785,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_45" model="account.fiscal.position.rule">
@@ -795,7 +800,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_46" model="account.fiscal.position.rule">
@@ -810,7 +815,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_47" model="account.fiscal.position.rule">
@@ -825,7 +830,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_48" model="account.fiscal.position.rule">
@@ -840,7 +845,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_49" model="account.fiscal.position.rule">
@@ -855,7 +860,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_50" model="account.fiscal.position.rule">
@@ -870,7 +875,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_51" model="account.fiscal.position.rule">
@@ -885,7 +890,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 
@@ -901,7 +906,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_53" model="account.fiscal.position.rule">
@@ -916,7 +921,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="account_fiscal_position_rule_54" model="account.fiscal.position.rule">
@@ -931,7 +936,7 @@
 		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
 		</record>
                 
 	</data>
