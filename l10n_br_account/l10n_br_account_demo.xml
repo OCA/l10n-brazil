@@ -5,7 +5,7 @@
 
 		<!-- account.journal -->
 		<record id="profile_diario_bonificacao" model="account.journal">
-		    <field name="name">Incas-Bonificação</field>
+		    <field name="name">Bonificação</field>
 		    <field name="code">IBON</field>
 		    <field name="type">sale</field>
 		    <field name="view_id" ref="account.account_sp_journal_view"/>
