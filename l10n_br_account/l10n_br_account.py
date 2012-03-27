@@ -140,7 +140,6 @@ class l10n_br_account_fiscal_operation(osv.osv):
                 'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo', requeried=True),
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria',
                                                                 domain="[('type','=',type)]", requeried=True),
-                'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP', requeried=True),
                 'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
                 'fiscal_operation_line': fields.one2many('l10n_br_account.fiscal.operation.line', 'fiscal_operation_id', 
                                                          'Fiscal Operation Lines'),
