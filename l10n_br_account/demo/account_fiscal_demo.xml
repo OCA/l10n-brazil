@@ -1,39 +1,10 @@
-<openerp>
+<openerp>		
 		
-	<data>
-
-		<!-- Properties -->
-		<record forcecreate="True" id="account.property_account_receivable" model="ir.property">
-			<field name="name">property_account_receivable</field>
-			<field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_receivable')]"/>
-			<field eval="'account.account,'+str(a_recv)" name="value"/>
-			<field name="company_id" ref="base.main_company"/>
-		</record>
-
-		<record forcecreate="True" id="account.property_account_payable" model="ir.property">
-			<field name="name">property_account_payable</field>
-			<field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_payable')]"/>
-			<field eval="'account.account,'+str(a_pay)" name="value"/>
-			<field name="company_id" ref="base.main_company"/>
-		</record>
-
-		<record forcecreate="True" id="account.property_account_position" model="ir.property">
-			<field name="name">property_account_position</field>
-			<field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_position')]"/>
-			<field eval="False" name="value"/>
-			<field name="company_id" ref="base.main_company"/>
-		</record>
-
-		<record forcecreate="True" id="account.property_reserve_and_surplus_account" model="ir.property">
-			<field name="name">property_account_receivable</field>
-			<field name="fields_id" search="[('model','=','res.company'),('name','=','property_reserve_and_surplus_account')]"/>
-			<field eval="'account.account,'+str(rsa)" name="value"/>
-			<field name="company_id" ref="base.main_company"/>
-		</record>
+	<data>										
 
 		<!-- account.journal -->
 		<record id="account.sales_journal" model="account.journal">
-			<field name="name">Sales Journal - (test)</field>
+			<field name="name">Diário de Vendas</field>
 			<field name="code">TSAJ</field>
 			<field name="type">sale</field>
 			<field name="view_id" ref="account.account_sp_journal_view"/>
@@ -48,7 +19,7 @@
 		<!-- l10n_br_account.fiscal.operation.category -->
 		<record id="fo_category_bonificacao" model="l10n_br_account.fiscal.operation.category">
 			<field name="code">Bonificação</field>
-		    	<field name="name">Bonificação</field>
+	    	<field name="name">Bonificação</field>
 			<field name="type">output</field>
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
