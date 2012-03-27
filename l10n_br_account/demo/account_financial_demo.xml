@@ -59,7 +59,7 @@
 
 		<record id="account_payment_term_ddl15" model="account.payment.term">
 			<field eval="1" name="active"/>
-			<field name="note">35 dias liquidos</field>
+			<field name="note">35 dias</field>
 			<field name="name">35 DDL</field>
 		</record>
 
@@ -74,7 +74,7 @@
 
 		<record id="account_payment_term_ddl16" model="account.payment.term">
 			<field eval="1" name="active"/>
-			<field name="note">45 dias liquidos</field>
+			<field name="note">45 dias</field>
 			<field name="name">45 DDL</field>
 		</record>
 
