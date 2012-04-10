@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	
-		<record model="ir.actions.act_window" id="account_payment_extension.action_invoice_payments">
-	        <field name="name">Invoice payments</field>
-	        <field name="res_model">account.move.line</field>
-	        <field name="view_type">form</field>
-	        <field name="view_id" ref="account_payment_extension.view_payments_tree"/>
-	        <field name="search_view_id" ref="account_payment_extension.view_payments_filter"/>
-	        <field name="domain">[('account_id.type','in',['receivable','payable']),('invoice','&lt;&gt;',False),('journal_id.revenue_expense','=',True)]</field>
-   		</record>
 
+		<record model="ir.actions.act_window"
+			id="account_payment_extension.action_invoice_payments">
+			<field name="name">Invoice payments</field>
+			<field name="res_model">account.move.line</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="account_payment_extension.view_payments_tree" />
+			<field name="search_view_id" ref="account_payment_extension.view_payments_filter" />
+			<field name="domain">[('account_id.type','in',['receivable','payable']),('invoice','&lt;&gt;',False),('journal_id.revenue_expense','=',True)]
+			</field>
+		</record>
+
+		<record model="ir.ui.view"
+			id="l10n_br_account_payment_extension_view_payments_filter">
+			<field name="name">l10n_br_account_payment_extension_search</field>
+			<field name="model">account.move.line</field>
+			<field name="inherit_id" ref="account_payment_extension.view_payments_filter" />
+			<field name="arch" type="xml">
+				<field name="payment_type" position="before">
+					<field name="related_mode_id" widget="selection" />
+				</field>
+			</field>
+		</record>
+		
 	</data>
 
 </openerp>
