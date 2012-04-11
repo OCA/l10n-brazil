@@ -34,6 +34,7 @@
                     'sale_view.xml',
                     'security/ir.model.access.csv',
                     'l10n_br_sale_data.xml',
+                    'report/sale_report_view.xml',
                     ],
     'installable': True,
     'auto_install': True
