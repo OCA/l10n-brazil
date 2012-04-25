@@ -18,19 +18,19 @@
 #################################################################################
 
 {
-    'name' : 'Brazilian Localization Sale',
-    'description' : 'Brazilian Localization for Sale',
-    'category' : 'Localisation',
+    'name': 'Brazilian Localization Sale',
+    'description': 'Brazilian Localization for Sale',
+    'category': 'Localisation',
     'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-		          'account_fiscal_position_rule_sale',
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': [
+                  'account_fiscal_position_rule_sale',
                   'l10n_br_stock',
-		          ],
+                  ],
     'init_xml': [],
-    'update_xml' : [
+    'update_xml': [
                     'sale_view.xml',
                     'security/ir.model.access.csv',
                     'l10n_br_sale_data.xml',
