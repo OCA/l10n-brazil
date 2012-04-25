@@ -20,11 +20,12 @@
 import tools
 from osv import fields, osv
 
+
 class sale_report(osv.osv):
     _inherit = "sale.report"
     _columns = {
                 'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Fiscal Operation Category', readonly=True),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation', readonly=True),                
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation', readonly=True),
                 }
 
     def init(self, cr):
