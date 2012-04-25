@@ -18,21 +18,21 @@
 #################################################################################
 
 {
-    'name' : 'Brazilian Localization Purchase',
-    'description' : 'Brazilian Localization for Purchase',
+    'name': 'Brazilian Localization Purchase',
+    'description': 'Brazilian Localization for Purchase',
     'license': 'AGPL-3',
-    'category' : 'Localisation',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
+    'category': 'Localisation',
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': [
                  'l10n_br_account',
-		         'account_fiscal_position_rule_purchase',
-		         ],
+                 'account_fiscal_position_rule_purchase',
+                ],
     'init_xml': [
                  'l10n_br_purchase_data.xml',
-		         ],
-    'update_xml' : [
+                 ],
+    'update_xml': [
                     'purchase_view.xml',
                     'res_company_view.xml',
                     'security/ir.model.access.csv',
