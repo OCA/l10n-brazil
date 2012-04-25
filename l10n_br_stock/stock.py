@@ -19,19 +19,19 @@
 #################################################################################
 
 from osv import osv, fields
-from tools.translate import _
+
 
 class stock_incoterms(osv.osv):
     _inherit = "stock.incoterms"
-    
+
     _columns = {
-                'freight_responsibility': fields.selection([('0','Emitente'),('1','Destinatário'),('2','Terceiros'),('9','Sem Frete')], 'Frete por Conta', required=True),
+                'freight_responsibility': fields.selection([('0', 'Emitente'), ('1', 'Destinatário'), ('2', 'Terceiros'), ('9', 'Sem Frete')], 'Frete por Conta', required=True),
                 }
-    
+
     _defaults = {
                  'freight_responsibility': 0,
                  }
-    
+
 stock_incoterms()
 
 
@@ -45,39 +45,39 @@ class stock_picking(osv.osv):
                 'fiscal_position': fields.many2one('account.fiscal.position', 'Posição Fiscal',
                                                    domain="[('fiscal_operation_id','=',fiscal_operation_id)]"),
                 }
-    
+
     def _default_fiscal_operation_category(self, cr, uid, context=None):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)       
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id
-    
+
     _defaults = {
                 'fiscal_operation_category_id': _default_fiscal_operation_category,
                 }
 
-    def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False, 
+    def _fiscal_position_map(self, cr, uid, partner_id, partner_invoice_id=False,
                              company_id=False, fiscal_operation_category_id=False):
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
-        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, 
-                                                              company_id, fiscal_operation_category_id, 
-                                                              context={'use_domain': ('use_picking','=',True)})
+        result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id,
+                                                              company_id, fiscal_operation_category_id,
+                                                              context={'use_domain': ('use_picking', '=', True)})
         return result
 
     def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,
-                            company_id=False,fiscal_operation_category_id=False):
+                            company_id=False, fiscal_operation_category_id=False):
         result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_address_id)
         if result and partner_address_id:
             partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-            partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
+            partner_id = partner_addr.partner_id and partner_addr.partner_id.id
             fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
             result['value'].update(fiscal_data)
         return result
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id, 
+    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id,
                                               company_id=False, fiscal_operation_category_id=False):
-        result = {'value': {} }
+        result = {'value': {}}
         if partner_address_id:
             partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
-            partner_id =  partner_addr.partner_id and partner_addr.partner_id.id
+            partner_id = partner_addr.partner_id and partner_addr.partner_id.id
             fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
             result['value'].update(fiscal_data)
         return result
@@ -105,7 +105,7 @@ class stock_picking(osv.osv):
         res['fiscal_operation_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.id
         res['fiscal_document_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.fiscal_document_id and picking.fiscal_operation_id.fiscal_document_id.id
         res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
-        res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id #TODO pick 1st active one!!
+        res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id  # TODO pick 1st active one!!
         return res
 
 stock_picking()

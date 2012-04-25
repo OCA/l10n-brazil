@@ -19,11 +19,12 @@
 
 from osv import osv, fields
 
+
 class res_company(osv.osv):
     _inherit = "res.company"
 
     _columns = {
-                'stock_fiscal_category_operation_id': fields.many2one('l10n_br_account.fiscal.operation.category', 
+                'stock_fiscal_category_operation_id': fields.many2one('l10n_br_account.fiscal.operation.category',
                                                                       'Categoria Fiscal Padrão Estoque',
                                                                       domain="[('use_picking','=',True)]"),
     }

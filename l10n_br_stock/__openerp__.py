@@ -18,22 +18,22 @@
 #################################################################################
 
 {
-    'name' : 'Brazilian Localization',
-    'description' : 'Brazilian Localization',
-    'category' : 'Localisation',
+    'name': 'Brazilian Localization',
+    'description': 'Brazilian Localization',
+    'category': 'Localisation',
     'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-                'account_fiscal_position_rule_stock', 
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': [
+                'account_fiscal_position_rule_stock',
                 'l10n_br_account',
-		        ],
+            ],
     'init_xml': [
                  'l10n_br_stock_data.xml',
                  ],
-    'update_xml' : [
-		          'stock_view.xml',
+    'update_xml': [
+              'stock_view.xml',
                   'res_company_view.xml',
                   'wizard/stock_invoice_onshipping_view.xml',
                   'security/ir.model.access.csv',
