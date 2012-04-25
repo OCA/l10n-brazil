@@ -78,8 +78,6 @@ class purchase_order(osv.osv):
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        print 'Teste'
-        print user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id
         return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
     
     _defaults = {
