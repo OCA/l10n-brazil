@@ -18,15 +18,16 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-from osv import fields,osv
+from osv import fields, osv
+
 
 class product_template(osv.osv):
-    _inherit = "product.template"         
-    
+    _inherit = "product.template"
+
     _columns = {
-		        'origin': fields.selection((('0','Nacional'), ('1','Internacional'),('2','Inter. Adiquirido Internamente')), 'Origem'),
+                'origin': fields.selection((('0', 'Nacional'), ('1', 'Internacional'), ('2', 'Inter. Adiquirido Internamente')), 'Origem'),
                 }
-    
+
 product_template()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
