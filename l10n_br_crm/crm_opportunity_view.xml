@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	   
+	   	<!-- CRM Opportunity Form View  -->
+	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor1">
+			<field name="name">l10n_br_crm.opportunities1</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<field name="city" position="replace">
+					<field name="city" invisible="1" />
+				</field>
+			</field>
+		</record>
+	   	
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor2">
+			<field name="name">l10n_br_crm.opportunities2</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<field name="state_id" position="replace">
+					<field name="state_id" />
+					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor3">
+			<field name="name">l10n_br_crm.opportunities3</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<field name="street2" position="replace">
+					<field name="number" />
+					<field name="street2" />
+				</field>
+			</field>
+		</record>
+	
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor4">
+			<field name="name">l10n_br_crm.opportunities4</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					<field name="zip" on_change="onchange_mask_zip(zip)" />
+					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
+				</field>
+			</field>
+		</record>
+	
+	</data>
+</openerp>
