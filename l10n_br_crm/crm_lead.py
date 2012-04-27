@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 #################################################################################
 #                                                                               #
-# Copyright (C) 2011  Renato Lima - Akretion                                    #
+# Copyright (C) 2012  Renato Lima - Akretion                                    #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -17,8 +17,18 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import wizard
-import crm_lead
+from osv import fields, osv
+from crm.crm import crm_case
+
+class crm_lead(crm_case, osv.osv):
+    """ CRM Lead Case """
+    _inherit = "crm.lead"
+    _columns = {
+	            'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', 
+                                                   domain="[('state_id','=',state_id)]"),
+                'district': fields.char('Bairro', size=32),
+                'number': fields.char('Número', size=10),
+                }
+crm_lead()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
