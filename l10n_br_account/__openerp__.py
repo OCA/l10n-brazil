@@ -2,6 +2,7 @@
 #################################################################################
 #                                                                               #
 # Copyright (C) 2009  Renato Lima - Akretion                                    #
+# Copyright (C) 2011  Vinicius Dittgen - PROGE, Leonardo Santagada - PROGE      #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -22,45 +23,45 @@
     'description' : 'Brazilian Localization',
     'category' : 'Localisation',
     'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
+    'author': 'Akretion, PROGE, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
-    'depends' : [
-                'l10n_br',
-        		'l10n_br_base',
-        		'account_fiscal_position_rule', 
-        		'account_product_fiscal_classification'
-		        ],
+    'depends': [
+        'l10n_br',
+        'l10n_br_base',
+        'product',
+        'account_fiscal_position_rule',
+        'account_product_fiscal_classification'
+        ],
     'init_xml': [
                  ],
     'update_xml' : [
-                    'account_view.xml',
-                    'account.account.template.csv',
-                    'account.tax.code.template.csv',
-                    'l10n_br_account_data.xml',
-                    'account_fiscal_position_rule_view.xml',
-                    'account_invoice_view.xml',
-                    'account_invoice_workflow.xml',
-                    'l10n_br_account_view.xml',
-                    'partner_view.xml',
-                    'product_view.xml',
-                    'res_company_view.xml',
-                    'security/ir.model.access.csv',
-                    'security/l10n_br_account_security.xml',
-                    'wizard/l10n_br_account_nfe_export_view.xml',
-                    'wizard/l10n_br_account_nfe_reexport_view.xml',
+        'account_view.xml',
+        'account.account.template.csv',
+        'account.tax.code.template.csv',
+        'l10n_br_account_data.xml',
+        'account_fiscal_position_rule_view.xml',
+        'account_invoice_view.xml',
+        'account_invoice_workflow.xml',
+        'l10n_br_account_view.xml',
+        'partner_view.xml',
+        'product_view.xml',
+        'res_company_view.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_account_security.xml',
+        'wizard/l10n_br_account_nfe_export_view.xml',
+        'wizard/nfe_export_from_invoice_view.xml',
                     ],
     'demo_xml': [
-                'demo/base_demo.xml',
-                'demo/account.account.csv',
-                'demo/account.tax.code.csv',
-		        'l10n_br_account_demo.xml',
-                'demo/product_demo.xml',
-                'demo/account_financial_demo.xml',
-                'demo/account_fiscal_demo.xml',
+        'demo/base_demo.xml',
+        'demo/account.account.csv',
+        'demo/account.tax.code.csv',
+  	    'l10n_br_account_demo.xml',
+        'demo/product_demo.xml',
+        'demo/account_financial_demo.xml',
+        'demo/account_fiscal_demo.xml',
                  ],
     'installable': True,
     'auto_install': True,
 }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
