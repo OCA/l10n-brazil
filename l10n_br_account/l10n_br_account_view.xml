@@ -241,7 +241,7 @@
 				<field name="model">l10n_br_account.document.serie</field>
 				<field name="type">tree</field>
 				<field name="arch" type="xml">
-					<tree string="Tipo Fiscal de Parceiro">
+					<tree string="Serie de Documentos Fiscais">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
 						<field name="fiscal_document_id" select="1"/>
