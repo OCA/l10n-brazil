@@ -17,27 +17,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-import time
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from operator import itemgetter
-
-import netsvc
-import pooler
 from osv import fields, osv
-import decimal_precision as dp
-from tools.misc import currency
-from tools.translate import _
-from tools import config
+
 
 class account_journal(osv.osv):
     _inherit = 'account.journal'
-    
     _columns = {
-                'revenue_expense' : fields.boolean('Gera Financeiro'),
-                }
+        'revenue_expense': fields.boolean('Gera Financeiro'),
+        }
 
 account_journal()
+
 
 class account_tax(osv.osv):
     _inherit = 'account.tax'
@@ -160,4 +150,3 @@ class wizard_multi_charts_accounts(osv.osv_memory):
 
 wizard_multi_charts_accounts()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
