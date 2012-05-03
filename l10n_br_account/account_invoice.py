@@ -19,7 +19,7 @@
 
 from lxml import etree
 from lxml.etree import ElementTree
-from lxml.etree import Element, SubElement, Comment, tostring
+from lxml.etree import Element, SubElement
 import time
 from datetime import datetime
 import netsvc
@@ -28,18 +28,13 @@ import string
 from unicodedata import normalize
 
 from osv import fields, osv
-from tools import config
 from tools.translate import _
 import decimal_precision as dp
-import pooler
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
-        obj_precision = self.pool.get('decimal.precision')
-        prec = obj_precision.precision_get(cr, uid, 'Account')
-        
         res = {}
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
@@ -1465,9 +1460,10 @@ class account_invoice(osv.osv):
             
             dest_IE = SubElement(dest, 'IE')
             dest_IE.text = inv.partner_id.inscr_est
-            
+           
+            i = 0 
             for inv_line in inv.invoice_line:
-                i =+ 1
+                i += 1
                 det = SubElement(infNFe, 'det', {'nItem': str(i)})
                 
                 det_prod = SubElement(det, 'prod')
@@ -1817,11 +1813,6 @@ class account_invoice_line(osv.osv):
             
             if context.get('fiscal_type', False) == 'service':
                 
-                #products = eview.xpath("//field[@name='product_id']")
-                #for product_id in products:
-                #    print context['fiscal_type']
-                #    product_id.set('domain', "[('fiscal_type','=', '%s')]" % (context['fiscal_type']))
-                
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
                     cfop_id.set('invisible', '1')
@@ -1866,7 +1857,6 @@ class account_invoice_line(osv.osv):
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         res = {} #super(account_invoice_line, self)._amount_line(cr, uid, ids, prop, unknow_none, unknow_dict)
         tax_obj = self.pool.get('account.tax')
-        fsc_op_line_obj = self.pool.get('l10n_br_account.fiscal.operation.line')
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
@@ -1933,9 +1923,6 @@ class account_invoice_line(osv.osv):
 
             if line.fiscal_operation_id:
 
-                if line.product_id:
-                    fiscal_classification = line.product_id.property_fiscal_classification.id
-
                 fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
                 for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
                     if fo_line.tax_code_id.domain == 'icms':
@@ -1962,8 +1949,6 @@ class account_invoice_line(osv.osv):
                                                         
 
             for tax in taxes['taxes']:
-                fsc_op_line_ids = 0
-                fsc_fp_tax_ids = 0
                 tax_brw = tax_obj.browse(cr, uid, tax['id'])
                 
                 if tax_brw.domain == 'icms':
@@ -2230,4 +2215,3 @@ class account_invoice_tax(osv.osv):
     
 account_invoice_tax()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
