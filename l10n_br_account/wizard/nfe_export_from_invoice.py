@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 #################################################################################
 #                                                                               #
+# Copyright (C) 2009  Renato Lima - Akretion                                    #
 # Copyright (C) 2011  Vinicius Dittgen - PROGE, Leonardo Santagada - PROGE      #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
@@ -26,45 +27,51 @@ class nfe_export_from_invoice(osv.osv_memory):
     """ Export fiscal eletronic file from invoice"""
 
     _name = "l10n_br_account.nfe_export_from_invoice"
-    _description = "Export fiscal eletronic file from invoice"
+    _description = "Export exetronic invoice to file used in Emissor de NFe application from SEFAZ SP"
     _inherit = "ir.wizard.screen"
     _columns = {
-        'file': fields.binary('Arquivo', readonly=True),
-        'company_id': fields.many2one('res.company', 'Company'),
-        'file_type': fields.selection([('xml', 'XML'),
-                               ('txt', ' TXT')], 'Tipo do Arquivo'),
-        'state': fields.selection([('init', 'init'),
-                               ('done', 'done')], 'state', readonly=True),
-        }
+                'file': fields.binary('Arquivo', readonly=True),
+                'file_type': fields.selection([('xml', 'XML'),
+		                       ('txt', ' TXT')], 'Tipo do Arquivo'),
+                'state': fields.selection([('init', 'init'),
+		                   ('done', 'done')], 'state', readonly=True),
+                'nfe_environment': fields.selection([('1', 'Produção'),
+			                                         ('2', 'Homologação')], 'Ambiente'),
+    }
     _defaults = {
-        'state': 'init',
-        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c),
-        'file_type': 'txt',
-        }
+        	    'state': 'init',
+        	    'file_type': 'txt',
+	            'nfe_environment': '1',
+    }
 
     def nfe_export_from_invoice(self, cr, uid, ids, context=None):
         data = self.read(cr, uid, ids, [], context=context)[0]
         inv_obj = self.pool.get('account.invoice')
         active_ids = context.get('active_ids', [])
         export_inv_ids = []
+        company_ids = []
         err_msg = ''
 
         for inv in inv_obj.browse(cr, uid, active_ids, context=context):
-            if inv.state not in ('sefaz_export', 'open', 'paid'):
-                err_msg += u'A Fatura %s não pode ser exportada pois ainda não foi confirmada ou foi cancelada.\n' % inv.internal_number
+            if inv.state not in ('sefaz_export'):
+                err_msg += u'O Documento Fiscal %s não esta definida para ser exportação para a SEFAZ.\n' % inv.internal_number
             elif not inv.own_invoice:
-                err_msg += u'A Fatura %s é do tipo externa e não pode ser exportada para a receita.\n' % inv.internal_number
+                err_msg += u'O Documento Fiscal %s é do tipo externa e não pode ser exportada para a receita.\n' % inv.internal_number
             else:
                 inv_obj.write(cr, uid, [inv.id], {'nfe_export_date': False, 'nfe_access_key': False, 'nfe_status': False, 'nfe_date': False})
-                message = 'A fatura %s foi exportada.' % inv.internal_number
+                message = 'O Documento Fiscal %s foi exportada.' % inv.internal_number
                 inv_obj.log(cr, uid, inv.id, message)
                 export_inv_ids.append(inv.id)
+                company_ids.append(inv.company_id.id)
+
+        if len(company_ids) > 1:
+            err_msg += u'Não é permitido exportar Documentos Fiscais de mais de uma empresa, por favor selecione Documentos Fiscais da mesma empresa.\n'
 
         if export_inv_ids:
             if data['file_type'] == 'xml':
-                nfe_file = inv_obj.nfe_export_xml(cr, uid, export_inv_ids)
+                nfe_file = inv_obj.nfe_export_xml(cr, uid, export_inv_ids, data['nfe_environment'])
             else:
-                nfe_file = inv_obj.nfe_export_txt(cr, uid, export_inv_ids)
+                nfe_file = inv_obj.nfe_export_txt(cr, uid, export_inv_ids, data['nfe_environment'])
             self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file), 'state': 'done'}, context=context)
 
         if err_msg:
@@ -74,3 +81,4 @@ class nfe_export_from_invoice(osv.osv_memory):
 
 nfe_export_from_invoice()
 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
