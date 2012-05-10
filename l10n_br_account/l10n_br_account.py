@@ -192,28 +192,29 @@ class l10n_br_account_document_serie(osv.osv):
     _description = 'Serie de documentos fiscais'
     
     _columns = {
-        'code': fields.char('Código', size=3, required=True),
-        'name': fields.char('Descrição', size=64),
-        'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', requeried=True),
-        'company_id': fields.many2one('res.company', 'Company', requeried=True),
-        'active':fields.boolean('Active'),
-        'fiscal_type': fields.selection([('product', 'Product'), ('service', 'Service')], 'Tipo Fiscal', requeried=True),
-        'internal_sequence_id': fields.many2one('ir.sequence', 'Sequência Interna', requeried=True),
-        }
+                'code': fields.char('Código', size=3, required=True),
+                'name': fields.char('Descrição', size=64, required=True),
+                'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento Fiscal', required=True),
+                'company_id': fields.many2one('res.company', 'Company', required=True),
+                'active':fields.boolean('Active'),
+                'fiscal_type': fields.selection([('product', 'Product'), ('service', 'Service')], 'Tipo Fiscal', required=True),
+                'internal_sequence_id': fields.many2one('ir.sequence', 'Sequência Interna'),
+    }
 
     _defaults = {
-        'active': True,
-        }
+        	    'active': True,
+		        'fiscal_type': 'product',
+    }
     
     def create_sequence(self, cr, uid, vals, context=None):
         """ Create new no_gap entry sequence for every new document serie
         """
         seq = {
-            'name': vals['name'],
-            'implementation':'no_gap',
-            'padding': 1,
-            'number_increment': 1
-            }
+                'name': vals['name'],
+                'implementation':'no_gap',
+                'padding': 1,
+                'number_increment': 1
+        }
         if 'company_id' in vals:
             seq['company_id'] = vals['company_id']
         return self.pool.get('ir.sequence').create(cr, uid, seq)
@@ -272,4 +273,6 @@ class l10n_br_account_cnae(osv.osv):
          }
 
 l10n_br_account_cnae()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
