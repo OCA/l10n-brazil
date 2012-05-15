@@ -27,7 +27,7 @@ class nfe_export_from_invoice(osv.osv_memory):
     """ Export fiscal eletronic file from invoice"""
 
     _name = "l10n_br_account.nfe_export_from_invoice"
-    _description = "Export exetronic invoice for Emissor de NFe SEFAZ SP"
+    _description = "Export eletronic invoice for Emissor de NFe SEFAZ SP"
     _inherit = "ir.wizard.screen"
     _columns = {
                 'file': fields.binary('Arquivo', readonly=True),
