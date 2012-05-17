@@ -2127,18 +2127,6 @@ class account_invoice_line(osv.osv):
             result['cfop_id'] = obj_foperation.cfop_id.id
         return result
 
-    #def onchange_fiscal_operation_id(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=False, fiscal_operation_id=False):
-    #
-    #    result = {'value': {'cfop_id': False}}
-    #    print context
-    #    
-    #    if not fiscal_operation_id:
-    #        return result
-   # 
-   #     result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
-   # 
-   #     return result
-
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', 
                           type='out_invoice', partner_id=False, fposition_id=False, 
                           price_unit=False, address_invoice_id=False, currency_id=False, 
