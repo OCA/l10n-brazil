@@ -23,64 +23,24 @@ from osv import osv, fields
 parametros = {
     'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'},
     'al': {'tam': 9, 'starts_with': '24'},
-    'am': {'tam': 8},
+    'am': {'tam': 9},
     'ce': {'tam': 9},
-    'al': {'tam': 13, 'val_tam': 11, 'starts_with': '07'},
+    'df': {'tam': 13, 'val_tam': 11, 'starts_with': '07'},
     'es': {'tam': 9},
     'ma': {'tam': 9, 'starts_with': '12'},
+    'mt': {'tam': 11, 'prod': [3, 2, 9, 8, 7, 6, 5, 4, 3, 2]},
     'ms': {'tam': 9, 'starts_with': '28'},
-    'mt': {'tam': 11},
     'pa': {'tam': 9, 'starts_with': '15'},
     'pb': {'tam': 9},
-    'pi': {'tam': 9},
     'pr': {'tam': 10, 'val_tam': 8, 'prod': [3, 2, 7, 6, 5, 4, 3, 2]},
+    'pi': {'tam': 9},
     'rj': {'tam': 8, 'prod': [2, 7, 6, 5, 4, 3, 2]},
     'rn': {'tam': [9, 10], 'val_tam': [8, 9]},
-    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8]},
     'rs': {'tam': 10},
+    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8]},
     'sc': {'tam': 9},
     'se': {'tam': 9},
     }
-
-
-def validate_ie_param(uf, inscr_est):
-    if not uf in parametros:
-        return True
-
-    inscr_est = re.sub('[^0-9]', '', inscr_est)
-    tam = parametros[uf]['tam']
-    val_tam = parametros[uf].get('val_tam', tam - 1)
-
-    if isinstance(tam, list):
-        i = tam.find(len(inscr_est))
-        if i == -1:
-            return False
-        else:
-            val_tam = val_tam[i]
-    else:
-        if len(inscr_est) != tam:
-            return False
-
-    sw = parametros[uf].get('starts_with', '')
-    if not inscr_est.startswith(sw):
-        return False
-
-    inscr_est_ints = [int(c) for c in inscr_est]
-    nova_ie = inscr_est_ints[:val_tam]
-
-    prod = parametros[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
-    prod = prod[-val_tam:]
-    while len(nova_ie) < tam:
-        r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
-        if r > 1:
-            f = 11 - r
-        else:
-            f = 0
-        nova_ie.append(f)
-        prod.insert(0, prod[0] + 1)
-
-    # Se o número gerado coincidir com o número original, é válido
-    return nova_ie == inscr_est_ints
 
 
 class res_partner(osv.osv):
@@ -194,6 +154,48 @@ class res_partner(osv.osv):
             return True
 
         return False
+    
+    def _validate_ie_param(self, uf, inscr_est):
+        if not uf in parametros:
+            return True
+    
+        inscr_est = re.sub('[^0-9]', '', inscr_est)
+        tam = parametros[uf]['tam']
+        val_tam = parametros[uf].get('val_tam', tam - 1)
+    
+        if isinstance(tam, list):
+            i = tam.find(len(inscr_est))
+            if i == -1:
+                return False
+            else:
+                val_tam = val_tam[i]
+        else:
+            if len(inscr_est) != tam:
+                return False
+    
+        sw = parametros[uf].get('starts_with', '')
+        if not inscr_est.startswith(sw):
+            return False
+    
+        inscr_est_ints = [int(c) for c in inscr_est]
+        nova_ie = inscr_est_ints[:val_tam]
+    
+        prod = parametros[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
+        prod = prod[-val_tam:]
+        while len(nova_ie) < tam:
+            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
+            if r > 1:
+                f = 11 - r
+            else:
+                f = 0
+            nova_ie.append(f)
+            prod.insert(0, prod[0] + 1)
+    
+        # Se o número gerado coincidir com o número original, é válido
+        if uf == 'mt':
+            print nova_ie, inscr_est_ints
+        return nova_ie == inscr_est_ints
+
 
     def _check_ie(self, cr, uid, ids):
         """Checks if company register number in field insc_est is valid,
@@ -217,7 +219,7 @@ class res_partner(osv.osv):
                 if not validate(partner.inscr_est):
                     return False
             except AttributeError:
-                if not validate_param(uf, partner.inscr_est):
+                if not self._validate_ie_param(uf, partner.inscr_est):
                     return False
 
         return True
@@ -281,7 +283,7 @@ class res_partner(osv.osv):
 
         nova_ie = inscr_est[:val_tam]
 
-        prod = [8, 7, 6, 5, 4, 3, 2][-val_tam]
+        prod = [8, 7, 6, 5, 4, 3, 2][-val_tam:]
 
         if inscr_est[test_digit] in [0, 1, 2, 3, 4, 5, 8]:
             modulo = 10
@@ -298,7 +300,7 @@ class res_partner(osv.osv):
             if len(nova_ie) == val_tam:
                 nova_ie.append(f)
             else:
-                nova_ie.insert(val_tam - 1, f)
+                nova_ie.insert(val_tam, f)
             prod.insert(0, prod[0] + 1)
 
         return nova_ie == inscr_est
