@@ -40,6 +40,9 @@
                 'security/l10n_br_base_security.xml',
 
     ],
+    'test': [
+            'test/base_inscr_est.yml',
+    ],
     'demo_xml': ['l10n_br_base_demo.xml'],
     'installable': True
 }
