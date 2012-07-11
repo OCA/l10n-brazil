@@ -67,14 +67,14 @@ class res_partner(osv.osv):
         return res
 
     _columns = {
-                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
+                'tipo_pessoa': fields.selection([('F', 'Natural Person'), ('J', 'Legal Person')], 'Party', required=True),
                 'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-                'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-                'inscr_mun': fields.char('Inscr. Municipal', size=18),
+                'inscr_est': fields.char('State Inscription/RG', size=16),
+                'inscr_mun': fields.char('City Inscription', size=18),
                 'suframa': fields.char('Suframa', size=18),
-                'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
-                'addr_fs_code': fields.function(_address_default_fs, method=True,
-                                                string='Address Federal State Code',
+                'legal_name' : fields.char('Legal Name', size=128, help="Name used in fiscal documents"),
+                'addr_fs_code': fields.function(_address_default_fs, method=True, 
+                                                string='Address Federal State Code', 
                                                 type="char", size=2, multi='all',
                                                 store={'res.partner.address': (_get_partner_address, ['country_id', 'state_id'], 20),}),
 
@@ -538,15 +538,15 @@ class res_partner(osv.osv):
         return nova_ie == inscr_est
 
     _constraints = [
-                    (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-                    (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
+                    (_check_cnpj_cpf, u'Invalid CNPJ/CPF!', ['cnpj_cpf']),
+                    (_check_ie, u'Invalid State Inscription!', ['inscr_est'])
     ]
 
     _sql_constraints = [
-                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
-                     u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-                    ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
-                     u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
+                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', 
+                     u'There is already a partner with the CPF/CNPJ !'),
+                    ('res_partner_inscr_est_uniq', 'unique (inscr_est)', 
+                     u'There is already a partner with the State Inscription/RG !')
     ]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
@@ -569,9 +569,9 @@ class res_partner_address(osv.osv):
     _inherit = 'res.partner.address'
 
     _columns = {
-	            'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
-                'district': fields.char('Bairro', size=32),
-                'number': fields.char('Número', size=10),
+	            'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'City', domain="[('state_id','=',state_id)]"),
+                'district': fields.char('District', size=32),
+                'number': fields.char('Number', size=10),
                 }
 
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
@@ -688,9 +688,9 @@ class res_partner_bank(osv.osv):
     _columns = {
                 'acc_number': fields.char('Account Number', size=64, required=False),
                 'bank': fields.many2one('res.bank', 'Bank', required=False),
-                'acc_number_dig': fields.char("Digito Conta", size=8),
+                'acc_number_dig': fields.char("Account Digit", size=8),
                 'bra_number': fields.char("Agência", size=8),
-                'bra_number_dig': fields.char("Dígito Agência", size=8),
+                'bra_number_dig': fields.char("Branch Digit", size=8),
                }
 
 res_partner_bank()
