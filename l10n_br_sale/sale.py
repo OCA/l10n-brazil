@@ -315,7 +315,10 @@ class sale_order_line(osv.osv):
         if not fiscal_operation_category_id or not fiscal_operation_id or not product:
             return result
 
-        default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_id', '=', product), ('fiscal_operation_category_source_id', '=', fiscal_operation_category_id)])
+        product_tmpl_id = self.pool.get('product.product').read(cr, uid, product, ['product_tmpl_id'])['product_tmpl_id'][0]
+        print 'TASD'
+        print product_tmpl_id
+        default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_tmpl_id', '=', product_tmpl_id), ('fiscal_operation_category_source_id', '=', fiscal_operation_category_id)])
 
         if not default_product_category:
             if fiscal_operation_category_id:
