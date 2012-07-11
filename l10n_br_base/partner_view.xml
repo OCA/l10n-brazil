@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<!-- Custom views for res.partner -->
+		<!-- Parceiro Personalizado -->
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_filter">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
@@ -61,8 +61,8 @@
 	   		<field name="priority">33</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='zip']" position="replace">
-					<field name="zip" on_change="onchange_mask_zip(zip)" />
-					<button name="zip_search" colspan="2" string="Search by ZIP" type="object" icon="gtk-select-all"/>
+						<field name="zip" on_change="onchange_mask_zip(zip)" />
+						<button name="zip_search" colspan="2" string="Pesquisar CEP" type="object" icon="gtk-select-all"/>
         			</xpath>
         		</field>
    		</record>
@@ -86,7 +86,7 @@
 	   		<field name="priority">34</field>
 	   		<field name="arch" type="xml">
 	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='city']" position="replace">
-					<field name="city" invisible="1" />
+						<field name="city" invisible="1" />
         			</xpath>
         		</field>
    		</record>
@@ -99,7 +99,7 @@
 			<field name="arch" type="xml">
 				 <notebook>
 					<page position="inside" string="l10n br - NF">
-						<separator colspan="4" string="Additional Partner Informations"/>						
+						<separator colspan="4" string="Dados Adicionais do Parceiro"/>						
 						<newline/>
 						<field name="inscr_est" />
 						<field name="inscr_mun"/>
@@ -109,7 +109,7 @@
 			</field>
 		</record>
 		
-		<!-- Custom Views for res.partner.address -->
+		<!-- Contato do Parceiro Personalizado -->
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form1">
 			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
@@ -117,7 +117,7 @@
 			<field name="arch" type="xml">
 				<field name="zip" position="replace">
 					<field name="zip" on_change="onchange_mask_zip(zip)" />
-					<button name="zip_search" string="Search by ZIP" colspan="2" type="object" icon="gtk-select-all"/>
+					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
 				</field>
 
 			</field>
