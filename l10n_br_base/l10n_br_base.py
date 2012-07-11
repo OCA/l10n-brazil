@@ -22,12 +22,12 @@ from osv import osv, fields
 class l10n_br_base_city(osv.osv):
 
     _name = 'l10n_br_base.city'
-    _description = 'Municipios e Códigos do IBGE'
+    _description = 'City with IBGE Codes'
 
     _columns = {
-                'name': fields.char('Nome', size=64, required=True),
-                'state_id': fields.many2one('res.country.state', 'Estado', required=True),
-                'ibge_code': fields.char('Codigo IBGE', size=7),
+                'name': fields.char('Name', size=64, required=True),
+                'state_id': fields.many2one('res.country.state', 'State', required=True),
+                'ibge_code': fields.char('IBGE Code', size=7),
                }
 
 l10n_br_base_city()
@@ -38,14 +38,14 @@ class l10n_br_base_zip(osv.osv):
     _rec_name = 'code'
 
     _columns = {
-                'code': fields.char('CEP', size=8, required=True),
-                'street_type': fields.char('Tipo', size=26),
-                'street': fields.char('Logradouro', size=72),
-                'district': fields.char('Bairro', size=72),
+                'code': fields.char('ZIP', size=8, required=True),
+                'street_type': fields.char('Type', size=26),
+                'street': fields.char('Street', size=72),
+                'district': fields.char('District', size=72),
                 'country_id': fields.many2one('res.country', 'Country'),
-                'state_id': fields.many2one("res.country.state", 'Estado', 
+                'state_id': fields.many2one("res.country.state", 'State', 
                                             domain="[('country_id','=',country_id)]"),
-                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Cidade', 
+                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'City', 
                                                    required=True, domain="[('state_id','=',state_id)]"),
                 }
 
