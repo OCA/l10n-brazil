@@ -24,7 +24,7 @@ class product_template(osv.osv):
 
     _columns = {
                 'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 
-									 'product_id', 'Categoria de Operação Fiscal Padrões'),
+									 'product_tmpl_id', 'Categoria de Operação Fiscal Padrões'),
                 'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
                 'is_on_service_invoice': fields.boolean('On Service Invoice?', help='True if invoiced along with service'),
                 }
@@ -43,7 +43,7 @@ class l10n_br_account_product_fiscal_operation_category(osv.osv):
     _columns = {
                 'fiscal_operation_category_source_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Origem'),
                 'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Destino'),
-                'product_id': fields.many2one('product.product', 'Produto', ondelete='cascade'),
+                'product_tmpl_id': fields.many2one('product.template', 'Produto', ondelete='cascade'),
                 }
     
 l10n_br_account_product_fiscal_operation_category()
