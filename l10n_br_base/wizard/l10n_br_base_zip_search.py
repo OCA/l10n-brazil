@@ -30,16 +30,16 @@ class l10n_br_base_zip_search(osv.osv_memory):
     _inherit = "ir.wizard.screen"
     
     _columns = {
-                'code': fields.char('CEP', size=8),
-                'street': fields.char('Logradouro', size=72),
-                'district': fields.char('Bairro', size=72),
+                'code': fields.char('ZIP', size=8),
+                'street': fields.char('Street', size=72),
+                'district': fields.char('District', size=72),
                 'country_id': fields.many2one('res.country', 'Country'),
-                'state_id': fields.many2one("res.country.state", 'Estado',
+                'state_id': fields.many2one("res.country.state", 'State',
                                             domain="[('country_id','=',country_id)]"),
-                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Cidade',
+                'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'City',
                                                    domain="[('state_id','=',state_id)]"),
                 'zip_ids': fields.many2many('l10n_br_base.zip','zip_search','zip_id', 
-                                                'zip_search_id', "CEP", readonly=True),
+                                                'zip_search_id', "ZIP", readonly=True),
                 'state':fields.selection([('init','init'),('done','done')], 'state', readonly=True),
                 }
     

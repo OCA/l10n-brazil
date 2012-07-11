@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<!-- País Personallizado -->
+		<!-- Custom view for res.country -->
 		<record model="ir.ui.view" id="view_l10n_br_country_form">
 			<field name="name">res.country</field>
 			<field name="model">res.country</field>
@@ -14,7 +14,7 @@
 			</field>
 		</record>
 
-		<!-- Estado Personallizado -->
+		<!-- Custom view for res.country.state -->
 		<record model="ir.ui.view" id="view_l10n_br_country_state_form">
 			<field name="name">res.country.state</field>
 			<field name="model">res.country.state</field>
