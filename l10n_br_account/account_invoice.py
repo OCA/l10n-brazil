@@ -380,7 +380,7 @@ class account_invoice(osv.osv):
         # Remove a constraint na coluna número do documento fiscal,
         # no caso dos documentos de entradas dos fornecedores pode existir
         # documentos fiscais de fornecedores diferentes com a mesma numeração
-        cr.execute("ALTER TABLE %s DROP CONSTRAINT %s" % ('account_invoice', 'account_invoice_number_uniq'))
+        cr.execute("ALTER TABLE %s DROP CONSTRAINT IF EXISTS %s" % ('account_invoice', 'account_invoice_number_uniq'))
 
     # go from canceled state to draft state
     def action_cancel_draft(self, cr, uid, ids, *args):
