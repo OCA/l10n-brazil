@@ -341,6 +341,47 @@ class account_invoice(osv.osv):
                  'fiscal_type': _get_fiscal_type,
                  }
 
+    def _check_invoice_number(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        invoices = self.browse(cr, uid, ids, context=context)
+        domain = []
+        for invoice in invoices:
+            if not invoice.number:
+                continue
+            fiscal_document = invoice.fiscal_document_id and invoice.fiscal_document_id.id or False
+            domain.extend([('internal_number','=',invoice.number),
+                           ('fiscal_type','=',invoice.fiscal_type),
+                           ('fiscal_document_id','=',fiscal_document)
+                           ])                
+            if invoice.own_invoice:
+                domain.extend([('company_id','=',invoice.company_id.id),
+                              ('internal_number','=',invoice.number),
+                              ('fiscal_document_id','=',invoice.fiscal_document_id.id),
+                              ('own_invoice','=',True)])
+            else:
+                domain.extend([('partner_id','=',invoice.partner_id.id),
+                              ('vendor_serie','=',invoice.vendor_serie),
+                              ('own_invoice','=',False)])
+                
+            invoice_id = self.pool.get('account.invoice').search(cr, uid, domain)
+            if len(invoice_id) > 1:
+                    return False
+        return True
+
+    _constraints = [
+                    (_check_invoice_number,
+                     u"Error!\nNão é possível registrar \
+                     documentos fiscais com números repetidos.",
+                     ['number']),
+    ]
+
+    def init(self, cr):
+        # Remove a constraint na coluna número do documento fiscal,
+        # no caso dos documentos de entradas dos fornecedores pode existir
+        # documentos fiscais de fornecedores diferentes com a mesma numeração
+        cr.execute("ALTER TABLE %s DROP CONSTRAINT %s" % ('account_invoice', 'account_invoice_number_uniq'))
+
     # go from canceled state to draft state
     def action_cancel_draft(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state':'draft', 'internal_number':False, 'nfe_access_key':False, 
