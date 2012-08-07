@@ -465,7 +465,7 @@
 		    <field name="from_country" ref="base.br" />
 		    <field name="from_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="template_fp_vendadeservico1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_servico" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_servico" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -483,7 +483,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ac" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -500,7 +500,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_al" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -517,7 +517,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_am" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -534,7 +534,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ap" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -551,7 +551,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ba" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
  		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -568,7 +568,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ce" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -585,7 +585,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_df" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />	    
-   		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+   		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -602,7 +602,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_es" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -619,7 +619,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_go" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -636,7 +636,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ma" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -653,7 +653,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mg" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -670,7 +670,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ms" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -687,7 +687,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mt" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -704,7 +704,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pa" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -721,7 +721,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pb" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -738,7 +738,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pe" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -755,7 +755,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pi" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -772,7 +772,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pr" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -789,7 +789,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaodentrodoestado0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -806,7 +806,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rn" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -823,7 +823,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ro" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -840,7 +840,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rr" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -857,7 +857,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rs" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -874,7 +874,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sc" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -891,7 +891,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_se" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -908,7 +908,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sp" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -925,7 +925,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_to" />
 		    <field name="fiscal_position_id" ref="template_fp_devolucaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="fo_category_devolucao_venda" />
+		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		    <field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
