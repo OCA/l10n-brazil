@@ -336,9 +336,27 @@ class account_invoice(osv.osv):
             multi='all'),            
     }
     
+    def _default_fiscal_operation_category(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        default_fo_category_product = {'in_invoice': 'in_invoice_fiscal_category_operation_id', 
+                                       'out_invoice': 'out_invoice_fiscal_category_operation_id',
+                                       'in_refund': 'in_refund_fiscal_category_operation_id', 
+                                       'out_refund': 'out_refund_fiscal_category_operation_id'}
+        default_fo_category_service = {'in_invoice': 'in_invoice_service_fiscal_category_operation_id', 
+                                       'out_invoice': 'out_invoice_service_fiscal_category_operation_id'}
+        default_fo_category = {
+                               'product': default_fo_category_product, 
+                               'service': default_fo_category_service,
+                               }
+        invoice_type = context.get('type', 'out_invoice')
+        invoice_fiscal_type = context.get('fiscal_type', 'product')
+        fo_category = self.pool.get('res.company').read(cr, uid, user.company_id.id, [default_fo_category[invoice_fiscal_type][invoice_type]], context=context)[default_fo_category[invoice_fiscal_type][invoice_type]]
+        return fo_category and fo_category[0] or False
+    
     _defaults = {
                  'own_invoice': True,
                  'fiscal_type': _get_fiscal_type,
+                 'fiscal_operation_category_id': _default_fiscal_operation_category,
                  }
 
     def _check_invoice_number(self, cr, uid, ids, context=None):
@@ -1736,10 +1754,21 @@ class account_invoice(osv.osv):
             
         xml_string = ElementTree.tostring(nfeProc, 'utf-8')
         return xml_string
+    
+    
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
-        result = {'fiscal_operation_id': False, 'fiscal_document_id': False, 'document_serie_id': False}
+        result = {'fiscal_operation_id': False, 
+                  'fiscal_document_id': False, 
+                  'document_serie_id': False}
         obj_rule = self.pool.get('account.fiscal.position.rule')
+        obj_fo_category = self.pool.get('l10n_br_account.fiscal.operation.category')
+        
+        
+        if fiscal_operation_category_id:
+            obj_fo_category.read(cr, uid, fiscal_operation_category_id, [''])
+        
+        
         fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice', '=', True)})   
 
         result.update(fiscal_result)
