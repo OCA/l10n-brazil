@@ -41,6 +41,18 @@
 								<field colspan="4" name="nfse_source_folder" />
 								<field colspan="4" name="nfse_destination_folder" />
 							</page>
+							<page string="Documentos Fiscais">
+								<separator colspan="8" string="Configurações de Entrada" />
+								<field name="in_invoice_fiscal_category_operation_id" />
+								<field name="in_invoice_service_fiscal_category_operation_id" />
+								<separator colspan="8" string="Configurações de Saida" />
+								<field name="out_invoice_fiscal_category_operation_id" />
+								<field name="out_invoice_service_fiscal_category_operation_id" />
+								<separator colspan="8" string="Categoria Fiscal de Produto Padrão de Saída" />
+								<field name="out_refund_fiscal_category_operation_id" />
+								<field name="in_refund_fiscal_category_operation_id" />
+								
+							</page>
 						</notebook>
 				</page>
 			</notebook>
@@ -49,4 +61,3 @@
 
     </data>
 </openerp>
-
