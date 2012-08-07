@@ -2,11 +2,6 @@
 <openerp>
 	<data noupdate="1">
 
-		<!-- res.company -->
-		<record id="base.main_company" model="res.company">
-			<field name="currency_id" ref="base.BRL"/>
-		</record>
-
 		<!-- l10n_br_account.partner.fiscal.type -->
 		<record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
 			<field name="code">Contribuinte</field>
@@ -91,6 +86,50 @@
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
 			<field eval="1" name="use_picking"/>
+		</record>
+		
+		<record id="fo_category_servico" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">Venda de Serviço</field>
+			<field name="name">Venda de Serviço</field>
+			<field name="type">output</field>
+			<!-- <field name="service_type_id" ref="l10n_br_data_account.fiscal_operation_service_26" />  -->
+			<field eval="1" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">service</field>
+		</record>
+		
+		<record id="fo_category_devolucao_venda" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">DevoluçãoVenda</field>
+			<field name="name">Devolução de Venda</field>
+			<field name="type">input</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+
+		<record id="fo_category_devolucao_compra" model="l10n_br_account.fiscal.operation.category">
+			<field name="code">DevoluçãoCompra</field>
+			<field name="name">Devolução de Compra</field>
+			<field name="type">output</field>
+			<field eval="0" name="use_sale"/>
+			<field eval="1" name="use_invoice"/>
+			<field eval="0" name="use_purchase"/>
+			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+		</record>
+		
+		<!-- res.company -->
+		<record id="base.main_company" model="res.company">
+			<field name="currency_id" ref="base.BRL"/>
+			<field name="in_invoice_fiscal_category_operation_id" ref="fo_category_compras_ind" />
+			<field name="out_invoice_fiscal_category_operation_id" ref="fo_category_venda" />
+			<field name="out_invoice_service_fiscal_category_operation_id" ref="fo_category_servico" />
+			<field name="in_refund_fiscal_category_operation_id" ref="fo_category_devolucao_compra" />
+			<field name="out_refund_fiscal_category_operation_id" ref="fo_category_devolucao_venda" />
 		</record>
 
 		<!-- account.tax.template -->
