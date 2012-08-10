@@ -113,8 +113,8 @@ class account_tax(osv.osv):
         for tax_sub in result['taxes']:
             tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
             if tax_brw_sub.domain == 'icmsst':
-                tax_sub['total_base'] = (result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)
-                tax_sub['amount'] += (((result['total'] + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
+                tax_sub['total_base'] = (icms_base + ipi_value) * (1 + tax_brw_sub.amount_mva)
+                tax_sub['amount'] += (((icms_base + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
 
         return {
             'total': result['total'],
