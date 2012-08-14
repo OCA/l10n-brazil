@@ -21,7 +21,7 @@ import re
 from osv import osv, fields
 
 parametros = {
-    'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'},
+    'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'}, #OK
     'al': {'tam': 9, 'starts_with': '24'},
     'am': {'tam': 9},
     'ce': {'tam': 9},
@@ -33,11 +33,11 @@ parametros = {
     'pa': {'tam': 9, 'starts_with': '15'},
     'pb': {'tam': 9},
     'pr': {'tam': 10, 'val_tam': 8, 'prod': [3, 2, 7, 6, 5, 4, 3, 2]},
-    'pi': {'tam': 9},
-    'rj': {'tam': 8, 'prod': [2, 7, 6, 5, 4, 3, 2]},
-    'rn': {'tam': [9, 10], 'val_tam': [8, 9]},
+    'pi': {'tam': 9 },
+    'rj': {'tam': 8 , 'prod': [2, 7, 6, 5, 4, 3, 2]},
+    'rn': {'tam': 10, 'val_tam':  9,  'prod' : [10, 9, 8, 7, 6, 5, 4, 3, 2] },
     'rs': {'tam': 10},
-    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8]},
+    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8], 'div':9},
     'sc': {'tam': 9},
     'se': {'tam': 9},
     }
@@ -156,13 +156,17 @@ class res_partner(osv.osv):
         return False
     
     def _validate_ie_param(self, uf, inscr_est):
+
         if not uf in parametros:
             return True
-    
+        
+        tam = parametros[uf].get('tam', 0) 
+         
+        inscr_est = unicode(inscr_est).strip().rjust(int(tam),u'0')
+
         inscr_est = re.sub('[^0-9]', '', inscr_est)
-        tam = parametros[uf]['tam']
+        
         val_tam = parametros[uf].get('val_tam', tam - 1)
-    
         if isinstance(tam, list):
             i = tam.find(len(inscr_est))
             if i == -1:
@@ -183,17 +187,20 @@ class res_partner(osv.osv):
         prod = parametros[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
         prod = prod[-val_tam:]
         while len(nova_ie) < tam:
-            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
+            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) %  parametros[uf].get('div', 11)
+            
             if r > 1:
                 f = 11 - r
             else:
                 f = 0
-            nova_ie.append(f)
+                
+            if not uf in 'rr':    
+                nova_ie.append(f)
+            else:
+                nova_ie.append(r)
             prod.insert(0, prod[0] + 1)
     
         # Se o número gerado coincidir com o número original, é válido
-        if uf == 'mt':
-            print nova_ie, inscr_est_ints
         return nova_ie == inscr_est_ints
 
 
@@ -360,8 +367,12 @@ class res_partner(osv.osv):
         r = re.sub('[^0-9]', '', r)
         r = map(int, r)
         r = sum(r)
-        r2 = (r / 10 + 1) * 10
+        r2 = (r / 10 + 1) * 10 
         r = r2 - r
+           
+        if r >=10:
+            r = 0;
+        
         nova_ie.append(r)
 
         prod = [3, 2, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
