@@ -38,7 +38,10 @@
         		'partner_view.xml',
                 'security/ir.model.access.csv',
                 'security/l10n_br_base_security.xml',
-
+    ],
+    'test': [
+            'test/base_inscr_est_valid.yml',
+            'test/base_inscr_est_invalid.yml',
     ],
     'demo_xml': ['l10n_br_base_demo.xml'],
     'installable': True
