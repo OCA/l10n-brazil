@@ -23,7 +23,7 @@
     'description' : 'Brazilian Localization',
     'category' : 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, PROGE, OpenERP Brasil',
+    'author': 'Akretion, OpenERP Brasil',
     'website' : 'http://openerpbrasil.org',
     'version' : '0.6',
     'depends': [
