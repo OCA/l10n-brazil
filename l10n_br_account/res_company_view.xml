@@ -23,7 +23,7 @@
 								<separator colspan="4" string="Faturamento dos ultimos 12 meses" />
 								<field colspan="4" name="annual_revenue" />
 							</page>
-							<page string="Documento Fiscal">
+							<page string="Séries de Documentos Fiscais">
 								<separator colspan="4" string="Série da Nota Fiscal de Serviço" />
 								<field colspan="4" name="document_serie_service_id" />
 								<separator colspan="4" string="Série de Documentos Fiscais" />
