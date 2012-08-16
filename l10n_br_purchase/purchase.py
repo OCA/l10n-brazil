@@ -166,16 +166,30 @@ class purchase_order_line(osv.osv):
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
                           partner_id, date_order=False, fiscal_position=False, date_planned=False,
                           name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False,
-                          fiscal_operation_id=False):
+                          fiscal_operation_id=False, partner_address_id=False, company_id=False):
         result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
                                                                     partner_id, date_order, fiscal_position,
                                                                     date_planned, name, price_unit, notes)
-        if fiscal_operation_category_id:
+        
+        if not product or not fiscal_operation_category_id or not fiscal_operation_id:
+            return result 
+        
+        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
+        product_fiscal_category_id = obj_fiscal_position_rule.product_fiscal_category_map(cr, uid, product, fiscal_operation_category_id)
+
+        if not product_fiscal_category_id:
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
-        if fiscal_operation_id:
             result['value']['fiscal_operation_id'] = fiscal_operation_id
-        if fiscal_position:
-            result['value']['fiscal_position'] = fiscal_position
+            return result
+
+        result['value']['fiscal_operation_category_id'] = product_fiscal_category_id
+        result['value']['fiscal_operation_id'] = False
+
+        fiscal_result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_address_id,
+                                                                     company_id, product_fiscal_category_id,
+                                                                     context={'use_domain': ('use_purchase', '=', True)})
+
+        result['value'].update(fiscal_result)
         return result
 
 purchase_order_line()
