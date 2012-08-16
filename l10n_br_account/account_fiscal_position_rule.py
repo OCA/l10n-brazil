@@ -22,54 +22,39 @@ import time
 from osv import osv, fields
 import decimal_precision as dp
 
+FISCAL_RULE_COLUMNS = {
+                       'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 
+                                                                 'Tipo Fiscal do Parceiro'),
+                       'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 
+                                                                       'Categoria', requeried=True),
+                       'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
+                                                        ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
+                                                        ('3', 'Regime Normal')], 
+                                                       'Regime Tributário', required=True),
+                       'revenue_start': fields.float('Faturamento Inicial',
+                                                     digits_compute=dp.get_precision('Account'),
+                                                     help="Faixa inicial de faturamento bruto"),
+                       'revenue_end': fields.float('Faturamento Final',
+                                                   digits_compute=dp.get_precision('Account'),
+                                                   help="Faixa inicial de faturamento bruto"),}
+
+FISCAL_RULE_DEFAULTS = {
+                        'fiscal_type': '3',
+                        'revenue_start': 0.00,
+                        'revenue_end': 0.00,}
+
 class account_fiscal_position_rule_template(osv.osv):
     _inherit = 'account.fiscal.position.rule.template'
-
-    _columns = {
-                'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
-                'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
-                                                 ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
-                                                 ('3', 'Regime Normal')], 
-                                                'Regime Tributário', required=True),
-                'revenue_start': fields.float('Faturamento Inicial',
-                                               digits_compute=dp.get_precision('Account'),
-                                               help="Faixa inicial de faturamento bruto"),
-                'revenue_end': fields.float('Faturamento Final',
-                                               digits_compute=dp.get_precision('Account'),
-                                               help="Faixa inicial de faturamento bruto"),
-                }
-    
-    _defaults = {
-                'fiscal_type': '3',
-                }
+    _columns = FISCAL_RULE_COLUMNS
+    _defaults = FISCAL_RULE_DEFAULTS
 
 account_fiscal_position_rule_template()
 
 
 class account_fiscal_position_rule(osv.osv):
     _inherit = 'account.fiscal.position.rule'
-    
-    _columns = {
-                'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria', requeried=True),
-                'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
-                                                 ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
-                                                 ('3', 'Regime Normal')], 
-                                                'Regime Tributário', required=True),
-                'revenue_start': fields.float('Faturamento Inicial',
-                                               digits_compute=dp.get_precision('Account'),
-                                               help="Faixa inicial de faturamento bruto"),
-                'revenue_end': fields.float('Faturamento Final',
-                                               digits_compute=dp.get_precision('Account'),
-                                               help="Faixa inicial de faturamento bruto"),
-            }
-    
-    _defaults = {
-                'fiscal_type': '3',
-                'revenue_start': 0.00,
-                'revenue_end': 0.00,
-                }
+    _columns = FISCAL_RULE_COLUMNS
+    _defaults = FISCAL_RULE_DEFAULTS
 
     def fiscal_position_map(self, cr, uid, partner_id=False, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False, context=None):
 
@@ -130,6 +115,23 @@ class account_fiscal_position_rule(osv.osv):
         
         return result
     
+    def product_fiscal_category_map(self, cr, uid, product_id=False, fiscal_operation_category_id=False):
+        
+        result = False
+        
+        if not product_id or not fiscal_operation_category_id:
+            return result
+        
+        product_tmpl_id = self.pool.get('product.product').read(cr, uid, product_id, ['product_tmpl_id'])['product_tmpl_id'][0]
+        default_product_fiscal_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_tmpl_id', '=', product_tmpl_id), 
+                                                                                                                       ('fiscal_operation_category_source_id', '=', fiscal_operation_category_id)])
+        if default_product_fiscal_category:
+            fiscal_operation_category_destination_id = self.pool.get('l10n_br_account.product.operation.category').read(cr, uid, 
+                                                                                                                    default_product_fiscal_category, 
+                                                                                                                    ['fiscal_operation_category_destination_id'])[0]['fiscal_operation_category_destination_id'][0]
+            result = fiscal_operation_category_destination_id
+        return result
+
 account_fiscal_position_rule()
 
 
