@@ -2205,21 +2205,24 @@ class account_invoice_line(osv.osv):
         result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, 
                                                                      type, partner_id, fposition_id, price_unit, 
                                                                      address_invoice_id, currency_id, context, company_id)
-        if not fiscal_operation_category_id and not product:
+        if not fiscal_operation_category_id or not product:
             return result
 
-        product_tmpl_id = self.pool.get('product.product').read(cr, uid, product, ['product_tmpl_id'])['product_tmpl_id'][0]
-        if not product_tmpl_id:
-            return result
+        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
+        product_fiscal_category_id = obj_fiscal_position_rule.product_fiscal_category_map(cr, uid, product, fiscal_operation_category_id)
 
-        default_product_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_tmpl_id','=', product_tmpl_id),('fiscal_operation_category_source_id','=',fiscal_operation_category_id)])
-        if not default_product_category:
+        if not product_fiscal_category_id:
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
-        if fiscal_operation_id:
             result['value']['fiscal_operation_id'] = fiscal_operation_id
-            result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
+            if fiscal_operation_id:
+                result['value']['fiscal_operation_id'] = fiscal_operation_id
+                result['value']['cfop_id'] = self.pool.get('l10n_br_account.fiscal.operation').read(cr, uid, [fiscal_operation_id], ['cfop_id'])[0]['cfop_id']
             return result
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_operation_category_id)
+
+        result['value']['fiscal_operation_category_id'] = product_fiscal_category_id
+        result['value']['fiscal_operation_id'] = False
+
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, product_fiscal_category_id)
         result['value'].update(fiscal_data)
         return result
 
