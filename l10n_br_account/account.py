@@ -106,16 +106,24 @@ class account_tax(osv.osv):
                 else:
                     tax_icms['total_base'] = 0
 
-                icms_base = tax_icms['total_base']
                 icms_value = tax_icms['amount']
                 icms_percent = tax_brw_icms.amount
+                icms_percent_reduction = tax_brw_icms.base_reduction
 
         for tax_sub in result['taxes']:
             tax_brw_sub = tax_obj.browse(cr, uid, tax_sub['id'])
             if tax_brw_sub.domain == 'icmsst':
-                tax_sub['total_base'] = (icms_base + ipi_value) * (1 + tax_brw_sub.amount_mva)
-                tax_sub['amount'] += (((icms_base + ipi_value)  * (1 + tax_brw_sub.amount_mva)) * icms_percent) - icms_value 
-
+                icms_st_percent = tax_brw_sub.amount or icms_percent
+                icms_st_percent_reduction = tax_brw_sub.base_reduction or icms_percent_reduction
+                icms_st_base = round(((result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)) * (1 - icms_st_percent_reduction), prec)
+                icms_st_base_other = round(((result['total'] + ipi_value) * (1 + tax_brw_sub.amount_mva)), prec) - icms_st_base
+                tax_sub['total_base'] = icms_st_base
+                tax_sub['amount'] = (icms_st_base  * icms_st_percent) - icms_value
+                tax_sub['icms_st_percent'] = icms_st_percent
+                tax_sub['icms_st_percent_reduction'] = icms_st_percent_reduction
+                tax_sub['icms_st_base_other'] = icms_st_base_other
+                
+                
         return {
             'total': result['total'],
             'total_included': result['total_included'],
