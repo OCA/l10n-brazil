@@ -44,9 +44,13 @@ class account_tax(osv.osv):
             if tax.get('tax_discount', False):
                 result['tax_discount'] = tax['amount']
 
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)  
-            tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
-            tax['total_base_other'] = round(total_line - tax['total_base'], precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+            if tax['percent']:
+                tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
+                tax['total_base_other'] = round(total_line - tax['total_base'], precision)
+            else:
+                tax['total_base'] = 0.00
+                tax['total_base_other'] = 0.00
         
         result['taxes'] = taxes
         return result
