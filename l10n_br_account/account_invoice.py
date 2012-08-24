@@ -2049,6 +2049,10 @@ class account_invoice_line(osv.osv):
             }
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_operation=line.fiscal_operation_id)
+            icms_cst = ''
+            ipi_cst = ''
+            pis_cst = ''
+            cofins_cst = ''
 
             if line.fiscal_operation_id:
 
@@ -2088,6 +2092,10 @@ class account_invoice_line(osv.osv):
                 res[line.id].update({
                                 'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
                                 'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
+                                'icms_cst': icms_cst,
+                                'ipi_cst': ipi_cst,
+                                'pis_cst': pis_cst,
+                                'cofins_cst': cofins_cst,
                                 })
                 
         return res
