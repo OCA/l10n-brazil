@@ -2085,10 +2085,10 @@ class account_invoice_line(osv.osv):
 
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
-                res[line.id] = {
+                res[line.id].update({
                                 'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
                                 'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
-                                }
+                                })
                 
         return res
 
