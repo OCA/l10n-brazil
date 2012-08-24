@@ -1924,6 +1924,80 @@ class account_invoice_line(osv.osv):
         
         return result
     
+    def _amount_tax_icms(self, cr, uid, tax=False):
+        result = {
+                  'icms_base_type': tax.get('type'),
+                  'icms_base': tax.get('total_base', 0.0),
+                  'icms_base_other': tax.get('total_base_other', 0.0),
+                  'icms_value': tax.get('amount', 0.0),
+                  'icms_percent': tax.get('percent', 0.0) * 100,
+                  'icms_percent_reduction': tax.get('base_reduction') * 100,
+                  }
+        return result
+    
+    def _amount_tax_icmsst(self, cr, uid, tax=False):
+        result = {
+                  'icms_st_base_type': tax.get('type'),
+                  'icms_st_value': tax.get('amount', 0.0),
+                  'icms_st_base': tax.get('total_base', 0.0),
+                  'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
+                  'icms_st_percent_reduction': tax.get('icms_st_percent_reduction', 0.0) * 100,
+                  'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
+                  'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
+                  }
+        return result
+    
+    def _amount_tax_ipi(self, cr, uid, tax=False):
+        result = {
+                  'ipi_type': tax.get('type'),
+                  'ipi_base': tax.get('total_base', 0.0),
+                  'ipi_value': tax.get('amount', 0.0),
+                  'ipi_percent': tax.get('percent', 0.0) * 100,
+                  }
+        return result
+    
+    def _amount_tax_cofins(self, cr, uid, tax=False):
+        result = {
+                  'cofins_base': tax.get('total_base', 0.0),
+                  'cofins_base_other': tax.get('total_base_other', 0.0), #FIXME
+                  'cofins_value': tax.get('amount', 0.0),
+                  'cofins_percent': tax.get('percent', 0.0) * 100,
+                  }
+        return result
+    
+    def _amount_tax_cofinsst(self, cr, uid, tax=False):
+        result = {
+                  'cofins_st_type': 'percent',
+                  'cofins_st_base': 0.0,
+                  'cofins_st_percent': 0.0,
+                  'cofins_st_value': 0.0,
+                  }
+        return result
+    
+    def _amount_tax_pis(self, cr, uid, tax=False):
+        result = {
+                  'pis_base': tax.get('total_base', 0.0),
+                  'pis_base_other': tax.get('total_base'),
+                  'pis_value': tax.get('amount', 0.0),
+                  'pis_percent': tax.get('percent', 0.0) * 100,
+                  }
+        return result
+    
+    def _amount_tax_pisst(self, cr, uid, tax=False):
+        result = {
+                  'pis_st_type': 'percent',
+                  'pis_st_base': 0.0,
+                  'pis_st_percent': 0.0, 
+                  'pis_st_value': 0.0,
+                  }
+        return result
+    
+    def _amount_tax_ii(self, cr, uid, taxes=False):
+        pass
+    
+    def _amount_tax_issqn(self, cr, uid, taxes=False):
+        pass
+    
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         res = {} #super(account_invoice_line, self)._amount_line(cr, uid, ids, prop, unknow_none, unknow_dict)
         tax_obj = self.pool.get('account.tax')
@@ -1975,47 +2049,6 @@ class account_invoice_line(osv.osv):
             }
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_operation=line.fiscal_operation_id)
-            
-            icms_base_type = ''
-            icms_base = 0.0
-            icms_base_other = 0.0
-            icms_value = 0.0
-            icms_percent = 0.0
-            icms_percent_reduction = 0.0
-            icms_st_base_type = ''
-            icms_st_value = 0.0
-            icms_st_base = 0.0
-            icms_st_percent = 0.0
-            icms_st_percent_reduction = 0.0
-            icms_st_mva = 0.0
-            icms_st_base_other =  0.0
-            icms_cst = ''
-            ipi_type = ''
-            ipi_base = 0.0
-            ipi_base_other = 0.0
-            ipi_value = 0.0
-            ipi_percent = 0.0
-            ipi_cst = ''
-            pis_type = ''
-            pis_base = 0.0
-            pis_base_other = 0.0
-            pis_value = 0.0
-            pis_percent = 0.0
-            pis_st_type = ''
-            pis_st_base = 0.0
-            pis_st_percent = 0.0 
-            pis_st_value = 0.0
-            pis_cst = ''
-            cofins_type = ''
-            cofins_base = 0.0
-            cofins_base_other = 0.0
-            cofins_value = 0.0
-            cofins_percent = 0.0
-            cofins_st_type =  ''
-            cofins_st_base = 0.0
-            cofins_st_percent = 0.0 
-            cofins_st_value = 0.0
-            cofins_cst = ''
 
             if line.fiscal_operation_id:
 
@@ -2042,133 +2075,20 @@ class account_invoice_line(osv.osv):
                             pis_cst = fo_line_ncm.cst_id.code
                         elif fo_line_ncm.tax_code_id.domain == 'cofins':
                             cofins_cst = fo_line_ncm.cst_id.code
-                                                        
 
             for tax in taxes['taxes']:
-                tax_brw = tax_obj.browse(cr, uid, tax['id'])
-                
-                if tax_brw.domain == 'icms':
-                    icms_base += tax.get('total_base', 0.0)
-                    icms_base_other += taxes['total'] - tax.get('total_base', 0.0)
-                    icms_value += tax.get('amount', 0.0)
-                    icms_percent += tax_brw.amount * 100
-                    icms_percent_reduction += tax_brw.base_reduction * 100
-                
-                elif tax_brw.domain == 'ipi':
-                    ipi_type = tax_brw.type
-                    ipi_base += tax.get('total_base', 0.0)
-                    ipi_value += tax.get('amount', 0.0)
-                    ipi_percent += tax_brw.amount * 100
-                
-                elif tax_brw.domain == 'pis':
-                    pis_base += tax.get('total_base', 0.0)
-                    pis_base_other += taxes['total'] - tax['total_base']
-                    pis_value += tax.get('amount', 0.0) 
-                    pis_percent += tax_brw.amount * 100
-                
-                elif tax_brw.domain == 'cofins':
-                    cofins_base += tax.get('total_base', 0.0)
-                    cofins_base_other += taxes['total'] - tax.get('total_base', 0.0)
-                    cofins_value += tax.get('amount', 0.0)
-                    cofins_percent += tax_brw.amount * 100
-                    
-                elif tax_brw.domain == 'icmsst':
-                    icms_st_value += tax.get('amount', 0.0)
-                    icms_st_base += tax.get('total_base', 0.0)
-                    icms_st_percent += tax.get('icms_st_percent', 0.0) * 100
-                    icms_st_percent_reduction += tax.get('icms_st_percent_reduction', 0.0) * 100
-                    icms_st_mva += tax_brw.amount_mva * 100 
-                    icms_st_base_other += tax.get('icms_st_base_other', 0.0)
-
-            res[line.id] = {
-                    'price_subtotal': taxes['total'] - taxes['total_tax_discount'],
-                    'price_total': taxes['total'],
-                    'icms_base': icms_base,
-                    'icms_base_other': icms_base_other,
-                    'icms_value': icms_value,
-                    'icms_percent': icms_percent,
-                    'icms_percent_reduction': icms_percent_reduction,
-                    'icms_st_value': icms_st_value,
-                    'icms_st_base': icms_st_base,
-                    'icms_st_percent' : icms_st_percent,
-                    'icms_st_percent_reduction': icms_st_percent_reduction,
-                    'icms_st_mva' : icms_st_mva,
-                    'icms_st_base_other': icms_st_base_other,
-                    'icms_cst': icms_cst,
-                    'ipi_type': ipi_type,
-                    'ipi_base': ipi_base,
-                    'ipi_base_other': ipi_base_other,
-                    'ipi_value': ipi_value,
-                    'ipi_percent': ipi_percent,
-                    'ipi_cst': ipi_cst,
-                    'pis_type': pis_type,
-                    'pis_base': pis_base,
-                    'pis_base_other': pis_base_other,
-                    'pis_value': pis_value,
-                    'pis_percent': pis_percent,
-                    'pis_st_type': pis_st_type,
-                    'pis_st_base': pis_st_base,
-                    'pis_st_percent': pis_st_percent, 
-                    'pis_st_value': pis_st_value,
-                    'pis_cst': pis_cst,
-                    'cofins_type': cofins_type,
-                    'cofins_base': cofins_base,
-                    'cofins_base_other': cofins_base_other,
-                    'cofins_value': cofins_value,
-                    'cofins_percent': cofins_percent,
-                    'cofins_st_type': cofins_st_type,
-                    'cofins_st_base': cofins_st_base,
-                    'cofins_st_percent': cofins_st_percent, 
-                    'cofins_st_value': cofins_st_value,
-                    'cofins_cst': cofins_cst,
-            }
+                try:
+                    amount_tax = getattr(self, '_amount_tax_%s' % tax.get('domain', ''))
+                    res[line.id].update(amount_tax(cr, uid, tax))
+                except AttributeError:
+                    raise osv.except_osv(_('Error !'), _("Calculo do imposto não suportado para este dominio: '%s'") % (tax_brw.domain, ))
 
             if line.invoice_id:
-                cur = line.invoice_id.currency_id
+                currency = line.invoice_id.currency_id
                 res[line.id] = {
-                'price_subtotal': cur_obj.round(cr, uid, cur, res[line.id]['price_subtotal']),
-                'price_total': cur_obj.round(cr, uid, cur, res[line.id]['price_total']),
-                'icms_base_type': icms_base_type,
-                'icms_base': cur_obj.round(cr, uid, cur, icms_base),
-                'icms_base_other': cur_obj.round(cr, uid, cur, icms_base_other),
-                'icms_value': cur_obj.round(cr, uid, cur, icms_value),
-                'icms_percent': icms_percent,
-                'icms_percent_reduction': icms_percent_reduction,
-                'icms_st_base_type': icms_st_base_type,
-                'icms_st_value': cur_obj.round(cr, uid, cur, icms_st_value),
-                'icms_st_base': cur_obj.round(cr, uid, cur, icms_st_base),
-                'icms_st_percent' : icms_st_percent,
-                'icms_st_percent_reduction' : icms_st_percent_reduction,
-                'icms_st_mva' : icms_st_mva,
-                'icms_st_base_other': cur_obj.round(cr, uid, cur, icms_st_base_other),
-                'icms_cst': icms_cst,
-                'ipi_type': ipi_type,
-                'ipi_base': cur_obj.round(cr, uid, cur, ipi_base),
-                'ipi_base_other': cur_obj.round(cr, uid, cur, ipi_base_other),
-                'ipi_value': cur_obj.round(cr, uid, cur, ipi_value),
-                'ipi_percent': ipi_percent,
-                'ipi_cst': ipi_cst,
-                'pis_type': pis_type,
-                'pis_base': cur_obj.round(cr, uid, cur, pis_base),
-                'pis_base_other': cur_obj.round(cr, uid, cur, pis_base_other),
-                'pis_value': cur_obj.round(cr, uid, cur, pis_value),
-                'pis_percent': pis_percent,
-                'pis_st_type': pis_st_type,
-                'pis_st_base': cur_obj.round(cr, uid, cur, pis_st_base),
-                'pis_st_percent': pis_st_percent, 
-                'pis_st_value': cur_obj.round(cr, uid, cur, pis_st_value),
-                'pis_cst': pis_cst,
-                'cofins_type': cofins_type,
-                'cofins_base': cur_obj.round(cr, uid, cur, cofins_base),
-                'cofins_base_other': cur_obj.round(cr, uid, cur, cofins_base_other),
-                'cofins_value': cur_obj.round(cr, uid, cur, cofins_value),
-                'cofins_percent': cofins_percent,
-                'cofins_cst': cofins_cst,
-                'cofins_st_type': cofins_st_type,
-                'cofins_st_base': cofins_st_base,
-                'cofins_st_percent': cofins_st_percent, 
-                'cofins_st_value': cofins_st_value,
-                }
+                                'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
+                                'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
+                                }
                 
         return res
 
@@ -2455,4 +2375,3 @@ class account_invoice_tax(osv.osv):
         return tax_grouped
     
 account_invoice_tax()
-
