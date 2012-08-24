@@ -32,11 +32,13 @@ account_journal()
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     
-    def _compute_tax(self, taxes, total_line, product_weight, product_qty, precision):
+    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty, precision):
         result = {'tax_discount': 0.0, 'taxes': []}
+
         for tax in taxes:
-            if tax.get('type') == 'weight':
-                tax['amount'] = round((product_qty * product_weight) * tax['percent'], precision)
+            if tax.get('type') == 'weight' and product:
+                product_read = self.pool.get('product.product').read(cr, uid, product, ['weight_net'])
+                tax['amount'] = round((product_qty * product_read.get('weight_net', 0.0)) * tax['percent'], precision)
     
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
@@ -72,7 +74,7 @@ class account_tax(osv.osv):
 
         totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
         calculed_taxes = []
-
+        
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
             if tax_list: tax_brw = tax_list[0]
@@ -84,13 +86,13 @@ class account_tax(osv.osv):
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
         common_taxes = [tx for tx in result['taxes'] if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
-        result_tax = self._compute_tax(common_taxes, result['total'], product.weight_net, quantity, precision)
+        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'], product, quantity, precision)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(specific_ipi, result['total'], product.weight_net, quantity, precision)
+        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'], product, quantity, precision)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
         for ipi in result_ipi['taxes']:
@@ -103,7 +105,7 @@ class account_tax(osv.osv):
         else:
             total_base = result['total']
 
-        result_icms = self._compute_tax(specific_icms, result['total'], product.weight_net, quantity, precision)
+        result_icms = self._compute_tax(cr, uid, specific_icms, result['total'], product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -113,7 +115,7 @@ class account_tax(osv.osv):
 
         # Calcula ICMS ST
         specific_icmsst = [tx for tx in result['taxes'] if tx['domain'] == 'icmsst']
-        result_icmsst = self._compute_tax(specific_icmsst, result['total'], product.weight_net, quantity, precision)
+        result_icmsst = self._compute_tax(cr, uid, specific_icmsst, result['total'], product, quantity, precision)
         totaldc += result_icmsst['tax_discount']
         if result_icmsst['taxes']:
             icms_st_percent = result_icmsst['taxes'][0]['percent'] or icms_percent
