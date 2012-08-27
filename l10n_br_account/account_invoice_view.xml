@@ -498,6 +498,13 @@
 										<field name="cofins_st_percent" />
 										<field name="cofins_st_value" />
 									</page>
+									<page string="II">
+										<separator colspan="4" string="Detalhes do Imposto de Importação" />
+										<field name="ii_base" />
+										<field name="ii_customhouse_charges" />
+										<field name="ii_iof" />
+										<field name="ii_value" />
+									</page>
 								</notebook>
 							</page>
 						</notebook>
