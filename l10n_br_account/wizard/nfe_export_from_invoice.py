@@ -18,9 +18,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
+import time
+import base64
 from osv import fields, osv
 from tools.translate import _
-import base64
 
 
 class nfe_export_from_invoice(osv.osv_memory):
@@ -30,6 +31,7 @@ class nfe_export_from_invoice(osv.osv_memory):
     _description = "Export eletronic invoice for Emissor de NFe SEFAZ SP"
     _inherit = "ir.wizard.screen"
     _columns = {
+                'name': fields.char('Nome', size=255),
                 'file': fields.binary('Arquivo', readonly=True),
                 'file_type': fields.selection([('xml', 'XML'),
 		                       ('txt', ' TXT')], 'Tipo do Arquivo'),
@@ -49,6 +51,7 @@ class nfe_export_from_invoice(osv.osv_memory):
         inv_obj = self.pool.get('account.invoice')
         active_ids = context.get('active_ids', [])
         export_inv_ids = []
+        export_inv_numbers = []
         company_ids = []
         err_msg = ''
 
@@ -63,16 +66,22 @@ class nfe_export_from_invoice(osv.osv_memory):
                 inv_obj.log(cr, uid, inv.id, message)
                 export_inv_ids.append(inv.id)
                 company_ids.append(inv.company_id.id)
+            export_inv_numbers.append(inv.internal_number)
 
-        if len(company_ids) > 1:
+        if len(set(company_ids)) > 1:
             err_msg += u'Não é permitido exportar Documentos Fiscais de mais de uma empresa, por favor selecione Documentos Fiscais da mesma empresa.\n'
 
         if export_inv_ids:
+            if len(export_inv_numbers) > 1:
+                name = 'nfes%s-%s.%s' % (time.strftime('%d-%m-%Y'), self.pool.get('ir.sequence').get(cr, uid, 'nfe.export'), data['file_type'])
+            else:
+                name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
+                
             if data['file_type'] == 'xml':
                 nfe_file = inv_obj.nfe_export_xml(cr, uid, export_inv_ids, data['nfe_environment'])
             else:
                 nfe_file = inv_obj.nfe_export_txt(cr, uid, export_inv_ids, data['nfe_environment'])
-            self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file), 'state': 'done'}, context=context)
+            self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file), 'state': 'done', 'name': name}, context=context)
 
         if err_msg:
             raise osv.except_osv(_('Error !'), _("'%s'") % (err_msg, ))
