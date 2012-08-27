@@ -44,7 +44,7 @@ class account_tax(osv.osv):
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
             if tax.get('tax_discount', False):
-                result['tax_discount'] = tax['amount']
+                result['tax_discount'] += tax['amount']
 
             tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
             if tax['percent']:
