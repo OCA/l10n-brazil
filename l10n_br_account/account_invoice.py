@@ -52,6 +52,7 @@ class account_invoice(osv.osv):
                 'pis_value': 0.0,
                 'cofins_base': 0.0,
                 'cofins_value': 0.0,
+                'ii_value': 0.0,
             }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
@@ -65,6 +66,7 @@ class account_invoice(osv.osv):
                 res[invoice.id]['pis_value'] += line.pis_value
                 res[invoice.id]['cofins_base'] += line.cofins_base
                 res[invoice.id]['cofins_value'] += line.cofins_value
+                res[invoice.id]['ii_value'] += line.ii_value
            
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
@@ -102,10 +104,6 @@ class account_invoice(osv.osv):
                 fiscal_types = eview.xpath("//field[@name='invoice_line']")
                 for fiscal_type in fiscal_types:
                     fiscal_type.set('context', "{'type': '%s', 'fiscal_type': '%s'}" % (context['type'], context.get('fiscal_type', 'product'),))
-
-                #cfops = eview.xpath("//field[@name='cfop_ids']")
-                #for cfop_ids in cfops:
-                #    cfop_ids.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
 
                 fiscal_operation_categories = eview.xpath("//field[@name='fiscal_operation_category_id']")
                 for fiscal_operation_category_id in fiscal_operation_categories:
@@ -333,7 +331,14 @@ class account_invoice(osv.osv):
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
-            multi='all'),            
+            multi='all'),
+        'ii_value': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Valor II',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
+            },
+            multi='all'), 
     }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
@@ -570,25 +575,28 @@ class account_invoice(osv.osv):
             
             if not inv.address_invoice_id.number:
                 strErro += u'Destinatário / Endereço - Número\n'
-                
-            if not inv.address_invoice_id.zip:
-                strErro += u'Destinatário / Endereço - CEP\n'
+            
+            if inv.address_invoice_id.country_id.id == company_addr_default.country_id.id:
+                if not inv.address_invoice_id.zip:
+                    strErro += u'Destinatário / Endereço - CEP\n'
 
-            if not inv.address_invoice_id.state_id:
-                strErro += u'Destinatário / Endereço - Estado\n'
-            else:
-                if not inv.address_invoice_id.state_id.ibge_code:
-                    strErro += u'Destinatário / Endereço - Código do IBGE do estado\n'
-                if not inv.address_invoice_id.state_id.name:
-                    strErro += u'Destinatário / Endereço - Nome do estado\n'
-                      
-            if not inv.address_invoice_id.l10n_br_city_id:
-                strErro += u'Destinatário / Endereço - Município\n'
-            else:
-                if not inv.address_invoice_id.l10n_br_city_id.name:
-                    strErro += u'Destinatário / Endereço - Nome do município\n'
-                if not inv.address_invoice_id.l10n_br_city_id.ibge_code:
-                    strErro += u'Destinatário / Endereço - Código do IBGE do município\n'
+            if inv.address_invoice_id.country_id.id == company_addr_default.country_id.id:
+                if not inv.address_invoice_id.state_id:
+                    strErro += u'Destinatário / Endereço - Estado\n'
+                else:
+                    if not inv.address_invoice_id.state_id.ibge_code:
+                        strErro += u'Destinatário / Endereço - Código do IBGE do estado\n'
+                    if not inv.address_invoice_id.state_id.name:
+                        strErro += u'Destinatário / Endereço - Nome do estado\n'
+            
+            if inv.address_invoice_id.country_id.id == company_addr_default.country_id.id:
+                if not inv.address_invoice_id.l10n_br_city_id:
+                    strErro += u'Destinatário / Endereço - Município\n'
+                else:
+                    if not inv.address_invoice_id.l10n_br_city_id.name:
+                        strErro += u'Destinatário / Endereço - Nome do município\n'
+                    if not inv.address_invoice_id.l10n_br_city_id.ibge_code:
+                        strErro += u'Destinatário / Endereço - Código do IBGE do município\n'
 
             if not inv.address_invoice_id.country_id:
                 strErro += u'Destinatário / Endereço - País\n'
@@ -719,7 +727,7 @@ class account_invoice(osv.osv):
                        'tpAmb': nfe_environment,
                        'finNFe': '1',
                        'procEmi': '0',
-                       'VerProc': '2.0.9',
+                       'VerProc': '2.2.1',
                        'dhCont': '',
                        'xJust': '',
                        }
@@ -785,6 +793,28 @@ class account_invoice(osv.osv):
                                                                   StrRegC05['cPais'], StrRegC05['xPais'], StrRegC05['fone'])
 
             StrFile += StrC05
+
+            address_invoice_bc_code = ''
+            address_invoice_state_code = ''
+            address_invoice_city = ''
+            UFEmbarq = ''
+            XLocEmbarq = ''
+            partner_ie = ''
+            address_invoice_cep = ''
+            if inv.address_invoice_id.country_id.bc_code:
+                address_invoice_bc_code = inv.address_invoice_id.country_id.bc_code[1:]
+                
+            if inv.address_invoice_id.country_id.id != company_addr_default.country_id.id:
+                address_invoice_state_code = 'EX'
+                address_invoice_city = 'Exterior'
+                UFEmbarq = company_addr_default.state_id.code
+                XLocEmbarq = company_addr_default.city
+                partner_ie = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
+                address_invoice_cep = ''
+            else:
+                address_invoice_state_code = inv.address_invoice_id.state_id.code
+                address_invoice_city = normalize('NFKD',unicode(inv.address_invoice_id.l10n_br_city_id.name or '')).encode('ASCII','ignore')
+                address_invoice_cep = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ',''))
             
             #Se o ambiente for de teste deve ser escrito na razão do destinatário
             if nfe_environment == '2': 
@@ -794,7 +824,7 @@ class account_invoice(osv.osv):
 
             StrRegE = {
                        'xNome': xNome, 
-                       'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
+                       'IE': partner_ie,
                        'ISUF': '',
                        'email': inv.partner_id.email or '',
                        }
@@ -809,10 +839,6 @@ class account_invoice(osv.osv):
                 StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
 
             StrFile += StrE0
-            
-            address_invoice_bc_code = ''
-            if inv.address_invoice_id.country_id.bc_code:
-                address_invoice_bc_code = inv.address_invoice_id.country_id.bc_code[1:]
 
             StrRegE05 = {
                        'xLgr': normalize('NFKD',unicode(inv.address_invoice_id.street or '')).encode('ASCII','ignore'),
@@ -820,14 +846,14 @@ class account_invoice(osv.osv):
                        'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.address_invoice_id.street2 or '' )).encode('ASCII','ignore')),
                        'xBairro': normalize('NFKD',unicode(inv.address_invoice_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
                        'cMun': ('%s%s') % (inv.address_invoice_id.state_id.ibge_code, inv.address_invoice_id.l10n_br_city_id.ibge_code),
-                       'xMun': normalize('NFKD',unicode(inv.address_invoice_id.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
-                       'UF': inv.address_invoice_id.state_id.code,
-                       'CEP': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ','')),
+                       'xMun': address_invoice_city,
+                       'UF': address_invoice_state_code,
+                       'CEP': address_invoice_cep,
                        'cPais': address_invoice_bc_code,
                        'xPais': normalize('NFKD',unicode(inv.address_invoice_id.country_id.name or '')).encode('ASCII','ignore'),
                        'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.phone or '').replace(' ','')),
                        }
-            
+
             StrE05 = 'E05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegE05['xLgr'], StrRegE05['nro'], StrRegE05['xCpl'], StrRegE05['xBairro'],
                                                            StrRegE05['cMun'], StrRegE05['xMun'], StrRegE05['UF'], StrRegE05['CEP'],
                                                            StrRegE05['cPais'],StrRegE05['xPais'], StrRegE05['fone'],)
@@ -1113,9 +1139,18 @@ class account_invoice(osv.osv):
                 if inv_line.ipi_percent == 0 and not inv_line.ipi_cst in ('99'):
                     StrO1 = 'O08|%s|\n' % inv_line.ipi_cst
                     StrFile += StrO1
-                    
-                StrQ = 'Q|\n'
+              
+                StrRegP = {
+                       'VBC': str("%.2f" % inv_line.ii_base),
+                       'VDespAdu': str("%.2f" % inv_line.ii_customhouse_charges),
+                       'VII': str("%.2f" % inv_line.ii_value),
+                       'VIOF': str("%.2f" % inv_line.ii_iof),
+                }
+
+                StrP = ('P|%s|%s|%s|%s|\n') % (StrRegP['VBC'], StrRegP['VDespAdu'], StrRegP['VII'], StrRegP['VIOF'])
+                StrFile += StrP
                 
+                StrQ = 'Q|\n'
                 StrFile += StrQ
                     
                 if inv_line.pis_cst in ('01') and inv_line.pis_percent > 0:
@@ -1203,7 +1238,7 @@ class account_invoice(osv.osv):
                          'vFrete': str("%.2f" % inv.amount_freight),
                          'vSeg': str("%.2f" % inv.amount_insurance),
                          'vDesc': '0.00',
-                         'vII': '0.00',
+                         'vII': str("%.2f" % inv.ii_value),
                          'vIPI': str("%.2f" % inv.ipi_value),
                          'vPIS': str("%.2f" % inv.pis_value),
                          'vCOFINS': str("%.2f" % inv.cofins_value),
@@ -1326,7 +1361,15 @@ class account_invoice(osv.osv):
             
             StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
-            StrFile += StrZ              
+            StrFile += StrZ
+            
+            StrRegZA = {
+                        'UFEmbarq': UFEmbarq,
+                        'XLocEmbarq': XLocEmbarq,
+                        }
+
+            StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
+            StrFile += StrZA
             
             self.write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
@@ -1992,8 +2035,12 @@ class account_invoice_line(osv.osv):
                   }
         return result
     
-    def _amount_tax_ii(self, cr, uid, taxes=False):
-        pass
+    def _amount_tax_ii(self, cr, uid, tax=False):
+        result = {
+                  'ii_base': tax.get('total_base', 0.0),
+                  'ii_value': tax.get('amount', 0.0),
+                  }
+        return result
     
     def _amount_tax_issqn(self, cr, uid, taxes=False):
         pass
@@ -2046,6 +2093,8 @@ class account_invoice_line(osv.osv):
                 'cofins_st_percent': 0.0,
                 'cofins_st_value': 0.0,
                 'cofins_cst': '99', #Coloca como isento caso não tenha COFINS
+                'ii_base': 0.0,
+                'ii_value': 0.0,
             }
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_operation=line.fiscal_operation_id)
@@ -2097,7 +2146,7 @@ class account_invoice_line(osv.osv):
                                 'pis_cst': pis_cst,
                                 'cofins_cst': cofins_cst,
                                 })
-                
+
         return res
 
     _columns = {
@@ -2287,8 +2336,30 @@ class account_invoice_line(osv.osv):
                                                   digits_compute=dp.get_precision('Account'),
                                                   store=True,
                                                   multi='all'),
-                
+                'ii_base': fields.function(_amount_line,
+                                                  method=True,
+                                                  string='Base II',
+                                                  type="float",
+                                                  digits_compute=dp.get_precision('Account'),
+                                                  store=True,
+                                                  multi='all'),
+                'ii_value': fields.function(_amount_line,
+                                                  method=True,
+                                                  string='Valor II',
+                                                  type="float",
+                                                  digits_compute=dp.get_precision('Account'),
+                                                  store=True,
+                                                  multi='all'),
+                'ii_iof': fields.float('Valor IOF', required=True,
+                                       digits_compute= dp.get_precision('Account')),
+                'ii_customhouse_charges': fields.float('Depesas Atuaneiras', 
+                                                       required=True,
+                                                       digits_compute=dp.get_precision('Account')),
                 }
+    _defaults = {
+                 'ii_iof': 0.0,
+                 'ii_customhouse_charges': 0.0,
+                 }
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
         result = {'fiscal_operation_id': False, 'cfop_id': False}
