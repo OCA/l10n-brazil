@@ -799,7 +799,6 @@ class account_invoice(osv.osv):
             address_invoice_city = ''
             UFEmbarq = ''
             XLocEmbarq = ''
-            partner_ie = ''
             address_invoice_cep = ''
             if inv.address_invoice_id.country_id.bc_code:
                 address_invoice_bc_code = inv.address_invoice_id.country_id.bc_code[1:]
@@ -809,22 +808,21 @@ class account_invoice(osv.osv):
                 address_invoice_city = 'Exterior'
                 UFEmbarq = company_addr_default.state_id.code
                 XLocEmbarq = company_addr_default.city
-                partner_ie = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
                 address_invoice_cep = ''
             else:
                 address_invoice_state_code = inv.address_invoice_id.state_id.code
                 address_invoice_city = normalize('NFKD',unicode(inv.address_invoice_id.l10n_br_city_id.name or '')).encode('ASCII','ignore')
                 address_invoice_cep = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.address_invoice_id.zip or '').replace(' ',''))
             
-            #Se o ambiente for de teste deve ser escrito na razão do destinatário
+            # Se o ambiente for de teste deve ser escrito na razão do destinatário
             if nfe_environment == '2': 
                 xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
             else:
                 xNome = normalize('NFKD', unicode(inv.partner_id.legal_name or '')).encode('ASCII', 'ignore')
 
             StrRegE = {
-                       'xNome': xNome, 
-                       'IE': partner_ie,
+                       'xNome': xNome,
+                       'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
                        'ISUF': '',
                        'email': inv.partner_id.email or '',
                        }
