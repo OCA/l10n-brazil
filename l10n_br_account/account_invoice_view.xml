@@ -23,7 +23,7 @@
 			<field name="arch" type="xml">
 				<field position="replace" name="number">
 					<field name="internal_number" />
-				</field>
+				</field>				
 			</field>
 		</record>
 
@@ -32,7 +32,30 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
+				<!-- Remove fields in inherited view -->
+				<field position="replace" name="journal_id">
+				</field>
+				<field position="replace" name="partner_id">
+				</field>
 				<field position="replace" name="fiscal_position">
+				</field>
+				<!-- Adding and moving fields -->
+				<field position="before" name="address_invoice_id">
+					<field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+				</field>
+				<field position="replace" name="number">
+					<field name="partner_id"
+						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)"
+						groups="base.group_user" />
+					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+				</field>
+				<field position="replace" name="company_id">
+					<field name="company_id"
+						on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)"
+						widget="selection" groups="base.group_multi_company" />
+				</field>
+				<field position="after" name="address_contact_id">
+					<field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id" groups="base.group_extended" />
 				</field>
 			</field>
 		</record>
@@ -54,33 +77,6 @@
 						required="1" />
 					<field name="fiscal_position"
 						domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form3">
-			<field name="name">l10n_br_account.invoice.form3</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="priority">15</field>
-			<field name="arch" type="xml">
-				<field position="replace" name="partner_id">
-					<field name="partner_id"
-						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)"
-						groups="base.group_user" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form4">
-			<field name="name">l10n_br_account.invoice.form4</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				<field position="replace" name="company_id">
-					<field name="company_id"
-						on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, address_invoice_id, fiscal_operation_category_id)"
-						widget="selection" groups="base.group_multi_company" />
 				</field>
 			</field>
 		</record>
@@ -124,28 +120,6 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form8">
-			<field name="name">l10n_br_account.invoice.form8</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				<field position="replace" name="number">
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form9">
-			<field name="name">l10n_br_account.invoice.form9</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				<field position="after" name="address_contact_id">
-					<field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id" groups="base.group_extended" />
-				</field>
-			</field>
-		</record>
-
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form10">
 			<field name="name">l10n_br_account.invoice.form10</field>
 			<field name="model">account.invoice</field>
@@ -180,7 +154,7 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<field position="replace" name="currency_id">
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 				</field>
 				<button position="replace" name="%(account.action_account_change_currency)d">
 				</button>
@@ -286,7 +260,7 @@
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
 									<field name="fiscal_document_id" />
-									<field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+									<!-- <field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" /> -->
 								</group>
 							</page>
 							<page string="CFOP">
@@ -304,7 +278,22 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+				<!-- Adding and moving fields -->
+				<field position="replace" name="journal_id">
+				</field>
+				<field position="replace" name="partner_id">
+				</field>
 				<field position="replace" name="fiscal_position">
+				</field>
+				<!-- Adding and moving fields -->
+				<field position="before" name="address_invoice_id">
+					<field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+				</field>
+				<field position="replace" name="number">
+					<field name="partner_id"
+						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)"
+						groups="base.group_user" />
+					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 				</field>
 			</field>
 		</record>
@@ -368,17 +357,6 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form7">
-			<field name="name">l10n_br_account.invoice.supplier.form7</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<field position="replace" name="number">
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-				</field>
-			</field>
-		</record>
-
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form8">
 			<field name="name">l10n_br_account.invoice.supplier.form8</field>
 			<field name="model">account.invoice</field>
@@ -399,7 +377,7 @@
 			<field name="arch" type="xml">
 				<field position="replace" name="currency_id">
 					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 				</field>
 				<button position="replace" name="%(account.action_account_change_currency)d">
 				</button>
