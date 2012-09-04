@@ -317,7 +317,7 @@ class account_invoice(osv.osv):
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
-            multi='all'),   
+            multi='all'),
         'cofins_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base COFINS',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -338,7 +338,7 @@ class account_invoice(osv.osv):
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
-            multi='all'), 
+            multi='all'),
     }
     
     def _default_fiscal_operation_category(self, cr, uid, context=None):
@@ -821,7 +821,7 @@ class account_invoice(osv.osv):
                 xNome = normalize('NFKD', unicode(inv.partner_id.legal_name or '')).encode('ASCII', 'ignore')
 
             StrRegE = {
-                       'xNome': xNome,
+                       'xNome': xNome, 
                        'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
                        'ISUF': '',
                        'email': inv.partner_id.email or '',
@@ -1398,7 +1398,7 @@ class account_invoice(osv.osv):
             
             infNFe = SubElement(NFe, 'infNFe', {'versao': '2.00', 'Id': nfe_key })
 
-            #Dados da identificação da nota fiscal
+            # Dados da identificação da nota fiscal
             ide = SubElement(infNFe, 'ide')
 
             ide_cUF = SubElement(ide, 'cUF')
@@ -1801,17 +1801,15 @@ class account_invoice(osv.osv):
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
         result = {'fiscal_operation_id': False, 
                   'fiscal_document_id': False, 
-                  'document_serie_id': False}
+                  'document_serie_id': False,
+                  'journal_id': False,}
         obj_rule = self.pool.get('account.fiscal.position.rule')
         obj_fo_category = self.pool.get('l10n_br_account.fiscal.operation.category')
         
-        
-        if fiscal_operation_category_id:
-            obj_fo_category.read(cr, uid, fiscal_operation_category_id, [''])
-        
+        if not fiscal_operation_category_id:
+            return result
         
         fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id, context={'use_domain': ('use_invoice', '=', True)})   
-
         result.update(fiscal_result)
 
         if result.get('fiscal_operation_id', False):
@@ -1827,6 +1825,15 @@ class account_invoice(osv.osv):
             for inv in self.browse(cr, uid, ids):
                 for line in inv.invoice_line:
                     line.cfop_id = obj_foperation.cfop_id.id
+            
+            if fiscal_operation_category_id:
+                fo_category = obj_fo_category.browse(cr, uid, fiscal_operation_category_id)
+                journal_ids = [journal for journal in fo_category.journal_ids if journal.company_id.id == company_id]
+                if not journal_ids:
+                    raise osv.except_osv(_('Nenhuma Diário !'),_("Categoria de operação fisca: '%s', não tem um diário contábil para a empresa %s") % (fo_category.name, obj_company.name))
+                else:
+                    result['journal_id'] = journal_ids[0].id
+            
         return result
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, date_invoice=False, 
@@ -1865,19 +1872,14 @@ class account_invoice(osv.osv):
         result['value'].update(fiscal_data)
        
         if fiscal_operation_id:
-        #    obj_fiscal_position = self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_operation_id)
-        #    if not fiscal_operation_id == obj_fiscal_position.fiscal_operation_id.id:
-        #        obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
-        #else:
             obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, fiscal_operation_id)
             result['value']['fiscal_position'] = False
             result['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
-            #result['document_serie_id'] = obj_foperation.document_serie_id.id
             del result['value']['fiscal_operation_id']
 
-        for inv in self.browse(cr, uid, ids):
-            for line in inv.invoice_line:
-                line.cfop_id = obj_foperation.cfop_id.id
+            for inv in self.browse(cr, uid, ids):
+                for line in inv.invoice_line:
+                    line.cfop_id = obj_foperation.cfop_id.id
 
         return result
 
@@ -2044,7 +2046,7 @@ class account_invoice_line(osv.osv):
         pass
     
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
-        res = {} #super(account_invoice_line, self)._amount_line(cr, uid, ids, prop, unknow_none, unknow_dict)
+        res = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
@@ -2096,14 +2098,16 @@ class account_invoice_line(osv.osv):
             }
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_operation=line.fiscal_operation_id)
-            icms_cst = ''
-            ipi_cst = ''
-            pis_cst = ''
-            cofins_cst = ''
-
+            
+            icms_cst = '99'
+            ipi_cst = '99'
+            pis_cst = '99'
+            cofins_cst = '99'
+            company_id = line.company_id.id and line.invoice_id.company_id.id or False
+            
             if line.fiscal_operation_id:
 
-                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
+                fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
                 for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
                     if fo_line.tax_code_id.domain == 'icms':
                         icms_cst = fo_line.cst_id.code
@@ -2115,7 +2119,7 @@ class account_invoice_line(osv.osv):
                         cofins_cst = fo_line.cst_id.code
 
                 if line.product_id:
-                    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',line.company_id.id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
+                    fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
     
                     for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
                         if fo_line_ncm.tax_code_id.domain == 'icms':
@@ -2132,7 +2136,9 @@ class account_invoice_line(osv.osv):
                     amount_tax = getattr(self, '_amount_tax_%s' % tax.get('domain', ''))
                     res[line.id].update(amount_tax(cr, uid, tax))
                 except AttributeError:
-                    raise osv.except_osv(_('Error !'), _("Calculo do imposto não suportado para este dominio: '%s'") % (tax_brw.domain, ))
+                    # Caso não exista campos especificos dos impostos
+                    # no documento fiscal, os mesmos são calculados.
+                    continue
 
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
