@@ -2,28 +2,45 @@
 	<openerp>
 		<data>
 
-
-			<!-- Axelor -->
-			<record id="base.res_partner_desertic_hispafuentes" model="res.partner">
-			    	<field name="name">Axelor</field>
-				<field name="legal_name">Axelor</field>
-			    	<field name="website">www.axelor.com/</field>
-				<field name="lang">pt_BR</field>
+                	<!-- Axelor -->
+                	<record id="base.res_partner_desertic_hispafuentes" model="res.partner">
+                    	    <field name="name">Axelor</field>
+                    	    <field name="legal_name">Axelor</field>
+                            <field name="website">www.axelor.com.br/</field>
+                            <field name="lang">pt_BR</field>
+                            <field name="tipo_pessoa">J</field>
+                            <field name="cnpj_cpf">77.538.058/3727-67</field>
+                            <field name="inscr_est">5313062-67</field>
+                    	</record>
+	   	    	<!-- Agrolait promovido em Nestle Brasil!-->
+		    	<record id="base.res_partner_agrolait" model="res.partner">
+				<field name="name">Nestle Brasil Ltda</field>
+				<field name="legal_name">Nestle Brasil Ltda</field>
+				<field name="website">http://www.nestle.com.br/</field>
 				<field name="tipo_pessoa">J</field>
 				<!-- <field name="cnpj_cpf">10.743.686/0001-64</field> -->  
 				<!-- <field name="inscr_est">78.793.651</field> -->
 			</record>
 
-			<!-- Agrolait -->
-			<record id="base.res_partner_agrolait" model="res.partner">
-				<field name="name">Agrolait</field>
-				<field name="legal_name">Agrolait</field>
-				<field name="website">www.agrolait.com</field>
-				<field name="lang">pt_BR</field>
-				<field name="tipo_pessoa">J</field>
-				<!-- <field name="cnpj_cpf">10.743.686/0001-64</field> -->  
-				<!-- <field name="inscr_est">78.793.651</field> -->
-			</record>
+                <!-- Seagate -->
+                <record id="base.res_partner_seagate" model="res.partner">
+                        <field name="name">Seagate</field>
+                        <field name="legal_name">Seagate</field>
+                        <field name="lang">pt_BR</field>
+                        <field name="tipo_pessoa">J</field>
+                        <field name="cnpj_cpf">77.352.182/7287-75</field>
+                        <field name="inscr_est">520.414.284</field>
+                </record>
+
+            <record id="base.res_partner_address_8" model="res.partner.address">
+                <field name="district">Vila Cordeiro</field>
+                <field name="l10n_br_city_id" ref="l10n_br_base.city_3828"/>
+                <field name="zip">04583-110</field>
+                <field name="country_id" ref="base.br"/>
+                <field name="number">246</field>
+                <field name="street">Av. Chucri Zaidan</field>
+                <field name="state_id" ref="l10n_br_base.br_sp"/>
+            </record>
 
 			<!-- China Export -->
 			<record id="base.res_partner_3" model="res.partner">
@@ -115,6 +132,7 @@
 			<record id="res_partner_akretion" model="res.partner">
 				<field name="title" ref="base.res_partner_title_pvt_ltd"/>
 				<field name="cnpj_cpf">11.034.414/0001-58</field>
+                                <field name="inscr_est">432.166.654.534</field>
 				<field eval="0" name="employee"/>
 				<field eval="1" name="customer"/>
 				<field eval="1" name="supplier"/>
@@ -203,7 +221,32 @@
 				<field name="state_id" ref="l10n_br_base.br_sp"/>
 				<field name="partner_id" ref="res_partner_cybercafe0" />
 			</record>
-
+        <record id="base.res_partner_address_seagate" model="res.partner.address">
+            <field name="city">Florianópolis</field>
+            <field name="name">Seagate Technology</field>
+            <field name="zip">88015-340</field>
+            <field model="res.country" name="country_id" search="[('name','=','Brazil')]"/>
+            <field model="res.country.state" name="state_id" search="[('name','=','Santa Catarina')]"/>
+            <field model="l10n_br_base.city" name="l10n_br_city_id" search="[('name','=','Florianópolis')]"/>
+            <field name="district">Centro</field>
+            <field name="street">Rua Barão de Batovi</field>
+            <field name="number">15</field>
+            <field name="email">info@seagate.com.br</field>
+            <field name="phone">(48)-0825-6987</field>
+        </record>
+        <record id="base.res_partner_address_3000" model="res.partner.address">
+            <field name="city">Recife</field>
+            <field name="name">Laith Jubair</field>
+            <field name="zip">50690-695</field>
+            <field name="email">info@axelor.com.br</field>
+            <field name="phone">(81)-6461-0401</field>
+            <field model="res.country" name="country_id" search="[('name','=','Brazil')]"/>
+            <field model="res.country.state" name="state_id" search="[('name','=','Pernambuco')]"/>
+            <field model="l10n_br_base.city" name="l10n_br_city_id" search="[('name','=','Recife')]"/>
+            <field name="district">Iputinga</field>
+            <field name="street">Rua Pé de Serra</field>
+            <field name="number">6</field>
+        </record>
 
 
 		</data>
