@@ -101,8 +101,8 @@
 						<field name="use_purchase"/>
 						<field name="use_picking"/>
 						<newline/>
-						<separator colspan="4" string="Diários Contábeis"/>
-						<field colspan="4" name="journal_ids" nolabel="1" />
+						<separator colspan="4" string="Diário Contábil"/>
+						<field colspan="4" required="1" name="property_journal" nolabel="1" />
 					</form>
 				</field>
 			</record>
