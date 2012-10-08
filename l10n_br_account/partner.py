@@ -22,10 +22,10 @@ from osv import osv, fields
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
-
     _columns = {
                 'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type',
-                                                          'Tipo Fiscal do Parceiro', domain="[('tipo_pessoa','=',tipo_pessoa)]"),
+                                                          'Tipo Fiscal do Parceiro', 
+                                                          domain="[('tipo_pessoa','=',tipo_pessoa)]"),
     }
 
 res_partner()
@@ -33,9 +33,9 @@ res_partner()
 
 class account_fiscal_position_template(osv.osv):
     _inherit = 'account.fiscal.position.template'
-    
     _columns = {
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 
+                                                       'Operação Fiscal'),
                 }
         
 account_fiscal_position_template()
@@ -43,11 +43,9 @@ account_fiscal_position_template()
 
 class account_fiscal_position(osv.osv):
     _inherit = 'account.fiscal.position'
-
     _columns = {
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal'),
+                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 
+                                                       'Operação Fiscal'),
                 }
         
 account_fiscal_position()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
