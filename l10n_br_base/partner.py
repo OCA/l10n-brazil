@@ -44,7 +44,6 @@ parametros = {
 
 
 class res_partner(osv.osv):
-
     _inherit = 'res.partner'
 
     def _get_partner_address(self, cr, uid, ids, context=None):
@@ -100,7 +99,13 @@ class res_partner(osv.osv):
         return True
 
     def _validate_cnpj(self, cnpj):
-
+        """ Rotina para validação do CNPJ - Cadastro Nacional 
+        de Pessoa Juridica.
+        
+        :param string cnpj: CNPJ para ser validado
+        
+        :return bool: True or False
+        """
         # Limpando o cnpj
         if not cnpj.isdigit():
             cnpj = re.sub('[^0-9]', '', cnpj)
@@ -128,8 +133,16 @@ class res_partner(osv.osv):
             return True
 
         return False
-    
-    def _validate_cpf(self, cpf):  
+
+    def _validate_cpf(self, cpf):
+        """ Rotina para validação do CPF - Cadastro Nacional 
+        de Pessoa Física.
+        
+        :param string cpf: CPF para ser validado
+        
+        :return bool: True or False
+        """
+
         if not cpf.isdigit():
             cpf = re.sub('[^0-9]', '', cpf)
 
@@ -205,13 +218,15 @@ class res_partner(osv.osv):
 
 
     def _check_ie(self, cr, uid, ids):
-        """Checks if company register number in field insc_est is valid,
+        """ Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
-        @param self: The object pointer
-        @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: List of partner Ids,
-        @return: True or False.
+        
+        :param self: The object pointer
+        :param cr: the current row, from the database cursor,
+        :param int uid: the current user’s ID for security checks,
+        :param list ids: List of partner Ids,
+        
+        :return: True or False.
         """
 
         for partner in self.browse(cr, uid, ids):
@@ -576,7 +591,7 @@ class res_partner(osv.osv):
 res_partner()
 
 class res_partner_address(osv.osv):
-
+    """ Adiciona os campos necessários para o endereço do parceiro. """
     _inherit = 'res.partner.address'
 
     _columns = {
@@ -586,13 +601,24 @@ class res_partner_address(osv.osv):
                 }
 
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
-
+        """ Ao alterar o campo l10n_br_city_id que é um campo relacional 
+        com o l10n_br_base.city que são os municípios do IBGE, copia o nome 
+        do município para o campo city que é o campo nativo do módulo base 
+        para manter a compatibilidade entre os demais módulos que usam o 
+        campo city.
+        
+        param int l10n_br_city_id: id do l10n_br_city_id digitado.
+        
+        return: dicionário com o nome e id do município.
+        """
         result = {'value': {'city': False, 'l10n_br_city_id': False}}
 
         if not l10n_br_city_id:
             return result
 
-        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, l10n_br_city_id, ['name','id'])
+        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, 
+                                                           l10n_br_city_id, 
+                                                           ['name','id'])
 
         if obj_city:
             result['value']['city'] = obj_city['name']
@@ -692,18 +718,21 @@ class res_partner_address(osv.osv):
 
 res_partner_address()
 
+
 class res_partner_bank(osv.osv):
-
+    """ Adiciona campos necessários para o cadastramentos de contas 
+    bancárias na brasil.
+    """
     _inherit = 'res.partner.bank'
-
     _columns = {
-                'acc_number': fields.char('Account Number', size=64, required=False),
-                'bank': fields.many2one('res.bank', 'Bank', required=False),
-                'acc_number_dig': fields.char("Digito Conta", size=8),
+                'acc_number': fields.char('Account Number', size=64, 
+                                          required=False),
+                'bank': fields.many2one('res.bank', 'Bank', 
+                                        required=False),
+                'acc_number_dig': fields.char("Digito Conta", 
+                                              size=8),
                 'bra_number': fields.char("Agência", size=8),
                 'bra_number_dig': fields.char("Dígito Agência", size=8),
                }
 
 res_partner_bank()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
