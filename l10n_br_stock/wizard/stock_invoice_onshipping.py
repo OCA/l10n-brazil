@@ -119,10 +119,10 @@ class stock_invoice_onshipping(osv.osv_memory):
             context = {}
 
         for inv in self.pool.get('account.invoice').browse(cr, uid, res.values(), context=context):
-            journal_ids = [jou for jou in inv.fiscal_operation_category_id.journal_ids if jou.company_id == inv.company_id]
-            if not journal_ids:
-                raise osv.except_osv(_('Invalid Journal !'), _('There is not journal defined for this company in fiscal operation %s !') % (inv.fiscal_operation_category_id.name))
-            self.pool.get('account.invoice').write(cr, uid, inv.id, {'journal_id': journal_ids[0].id}, context=context)
+            journal_id = inv.fiscal_operation_category_id and inv.fiscal_operation_category_id.property_journal
+            if not journal_id:
+                raise osv.except_osv(_('Invalid Journal !'), _('There is not journal defined for this company: %s in fiscal operation: %s !') % (inv.company_id.name, inv.fiscal_operation_category_id.name))
+            self.pool.get('account.invoice').write(cr, uid, inv.id, {'journal_id': journal_id.id}, context=context)
         return res
 
 stock_invoice_onshipping()

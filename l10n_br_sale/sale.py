@@ -182,12 +182,9 @@ class sale_order(osv.osv):
         if not fiscal_document_serie_ids:
             raise osv.except_osv(_('No fiscal document serie found !'), _("No fiscal document serie found for selected company %s, fiscal operation: '%s' and fiscal documento %s") % (order.company_id.name, order.fiscal_operation_id.code, order.fiscal_operation_id.fiscal_document_id.name))
 
-        journal_ids = [jou for jou in order.fiscal_operation_category_id.journal_ids if jou.company_id.id == obj_company.id]
-        if journal_ids:
-            journal_id = journal_ids[0].id
-        else:
+        if not order.fiscal_operation_category_id or not order.fiscal_operation_category_id.property_journal:
             raise osv.except_osv(_('Error !'),
-                _('There is no sales journal defined for this company in Fiscal Operation Category: "%s" (id:%d)') % (order.company_id.name, order.company_id.id))
+                _('There is no journal defined for this company in Fiscal Operation Category: %s Company: %s)') % (order.fiscal_operation_category_id.name, order.company_id.name))
 
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
             if inv_line.product_id.fiscal_type == 'service' or inv_line.product_id.is_on_service_invoice:
@@ -245,7 +242,7 @@ class sale_order(osv.osv):
                            'fiscal_type': fiscal_type or 'product',
                            'fiscal_position': fiscal_position,
                            'comment': comment,
-                           'journal_id': journal_id,
+                           'journal_id': fiscal_operation_category_id and fiscal_operation_category_id.property_journal and fiscal_operation_category_id.property_journal.id or False,
                            }
 
             inv_obj.write(cr, uid, inv.id, inv_l10n_br, context=context)
