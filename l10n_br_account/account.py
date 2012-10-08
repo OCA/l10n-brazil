@@ -29,6 +29,16 @@ class account_journal(osv.osv):
 account_journal()
 
 
+class account_tax_computation(osv.osv):
+    """ Implement computation method in taxes """
+    _name = 'account.tax.computation'
+    _columns = {
+                'name': fields.char('Name', size=64),
+                }
+
+account_tax_computation()
+
+
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     
