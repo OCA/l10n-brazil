@@ -4,7 +4,7 @@
 
 		<!-- account.payment.term -->
 		<record id="account_payment_term_0" model="account.payment.term">
-       		<field name="active">True</field>
+       			<field name="active">True</field>
 			<field name="note"></field>
 			<field name="name">A Vista</field>
    		</record>
