@@ -27,38 +27,9 @@
                  "l10n_br_base"
                  ],
     'init_xml': [
-                #'zip/ac/ac.sql',
-                #'zip/al/al.sql',
-                #'zip/am/am.sql',
-                #'zip/ap/ap.sql',
-                #'zip/ba/ba.sql',
-                #'zip/ce/ce.sql',
-                #'zip/df/df.sql',
-                #'zip/es/es.sql',
-                #'zip/go/go.sql',
-                #'zip/ma/ma.sql',
-                #'zip/mg/mg.sql',
-                #'zip/ms/ms.sql',
-                #'zip/mt/mt.sql',
-                #'zip/pa/pa.sql',
-                #'zip/pb/pb.sql',
-                #'zip/pe/pe.sql',
-                #'zip/pi/pi.sql',
-                #'zip/pr/pr.sql',
-                #'zip/rj/rj.sql',
-                #'zip/rn/rn.sql',
-                #'zip/ro/ro.sql',
-                #'zip/rr/rr.sql',
-                #'zip/rs/rs.sql',
-                #'zip/sc/sc.sql',
-                #'zip/se/se.sql',
-                #'zip/sp/sp.sql',
-                #'zip/to/to.sql'
                 'zip.sql'
                 ],
-    "update_xml" : [
-
-                   ],
+    "update_xml" : [],
     "category" : "Localisation",
     "active": False,
     "installable": True
