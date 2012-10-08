@@ -7,138 +7,156 @@
 		<record id="product.product_product_mb1" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_motherboad" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Mainboard ASUStek A7V8X-X -->
 		<record id="product.product_product_mb2" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_motherboad" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Onsite Senior Intervention -->
 		<record id="product.product_product_0" model="product.product">
 			<field name="fiscal_type">service</field>
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Onsite Intervention -->
 		<record id="product.product_product_1" model="product.product">
 			<field name="fiscal_type">service</field>
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Basic+ PC (assembly on order) -->
 		<record id="product.product_product_pc2" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_pc" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Processor AMD Athlon XP 1800+ -->
 		<record id="product.product_product_cpu1" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_processor" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_3'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"  />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_3'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi2'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi2'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />	
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Basic PC -->
 		<record id="product.product_product_pc1" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_pc" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Medium PC -->
 		<record id="product.product_product_pc3" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_pc" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 		
 		<!-- HDD Seagate 7200.8 120GB -->
 		<record id="product.product_product_hdd2" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_hd" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_9'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- DDR 256MB PC400 -->
 		<record id="product.product_product_ram" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_memory" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- DDR 512MB PC400 -->
 		<record id="product.product_product_ram512" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_memory" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_12'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Regular case fan 80mm -->
 		<record id="product.product_product_fan" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_fan" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi5'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi5'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Silent fan -->
 		<record id="product.product_product_fan2" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_fan" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi5'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi5'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- KIT Shelf of 100cm -->
 		<record id="product.product_product_kitshelfofcm0" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_wood" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Shelf Panel -->
 		<record id="product.product_product_span100" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_shelf" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_6'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]" />
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi5'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi5'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Wood 2mm -->
 		<record id="product.product_product_woodmm0" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_wood" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Wooden Table -->
 		<record id="product.product_product_woodentable0" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_wood" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Wood 10mm -->
 		<record id="product.product_product_woodmm10" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_wood" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 		<!-- Kitchen Design Project -->
@@ -156,8 +174,9 @@
 		<record id="product.product_product_kitshelfofcm0" model="product.product">
 			<field name="fiscal_type">product</field>
 			<field name="property_fiscal_classification" ref="demo_fiscal_classification_wood" />
-			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
-			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_template_1'), ref('demo_tax_template_27'), ref('demo_tax_template_28'), ref('demo_tax_template_29'), ref('demo_tax_template_34'), ref('demo_tax_template_36')])]"/>
+			<field name="taxes_id" eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="supplier_taxes_id" eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+			<field name="origin">0</field>
 		</record>
 
 	</data>
