@@ -20,9 +20,9 @@
 from osv import osv, fields
 import decimal_precision as dp
 
+
 class res_company(osv.osv):
     _inherit = "res.company"
-
     _columns = {
                 'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
                                                  ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
@@ -75,5 +75,3 @@ class res_company(osv.osv):
                 }
 
 res_company()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
