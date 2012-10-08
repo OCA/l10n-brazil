@@ -127,6 +127,11 @@ class purchase_order(osv.osv):
                 company_id = order.company_id
                 if not company_id.document_serie_product_ids:
                     raise osv.except_osv(_('No fiscal document serie found !'), _("No fiscal document serie found for selected company %s and fiscal operation: '%s'") % (order.company_id.name, order.fiscal_operation_id.code))
+                
+                journal_id = order.fiscal_operation_category_id and order.fiscal_operation_category_id.property_journal.id or False
+                if not journal_id:
+                    raise osv.except_osv(_('Nenhuma Diário !'),_("Categoria de operação fisca: '%s', não tem um diário contábil para a empresa %s") % (order.fiscal_operation_category_id.name, order.company_id.name))
+                
                 comment = order.fiscal_operation_id.note or ''
                 if order.notes:
                     comment += ' - ' + order.notes
@@ -137,7 +142,8 @@ class purchase_order(osv.osv):
                      'fiscal_position': order.fiscal_position and order.fiscal_position.id,
                      'document_serie_id': company_id.document_serie_product_ids and company_id.document_serie_product_ids[0].id,  # TODO pick 1st active! See l10n_br_sale + refactor logic into res_company
                      'own_invoice': False,
-                     'comment': comment})
+                     'comment': comment,
+                     'journal_id': journal_id})
         return inv_id
 
     def action_picking_create(self, cr, uid, ids, *args):
