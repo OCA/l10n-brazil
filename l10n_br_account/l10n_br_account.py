@@ -113,14 +113,24 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
     _columns = {
         'code': fields.char('Código', size=24, required=True),
         'name': fields.char('Descrição', size=64),
-        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')], 'Tipo'),
-        'journal_ids': fields.many2many('account.journal', 'l10n_br_account_fiscal_operation_category_rel',
-                                        'fiscal_operation_category_id', 'journal_id', 'Consolidated Children'),
+        'type': fields.selection([('input', 'Entrada'), 
+                                  ('output', 'Saida')], 'Tipo'),
+        'property_journal': fields.property(
+                                            'account.journal',
+                                            type='many2one',
+                                            relation='account.journal',
+                                            string="Diário Contábil",
+                                            method=True,
+                                            view_load=True,
+                                            help="Diário utilizado para esta categoria de operação fiscal"),
         'use_sale' : fields.boolean('Usado em Vendas'),
         'use_invoice' : fields.boolean('Usado nas Notas Fiscais'),
         'use_purchase' : fields.boolean('Usado nas Compras'),
         'use_picking' : fields.boolean('Usado nas Listas de Separações'),
-        'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
+        'fiscal_type': fields.selection([('product', 'Produto'), 
+                                         ('service', 'Serviço')], 
+                                        'Tipo Fiscal', 
+                                        requeried=True),
         }
 
     _defaults = {
