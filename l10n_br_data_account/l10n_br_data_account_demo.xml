@@ -35,7 +35,7 @@
 			<field name="code">Bonificação</field>
 			<field name="name">Bonificação Dentro do Estado</field>
 			<field name="type">output</field>
-			<field name="cfop_id" ref="l10n_br_data_account.cfop_404" />
+			<field name="cfop_id" ref="cfop_5910" />
 			<field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field eval="1" name="use_sale"/>
@@ -49,7 +49,7 @@
 			<field name="code">Bonificação</field>
 			<field name="name">Bonificação Fora do Estado</field>
 			<field name="type">output</field>
-			<field name="cfop_id" ref="l10n_br_data_account.cfop_551" />
+			<field name="cfop_id" ref="cfop_6910" />
 			<field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field eval="1" name="use_sale"/>

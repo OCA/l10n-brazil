@@ -2,6 +2,20 @@
 <openerp>
 	<data>
 
+		<!-- Akretion -->
+		<record id="l10n_br_base.res_partner_akretion" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+		
+		<!-- CHINEN BOX -->
+		<record id="l10n_br_base.res_partner_chinenbox0" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+		
+		<!-- CYBER CAFE -->
+		<record id="l10n_br_base.res_partner_cybercafe0" model="res.partner">
+		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
 
 		<!-- Axelor -->
 		<record id="base.res_partner_desertic_hispafuentes" model="res.partner">

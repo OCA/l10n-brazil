@@ -2,7 +2,7 @@
 #################################################################################
 #                                                                               #
 # Copyright (C) 2010                                                            #
-# @author Raphaël Valyi, Renato Lima						#
+# @author Raphaël Valyi - Akretion , Renato Lima - Akretion                     #
 #                                                                               #
 #This program is free software: you can redistribute it and/or modify           #
 #it under the terms of the GNU Affero General Public License as published by    #
@@ -19,17 +19,3 @@
 #################################################################################
 
 from osv import fields, osv
-
-
-class product_template(osv.osv):
-    _inherit = "product.template"
-    _columns = {
-                'origin': fields.selection((('0', 'Nacional'), ('1', 'Internacional'), ('2', 'Inter. Adiquirido Internamente')), 'Origem'),
-                }
-    _defaults = {
-                 'origin': '0',
-                 }
-
-product_template()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

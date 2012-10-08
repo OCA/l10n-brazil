@@ -27,7 +27,7 @@
     """,
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://www.openerpbrasil.org',
-    'depends': ['l10n_br_account'],
+    'depends': ['product'],
     'init_xml': ['l10n_br_product_data.xml'],
     'update_xml': ['product_view.xml'],
     'test': [],
@@ -36,7 +36,7 @@
                  ],
     'installable': True,
     'active': False,
-    'auto_install': True
+    'auto_install': True,
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

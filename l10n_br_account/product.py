@@ -19,19 +19,27 @@
 
 from osv import osv, fields
 
+
 class product_template(osv.osv):
     _inherit = 'product.template'
-
     _columns = {
                 'fiscal_category_operation_default_ids': fields.one2many('l10n_br_account.product.operation.category', 
-									 'product_tmpl_id', 'Categoria de Operação Fiscal Padrões'),
-                'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
-                'is_on_service_invoice': fields.boolean('On Service Invoice?', help='True if invoiced along with service'),
+                                                                         'product_tmpl_id', 
+                                                                         'Categoria de Operação Fiscal Padrões'),
+                'fiscal_type': fields.selection([('product', 'Produto'), 
+                                                 ('service', 'Serviço')], 
+                                                'Tipo Fiscal', requeried=True),
+                'is_on_service_invoice': fields.boolean('On Service Invoice?', 
+                                                        help='True if invoiced along with service'),
+                'origin': fields.selection([('0', 'Nacional'), 
+                                            ('1', 'Internacional'), 
+                                            ('2', 'Inter. Adiquirido Internamente')], 'Origem'),
                 }
     
     _defaults = {
                 'fiscal_type': 'product',
                 'is_on_service_invoice': False,
+                'origin': '0',
                 }
 
 product_template()
@@ -39,13 +47,14 @@ product_template()
 
 class l10n_br_account_product_fiscal_operation_category(osv.osv):
     _name = 'l10n_br_account.product.operation.category'
-
     _columns = {
-                'fiscal_operation_category_source_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Origem'),
-                'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria de Destino'),
-                'product_tmpl_id': fields.many2one('product.template', 'Produto', ondelete='cascade'),
+                'fiscal_operation_category_source_id': fields.many2one('l10n_br_account.fiscal.operation.category', 
+                                                                       'Categoria de Origem'),
+                'fiscal_operation_category_destination_id': fields.many2one('l10n_br_account.fiscal.operation.category', 
+                                                                            'Categoria de Destino'),
+                'product_tmpl_id': fields.many2one('product.template', 
+                                                   'Produto', 
+                                                   ondelete='cascade'),
                 }
     
 l10n_br_account_product_fiscal_operation_category()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
