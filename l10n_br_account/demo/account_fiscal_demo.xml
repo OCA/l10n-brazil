@@ -35,7 +35,143 @@
 
 		<record id="base.main_company" model="res.company">
 			<field name="currency_id" ref="base.BRL"/>
-			<field name="fiscal_type">1</field>
+			<field name="fiscal_type">3</field>
+		</record>
+		
+		<!-- account.product.fiscal.classification -->
+		<record id="demo_fiscal_classification_motherboad" model="account.product.fiscal.classification">
+			<field name="name">8473.30.41</field>
+			<field name="description">Placas-mãe ("mother boards")</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_hd" model="account.product.fiscal.classification">
+			<field name="name">8471.70.12</field>
+			<field name="description">Para discos rígidos, com um só conjunto
+				cabeça-disco (HDA-"Head Disk Assembly")</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_memory" model="account.product.fiscal.classification">
+			<field name="name">8473.30.42</field>
+			<field name="description">Placas (módulos) de memória com uma superfície
+				inferior ou igual a 50cm2</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_processor" model="account.product.fiscal.classification">
+			<field name="name">8542.32.10</field>
+			<field name="description">Não montadas</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi2'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi2'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_pc" model="account.product.fiscal.classification">
+			<field name="name">8471.30.12</field>
+			<field name="description">De peso inferior a 3,5kg com teclado alfanumérico
+				de no mínimo 70 teclas e com uma tela de área superior a 140cm2 e
+				inferior a 560cm2</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_fan" model="account.product.fiscal.classification">
+			<field name="name">8414.59.10</field>
+			<field name="description">Microventiladores com área de carcaça inferior a
+				90cm²</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi5'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi5'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_keyboard" model="account.product.fiscal.classification">
+			<field name="name">8471.60.52</field>
+			<field name="description">Teclados</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids" eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids" eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_mouse" model="account.product.fiscal.classification">
+			<field name="name">8471.60.53</field>
+			<field name="description">Indicadores ou apontadores (mouse e track-ball, por
+				exemplo)</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_power" model="account.product.fiscal.classification">
+			<field name="name">8504.40.30</field>
+			<field name="description">Conversores de corrente contínua</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi15'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi15'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_cabinet" model="account.product.fiscal.classification">
+			<field name="name">8473.30.19</field>
+			<field name="description">Outros</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi10'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_shelf" model="account.product.fiscal.classification">
+			<field name="name">7326.90.90</field>
+			<field name="description">Outras</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi5'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi5'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_wood" model="account.product.fiscal.classification">
+			<field name="name">4403.10.00</field>
+			<field name="description">Tratada com tinta, creosoto ou com outros agentes
+				de conservação</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
+		</record>
+
+		<record id="demo_fiscal_classification_cleats" model="account.product.fiscal.classification">
+			<field name="name">8305.20.00</field>
+			<field name="description">Grampos apresentados em barretas</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="sale_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_out_ipi10'), ref('demo_tax_out_icms_interno'), ref('demo_tax_out_icms_externo'), ref('demo_tax_out_icms_subist'), ref('demo_tax_out_pis'), ref('demo_tax_out_cofins')])]" />
+			<field name="purchase_base_tax_ids"
+				eval="[(6,0, [ref('demo_tax_in_ipi10'), ref('demo_tax_in_icms_interno'), ref('demo_tax_in_icms_externo'), ref('demo_tax_in_icms_subist'), ref('demo_tax_in_pis'), ref('demo_tax_in_cofins')])]" />
 		</record>
 
 	</data>

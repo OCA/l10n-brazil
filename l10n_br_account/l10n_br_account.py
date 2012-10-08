@@ -179,7 +179,7 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
                                                     domain="['|',('company_id','=',False),('company_id','=',company_id)]" ),
         'tax_code_id': fields.many2one('account.tax.code', 'Código do Imposto', requeried=True, 
                                         domain="['|',('company_id','=',False),('company_id','=',company_id)]"),
-        'cst_id': fields.many2one('l10n_br_account.cst', 'Código de Situação Tributária', requeried=True),
+        'cst_id': fields.many2one('account.tax.code', 'Código de Situação Tributária', requeried=True),
         'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation Ref', 
                                                 ondelete='cascade', select=True),
        }
