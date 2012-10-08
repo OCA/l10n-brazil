@@ -185,7 +185,7 @@
 						<field name="company_id"/>
 						<field name="fiscal_classification_id"/>
 						<field name="tax_code_id"/>
-						<field name="cst_id"/>
+						<field name="cst_id" />
 					</tree>
 				</field>
 			</record>
