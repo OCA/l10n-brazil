@@ -1828,11 +1828,11 @@ class account_invoice(osv.osv):
             
             if fiscal_operation_category_id:
                 fo_category = obj_fo_category.browse(cr, uid, fiscal_operation_category_id)
-                journal_ids = [journal for journal in fo_category.journal_ids if journal.company_id.id == company_id]
-                if not journal_ids:
+                journal_id = fo_category and fo_category.property_journal or False
+                if not journal_id:
                     raise osv.except_osv(_('Nenhuma Diário !'),_("Categoria de operação fisca: '%s', não tem um diário contábil para a empresa %s") % (fo_category.name, obj_company.name))
                 else:
-                    result['journal_id'] = journal_ids[0].id
+                    result['journal_id'] = journal_id.id
             
         return result
 
