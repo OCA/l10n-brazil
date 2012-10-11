@@ -228,7 +228,7 @@ class account_invoice(osv.osv):
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
-        'fiscal_document_nfe': fields.related('fiscal_document_id', 'nfe', type='boolean', readonly=True, relation='l10n_br_account.fiscal.document', store=True, string='NFE'),
+        'fiscal_document_electronic': fields.related('fiscal_document_id', 'electronic', type='boolean', readonly=True, relation='l10n_br_account.fiscal.document', store=True, string='Electronic'),
         'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
         'move_line_receivable_id': fields.function(_get_receivable_lines, method=True, type='many2many', relation='account.move.line', string='Entry Lines'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Série', domain="[('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]", readonly=True, states={'draft':[('readonly',False)]}),
