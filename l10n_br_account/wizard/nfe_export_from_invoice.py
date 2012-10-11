@@ -26,7 +26,7 @@ from tools.translate import _
 
 class nfe_export_from_invoice(osv.osv_memory):
     """ Export fiscal eletronic file from invoice"""
-
+    
     _name = "l10n_br_account.nfe_export_from_invoice"
     _description = "Export eletronic invoice for Emissor de NFe SEFAZ SP"
     _inherit = "ir.wizard.screen"
@@ -76,11 +76,12 @@ class nfe_export_from_invoice(osv.osv_memory):
                 name = 'nfes%s-%s.%s' % (time.strftime('%d-%m-%Y'), self.pool.get('ir.sequence').get(cr, uid, 'nfe.export'), data['file_type'])
             else:
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
-                
-            if data['file_type'] == 'xml':
-                nfe_file = inv_obj.nfe_export_xml(cr, uid, export_inv_ids, data['nfe_environment'])
-            else:
-                nfe_file = inv_obj.nfe_export_txt(cr, uid, export_inv_ids, data['nfe_environment'])
+
+            mod = __import__('l10n_br_account.sped.nfe.serializer.' + data['file_type'], 
+                             globals(), locals(), data['file_type'])
+            
+            func = getattr(mod, 'nfe_export')
+            nfe_file = func(cr, uid, export_inv_ids, data['nfe_environment'])
             self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file), 'state': 'done', 'name': name}, context=context)
 
         if err_msg:
@@ -89,5 +90,3 @@ class nfe_export_from_invoice(osv.osv_memory):
         return False
 
 nfe_export_from_invoice()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
