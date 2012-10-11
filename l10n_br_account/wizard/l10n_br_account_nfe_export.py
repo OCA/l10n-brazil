@@ -22,6 +22,8 @@ import base64
 from osv import osv, fields
 from tools.translate import _
 
+from l10n_br_account.sped.nfe.serializer import txt, xml
+
 
 class l10n_br_account_nfe_export(osv.osv_memory):
     """ Exportar Nota Fiscal Eletrônica """
@@ -54,18 +56,17 @@ class l10n_br_account_nfe_export(osv.osv_memory):
         inv_obj = self.pool.get('account.invoice')
         inv_ids = inv_obj.search(cr, uid, [('state', '=', 'sefaz_export'), ('nfe_export_date', '=', False), ('company_id', '=', data['company_id'][0]), ('own_invoice', '=', True)])
         if not inv_ids:
-            raise osv.except_osv(_('Error !'), _("'%s'") % ('Nenhum documento fiscal para exportação!'))
+            raise osv.except_osv(_('Error !'), _("'%s'") % _('Nenhum documento fiscal para exportação!'))
         
-        if data['file_type'] == 'xml':
-            file = inv_obj.nfe_export_xml(cr, uid, inv_ids, data['nfe_environment'])
-        else:
-            file = inv_obj.nfe_export_txt(cr, uid, inv_ids, data['nfe_environment'])
-        file_total = file
+        mod = __import__('l10n_br_account.sped.nfe.serializer.' + data['file_type'], 
+                             globals(), locals(), data['file_type'])
+            
+        func = getattr(mod, 'nfe_export')        
+        file = func(cr, uid, inv_ids, data['nfe_environment'])
+            
         name = 'nfes%s-%s.%s' % (time.strftime('%d-%m-%Y'), self.pool.get('ir.sequence').get(cr, uid, 'nfe.export'), data['file_type'])
-        self.write(cr, uid, ids, {'file': base64.b64encode(file_total), 'state': 'done', 'name': name}, context=context)
+        self.write(cr, uid, ids, {'file': base64.b64encode(file), 'state': 'done', 'name': name}, context=context)
 
         return False
 
 l10n_br_account_nfe_export()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
