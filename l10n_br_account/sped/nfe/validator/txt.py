@@ -32,7 +32,7 @@ def validate(cr, uid, ids, context=None):
     for inv in pool.get('account.invoice').browse(cr, uid, ids):
         
         #Nota fiscal
-        if not inv.own_invoice or inv.fiscal_type == 'service' or not inv.fiscal_document_nfe:
+        if not inv.own_invoice or inv.fiscal_type == 'service' or not inv.fiscal_document_electronic:
             continue
         
         company_addr = pool.get('res.partner').address_get(cr, uid, [inv.company_id.partner_id.id], ['default'])
