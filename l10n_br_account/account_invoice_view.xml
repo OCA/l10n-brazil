@@ -91,7 +91,7 @@
 						string="Validate" icon="gtk-go-forward" />
 					<button name="invoice_validate" states="draft" string="Confirmar"
 						icon="gtk-go-forward" />
-					<field invisible="True" name="fiscal_document_nfe" />
+					<field invisible="True" name="fiscal_document_electronic" />
 				</button>
 			</field>
 		</record>
@@ -330,7 +330,7 @@
 				<button name="invoice_open" position="replace">
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward" />
 					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward" />
-					<field invisible="True" name="fiscal_document_nfe" />
+					<field invisible="True" name="fiscal_document_electronic" />
 				</button>
 			</field>
 		</record>
