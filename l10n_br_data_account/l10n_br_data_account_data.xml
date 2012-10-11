@@ -17,7 +17,7 @@
 			<field name="name">Devolução de Venda Dentro do Estado</field>
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_1201" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -31,7 +31,7 @@
 			<field name="name">Devolução de Venda Fora do Estado</field>
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_2201" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -45,7 +45,7 @@
 			<field name="name">Devolução de Compra Dentro do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_5201" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_compra" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -59,7 +59,7 @@
 			<field name="name">Devolução de Compra Fora do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6201" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_devolucao_compra" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -74,7 +74,7 @@
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_5101" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="refund_fiscal_operation_id" ref="fiscal_operation_devolucao_venda_interna" />
 			<field eval="1" name="use_sale"/>
@@ -88,7 +88,7 @@
 			<field name="name">Venda para Fora do Estado para Contribuinte</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6101" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="refund_fiscal_operation_id" ref="fiscal_operation_devolucao_venda_externa" />
 			<field eval="1" name="use_sale"/>
@@ -104,7 +104,7 @@
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
 			<field name="cfop_id" ref="cfop_5102" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -117,7 +117,7 @@
 			<field name="name">Revenda para Fora do Estado para Contribuinte</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6102" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -131,7 +131,7 @@
 			<field name="name">Venda com Subistitução Tributária Dentro do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_5401" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -145,7 +145,7 @@
 			<field name="name">Venda com Subistitução Tributária Fora do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6401" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -159,7 +159,7 @@
 			<field name="name">Venda de Serviço</field>
 			<field name="type">output</field>
 			<field name="fiscal_type">service</field>
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_servico" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -173,7 +173,7 @@
 			<field name="name">Simples Remessa Dentro do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_5949" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -187,7 +187,7 @@
 			<field name="name">Simples Remessa Fora do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6949" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -201,7 +201,7 @@
 			<field name="name">Remessa de Compras para Manufatura de Dentro do Estado</field>
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_1101" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -214,7 +214,7 @@
 			<field name="name">Remessa de Compras para Manufatura de Fora do Estado</field>
 			<field name="type">input</field>
 			<field name="cfop_id" ref="cfop_2101" />
-			<field name="fiscal_document_id" ref="fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field eval="0" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
