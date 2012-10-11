@@ -6,7 +6,7 @@
 		<record id="l10n_br_document_serie_1_product" model="l10n_br_account.document.serie">
 		        <field name="code">1</field>
 		        <field name="name">Série 1</field>
-		        <field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
+		        <field name="fiscal_document_id" ref="fiscal_document_55" />
 		        <field name="company_id" ref="base.main_company" />
 		        <field name="active">True</field>
 		        <field name="fiscal_type">product</field>
@@ -15,7 +15,7 @@
 		<record id="l10n_br_document_serie_1_service" model="l10n_br_account.document.serie">
 		        <field name="code">1</field>
 		        <field name="name">Série 1</field>
-		        <field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
+		        <field name="fiscal_document_id" ref="fiscal_document_55" />
 		        <field name="company_id" ref="base.main_company" />
 		        <field name="active">True</field>
 		        <field name="fiscal_type">service</field>
@@ -36,7 +36,7 @@
 			<field name="name">Bonificação Dentro do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_5910" />
-			<field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
@@ -50,7 +50,7 @@
 			<field name="name">Bonificação Fora do Estado</field>
 			<field name="type">output</field>
 			<field name="cfop_id" ref="cfop_6910" />
-			<field name="fiscal_document_id" ref="l10n_br_data_account.fiscal_9" />
+			<field name="fiscal_document_id" ref="fiscal_document_55" />
 			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
