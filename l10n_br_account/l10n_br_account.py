@@ -98,9 +98,9 @@ class l10n_br_account_fiscal_document(osv.osv):
     _description = 'Tipo de Documento Fiscal'
 
     _columns = {
-        'code': fields.char('Codigo', size=8,required=True),
-        'name': fields.char('Descrição', size=64),
-        'nfe': fields.boolean('NFe'),
+        'code': fields.char(u'Codigo', size=8,required=True),
+        'name': fields.char(u'Descrição', size=64),
+        'electronic': fields.boolean(u'Eletrônico'),
         }
 
 l10n_br_account_fiscal_document()

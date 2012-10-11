@@ -66,7 +66,7 @@
 					<form string="Documento Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
-						<field name="nfe" select="2"/>
+						<field name="electronic" select="2"/>
 					</form>
 				</field>
 			</record>
@@ -79,7 +79,7 @@
 					<tree string="Documento Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
-						<field name="nfe" select="2"/>
+						<field name="electronic" select="2"/>
 					</tree>
 				</field>
 			</record>

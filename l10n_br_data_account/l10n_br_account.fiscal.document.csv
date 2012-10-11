@@ -1,4 +1,4 @@
-"id","code","name","nfe"
+"id","code","name","electronic"
 "fiscal_document_01","01","Nota Fiscal, Modelo 01","False"
 "fiscal_document_1B","1B","Nota Fiscal Avulsa","False"
 "fiscal_document_02","02","Nota Fiscal de Venda a Consumidor, Mod 02","False"
@@ -30,5 +30,5 @@
 "fiscal_document_29","29","Nota Fiscal/Conta de Fornecimento de Água Canalizada","False"
 "fiscal_document_30","30","Bilhete/Recibo do Passageiro","False"
 "fiscal_document_55","55","Nota Fiscal Eletronica","True"
-"fiscal_document_57","57","Conhecimento de Transporte Eletrônico CT-e","False"
-"fiscal_document_59","59","Cupom Fiscal Eletrônico – CF-e","False"
+"fiscal_document_57","57","Conhecimento de Transporte Eletrônico CT-e","True"
+"fiscal_document_59","59","Cupom Fiscal Eletrônico – CF-e","True"
