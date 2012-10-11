@@ -18,6 +18,7 @@
 #################################################################################
 
 import l10n_br_account
+import sped
 import res_company
 import partner
 import account
