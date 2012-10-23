@@ -23,7 +23,7 @@
 			<field name="arch" type="xml">
 				<field position="replace" name="number">
 					<field name="internal_number" />
-				</field>				
+				</field>
 			</field>
 		</record>
 
@@ -41,13 +41,15 @@
 				</field>
 				<!-- Adding and moving fields -->
 				<field position="before" name="address_invoice_id">
-					<field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+					<field name="journal_id" groups="base.group_user"
+						on_change="onchange_journal_id(journal_id, context)" widget="selection" />
 				</field>
 				<field position="replace" name="number">
 					<field name="partner_id"
 						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)"
 						groups="base.group_user" />
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+					<field name="internal_number"
+						attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 				</field>
 				<field position="replace" name="company_id">
 					<field name="company_id"
@@ -55,7 +57,8 @@
 						widget="selection" groups="base.group_multi_company" />
 				</field>
 				<field position="after" name="address_contact_id">
-					<field colspan="4" domain="[('partner_id','=',partner_id)]" name="partner_shipping_id" groups="base.group_extended" />
+					<field colspan="4" domain="[('partner_id','=',partner_id)]"
+						name="partner_shipping_id" groups="base.group_extended" />
 				</field>
 			</field>
 		</record>
@@ -67,16 +70,9 @@
 			<field name="priority">15</field>
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
-					<field name="fiscal_operation_category_id"
-						on_change="onchange_fiscal_operation_category_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id)"
-						domain="[('use_invoice','=',True),('fiscal_type','=','product')]"
-						required="1" />
-					<field name="fiscal_operation_id"
-						on_change="onchange_fiscal_operation_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id, fiscal_operation_id)"
-						domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','product')]"
-						required="1" />
-					<field name="fiscal_position"
-						domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id)" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
+					<field name="fiscal_operation_id" on_change="onchange_fiscal_operation_id(address_invoice_id, partner_id, company_id, fiscal_operation_category_id, fiscal_operation_id)" domain="[('type','=','output'),('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
+					<field name="fiscal_position" domain="[('fiscal_operation_id','=',fiscal_operation_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
 		</record>
@@ -87,10 +83,8 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
-					<button name="invoice_open" states="sefaz_export,proforma2"
-						string="Validate" icon="gtk-go-forward" />
-					<button name="invoice_validate" states="draft" string="Confirmar"
-						icon="gtk-go-forward" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward" />
+					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward" />
 					<field invisible="True" name="fiscal_document_electronic" />
 				</button>
 			</field>
@@ -102,9 +96,7 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_cancel" position="replace">
-					<button name="invoice_cancel"
-						states="draft,proforma2,sale,sefaz_export,sefaz_exception,open"
-						string="Cancel" icon="gtk-cancel" />
+					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancel" icon="gtk-cancel" />
 				</button>
 			</field>
 		</record>
@@ -131,7 +123,8 @@
 							<page string="Outras Informações">
 								<group colspan="4" name="l10n_br_nf">
 									<separator colspan="4" string="Dados Adicionais da NF" />
-									<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}" />
+									<field colspan="4" name="nfe_access_key"
+										attrs="{'readonly': [('own_invoice', '=', True)]}" />
 									<field colspan="4" name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
@@ -182,8 +175,7 @@
 			<field name="help">With Customer Invoices you can create and manage
 				sales invoices issued to your customers. OpenERP can also generate
 				draft invoices automatically from sales orders or deliveries. You
-				should only confirm them before sending them to your customers.
-			</field>
+				should only confirm them before sending them to your customers.</field>
 		</record>
 
 		<record id="action_invoice_tree_service_in" model="ir.actions.act_window">
@@ -199,8 +191,7 @@
 			<field name="help">With Customer Invoices you can create and manage
 				sales invoices issued to your customers. OpenERP can also generate
 				draft invoices automatically from sales orders or deliveries. You
-				should only confirm them before sending them to your customers.
-			</field>
+				should only confirm them before sending them to your customers.</field>
 		</record>
 
 		<record id="action_invoice_service_in_view" model="ir.actions.act_window.view">
@@ -226,7 +217,8 @@
 			<field name="priority">32</field>
 			<field name="arch" type="xml">
 				<filter name="proforma" position="before">
-					<filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]" />
+					<filter icon="terp-check" string="Exportada Receita"
+						domain="[('state','=','sefaz_export')]" />
 				</filter>
 			</field>
 		</record>
@@ -260,7 +252,9 @@
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
 									<field name="fiscal_document_id" />
-									<!-- <field name="document_serie_id" domain="[('fiscal_type','=','product')]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" /> -->
+									<!-- <field name="document_serie_id" domain="[('fiscal_type','=','product')]" 
+										attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', 
+										'=', True)]}" /> -->
 								</group>
 							</page>
 							<page string="CFOP">
@@ -287,12 +281,11 @@
 				</field>
 				<!-- Adding and moving fields -->
 				<field position="before" name="address_invoice_id">
-					<field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+					<field name="journal_id" groups="base.group_user"
+						on_change="onchange_journal_id(journal_id, context)" widget="selection" />
 				</field>
 				<field position="replace" name="number">
-					<field name="partner_id"
-						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)"
-						groups="base.group_user" />
+					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_operation_category_id)" groups="base.group_user" />
 					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 				</field>
 			</field>
@@ -477,7 +470,8 @@
 										<field name="cofins_st_value" />
 									</page>
 									<page string="II">
-										<separator colspan="4" string="Detalhes do Imposto de Importação" />
+										<separator colspan="4"
+											string="Detalhes do Imposto de Importação" />
 										<field name="ii_base" />
 										<field name="ii_customhouse_charges" />
 										<field name="ii_iof" />

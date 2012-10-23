@@ -1,21 +1,21 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        # 
+###############################################################################
 
 import time
 
@@ -23,25 +23,26 @@ from osv import osv, fields
 import decimal_precision as dp
 
 FISCAL_RULE_COLUMNS = {
-                       'partner_fiscal_type_id': fields.many2one('l10n_br_account.partner.fiscal.type', 
-                                                                 'Tipo Fiscal do Parceiro'),
-                       'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 
-                                                                       'Categoria', requeried=True),
-                       'fiscal_type': fields.selection([('1', 'Simples Nacional'), 
-                                                        ('2', 'Simples Nacional – excesso de sublimite de receita bruta'), 
-                                                        ('3', 'Regime Normal')], 
-                                                       'Regime Tributário', required=True),
-                       'revenue_start': fields.float('Faturamento Inicial',
-                                                     digits_compute=dp.get_precision('Account'),
-                                                     help="Faixa inicial de faturamento bruto"),
-                       'revenue_end': fields.float('Faturamento Final',
-                                                   digits_compute=dp.get_precision('Account'),
-                                                   help="Faixa inicial de faturamento bruto"),}
+    'partner_fiscal_type_id': fields.many2one(
+        'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
+    'fiscal_operation_category_id': fields.many2one(
+        'l10n_br_account.fiscal.operation.category', 'Categoria',
+        requeried=True),
+    'fiscal_type': fields.selection(
+        [('1', 'Simples Nacional'),
+         ('2', 'Simples Nacional – excesso de sublimite de receita bruta'),
+         ('3', 'Regime Normal')], 'Regime Tributário', required=True),
+    'revenue_start': fields.float('Faturamento Inicial',
+                                  digits_compute=dp.get_precision('Account'),
+                                  help="Faixa inicial de faturamento bruto"),
+    'revenue_end': fields.float('Faturamento Final',
+                                digits_compute=dp.get_precision('Account'),
+                                help="Faixa inicial de faturamento bruto")}
 
 FISCAL_RULE_DEFAULTS = {
-                        'fiscal_type': '3',
-                        'revenue_start': 0.00,
-                        'revenue_end': 0.00,}
+    'fiscal_type': '3',
+    'revenue_start': 0.00,
+    'revenue_end': 0.00}
 
 class account_fiscal_position_rule_template(osv.osv):
     _inherit = 'account.fiscal.position.rule.template'
@@ -56,7 +57,9 @@ class account_fiscal_position_rule(osv.osv):
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
 
-    def fiscal_position_map(self, cr, uid, partner_id=False, partner_invoice_id=False, company_id=False, fiscal_operation_category_id=False, context=None):
+    def fiscal_position_map(self, cr, uid, partner_id=False,
+        partner_invoice_id=False, company_id=False,
+        fiscal_operation_category_id=False, context=None):
 
         #Initiate variable result
         result = {'fiscal_position': False, 'fiscal_operation_id': False}
@@ -74,8 +77,10 @@ class account_fiscal_position_rule(osv.osv):
             return result
 		
 		#Case 2: Search fiscal position using Account Fiscal Position Rule
-        company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+        company_addr = self.pool.get('res.partner').address_get(
+            cr, uid, [obj_company.partner_id.id], ['default'])
+        company_addr_default = self.pool.get('res.partner.address').browse(
+           cr, uid, [company_addr['default']])[0]
         
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
@@ -93,18 +98,23 @@ class account_fiscal_position_rule(osv.osv):
         
         use_domain = context.get('use_domain', ('use_sale', '=', True))
         
-        domain = ['&', ('company_id', '=', company_id), 
-                  ('fiscal_operation_category_id', '=', fiscal_operation_category_id), 
-                  use_domain,
-                  ('fiscal_type', '=', obj_company.fiscal_type),
-                  '|', ('from_country','=',from_country), ('from_country', '=', False), 
-                  '|', ('to_country', '=', to_country), ('to_country', '=', False), 
-                  '|', ('from_state', '=', from_state), ('from_state', '=', False), 
-                  '|', ('to_state','=', to_state), ('to_state', '=', False),
-                  '|', ('date_start', '=', False), ('date_start', '<=', document_date),
-                  '|', ('date_end', '=', False), ('date_end', '>=', document_date),
-                  '|', ('revenue_start', '=', False), ('revenue_start', '<=', obj_company.annual_revenue),
-                  '|', ('revenue_end', '=', False), ('revenue_end', '>=', obj_company.annual_revenue),]
+        domain = [
+            '&', ('company_id', '=', company_id), 
+            ('fiscal_operation_category_id', '=', fiscal_operation_category_id), 
+            use_domain,
+            ('fiscal_type', '=', obj_company.fiscal_type),
+            '|', ('from_country','=',from_country),
+            ('from_country', '=', False), 
+            '|', ('to_country', '=', to_country), ('to_country', '=', False), 
+            '|', ('from_state', '=', from_state), ('from_state', '=', False), 
+            '|', ('to_state','=', to_state), ('to_state', '=', False),
+            '|', ('date_start', '=', False),
+            ('date_start', '<=', document_date),
+            '|', ('date_end', '=', False), ('date_end', '>=', document_date),
+            '|', ('revenue_start', '=', False),
+            ('revenue_start', '<=', obj_company.annual_revenue),
+            '|', ('revenue_end', '=', False),
+            ('revenue_end', '>=', obj_company.annual_revenue)]
         
         fsc_pos_id = self.search(cr, uid, domain)
         
@@ -115,7 +125,8 @@ class account_fiscal_position_rule(osv.osv):
         
         return result
     
-    def product_fiscal_category_map(self, cr, uid, product_id=False, fiscal_operation_category_id=False):
+    def product_fiscal_category_map(self, cr, uid, product_id=False, 
+                                        fiscal_operation_category_id=False):
         
         result = False
         
@@ -261,5 +272,3 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
         return {}
 
 wizard_account_fiscal_position_rule()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
