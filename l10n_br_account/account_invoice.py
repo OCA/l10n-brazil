@@ -48,8 +48,7 @@ class account_invoice(osv.osv):
                 'pis_value': 0.0,
                 'cofins_base': 0.0,
                 'cofins_value': 0.0,
-                'ii_value': 0.0,
-            }
+                'ii_value': 0.0}
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
                 res[invoice.id]['icms_base'] += line.icms_base
@@ -76,14 +75,18 @@ class account_invoice(osv.osv):
             context = {}
         return context.get('fiscal_type', 'product')
     
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        result = super(account_invoice,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+                        context=None, toolbar=False, submenu=False):
+        result = super(account_invoice,self).fields_view_get(cr, uid, 
+            view_id=view_id, view_type=view_type, context=context, 
+            toolbar=toolbar, submenu=submenu)
 
         if context is None:
             context = {}
 
         field_names = ['service_type_id']
-        result['fields'].update(self.fields_get(cr, uid, field_names, context))
+        result['fields'].update(self.fields_get(cr, uid, field_names,
+                                                context))
 
         if not view_type:
             view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'account.invoice.tree')])
