@@ -1,21 +1,21 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 from osv import fields, osv
 
@@ -23,8 +23,7 @@ from osv import fields, osv
 class account_journal(osv.osv):
     _inherit = 'account.journal'
     _columns = {
-        'revenue_expense': fields.boolean('Gera Financeiro'),
-        }
+        'revenue_expense': fields.boolean('Gera Financeiro')}
 
 account_journal()
 
@@ -33,16 +32,16 @@ class account_tax_computation(osv.osv):
     """ Implement computation method in taxes """
     _name = 'account.tax.computation'
     _columns = {
-                'name': fields.char('Name', size=64),
-                }
+        'name': fields.char('Name', size=64)}
 
 account_tax_computation()
 
 
 class account_tax(osv.osv):
     _inherit = 'account.tax'
-    
-    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty, precision):
+
+    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
+                     precision):
         result = {'tax_discount': 0.0, 'taxes': []}
 
         for tax in taxes:
@@ -67,7 +66,9 @@ class account_tax(osv.osv):
         result['taxes'] = taxes
         return result
         
-    def compute_all(self, cr, uid, taxes, price_unit, quantity, address_id=None, product=None, partner=None, force_excluded=False, fiscal_operation=False):
+    def compute_all(self, cr, uid, taxes, price_unit, quantity,
+                    address_id=None, product=None, partner=None,
+                    force_excluded=False, fiscal_operation=False):
         """
         RETURN: {
                 'total': 0.0,                 # Total without taxes
@@ -143,8 +144,7 @@ class account_tax(osv.osv):
             'total': result['total'],
             'total_included': result['total_included'],
             'total_tax_discount': totaldc,
-            'taxes': calculed_taxes,
-        }
+            'taxes': calculed_taxes}
 
 account_tax()
 
@@ -156,20 +156,19 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         res = super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
         
         obj_multi = self.browse(cr, uid, ids[0])
-        obj_fiscal_position_template = self.pool.get('account.fiscal.position.template')
-        obj_fiscal_position = self.pool.get('account.fiscal.position')
+        obj_fp_template = self.pool.get('account.fiscal.position.template')
+        obj_fp = self.pool.get('account.fiscal.position')
 
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
         
-        fp_template_ids = obj_fiscal_position_template.search(cr, uid, [('chart_template_id', '=', chart_template_id)])
+        fp_template_ids = obj_fp_template.search(cr, uid, [('chart_template_id', '=', chart_template_id)])
         
-        for fp_template in obj_fiscal_position_template.browse(cr, uid, fp_template_ids, context=context):
+        for fp_template in obj_fp_template.browse(cr, uid, fp_template_ids, context=context):
             if fp_template.fiscal_operation_id:
                 fp_id = obj_fiscal_position.search(cr, uid, [('name', '=', fp_template.name), ('company_id', '=', company_id)])
                 if fp_id:
-                    obj_fiscal_position.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
+                    obj_fp.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
         return res
 
 wizard_multi_charts_accounts()
-
