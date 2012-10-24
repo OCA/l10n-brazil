@@ -69,14 +69,31 @@ class account_tax(osv.osv):
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     address_id=None, product=None, partner=None,
                     force_excluded=False, fiscal_operation=False):
-        """
-        RETURN: {
-                'total': 0.0,                 # Total without taxes
-                'total_included': 0.0,        # Total with taxes
-                'total_tax_discount': 0.0,    # Total Tax Discounts
-                'taxes': []                   # List of taxes, see compute for the format
-                'total_base': 0.0,            # Total Base by tax
-            }
+        """Compute taxes 
+        
+        Returns a dict of the form::
+
+        {
+            'total': Total without taxes,
+            'total_included': Total with taxes,
+            'total_tax_discount': Total Tax Discounts,
+            'taxes': <list of taxes, objects>,
+            'total_base': Total Base by tax,
+        }
+        
+        :Parameters:
+            - 'cr': Database cursor.
+            - 'uid': Current user.
+            - 'taxes': List with all taxes id.
+            - 'price_unit': Product price unit.
+            - 'quantity': Product quantity.
+            - 'address_id': Partner address.
+            - 'force_excluded': Used to say that we don't want to consider 
+                                the value of field price_include of tax.
+                                It's used in encoding by line where you don't 
+                                matter if you encoded a tax with that boolean to 
+                                True or False.
+            - 'fiscal_operation': Fiscal operation used to compute taxes in some
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
@@ -85,7 +102,7 @@ class account_tax(osv.osv):
 
         totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
         calculed_taxes = []
-        
+
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
             if tax_list: tax_brw = tax_list[0]
@@ -151,10 +168,26 @@ account_tax()
 
 class wizard_multi_charts_accounts(osv.osv_memory):
     _inherit = 'wizard.multi.charts.accounts'
-    
+
     def execute(self, cr, uid, ids, context=None):
-        res = super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context)
+        """This function is called at the confirmation of the wizard to 
+        generate the COA from the templates. It will read all the provided 
+        information to create the accounts, the banks, the journals, the 
+        taxes, the tax codes, the accounting properties... accordingly for 
+        the chosen company.
         
+        This is override in Brazilian Localization to copy fiscal operation 
+        from fiscal positions template to fiscal positions.
+        
+        :Parameters:
+            - 'cr': Database cursor.
+            - 'uid': Current user.
+            - 'ids': Osv_memory id used to read all data.
+            - 'context': Context.
+        """
+        result = super(wizard_multi_charts_accounts, self).execute(
+            cr, uid, ids, context)
+
         obj_multi = self.browse(cr, uid, ids[0])
         obj_fp_template = self.pool.get('account.fiscal.position.template')
         obj_fp = self.pool.get('account.fiscal.position')
@@ -162,13 +195,19 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
         
-        fp_template_ids = obj_fp_template.search(cr, uid, [('chart_template_id', '=', chart_template_id)])
-        
-        for fp_template in obj_fp_template.browse(cr, uid, fp_template_ids, context=context):
+        fp_template_ids = obj_fp_template.search(cr, uid,
+            [('chart_template_id', '=', chart_template_id)])
+
+        for fp_template in obj_fp_template.browse(cr, uid, fp_template_ids,
+                                                  context=context):
             if fp_template.fiscal_operation_id:
-                fp_id = obj_fiscal_position.search(cr, uid, [('name', '=', fp_template.name), ('company_id', '=', company_id)])
+                fp_id = obj_fiscal_position.search(cr, uid,
+                    [('name', '=', fp_template.name),
+                     ('company_id', '=', company_id)])
+
                 if fp_id:
-                    obj_fp.write(cr, uid, fp_id, {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
-        return res
+                    obj_fp.write(cr, uid, fp_id,
+                        {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
+        return result
 
 wizard_multi_charts_accounts()
