@@ -207,8 +207,8 @@ class l10n_br_account_fiscal_operation_line(osv.osv):
         'tax_code_id': fields.many2one('account.tax.code',
                                        'Código do Imposto',
                                        requeried=True,
-                                       domain="['|',('company_id','=',False),"
-                                       "('company_id','=',company_id)]"),
+                                       domain="['|',('company_id','=',False), \
+                                       ('company_id','=',company_id)]"),
         'cst_id': fields.many2one('account.tax.code',
                                   'Código de Situação Tributária',
                                   requeried=True),
