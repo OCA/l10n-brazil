@@ -1,27 +1,28 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel                 #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 import re
 from osv import osv, fields
 
-parametros = {
-    'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'}, #OK
+
+PARAMETERS = {
+    'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'},
     'al': {'tam': 9, 'starts_with': '24'},
     'am': {'tam': 9},
     'ce': {'tam': 9},
@@ -37,10 +38,10 @@ parametros = {
     'rj': {'tam': 8 , 'prod': [2, 7, 6, 5, 4, 3, 2]},
     'rn': {'tam': 10, 'val_tam':  9,  'prod' : [10, 9, 8, 7, 6, 5, 4, 3, 2] },
     'rs': {'tam': 10},
-    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8], 'div':9},
+    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
+           'div':9},
     'sc': {'tam': 9},
-    'se': {'tam': 9},
-    }
+    'se': {'tam': 9}}
 
 
 class res_partner(osv.osv):
@@ -48,7 +49,8 @@ class res_partner(osv.osv):
 
     def _get_partner_address(self, cr, uid, ids, context=None):
         result = {}
-        for parnter_addr in self.pool.get('res.partner.address').browse(cr, uid, ids, context=context):
+        for parnter_addr in self.pool.get('res.partner.address').browse(
+            cr, uid, ids, context=context):
             result[parnter_addr.partner_id.id] = True
         return result.keys()
 
@@ -56,8 +58,10 @@ class res_partner(osv.osv):
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
             res[partner.id] = {'addr_fs_code': False}
-
-            partner_addr = self.pool.get('res.partner').address_get(cr, uid, [partner.id], ['invoice'])
+            
+            partner_addr = self.pool.get('res.partner').address_get(
+                cr, uid, [partner.id], ['invoice'])
+            
             if partner_addr:
                 partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['invoice']])[0]
                 addr_fs_code = partner_addr_default.state_id and partner_addr_default.state_id.code or ''
@@ -66,6 +70,7 @@ class res_partner(osv.osv):
         return res
 
     _columns = {
+<<<<<<< HEAD
                 'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
                 'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
                 'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
@@ -78,10 +83,31 @@ class res_partner(osv.osv):
                                                 store={'res.partner.address': (_get_partner_address, ['country_id', 'state_id'], 20),}),
 
                 }
+=======
+        'tipo_pessoa': fields.selection([('F', 'Física'),
+                                         ('J', 'Jurídica')],
+                                        'Tipo de pessoa', required=True),
+        'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
+        'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
+        'inscr_mun': fields.char('Inscr. Municipal', size=18),
+        'suframa': fields.char('Suframa', size=18),
+        'legal_name' : fields.char('Razão Social', size=128,
+                                   help="nome utilizado em "
+                                   "documentos fiscais"),
+        'addr_fs_code': fields.function(
+            _address_default_fs,
+            method=True,
+            string='Address Federal State Code',
+            type="char", size=2,
+            multi='all',
+            store={
+                   'res.partner.address': (
+                        _get_partner_address, ['country_id',
+                                               'state_id'], 20),})}
+>>>>>>> l10n_br_base: limpeza e formatação do código
 
     _defaults = {
-                'tipo_pessoa': lambda *a: 'J',
-                }
+        'tipo_pessoa': lambda *a: 'J'}
 
     def _check_cnpj_cpf(self, cr, uid, ids):
 
@@ -114,7 +140,7 @@ class res_partner(osv.osv):
         if len(cnpj) != 14:
             return False
 
-        # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
+        # Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos
         cnpj = map(int, cnpj)
         novo = cnpj[:12]
 
@@ -135,21 +161,21 @@ class res_partner(osv.osv):
         return False
 
     def _validate_cpf(self, cpf):
-        """ Rotina para validação do CPF - Cadastro Nacional 
+        """Rotina para validação do CPF - Cadastro Nacional 
         de Pessoa Física.
         
-        :param string cpf: CPF para ser validado
+        :Return: True or False
         
-        :return bool: True or False
+        :Parameters:
+          - 'cpf': CPF to be validate.
         """
-
         if not cpf.isdigit():
             cpf = re.sub('[^0-9]', '', cpf)
 
         if len(cpf) != 11:
             return False
 
-        # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos que faltam
+        # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos
         cpf = map(int, cpf)
         novo = cpf[:9]
 
@@ -170,16 +196,16 @@ class res_partner(osv.osv):
     
     def _validate_ie_param(self, uf, inscr_est):
 
-        if not uf in parametros:
+        if not uf in PARAMETERS:
             return True
         
-        tam = parametros[uf].get('tam', 0) 
+        tam = PARAMETERS[uf].get('tam', 0) 
          
         inscr_est = unicode(inscr_est).strip().rjust(int(tam),u'0')
 
         inscr_est = re.sub('[^0-9]', '', inscr_est)
         
-        val_tam = parametros[uf].get('val_tam', tam - 1)
+        val_tam = PARAMETERS[uf].get('val_tam', tam - 1)
         if isinstance(tam, list):
             i = tam.find(len(inscr_est))
             if i == -1:
@@ -190,17 +216,17 @@ class res_partner(osv.osv):
             if len(inscr_est) != tam:
                 return False
     
-        sw = parametros[uf].get('starts_with', '')
+        sw = PARAMETERS[uf].get('starts_with', '')
         if not inscr_est.startswith(sw):
             return False
     
         inscr_est_ints = [int(c) for c in inscr_est]
         nova_ie = inscr_est_ints[:val_tam]
     
-        prod = parametros[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
+        prod = PARAMETERS[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
         prod = prod[-val_tam:]
         while len(nova_ie) < tam:
-            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) %  parametros[uf].get('div', 11)
+            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf].get('div', 11)
             
             if r > 1:
                 f = 11 - r
@@ -218,17 +244,16 @@ class res_partner(osv.osv):
 
 
     def _check_ie(self, cr, uid, ids):
-        """ Checks if company register number in field insc_est is valid,
+        """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
         
-        :param self: The object pointer
-        :param cr: the current row, from the database cursor,
-        :param int uid: the current user’s ID for security checks,
-        :param list ids: List of partner Ids,
+        :Return: True or False.
         
-        :return: True or False.
+        :Parameters:
+            - 'cr': Database cursor.
+            - 'uid': Current user’s ID for security checks.
+            - 'ids': List of partner objects IDs.
         """
-
         for partner in self.browse(cr, uid, ids):
             if not partner.inscr_est \
                 or partner.inscr_est == 'ISENTO' \
@@ -565,15 +590,21 @@ class res_partner(osv.osv):
 
     _constraints = [
                     (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-                    (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
-    ]
+                    (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])]
 
     _sql_constraints = [
+<<<<<<< HEAD
                     ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', 
                      u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
                     ('res_partner_inscr_est_uniq', 'unique (inscr_est)', 
                      u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
+=======
+        ('res_partner_cnpj_cpf_uniq','unique (cnpj_cpf)',
+         u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
+        ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
+         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
+>>>>>>> l10n_br_base: limpeza e formatação do código
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
         if not cnpj_cpf or not tipo_pessoa:
@@ -591,14 +622,14 @@ class res_partner(osv.osv):
 res_partner()
 
 class res_partner_address(osv.osv):
-    """ Adiciona os campos necessários para o endereço do parceiro. """
+    """Adiciona os campos necessários para o endereço do parceiro."""
     _inherit = 'res.partner.address'
-
     _columns = {
-	            'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]"),
-                'district': fields.char('Bairro', size=32),
-                'number': fields.char('Número', size=10),
-                }
+        'l10n_br_city_id': fields.many2one('l10n_br_base.city',
+                                           'Municipio',
+                                           domain="[('state_id','=',state_id)]"),
+        'district': fields.char('Bairro', size=32),
+        'number': fields.char('Número', size=10)}
 
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional 
@@ -616,9 +647,8 @@ class res_partner_address(osv.osv):
         if not l10n_br_city_id:
             return result
 
-        obj_city = self.pool.get('l10n_br_base.city').read(cr, uid, 
-                                                           l10n_br_city_id, 
-                                                           ['name','id'])
+        obj_city = self.pool.get('l10n_br_base.city').read(
+            cr, uid, l10n_br_city_id, ['name','id'])
 
         if obj_city:
             result['value']['city'] = obj_city['name']
@@ -725,14 +755,10 @@ class res_partner_bank(osv.osv):
     """
     _inherit = 'res.partner.bank'
     _columns = {
-                'acc_number': fields.char('Account Number', size=64, 
-                                          required=False),
-                'bank': fields.many2one('res.bank', 'Bank', 
-                                        required=False),
-                'acc_number_dig': fields.char("Digito Conta", 
-                                              size=8),
-                'bra_number': fields.char("Agência", size=8),
-                'bra_number_dig': fields.char("Dígito Agência", size=8),
-               }
+        'acc_number': fields.char('Account Number', size=64, required=False),
+        'bank': fields.many2one('res.bank', 'Bank', required=False),
+        'acc_number_dig': fields.char("Digito Conta", size=8),
+        'bra_number': fields.char("Agência", size=8),
+        'bra_number_dig': fields.char("Dígito Agência", size=8)}
 
 res_partner_bank()
