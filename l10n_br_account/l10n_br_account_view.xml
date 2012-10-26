@@ -381,7 +381,7 @@
 						<field name="company_id" required="1" />
 						<field name="fiscal_classification_id"/>
 						<field name="tax_code_id" required="1" />
-						<field name="cst_id" domain="[('tax_code_id','=',tax_code_id)]" required="1" />
+						<field name="cst_id" required="1" />
 					</form>
 				</field>
 			</record>
@@ -494,4 +494,3 @@
 	</data>
 
 </openerp>
-
