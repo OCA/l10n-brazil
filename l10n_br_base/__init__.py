@@ -18,7 +18,7 @@
 #################################################################################
 
 import l10n_br_base
-import country
+import res_country
 import partner
 import wizard
 
