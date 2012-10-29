@@ -1,28 +1,27 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 from osv import osv
 from tools.translate import _
 
 
 class stock_return_picking(osv.osv_memory):
-
     _inherit = 'stock.return.picking'
 
     def create_returns(self, cr, uid, ids, context=None):
@@ -35,8 +34,8 @@ class stock_return_picking(osv.osv_memory):
          @param context: A standard dictionary
          @return: A dictionary which of fields with values.
         """
-
-        result = super(stock_return_picking, self).create_returns(cr, uid, ids, context)
+        result = super(stock_return_picking, self).create_returns(
+            cr, uid, ids, context)
 
         data = self.read(cr, uid, ids[0])
 
@@ -107,5 +106,3 @@ class stock_return_picking(osv.osv_memory):
         return result
 
 stock_return_picking()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
