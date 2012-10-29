@@ -86,11 +86,13 @@ class l10n_br_base_zip_search(osv.osv_memory):
         obj_zip = self.pool.get('l10n_br_base.zip')
         zip_ids = obj_zip.search(cr, uid, domain)
         
-        self.write(cr, uid, ids, {'state': 'done', 'zip_ids': [[6, 0, zip_ids]] }, context=context)       
+        self.write(cr, uid, ids, 
+                   {'state': 'done',
+                    'zip_ids': [[6, 0, zip_ids]]}, context=context)
         return False
     
     def zip_search_end(self, cr, uid, ids, context=None):
-        
+
         result = {
                   'street': False, 
                   'l10n_br_city_id': False, 
@@ -99,26 +101,27 @@ class l10n_br_base_zip_search(osv.osv_memory):
                   'country_id': False, 
                   'zip': False
                   }
-        
+
         data = self.read(cr, uid, ids, [], context=context)[0]
-        
+
         if data['zip_ids']:
             address_id = context.get('address_id', False)
             object_name = context.get('object_name', False)
             if address_id and object_name:
                 obj_zip = self.pool.get('l10n_br_base.zip')
-                zip_read = obj_zip.read(cr, uid, data['zip_ids'], [
-                                                                      'street_type', 
-                                                                      'street','district', 
-                                                                      'code',
-                                                                      'l10n_br_city_id', 
-                                                                      'city', 'state_id', 
-                                                                      'country_id'], context=context)[0]
-                
+                zip_read = obj_zip.read(
+                    cr, uid, data['zip_ids'], ['street_type', 
+                                               'street',
+                                               'district', 
+                                               'code',
+                                               'l10n_br_city_id', 
+                                               'city', 'state_id', 
+                                               'country_id'], context=context)[0]
+
                 zip = re.sub('[^0-9]', '', zip_read['code'] or '')
                 if len(zip) == 8:
                     zip = '%s-%s' % (zip[0:5], zip[5:8])
-                
+
                 result['street'] = ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or ''))
                 result['district'] = zip_read['district']
                 result['zip'] = zip
@@ -126,10 +129,10 @@ class l10n_br_base_zip_search(osv.osv_memory):
                 result['city'] = zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][1] or ''
                 result['state_id'] = zip_read['state_id'] and zip_read['state_id'][0] or False
                 result['country_id'] = zip_read['country_id'] and zip_read['country_id'][0] or False
-            
+
                 obj_partner = self.pool.get(object_name)
                 obj_partner.write(cr, uid, address_id, result, context=context)
 
         return {'type': 'ir.actions.act_window_close'}
-    
+
 l10n_br_base_zip_search()
