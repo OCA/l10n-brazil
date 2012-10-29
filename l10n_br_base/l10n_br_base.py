@@ -48,9 +48,10 @@ class l10n_br_base_zip(osv.Model):
         'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
         'country_id': fields.many2one('res.country', 'Country'),
-        'state_id': fields.many2one("res.country.state", 'Estado',
+        'state_id': fields.many2one('res.country.state', 'Estado',
                                     domain="[('country_id','=',country_id)]"),
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Cidade',
-                                           required=True, domain="[('state_id','=',state_id)]")}
+        'l10n_br_city_id': fields.many2one(
+            'l10n_br_base.city', 'Cidade',
+            required=True, domain="[('state_id','=',state_id)]")}
 
 l10n_br_base_zip()
