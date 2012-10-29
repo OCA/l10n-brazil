@@ -1,22 +1,22 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel                 #
-# Copyright (C) 2012  Raphaël Valyi - Akretion                                  #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
+# Copyright (C) 2012  Raphaël Valyi - Akretion                                #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 from osv import osv, fields
 from tools.translate import _
@@ -39,7 +39,11 @@ class purchase_order(osv.osv):
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
                 val1 += line.price_subtotal
-                for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, line.price_unit, line.product_qty, order.partner_address_id.id, line.product_id.id, order.partner_id)['taxes']:
+                for c in self.pool.get('account.tax').compute_all(
+                    cr, uid, line.taxes_id, line.price_unit, line.product_qty,
+                    order.partner_address_id.id, line.product_id.id, 
+                    order.partner_id)['taxes']:
+                    
                     tax_brw = self.pool.get('account.tax').browse(cr, uid, c['id'])
                     if not tax_brw.tax_code_id.tax_discount:
                         val += c.get('amount', 0.0)
@@ -50,33 +54,44 @@ class purchase_order(osv.osv):
 
     def _get_order(self, cr, uid, ids, context=None):
         result = {}
-        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
+        for line in self.pool.get('purchase.order.line').browse(
+            cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
-
-    _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category',
-                                                                'Categoria', domain="[('type','=','input'),('use_purchase','=',True)]"),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal',
-                                                       domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),(type,'=','input'),('use_purchase','=',True)]"),
-                'amount_untaxed': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Purchase Price'),
-                                                  string='Untaxed Amount', store={'purchase.order.line': (_get_order, None, 10), },
-                                                  multi="sums", help="The amount without tax"),
-                'amount_tax': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Purchase Price'),
-                                              string='Taxes', store={'purchase.order.line': (_get_order, None, 10), },
-                                              multi="sums", help="The tax amount"),
-                'amount_total': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Purchase Price'),
-                                                string='Total', store={'purchase.order.line': (_get_order, None, 10), },
-                                                multi="sums", help="The total amount"),
-                }
-
+    
     def _default_fiscal_operation_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         return user.company_id and user.company_id.purchase_fiscal_category_operation_id and user.company_id.purchase_fiscal_category_operation_id.id or False
 
+    _columns = {
+        'fiscal_operation_category_id': fields.many2one(
+            'l10n_br_account.fiscal.operation.category',
+            'Categoria',
+            domain="[('type','=','input'),('use_purchase','=',True)]"),
+        'fiscal_operation_id': fields.many2one(
+            'l10n_br_account.fiscal.operation', 'Operação Fiscal',
+            domain="[('fiscal_operation_category_id','=', \
+            fiscal_operation_category_id),(type,'=','input'), \
+            ('use_purchase','=',True)]"),
+        'amount_untaxed': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Purchase Price'),
+            string='Untaxed Amount',
+            store={'purchase.order.line': (_get_order, None, 10)},
+            multi="sums", help="The amount without tax"),
+        'amount_tax': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Purchase Price'), string='Taxes',
+            store={'purchase.order.line': (_get_order, None, 10)},
+            multi="sums", help="The tax amount"),
+        'amount_total': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Purchase Price'), string='Total',
+            store={'purchase.order.line': (_get_order, None, 10)},
+            multi="sums", help="The total amount")}
+
     _defaults = {
-                'fiscal_operation_category_id': _default_fiscal_operation_category,
-                }
+        'fiscal_operation_category_id': _default_fiscal_operation_category}
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_operation_category_id):
         obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
@@ -158,30 +173,35 @@ purchase_order()
 
 class purchase_order_line(osv.osv):
     _inherit = 'purchase.order.line'
-
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Categoria',
-                                                                domain="[('type','=','input'),('use_purchase','=',True)]"),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Operação Fiscal',
-                                                       domain="[('fiscal_operation_category_id','=',fiscal_operation_category_id),('type','=','input'),('use_purchase','=',True)]"),
-                'fiscal_position': fields.many2one('account.fiscal.position', 'Fiscal Position', readonly=True,
-                                                   domain="[('fiscal_operation_id','=',fiscal_operation_id)]",
-                                                   states={'draft': [('readonly', False)]}),
-                }
+        'fiscal_operation_category_id': fields.many2one(
+            'l10n_br_account.fiscal.operation.category', 'Categoria',
+            domain="[('type','=','input'),('use_purchase','=',True)]"),
+        'fiscal_operation_id': fields.many2one(
+            'l10n_br_account.fiscal.operation', 'Operação Fiscal',
+            domain="[('fiscal_operation_category_id','=', \
+            fiscal_operation_category_id),('type','=','input'),\
+            ('use_purchase','=',True)]"),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Fiscal Position', readonly=True,
+            domain="[('fiscal_operation_id','=',fiscal_operation_id)]",
+            states={'draft': [('readonly', False)]})}
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
-                          partner_id, date_order=False, fiscal_position=False, date_planned=False,
-                          name=False, price_unit=False, notes=False, context={}, fiscal_operation_category_id=False,
-                          fiscal_operation_id=False, partner_address_id=False, company_id=False):
-        result = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,
-                                                                    partner_id, date_order, fiscal_position,
-                                                                    date_planned, name, price_unit, notes)
+        partner_id, date_order=False, fiscal_position=False, date_planned=False,
+        name=False, price_unit=False, notes=False, context={},
+        fiscal_operation_category_id=False, fiscal_operation_id=False,
+        partner_address_id=False, company_id=False):
+        result = super(purchase_order_line, self).product_id_change(
+            cr, uid, ids, pricelist, product, qty, uom, partner_id, 
+            date_order, fiscal_position, date_planned, name, price_unit, notes)
         
         if not product or not fiscal_operation_category_id or not fiscal_operation_id:
             return result 
         
-        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
-        product_fiscal_category_id = obj_fiscal_position_rule.product_fiscal_category_map(cr, uid, product, fiscal_operation_category_id)
+        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
+            cr, uid, product, fiscal_operation_category_id)
 
         if not product_fiscal_category_id:
             result['value']['fiscal_operation_category_id'] = fiscal_operation_category_id
@@ -191,13 +211,11 @@ class purchase_order_line(osv.osv):
         result['value']['fiscal_operation_category_id'] = product_fiscal_category_id
         result['value']['fiscal_operation_id'] = False
 
-        fiscal_result = obj_fiscal_position_rule.fiscal_position_map(cr, uid, partner_id, partner_address_id,
-                                                                     company_id, product_fiscal_category_id,
-                                                                     context={'use_domain': ('use_purchase', '=', True)})
+        fiscal_result = obj_fp_rule.fiscal_position_map(
+            cr, uid, partner_id, partner_address_id, company_id,
+            product_fiscal_category_id, context={'use_domain': ('use_purchase', '=', True)})
 
         result['value'].update(fiscal_result)
         return result
 
 purchase_order_line()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
