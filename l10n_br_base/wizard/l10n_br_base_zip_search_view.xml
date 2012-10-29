@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data noupdate="1">
+	<data noupdate="0">
 		
         <record id="view_l10n_br_base_zip_search" model="ir.ui.view">
             <field name="name">Pesquisar CEP</field>
