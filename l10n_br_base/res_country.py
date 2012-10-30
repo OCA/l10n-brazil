@@ -23,7 +23,9 @@ from osv import osv, fields
 class res_country(osv.osv):
     _inherit = 'res.country'
     _columns = {
-        'bc_code': fields.char('Cód. BC', size=5)}
+        'bc_code': fields.char('Codigo BC', size=5),
+        'ibge_code': fields.char('Codigo IBGE', size=5),
+        'siscomex_code': fields.char('Codigo Siscomex', size=4)}
 
 res_country()
 
