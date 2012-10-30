@@ -10,6 +10,8 @@
 			<field name="arch" type="xml">
 				<form>
 					<field name="bc_code" select="2"/>
+					<field name="siscomex_code" select="2"/>
+					<field name="ibge_code" select="2"/>
 				</form>
 			</field>
 		</record>
@@ -25,6 +27,6 @@
 				</form>
 			</field>
 		</record>
-	
+
 	</data>
 </openerp>
