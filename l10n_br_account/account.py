@@ -68,7 +68,7 @@ class account_tax(osv.osv):
         
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     address_id=None, product=None, partner=None,
-                    force_excluded=False, fiscal_operation=False):
+                    force_excluded=False, fiscal_position=False):
         """Compute taxes 
         
         Returns a dict of the form::
@@ -93,7 +93,6 @@ class account_tax(osv.osv):
                                 It's used in encoding by line where you don't 
                                 matter if you encoded a tax with that boolean to 
                                 True or False.
-            - 'fiscal_operation': Fiscal operation used to compute taxes in some
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
@@ -128,7 +127,7 @@ class account_tax(osv.osv):
 
         # Calcula ICMS
         specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
-        if fiscal_operation and fiscal_operation.asset_operation or False:
+        if fiscal_position and fiscal_position.asset_operation or False:
             total_base = result['total'] + ipi_value
         else:
             total_base = result['total']
@@ -176,7 +175,7 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         taxes, the tax codes, the accounting properties... accordingly for 
         the chosen company.
         
-        This is override in Brazilian Localization to copy fiscal operation 
+        This is override in Brazilian Localization to copy CFOP 
         from fiscal positions template to fiscal positions.
         
         :Parameters:
@@ -194,20 +193,20 @@ class wizard_multi_charts_accounts(osv.osv_memory):
 
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
-        
+
         fp_template_ids = obj_fp_template.search(cr, uid,
             [('chart_template_id', '=', chart_template_id)])
 
         for fp_template in obj_fp_template.browse(cr, uid, fp_template_ids,
                                                   context=context):
-            if fp_template.fiscal_operation_id:
+            if fp_template.cfop_id:
                 fp_id = obj_fp.search(cr, uid,
                     [('name', '=', fp_template.name),
                      ('company_id', '=', company_id)])
 
                 if fp_id:
                     obj_fp.write(cr, uid, fp_id,
-                        {'fiscal_operation_id': fp_template.fiscal_operation_id.id})
+                        {'cfop_id': fp_template.cfop_id.id})
         return result
 
 wizard_multi_charts_accounts()

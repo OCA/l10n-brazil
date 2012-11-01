@@ -25,9 +25,8 @@ import decimal_precision as dp
 FISCAL_RULE_COLUMNS = {
     'partner_fiscal_type_id': fields.many2one(
         'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-    'fiscal_operation_category_id': fields.many2one(
-        'l10n_br_account.fiscal.operation.category', 'Categoria',
-        requeried=True),
+    'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
+                                          'Categoria', requeried=True),
     'fiscal_type': fields.selection(
         [('1', 'Simples Nacional'),
          ('2', 'Simples Nacional – excesso de sublimite de receita bruta'),
@@ -58,25 +57,24 @@ class account_fiscal_position_rule(osv.osv):
     _defaults = FISCAL_RULE_DEFAULTS
 
     def fiscal_position_map(self, cr, uid, partner_id=False,
-        partner_invoice_id=False, company_id=False,
-        fiscal_operation_category_id=False, context=None):
+        partner_invoice_id=False, company_id=False, fiscal_category_id=False,
+        context=None):
 
-        #Initiate variable result
-        result = {'fiscal_position': False, 'fiscal_operation_id': False}
+        # Initiate variable result
+        result = {'fiscal_position': False}
 
-        if partner_id == False or not partner_invoice_id or company_id == False or fiscal_operation_category_id == False:
+        if not partner_id or not company_id or not fiscal_category_id:
              return result
 
         obj_partner = self.pool.get("res.partner").browse(cr, uid, partner_id)
         obj_company = self.pool.get("res.company").browse(cr, uid, company_id)
-		
-        #Case 1: If Partner has Specific Fiscal Posigion
+
+        # Case 1: If Partner has Specific Fiscal Posigion
         if obj_partner.property_account_position.id:
             result['fiscal_position'] = obj_partner.property_account_position.id
-            result['fiscal_operation_id'] = obj_partner.property_account_position.fiscal_operation_id.id
             return result
-		
-		#Case 2: Search fiscal position using Account Fiscal Position Rule
+
+		# Case 2: Search fiscal position using Account Fiscal Position Rule
         company_addr = self.pool.get('res.partner').address_get(
             cr, uid, [obj_company.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(
@@ -85,22 +83,25 @@ class account_fiscal_position_rule(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
 
+        # FIXME - Este comando if repete o browse que poderia ser melhorado
         if not partner_invoice_id:
-            partner_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_partner.id], ['invoice'])
-            partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['invoice']])[0]
+            partner_addr = self.pool.get('res.partner').address_get(
+                cr, uid, [obj_partner.id], ['invoice'])
+            partner_addr_default = self.pool.get('res.partner.address').browse(
+                cr, uid, [partner_addr['invoice']])[0]
         else:
             partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, partner_invoice_id)
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
-        
+
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
-        
+
         use_domain = context.get('use_domain', ('use_sale', '=', True))
-        
+
         domain = [
             '&', ('company_id', '=', company_id), 
-            ('fiscal_operation_category_id', '=', fiscal_operation_category_id), 
+            ('fiscal_category_id', '=', fiscal_category_id), 
             use_domain,
             ('fiscal_type', '=', obj_company.fiscal_type),
             '|', ('from_country','=',from_country),
@@ -121,26 +122,24 @@ class account_fiscal_position_rule(osv.osv):
         if fsc_pos_id:
             obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
             result['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
-            result['fiscal_operation_id'] = obj_fpo_rule.fiscal_position_id.fiscal_operation_id.id
         
         return result
     
-    def product_fiscal_category_map(self, cr, uid, product_id=False, 
-                                        fiscal_operation_category_id=False):
-        
+    def product_fiscal_category_map(self, cr, uid, product_id=False,
+                                        fiscal_category_id=False):
         result = False
-        
-        if not product_id or not fiscal_operation_category_id:
+
+        if not product_id or not fiscal_category_id:
             return result
-        
+
         product_tmpl_id = self.pool.get('product.product').read(cr, uid, product_id, ['product_tmpl_id'])['product_tmpl_id'][0]
-        default_product_fiscal_category = self.pool.get('l10n_br_account.product.operation.category').search(cr, uid, [('product_tmpl_id', '=', product_tmpl_id), 
-                                                                                                                       ('fiscal_operation_category_source_id', '=', fiscal_operation_category_id)])
+        default_product_fiscal_category = self.pool.get('l10n_br_account.product.category').search(cr, uid, [('product_tmpl_id', '=', product_tmpl_id), 
+                                                                                                             ('fiscal_category_source_id', '=', fiscal_category_id)])
         if default_product_fiscal_category:
-            fiscal_operation_category_destination_id = self.pool.get('l10n_br_account.product.operation.category').read(cr, uid, 
-                                                                                                                    default_product_fiscal_category, 
-                                                                                                                    ['fiscal_operation_category_destination_id'])[0]['fiscal_operation_category_destination_id'][0]
-            result = fiscal_operation_category_destination_id
+            fiscal_category_destination_id = self.pool.get('l10n_br_account.product.category').read(cr, uid,
+                                                                                                              default_product_fiscal_category, 
+                                                                                                              ['fiscal_category_destination_id'])[0]['fiscal_category_destination_id'][0]
+            result = fiscal_category_destination_id
         return result
 
 account_fiscal_position_rule()
@@ -173,7 +172,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
             to_country = fpr_template.to_country.id or False
             to_state = fpr_template.to_state.id or False
             partner_fiscal_type_id = fpr_template.partner_fiscal_type_id.id or False
-            fiscal_operation_category_id = fpr_template.fiscal_operation_category_id.id or False
+            fiscal_category_id = fpr_template.fiscal_category_id.id or False
     
             fiscal_position_id = False
             fp_id = obj_fiscal_position.search(cr, uid, [
@@ -200,7 +199,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
             if fprt_id:
                 obj_fiscal_position_rule.write(cr, uid, fprt_id, {
                                                                   'partner_fiscal_type_id': partner_fiscal_type_id, 
-                                                                  'fiscal_operation_category_id': fiscal_operation_category_id,
+                                                                  'fiscal_category_id': fiscal_category_id,
                                                                   'fiscal_type': fpr_template.fiscal_type,
                                                                   'revenue_start': fpr_template.revenue_start,
                                                                   'revenue_end': fpr_template.revenue_end,})
@@ -235,7 +234,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                              ('use_purchase','=',fpr.use_purchase),
                                                                              ('use_picking','=',fpr.use_picking),
                                                                              ('partner_fiscal_type_id','=',fpr.partner_fiscal_type_id.id),
-                                                                             ('fiscal_operation_category_id','=',fpr.fiscal_operation_category_id.id),
+                                                                             ('fiscal_category_id','=',fpr.fiscal_category_id.id),
                                                                              ('fiscal_type','=',fpr.fiscal_type),
                                                                              ('revenue_start','=',fpr.revenue_start),
                                                                              ('revenue_end','=',fpr.revenue_end),
@@ -257,7 +256,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                              ('use_purchase','=',fpr.use_purchase),
                                                                              ('use_picking','=',fpr.use_picking),
                                                                              ('partner_fiscal_type_id','=',fpr.partner_fiscal_type_id.id),
-                                                                             ('fiscal_operation_category_id','=',fpr.fiscal_operation_category_id.id),
+                                                                             ('fiscal_category_id','=',fpr.fiscal_category_id.id),
                                                                              ('fiscal_type','=',fpr.fiscal_type),
                                                                              ('revenue_start','=',fpr.revenue_start),
                                                                              ('revenue_end','=',fpr.revenue_end),
