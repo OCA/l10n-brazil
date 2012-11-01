@@ -44,6 +44,7 @@ class account_fiscal_position(osv.osv):
     _inherit = 'account.fiscal.position'
     _columns = {
         'fiscal_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation', 'Operação Fiscal')}
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
+        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP')}
 
 account_fiscal_position()
