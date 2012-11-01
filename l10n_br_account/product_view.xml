@@ -14,14 +14,14 @@
 				</field>
 				<notebook>
 					<page position="inside" string="l10n br">
-						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_operation_default_ids" widget="one2many_list">
+						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_default_ids" widget="one2many_list">
 	                        <form string="Operações Padrões">
-                   				<field name="fiscal_operation_category_source_id" required="1" />		
-								<field name="fiscal_operation_category_destination_id" required="1" />
+                   				<field name="fiscal_category_source_id" required="1" />		
+								<field name="fiscal_category_destination_id" required="1" />
 							</form>
 							<tree string="Operações Padrões">
-                   				<field name="fiscal_operation_category_source_id" required="1"/>		
-								<field name="fiscal_operation_category_destination_id" required="1"/>
+                   				<field name="fiscal_category_source_id" required="1"/>		
+								<field name="fiscal_category_destination_id" required="1"/>
 							</tree>
 						</field>
 					</page>
@@ -54,13 +54,13 @@
          	</field>
        </record>
         
-        <record id="l10n_br_account_product_operation_category_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.product.operation.category.form</field>
-            <field name="model">l10n_br_account.product.operation.category</field>
+        <record id="l10n_br_account_product_category_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.product.category.form</field>
+            <field name="model">l10n_br_account.product.category</field>
             <field name="type">form</field>
 			<field name="arch" type="xml">
-				<field name="fiscal_operation_category_source_id" required="1" />		
-				<field name="fiscal_operation_category_destination_id" required="1" />
+				<field name="fiscal_category_source_id" required="1" />		
+				<field name="fiscal_category_destination_id" required="1" />
             </field>
         </record>
         
@@ -88,14 +88,14 @@
 				</field>
 				<notebook>
 					<page position="inside" string="l10n br">
-						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_operation_default_ids" widget="one2many_list">
+						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_default_ids" widget="one2many_list">
 	                        <form string="Operações Padrões">
-                   				<field name="fiscal_operation_category_source_id" required="1" />		
-								<field name="fiscal_operation_category_destination_id" required="1" />
+                   				<field name="fiscal_category_source_id" required="1" />		
+								<field name="fiscal_category_destination_id" required="1" />
 							</form>
 							<tree string="Operações Padrões">
-                   				<field name="fiscal_operation_category_source_id" required="1"/>		
-								<field name="fiscal_operation_category_destination_id" required="1"/>
+                   				<field name="fiscal_category_source_id" required="1"/>		
+								<field name="fiscal_category_destination_id" required="1"/>
 							</tree>
 						</field>
 					</page>
