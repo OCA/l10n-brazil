@@ -19,19 +19,9 @@
 
 from osv import osv, fields
 
-
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    _columns = {
-        'partner_fiscal_type_id': fields.many2one(
-            'l10n_br_account.partner.fiscal.type',
-            'Tipo Fiscal do Parceiro',
-            domain="[('tipo_pessoa','=',tipo_pessoa)]")}
-
-res_partner()
-
 FISCAL_POSITION_COLUMNS = {
     'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP')}
+
 
 class account_fiscal_position_template(osv.osv):
     _inherit = 'account.fiscal.position.template'
@@ -45,3 +35,14 @@ class account_fiscal_position(osv.osv):
     _columns = FISCAL_POSITION_COLUMNS
 
 account_fiscal_position()
+
+
+class res_partner(osv.osv):
+    _inherit = 'res.partner'
+    _columns = {
+        'partner_fiscal_type_id': fields.many2one(
+            'l10n_br_account.partner.fiscal.type',
+            'Tipo Fiscal do Parceiro',
+            domain="[('tipo_pessoa','=',tipo_pessoa)]")}
+
+res_partner()
