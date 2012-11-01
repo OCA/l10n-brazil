@@ -71,7 +71,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
-					<field name="fiscal_position" domain="[('fiscal_category_id','='fiscal_category_id" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
 		</record>
@@ -297,7 +297,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('use_invoice','=',True)]" required="1" />
-					<field name="fiscal_position" domain="[('fiscal_category_id','='fiscal_category_id" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
 		</record>
