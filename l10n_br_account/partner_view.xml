@@ -9,7 +9,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
             	<field name="company_id" position="before">
-					<field name="fiscal_operation_id"/>
+					<field name="cfop_id"/>
 				</field>
             </field>
         </record>
