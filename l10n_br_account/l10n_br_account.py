@@ -114,9 +114,9 @@ class l10n_br_account_fiscal_document(osv.osv):
 l10n_br_account_fiscal_document()
 
 
-class l10n_br_account_fiscal_operation_category(osv.osv):
-    _name = 'l10n_br_account.fiscal.operation.category'
-    _description = 'Categoria de Operações Fiscais'
+class l10n_br_account_fiscal_category(osv.osv):
+    _name = 'l10n_br_account.fiscal.category'
+    _description = 'Categorias Fiscais'
     _columns = {
         'code': fields.char('Código', size=24, required=True),
         'name': fields.char('Descrição', size=64),
@@ -141,82 +141,7 @@ class l10n_br_account_fiscal_operation_category(osv.osv):
         'type': 'output',
         'fiscal_type': 'product'}
 
-l10n_br_account_fiscal_operation_category()
-
-
-class l10n_br_account_fiscal_operation(osv.osv):
-    _name = 'l10n_br_account.fiscal.operation'
-    _description = 'Operação Fiscais'
-    _columns = {
-        'code': fields.char('Código', size=16, required=True),
-        'name': fields.char('Descrição', size=64),
-        'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
-                                 'Tipo', requeried=True),
-        'fiscal_operation_category_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
-            'Categoria', domain="[('type','=',type)]",
-            requeried=True),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document',
-            'Documento Fiscal',
-            requeried=True),
-        'fiscal_operation_line': fields.one2many(
-            'l10n_br_account.fiscal.operation.line',
-            'fiscal_operation_id',
-            'Fiscal Operation Lines'),
-        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
-        'service_type_id': fields.many2one('l10n_br_account.service.type',
-                                           'Tipo de Serviço'),
-        'use_sale': fields.boolean('Usado em Vendas'),
-        'use_invoice': fields.boolean('Usado nas Notas Fiscais'),
-        'use_purchase': fields.boolean('Usado nas Compras'),
-        'use_picking': fields.boolean('Usado nas Listas de Separações'),
-        'refund_fiscal_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation',
-            'Op. Fiscal Devolução',
-            domain="[('type','!=',type)]"),
-        'note': fields.text('Observação'),
-        'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
-        'fiscal_type': fields.selection([('product', 'Produto'),
-                                         ('service', 'Serviço')],
-                                        'Tipo Fiscal',
-                                        domain="[('fiscal_type','=',fiscal_type)]",
-                                        requeried=True),
-        'asset_operation': fields.boolean('Operação de Aquisição de Ativo',
-                                          help="Caso seja marcada essa opção,"
-                                          " será incluido o IPI na base de "
-                                          "calculo do ICMS.")}
-    _defaults = {
-        'type': 'output',
-        'fiscal_type': 'product',
-        'fiscal_type': False}
-
-l10n_br_account_fiscal_operation()
-
-
-class l10n_br_account_fiscal_operation_line(osv.osv):
-    _name = 'l10n_br_account.fiscal.operation.line'
-    _description = 'Linhas das operações ficais'
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Empresa',
-                                      requeried=True),
-        'fiscal_classification_id': fields.many2one(
-            'account.product.fiscal.classification', 'NCM',
-            domain="['|',('company_id','=',False),"
-            "('company_id','=',company_id)]"),
-        'tax_code_id': fields.many2one('account.tax.code',
-                                       'Código do Imposto',
-                                       requeried=True,
-                                       domain="['|',('company_id','=',False), \
-                                       ('company_id','=',company_id)]"),
-        'cst_id': fields.many2one('account.tax.code',
-                                  'Código de Situação Tributária',
-                                  requeried=True),
-        'fiscal_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation',
-            'Fiscal Operation Ref', ondelete='cascade', select=True)}
-
-l10n_br_account_fiscal_operation_line()
+l10n_br_account_fiscal_category()
 
 
 class l10n_br_account_document_serie(osv.osv):
@@ -253,7 +178,7 @@ class l10n_br_account_document_serie(osv.osv):
         return self.pool.get('ir.sequence').create(cr, uid, seq)
 
     def create(self, cr, uid, vals, context=None):
-        """ Overwrite method to create a new ir.sequence if
+        """ Overwrite method to create a new ir.sequence if 
          this field is null """
         if not 'internal_sequence_id' in vals or not vals['internal_sequence_id']:
             vals.update({'internal_sequence_id': self.create_sequence(cr, uid, vals, context)})
