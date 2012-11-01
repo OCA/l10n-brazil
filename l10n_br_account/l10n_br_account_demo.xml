@@ -17,6 +17,6 @@
 		    <field name="user_id" ref="base.user_root"/>
 		    <field name="company_id" ref="base.main_company"/>
 		</record>
-				
+
 	</data>
 </openerp>
