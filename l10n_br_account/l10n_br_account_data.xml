@@ -35,8 +35,8 @@
 			<field name="icms">False</field>
 		</record>
 		
-		<!-- l10n_br_account.fiscal.operation.category -->
-		<record id="fo_category_venda" model="l10n_br_account.fiscal.operation.category">
+		<!-- l10n_br_account.fiscal.category -->
+		<record id="fo_category_venda" model="l10n_br_account.fiscal.category">
 			<field name="code">Venda</field>
 			<field name="name">Venda</field>
 			<field name="type">output</field>
@@ -47,7 +47,7 @@
 			<field eval="1" name="use_picking"/>
 		</record>
 		
-		<record id="fo_category_vendast" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_vendast" model="l10n_br_account.fiscal.category">
 			<field name="code">VendaST</field>
 			<field name="name">Venda de Mercadoria Sujeita a Substituição Tributária</field>
 			<field name="type">output</field>
@@ -57,7 +57,7 @@
 			<field eval="1" name="use_picking"/>			
 		</record>
 
-		<record id="fo_category_revenda" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_revenda" model="l10n_br_account.fiscal.category">
 			<field name="code">Revenda</field>
 			<field name="name">Revenda</field>
 			<field name="type">output</field>
@@ -68,7 +68,7 @@
 			<field eval="1" name="use_picking"/>
 		</record>
 
-		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.category">
 			<field name="code">Compras para Ind</field>
 			<field name="name">Compras para Industrialização</field>
 			<field name="type">input</field>
@@ -78,7 +78,7 @@
 			<field eval="1" name="use_picking"/>
 		</record>
 
-		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.category">
 			<field name="code">SimplesRemessa</field>
 			<field name="name">Simples Remessa</field>
 			<field name="type">output</field>
@@ -88,7 +88,7 @@
 			<field eval="1" name="use_picking"/>
 		</record>
 		
-		<record id="fo_category_servico" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_servico" model="l10n_br_account.fiscal.category">
 			<field name="code">Venda de Serviço</field>
 			<field name="name">Venda de Serviço</field>
 			<field name="type">output</field>
@@ -100,7 +100,7 @@
 			<field name="fiscal_type">service</field>
 		</record>
 		
-		<record id="fo_category_devolucao_venda" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_devolucao_venda" model="l10n_br_account.fiscal.category">
 			<field name="code">DevoluçãoVenda</field>
 			<field name="name">Devolução de Venda</field>
 			<field name="type">input</field>
@@ -111,7 +111,7 @@
 			<field name="fiscal_type">product</field>
 		</record>
 
-		<record id="fo_category_devolucao_compra" model="l10n_br_account.fiscal.operation.category">
+		<record id="fo_category_devolucao_compra" model="l10n_br_account.fiscal.category">
 			<field name="code">DevoluçãoCompra</field>
 			<field name="name">Devolução de Compra</field>
 			<field name="type">output</field>
@@ -125,11 +125,11 @@
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
 			<field name="currency_id" ref="base.BRL"/>
-			<field name="in_invoice_fiscal_category_operation_id" ref="fo_category_compras_ind" />
-			<field name="out_invoice_fiscal_category_operation_id" ref="fo_category_venda" />
-			<field name="out_invoice_service_fiscal_category_operation_id" ref="fo_category_servico" />
-			<field name="in_refund_fiscal_category_operation_id" ref="fo_category_devolucao_compra" />
-			<field name="out_refund_fiscal_category_operation_id" ref="fo_category_devolucao_venda" />
+			<field name="in_invoice_fiscal_category_id" ref="fo_category_compras_ind" />
+			<field name="out_invoice_fiscal_category_id" ref="fo_category_venda" />
+			<field name="out_invoice_service_fiscal_category_id" ref="fo_category_servico" />
+			<field name="in_refund_fiscal_category_id" ref="fo_category_devolucao_compra" />
+			<field name="out_refund_fiscal_category_id" ref="fo_category_devolucao_venda" />
 		</record>
 
 		<!-- account.tax.template -->
