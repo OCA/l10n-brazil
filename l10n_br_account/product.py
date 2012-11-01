@@ -23,8 +23,8 @@ from osv import osv, fields
 class product_template(osv.osv):
     _inherit = 'product.template'
     _columns = {
-        'fiscal_category_operation_default_ids': fields.one2many(
-            'l10n_br_account.product.operation.category', 'product_tmpl_id',
+        'fiscal_category_default_ids': fields.one2many(
+            'l10n_br_account.product.category', 'product_tmpl_id',
             'Categoria de Operação Fiscal Padrões'),
         'fiscal_type': fields.selection([('product', 'Produto'),
                                          ('service', 'Serviço')],
@@ -45,16 +45,16 @@ class product_template(osv.osv):
 product_template()
 
 
-class l10n_br_account_product_fiscal_operation_category(osv.osv):
-    _name = 'l10n_br_account.product.operation.category'
+class l10n_br_account_product_fiscal_category(osv.osv):
+    _name = 'l10n_br_account.product.category'
     _columns = {
-        'fiscal_operation_category_source_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'fiscal_category_source_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria de Origem'),
-        'fiscal_operation_category_destination_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'fiscal_category_destination_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria de Destino'),
         'product_tmpl_id': fields.many2one('product.template', 'Produto',
                                            ondelete='cascade')}
 
-l10n_br_account_product_fiscal_operation_category()
+l10n_br_account_product_fiscal_category()
