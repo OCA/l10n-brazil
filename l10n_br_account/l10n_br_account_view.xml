@@ -84,12 +84,12 @@
 				</field>
 			</record>
 	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_category_form">
-				<field name="name">l10n_br_account.fiscal.operation.category</field>
-				<field name="model">l10n_br_account.fiscal.operation.category</field>
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_category_form">
+				<field name="name">l10n_br_account.fiscal.category</field>
+				<field name="model">l10n_br_account.fiscal.category</field>
 				<field name="type">form</field>
 				<field name="arch" type="xml">
-					<form string="Categoria de Operação Fiscal">
+					<form string="Categoria Fiscal">
 						<field name="code" select="1"/>
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
@@ -107,9 +107,9 @@
 				</field>
 			</record>
 	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_category_tree">
-				<field name="name">l10n_br_account.fiscal.operation.category</field>
-				<field name="model">l10n_br_account.fiscal.operation.category</field>
+			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_category_tree">
+				<field name="name">l10n_br_account.fiscal.category</field>
+				<field name="model">l10n_br_account.fiscal.category</field>
 				<field name="type">tree</field>
 				<field name="arch" type="xml">
 					<tree string="Categoria de Operação Fiscal">
@@ -119,77 +119,7 @@
 					</tree>
 				</field>
 			</record>
-	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_form">
-				<field name="name">l10n_br_account.fiscal.operation</field>
-				<field name="model">l10n_br_account.fiscal.operation</field>
-				<field name="type">form</field>
-				<field name="arch" type="xml">
-					<form string="Operação Fiscal">
-	                    			<group colspan="8" col="4">
-							<field name="code" select="1"/>
-							<field name="name" select="1"/>
-							<field name="type" select="1"/>
-							<field name="fiscal_operation_category_id" select="1"/>
-							<field name="cfop_id" attrs="{'invisible': [('fiscal_type', '!=', 'product')], 'required': [('fiscal_type', '=', 'product')]}" domain="[('internal_type','=','normal'),('type','=',type)]" select="1"/>
-							<field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', 'service')], 'required': [('fiscal_type', '=', 'service')]}" domain="[('internal_type','=','normal')]" select="1"/>
-							<field name="fiscal_document_id"/>
-							<field name="refund_fiscal_operation_id" domain="[('type','!=',type)]"/>
-							<field name="fiscal_type"/>
-						</group>
-						<notebook colspan="4">
-							<page string="Principal">
-								<field name="fiscal_operation_line" colspan="4" nolabel="1"/>
-							</page>
-							<page string="Avançado">
-								<field name="asset_operation" />
-							</page>							
-							<page string="Outros">
-								<separator colspan="4" string="Observações"/>
-								<field name="inv_copy_note"/>
-								<field name="note" colspan="4" nolabel="1"/>
-							</page>
-						</notebook>
-	                    			<group colspan="4" col="8">
-							<field name="use_sale"/>
-							<field name="use_invoice"/>
-							<field name="use_purchase"/>
-							<field name="use_picking"/>
-						</group>
-					</form>
-				</field>
-			</record>
-	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_tree">
-				<field name="name">l10n_br_account.fiscal.operation</field>
-				<field name="model">l10n_br_account.fiscal.operation</field>
-				<field name="type">tree</field>
-				<field name="arch" type="xml">
-					<tree string="Operação Fiscal">
-						<field name="code" select="1"/>
-						<field name="name" select="1"/>
-						<field name="type" select="1"/>
-						<field name="fiscal_operation_category_id" select="1"/>
-						<field name="cfop_id" select="1"/>
-						<field name="fiscal_document_id" select="2"/>
-					</tree>
-				</field>
-			</record>
-	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_tree">
-				<field name="name">l10n_br_account.fiscal.operation.line</field>
-				<field name="model">l10n_br_account.fiscal.operation.line</field>
-				<field name="type">tree</field>
-				<field name="arch" type="xml">
-					<tree string="Linha da Operação Fiscal">
-						<field name="company_id"/>
-						<field name="fiscal_classification_id"/>
-						<field name="tax_code_id"/>
-						<field name="cst_id" />
-					</tree>
-				</field>
-			</record>
-			
+
 			<record model="ir.ui.view" id="view_l10n_br_account_partner_fiscal_type_form">
 				<field name="name">l10n_br_account.partner.fiscal.type</field>
 				<field name="model">l10n_br_account.partner.fiscal.type</field>
@@ -371,37 +301,14 @@
 				<field name="view_type">form</field>
 				<field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
 			</record>
-	
-			<record model="ir.ui.view" id="view_l10n_br_account_fiscal_operation_line_form">
-				<field name="name">l10n_br_account.fiscal.operation.line</field>
-				<field name="model">l10n_br_account.fiscal.operation.line</field>
-				<field name="type">form</field>
-				<field name="arch" type="xml">
-					<form string="Linha da Operação Fiscal">
-						<field name="company_id" required="1" />
-						<field name="fiscal_classification_id"/>
-						<field name="tax_code_id" required="1" />
-						<field name="cst_id" required="1" />
-					</form>
-				</field>
-			</record>
 			
-			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_form">
-				<field name="name">Operação Fiscal</field>
+			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_category_form">
+				<field name="name">Categoria Fiscal</field>
 				<field name="type">ir.actions.act_window</field>
-				<field name="res_model">l10n_br_account.fiscal.operation</field>
+				<field name="res_model">l10n_br_account.fiscal.category</field>
 				<field name="view_mode">tree,form</field>
 				<field name="view_type">form</field>
-				<field name="view_id" ref="view_l10n_br_account_fiscal_operation_tree"/>
-			</record>
-			
-			<record model="ir.actions.act_window" id="action_l10n_br_account_fiscal_operation_category_form">
-				<field name="name">Categoria de Operação Fiscal</field>
-				<field name="type">ir.actions.act_window</field>
-				<field name="res_model">l10n_br_account.fiscal.operation.category</field>
-				<field name="view_mode">tree,form</field>
-				<field name="view_type">form</field>
-				<field name="view_id" ref="view_l10n_br_account_fiscal_operation_category_tree"/>
+				<field name="view_id" ref="view_l10n_br_account_fiscal_category_tree"/>
 			</record>
 			
 			<record model="ir.actions.act_window" id="action_l10n_br_account_document_serie_form">
@@ -483,9 +390,7 @@
 			
 			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
 				
-			<menuitem name="Categoria de Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_category_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_operation_category_form"/>
-			
-			<menuitem name="Operação Fiscal" id="menu_action_l10n_br_account_fiscal_operation_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_operation_form"/>
+			<menuitem name="Categoria Fiscal" id="menu_action_l10n_br_account_fiscal_category_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
 	
 			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
 			
