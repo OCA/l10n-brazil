@@ -59,31 +59,31 @@ class res_company(osv.osv):
                                          required=True),
         'nfse_source_folder': fields.char('Pasta de Origem', size=254),
         'nfse_destination_folder': fields.char('Pasta de Destino', size=254),
-        'in_invoice_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'in_invoice_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Entrada',
             domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
             " ('type','=','input')]"),
-        'out_invoice_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'out_invoice_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Saida',
             domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
             " ('type','=','output')]"),
-        'in_refund_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category', 'Devolução Entrada',
+        'in_refund_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Devolução Entrada',
             domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
             " ('type','=','output')]"),
-        'out_refund_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category', 'Devolução Saida',
+        'out_refund_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Devolução Saida',
             domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
             " ('type','=','input')]"),
-        'in_invoice_service_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'in_invoice_service_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Aquisição de Serviço',
             domain="[('use_invoice','=',True), ('fiscal_type','=','service'),"
             " ('type','=','input')]"),
-        'out_invoice_service_fiscal_category_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category',
+        'out_invoice_service_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Prestação de Serviço',
             domain="[('use_invoice','=',True), ('fiscal_type','=','service'),"
             " ('type','=','output')]")}
