@@ -1,19 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-		
+
 		<record id="view_l10n_br_account_position_form" model="ir.ui.view">
             <field name="name">l10n_br_account.fiscal.position.form</field>
             <field name="model">account.fiscal.position</field>
             <field name="inherit_id" ref="account.view_account_position_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<field name="company_id" position="before">
-					<field name="cfop_id"/>
-				</field>
+            	<form string="Fiscal Position" position="replace">
+	            	<form string="Fiscal Position">
+	                    <group colspan="4" col="6">
+	                        <field name="name" select="1"/>
+	                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+	                        <field name="active" groups="base.group_extended"/>
+	                    </group>
+	                    <newline/>
+	                    <notebook colspan="4">
+                        	<page string="Impostos">
+                        		<separator string="Mapping" colspan="4"/>
+								<field name="tax_ids" colspan="4" widget="one2many_list" nolabel="1">
+								    <tree string="Tax Mapping" editable="bottom">
+								        <field name="tax_src_id" domain="[('parent_id','=',False)]"/>
+								        <field name="tax_dest_id" domain="[('parent_id','=',False)]"/>
+								        <field name="tax_code_dest_id" />
+								    </tree>
+								    <form string="Tax Mapping">
+								        <field name="tax_src_id" domain="[('parent_id','=',False)]"/>
+								        <field name="tax_dest_id" domain="[('parent_id','=',False)]"/>
+								        <field name="tax_code_dest_id" />
+								    </form>
+								</field>
+							</page>
+							<page string="Fiscal">
+								<group colspan="4" col="4">
+									<field name="fiscal_category_id" />
+									<field invisible="1" name="fiscal_category_type" />
+									<field invisible="1" name="fiscal_category_fiscal_type" />
+									<field name="refund_fiscal_category_id" domain="[('type', '!=', fiscal_category_type), ('fiscal_type', '=', fiscal_category_fiscal_type)]" />
+									<field name="cfop_id" colspan="4" domain="[('type', '=', fiscal_category_type)]" />
+			                    </group>
+			                    <separator string="Notes" colspan="4"/>
+			                    <field name="inv_copy_note" colspan="4"/>
+	                    		<field name="note" colspan="4" nolabel="1"/>
+		                   
+							</page>
+							<page string="Contábil">
+								<field name="account_ids" colspan="4" widget="one2many_list" nolabel="1">
+		                        	<tree string="Account Mapping" editable="bottom">
+		                            	<field name="account_src_id"/>
+		                            	<field name="account_dest_id"/>
+		                        	</tree>
+		                        	<form string="Account Mapping">
+		                            	<field name="account_src_id"/>
+		                            	<field name="account_dest_id"/>
+	                        		</form>
+	                    		</field>
+							</page>
+	                    </notebook>
+	                </form>
+				</form>
             </field>
         </record>
-        
+
 		<record model="ir.ui.view" id="l10n_br_account_view_partner_form">
 			<field name="name">l10n_br_account.partner.form</field>
 			<field name="model">res.partner</field>
@@ -24,7 +73,7 @@
 				</field>
 			</field>
 		</record>
-		
+
 		<record model="ir.ui.view" id="l10n_br_account_view_partner_form2" >
 	   		<field name="name">l10n_br_account.partner.form2</field>
        		<field name="model">res.partner</field>
@@ -40,7 +89,7 @@
 	        		</xpath>
         		</field>
    		</record>
-   		
+
    		<record model="ir.ui.view" id="l10n_br_account_view_partner_form3" >
 	   		<field name="name">l10n_br_account.partner.form3</field>
        		<field name="model">res.partner</field>
@@ -52,7 +101,7 @@
 	        		</xpath>
         		</field>
    		</record>
-   		
+
    		<record model="ir.ui.view" id="l10n_br_account_view_partner_form4" >
 	   		<field name="name">l10n_br_account.partner.form4</field>
        		<field name="model">res.partner</field>
@@ -66,6 +115,6 @@
 	        		</xpath>
         		</field>
    		</record>
-		
+
 	</data>
 </openerp>
