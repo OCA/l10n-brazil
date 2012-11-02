@@ -30,70 +30,47 @@
 			<field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]" />
 		</record>
 
-		<!-- l10n_br_account.fiscal.operation -->
-		<record id="fiscal_operation_bonificacao_interna" model="l10n_br_account.fiscal.operation">
-			<field name="code">Bonificação</field>
-			<field name="name">Bonificação Dentro do Estado</field>
-			<field name="type">output</field>
-			<field name="cfop_id" ref="cfop_5910" />
-			<field name="fiscal_document_id" ref="fiscal_document_55" />
-			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
-			<field name="fiscal_type">product</field>
-		</record>
-
-		<record id="fiscal_operation_bonificacao_externa" model="l10n_br_account.fiscal.operation">
-			<field name="code">Bonificação</field>
-			<field name="name">Bonificação Fora do Estado</field>
-			<field name="type">output</field>
-			<field name="cfop_id" ref="cfop_6910" />
-			<field name="fiscal_document_id" ref="fiscal_document_55" />
-			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
-			<field name="fiscal_type">product</field>
-		</record>
-
 		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
 		<record id="demo_fp_vendaparadentrodoestado0" model="account.fiscal.position">
 			<field name="name">Venda para Dentro do Estado</field>
+			<field name="cfop_id" ref="cfop_5101" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="l10n_br_data_account.fiscal_operation_venda_interna"/>
 		</record>
 		
 		<record id="demo_fp_vendaforadoestadoicms0" model="account.fiscal.position">
 			<field name="name">Venda Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="cfop_6101" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="l10n_br_data_account.fiscal_operation_venda_externa"/>
 		</record>
 
 		<record id="demo_fp_vendaforadoestadoicms1" model="account.fiscal.position">
 			<field name="name">Venda Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="cfop_6101" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="l10n_br_data_account.fiscal_operation_venda_externa"/>
 		</record>
 
 		<record id="demo_fp_bonificaodentrodoestado0" model="account.fiscal.position">
 			<field name="name">Bonificação Dentro do Estado</field>
+			<field name="cfop_id" ref="cfop_5910" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="fiscal_operation_bonificacao_interna"/>
 		</record>
 
 		<record id="demo_fp_bonificaoforadoestadoicms0" model="account.fiscal.position">
 			<field name="name">Bonificação Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="cfop_6910" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="fiscal_operation_bonificacao_externa"/>
 		</record>
 
 		<record id="demo_fp_bonificaoforadoestadoicms1" model="account.fiscal.position">
 			<field name="name">Bonificação Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="cfop_6910" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
-			<field name="fiscal_operation_id" ref="fiscal_operation_bonificacao_externa"/>
 		</record>
 
 		<!-- Regras de posições fiscais para contribuintes -->
@@ -107,7 +84,7 @@
 			<field name="to_country" ref="base.br" />
 			<field name="to_state" ref="l10n_br_base.br_ac" />
 			<field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-			<field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 			<field name="use_sale">True</field>
 			<field name="use_invoice">True</field>
@@ -123,7 +100,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_al" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -139,7 +116,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_am" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -155,7 +132,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ap" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -171,7 +148,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ba" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -187,7 +164,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ce" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -203,7 +180,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_df" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />	    
-   		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+   		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -219,7 +196,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_es" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -235,7 +212,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_go" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -251,7 +228,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ma" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -267,7 +244,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mg" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -283,7 +260,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ms" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -299,7 +276,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mt" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -315,7 +292,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pa" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -331,7 +308,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pb" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -347,7 +324,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pe" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -363,7 +340,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pi" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -379,7 +356,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pr" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -395,7 +372,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaparadentrodoestado0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -411,7 +388,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rn" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -427,7 +404,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ro" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -443,7 +420,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rr" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -459,7 +436,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rs" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -475,7 +452,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sc" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -492,7 +469,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_se" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>	
@@ -508,7 +485,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sp" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -524,7 +501,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_to" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_vendaforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_venda" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
@@ -542,7 +519,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ac" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -557,7 +534,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_al" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -572,7 +549,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_am" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -587,7 +564,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ap" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -602,7 +579,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ba" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -617,7 +594,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ce" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -632,7 +609,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_df" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />		    
-   		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+   		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -647,7 +624,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_es" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -662,7 +639,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_go" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -677,7 +654,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ma" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -692,7 +669,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mg" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -707,7 +684,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ms" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -722,7 +699,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_mt" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -737,7 +714,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pa" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -752,7 +729,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pb" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -767,7 +744,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pe" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -782,7 +759,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pi" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -797,7 +774,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_pr" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -812,7 +789,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rj" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaodentrodoestado0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -827,7 +804,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rn" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -842,7 +819,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_ro" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -857,7 +834,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rr" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -872,7 +849,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_rs" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -887,7 +864,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sc" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -903,7 +880,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_se" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -918,7 +895,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_sp" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms1" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
@@ -933,7 +910,7 @@
 		    <field name="to_country" ref="base.br" />
 		    <field name="to_state" ref="l10n_br_base.br_to" />
 		    <field name="fiscal_position_id" ref="l10n_br_data_account.demo_fp_bonificaoforadoestadoicms0" />
-		    <field name="fiscal_operation_category_id" ref="l10n_br_account.fo_category_bonificacao" />
+		    <field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
    		    <field name="use_sale">True</field>
 		    <field name="use_invoice">True</field>
 			<field name="fiscal_type">3</field>
