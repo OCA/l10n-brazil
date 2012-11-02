@@ -116,7 +116,7 @@ l10n_br_account_fiscal_document()
 
 class l10n_br_account_fiscal_category(osv.osv):
     _name = 'l10n_br_account.fiscal.category'
-    _description = 'Categorias Fiscais'
+    _description = 'Categoria Fiscail'
     _columns = {
         'code': fields.char('Código', size=24, required=True),
         'name': fields.char('Descrição', size=64),
