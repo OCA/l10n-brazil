@@ -560,7 +560,9 @@ class account_invoice_line(osv.osv):
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, 
                         context=None, toolbar=False, submenu=False):
         
-        result = super(account_invoice_line, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        result = super(account_invoice_line, self).fields_view_get(
+            cr, uid, view_id=view_id, view_type=view_type, context=context,
+            toolbar=toolbar, submenu=submenu)
         
         if context is None:
             context = {}
@@ -571,20 +573,29 @@ class account_invoice_line(osv.osv):
             
             if 'type' in context.keys():
 
-                operation_type = {'out_invoice': 'output', 
-                                  'in_invoice': 'input', 
-                                  'out_refund': 'input', 
+                OPERATION_TYPE = {'out_invoice': 'output',
+                                  'in_invoice': 'input',
+                                  'out_refund': 'input',
                                   'in_refund': 'output'}
+                
+                JOURNAL_TYPE = {'out_invoice': 'sale',
+                                'in_invoice': 'purchase',
+                                'out_refund': 'sale_refund',
+                                'in_refund': 'purchase_refund'}
+                    
+                fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
+                for fiscal_category_id in fiscal_categories:
+                    fiscal_category_id.set('domain',
+                                           "[('type', '=', '%s'), \
+                                           ('journal_type', '=', '%s')]" \
+                                           % (OPERATION_TYPE[context['type']],
+                                              JOURNAL_TYPE[context['type']]))
+                    fiscal_category_id.set('required', '1')
 
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
-                    cfop_id.set('domain', "[('type','=','%s')]" % (operation_type[context['type']],))
+                    cfop_id.set('domain', "[('type','=','%s')]" % (OPERATION_TYPE[context['type']],))
                     cfop_id.set('required', '1')
-
-                fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
-                for fiscal_category_id in fiscal_categories:
-                    fiscal_category_id.set('domain', "[('fiscal_type','=','product'),('type','=','%s'),('use_invoice','=',True)]" % (operation_type[context['type']],))
-                    fiscal_category_id.set('required', '1')    
             
             if context.get('fiscal_type', False) == 'service':
                 
@@ -593,18 +604,6 @@ class account_invoice_line(osv.osv):
                     cfop_id.set('invisible', '1')
                     cfop_id.set('required', '0')
         
-                if context['type'] in ('in_invoice', 'out_refund'):    
-                    fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
-                    for fiscal_category_id in fiscal_categories:
-                        fiscal_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','input'),('use_invoice','=',True)]")
-                        fiscal_category_id.set('required', '1')
-                
-                if context['type'] in ('out_invoice', 'in_refund'):  
-                    fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
-                    for fiscal_category_id in fiscal_categories:
-                        fiscal_category_id.set('domain', "[('fiscal_type','=','service'),('type','=','output'),('use_invoice','=',True)]")
-                        fiscal_category_id.set('required', '1')
-            
             result['arch'] = etree.tostring(eview)
         
         if view_type == 'tree':
@@ -808,215 +807,187 @@ class account_invoice_line(osv.osv):
         return res
 
     _columns = {
-                'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category', 'Categoria'),
-                'fiscal_position_id': fields.many2one('account.fiscal.position', 'Fiscal Position', domain="[('fiscal_category_id','=',fiscal_category_id)]"),
-                'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
-                'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal', type="float",
-                                                  digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'price_total': fields.function(_amount_line, method=True, string='Total', type="float",
-                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_base_type': fields.function(_amount_line, method=True, string='Tipo Base ICMS', type="char", size=64,
-                                              store=True, multi='all'),
-                'icms_base': fields.function(_amount_line, method=True, string='Base ICMS', type="float",
-                                             digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_base_other': fields.function(_amount_line, method=True, string='Base ICMS Outras', type="float",
-                                             digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_value': fields.function(_amount_line, method=True, string='Valor ICMS', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_percent': fields.function(_amount_line, method=True, string='Perc ICMS', type="float",
-                                                digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_percent_reduction': fields.function(_amount_line, method=True, string='Perc Redução de Base ICMS', type="float",
-                                                digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_base_type': fields.function(_amount_line, method=True, string='Tipo Base ICMS ST', type="char", size=64,
-                                              store=True, multi='all'),
-                'icms_st_value': fields.function(_amount_line, method=True, string='Valor ICMS ST', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_base': fields.function(_amount_line, method=True, string='Base ICMS ST', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_percent': fields.function(_amount_line, method=True, string='Percentual ICMS ST', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_percent_reduction': fields.function(_amount_line, method=True, string='Perc Redução de Base ICMS ST', type="float",
-                                                digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_mva': fields.function(_amount_line, method=True, string='MVA ICMS ST', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_st_base_other': fields.function(_amount_line, method=True, string='Base ICMS ST Outras', type="float",
-                                              digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'icms_cst': fields.function(_amount_line, method=True, string='CST ICMS', type="char", size=3,
-                                              store=True, multi='all'),
-                'ipi_type': fields.function(_amount_line, method=True, string='Tipo do IPI', type="char", size=64,
-                                              store=True, multi='all'),
-                'ipi_base': fields.function(_amount_line, method=True, string='Base IPI', type="float",
-                                            digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'ipi_base_other': fields.function(_amount_line, method=True, string='Base IPI Outras', type="float",
-                                            digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'ipi_value': fields.function(_amount_line, method=True, string='Valor IPI', type="float",
-                                                  digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'ipi_percent': fields.function(_amount_line, method=True, string='Perc IPI', type="float",
-                                               digits_compute= dp.get_precision('Account'), store=True, multi='all'),
-                'ipi_cst': fields.function(_amount_line, method=True, string='CST IPI', type="char", size=2,
-                                           store=True, multi='all'),
-                'pis_type': fields.function(_amount_line,
-                                            method=True,
-                                            string='Tipo do PIS',
-                                            type="char",
-                                            size=64,
-                                            store=True,
-                                            multi='all'),
-                'pis_base': fields.function(_amount_line,
-                                            method=True,
-                                            string='Base PIS',
-                                            type="float",
-                                            digits_compute=dp.get_precision('Account'),
-                                            store=True,
-                                            multi='all'),
-                'pis_base_other': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Base PIS Outras',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'pis_value': fields.function(_amount_line,
-                                             method=True,
-                                             string='Valor PIS',
-                                             type="float",
-                                             digits_compute=dp.get_precision('Account'),
-                                             store=True,
-                                             multi='all'),
-                'pis_percent': fields.function(_amount_line,
-                                               method=True,
-                                               string='Perc PIS',
-                                               type="float",
-                                               digits_compute=dp.get_precision('Account'),
-                                               store=True,
-                                               multi='all'),
-                'pis_cst': fields.function(_amount_line,
-                                           method=True,
-                                           string='CST PIS',
-                                           type="char",
-                                           size=2,
-                                           store=True,
-                                           multi='all'),
-                'pis_st_type': fields.function(_amount_line,
-                                               method=True,
-                                               string='Calculo PIS ST',
-                                               type="char",
-                                               size=64,
-                                               store=True,
-                                               multi='all'),
-                'pis_st_base': fields.function(_amount_line,
-                                               method=True,
-                                               string='Base PIS ST',
-                                               type="float",
-                                               digits_compute=dp.get_precision('Account'),
-                                               store=True,
-                                               multi='all'),
-                'pis_st_percent': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Perc PIS ST',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'pis_st_value': fields.function(_amount_line,
-                                                method=True,
-                                                string='Valor PIS ST',
-                                                type="float",
-                                                digits_compute=dp.get_precision('Account'),
-                                                store=True,
-                                                multi='all'),
-                'cofins_type': fields.function(_amount_line, 
-                                               method=True, 
-                                               string='Tipo do COFINS', 
-                                               type="char", 
-                                               size=64,
-                                               store=True, 
-                                               multi='all'),
-                'cofins_base': fields.function(_amount_line,
-                                               method=True,
-                                               string='Base COFINS',
-                                               type="float",
-                                               digits_compute=dp.get_precision('Account'),
-                                               store=True, multi='all'),
-                'cofins_base_other': fields.function(_amount_line,
-                                                     method=True,
-                                                     string='Base COFINS Outras',
-                                                     type="float",
-                                                     digits_compute=dp.get_precision('Account'),
-                                                     store=True,
-                                                     multi='all'),
-                'cofins_value': fields.function(_amount_line,
-                                                method=True,
-                                                string='Valor COFINS',
-                                                type="float",
-                                                digits_compute=dp.get_precision('Account'),
-                                                store=True,
-                                                multi='all'),
-                'cofins_percent': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Perc COFINS',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True, multi='all'),
-                'cofins_cst': fields.function(_amount_line,
-                                              method=True,
-                                              string='Valor COFINS',
-                                              type="char",
-                                              size=2,
-                                              store=True,
-                                              multi='all'),
-                'cofins_st_type': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Calculo COFINS ST',
-                                                  type="char",
-                                                  size=64,
-                                                  store=True,
-                                                  multi='all'),
-                'cofins_st_base': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Base COFINS ST',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'cofins_st_percent': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Perc COFINS ST',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'cofins_st_value': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Valor COFINS ST',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'ii_base': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Base II',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'ii_value': fields.function(_amount_line,
-                                                  method=True,
-                                                  string='Valor II',
-                                                  type="float",
-                                                  digits_compute=dp.get_precision('Account'),
-                                                  store=True,
-                                                  multi='all'),
-                'ii_iof': fields.float('Valor IOF', required=True,
-                                       digits_compute= dp.get_precision('Account')),
-                'ii_customhouse_charges': fields.float('Depesas Atuaneiras', 
-                                                       required=True,
-                                                       digits_compute=dp.get_precision('Account')),
-                }
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria'),
+        'fiscal_position_id': fields.many2one(
+            'account.fiscal.position', u'Posição Fiscal',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
+        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
+        'price_subtotal': fields.function(
+            _amount_line, method=True, string='Subtotal', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'price_total': fields.function(
+            _amount_line, method=True, string='Total', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_base_type': fields.function(
+            _amount_line, method=True, string='Tipo Base ICMS', type="char",
+            size=64, store=True, multi='all'),
+        'icms_base': fields.function(
+            _amount_line, method=True, string='Base ICMS', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_base_other': fields.function(
+            _amount_line, method=True, string='Base ICMS Outras', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_value': fields.function(
+            _amount_line, method=True, string='Valor ICMS', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_percent': fields.function(
+            _amount_line, method=True, string='Perc ICMS', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_percent_reduction': fields.function(
+            _amount_line, method=True, string='Perc Redução de Base ICMS',
+            type="float", digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_base_type': fields.function(
+            _amount_line, method=True, string='Tipo Base ICMS ST', type="char",
+            size=64, store=True, multi='all'),
+        'icms_st_value': fields.function(
+            _amount_line, method=True, string='Valor ICMS ST', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_base': fields.function(
+            _amount_line, method=True, string='Base ICMS ST', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_percent': fields.function(
+            _amount_line, method=True, string='Percentual ICMS ST',
+            type="float", digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_percent_reduction': fields.function(
+            _amount_line, method=True, string='Perc Redução de Base ICMS ST',
+            type="float", digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_mva': fields.function(
+            _amount_line, method=True, string='MVA ICMS ST', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_st_base_other': fields.function(
+            _amount_line, method=True, string='Base ICMS ST Outras',
+            type="float", digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_cst': fields.function(
+            _amount_line, method=True, string='CST ICMS', type="char", size=3,
+            store=True, multi='all'),
+        'ipi_type': fields.function(
+            _amount_line, method=True, string='Tipo do IPI', type="char",
+            size=64, store=True, multi='all'),
+        'ipi_base': fields.function(
+            _amount_line, method=True, string='Base IPI', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ipi_base_other': fields.function(
+            _amount_line, method=True, string='Base IPI Outras', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ipi_value': fields.function(
+            _amount_line, method=True, string='Valor IPI', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ipi_percent': fields.function(
+            _amount_line, method=True, string='Perc IPI', type="float",
+            digits_compute= dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ipi_cst': fields.function(
+            _amount_line, method=True, string='CST IPI', type="char", size=2,
+            store=True, multi='all'),
+        'pis_type': fields.function(
+            _amount_line, method=True, string='Tipo do PIS',
+            type="char", size=64, store=True, multi='all'),
+        'pis_base': fields.function(
+            _amount_line, method=True, string='Base PIS', type="float",
+            digits_compute=dp.get_precision('Account'), store=True,
+            multi='all'),
+        'pis_base_other': fields.function(
+            _amount_line, method=True, string='Base PIS Outras',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'pis_value': fields.function(
+            _amount_line, method=True, string='Valor PIS', type="float",
+            digits_compute=dp.get_precision('Account'), store=True,
+            multi='all'),
+        'pis_percent': fields.function(
+            _amount_line, method=True, string='Perc PIS', type="float",
+            digits_compute=dp.get_precision('Account'), store=True,
+            multi='all'),
+        'pis_cst': fields.function(
+            _amount_line, method=True, string='CST PIS', type="char",
+            size=2, store=True, multi='all'),
+        'pis_st_type': fields.function(
+            _amount_line, method=True, string='Calculo PIS ST',
+            type="char", size=64, store=True, multi='all'),
+        'pis_st_base': fields.function(
+            _amount_line, method=True, string='Base PIS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'pis_st_percent': fields.function(
+            _amount_line, method=True, string='Perc PIS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'pis_st_value': fields.function(
+            _amount_line, method=True, string='Valor PIS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_type': fields.function(
+            _amount_line, method=True, string='Tipo do COFINS',
+            type="char", size=64, store=True, multi='all'),
+        'cofins_base': fields.function(
+            _amount_line, method=True, string='Base COFINS',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_base_other': fields.function(
+            _amount_line, method=True, string='Base COFINS Outras',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_value': fields.function(
+            _amount_line, method=True, string='Valor COFINS',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_percent': fields.function(
+            _amount_line, method=True, string='Perc COFINS',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_cst': fields.function(
+            _amount_line, method=True, string='Valor COFINS',
+            type="char", size=2, store=True, multi='all'),
+        'cofins_st_type': fields.function(
+            _amount_line, method=True, string='Calculo COFINS ST',
+            type="char", size=64, store=True, multi='all'),
+        'cofins_st_base': fields.function(
+            _amount_line, method=True, string='Base COFINS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'cofins_st_percent': fields.function(
+            _amount_line, method=True, string='Perc COFINS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True,  multi='all'),
+        'cofins_st_value': fields.function(
+            _amount_line, method=True, string='Valor COFINS ST',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ii_base': fields.function(
+            _amount_line, method=True, string='Base II',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ii_value': fields.function(
+            _amount_line, method=True, string='Valor II',
+            type="float", digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'ii_iof': fields.float(
+            'Valor IOF', required=True,
+            digits_compute= dp.get_precision('Account')),
+        'ii_customhouse_charges': fields.float(
+            'Depesas Atuaneiras', required=True,
+            digits_compute=dp.get_precision('Account'))}
+    
     _defaults = {
-                 'ii_iof': 0.0,
-                 'ii_customhouse_charges': 0.0,
-                 }
+         'ii_iof': 0.0,
+         'ii_customhouse_charges': 0.0}
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_category_id):
         result = {'cfop_id': False}
@@ -1028,30 +999,34 @@ class account_invoice_line(osv.osv):
             result['cfop_id'] = obj_fp.cfop_id.id
         return result
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', 
-                          type='out_invoice', partner_id=False, fposition_id=False, 
+    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
+                          type='out_invoice', partner_id=False, fposition_id=False,
                           price_unit=False, address_invoice_id=False, currency_id=False, 
-                          context=None, company_id=False, fiscal_category_id=False):
-        result = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, 
-                                                                     type, partner_id, fposition_id, price_unit, 
-                                                                     address_invoice_id, currency_id, context, company_id)
-        if not fiscal_category_id or not product:
+                          context=None, company_id=False, fiscal_category_id=False, parent_fposition_id=False):
+        result = super(account_invoice_line, self).product_id_change(
+            cr, uid, ids, product, uom, qty, name, type, partner_id,
+            fposition_id, price_unit, address_invoice_id, currency_id,
+            context, company_id)
+        
+        if not fiscal_category_id or not product or not parent_fposition_id:
             return result
 
-        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
-        product_fiscal_category_id = obj_fiscal_position_rule.product_fiscal_category_map(cr, uid, product, fiscal_category_id)
+        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
+            cr, uid, product, fiscal_category_id)
+
+        fiscal_position = fposition_id or parent_fposition_id or False
 
         if not product_fiscal_category_id:
             result['value']['fiscal_category_id'] = fiscal_category_id
-            if fposition_id:
-                result['value']['fiscal_position_id'] = fposition_id
-                result['value']['cfop_id'] = self.pool.get('account.fiscal.position').read(cr, uid, [fposition_id], ['cfop_id'])[0]['cfop_id']
-            return result
+            result['value']['fiscal_position_id'] = fiscal_position
+            if fiscal_position:
+                result['value']['cfop_id'] = self.pool.get('account.fiscal.position').read(cr, uid, [fiscal_position], ['cfop_id'])[0]['cfop_id']
+        else:
+            result['value']['fiscal_category_id'] = product_fiscal_category_id
+            fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, product_fiscal_category_id)
+            result['value'].update(fiscal_data)
 
-        result['value']['fiscal_category_id'] = product_fiscal_category_id
-
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, product_fiscal_category_id)
-        result['value'].update(fiscal_data)
         return result
 
 account_invoice_line()
