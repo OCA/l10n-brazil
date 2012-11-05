@@ -23,9 +23,11 @@ FISCAL_POSITION_COLUMNS = {
     'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
     'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
                                           'Categoria Fiscal'),
-    'fiscal_category_type': fields.related(
-        'fiscal_category_id', 'type', type='char', readonly=True,
-        relation='l10n_br_account.fiscal.category', store=True, string='Type'),
+    'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
+                             'Tipo', required=True),
+    'type_tax_use': fields.selection([('sale','Sale'),
+                                      ('purchase','Purchase'),
+                                      ('all','All')], 'Tax Application'),
     'fiscal_category_fiscal_type': fields.related(
         'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
         relation='l10n_br_account.fiscal.category', store=True,
@@ -42,16 +44,37 @@ FISCAL_POSITION_COLUMNS = {
 class account_fiscal_position_template(osv.osv):
     _inherit = 'account.fiscal.position.template'
     _columns = FISCAL_POSITION_COLUMNS
+    
+    def onchange_type(self, cr, uid, ids, type=False, context=None):
+        type_tax = {'input': 'purhcase', 'output': 'sale'}
+        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 'tax_ids': False}}
+
+    def onchange_fiscal_category_id(self, cr, uid, ids, fiscal_category_id=False, context=None):
+        fiscal_category_fiscal_type = False
+        if fiscal_category_id:
+             fiscal_category_fiscal_type = self.pool.get(
+                'l10n_br_account.fiscal.category').read(
+                    cr, uid, fiscal_category_id, ['fiscal_type'],
+                    context=context)['fiscal_type']
+        return {'value': {'fiscal_category_fiscal_type':  fiscal_category_fiscal_type}}
 
 account_fiscal_position_template()
 
 
 class account_fiscal_position_tax_template(osv.osv):
     _inherit = 'account.fiscal.position.tax.template'
-
     _columns = {
+        'tax_src_domain': fields.related('tax_src_id', 'domain',
+                                         type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code.template',
-                                            'Replacement Tax')}
+                                            'Replacement Tax Code')}
+
+    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False, context=None):
+        tax_domain = False
+        if tax_src_id:
+            tax_domain = self.pool.get('account.tax.template').read(
+                cr, uid, tax_src_id, ['domain'], context=context)['domain']
+        return {'value': {'tax_src_domain': tax_domain}}
 
 account_fiscal_position_tax_template()
 
@@ -59,6 +82,19 @@ account_fiscal_position_tax_template()
 class account_fiscal_position(osv.osv):
     _inherit = 'account.fiscal.position'
     _columns = FISCAL_POSITION_COLUMNS
+    
+    def onchange_type(self, cr, uid, ids, type=False, context=None):
+        type_tax = {'input': 'purchase', 'output': 'sale'}
+        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 'tax_ids': False}}
+    
+    def onchange_fiscal_category_id(self, cr, uid, ids, fiscal_category_id=False, context=None):
+        fiscal_category_fiscal_type = False
+        if fiscal_category_id:
+             fiscal_category_fiscal_type = self.pool.get(
+                'l10n_br_account.fiscal.category').read(
+                    cr, uid, fiscal_category_id, ['fiscal_type'],
+                    context=context)['fiscal_type']
+        return {'value': {'fiscal_category_fiscal_type':  fiscal_category_fiscal_type}}
 
 account_fiscal_position()
 
@@ -66,8 +102,17 @@ account_fiscal_position()
 class account_fiscal_position_tax(osv.osv):
     _inherit = 'account.fiscal.position.tax'
     _columns = {
+        'tax_src_domain': fields.related('tax_src_id', 'domain',
+                                         type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code',
-                                            'Replacement Tax')}
+                                            'Replacement Tax Code')}
+
+    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False, context=None):
+        tax_domain = False
+        if tax_src_id:
+            tax_domain = self.pool.get('account.tax').read(
+                cr, uid, tax_src_id, ['domain'], context=context)['domain']
+        return {'value': {'tax_src_domain': tax_domain}}
 
 account_fiscal_position_tax()
 
