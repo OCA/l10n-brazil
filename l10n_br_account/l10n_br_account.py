@@ -133,13 +133,16 @@ class l10n_br_account_fiscal_category(osv.osv):
         'fiscal_type': fields.selection([('product', 'Produto'),
                                          ('service', 'Serviço')],
                                         'Tipo Fiscal', requeried=True),
-        'use_sale': fields.boolean('Usado em Vendas'),
-        'use_invoice': fields.boolean('Usado nas Notas Fiscais'),
-        'use_purchase': fields.boolean('Usado nas Compras'),
-        'use_picking': fields.boolean('Usado nas Listas de Separações')}
+        'journal_type': fields.selection(
+            [('sale', 'Venda'),
+             ('sale_refund','Devolução de Venda'),
+             ('purchase', 'Compras'),
+             ('purchase_refund','Devolução de Compras')], 'Tipo do Diário',
+            size=32, required=True)}
     _defaults = {
         'type': 'output',
-        'fiscal_type': 'product'}
+        'fiscal_type': 'product',
+        'journal_type': 'sale'}
 
 l10n_br_account_fiscal_category()
 
