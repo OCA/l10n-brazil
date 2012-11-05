@@ -391,7 +391,7 @@
 					<form string="Invoice Line">
 						<notebook>
 							<page string="General">
-								<field name="product_id" domain="[('fiscal_type','=','product')]" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, context, parent.company_id, parent.fiscal_category_id)" />
+								<field name="product_id" domain="[('fiscal_type','=','product')]" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position_id, price_unit, parent.address_invoice_id, parent.currency_id, context, parent.company_id, parent.fiscal_category_id, parent.fiscal_position)" />
 								<field colspan="2" name="name" />
 								<label string="Quantity :" align="1.0" />
 								<group colspan="1" col="2">
@@ -402,8 +402,9 @@
 								<field domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)" />
 								<field name="discount" groups="base.group_extended" />
 								<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id), ('parent_id', '!=', False)]" name="account_analytic_id" groups="analytic.group_analytic_accounting" />
-								<field name="company_id" groups="base.group_multi_company" readonly="1" />
-								<field name="fiscal_category_id" domain="[('journal_type', '=', 'sale')]" />
+								<field name="company_id" groups="base.group_multi_company" readonly="1"/>
+								<field name="fiscal_category_id" domain="[('journal_type', '=', 'sale')]"/>
+								<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
 								<field colspan="4" name="cfop_id" />
 								<field name="price_total" />
 								<separator string="Notes" colspan="4" />
