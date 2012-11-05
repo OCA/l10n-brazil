@@ -95,14 +95,9 @@
 						<field name="type" select="1"/>
 						<field name="fiscal_type" select="1"/>
 						<newline/>
-						<separator colspan="4" string="Utilização"/>
-						<field name="use_sale"/>
-						<field name="use_invoice"/>
-						<field name="use_purchase"/>
-						<field name="use_picking"/>
-						<newline/>
 						<separator colspan="4" string="Diário Contábil"/>
-						<field colspan="4" required="1" name="property_journal" nolabel="1" />
+						<field name="journal_type" select="1"/>
+						<field required="1" name="property_journal" domain="[('type', '=', journal_type)]" />
 					</form>
 				</field>
 			</record>
