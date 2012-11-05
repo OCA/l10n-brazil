@@ -12,7 +12,7 @@
 	            	<form string="Fiscal Position">
 	                    <group colspan="4" col="6">
 	                        <field name="name" select="1"/>
-	                        <field name="type" on_change="onchange_type(type, context)"/>
+	                        <field name="type" required="1" on_change="onchange_type(type, context)"/>
 	                        <field name="type_tax_use" invisible="1"/>
 	                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
 	                        <field name="active" groups="base.group_extended"/>
@@ -23,24 +23,25 @@
                         		<separator string="Mapping" colspan="4"/>
 								<field name="tax_ids" colspan="4" widget="one2many_list" nolabel="1">
 								    <tree string="Tax Mapping" editable="bottom">
-								        <field name="tax_src_id" domain="[('parent_id', '=', False), ('type_tax_use', '=', parent.type_tax_use)]" on_change="onchange_tax_src_id(tax_src_id)"/>
-								        <field name="tax_dest_id" domain="[('parent_id','=',False), ('type_tax_use', '=', parent.type_tax_use), ('domain', '=', tax_src_domain)]" />
+								        <field name="tax_src_id" domain="[('parent_id', '=', False), ('type_tax_use', 'in', (parent.type_tax_use, 'all'))]" on_change="onchange_tax_src_id(tax_src_id)"/>
+								        <field name="tax_dest_id" domain="[('parent_id','=',False), ('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
 								        <field invisible="1" name="tax_src_domain" />
 								        <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
 								    </tree>
 								    <form string="Tax Mapping">
-								        <field name="tax_src_id" domain="[('parent_id', '=', False), ('type_tax_use', '=', parent.type_tax_use)]" on_change="onchange_tax_src_id(tax_src_id)"/>
-								        <field name="tax_dest_id" domain="[('parent_id','=',False), ('type_tax_use', '=', parent.type_tax_use), ('domain', '=', tax_src_domain)]" />
+								        <field name="tax_src_id" domain="[('parent_id', '=', False), ('type_tax_use', 'in', (parent.type_tax_use, 'all'))]" on_change="onchange_tax_src_id(tax_src_id)"/>
+								        <field name="tax_dest_id" domain="[('parent_id','=',False), ('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
 								        <field invisible="1" name="tax_src_domain" />
-								        <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
+								        <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain), ('type', '=', parent.type)]"/>
 								    </form>
 								</field>
 							</page>
 							<page string="Fiscal">
 								<group colspan="4" col="4">
-									<field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id)"/>
+									<field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
+									<field name="fiscal_category_journal_type"/>
 									<field invisible="1" name="fiscal_category_fiscal_type"/>
-									<field name="refund_fiscal_category_id" domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_category_fiscal_type)]"/>
+									<field name="refund_fiscal_category_id" domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_category_fiscal_type), ('journal_type', 'like', fiscal_category_journal_type)]"/>
 									<field name="cfop_id" colspan="4"/>
 			                    </group>
 			                    <separator string="Notes" colspan="4"/>
