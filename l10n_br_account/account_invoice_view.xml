@@ -296,7 +296,7 @@
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('use_invoice','=',True)]" required="1" />
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','=','sale')]" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
@@ -403,7 +403,7 @@
 								<field name="discount" groups="base.group_extended" />
 								<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id), ('parent_id', '!=', False)]" name="account_analytic_id" groups="analytic.group_analytic_accounting" />
 								<field name="company_id" groups="base.group_multi_company" readonly="1" />
-								<field name="fiscal_category_id" />
+								<field name="fiscal_category_id" domain="[('journal_type', '=', 'sale')]" />
 								<field colspan="4" name="cfop_id" />
 								<field name="price_total" />
 								<separator string="Notes" colspan="4" />
