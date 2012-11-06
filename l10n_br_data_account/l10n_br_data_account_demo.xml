@@ -26,6 +26,8 @@
 			<field name="currency_id" ref="base.BRL"/>
 			<field name="fiscal_type">3</field>
 			<field name="cnae_main_id" ref="l10n_br_data_account.l10n_br_cnae_1760" />
+			<field name="product_invoice_id" ref="fiscal_document_55"/>
+			<field name="service_invoice_id" ref="fiscal_document_55"/>
         	<field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
 			<field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]" />
 		</record>
