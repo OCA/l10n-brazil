@@ -71,7 +71,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('use_invoice','=',True),('fiscal_type','=','product')]" required="1" />
-					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
 		</record>
@@ -139,7 +139,7 @@
 									<field colspan="4" name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
-									<field name="fiscal_document_id" />
+									<field name="fiscal_document_id" required="1" />
 								</group>
 							</page>
 							<page string="CFOP">
@@ -158,6 +158,7 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<field position="replace" name="currency_id">
+					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 				</field>
 				<button position="replace" name="%(account.action_account_change_currency)d">
@@ -262,10 +263,7 @@
 									<field colspan="4" name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
-									<field name="fiscal_document_id" />
-									<!-- <field name="document_serie_id" domain="[('fiscal_type','=','product')]" 
-										attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', 
-										'=', True)]}" /> -->
+									<field name="fiscal_document_id" required="1"/>
 								</group>
 							</page>
 							<page string="CFOP">
@@ -309,7 +307,7 @@
 			<field name="arch" type="xml">
 				<field position="after" name="move_id">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(address_invoice_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','=','sale')]" required="1" />
-					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 			</field>
 		</record>
@@ -415,8 +413,8 @@
 								<field name="discount" groups="base.group_extended" />
 								<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id), ('parent_id', '!=', False)]" name="account_analytic_id" groups="analytic.group_analytic_accounting" />
 								<field name="company_id" groups="base.group_multi_company" readonly="1"/>
-								<field name="fiscal_category_id" domain="[('journal_type', '=', 'sale')]"/>
-								<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+								<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]"/>
+								<field name="fiscal_position_id" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
 								<field colspan="4" name="cfop_id" />
 								<field name="price_total" />
 								<separator string="Notes" colspan="4" />
