@@ -76,6 +76,18 @@
 			</field>
 		</record>
 
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form3">
+			<field name="name">l10n_br_account.invoice.form3</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account_fiscal_position_rule.view_fiscal_position_rule_form2" />
+			<field name="priority">15</field>
+			<field name="arch" type="xml">
+				<field name="address_invoice_id" position="replace">
+					<field domain="[('partner_id','=',partner_id)]" name="address_invoice_id" on_change="onchange_address_invoice_id(company_id, partner_id, address_invoice_id, fiscal_category_id, context)" context="{'default_partner_id': partner_id}" options='{"quick_create": false}'/>
+				</field>
+			</field>
+		</record>
+
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form5">
 			<field name="name">l10n_br_account.invoice.form5</field>
 			<field name="model">account.invoice</field>
