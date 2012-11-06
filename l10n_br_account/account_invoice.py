@@ -69,12 +69,12 @@ class account_invoice(osv.osv):
 
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
         return res
-    
+
     def _get_fiscal_type(self, cr, uid, context=None):
         if context is None:
             context = {}
         return context.get('fiscal_type', 'product')
-    
+
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(account_invoice,self).fields_view_get(
@@ -210,16 +210,32 @@ class account_invoice(osv.osv):
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'partner_shipping_id': fields.many2one('res.partner.address', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
-        'own_invoice': fields.boolean('Nota Fiscal Própria',readonly=True, states={'draft':[('readonly',False)]}),
-        'internal_number': fields.char('Invoice Number', size=32, readonly=True , states={'draft':[('readonly',False)]}, help="Unique number of the invoice, computed automatically when the invoice is created."),
-        'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True, states={'draft':[('readonly',False)]}, help="Série do número da Nota Fiscal do Fornecedor"),
+        'own_invoice': fields.boolean('Nota Fiscal Própria', readonly=True,
+                                      states={'draft':[('readonly',False)]}),
+        'internal_number': fields.char('Invoice Number', size=32,
+                                       readonly=True,
+                                       states={'draft':[('readonly',False)]},
+                                       help="Unique number of the invoice, \
+                                       computed automatically when the \
+                                       invoice is created."),
+        'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True,
+                                    states={'draft':[('readonly',False)]},
+                                    help="Série do número da Nota Fiscal do \
+                                    Fornecedor"),
         'nfe_access_key': fields.char('Chave de Acesso NFE', size=44, readonly=True, states={'draft':[('readonly',False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
-        'fiscal_document_id': fields.many2one('l10n_br_account.fiscal.document', 'Documento',  readonly=True, states={'draft':[('readonly',False)]}),
-        'fiscal_document_electronic': fields.related('fiscal_document_id', 'electronic', type='boolean', readonly=True, relation='l10n_br_account.fiscal.document', store=True, string='Electronic'),
-        'fiscal_type': fields.selection([('product', 'Produto'), ('service', 'Serviço')], 'Tipo Fiscal', requeried=True),
+        'fiscal_document_id': fields.many2one(
+            'l10n_br_account.fiscal.document', 'Documento',  readonly=True,
+            states={'draft':[('readonly',False)]}),
+        'fiscal_document_electronic': fields.related(
+            'fiscal_document_id', 'electronic', type='boolean', readonly=True,
+            relation='l10n_br_account.fiscal.document', store=True,
+            string='Electronic'),
+        'fiscal_type': fields.selection([('product', 'Produto'),
+                                         ('service', 'Serviço')],
+                                        'Tipo Fiscal', requeried=True),
         'move_line_receivable_id': fields.function(_get_receivable_lines, method=True, type='many2many', relation='account.move.line', string='Entry Lines'),
         'document_serie_id': fields.many2one('l10n_br_account.document.serie', 'Série', domain="[('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]", readonly=True, states={'draft':[('readonly',False)]}),
         'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category', 'Categoria', readonly=True, states={'draft':[('readonly',False)]}),
@@ -328,27 +344,71 @@ class account_invoice(osv.osv):
     }
     
     def _default_fiscal_category(self, cr, uid, context=None):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        default_fo_category_product = {'in_invoice': 'in_invoice_fiscal_category_id', 
-                                       'out_invoice': 'out_invoice_fiscal_category_id',
-                                       'in_refund': 'in_refund_fiscal_category_id', 
-                                       'out_refund': 'out_refund_fiscal_category_id'}
-        default_fo_category_service = {'in_invoice': 'in_invoice_service_fiscal_category_id', 
-                                       'out_invoice': 'out_invoice_service_fiscal_category_id'}
+        
+        DEFAULT_FCATEGORY_PRODUCT = {
+            'in_invoice': 'in_invoice_fiscal_category_id', 
+            'out_invoice': 'out_invoice_fiscal_category_id',
+            'in_refund': 'in_refund_fiscal_category_id', 
+            'out_refund': 'out_refund_fiscal_category_id'}
+        
+        DEFAULT_FCATEGORY_SERVICE = {
+            'in_invoice': 'in_invoice_service_fiscal_category_id', 
+            'out_invoice': 'out_invoice_service_fiscal_category_id'}
+        
         default_fo_category = {
-                               'product': default_fo_category_product, 
-                               'service': default_fo_category_service,
-                               }
+           'product': DEFAULT_FCATEGORY_PRODUCT, 
+           'service': DEFAULT_FCATEGORY_SERVICE}
+        
         invoice_type = context.get('type', 'out_invoice')
         invoice_fiscal_type = context.get('fiscal_type', 'product')
-        fo_category = self.pool.get('res.company').read(cr, uid, user.company_id.id, [default_fo_category[invoice_fiscal_type][invoice_type]], context=context)[default_fo_category[invoice_fiscal_type][invoice_type]]
-        return fo_category and fo_category[0] or False
+        
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        fcategory = self.pool.get('res.company').read(
+            cr, uid, user.company_id.id,
+            [default_fo_category[invoice_fiscal_type][invoice_type]],
+            context=context)[default_fo_category[invoice_fiscal_type][
+                invoice_type]]
+
+        return fcategory and fcategory[0] or False
+
+    def _default_fiscal_document(self, cr, uid, context):
+        
+        invoice_fiscal_type = context.get('fiscal_type', 'product')
+        fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
+        
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        fiscal_document = self.pool.get('res.company').read(
+            cr, uid, user.company_id.id, [fiscal_invoice_id],
+            context=context)[fiscal_invoice_id]
+        
+        return fiscal_document and fiscal_document[0] or False
     
+    def _default_fiscal_document_serie(self, cr, uid, context):
+
+        invoice_fiscal_type = context.get('fiscal_type', 'product')
+        fiscal_document_serie = False
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+
+        if invoice_fiscal_type == 'product':
+            fiscal_document_serie = [doc_serie for doc_serie in \
+                                     company.document_serie_product_ids if \
+                                     doc_serie.fiscal_document_id.id == \
+                                     company.product_invoice_id.id and \
+                                     doc_serie.active][0].id
+        else:
+            fiscal_document_serie = company.document_serie_service_id and \
+            company.document_serie_service_id.id or False
+
+        return fiscal_document_serie
+
     _defaults = {
-                 'own_invoice': True,
-                 'fiscal_type': _get_fiscal_type,
-                 'fiscal_category_id': _default_fiscal_category,
-                 }
+        'own_invoice': True,
+        'fiscal_type': _get_fiscal_type,
+        'fiscal_category_id': _default_fiscal_category,
+        'fiscal_document_id': _default_fiscal_document,
+        'document_serie_id': _default_fiscal_document_serie}
 
     def _check_invoice_number(self, cr, uid, ids, context=None):
         if context is None:
@@ -474,61 +534,60 @@ class account_invoice(osv.osv):
         result = txt.validate(cr, uid, ids, context)
         return result
 
-    def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_category_id):
-        result = {'fiscal_document_id': False, 
-                  'document_serie_id': False,
-                  'journal_id': False,}
-        
+    def _fiscal_position_map(self, cr, uid, ids, partner_id,
+                             partner_invoice_id, company_id,
+                             fiscal_category_id):
+        result = {'journal_id': False}
+
         if not fiscal_category_id:
             return result
-        
+
+        obj_company = self.pool.get('res.company').browse(cr, uid, company_id)
+        obj_fcategory = self.pool.get('l10n_br_account.fiscal.category')
+
+        fcategory = obj_fcategory.browse(cr, uid, fiscal_category_id)
+        result['journal_id'] = fcategory.property_journal and \
+        fcategory.property_journal.id or False
+        if not result.get('journal_id', False):
+            raise osv.except_osv(
+                _('Nenhuma Diário !'),
+                _("Categoria fisca: '%s', não tem um diário contábil para a \
+                empresa %s") % (fcategory.name, obj_company.name))
+
         obj_rule = self.pool.get('account.fiscal.position.rule')
-
-        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_category_id, context={'use_domain': ('use_invoice', '=', True)})   
+        fiscal_result = obj_rule.fiscal_position_map(
+            cr, uid, partner_id, partner_invoice_id, company_id,
+            fiscal_category_id, context={
+                'use_domain': ('use_invoice', '=',True)})
+        
         result.update(fiscal_result)
-
-        # FIXME - DOCUMENTO FISCAL DEVE VIR DA EMPRESA E DEVE TER NA EMPRESA UMA FUNÇÃO PARA PEGAR AUTOMATICAMENTE O DOCUMENTO
-        if result.get('fiscal_operation_id', False):
-            #obj_foperation = self.pool.get('l10n_br_account.fiscal.operation').browse(cr, uid, result['fiscal_operation_id'])
-            #result['fiscal_document_id'] = obj_foperation.fiscal_document_id.id
-
-            obj_company = self.pool.get('res.company').browse(cr, uid, company_id)
-            document_serie_id = [doc_serie for doc_serie in obj_company.document_serie_product_ids if doc_serie.fiscal_document_id.id == obj_foperation.fiscal_document_id.id and doc_serie.active]
-            if not document_serie_id:
-                raise osv.except_osv(_('Nenhuma série de documento fiscal !'),_("Empresa não tem uma série de documento fiscal cadastrada: '%s', você deve informar uma série no cadastro de empresas") % (obj_company.name,))
-            else:
-                result['document_serie_id'] = document_serie_id[0].id
-            for inv in self.browse(cr, uid, ids):
-                for line in inv.invoice_line:
-                    line.cfop_id = obj_foperation.cfop_id.id
-            
-            fo_category = obj_fo_category.browse(cr, uid, fiscal_category_id)
-            journal_id = fo_category and fo_category.property_journal or False
-            if not journal_id:
-                raise osv.except_osv(_('Nenhuma Diário !'),_("Categoria de operação fisca: '%s', não tem um diário contábil para a empresa %s") % (fo_category.name, obj_company.name))
-
-            result['journal_id'] = journal_id.id
-            
         return result
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
                             date_invoice=False, payment_term=False,
                             partner_bank_id=False, company_id=False,
                             fiscal_category_id=False):
-        result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
+
+        result = super(account_invoice, self).onchange_partner_id(
+            cr, uid, ids, type, partner_id, date_invoice, payment_term,
+            partner_bank_id, company_id)
+
         partner_invoice_id = result['value'].get('address_invoice_id', False)
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_category_id)
+        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id,
+                                                partner_invoice_id, company_id,
+                                                fiscal_category_id)
+
         result['value'].update(fiscal_data)
         return result
-    
+
     def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type,
                             invoice_line, currency_id, address_invoice_id,
                             fiscal_category_id=False):
-        
+
         result = super(account_invoice, self).onchange_company_id(
             cr, uid, ids, company_id, partner_id, type, invoice_line,
             currency_id, address_invoice_id)
-        
+
         fiscal_data = self._fiscal_position_map(
             cr, uid, ids, partner_id, address_invoice_id, company_id,
             fiscal_category_id)
@@ -538,18 +597,28 @@ class account_invoice(osv.osv):
 
     def onchange_address_invoice_id(self, cr, uid, ids, company_id,
                                     partner_id, address_invoice_id,
-                                    fiscal_category_id=False):
+                                    fiscal_category_id=False, context=False):
 
-        result = super(account_invoice, self).onchange_address_invoice_id(cr,uid,ids,company_id,partner_id,address_invoice_id)
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, fiscal_category_id)
-        result['value'].update(fiscal_data)
-        return result  
-
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_address_id=False, partner_id=False, company_id=False, fiscal_category_id=False):
-        result = {'value': {} }
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, partner_address_id, company_id, fiscal_category_id)
+        result = super(account_invoice, self).onchange_address_invoice_id(
+            cr,uid,ids,company_id,partner_id,address_invoice_id)
+        
+        fiscal_data = self._fiscal_position_map(
+            cr, uid, ids, partner_id, address_invoice_id, company_id,
+            fiscal_category_id)
+        
         result['value'].update(fiscal_data)
         return result
+
+    def onchange_fiscal_category_id(self, cr, uid, ids, 
+                                    partner_address_id=False,
+                                    partner_id=False, company_id=False,
+                                    fiscal_category_id=False):
+        result = {'value': {}}
+        fiscal_data = self._fiscal_position_map(
+            cr, uid, ids, partner_id, partner_address_id, company_id,
+            fiscal_category_id)
+        
+        return result['value'].update(fiscal_data)
 
 account_invoice()
 
