@@ -663,7 +663,8 @@ class account_invoice_line(osv.osv):
 
                 cfops = eview.xpath("//field[@name='cfop_id']")
                 for cfop_id in cfops:
-                    cfop_id.set('domain', "[('type','=','%s')]" % (OPERATION_TYPE[context['type']],))
+                    cfop_id.set('domain', "[('type','=','%s')]" % (
+                        OPERATION_TYPE[context['type']],))
                     cfop_id.set('required', '1')
             
             if context.get('fiscal_type', False) == 'service':
@@ -1058,7 +1059,8 @@ class account_invoice_line(osv.osv):
          'ii_iof': 0.0,
          'ii_customhouse_charges': 0.0}
 
-    def _fiscal_position_map(self, cr, uid, ids, partner_id, partner_invoice_id, company_id, fiscal_category_id):
+    def _fiscal_position_map(self, cr, uid, ids, partner_id,
+                             partner_invoice_id, company_id, fiscal_category_id):
         result = {'cfop_id': False}
         obj_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_category_id, context={'use_domain': ('use_invoice','=',True)})
