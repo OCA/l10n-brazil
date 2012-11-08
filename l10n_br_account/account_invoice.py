@@ -1,21 +1,21 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2009  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 from lxml import etree
 import time
@@ -392,11 +392,13 @@ class account_invoice(osv.osv):
             cr, uid, user.company_id.id, context=context)
 
         if invoice_fiscal_type == 'product':
-            fiscal_document_serie = [doc_serie for doc_serie in \
+            fiscal_document_series = [doc_serie for doc_serie in \
                                      company.document_serie_product_ids if \
                                      doc_serie.fiscal_document_id.id == \
                                      company.product_invoice_id.id and \
-                                     doc_serie.active][0].id
+                                     doc_serie.active]
+            if fiscal_document_series:
+                fiscal_document_serie = fiscal_document_series[0].id
         else:
             fiscal_document_serie = company.document_serie_service_id and \
             company.document_serie_service_id.id or False
@@ -673,6 +675,11 @@ class account_invoice_line(osv.osv):
                 for cfop_id in cfops:
                     cfop_id.set('invisible', '1')
                     cfop_id.set('required', '0')
+            
+            product_ids = eview.xpath("//field[@name='product_id']")
+            for product_id in product_ids:
+                product_id.set('domain', "[('fiscal_type', '=', '%s')]" % (
+                    context.get('fiscal_type', 'product'))) 
         
             result['arch'] = etree.tostring(eview)
         
@@ -819,7 +826,7 @@ class account_invoice_line(osv.osv):
             }
 
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position_id)
+            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
 
             icms_cst = '99'
             ipi_cst = '99'
@@ -879,7 +886,7 @@ class account_invoice_line(osv.osv):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria'),
-        'fiscal_position_id': fields.many2one(
+        'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]"),
         'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
@@ -1054,31 +1061,53 @@ class account_invoice_line(osv.osv):
         'ii_customhouse_charges': fields.float(
             'Depesas Atuaneiras', required=True,
             digits_compute=dp.get_precision('Account'))}
-    
+
     _defaults = {
          'ii_iof': 0.0,
          'ii_customhouse_charges': 0.0}
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id,
-                             partner_invoice_id, company_id, fiscal_category_id):
+                             partner_invoice_id, company_id,
+                             fiscal_category_id, product_id=False, 
+                             account_id=False, context=False):
         result = {'cfop_id': False}
         obj_rule = self.pool.get('account.fiscal.position.rule')
-        fiscal_result = obj_rule.fiscal_position_map(cr, uid, partner_id, partner_invoice_id, company_id, fiscal_category_id, context={'use_domain': ('use_invoice','=',True)})
+        fiscal_result = obj_rule.fiscal_position_map(
+            cr, uid, partner_id, partner_invoice_id, company_id,
+            fiscal_category_id, 
+            context={'use_domain': ('use_invoice', '=', True)})
         result.update(fiscal_result)
         if result.get('fiscal_position', False):
-            obj_fp = self.pool.get('account.fiscal.position').browse(cr, uid, result['fiscal_position'])
-            result['cfop_id'] = obj_fp.cfop_id.id
+            obj_fposition = self.pool.get('account.fiscal.position').browse(
+                cr, uid, result['fiscal_position'])
+            result['cfop_id'] = obj_fposition.cfop_id.id
+            if product_id:
+                obj_product = self.pool.get('product.product').browse(
+                cr, uid, product_id, context=context)
+                if context.get('type') in ('out_invoice', 'out_refund'):
+                    taxes = obj_product.taxes_id and obj_product.taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
+                else:
+                    taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
+    
+                tax_ids = self.pool.get('account.fiscal.position').map_tax(
+                    cr, uid, obj_fposition, taxes)
+    
+                result['invoice_line_tax_id'] = tax_ids
+
         return result
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
-                          type='out_invoice', partner_id=False, fposition_id=False,
-                          price_unit=False, address_invoice_id=False, currency_id=False, 
-                          context=None, company_id=False, fiscal_category_id=False, parent_fposition_id=False):
+                          type='out_invoice', partner_id=False,
+                          fposition_id=False, price_unit=False,
+                          address_invoice_id=False, currency_id=False,
+                          context=None, company_id=False,
+                          fiscal_category_id=False, parent_fposition_id=False):
+
         result = super(account_invoice_line, self).product_id_change(
             cr, uid, ids, product, uom, qty, name, type, partner_id,
             fposition_id, price_unit, address_invoice_id, currency_id,
             context, company_id)
-        
+
         if not fiscal_category_id or not product or not parent_fposition_id:
             return result
 
@@ -1086,18 +1115,43 @@ class account_invoice_line(osv.osv):
         product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
             cr, uid, product, fiscal_category_id)
 
-        fiscal_position = fposition_id or parent_fposition_id or False
+        fiscal_position = parent_fposition_id or False
 
         if not product_fiscal_category_id:
             result['value']['fiscal_category_id'] = fiscal_category_id
-            result['value']['fiscal_position_id'] = fiscal_position
+            result['value']['fiscal_position'] = fiscal_position
             if fiscal_position:
                 result['value']['cfop_id'] = self.pool.get('account.fiscal.position').read(cr, uid, [fiscal_position], ['cfop_id'])[0]['cfop_id']
         else:
             result['value']['fiscal_category_id'] = product_fiscal_category_id
-            fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id, address_invoice_id, company_id, product_fiscal_category_id)
+            fiscal_data = self._fiscal_position_map(
+                cr, uid, ids, partner_id, address_invoice_id, company_id,
+                product_fiscal_category_id, product,
+                result['value'].get('account_id', False), context)
             result['value'].update(fiscal_data)
 
+        return result
+   
+    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+                                    address_invoice_id, company_id, product_id,
+                                    fiscal_category_id, account_id, context):
+        result = {'value': {}}
+        fiscal_data = self._fiscal_position_map(
+            cr, uid, ids, partner_id, address_invoice_id, company_id,
+            fiscal_category_id, product_id, account_id, context)
+        
+        result['value'].update(fiscal_data)
+        return result
+    
+    def onchange_fiscal_position(self, cr, uid, ids, partner_id,
+                                    address_invoice_id, company_id, product_id,
+                                    fiscal_category_id, account_id, context):
+        result = {'value': {}}
+        fiscal_data = self._fiscal_position_map(
+            cr, uid, ids, partner_id, address_invoice_id, company_id,
+            fiscal_category_id, product_id, account_id, context)
+        
+        result['value'].update(fiscal_data)
         return result
 
 account_invoice_line()
