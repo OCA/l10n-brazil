@@ -424,19 +424,6 @@ class account_invoice(osv.osv):
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
             }, multi='all'),
-        'carrier_id':fields.many2one("delivery.carrier", "Carrier",
-                                     readonly=True,
-                                     states={'draft':[('readonly',False)]}),
-        'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle',
-                                      'Veículo', readonly=True,
-                                      states={'draft': [('readonly', False)]}),
-        'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete',
-                                    readonly=True,
-                                    states={'draft': [('readonly', False)]},
-                                    help="Incoterm which stands for \
-                                    'International Commercial terms' implies \
-                                    its a series of sales terms which are \
-                                    used in the commercial transaction."),
         'weight': fields.float('Gross weight',readonly=True,
                                states={'draft':[('readonly',False)]},
                                help="The gross weight in Kg.",),
