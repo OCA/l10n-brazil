@@ -21,12 +21,9 @@
 			<field name="code">Bonificação</field>
 	    	<field name="name">Bonificação</field>
 			<field name="type">output</field>
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
-			<field name="journal_ids" eval="[(6,0,[ref('profile_diario_bonificacao')])]" />
-			<field eval="0" name="revenue_expense"/>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
+			<field name="journal_ids" eval="[(6,0,[ref('profile_diario_bonificacao')])]"/>
 		</record>
 
 		<record id="l10n_br_account.fo_category_venda" model="l10n_br_account.fiscal.category">
