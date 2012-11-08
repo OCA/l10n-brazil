@@ -585,11 +585,15 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         
         StrFile += StrW02
         
+        
         # Modo do Frete: 0- Por conta do emitente; 1- Por conta do destinatário/remetente; 2- Por conta de terceiros; 9- Sem frete (v2.0)
-        if not inv.incoterm:
+        try:
+            if not inv.incoterm:
+                StrRegX0 = '9'
+            else:
+                StrRegX0 = inv.incoterm.freight_responsibility
+        except AttributeError:
             StrRegX0 = '9'
-        else:
-            StrRegX0 = inv.incoterm.freight_responsibility                      
 
         StrX = 'X|%s|\n' % (StrRegX0)
         
@@ -605,29 +609,31 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         
         StrX0 = ''
         
-        if inv.carrier_id:            
-        
-            #Endereço da transportadora
-            carrier_addr = pool.get('res.partner').address_get(cr, uid, [inv.carrier_id.partner_id.id], ['default'])
-            carrier_addr_default = pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
+        try:
+            if inv.carrier_id:            
             
-            if inv.carrier_id.partner_id.legal_name:
-                StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.legal_name or '')).encode('ASCII', 'ignore')
-            else:
-                StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.name or '')).encode('ASCII', 'ignore')
-            
-            StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
-            StrRegX03['XEnder'] = normalize('NFKD', unicode(carrier_addr_default.street or '')).encode('ASCII', 'ignore')
-            StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
-            
-            if carrier_addr_default.l10n_br_city_id:
-                StrRegX03['XMun'] = normalize('NFKD', unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII', 'ignore')
-            
-            if inv.carrier_id.partner_id.tipo_pessoa == 'J':
-                StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
-            else:
-                StrX0 = 'X05|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
-
+                #Endereço da transportadora
+                carrier_addr = pool.get('res.partner').address_get(cr, uid, [inv.carrier_id.partner_id.id], ['default'])
+                carrier_addr_default = pool.get('res.partner.address').browse(cr, uid, [carrier_addr['default']])[0]
+                
+                if inv.carrier_id.partner_id.legal_name:
+                    StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.legal_name or '')).encode('ASCII', 'ignore')
+                else:
+                    StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_id.partner_id.name or '')).encode('ASCII', 'ignore')
+                
+                StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
+                StrRegX03['XEnder'] = normalize('NFKD', unicode(carrier_addr_default.street or '')).encode('ASCII', 'ignore')
+                StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
+                
+                if carrier_addr_default.l10n_br_city_id:
+                    StrRegX03['XMun'] = normalize('NFKD', unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII', 'ignore')
+                
+                if inv.carrier_id.partner_id.tipo_pessoa == 'J':
+                    StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
+                else:
+                    StrX0 = 'X05|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
+        except AttributeError:
+            pass
         StrX03 = 'X03|%s|%s|%s|%s|%s|\n' % (StrRegX03['XNome'], StrRegX03['IE'], StrRegX03['XEnder'], StrRegX03['UF'], StrRegX03['XMun'])
 
         StrFile += StrX03
@@ -639,11 +645,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                      'RNTC': '',
                      }
 
-        if inv.vehicle_id:
-            StrRegX18['Placa'] = inv.vehicle_id.plate or ''
-            StrRegX18['UF'] = inv.vehicle_id.plate.state_id.code or ''
-            StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
-                     
+        try:
+            if inv.vehicle_id:
+                StrRegX18['Placa'] = inv.vehicle_id.plate or ''
+                StrRegX18['UF'] = inv.vehicle_id.plate.state_id.code or ''
+                StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
+        except AttributeError:
+            pass
 
         StrX18 = 'X18|%s|%s|%s|\n' % (StrRegX18['Placa'], StrRegX18['UF'], StrRegX18['RNTC'])
 
