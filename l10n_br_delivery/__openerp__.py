@@ -31,7 +31,6 @@
                  ],
     'init_xml': [],
     'update_xml' :  [
-            		'account_invoice_view.xml',
             		'delivery_view.xml',
             		'sale_view.xml',
             		'stock_view.xml',
