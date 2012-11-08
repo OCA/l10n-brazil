@@ -59,7 +59,7 @@ class account_fiscal_position_rule(osv.osv):
     def fiscal_position_map(self, cr, uid, partner_id=False,
         partner_invoice_id=False, company_id=False, fiscal_category_id=False,
         context=None):
-
+        
         # Initiate variable result
         result = {'fiscal_position': False}
 
@@ -68,7 +68,7 @@ class account_fiscal_position_rule(osv.osv):
 
         obj_partner = self.pool.get("res.partner").browse(cr, uid, partner_id)
         obj_company = self.pool.get("res.company").browse(cr, uid, company_id)
-
+        
         # Case 1: If Partner has Specific Fiscal Posigion
         if obj_partner.property_account_position.id:
             result['fiscal_position'] = obj_partner.property_account_position.id
@@ -90,7 +90,8 @@ class account_fiscal_position_rule(osv.osv):
             partner_addr_default = self.pool.get('res.partner.address').browse(
                 cr, uid, [partner_addr['invoice']])[0]
         else:
-            partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, partner_invoice_id)
+            partner_addr_default = self.pool.get('res.partner.address').browse(
+                cr, uid, partner_invoice_id)
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
