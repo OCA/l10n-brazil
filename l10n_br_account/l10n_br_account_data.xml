@@ -41,20 +41,15 @@
 			<field name="name">Venda</field>
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
+			<field name="journal_type">sale</field>
 		</record>
 		
 		<record id="fo_category_vendast" model="l10n_br_account.fiscal.category">
 			<field name="code">VendaST</field>
 			<field name="name">Venda de Mercadoria Sujeita a Substituição Tributária</field>
 			<field name="type">output</field>
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>			
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
 		</record>
 
 		<record id="fo_category_revenda" model="l10n_br_account.fiscal.category">
@@ -62,30 +57,23 @@
 			<field name="name">Revenda</field>
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
+			<field name="journal_type">sale</field>
 		</record>
 
 		<record id="fo_category_compras_ind" model="l10n_br_account.fiscal.category">
 			<field name="code">Compras para Ind</field>
 			<field name="name">Compras para Industrialização</field>
 			<field name="type">input</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="1" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">purchase</field>
 		</record>
 
 		<record id="fo_category_simples_remessa" model="l10n_br_account.fiscal.category">
 			<field name="code">SimplesRemessa</field>
 			<field name="name">Simples Remessa</field>
 			<field name="type">output</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
 		</record>
 		
 		<record id="fo_category_servico" model="l10n_br_account.fiscal.category">
@@ -93,33 +81,24 @@
 			<field name="name">Venda de Serviço</field>
 			<field name="type">output</field>
 			<!-- <field name="service_type_id" ref="l10n_br_data_account.fiscal_operation_service_26" />  -->
-			<field eval="1" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
 			<field name="fiscal_type">service</field>
+			<field name="journal_type">sale</field>
 		</record>
 		
 		<record id="fo_category_devolucao_venda" model="l10n_br_account.fiscal.category">
 			<field name="code">DevoluçãoVenda</field>
 			<field name="name">Devolução de Venda</field>
 			<field name="type">input</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
 			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale_refund</field>
 		</record>
 
 		<record id="fo_category_devolucao_compra" model="l10n_br_account.fiscal.category">
 			<field name="code">DevoluçãoCompra</field>
 			<field name="name">Devolução de Compra</field>
 			<field name="type">output</field>
-			<field eval="0" name="use_sale"/>
-			<field eval="1" name="use_invoice"/>
-			<field eval="0" name="use_purchase"/>
-			<field eval="1" name="use_picking"/>
 			<field name="fiscal_type">product</field>
+			<field name="journal_type">purchase_refund</field>
 		</record>
 		
 		<!-- res.company -->
