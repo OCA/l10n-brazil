@@ -148,10 +148,6 @@
 							</page>
 							<page string="Transporte">
 							 	<group name="delivery_info" colspan="4">
-									<separator colspan="4" string="Dados da Transportadora"/>
-									<field colspan="4" name="carrier_id"/>
-									<field name="vehicle_id"/>
-									<field name="incoterm" widget="selection" />
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
@@ -287,9 +283,6 @@
 							<page string="Transporte">
 							 	<group name="delivery_info" colspan="4">
 									<separator colspan="4" string="Dados da Transportadora"/>
-									<field colspan="4" name="carrier_id"/>
-									<field name="vehicle_id"/>
-									<field name="incoterm" widget="selection" />
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
