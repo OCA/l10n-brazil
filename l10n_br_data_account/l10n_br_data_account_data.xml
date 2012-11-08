@@ -9,7 +9,7 @@
 
 		<record id="l10n_br_account.fo_category_compras_ind" model="l10n_br_account.fiscal.operation">
 			<field name="refund_fiscal_operation_id" ref="l10n_br_account.fo_category_devolucao_compra" />
-		</record> -->		
+		</record> -->
 
 		<!-- account.fiscal.position -->
 		<record id="template_fp_vendaparadentrodoestado0" model="account.fiscal.position.template">
