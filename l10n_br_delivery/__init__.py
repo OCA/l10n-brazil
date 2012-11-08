@@ -20,5 +20,4 @@
 import sale
 import l10n_br_delivery
 import delivery
-import account_invoice
 import stock
