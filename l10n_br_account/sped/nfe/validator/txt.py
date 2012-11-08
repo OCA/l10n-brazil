@@ -214,28 +214,7 @@ def validate(cr, uid, ids, context=None):
                     
                 if not inv_line.cofins_cst:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name, inv_line.quantity)
-            
-        #Carrier
-        if inv.carrier_id:
 
-            if not inv.carrier_id.partner_id.legal_name:
-                strErro = 'Transportadora - Razão Social\n'
-
-            if not inv.carrier_id.partner_id.cnpj_cpf:
-                strErro = 'Transportadora - CNPJ/CPF\n'
-
-        #Carrier Vehicle
-        if inv.vehicle_id:
-
-            if not inv.vehicle_id.plate:
-                strErro = 'Transportadora / Veículo - Placa\n'
-
-            if not inv.vehicle_id.plate.state_id.code:
-                strErro = 'Transportadora / Veículo - UF da Placa\n'
-
-            if not inv.vehicle_id.rntc_code:
-                strErro = 'Transportadora / Veículo - RNTC\n'
-        
     if strErro:
         raise osv.except_osv(_('Error !'), _("Error Validating NFE:\n '%s'") % (strErro, ))
     
