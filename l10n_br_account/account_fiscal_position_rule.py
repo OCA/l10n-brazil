@@ -93,8 +93,10 @@ class account_fiscal_position_rule(osv.osv):
             partner_addr_default = self.pool.get('res.partner.address').browse(
                 cr, uid, partner_invoice_id)
 
-        to_country = partner_addr_default.country_id.id
-        to_state = partner_addr_default.state_id.id
+        to_country = partner_addr_default.id and \
+            partner_addr_default.country_id.id or False
+        to_state = partner_addr_default.id and \
+        partner_addr_default.state_id.id or False        
 
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
 
