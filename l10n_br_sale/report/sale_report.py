@@ -1,21 +1,21 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2011  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU General Public License for more details.                                   #
-#                                                                               #
-#You should have received a copy of the GNU General Public License              #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2011  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU General Public License for more details.                                 #
+#                                                                             #
+#You should have received a copy of the GNU General Public License            #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 import tools
 from osv import fields, osv
@@ -24,9 +24,11 @@ from osv import fields, osv
 class sale_report(osv.osv):
     _inherit = "sale.report"
     _columns = {
-                'fiscal_operation_category_id': fields.many2one('l10n_br_account.fiscal.operation.category', 'Fiscal Operation Category', readonly=True),
-                'fiscal_operation_id': fields.many2one('l10n_br_account.fiscal.operation', 'Fiscal Operation', readonly=True),
-                }
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Fiscal Category',
+            readonly=True),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Fiscal Position', readonly=True)}
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'sale_report')
@@ -35,8 +37,8 @@ class sale_report(osv.osv):
                 select
                     min(l.id) as id,
                     l.product_id as product_id,
-                    l.fiscal_operation_category_id as fiscal_operation_category_id,
-                    l.fiscal_operation_id as fiscal_operation_id,
+                    l.fiscal_operation_category_id as fiscal_category_id,
+                    l.fiscal_position as fiscal_position,
                     t.uom_id as product_uom,
                     sum(l.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
                     sum(l.product_uom_qty * l.price_unit * (100.0-l.discount) / 100.0) as price_total,
@@ -66,8 +68,8 @@ class sale_report(osv.osv):
                     left join product_uom u2 on (u2.id=t.uom_id)
                 group by
                     l.product_id,
-                    l.fiscal_operation_category_id,
-                    l.fiscal_operation_id,
+                    l.fiscal_category_id,
+                    l.fiscal_position,
                     l.product_uom_qty,
                     l.order_id,
                     t.uom_id,
@@ -85,5 +87,3 @@ class sale_report(osv.osv):
             )
         """)
 sale_report()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

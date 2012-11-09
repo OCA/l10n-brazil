@@ -10,10 +10,25 @@
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
-					<field name="fiscal_operation_category_id" on_change="onchange_fiscal_operation_category_id(partner_id, partner_invoice_id, shop_id, fiscal_operation_category_id)" required="1"/>
-					<field name="fiscal_operation_id" required="1"/>
-					<field domain="[('fiscal_operation_id','=',fiscal_operation_id)]" name="fiscal_position" />
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id)" required="1"/>
+					<field domain="[('fiscal_category_id', '=', fiscal_category_id)]" name="fiscal_position" />
 	        	</field>
+	        	<field name="shop_id" position="replace">
+					<field name="shop_id" widget="selection" on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id, fiscal_category_id)" />
+	        	</field>
+	        	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='discount']" position="after">
+		            	<field colspan="3" name="fiscal_category_id" groups="base.group_sale_salesman" required="1"/>
+			   			<field name="fiscal_position" groups="base.group_sale_salesman" required="1"/>
+			   	</xpath>
+			   	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_id']" position="replace">
+		            	<field colspan="3"
+                           context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'shop':parent.shop_id, 'uom':product_uom}"
+                           name="product_id"
+                           on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)" />
+			   	</xpath>
+			   	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_uos']" position="replace">
+		            	<field groups="product.group_uos" name="product_uos" nolabel="1"/>
+			   	</xpath>
 	        </field>
 		</record>
 
@@ -24,19 +39,7 @@
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_id" position="replace">
-					<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_invoice_id, shop_id, fiscal_operation_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
-	        	</field>
-	        </field>
-		</record>
-		
-		<record id="view_l10n_br_sale_order_form3" model="ir.ui.view">
-			<field name="name">l10n_br_sale.order.form3</field>
-	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-	        	<field name="shop_id" position="replace">
-					<field name="shop_id" widget="selection" on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id, fiscal_operation_category_id)" />
+					<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
 	        	</field>
 	        </field>
 		</record>
@@ -48,7 +51,7 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	        	<field name="partner_invoice_id" position="replace">
-	        	<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, shop_id, fiscal_operation_category_id)"/>
+	        		<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, shop_id, fiscal_category_id)"/>
 	        	</field>
 	        </field>
 		</record>
@@ -60,42 +63,10 @@
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="project_id" position="after">
-					<field name="default_fo_category_id" required="1"/>
+					<field name="default_fc_id" required="1"/>
 	        	</field>
 	        </field>
 		</record>
-
-		<!-- sale order line -->
-		<record id="l10n_br_sale_view_order_form" model="ir.ui.view">
-	   		<field name="name">l10n_br_sale.order.form</field>
-	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-   				<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='discount']" position="after">
-		            	<field colspan="3" name="fiscal_operation_category_id" groups="base.group_sale_salesman" required="1"/>
-			   			<field name="fiscal_operation_id" groups="base.group_sale_salesman" required="1"/>
-			   	</xpath>
-       		</field>        
-   		</record>
-
-   		<record id="l10n_br_sale_view_order_form5" model="ir.ui.view">
-	   		<field name="name">l10n_br_sale.order.form5</field>
-	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-   				<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_id']" position="replace">
-		            	<field colspan="3"
-                           context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'shop':parent.shop_id, 'uom':product_uom}"
-                           name="product_id"
-                           on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context, parent.fiscal_operation_category_id, parent.fiscal_operation_id, parent.shop_id, False, parent.partner_invoice_id)" />
-			   	</xpath>
-			   	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_uos']" position="replace">
-		            	<field groups="product.group_uos" name="product_uos" nolabel="1"/>
-			   	</xpath>
-       		</field>
-   		</record>
  
     </data>
 
