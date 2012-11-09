@@ -234,3 +234,42 @@ class l10n_br_account_cnae(osv.osv):
         return res
 
 l10n_br_account_cnae()
+
+
+class l10n_br_tax_definition_template(osv.osv):
+    _name = 'l10n_br_tax.definition.template'
+    _columns = {
+        'tax_id': fields.many2one('account.tax.template', 'Imposto',
+                                  required=True),
+        'tax_domain': fields.related('tax_id', 'domain',
+                                     type='char'),
+        'tax_code_id': fields.many2one('account.tax.code.template',
+                                       'Código de Imposto')}
+    
+    def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
+        tax_domain = False
+        if tax_id:
+            tax_domain = self.pool.get('account.tax').read(
+                cr, uid, tax_id, ['domain'], context=context)['domain']
+        return {'value': {'tax_domain': tax_domain}}
+
+l10n_br_tax_definition_template()
+
+
+class l10n_br_tax_definition(osv.osv):
+    _name = 'l10n_br_tax.definition'
+    _columns = {
+        'tax_id': fields.many2one('account.tax', 'Imposto', required=True),
+        'tax_domain': fields.related('tax_id', 'domain',
+                                     type='char'),
+        'tax_code_id': fields.many2one('account.tax.code',
+                                       'Código de Imposto')}
+    
+    def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
+        tax_domain = False
+        if tax_id:
+            tax_domain = self.pool.get('account.tax').read(
+                cr, uid, tax_id, ['domain'], context=context)['domain']
+        return {'value': {'tax_domain': tax_domain}}
+
+l10n_br_tax_definition()
