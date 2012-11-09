@@ -304,8 +304,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'VICMS': str("%.2f" % inv_line.icms_value),
                    }
             
-                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'], StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
-                                                          StrRegN04['VICMS'])
+                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                    StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'],
+                    StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
+                    StrRegN04['VICMS'])
+
                 StrFile += StrN04
             
             if inv_line.icms_cst in ('10'):
@@ -324,9 +327,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'VICMSST': str("%.2f" % inv_line.icms_st_value),
                    }
 
-                StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'], StrRegN03['VBC'], StrRegN03['PICMS'],
-                StrRegN03['VICMS'], StrRegN03['ModBCST'], StrRegN03['PMVAST'], StrRegN03['PRedBCST'], StrRegN03['VBCST'],
-                StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+                StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                    StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'],
+                    StrRegN03['VBC'], StrRegN03['PICMS'], StrRegN03['VICMS'],
+                    StrRegN03['ModBCST'], StrRegN03['PMVAST'],
+                    StrRegN03['PRedBCST'], StrRegN03['VBCST'],
+                    StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+
                 StrFile += StrN03
                 
             if inv_line.icms_cst in ('40', '41', '50', '51'):
@@ -337,7 +344,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'motDesICMS': '9', #FIXME
                    }
             
-                StrN06 = 'N06|%s|%s|%s|%s|\n' % (StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'], StrRegN06['motDesICMS'])
+                StrN06 = 'N06|%s|%s|%s|%s|\n' % (
+                    StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'],
+                    StrRegN06['motDesICMS'])
                 
                 StrFile += StrN06
             
