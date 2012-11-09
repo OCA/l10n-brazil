@@ -278,6 +278,32 @@
 	                </tree>
 	            </field>
         	</record>
+        	
+        	<record model="ir.ui.view" id="view_l10n_br_tax_definition_form">
+				<field name="name">l10n_br_tax.definition.form</field>
+				<field name="model">l10n_br_tax.definition</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Tax Definition">
+						<field name="tax_id" on_change="onchange_tax_id(tax_id)" select="1" />
+						<field name="tax_domain" invisible="1"/>
+						<field name="tax_code_id" select="1" />
+					</form>
+				</field>
+			</record>
+
+			<record model="ir.ui.view" id="view_l10n_br_tax_definition_tree">
+				<field name="name">l10n_br_tax.definition.tree</field>
+				<field name="model">l10n_br_tax.definition</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Tax Definition">
+						<field name="tax_id" select="1"/>
+						<field name="tax_domain" invisible="1"/>
+						<field name="tax_code_id" on_change="onchange_tax_id(tax_id)" domain="[('domain', '=', tax_domain)]" select="1" />
+					</tree>
+				</field>
+			</record>
 	
 			<record model="ir.actions.act_window" id="action_l10n_br_account_cfop_form">
 				<field name="name">CFOP</field>
