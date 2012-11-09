@@ -1190,7 +1190,7 @@ class account_invoice_line(osv.osv):
                     taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
     
                 tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                    cr, uid, obj_fposition, taxes)
+                    cr, uid, obj_fposition, taxes, context)
     
                 result['invoice_line_tax_id'] = tax_ids
 
@@ -1229,7 +1229,6 @@ class account_invoice_line(osv.osv):
                 product_fiscal_category_id, product,
                 result['value'].get('account_id', False), context)
             result['value'].update(fiscal_data)
-
         return result
    
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
