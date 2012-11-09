@@ -39,7 +39,6 @@ class account_product_fiscal_classification_template(osv.osv):
                 purchase_tax_ids.append(line.tax_id.id)
             sale_tax_ids.sort()
             purchase_tax_ids.sort()
-            print sale_tax_ids
             result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
             result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
         return result
@@ -123,7 +122,6 @@ class account_product_fiscal_classification(osv.osv):
                 purchase_tax_ids.append(line.tax_id.id)
             sale_tax_ids.sort()
             purchase_tax_ids.sort()
-            print sale_tax_ids
             result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
             result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
         return result
