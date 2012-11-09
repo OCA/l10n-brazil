@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<record id="l10n_br_account_fiscal_classification_template_form" model="ir.ui.view">
+           <field name="name">l10n_br_account.fiscal.classification.template.form</field>
+           <field name="model">account.product.fiscal.classification.template</field>
+           <field name="type">form</field>
+           <field name="inherit_id" ref="account_product_fiscal_classification.fiscal_classification_template_normal_form_view_form"/>
+           <field name="arch" type="xml">
+           	<field name="description" position="after">
+                	<field name="type"/>
+                	<field name="parent_id"/>
+                </field>
+                <field name="sale_base_tax_ids"  position="replace">
+                	<field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                </field>
+                <field name="purchase_base_tax_ids"  position="replace">
+                	<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                </field>
+           </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_tax_definition_template_sale_form">
+			<field name="name">l10n_br_tax.definition.sale.template.form</field>
+			<field name="model">l10n_br_tax.definition.sale.template</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tax Definition">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="l10n_br_tax_definition_sale_template_tree">
+			<field name="name">l10n_br_tax.definition.sale.template.tree</field>
+			<field name="model">l10n_br_tax.definition.sale.template</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Tax Definition" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+					<field name="tax_domain" invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_tax_definition_purchase_template_form">
+			<field name="name">l10n_br_tax.definition.purchase.template.form</field>
+			<field name="model">l10n_br_tax.definition.purchase.template</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tax Definition">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1" />
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="l10n_br_tax_definition_purchase_template_tree">
+			<field name="name">l10n_br_tax.definition.purchase.template.tree</field>
+			<field name="model">l10n_br_tax.definition.purchase.template</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Tax Definition" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</tree>
+			</field>
+		</record>
+				
+		<record id="l10n_br_account_fiscal_classification_form" model="ir.ui.view">
+           <field name="name">l10n_br_account.fiscal_classification_form</field>
+           <field name="model">account.product.fiscal.classification</field>
+           <field name="type">form</field>
+           <field name="inherit_id" ref="account_product_fiscal_classification.fiscal_classification_normal_form_view_form"/>
+           <field name="arch" type="xml">
+           	<field name="company_id" position="before">
+                	<field name="type"/>
+                	<field name="parent_id"/>
+                </field>
+                <field name="sale_base_tax_ids"  position="replace">
+                	<field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                </field>
+                <field name="purchase_base_tax_ids"  position="replace">
+                	<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                </field>
+           </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_l10n_br_taxdefinition_classification_sale_form">
+			<field name="name">l10n_br_tax.definition.classification.sale.form</field>
+			<field name="model">l10n_br_tax.definition.classification.sale</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tax Definition">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="l10n_br_tax_definition_sale_tree">
+			<field name="name">l10n_br_tax.definition.sale.tree</field>
+			<field name="model">l10n_br_tax.definition.sale</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Tax Definition" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+					<field name="tax_domain" invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_tax_definition_purchase_form">
+			<field name="name">l10n_br_tax.definition.purchase.form</field>
+			<field name="model">l10n_br_tax.definition.purchase</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tax Definition">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1" />
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_taxdefinition_purchase_tree">
+			<field name="name">l10n_br_tax.definition.purchase.tree</field>
+			<field name="model">l10n_br_tax.definition.purchase</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Tax Definition" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</tree>
+			</field>
+		</record>
+		
+	</data>
+
+</openerp>
