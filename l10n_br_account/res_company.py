@@ -22,7 +22,19 @@ import decimal_precision as dp
 
 
 class res_company(osv.osv):
-    _inherit = "res.company"
+    _inherit = 'res.company'
+    
+    def _get_taxes(self, cr, uid, ids, name, arg, context=None):
+        result = {}
+        for company in self.browse(cr, uid, ids, context=context):
+            result[company.id] = {'tax_ids': []}
+            tax_ids = []
+            for tax_definition in company.tax_definition_line:
+                tax_ids.append(tax_definition.tax_id.id)
+            tax_ids.sort()
+            result[company.id]['tax_ids'] = tax_ids
+        return result
+    
     _columns = {
         'fiscal_type': fields.selection([
             ('1', 'Simples Nacional'),
@@ -65,6 +77,12 @@ class res_company(osv.osv):
                                          required=True),
         'nfse_source_folder': fields.char('Pasta de Origem', size=254),
         'nfse_destination_folder': fields.char('Pasta de Destino', size=254),
+        'tax_definition_line': fields.one2many(
+            'l10n_br_tax.definition.company',
+            'company_id', 'Taxes Definitions'),
+        'tax_ids': fields.function(
+            _get_taxes, method=True, type='many2many',
+            relation='account.tax', string='Taxes', multi='all'),
         'in_invoice_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Entrada',
@@ -101,3 +119,18 @@ class res_company(osv.osv):
         'annual_revenue': 0.0}
 
 res_company()
+
+
+class l10n_br_tax_definition_company(osv.osv):
+    _name = 'l10n_br_tax.definition.company'
+    _inherit = 'l10n_br_tax.definition'
+    _columns = {
+                'company_id': fields.many2one(
+                    'res.company', 'Company', select=True)}
+    
+    _sql_constraints = [
+        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
+        company_id)',
+        u'Imposto já existente nesta empresa!')]
+
+l10n_br_tax_definition_company()

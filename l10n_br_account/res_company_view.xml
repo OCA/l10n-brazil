@@ -50,6 +50,9 @@
 								<field colspan="4" name="nfe_source_folder" />
 								<field colspan="4" name="nfe_destination_folder" />
 							</page>
+							<page string="Impostos sobre Produtos">
+								<field colspan="2" nolabel="1" widget="one2many_list" name="tax_definition_line"/>
+							</page>
 							<page string="NFse">
 								<field name="nfse_version" required="1" />
 								<newline/>
@@ -61,6 +64,32 @@
 			</notebook>
 		</field>
 	</record>
+	
+	<record model="ir.ui.view" id="l10n_br_tax_definition_company_form">
+			<field name="name">l10n_br_tax.definition.company.form</field>
+			<field name="model">l10n_br_tax.definition.company</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tax Definition">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_taxdefinition_company_tree">
+			<field name="name">l10n_br_tax.definition.company.tree</field>
+			<field name="model">l10n_br_tax.definition.company</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Tax Definition" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+					<field name="tax_domain"  invisible="1"/>
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</tree>
+			</field>
+		</record>
 
     </data>
 </openerp>
