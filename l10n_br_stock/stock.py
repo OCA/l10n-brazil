@@ -40,78 +40,85 @@ stock_incoterms()
 class stock_picking(osv.osv):
     _inherit = "stock.picking"
     
-    def _default_fiscal_operation_category(self, cr, uid, context=None):
+    def _default_fiscal_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        return user.company_id and user.company_id.stock_fiscal_category_operation_id and user.company_id.stock_fiscal_category_operation_id.id
+        return user.company_id.stock_fiscal_category_id and user.company_id.stock_fiscal_category_id.id
     
     _columns = {
-        'fiscal_operation_category_id': fields.many2one(
-            'l10n_br_account.fiscal.operation.category', 'Categoria'),
-        'fiscal_operation_id': fields.many2one(
-            'l10n_br_account.fiscal.operation', 'Operação Fiscal',
-            domain="[('fiscal_operation_category_id','=',\
-            fiscal_operation_category_id)]"),
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria'),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Posição Fiscal',
-            domain="[('fiscal_operation_id','=',fiscal_operation_id)]")}
+            domain="[('fiscal_category_id','=',fiscal_category_id)]")}
     
     _defaults = {
-         'fiscal_operation_category_id': _default_fiscal_operation_category}
+         'fiscal_category_id': _default_fiscal_category}
 
     def _fiscal_position_map(self, cr, uid, partner_id,
         partner_invoice_id=False, company_id=False,
         fiscal_operation_category_id=False):
-        obj_fiscal_position_rule = self.pool.get('account.fiscal.position.rule')
-        result = obj_fiscal_position_rule.fiscal_position_map(
+        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_invoice_id, company_id,
-            fiscal_operation_category_id,
+            fiscal_category_id,
             context={'use_domain': ('use_picking', '=', True)})
         return result
 
-    def onchange_partner_in(self, cr, uid, context=None, partner_address_id=None,
-                            company_id=False, fiscal_operation_category_id=False):
-        result = super(stock_picking, self).onchange_partner_in(cr, uid, context, partner_address_id)
+    def onchange_partner_in(self, cr, uid, context=None,
+                            partner_address_id=None, company_id=False,
+                            fiscal_operation_category_id=False):
+        result = super(stock_picking, self).onchange_partner_in(
+            cr, uid, context, partner_address_id)
         if result and partner_address_id:
-            partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+            partner_addr = self.pool.get('res.partner.address').browse(
+                cr, uid, partner_address_id)
             partner_id = partner_addr.partner_id and partner_addr.partner_id.id
-            fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+            fiscal_data = self._fiscal_position_map(
+                cr, uid, partner_id, partner_address_id, company_id,
+                fiscal_category_id)
             result['value'].update(fiscal_data)
         return result
 
-    def onchange_fiscal_operation_category_id(self, cr, uid, ids, partner_address_id,
-                                              company_id=False, fiscal_operation_category_id=False):
+    def onchange_fiscal_category_id(self, cr, uid, ids, partner_address_id,
+                                    company_id=False,
+                                    fiscal_category_id=False):
         result = {'value': {}}
         if partner_address_id:
-            partner_addr = self.pool.get('res.partner.address').browse(cr, uid, partner_address_id)
+            partner_addr = self.pool.get('res.partner.address').browse(
+                cr, uid, partner_address_id)
             partner_id = partner_addr.partner_id and partner_addr.partner_id.id
-            fiscal_data = self._fiscal_position_map(cr, uid, partner_id, partner_address_id, company_id, fiscal_operation_category_id)
+            fiscal_data = self._fiscal_position_map(
+                cr, uid, partner_id, partner_address_id, company_id,
+                fiscal_category_id)
             result['value'].update(fiscal_data)
         return result
 
-    def _prepare_invoice_line(self, cr, uid, group, picking, move_line, invoice_id,
-        invoice_vals, context=None):
-        res = super(stock_picking, self)._prepare_invoice_line(cr, uid, group, picking, move_line, invoice_id, invoice_vals, context)
+    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
+                              invoice_id, invoice_vals, context=None):
+        res = super(stock_picking, self)._prepare_invoice_line(
+            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
+            context)
         if move_line.sale_line_id:
-            fiscal_operation_id = move_line.sale_line_id.fiscal_operation_id or move_line.sale_line_id.order_id.fiscal_operation_id
-            fiscal_operation_category_id = move_line.sale_line_id.fiscal_operation_category_id or move_line.sale_line_id.order_id.fiscal_operation_category_id
+            fiscal_position = move_line.sale_line_id.fiscal_position or move_line.sale_line_id.order_id.fiscal_position
+            fiscal_category_id = move_line.sale_line_id.fiscal_category_id or move_line.sale_line_id.order_id.fiscal_category_id
         elif move_line.purchase_line_id:
-            fiscal_operation_id = move_line.purchase_line_id.fiscal_operation_id or move_line.purchase_line_id.order_id.fiscal_operation_id
-            fiscal_operation_category_id = move_line.purchase_line_id.fiscal_operation_category_id or move_line.purchase_line_id.order_id.fiscal_operation_category_id
+            fiscal_position = move_line.purchase_line_id.fiscal_position or move_line.purchase_line_id.order_id.fiscal_position
+            fiscal_category_id = move_line.purchase_line_id.fiscal_category_id or move_line.purchase_line_id.order_id.fiscal_category_id
         else:
-            fiscal_operation_id = move_line.picking_id.fiscal_operation_id
-            fiscal_operation_category_id = move_line.picking_id.fiscal_operation_category_id
-        res['cfop_id'] = fiscal_operation_id and fiscal_operation_id.cfop_id and fiscal_operation_id.cfop_id.id
-        res['fiscal_operation_category_id'] = fiscal_operation_category_id and fiscal_operation_category_id.id
-        res['fiscal_operation_id'] = fiscal_operation_id and fiscal_operation_id.id
+            fiscal_position = move_line.picking_id.fiscal_operation_id
+            fiscal_category_id = move_line.picking_id.fiscal_operation_category_id
+        res['cfop_id'] = fiscal_position and fiscal_position.cfop_id and fiscal_position.cfop_id.id
+        res['fiscal_category_id'] = fiscal_category_id and fiscal_category_id.id
+        res['fiscal_position'] = fiscal_position and fiscal_position.id
         return res
 
     def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
         res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
-        res['fiscal_operation_category_id'] = picking.fiscal_operation_category_id and picking.fiscal_operation_category_id.id
-        res['fiscal_operation_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.id
-        res['fiscal_document_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.fiscal_document_id and picking.fiscal_operation_id.fiscal_document_id.id
+        res['fiscal_category_id'] = picking.fiscal_category_id and picking.fiscal_category_id.id
         res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
-        res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id  # TODO pick 1st active one!!
+        #res['fiscal_document_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.fiscal_document_id and picking.fiscal_operation_id.fiscal_document_id.id
+        #res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
+        #res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id  # TODO pick 1st active one!!
         return res
 
 stock_picking()

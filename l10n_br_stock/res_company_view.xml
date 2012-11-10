@@ -10,7 +10,7 @@
 				<page position="after" string="NFse">
 					<page string="Estoque">
 						<separator colspan="8" string="Configurações de Estoque" />
-						<field name="stock_fiscal_category_operation_id" />
+						<field name="stock_fiscal_category_id" />
 					</page>
 				</page>
 			</field>

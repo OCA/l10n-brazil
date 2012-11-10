@@ -43,7 +43,7 @@ class stock_return_picking(osv.osv_memory):
             return result
 
         pick_obj = self.pool.get('stock.picking')
-        fiscal_operation_obj = self.pool.get('l10n_br_account.fiscal.operation')
+        fiscal_category_obj = self.pool.get('l10n_br_account.fiscal.category')
         fiscal_position_obj = self.pool.get('account.fiscal.position')
         result_domain = eval(result['domain'])
         record_ids = result_domain and result_domain[0] and result_domain[0][2]
@@ -52,17 +52,13 @@ class stock_return_picking(osv.osv_memory):
         for pick in picks:
 
             vals = {
-                    'fiscal_operation_category_id': False,
-                    'fiscal_operation_id': False,
-                    'fiscal_position': False,
-                    }
+                'fiscal_category_id': False,
+                'fiscal_position': False}
 
-            fo_return_id = pick.fiscal_operation_id.refund_fiscal_operation_id and pick.fiscal_operation_id.refund_fiscal_operation_id.id
+            fc_return_id = pick.fiscal_category_id.refund_fiscal_category_id and pick.fiscal_category_id.refund_fiscal_category_id.id
 
             if not fo_return_id:
                 raise osv.except_osv(_('Error !'), _("This Fiscal Operation does not has Fiscal Operation for Returns!"))
-
-            fiscal_operation = fiscal_operation_obj.browse(cr, uid, fo_return_id, context)
 
             obj_company = self.pool.get('res.company').browse(cr, uid, [pick.company_id.id])[0]
 
@@ -78,10 +74,10 @@ class stock_return_picking(osv.osv_memory):
             obj_partner = self.pool.get('res.partner').browse(cr, uid, [pick.address_id.partner_id.id])[0]
             partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
 
-            fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
+            fp_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
                                                                                             ('company_id', '=', obj_company.id),
                                                                                             ('use_picking', '=', True),
-                                                                                            ('fiscal_operation_category_id', '=', fiscal_operation.fiscal_operation_category_id.id),
+                                                                                            ('fiscal_category_id', '=', fiscal_position.fiscal_category_id.id),
                                                                                         '|',
                                                                                         ('from_country', '=', from_country), ('from_country', '=', False),
                                                                                         '|',
@@ -94,11 +90,11 @@ class stock_return_picking(osv.osv_memory):
                                                                                             ('partner_fiscal_type_id', '=', False), ('partner_fiscal_type_id', '=', partner_fiscal_type)
                                                                                         ])
 
-            vals['fiscal_operation_category_id'] = fiscal_operation.fiscal_operation_category_id.id
-            vals['fiscal_operation_id'] = fo_return_id
+            vals['fiscal_category_id'] = fiscal_operation.fiscal_category_id.id
+            vals['fiscal_position'] = fc_return_id
 
             if fsc_pos_id:
-                obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
+                obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fp_id)[0]
                 vals['fiscal_position'] = fiscal_position_obj.id
 
             pick_obj.write(cr, uid, pick.id, vals)
