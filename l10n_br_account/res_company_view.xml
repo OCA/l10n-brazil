@@ -25,9 +25,9 @@
 							</page>
 							<page string="Documentos Fiscais">
 								<separator colspan="4" string="Documento Fiscal para Produtos"/>
-								<field colspan="4" name="product_invoice_id"/>
+								<field colspan="4" name="product_invoice_id" required="1"/>
 								<separator colspan="4" string="Documento Fiscal para Serviços"/>
-								<field colspan="4" name="service_invoice_id"/>
+								<field colspan="4" name="service_invoice_id" required="1"/>
 								<separator colspan="8" string="Configurações de Entrada" />
 								<field name="in_invoice_fiscal_category_id" />
 								<field name="in_invoice_service_fiscal_category_id" />
