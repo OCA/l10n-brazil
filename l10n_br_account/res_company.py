@@ -47,10 +47,10 @@ class res_company(osv.osv):
             help="Faturamento Bruto dos últimos 12 meses"),
         'product_invoice_id': fields.many2one(
             'l10n_br_account.fiscal.document',
-            'Documento Fiscal', required=True),
+            'Documento Fiscal'),
         'service_invoice_id': fields.many2one(
             'l10n_br_account.fiscal.document',
-            'Documento Fiscal', required=True),
+            'Documento Fiscal'),
         'document_serie_product_ids': fields.many2many(
             'l10n_br_account.document.serie',
             'res_company_l10n_br_account_document_serie', 'company_id',
