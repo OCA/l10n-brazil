@@ -17,8 +17,8 @@
 					<field name="shop_id" widget="selection" on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id, fiscal_category_id)" />
 	        	</field>
 	        	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='discount']" position="after">
-		            	<field colspan="3" name="fiscal_category_id" groups="base.group_sale_salesman" required="1"/>
-			   			<field name="fiscal_position" groups="base.group_sale_salesman" required="1"/>
+		            	<field colspan="3" name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
+			   			<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
 			   	</xpath>
 			   	<xpath expr="/form/notebook/page/field/form/notebook/page/group/field[@name='product_id']" position="replace">
 		            	<field colspan="3"
