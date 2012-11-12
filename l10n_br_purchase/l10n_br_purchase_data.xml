@@ -10,7 +10,7 @@
 
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
-			<field name="purchase_fiscal_category_operation_id" ref="l10n_br_account.fo_category_compras_ind" />
+			<field name="purchase_fiscal_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 		</record>
 
 	</data>
