@@ -200,6 +200,8 @@ class sale_order(osv.osv):
         else:
             fiscal_category_id = order.fiscal_category_id.id
 
+        # FIXME - Deveria pegar as observações das
+        # posições fiscais de cada linha.
         comment = ''
         if order.fiscal_position.inv_copy_note:
             comment += order.fiscal_position.note or ''
@@ -379,7 +381,6 @@ class sale_order_line(osv.osv):
                                  fiscal_category_id=False):
 
         result = {'value': {'tax_id': False}}
-        print 'aqui'
         if not shop_id or not partner_id or not fiscal_position:
             return result
 
@@ -399,7 +400,6 @@ class sale_order_line(osv.osv):
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product_id)
             context = {'fiscal_type': obj_product.fiscal_type}
-            print context
             taxes = obj_product.taxes_id or False
             tax_ids = self.pool.get('account.fiscal.position').map_tax(
                 cr, uid, obj_fposition, taxes, context)
