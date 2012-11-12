@@ -37,7 +37,7 @@ class sale_report(osv.osv):
                 select
                     min(l.id) as id,
                     l.product_id as product_id,
-                    l.fiscal_operation_category_id as fiscal_category_id,
+                    l.fiscal_category_id as fiscal_category_id,
                     l.fiscal_position as fiscal_position,
                     t.uom_id as product_uom,
                     sum(l.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
