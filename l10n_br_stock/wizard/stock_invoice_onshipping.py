@@ -59,10 +59,10 @@ class stock_invoice_onshipping(osv.osv_memory):
 
     _columns = {
         'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),
-        'operation_category_journal': fields.boolean("Diário da Categoria")}
+        'fiscal_category_journal': fields.boolean("Diário da Categoria")}
 
     _defaults = {
-        'operation_category_journal': True}
+        'fiscal_category_journal': True}
 
     def view_init(self, cr, uid, fields_list, context=None):
         if context is None:
@@ -107,10 +107,13 @@ class stock_invoice_onshipping(osv.osv_memory):
         return action
 
     def create_invoice(self, cr, uid, ids, context=None):
-        onshipdata_obj = self.read(cr, uid, ids, ['journal_id', 'group', 'invoice_date', 'operation_category_journal'])
+        onshipdata_obj = self.read(cr, uid, ids, ['journal_id',
+                                                  'group',
+                                                  'invoice_date',
+                                                  'fiscal_category_journal'])
         res = super(stock_invoice_onshipping, self).create_invoice(cr, uid,  ids, context)
 
-        if not res or not onshipdata_obj[0]['operation_category_journal']:
+        if not res or not onshipdata_obj[0]['fiscal_category_journal']:
             return res
 
         if context is None:
@@ -119,8 +122,15 @@ class stock_invoice_onshipping(osv.osv_memory):
         for inv in self.pool.get('account.invoice').browse(cr, uid, res.values(), context=context):
             journal_id = inv.fiscal_category_id and inv.fiscal_category_id.property_journal
             if not journal_id:
-                raise osv.except_osv(_('Invalid Journal !'), _('There is not journal defined for this company: %s in fiscal operation: %s !') % (inv.company_id.name, inv.fiscal_category_id.name))
-            self.pool.get('account.invoice').write(cr, uid, inv.id, {'journal_id': journal_id.id}, context=context)
+                raise osv.except_osv(
+                    _('Invalid Journal!'),
+                    _('There is not journal defined for this company: %s in \
+                    fiscal operation: %s !') % (inv.company_id.name, 
+                                                inv.fiscal_category_id.name))
+                
+            self.pool.get('account.invoice').write(
+                cr, uid, inv.id,
+                {'journal_id': journal_id.id}, context=context)
         return res
 
 stock_invoice_onshipping()

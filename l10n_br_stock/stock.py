@@ -116,9 +116,6 @@ class stock_picking(osv.osv):
         res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
         res['fiscal_category_id'] = picking.fiscal_category_id and picking.fiscal_category_id.id
         res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
-        #res['fiscal_document_id'] = picking.fiscal_operation_id and picking.fiscal_operation_id.fiscal_document_id and picking.fiscal_operation_id.fiscal_document_id.id
-        #res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
-        #res['document_serie_id'] = picking.company_id.document_serie_product_ids[0].id  # TODO pick 1st active one!!
         return res
 
 stock_picking()

@@ -138,7 +138,12 @@ class l10n_br_account_fiscal_category(osv.osv):
              ('sale_refund','Devolução de Venda'),
              ('purchase', 'Compras'),
              ('purchase_refund','Devolução de Compras')], 'Tipo do Diário',
-            size=32, required=True)}
+            size=32, required=True),
+        'refund_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            'Categoria Fiscal de Devolução',
+            domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_type), \
+            ('journal_type', 'like', journal_type)]")}
     _defaults = {
         'type': 'output',
         'fiscal_type': 'product',

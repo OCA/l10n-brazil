@@ -57,8 +57,11 @@ class stock_return_picking(osv.osv_memory):
 
             fc_return_id = pick.fiscal_category_id.refund_fiscal_category_id and pick.fiscal_category_id.refund_fiscal_category_id.id
 
-            if not fo_return_id:
-                raise osv.except_osv(_('Error !'), _("This Fiscal Operation does not has Fiscal Operation for Returns!"))
+            if not fc_return_id:
+                raise osv.except_osv(
+                    _('Error!'),
+                    _("This Fiscal Operation does not has Fiscal Operation \
+                    for Returns!"))
 
             obj_company = self.pool.get('res.company').browse(cr, uid, [pick.company_id.id])[0]
 
@@ -74,28 +77,26 @@ class stock_return_picking(osv.osv_memory):
             obj_partner = self.pool.get('res.partner').browse(cr, uid, [pick.address_id.partner_id.id])[0]
             partner_fiscal_type = obj_partner.partner_fiscal_type_id.id
 
-            fp_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, ['&',
-                                                                                            ('company_id', '=', obj_company.id),
-                                                                                            ('use_picking', '=', True),
-                                                                                            ('fiscal_category_id', '=', fiscal_position.fiscal_category_id.id),
-                                                                                        '|',
-                                                                                        ('from_country', '=', from_country), ('from_country', '=', False),
-                                                                                        '|',
-                                                                                        ('to_country', '=', to_country), ('to_country', '=', False),
-                                                                                        '|',
-                                                                                            ('from_state', '=', from_state), ('from_state', '=', False),
-                                                                                        '|',
-                                                                                            ('to_state', '=', to_state), ('to_state', '=', False),
-                                                                                        '|',
-                                                                                            ('partner_fiscal_type_id', '=', False), ('partner_fiscal_type_id', '=', partner_fiscal_type)
-                                                                                        ])
+            fp_id = self.pool.get('account.fiscal.position.rule').search(
+                cr, uid, ['&', ('company_id', '=', obj_company.id),
+                          ('use_picking', '=', True),
+                          ('fiscal_category_id', '=', fc_return_id),
+                          '|', ('from_country', '=', from_country),
+                          ('from_country', '=', False),
+                          '|', ('to_country', '=', to_country),
+                          ('to_country', '=', False),
+                          '|', ('from_state', '=', from_state),
+                          ('from_state', '=', False),
+                          '|', ('to_state', '=', to_state),
+                          ('to_state', '=', False),
+                          '|', ('partner_fiscal_type_id', '=', False),
+                          ('partner_fiscal_type_id', '=', partner_fiscal_type)])
 
-            vals['fiscal_category_id'] = fiscal_operation.fiscal_category_id.id
-            vals['fiscal_position'] = fc_return_id
-
-            if fsc_pos_id:
-                obj_fpo_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fp_id)[0]
-                vals['fiscal_position'] = fiscal_position_obj.id
+            vals['fiscal_category_id'] = fc_return_id
+            
+            if fp_id:
+                obj_fp_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fp_id)[0]
+                vals['fiscal_position'] = obj_fp_rule.fiscal_position.id
 
             pick_obj.write(cr, uid, pick.id, vals)
 
