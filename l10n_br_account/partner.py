@@ -28,16 +28,10 @@ FISCAL_POSITION_COLUMNS = {
     'type_tax_use': fields.selection([('sale','Sale'),
                                       ('purchase','Purchase'),
                                       ('all','All')], 'Tax Application'),
-    'fiscal_category_journal_type': fields.related(
-        'fiscal_category_id', 'journal_type', type='char', readonly=True,
-        relation='l10n_br_account.fiscal.category', store=True,
-        string='Journal Type'),
     'fiscal_category_fiscal_type': fields.related(
         'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
         relation='l10n_br_account.fiscal.category', store=True,
         string='Fiscal Type'),
-    'refund_fiscal_category_id': fields.many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal de Devolução'),
     'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
     'asset_operation': fields.boolean('Operação de Aquisição de Ativo',
                                       help="Caso seja marcada essa opção, \
@@ -56,13 +50,12 @@ class account_fiscal_position_template(osv.osv):
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     fiscal_category_id=False, context=None):
         if fiscal_category_id:
-             fiscal_category_fields = self.pool.get(
+             fc_fields = self.pool.get(
                 'l10n_br_account.fiscal.category').read(
                     cr, uid, fiscal_category_id, ['fiscal_type',
                                                   'journal_type'], context=context)
         return {'value': 
-            {'fiscal_category_fiscal_type':  fiscal_category_fields['fiscal_type'],
-             'fiscal_category_journal_type': fiscal_category_fields['journal_type']}}
+            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
 account_fiscal_position_template()
 
@@ -97,13 +90,12 @@ class account_fiscal_position(osv.osv):
                                     fiscal_category_id=False, context=None):
         fiscal_category_fields = False
         if fiscal_category_id:
-             fiscal_category_fields = self.pool.get(
+             fc_fields = self.pool.get(
                 'l10n_br_account.fiscal.category').read(
                     cr, uid, fiscal_category_id, ['fiscal_type',
                                                   'journal_type'], context=context)
-        return {'value': 
-            {'fiscal_category_fiscal_type':  fiscal_category_fields['fiscal_type'],
-             'fiscal_category_journal_type': fiscal_category_fields['journal_type']}}
+        return {'value':
+            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
         
     def map_tax(self, cr, uid, fposition_id, taxes, context={}):
         result = []
