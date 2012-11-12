@@ -94,6 +94,7 @@
 						<field name="name" select="1"/>
 						<field name="type" select="1"/>
 						<field name="fiscal_type" select="1"/>
+						<field name="refund_fiscal_category_id" select="1"/>
 						<newline/>
 						<separator colspan="4" string="Diário Contábil"/>
 						<field name="journal_type" select="1"/>
