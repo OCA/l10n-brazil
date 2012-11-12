@@ -39,9 +39,7 @@
 							<page string="Fiscal">
 								<group colspan="4" col="4">
 									<field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
-									<field name="fiscal_category_journal_type"/>
 									<field invisible="1" name="fiscal_category_fiscal_type"/>
-									<field name="refund_fiscal_category_id" domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_category_fiscal_type), ('journal_type', 'like', fiscal_category_journal_type)]"/>
 									<field name="cfop_id" colspan="4"/>
 			                    </group>
 			                    <separator string="Notes" colspan="4"/>
