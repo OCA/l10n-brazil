@@ -48,7 +48,11 @@ class account_invoice(osv.osv):
                 'pis_value': 0.0,
                 'cofins_base': 0.0,
                 'cofins_value': 0.0,
-                'ii_value': 0.0}
+                'ii_value': 0.0,
+                'amount_insurance': 0.0,
+                'amount_freight': 0.0,
+                'amount_costs': 0.0,
+                }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
                 res[invoice.id]['icms_base'] += line.icms_base
@@ -62,6 +66,9 @@ class account_invoice(osv.osv):
                 res[invoice.id]['cofins_base'] += line.cofins_base
                 res[invoice.id]['cofins_value'] += line.cofins_value
                 res[invoice.id]['ii_value'] += line.ii_value
+                res[invoice.id]['amount_insurance'] += line.insurance_value
+                res[invoice.id]['amount_freight'] += line.freight_value
+                res[invoice.id]['amount_costs'] += line.other_costs_value
            
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
@@ -432,16 +439,31 @@ class account_invoice(osv.osv):
                                    states={'draft':[('readonly',False)]}),
         'number_of_packages': fields.integer(
             'Volume', readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_insurance': fields.float(
-            'Valor do Seguro', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_costs': fields.float(
-            'Outros Custos', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_freight': fields.float(
-            'Frete', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-    }
+        'amount_insurance': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.line': (_get_invoice_line,
+                                         ['insurance_value'], 20),
+            }, multi='all'),
+        'amount_freight': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.line': (_get_invoice_line, ['freight_value'], 20),
+            }, multi='all'),
+            'amount_costs': fields.function(
+        _amount_all, method=True,
+        digits_compute=dp.get_precision('Account'), string='Outros Custos',
+        store={
+            'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                ['invoice_line'], 20),
+            'account.invoice.line': (_get_invoice_line, ['other_costs_value'], 20),
+        }, multi='all')}
     
     def _default_fiscal_category(self, cr, uid, context=None):
         
@@ -1160,6 +1182,15 @@ class account_invoice_line(osv.osv):
             digits_compute= dp.get_precision('Account')),
         'ii_customhouse_charges': fields.float(
             'Depesas Atuaneiras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'insurance_value': fields.float(
+            'Valor do Seguro', 
+            digits_compute=dp.get_precision('Account')),
+        'other_costs_value': fields.float(
+            'Outros Custos', 
+            digits_compute=dp.get_precision('Account')),
+        'freight_value': fields.float(
+            'Frete',
             digits_compute=dp.get_precision('Account'))}
 
     _defaults = {
