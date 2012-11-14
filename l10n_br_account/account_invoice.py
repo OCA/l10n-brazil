@@ -1169,13 +1169,19 @@ class account_invoice_line(osv.osv):
     def _fiscal_position_map(self, cr, uid, ids, partner_id,
                              partner_invoice_id, company_id,
                              fiscal_category_id, product_id=False, 
-                             account_id=False, context=False):
+                             account_id=False, context=None):
+        
+        if not context:
+            context = {}
+        
+        context['use_domain'] = ('use_invoice', '=', True)
         result = {'cfop_id': False}
+        
         obj_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_rule.fiscal_position_map(
             cr, uid, partner_id, partner_invoice_id, company_id,
             fiscal_category_id, 
-            context={'use_domain': ('use_invoice', '=', True)})
+            context=context)
         result.update(fiscal_result)
         if result.get('fiscal_position', False):
             obj_fposition = self.pool.get('account.fiscal.position').browse(
@@ -1185,8 +1191,10 @@ class account_invoice_line(osv.osv):
                 obj_product = self.pool.get('product.product').browse(
                 cr, uid, product_id, context=context)
                 if context.get('type') in ('out_invoice', 'out_refund'):
+                    context['type_tax_use'] = 'sale'
                     taxes = obj_product.taxes_id and obj_product.taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
                 else:
+                    context['type_tax_use'] = 'purchase'
                     taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
     
                 tax_ids = self.pool.get('account.fiscal.position').map_tax(
