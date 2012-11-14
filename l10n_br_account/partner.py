@@ -97,16 +97,23 @@ class account_fiscal_position(osv.osv):
         return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
         
-    def map_tax(self, cr, uid, fposition_id, taxes, context={}):
+    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
+        if not context:
+            context = {}
         if fposition_id and fposition_id.company_id and \
-        context.get('fiscal_type', 'product') == 'product':
-            company_tax_ids = self.pool.get('res.company').read(
-                cr, uid, fposition_id.company_id.id, ['tax_ids'],
-                context=context)['tax_ids']
+        context.get('type_tax_use', 'all') in ('sale', 'all'):
+            if context.get('fiscal_type', 'product') == 'product':
+                company_tax_ids = self.pool.get('res.company').read(
+                    cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
+                    context=context)['product_tax_ids']
+            else:
+                company_tax_ids = self.pool.get('res.company').read(
+                    cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
+                    context=context)['service_tax_ids']
+
             company_taxes = self.pool.get('account.tax').browse(
-                cr, uid, company_tax_ids, context=context)
-            
+                    cr, uid, company_tax_ids, context=context)
             if taxes:
                 all_taxes = taxes + company_taxes
             else:
