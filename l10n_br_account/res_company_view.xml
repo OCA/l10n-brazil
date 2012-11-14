@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
+	<data>
 
-        <record model="ir.ui.view" id="view_l10n_br_account_company_form">
-		<field name="name">l10n_br_account.company</field>
-		<field name="model">res.company</field>
-		<field name="inherit_id" ref="base.view_company_form" />
-		<field name="arch" type="xml">
-			<notebook>
-				<page position="inside" string="l10n_br">
-					<notebook>
+		<record model="ir.ui.view" id="view_l10n_br_account_company_form">
+			<field name="name">l10n_br_account.company</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<notebook>
+					<page position="inside" string="l10n_br">
+						<notebook>
 							<page string="Dados Fiscais">
 								<field name="fiscal_type" />
 								<separator colspan="4" string="CNAE Primário" />
@@ -24,17 +24,18 @@
 								<field colspan="4" name="annual_revenue" />
 							</page>
 							<page string="Documentos Fiscais">
-								<separator colspan="4" string="Documento Fiscal para Produtos"/>
-								<field colspan="4" name="product_invoice_id" required="1"/>
-								<separator colspan="4" string="Documento Fiscal para Serviços"/>
-								<field colspan="4" name="service_invoice_id" required="1"/>
+								<separator colspan="4" string="Documento Fiscal para Produtos" />
+								<field colspan="4" name="product_invoice_id" required="1" />
+								<separator colspan="4" string="Documento Fiscal para Serviços" />
+								<field colspan="4" name="service_invoice_id" required="1" />
 								<separator colspan="8" string="Configurações de Entrada" />
 								<field name="in_invoice_fiscal_category_id" />
 								<field name="in_invoice_service_fiscal_category_id" />
 								<separator colspan="8" string="Configurações de Saida" />
 								<field name="out_invoice_fiscal_category_id" />
 								<field name="out_invoice_service_fiscal_category_id" />
-								<separator colspan="8" string="Categoria Fiscal de Produto Padrão de Saída" />
+								<separator colspan="8"
+									string="Categoria Fiscal de Produto Padrão de Saída" />
 								<field name="out_refund_fiscal_category_id" />
 								<field name="in_refund_fiscal_category_id" />
 							</page>
@@ -42,54 +43,89 @@
 								<separator colspan="4" string="Série da Nota Fiscal de Serviço" />
 								<field colspan="4" name="document_serie_service_id" />
 								<separator colspan="4" string="Série de Documentos Fiscais" />
-								<field colspan="4" nolabel="1" name="document_serie_product_ids" required="1" />
+								<field colspan="4" nolabel="1" name="document_serie_product_ids"
+									required="1" />
+							</page>
+							<page string="Impostos">
+								<separator colspan="4" string="Impostos sobre Produtos" />
+								<field colspan="2" nolabel="1" widget="one2many_list"
+									name="product_tax_definition_line" />
+								<separator colspan="4" string="Impostos sobre Serviços" />
+								<field colspan="2" nolabel="1" widget="one2many_list"
+									name="service_tax_definition_line" />
 							</page>
 							<page string="NFe">
 								<field name="nfe_version" required="1" />
-								<newline/>
+								<newline />
 								<field colspan="4" name="nfe_source_folder" />
 								<field colspan="4" name="nfe_destination_folder" />
 							</page>
-							<page string="Impostos sobre Produtos">
-								<field colspan="2" nolabel="1" widget="one2many_list" name="tax_definition_line"/>
-							</page>
 							<page string="NFse">
 								<field name="nfse_version" required="1" />
-								<newline/>
+								<newline />
 								<field colspan="4" name="nfse_source_folder" />
 								<field colspan="4" name="nfse_destination_folder" />
 							</page>
 						</notebook>
-				</page>
-			</notebook>
-		</field>
-	</record>
-	
-	<record model="ir.ui.view" id="l10n_br_tax_definition_company_form">
-			<field name="name">l10n_br_tax.definition.company.form</field>
-			<field name="model">l10n_br_tax.definition.company</field>
+					</page>
+				</notebook>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="l10n_br_tax_definition_company_product_form">
+			<field name="name">l10n_br_tax.definition.company.product.form</field>
+			<field name="model">l10n_br_tax.definition.company.product</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<form string="Tax Definition">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
-					<field name="tax_domain"  invisible="1"/>
+				<form string="Definição de Impostos">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)"
+						domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1" />
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
 				</form>
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_taxdefinition_company_tree">
-			<field name="name">l10n_br_tax.definition.company.tree</field>
-			<field name="model">l10n_br_tax.definition.company</field>
+		<record model="ir.ui.view" id="l10n_br_tax_definition_company_product_tree">
+			<field name="name">l10n_br_tax.definition.company.product.tree</field>
+			<field name="model">l10n_br_tax.definition.company.product</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
-				<tree string="Tax Definition" editable="bottom">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
-					<field name="tax_domain"  invisible="1"/>
+				<tree string="Definição de Impostos" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)"
+						domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]"
+						select="1" />
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="l10n_br_tax_definition_company_service_form">
+			<field name="name">l10n_br_tax.definition.company.service.form</field>
+			<field name="model">l10n_br_tax.definition.company.service</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Definição de Impostos">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="l10n_br_tax_definition_company_service_tree">
+			<field name="name">l10n_br_tax.definition.company.service.tree</field>
+			<field name="model">l10n_br_tax.definition.company.service</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Definição de Impostos" editable="bottom">
+					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_domain" invisible="1" />
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
 				</tree>
 			</field>
 		</record>
 
-    </data>
+	</data>
 </openerp>
