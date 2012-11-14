@@ -234,7 +234,7 @@ class purchase_order_line(osv.osv):
         result = super(purchase_order_line, self).product_id_change(
             cr, uid, ids, pricelist, product, qty, uom, partner_id,
             date_order, fiscal_position, date_planned, name, price_unit, notes)
-        
+        print result
         if not product or not fiscal_category_id:
             return result 
         
@@ -243,13 +243,12 @@ class purchase_order_line(osv.osv):
             cr, uid, product, fiscal_category_id)
 
         if product_fiscal_category_id:
+            fiscal_category_id = product_fiscal_category_id
             result['value']['fiscal_category_id'] = product_fiscal_category_id
-
-        result['value']['fiscal_category_id'] = product_category_id
 
         fiscal_result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_address_id, company_id,
-            result['value']['fiscal_category_id'],
+            fiscal_category_id,
             context={'use_domain': ('use_purchase', '=', True)})
 
         result['value'].update(fiscal_result)
@@ -297,7 +296,8 @@ class purchase_order_line(osv.osv):
                 cr, uid, fiscal_position)
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product_id)
-            context = {'fiscal_type': obj_product.fiscal_type}
+            context = {'fiscal_type': obj_product.fiscal_type,
+                       'type_tax_use': 'purchase'}
             taxes = obj_product.supplier_taxes_id or False
             tax_ids = self.pool.get('account.fiscal.position').map_tax(
                 cr, uid, obj_fposition, taxes, context)
