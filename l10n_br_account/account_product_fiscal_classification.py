@@ -185,3 +185,59 @@ class l10n_br_tax_definition_purchase(osv.osv):
         u'Imposto já existente nesta classificação fiscal!')]
 
 l10n_br_tax_definition_purchase()
+
+
+class wizard_account_product_fiscal_classification(osv.osv_memory):
+    _inherit = 'wizard.account.product.fiscal.classification'
+    _columns = {
+                'company_id':fields.many2one('res.company','Company'),
+                }
+
+    def action_create(self, cr, uid, ids, context=None):
+
+        result = super(wizard_account_product_fiscal_classification, self).action_create(cr, uid, ids, context)
+        
+        obj_wizard = self.browse(cr,uid,ids[0])
+        obj_tax = self.pool.get('account.tax')
+        obj_tax_template = self.pool.get('account.tax.template')
+        obj_fiscal_classification = self.pool.get('account.product.fiscal.classification')
+        obj_fiscal_classification_template = self.pool.get('account.product.fiscal.classification.template')
+
+        company_id = obj_wizard.company_id.id
+        tax_template_ref = {}
+        
+        tax_ids = obj_tax.search(cr,uid,[('company_id','=',company_id)])
+        
+        for tax in obj_tax.browse(cr,uid,tax_ids):
+            tax_template = obj_tax_template.search(cr,uid,[('name','=',tax.name)])[0]
+            
+            if tax_template:
+                tax_template_ref[tax_template] = tax.id
+        
+        fclass_ids_template = obj_fiscal_classification_template.search(cr, uid, [])
+        
+        for fclass_template in obj_fiscal_classification_template.browse(cr, uid, fclass_ids_template):
+            
+            fclass_id = obj_fiscal_classification.search(cr, uid, [('name','=',fclass_template.name)])
+            
+            if not fclass_id: 
+                sale_tax_ids = []
+                for tax in fclass_template.sale_base_tax_ids:
+                    sale_tax_ids.append(tax_template_ref[tax.id])
+                
+                purchase_tax_ids = []
+                for tax in fclass_template.purchase_base_tax_ids:
+                    purchase_tax_ids.append(tax_template_ref[tax.id])
+                
+                vals = {
+                        'name': fclass_template.name,
+                        'description': fclass_template.description,
+                        'company_id': company_id,
+                        'sale_base_tax_ids': [(6,0, sale_tax_ids)],
+                        'purchase_base_tax_ids': [(6,0, purchase_tax_ids)]
+                        }
+                obj_fiscal_classification.create(cr,uid,vals)
+            
+        return {}
+
+wizard_account_product_fiscal_classification()
