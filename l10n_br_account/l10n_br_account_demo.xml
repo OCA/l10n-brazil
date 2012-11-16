@@ -3,20 +3,5 @@
 
 	<data noupdate="1">
 
-		<!-- account.journal -->
-		<record id="profile_diario_bonificacao" model="account.journal">
-		    <field name="name">Bonificação</field>
-		    <field name="code">IBON</field>
-		    <field name="type">sale</field>
-		    <field name="view_id" ref="account.account_sp_journal_view"/>
-		    <field name="sequence_id" ref="account.sequence_sale_journal"/>
-		    <field name="update_posted" eval="1" />
-		    <field name="group_invoice_lines" eval="0" />
-		    <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
-		    <field name="default_debit_account_id" ref="account_demo_602"/>  -->
-		    <field name="user_id" ref="base.user_root"/>
-		    <field name="company_id" ref="base.main_company"/>
-		</record>
-
 	</data>
 </openerp>
