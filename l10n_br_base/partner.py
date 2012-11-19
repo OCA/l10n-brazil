@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
+# Copyright (C) 2009 Gabriel C. Stabel                                        #
+# Copyright (C) 2009-2012  Renato Lima (Akretion)                             #
+# Copyright (C) 2012 Raphaël Valyi (Akretion)                                 #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -44,7 +46,7 @@ PARAMETERS = {
     'se': {'tam': 9}}
 
 
-class res_partner(osv.osv):
+class res_partner(osv.Model):
     _inherit = 'res.partner'
 
     def _get_partner(self, cr, uid, ids, context=None):
@@ -64,13 +66,16 @@ class res_partner(osv.osv):
             #TODO shouldn't we get the default one if no invoice one is found?
 
             if partner_addr:
-                partner_addr_default = self.pool.get('res.partner').browse(cr, uid, [partner_addr['invoice']])[0]
-                addr_fs_code = partner_addr_default.state_id and partner_addr_default.state_id.code or ''
+                partner_addr_default = self.pool.get('res.partner')\
+                .browse(cr, uid, [partner_addr['invoice']])[0]
+                addr_fs_code = partner_addr_default.state_id\
+                and partner_addr_default.state_id.code or ''
                 res[partner.id]['addr_fs_code'] = addr_fs_code.lower()
 
         return res
 
     _columns = {
+<<<<<<< HEAD
 <<<<<<< HEAD
                 'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
                 'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
@@ -84,10 +89,6 @@ class res_partner(osv.osv):
                                                 store={'res.partner.address': (_get_partner_address, ['country_id', 'state_id'], 20),}),
 
                 }
-=======
-        'tipo_pessoa': fields.selection([('F', 'Física'),
-                                         ('J', 'Jurídica')],
-                                        'Tipo de pessoa', required=True),
         'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
         'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
@@ -103,19 +104,16 @@ class res_partner(osv.osv):
             multi='all',
             store={
                    'res.partner': (
-                        _get_partner, ['country_id',
-                                               'state_id'], 20), }),
+                                   _get_partner,
+                                   ['country_id', 'state_id'], 20), }),
 
         # address fields:
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city',
-                                           'Municipio',
-                                           domain="[('state_id','=',state_id)]"),
+        'l10n_br_city_id':\
+        fields.many2one('l10n_br_base.city', 'Municipio',\
+                        domain="[('state_id','=',state_id)]"),
         'district': fields.char('Bairro', size=32),
         'number': fields.char('Número', size=10)
                 }
-
-    _defaults = {
-        'tipo_pessoa': lambda *a: 'J'}
 
     def _check_cnpj_cpf(self, cr, uid, ids):
 
@@ -123,11 +121,10 @@ class res_partner(osv.osv):
             if not partner.cnpj_cpf:
                 continue
 
-            if partner.tipo_pessoa == 'J':
+            if partner.is_company:
                 if not self._validate_cnpj(partner.cnpj_cpf):
                     return False
-            elif partner.tipo_pessoa == 'F':
-                if not self._validate_cpf(partner.cnpj_cpf):
+            elif not self._validate_cpf(partner.cnpj_cpf):
                     return False
 
         return True
@@ -234,7 +231,8 @@ class res_partner(osv.osv):
         prod = PARAMETERS[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
         prod = prod[-val_tam:]
         while len(nova_ie) < tam:
-            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf].get('div', 11)
+            r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf]\
+            .get('div', 11)
 
             if r > 1:
                 f = 11 - r
@@ -264,7 +262,7 @@ class res_partner(osv.osv):
         for partner in self.browse(cr, uid, ids):
             if not partner.inscr_est \
                 or partner.inscr_est == 'ISENTO' \
-                or partner.tipo_pessoa == 'F':
+                or not partner.is_company:
                 continue
 
             uf = partner.addr_fs_code
@@ -597,7 +595,8 @@ class res_partner(osv.osv):
 
     _constraints = [
                     (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-                    (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])]
+                    (_check_ie, u'Inscrição Estadual inválida!',
+                     ['inscr_est'])]
 
     _sql_constraints = [
         ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
@@ -605,18 +604,19 @@ class res_partner(osv.osv):
         ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
-        if not cnpj_cpf or not tipo_pessoa:
+    #TODO signature changed for v7, migrate view!
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
+        if cnpj_cpf:
+            val = re.sub('[^0-9]', '', cnpj_cpf)
+            if is_company and len(val) == 14:
+                cnpj_cpf = "%s.%s.%s/%s-%s"\
+                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+            elif not is_company and len(val) == 11:
+                cnpj_cpf = "%s.%s.%s-%s"\
+                % (val[0:3], val[3:6], val[6:9], val[9:11])
+            return {'value': {'cnpj_cpf': cnpj_cpf}}
+        else:
             return {}
-        val = re.sub('[^0-9]', '', cnpj_cpf)
-
-        if tipo_pessoa == 'J' and len(val) == 14:
-            cnpj_cpf = "%s.%s.%s/%s-%s" % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-
-        elif tipo_pessoa == 'F' and len(val) == 11:
-            cnpj_cpf = "%s.%s.%s-%s" % (val[0:3], val[3:6], val[6:9], val[9:11])
-
-        return {'value': {'tipo_pessoa': tipo_pessoa, 'cnpj_cpf': cnpj_cpf}}
 
     #TODO migrate
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
@@ -682,9 +682,12 @@ class res_partner(osv.osv):
             else:
                 domain.append(('street', '=', res_partner_address.street))
                 domain.append(('district', '=', res_partner_address.district))
-                domain.append(('country_id', '=', res_partner_address.country_id.id))
-                domain.append(('state_id', '=', res_partner_address.state_id.id))
-                domain.append(('l10n_br_city_id', '=', res_partner_address.l10n_br_city_id.id))
+                domain.append(('country_id', '=', \
+                               res_partner_address.country_id.id))
+                domain.append(('state_id', '=', \
+                               res_partner_address.state_id.id))
+                domain.append(('l10n_br_city_id', '=', \
+                               res_partner_address.l10n_br_city_id.id))
 
             zip_id = obj_zip.search(cr, uid, domain)
 
@@ -694,9 +697,11 @@ class res_partner(osv.osv):
                                 'zip': res_partner_address.zip,
                                 'street': res_partner_address.street,
                                 'district': res_partner_address.district,
-                                'country_id': res_partner_address.country_id.id,
+                                'country_id': \
+                                res_partner_address.country_id.id,
                                 'state_id': res_partner_address.state_id.id,
-                                'l10n_br_city_id': res_partner_address.l10n_br_city_id.id,
+                                'l10n_br_city_id': \
+                                res_partner_address.l10n_br_city_id.id,
                                 'address_id': ids,
                                 'object_name': self._name,
                                 })
@@ -720,24 +725,31 @@ class res_partner(osv.osv):
                                                       'code',
                                                       'l10n_br_city_id',
                                                       'city', 'state_id',
-                                                      'country_id'], context=context)[0]
+                                                      'country_id'
+                                                      ],
+                                    context=context)[0]
 
             zip = re.sub('[^0-9]', '', zip_read['code'] or '')
             if len(zip) == 8:
                 zip = '%s-%s' % (zip[0:5], zip[5:8])
 
-            result['street'] = ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or ''))
+            result['street'] = ((zip_read['street_type'] or '') + ' ' \
+                                + (zip_read['street'] or ''))
             result['district'] = zip_read['district']
             result['zip'] = zip
-            result['l10n_br_city_id'] = zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][0] or False
-            result['city'] = zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][1] or ''
-            result['state_id'] = zip_read['state_id'] and zip_read['state_id'][0] or False
-            result['country_id'] = zip_read['country_id'] and zip_read['country_id'][0] or False
+            result['l10n_br_city_id'] = zip_read['l10n_br_city_id'] \
+            and zip_read['l10n_br_city_id'][0] or False
+            result['city'] = zip_read['l10n_br_city_id'] \
+            and zip_read['l10n_br_city_id'][1] or ''
+            result['state_id'] = zip_read['state_id'] \
+            and zip_read['state_id'][0] or False
+            result['country_id'] = zip_read['country_id'] \
+            and zip_read['country_id'][0] or False
             self.write(cr, uid, res_partner_address.id, result)
             return False
 
 
-class res_partner_bank(osv.osv):
+class res_partner_bank(osv.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
     bancárias na brasil.
     """
