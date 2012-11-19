@@ -18,23 +18,23 @@
 ###############################################################################
 
 {
-    'name' : 'Brazilian Localization Base',
-    'description' : 'Brazilian Localization Base',
-    'category' : 'Localisation',
+    'name': 'Brazilian Localization Base',
+    'description': 'Brazilian Localization Base',
+    'category': 'Localisation',
     'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : ['base'],
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': ['base'],
     'init_xml': [
                 'res.country.state.csv',
-                'l10n_br_base.city.csv',
+#                'l10n_br_base.city.csv',
                 ],
-    'update_xml' : [
+    'update_xml': [
                     'l10n_br_base_data.xml',
                     'l10n_br_base_view.xml',
                     'res_country_view.xml',
-                    'wizard/l10n_br_base_zip_search_view.xml',
+#                    'wizard/l10n_br_base_zip_search_view.xml',
                     'partner_view.xml',
                     'security/ir.model.access.csv',
                     'security/l10n_br_base_security.xml',
@@ -43,6 +43,6 @@
             'test/base_inscr_est_valid.yml',
             'test/base_inscr_est_invalid.yml',
             ],
-    'demo_xml': ['l10n_br_base_demo.xml'],
+#    'demo_xml': ['l10n_br_base_demo.xml'],
     'installable': True
 }
