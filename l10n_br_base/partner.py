@@ -47,11 +47,11 @@ PARAMETERS = {
 class res_partner(osv.osv):
     _inherit = 'res.partner'
 
-    def _get_partner_address(self, cr, uid, ids, context=None):
+    def _get_partner(self, cr, uid, ids, context=None):
         result = {}
-        for parnter_addr in self.pool.get('res.partner.address').browse(
+        for partner_addr in self.pool.get('res.partner').browse(
             cr, uid, ids, context=context):
-            result[parnter_addr.partner_id.id] = True
+            result[partner_addr.parent_id.id] = True
         return result.keys()
 
     def _address_default_fs(self, cr, uid, ids, name, arg, context=None):
@@ -61,9 +61,10 @@ class res_partner(osv.osv):
 
             partner_addr = self.pool.get('res.partner').address_get(
                 cr, uid, [partner.id], ['invoice'])
+            #TODO shouldn't we get the default one if no invoice one is found?
 
             if partner_addr:
-                partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['invoice']])[0]
+                partner_addr_default = self.pool.get('res.partner').browse(cr, uid, [partner_addr['invoice']])[0]
                 addr_fs_code = partner_addr_default.state_id and partner_addr_default.state_id.code or ''
                 res[partner.id]['addr_fs_code'] = addr_fs_code.lower()
 
@@ -101,9 +102,17 @@ class res_partner(osv.osv):
             type="char", size=2,
             multi='all',
             store={
-                   'res.partner.address': (
-                        _get_partner_address, ['country_id',
-                                               'state_id'], 20), })}
+                   'res.partner': (
+                        _get_partner, ['country_id',
+                                               'state_id'], 20), }),
+
+        # address fields:
+        'l10n_br_city_id': fields.many2one('l10n_br_base.city',
+                                           'Municipio',
+                                           domain="[('state_id','=',state_id)]"),
+        'district': fields.char('Bairro', size=32),
+        'number': fields.char('Número', size=10)
+                }
 
     _defaults = {
         'tipo_pessoa': lambda *a: 'J'}
@@ -609,19 +618,7 @@ class res_partner(osv.osv):
 
         return {'value': {'tipo_pessoa': tipo_pessoa, 'cnpj_cpf': cnpj_cpf}}
 
-res_partner()
-
-
-class res_partner_address(osv.osv):
-    """Adiciona os campos necessários para o endereço do parceiro."""
-    _inherit = 'res.partner.address'
-    _columns = {
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city',
-                                           'Municipio',
-                                           domain="[('state_id','=',state_id)]"),
-        'district': fields.char('Bairro', size=32),
-        'number': fields.char('Número', size=10)}
-
+    #TODO migrate
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
@@ -647,6 +644,7 @@ class res_partner_address(osv.osv):
 
         return result
 
+    #TODO migrate
     def onchange_mask_zip(self, cr, uid, ids, zip):
 
         result = {'value': {'zip': False}}
@@ -661,6 +659,7 @@ class res_partner_address(osv.osv):
             result['value']['zip'] = zip
         return result
 
+    #TODO migrate
     def zip_search(self, cr, uid, ids, context=None):
 
         result = {
@@ -737,8 +736,6 @@ class res_partner_address(osv.osv):
             self.write(cr, uid, res_partner_address.id, result)
             return False
 
-res_partner_address()
-
 
 class res_partner_bank(osv.osv):
     """ Adiciona campos necessários para o cadastramentos de contas
@@ -751,5 +748,3 @@ class res_partner_bank(osv.osv):
         'acc_number_dig': fields.char("Digito Conta", size=8),
         'bra_number': fields.char("Agência", size=8),
         'bra_number_dig': fields.char("Dígito Agência", size=8)}
-
-res_partner_bank()
