@@ -20,8 +20,8 @@
 from osv import osv, fields
 
 class l10n_br_base_city(osv.Model):
-    """ Este objeto persite todos os municípios relacionado a um estado. 
-    No Brasil é necesário em alguns documentos fiscais informar o código  
+    """ Este objeto persite todos os municípios relacionado a um estado.
+    No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos da transação.
     """
     _name = 'l10n_br_base.city'
@@ -36,7 +36,7 @@ l10n_br_base_city()
 
 
 class l10n_br_base_zip(osv.Model):
-    """ Este objeto persiste todos os códigos postais que podem ser 
+    """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
     _name = 'l10n_br_base.zip'
