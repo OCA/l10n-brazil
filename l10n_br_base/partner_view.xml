@@ -54,7 +54,7 @@
         		</field>
    		</record>
 		
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form2">
+		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form2">
 	   		<field name="name">l10n_br_base.partner.form2</field>
       		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
@@ -65,9 +65,9 @@
 						<button name="zip_search" colspan="2" string="Pesquisar CEP" type="object" icon="gtk-select-all"/>
         			</xpath>
         		</field>
-   		</record>
+   		</record -->
 		
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form3">
+		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form3">
 	   		<field name="name">l10n_br_base.partner.form3</field>
 		    <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
@@ -77,9 +77,9 @@
 					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
         			</xpath>
         		</field>
-   		</record>
+   		</record -->
 
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form4">
+		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form4">
 	   		<field name="name">l10n_br_base.partner.form4</field>
 		    <field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="base.view_partner_form"/>
@@ -89,10 +89,10 @@
 						<field name="city" invisible="1" />
         			</xpath>
         		</field>
-   		</record>
+   		</record -->
 		
 
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form5">
+		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form5">
 			<field name="name">l10n_br_base.partner.form5</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
@@ -107,10 +107,10 @@
 		        	</page>
 				</notebook>
 			</field>
-		</record>
+		</record -->
 		
 		<!-- Contato do Parceiro Personalizado -->
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form1">
+		<!-- record model="ir.ui.view" id="view_l10n_br_base_partner_address_form1">
 			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
 			<field name="inherit_id" ref="base.view_partner_address_form1"/>
@@ -121,8 +121,9 @@
 				</field>
 
 			</field>
-		</record>
+		</record -->
 		
+		<!-- 
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form2">
 			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
@@ -157,10 +158,12 @@
 				</field>
 			</field>
 		</record>
+		-->
 				
 		<!-- Contato do Parceiro Personalizado usado no form partner -->
 		
 		<!-- Contato do Parceiro Personalizado -->
+		<!-- 
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form6">
 			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
@@ -195,6 +198,7 @@
 				</field>
 			</field>
 		</record>
+		-->
 		
 		<!-- res.partner.bank -->
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_form">
