@@ -34,12 +34,12 @@ PARAMETERS = {
     'pa': {'tam': 9, 'starts_with': '15'},
     'pb': {'tam': 9},
     'pr': {'tam': 10, 'val_tam': 8, 'prod': [3, 2, 7, 6, 5, 4, 3, 2]},
-    'pi': {'tam': 9 },
-    'rj': {'tam': 8 , 'prod': [2, 7, 6, 5, 4, 3, 2]},
-    'rn': {'tam': 10, 'val_tam':  9,  'prod' : [10, 9, 8, 7, 6, 5, 4, 3, 2] },
+    'pi': {'tam': 9},
+    'rj': {'tam': 8, 'prod': [2, 7, 6, 5, 4, 3, 2]},
+    'rn': {'tam': 10, 'val_tam':  9,  'prod': [10, 9, 8, 7, 6, 5, 4, 3, 2]},
     'rs': {'tam': 10},
     'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
-           'div':9},
+           'div': 9},
     'sc': {'tam': 9},
     'se': {'tam': 9}}
 
@@ -58,10 +58,10 @@ class res_partner(osv.osv):
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
             res[partner.id] = {'addr_fs_code': False}
-            
+
             partner_addr = self.pool.get('res.partner').address_get(
                 cr, uid, [partner.id], ['invoice'])
-            
+
             if partner_addr:
                 partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_addr['invoice']])[0]
                 addr_fs_code = partner_addr_default.state_id and partner_addr_default.state_id.code or ''
@@ -91,7 +91,7 @@ class res_partner(osv.osv):
         'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
         'suframa': fields.char('Suframa', size=18),
-        'legal_name' : fields.char('Razão Social', size=128,
+        'legal_name': fields.char('Razão Social', size=128,
                                    help="nome utilizado em "
                                    "documentos fiscais"),
         'addr_fs_code': fields.function(
@@ -103,8 +103,7 @@ class res_partner(osv.osv):
             store={
                    'res.partner.address': (
                         _get_partner_address, ['country_id',
-                                               'state_id'], 20),})}
->>>>>>> l10n_br_base: limpeza e formatação do código
+                                               'state_id'], 20), })}
 
     _defaults = {
         'tipo_pessoa': lambda *a: 'J'}
@@ -125,11 +124,11 @@ class res_partner(osv.osv):
         return True
 
     def _validate_cnpj(self, cnpj):
-        """ Rotina para validação do CNPJ - Cadastro Nacional 
+        """ Rotina para validação do CNPJ - Cadastro Nacional
         de Pessoa Juridica.
-        
+
         :param string cnpj: CNPJ para ser validado
-        
+
         :return bool: True or False
         """
         # Limpando o cnpj
@@ -146,7 +145,7 @@ class res_partner(osv.osv):
 
         prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
         while len(novo) < 14:
-            r = sum([x*y for (x, y) in zip(novo, prod)]) % 11
+            r = sum([x * y for (x, y) in zip(novo, prod)]) % 11
             if r > 1:
                 f = 11 - r
             else:
@@ -161,11 +160,11 @@ class res_partner(osv.osv):
         return False
 
     def _validate_cpf(self, cpf):
-        """Rotina para validação do CPF - Cadastro Nacional 
+        """Rotina para validação do CPF - Cadastro Nacional
         de Pessoa Física.
-        
+
         :Return: True or False
-        
+
         :Parameters:
           - 'cpf': CPF to be validate.
         """
@@ -180,7 +179,7 @@ class res_partner(osv.osv):
         novo = cpf[:9]
 
         while len(novo) < 11:
-            r = sum([(len(novo)+1-i)*v for i, v in enumerate(novo)]) % 11
+            r = sum([(len(novo) + 1 - i) * v for i, v in enumerate(novo)]) % 11
 
             if r > 1:
                 f = 11 - r
@@ -193,18 +192,18 @@ class res_partner(osv.osv):
             return True
 
         return False
-    
+
     def _validate_ie_param(self, uf, inscr_est):
 
         if not uf in PARAMETERS:
             return True
-        
-        tam = PARAMETERS[uf].get('tam', 0) 
-         
-        inscr_est = unicode(inscr_est).strip().rjust(int(tam),u'0')
+
+        tam = PARAMETERS[uf].get('tam', 0)
+
+        inscr_est = unicode(inscr_est).strip().rjust(int(tam), u'0')
 
         inscr_est = re.sub('[^0-9]', '', inscr_est)
-        
+
         val_tam = PARAMETERS[uf].get('val_tam', tam - 1)
         if isinstance(tam, list):
             i = tam.find(len(inscr_est))
@@ -215,40 +214,39 @@ class res_partner(osv.osv):
         else:
             if len(inscr_est) != tam:
                 return False
-    
+
         sw = PARAMETERS[uf].get('starts_with', '')
         if not inscr_est.startswith(sw):
             return False
-    
+
         inscr_est_ints = [int(c) for c in inscr_est]
         nova_ie = inscr_est_ints[:val_tam]
-    
+
         prod = PARAMETERS[uf].get('prod', [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
         prod = prod[-val_tam:]
         while len(nova_ie) < tam:
             r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf].get('div', 11)
-            
+
             if r > 1:
                 f = 11 - r
             else:
                 f = 0
-                
-            if not uf in 'rr':    
+
+            if not uf in 'rr':
                 nova_ie.append(f)
             else:
                 nova_ie.append(r)
             prod.insert(0, prod[0] + 1)
-    
+
         # Se o número gerado coincidir com o número original, é válido
         return nova_ie == inscr_est_ints
-
 
     def _check_ie(self, cr, uid, ids):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
-        
+
         :Return: True or False.
-        
+
         :Parameters:
             - 'cr': Database cursor.
             - 'uid': Current user’s ID for security checks.
@@ -407,12 +405,12 @@ class res_partner(osv.osv):
         r = re.sub('[^0-9]', '', r)
         r = map(int, r)
         r = sum(r)
-        r2 = (r / 10 + 1) * 10 
+        r2 = (r / 10 + 1) * 10
         r = r2 - r
-           
-        if r >=10:
-            r = 0;
-        
+
+        if r >= 10:
+            r = 0
+
         nova_ie.append(r)
 
         prod = [3, 2, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
@@ -593,18 +591,10 @@ class res_partner(osv.osv):
                     (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])]
 
     _sql_constraints = [
-<<<<<<< HEAD
-                    ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)', 
-                     u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-                    ('res_partner_inscr_est_uniq', 'unique (inscr_est)', 
-                     u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
-    ]
-=======
-        ('res_partner_cnpj_cpf_uniq','unique (cnpj_cpf)',
+        ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
          u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
         ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
->>>>>>> l10n_br_base: limpeza e formatação do código
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, tipo_pessoa, cnpj_cpf):
         if not cnpj_cpf or not tipo_pessoa:
@@ -621,6 +611,7 @@ class res_partner(osv.osv):
 
 res_partner()
 
+
 class res_partner_address(osv.osv):
     """Adiciona os campos necessários para o endereço do parceiro."""
     _inherit = 'res.partner.address'
@@ -632,14 +623,14 @@ class res_partner_address(osv.osv):
         'number': fields.char('Número', size=10)}
 
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
-        """ Ao alterar o campo l10n_br_city_id que é um campo relacional 
-        com o l10n_br_base.city que são os municípios do IBGE, copia o nome 
-        do município para o campo city que é o campo nativo do módulo base 
-        para manter a compatibilidade entre os demais módulos que usam o 
+        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
+        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
+        do município para o campo city que é o campo nativo do módulo base
+        para manter a compatibilidade entre os demais módulos que usam o
         campo city.
-        
+
         param int l10n_br_city_id: id do l10n_br_city_id digitado.
-        
+
         return: dicionário com o nome e id do município.
         """
         result = {'value': {'city': False, 'l10n_br_city_id': False}}
@@ -648,7 +639,7 @@ class res_partner_address(osv.osv):
             return result
 
         obj_city = self.pool.get('l10n_br_base.city').read(
-            cr, uid, l10n_br_city_id, ['name','id'])
+            cr, uid, l10n_br_city_id, ['name', 'id'])
 
         if obj_city:
             result['value']['city'] = obj_city['name']
@@ -695,7 +686,7 @@ class res_partner_address(osv.osv):
                 domain.append(('country_id', '=', res_partner_address.country_id.id))
                 domain.append(('state_id', '=', res_partner_address.state_id.id))
                 domain.append(('l10n_br_city_id', '=', res_partner_address.l10n_br_city_id.id))
-            
+
             zip_id = obj_zip.search(cr, uid, domain)
 
             if not len(zip_id) == 1:
@@ -726,7 +717,7 @@ class res_partner_address(osv.osv):
 
             zip_read = obj_zip.read(cr, uid, zip_id, [
                                                       'street_type',
-                                                      'street','district',
+                                                      'street', 'district',
                                                       'code',
                                                       'l10n_br_city_id',
                                                       'city', 'state_id',
@@ -750,7 +741,7 @@ res_partner_address()
 
 
 class res_partner_bank(osv.osv):
-    """ Adiciona campos necessários para o cadastramentos de contas 
+    """ Adiciona campos necessários para o cadastramentos de contas
     bancárias na brasil.
     """
     _inherit = 'res.partner.bank'
