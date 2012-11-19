@@ -26,7 +26,7 @@
 			</field>
 		</record>
 		
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
+		<!-- record model="ir.ui.view" id="view_l10n_br_base_partner_form">
 			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
@@ -52,7 +52,7 @@
 						<field name="district" />						
 	        		</xpath>
         		</field>
-   		</record>
+   		</record -->
 		
 		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form2">
 	   		<field name="name">l10n_br_base.partner.form2</field>
