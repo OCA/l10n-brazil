@@ -7,3 +7,11 @@
 "l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","base.group_sale_salesman",1,0,0,0
 "account_fiscal_position_rule","account.fiscal.position.rule","account_fiscal_position_rule.model_account_fiscal_position_rule","base.group_sale_salesman",1,0,0,0
 "account_fiscal_position_rule_template","account.fiscal.position.rule.template","account_fiscal_position_rule.model_account_fiscal_position_rule_template","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_template_salesman","l10n_br_tax.definition.template","l10n_br_account.model_l10n_br_tax_definition_template","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_salesman","l10n_br_tax.definition","l10n_br_account.model_l10n_br_tax_definition","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_sale_template_salesman","l10n_br_tax.definition.sale.template","l10n_br_account.model_l10n_br_tax_definition_sale_template","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_purchase_template_salesman","l10n_br_tax.definition.purchase.template","l10n_br_account.model_l10n_br_tax_definition_purchase_template","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_sale_salesman","l10n_br_tax.definition.sale","l10n_br_account.model_l10n_br_tax_definition_sale","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_purchase_salesman","l10n_br_tax.definition.purchase","l10n_br_account.model_l10n_br_tax_definition_purchase","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_company_product_salesman","l10n_br_tax.definition.company.product","l10n_br_account.model_l10n_br_tax_definition_company_product","base.group_sale_salesman",1,0,0,0
+"l10n_br_tax_definition_company_service_salesman","l10n_br_tax.definition.company.service","l10n_br_account.model_l10n_br_tax_definition_company_service","base.group_sale_salesman",1,0,0,0
