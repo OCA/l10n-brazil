@@ -49,6 +49,42 @@ PARAMETERS = {
 class res_partner(osv.Model):
     _inherit = 'res.partner'
 
+    def _display_address(self, cr, uid, address,
+                         without_company=False, context=None):
+        if address.country_id and address.country_id.name != 'Brazil':
+            #this ensure other localizations could do what they want
+            return super(res_partner,
+                         self)._display_address(cr, uid, address,
+                                                without_company=False,
+                                                context=None)
+        else:
+            address_format = address.country_id and \
+            address.country_id.address_format or \
+            "%(street)s\n%(street2)s\n%(city)s %(state_code)s"
+            "%(zip)s\n%(country_name)s"
+            args = {
+                'state_code': address.state_id and address.state_id.code or '',
+                'state_name': address.state_id and address.state_id.name or '',
+                'country_code': address.country_id and \
+                address.country_id.code or '',
+                'country_name': address.country_id and \
+                address.country_id.name or '',
+                'company_name': address.parent_id and \
+                address.parent_id.name or '',
+                'l10n_br_city_name': address.l10n_br_city_id and \
+                address.l10n_br_city_id.name or '',
+                'state_code': address.state_id and address.state_id.code or ''
+            }
+            address_field = ['title', 'street', 'street2', 'zip', 'city',
+                             'number', 'district']
+            for field in address_field:
+                args[field] = getattr(address, field) or ''
+            if without_company:
+                args['company_name'] = ''
+            elif address.parent_id:
+                address_format = '%(company_name)s\n' + address_format
+            return address_format % args
+
     def _get_partner(self, cr, uid, ids, context=None):
         result = {}
         for partner_addr in self.pool.get('res.partner').browse(
@@ -604,8 +640,9 @@ class res_partner(osv.Model):
         ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
 
-    #TODO signature changed for v7, migrate view!
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
+        res = super(res_partner, self).onchange_type(self, cr, uid, ids, \
+                                                     is_company)
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
             if is_company and len(val) == 14:
@@ -614,9 +651,8 @@ class res_partner(osv.Model):
             elif not is_company and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s"\
                 % (val[0:3], val[3:6], val[6:9], val[9:11])
-            return {'value': {'cnpj_cpf': cnpj_cpf}}
-        else:
-            return {}
+            res['value'].update({'cnpj_cpf': cnpj_cpf})
+        return res
 
     #TODO migrate
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
