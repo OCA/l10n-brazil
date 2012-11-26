@@ -29,9 +29,9 @@ class res_company(osv.osv):
         for company in self.browse(cr, uid, ids, context=context):
             result[company.id] = {'product_tax_ids': [],
                                   'service_tax_ids': []}
-            product_tax_ids = [tax.id for tax in 
+            product_tax_ids = [tax.tax_id.id for tax in 
                                company.product_tax_definition_line]
-            service_tax_ids = [tax.id for tax in 
+            service_tax_ids = [tax.tax_id.id for tax in 
                                company.service_tax_definition_line]
             product_tax_ids.sort()
             service_tax_ids.sort()
