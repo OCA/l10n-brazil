@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<!-- Parceiro Personalizado -->
+		<!-- Parceiro -->
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_filter">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
@@ -26,20 +26,24 @@
 			</field>
 		</record>
 		
-		<!-- record model="ir.ui.view" id="view_l10n_br_base_partner_form">
+		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
 			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<field name="lang" position="replace">
-					<field colspan="4" name="legal_name"/>
-					<field name="tipo_pessoa" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/>
-					<field name="cnpj_cpf" colspan="4" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/> 
-					<field name="lang"/>	
+				<field name="is_company" position="replace">
+					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company,cnpj_cpf)" class="oe_inline"/>
+				</field>
+				<field name="parent_id" position="before">
+					<group>
+					<field colspan="4" name="legal_name" />
+					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/> 
+					</group>
 				</field>
 			</field>
 		</record>
 		
+		<!--
 		<record model="ir.ui.view" id="l10n_br_base_view_partner_form1" >
 	   		<field name="name">l10n_br_base.partner.form1</field>
        		<field name="model">res.partner</field>
@@ -109,7 +113,7 @@
 			</field>
 		</record -->
 		
-		<!-- Contato do Parceiro Personalizado -->
+		<!-- Contatos -->
 		<!-- record model="ir.ui.view" id="view_l10n_br_base_partner_address_form1">
 			<field name="name">l10n_br_base.partner.address</field>
 			<field name="model">res.partner.address</field>
