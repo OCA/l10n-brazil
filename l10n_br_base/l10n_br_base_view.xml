@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+	
+        <record id="base.br" model="res.country"><!-- TODO move elsewhere! -->
+            <field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
+        </record>
 
 		<menuitem icon="terp-crm" id="menu_l10n_br_base" name="Localização Brasil"/>
 		<menuitem id="menu_l10n_br_base_configuration" name="Configuração" parent="menu_l10n_br_base" sequence="0"/>
