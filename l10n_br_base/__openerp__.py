@@ -42,6 +42,6 @@
             'test/base_inscr_est_valid.yml',
             'test/base_inscr_est_invalid.yml',
             ],
-#    'demo_xml': ['l10n_br_base_demo.xml'],
+    'demo_xml': ['l10n_br_base_demo.xml'],
     'installable': True
 }
