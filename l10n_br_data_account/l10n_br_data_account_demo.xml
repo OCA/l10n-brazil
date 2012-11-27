@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data noupdate="1" >
+	<data noupdate="0" >
 
 		<!-- l10n_br_account.document.serie -->
 		<record id="l10n_br_document_serie_1_product" model="l10n_br_account.document.serie">
@@ -38,6 +38,8 @@
 			<field name="cfop_id" ref="cfop_5101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 		
 		<record id="demo_fp_vendaforadoestadoicms0" model="account.fiscal.position">
@@ -45,6 +47,8 @@
 			<field name="cfop_id" ref="cfop_6101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 
 		<record id="demo_fp_vendaforadoestadoicms1" model="account.fiscal.position">
@@ -52,6 +56,8 @@
 			<field name="cfop_id" ref="cfop_6101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 
 		<record id="demo_fp_bonificaodentrodoestado0" model="account.fiscal.position">
@@ -59,6 +65,8 @@
 			<field name="cfop_id" ref="cfop_5910" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 
 		<record id="demo_fp_bonificaoforadoestadoicms0" model="account.fiscal.position">
@@ -66,6 +74,8 @@
 			<field name="cfop_id" ref="cfop_6910" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 
 		<record id="demo_fp_bonificaoforadoestadoicms1" model="account.fiscal.position">
@@ -73,6 +83,8 @@
 			<field name="cfop_id" ref="cfop_6910" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_bonificacao" />
 			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
 		</record>
 
 		<!-- Regras de posições fiscais para contribuintes -->
