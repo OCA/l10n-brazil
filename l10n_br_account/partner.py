@@ -45,7 +45,8 @@ class account_fiscal_position_template(osv.osv):
     
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purhcase', 'output': 'sale'}
-        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 'tax_ids': False}}
+        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 
+                          'tax_ids': False}}
 
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     fiscal_category_id=False, context=None):
@@ -63,12 +64,16 @@ account_fiscal_position_template()
 class account_fiscal_position_tax_template(osv.osv):
     _inherit = 'account.fiscal.position.tax.template'
     _columns = {
+        'tax_src_id': fields.many2one('account.tax.template', 'Tax Source'),
+        'tax_code_src_id': fields.many2one('account.tax.code.template',
+                                            u'Código Taxa Origem'),
         'tax_src_domain': fields.related('tax_src_id', 'domain',
                                          type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code.template',
                                             'Replacement Tax Code')}
 
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False, context=None):
+    def onchange_tax_src_id(self, cr, uid, ids,
+                            tax_src_id=False, context=None):
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax.template').read(
@@ -84,7 +89,8 @@ class account_fiscal_position(osv.osv):
     
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purchase', 'output': 'sale'}
-        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 'tax_ids': False}}
+        return {'value': {'type_tax_use': type_tax.get(type, 'all'),
+                          'tax_ids': False}}
     
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     fiscal_category_id=False, context=None):
@@ -126,8 +132,13 @@ class account_fiscal_position(osv.osv):
             return map(lambda x: x.id, taxes)
         for t in taxes:
             ok = False
+            tax_src = False
             for tax in fposition_id.tax_ids:
-                if tax.tax_src_id.id == t.id:
+                tax_src = tax.tax_src_id and tax.tax_src_id.id == t.id
+                tax_code_src = tax.tax_code_src_id and \
+                    tax.tax_code_src_id.id == t.tax_code_id.id
+                    
+                if tax_src or tax_code_src:
                     if tax.tax_dest_id:
                         result.append(tax.tax_dest_id.id)
                     ok=True
@@ -142,12 +153,16 @@ account_fiscal_position()
 class account_fiscal_position_tax(osv.osv):
     _inherit = 'account.fiscal.position.tax'
     _columns = {
+        'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
+        'tax_code_src_id': fields.many2one('account.tax.code',
+                                            u'Código Taxa Origem'),
         'tax_src_domain': fields.related('tax_src_id', 'domain',
                                          type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code',
                                             'Replacement Tax Code')}
 
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False, context=None):
+    def onchange_tax_src_id(self, cr, uid, ids,
+                            tax_src_id=False, context=None):
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax').read(
