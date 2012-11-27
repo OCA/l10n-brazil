@@ -28,7 +28,7 @@
     'depends': ['base'],
     'init_xml': [
                 'res.country.state.csv',
-#                'l10n_br_base.city.csv',
+                'l10n_br_base.city.csv',
                 ],
     'update_xml': [
                     'l10n_br_base_data.xml',
