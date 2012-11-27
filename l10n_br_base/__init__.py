@@ -19,4 +19,4 @@
 
 import l10n_br_base
 import res_country
-import partner
+import res_partner
