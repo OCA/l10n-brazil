@@ -6,7 +6,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_filter">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_res_partner_filter"/>
+			<field name="inherit_id" ref="base.view_res_partner_filter" />
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="cnpj_cpf" />
@@ -17,7 +17,7 @@
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_tree">
 			<field name="name">l10n_br_base.partner.tree</field>
 			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="inherit_id" ref="base.view_partner_tree" />
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="cnpj_cpf" />
@@ -25,187 +25,79 @@
 				</field>
 			</field>
 		</record>
-		
+
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
 			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<field name="is_company" position="replace">
-					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company,cnpj_cpf)" class="oe_inline"/>
+					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company,cnpj_cpf)"
+						class="oe_inline" />
 				</field>
 				<field name="parent_id" position="before">
-					<group>
-					<field colspan="4" name="legal_name" />
-					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)"/> 
+					<group colspan="4">
+						<field colspan="4" name="legal_name" />
+						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)" />
 					</group>
 				</field>
-			</field>
-		</record>
-		
-		<!--
-		<record model="ir.ui.view" id="l10n_br_base_view_partner_form1" >
-	   		<field name="name">l10n_br_base.partner.form1</field>
-       		<field name="model">res.partner</field>
-	   		<field name="inherit_id" ref="base.view_partner_form"/>
-	   		<field name="priority">32</field>
-	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='street']" position="replace">
-						<field name="street" />
-						<field name="number" />
-						<field name="district" />						
-	        		</xpath>
-        		</field>
-   		</record -->
-		
-		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form3">
-	   		<field name="name">l10n_br_base.partner.form3</field>
-		    <field name="model">res.partner</field>
-	   		<field name="inherit_id" ref="base.view_partner_form"/>
-	   		<field name="priority">34</field>
-	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='state_id']" position="after">
-					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
-        			</xpath>
-        		</field>
-   		</record -->
-
-		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form4">
-	   		<field name="name">l10n_br_base.partner.form4</field>
-		    <field name="model">res.partner</field>
-	   		<field name="inherit_id" ref="base.view_partner_form"/>
-	   		<field name="priority">34</field>
-	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/group/field[@name='city']" position="replace">
-						<field name="city" invisible="1" />
-        			</xpath>
-        		</field>
-   		</record -->
-		
-
-		<!-- record model="ir.ui.view" id="l10n_br_base_view_partner_form5">
-			<field name="name">l10n_br_base.partner.form5</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form"/>
-			<field name="arch" type="xml">
-				 <notebook>
+				<field name="street" position="replace">
+					<field name="street" />
+					<field name="number" placeholder="numero" />
+					<field name="district" placeholder="bairro" />
+				</field>
+				<field name="street2" position="replace">
+					<field name="street2" placeholder="complemento" />
+				</field>
+				<field name="state_id" position="after">
+					<field name="l10n_br_city_id" placeholder="cidade"
+						on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
+				</field>
+				<field name="city" position="replace">
+					<field name="city" invisible="1" />
+				</field>
+				<notebook>
 					<page position="inside" string="l10n br - NF">
-						<separator colspan="4" string="Dados Adicionais do Parceiro"/>						
-						<newline/>
-						<field name="inscr_est" />
-						<field name="inscr_mun"/>
-						<field name="suframa"/>
-		        	</page>
+						<separator colspan="4" string="Dados Adicionais do Parceiro" />
+						<group>
+							<field name="inscr_est" />
+							<field name="inscr_mun" />
+							<field name="suframa" />
+						</group>
+					</page>
 				</notebook>
 			</field>
-		</record -->
-		
-		<!-- 
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form2">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form1"/>
-			<field name="arch" type="xml">
-				<field name="city" position="replace">
-					 <field name="city" invisible="1" />
-				</field>
-			</field>
 		</record>
-		
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form4">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form1"/>
-			<field name="arch" type="xml">
-				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
-				</field>
-			</field>
-		</record> 
-		 			
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form5">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form1"/>
-			<field name="arch" type="xml">
-				<field name="street" position="replace">
-					<field name="street"/>
-					<field name="number"/>
-					<field name="district"/>
-				</field>
-			</field>
-		</record>
-		-->
-				
-		<!-- Contato do Parceiro Personalizado usado no form partner -->
-		
-		<!-- Contato do Parceiro Personalizado -->
-		<!-- 
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form6">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form2"/>
-			<field name="arch" type="xml">
-				<field name="city" position="replace">
-					 <field name="city" invisible="1" />
-				</field>
-			</field>
-		</record>
-		
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form7">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form2"/>
-			<field name="arch" type="xml">
-				<field name="state_id" position="after">
-					 <field name="l10n_br_city_id" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
-				</field>
-			</field>
-		</record>
-		
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_address_form8">
-			<field name="name">l10n_br_base.partner.address</field>
-			<field name="model">res.partner.address</field>
-			<field name="inherit_id" ref="base.view_partner_address_form2"/>
-			<field name="arch" type="xml">
-				<field name="street" position="replace">
-					<field name="street"/>
-					<field name="number"/>
-					<field name="district"/>					
-				</field>
-			</field>
-		</record>
-		-->
-		
+
 		<!-- res.partner.bank -->
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_form">
 			<field name="name">view_l10n_br_base.partner.bank.form</field>
 			<field name="model">res.partner.bank</field>
-			<field name="inherit_id" ref="base.view_partner_bank_form"/>
+			<field name="inherit_id" ref="base.view_partner_bank_form" />
 			<field name="arch" type="xml">
 				<field name="acc_number" position="replace">
-					<field name="acc_number" select="1"/>
-					<field name="acc_number_dig" select="1"/>
-					<newline/>
-					<field name="bra_number" select="1"/>
-					<field name="bra_number_dig" select="1"/>				
+					<field name="acc_number" select="1" />
+					<field name="acc_number_dig" select="1" />
+					<newline />
+					<field name="bra_number" select="1" />
+					<field name="bra_number_dig" select="1" />
 				</field>
 			</field>
 		</record>
-		
+
 		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_tree">
 			<field name="name">view_l10n_br_base.partner.bank.tree</field>
 			<field name="model">res.partner.bank</field>
-			<field name="inherit_id" ref="base.view_partner_bank_tree"/>
+			<field name="inherit_id" ref="base.view_partner_bank_tree" />
 			<field name="arch" type="xml">
 				<field name="acc_number" position="replace">
-					<field name="acc_number"/>
-					<field name="acc_number_dig"/>
-					<field name="bra_number"/>
-					<field name="bra_number_dig"/>		
+					<field name="acc_number" />
+					<field name="acc_number_dig" />
+					<field name="bra_number" />
+					<field name="bra_number_dig" />
 				</field>
 			</field>
 		</record>
-		
+
 	</data>
 </openerp>
