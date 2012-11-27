@@ -34,7 +34,6 @@
                     'l10n_br_base_data.xml',
                     'l10n_br_base_view.xml',
                     'res_country_view.xml',
-#                    'wizard/l10n_br_base_zip_search_view.xml',
                     'partner_view.xml',
                     'security/ir.model.access.csv',
                     'security/l10n_br_base_security.xml',
