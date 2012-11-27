@@ -29,7 +29,7 @@
     'website': 'http://www.openerpbrasil.org',
     'depends': ['product'],
     'init_xml': ['l10n_br_product_data.xml'],
-    'update_xml': ['product_view.xml'],
+    'update_xml': [],
     'test': [],
     'demo_xml': [
                 'l10n_br_product_demo.xml',
