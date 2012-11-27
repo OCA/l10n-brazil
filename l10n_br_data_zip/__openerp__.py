@@ -29,7 +29,10 @@
     'init_xml': [
                 'zip.sql'
                 ],
-    "update_xml" : [],
+    "update_xml" : [
+                   'partner_view.xml',
+                   'wizard/l10n_br_base_zip_search_view.xml'
+                ],
     "category" : "Localisation",
     "active": False,
     "installable": True
