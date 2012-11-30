@@ -118,8 +118,8 @@ class l10n_br_account_fiscal_category(osv.osv):
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscail'
     _columns = {
-        'code': fields.char('Código', size=24, required=True),
-        'name': fields.char('Descrição', size=64),
+        'code': fields.char('Código', size=254, required=True),
+        'name': fields.char('Descrição', size=254),
         'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
                                  'Tipo'),
         'property_journal': fields.property('account.journal',
@@ -143,7 +143,8 @@ class l10n_br_account_fiscal_category(osv.osv):
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Devolução',
             domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_type), \
-            ('journal_type', 'like', journal_type)]")}
+            ('journal_type', 'like', journal_type)]"),
+        'note': fields.text(u'Observações')}
     _defaults = {
         'type': 'output',
         'fiscal_type': 'product',
