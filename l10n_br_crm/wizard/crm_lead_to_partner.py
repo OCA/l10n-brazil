@@ -17,14 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
-from tools.translate import _
-import re
+from osv import osv
 
 
 class crm_lead2partner(osv.osv_memory):
     _inherit = 'crm.lead2partner'
-    
+
     def _create_partner(self, cr, uid, ids, context=None):
         """
         This function Creates partner based on action.
@@ -51,10 +49,8 @@ class crm_lead2partner(osv.osv_memory):
             for lead in lead_obj.browse(cr, uid, rec_ids, context=context):
                 if data.action == 'create':
                     contact_obj.write(
-                        cr, uid,[lead.partner_address_id.id], 
+                        cr, uid, [lead.partner_address_id.id],
                         {'number': lead.number,
                          'l10n_br_city_id': lead.l10n_br_city_id.id})
 
         return result
-    
-crm_lead2partner()
