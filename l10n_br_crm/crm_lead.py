@@ -21,7 +21,7 @@ from osv import fields, osv
 from crm.crm_lead import crm_lead
 
 
-class crm_lead(crm_lead, osv.osv):
+class crm_lead(crm_lead, osv.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
     _columns = {
