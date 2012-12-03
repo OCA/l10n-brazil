@@ -32,13 +32,13 @@
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<field name="is_company" position="replace">
-					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company,cnpj_cpf)"
+					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)"
 						class="oe_inline" />
 				</field>
 				<field name="parent_id" position="before">
 					<group colspan="4">
 						<field colspan="4" name="legal_name" />
-						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(tipo_pessoa,cnpj_cpf)" />
+						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" />
 					</group>
 				</field>
 				<field name="street" position="replace">
