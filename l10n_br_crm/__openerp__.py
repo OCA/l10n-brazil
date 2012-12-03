@@ -18,19 +18,19 @@
 ###############################################################################
 
 {
-    'name' : 'CRM',
-    'description' : 'Brazilian Localization for CRM module',
-    'category' : 'Localisation',
+    'name': 'CRM',
+    'description': 'Brazilian Localization for CRM module',
+    'category': 'Localisation',
     'license': 'AGPL-3',
-    'author' : 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
-    'depends' : [
-        		'l10n_br_base', 
-        		'crm',
-		        ],
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': [
+                'l10n_br_base',
+                'crm',
+               ],
     'init_xml': [],
-    'update_xml' : [
+    'update_xml': [
                     'crm_lead_view.xml',
                     'crm_opportunity_view.xml',
                     ],
