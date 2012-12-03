@@ -20,7 +20,7 @@
 from osv import osv
 
 
-class crm_lead2partner(osv.osv_memory):
+class crm_lead2partner(osv.TransientModel):
     _inherit = 'crm.lead2partner'
 
     def _create_partner(self, cr, uid, ids, context=None):
@@ -39,7 +39,6 @@ class crm_lead2partner(osv.osv_memory):
 
         lead_obj = self.pool.get('crm.lead')
         partner_obj = self.pool.get('res.partner')
-        contact_obj = self.pool.get('res.partner.address')
 
         result = super(crm_lead2partner, self)._create_partner(
             cr, uid, ids, context)
@@ -48,9 +47,10 @@ class crm_lead2partner(osv.osv_memory):
         for data in self.browse(cr, uid, ids, context=context):
             for lead in lead_obj.browse(cr, uid, rec_ids, context=context):
                 if data.action == 'create':
-                    contact_obj.write(
-                        cr, uid, [lead.partner_address_id.id],
+                    partner_obj.write(
+                        cr, uid, [lead.partner_id.id],
                         {'number': lead.number,
+                         'district': lead.district,
                          'l10n_br_city_id': lead.l10n_br_city_id.id})
 
         return result
