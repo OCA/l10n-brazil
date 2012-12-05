@@ -35,7 +35,7 @@
                 ],
     'init_xml': [
                  ],
-    'update_xml' : [
+    'update_xml2' : [
                     'account_view.xml',
                     'l10n_br_account_data.xml',
                     'l10n_br_account_sequence.xml',
@@ -52,7 +52,7 @@
                     'wizard/l10n_br_account_nfe_export_view.xml',
                     'wizard/nfe_export_from_invoice_view.xml',
                     ],
-    'demo_xml': [
+    'demo_xml2': [
                  'l10n_br_account_demo.xml',
                  'demo/account.account.csv',
                  'demo/account_tax_code.xml',
