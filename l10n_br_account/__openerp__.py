@@ -39,7 +39,7 @@
                     'account_view.xml',
                     'l10n_br_account_data.xml',
                     'l10n_br_account_sequence.xml',
-#                    'account_fiscal_position_rule_view.xml',
+                    'account_fiscal_position_rule_view.xml',
 #                    'account_invoice_view.xml',
                     'account_invoice_workflow.xml',
                     'l10n_br_account_view.xml',
