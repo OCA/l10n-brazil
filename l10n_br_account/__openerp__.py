@@ -43,7 +43,7 @@
 #                    'account_invoice_view.xml',
                     'account_invoice_workflow.xml',
                     'l10n_br_account_view.xml',
-#                    'partner_view.xml',
+                    'partner_view.xml',
 #                    'product_view.xml',
 #                    'res_company_view.xml',
 #                    'account_product_fiscal_classification_view.xml',
