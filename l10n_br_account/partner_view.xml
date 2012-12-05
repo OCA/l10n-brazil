@@ -70,7 +70,7 @@
 		<record model="ir.ui.view" id="l10n_br_account_view_partner_form">
 			<field name="name">l10n_br_account.partner.form</field>
 			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="l10n_br_base.l10n_br_base_view_partner_form5"/>
+			<field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
 			<field name="arch" type="xml">
 				<field name="suframa" position="after">
 					<field name="partner_fiscal_type_id" required="1" />
@@ -78,46 +78,21 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="l10n_br_account_view_partner_form2" >
-	   		<field name="name">l10n_br_account.partner.form2</field>
-       		<field name="model">res.partner</field>
-	   		<field name="inherit_id" ref="account.view_partner_property_form"/>
-	   		<field name="priority">33</field>
-	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/form/field[@name='acc_number']" position="replace">
-						<field name="bra_number" />
-						<field name="bra_number_dig" />
-						<newline/>
-						<field name="acc_number" />
-						<field name="acc_number_dig" />
-	        		</xpath>
-        		</field>
-   		</record>
-
    		<record model="ir.ui.view" id="l10n_br_account_view_partner_form3" >
 	   		<field name="name">l10n_br_account.partner.form3</field>
        		<field name="model">res.partner</field>
 	   		<field name="inherit_id" ref="account.view_partner_property_form"/>
 	   		<field name="priority">33</field>
 	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/tree/field[@name='owner_name']" position="replace">
+	   			<xpath expr="//tree/field[@name='owner_name']" position="replace">
 						<field name="acc_number" />
-	        		</xpath>
-        		</field>
-   		</record>
-
-   		<record model="ir.ui.view" id="l10n_br_account_view_partner_form4" >
-	   		<field name="name">l10n_br_account.partner.form4</field>
-       		<field name="model">res.partner</field>
-	   		<field name="inherit_id" ref="account.view_partner_property_form"/>
-	   		<field name="priority">33</field>
-	   		<field name="arch" type="xml">
-	   			<xpath expr="/form/notebook/page/field/tree/field[@name='acc_number']" position="replace">
+	        	</xpath>
+	   			<xpath expr="//tree/field[@name='acc_number']" position="replace">
 						<field name="acc_number_dig" />
 						<field name="bra_number" />
 						<field name="bra_number_dig" />
-	        		</xpath>
-        		</field>
+	        	</xpath>
+        	</field>
    		</record>
 
 	</data>
