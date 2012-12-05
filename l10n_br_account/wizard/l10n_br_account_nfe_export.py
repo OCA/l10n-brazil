@@ -29,7 +29,7 @@ class l10n_br_account_nfe_export(osv.osv_memory):
     """ Exportar Nota Fiscal Eletrônica """
     _name = "l10n_br_account.nfe_export"
     _description = "Exportação de Nota Fiscal Eletrônica"
-    _inherit = "ir.wizard.screen"
+#    _inherit = "ir.wizard.screen"
     _columns = {
         'name': fields.char('Name', size=255),
         'file': fields.binary('Arquivo', readonly=True),
