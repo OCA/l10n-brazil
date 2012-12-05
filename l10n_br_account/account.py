@@ -62,15 +62,15 @@ class account_tax(osv.osv):
             else:
                 tax['total_base'] = 0.00
                 tax['total_base_other'] = 0.00
-        
+
         result['taxes'] = taxes
         return result
-        
+
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
-                    address_id=None, product=None, partner=None,
-                    force_excluded=False, fiscal_position=False):
-        """Compute taxes 
-        
+                    product=None, partner=None, force_excluded=False,
+                    fiscal_position=False):
+        """Compute taxes
+
         Returns a dict of the form::
 
         {
@@ -80,24 +80,22 @@ class account_tax(osv.osv):
             'taxes': <list of taxes, objects>,
             'total_base': Total Base by tax,
         }
-        
+
         :Parameters:
             - 'cr': Database cursor.
             - 'uid': Current user.
             - 'taxes': List with all taxes id.
             - 'price_unit': Product price unit.
             - 'quantity': Product quantity.
-            - 'address_id': Partner address.
-            - 'force_excluded': Used to say that we don't want to consider 
+            - 'force_excluded': Used to say that we don't want to consider
                                 the value of field price_include of tax.
-                                It's used in encoding by line where you don't 
-                                matter if you encoded a tax with that boolean to 
-                                True or False.
+                                It's used in encoding by line where you don't
+                                matter if you encoded a tax with that boolean
+                                to True or False.
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
-        tax_obj = self.pool.get('account.tax')        
-        result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner, force_excluded)
+        result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, product, partner, force_excluded)
 
         totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
         calculed_taxes = []
