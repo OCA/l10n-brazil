@@ -75,7 +75,7 @@ class account_invoice(osv.osv):
             context = {}
         return context.get('fiscal_type', 'product')
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+    def fields_view_get2(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(account_invoice,self).fields_view_get(
             cr, uid, view_id=view_id, view_type=view_type, context=context,
@@ -674,7 +674,10 @@ class account_invoice(osv.osv):
             cr, uid, ids, type, partner_id, date_invoice, payment_term,
             partner_bank_id, company_id)
 
-        partner_invoice_id = result['value'].get('address_invoice_id', False)
+        partner_obj = self.pool.get('res.partner')
+        partner_invoice_id = partner_obj.address_get(cr, uid,
+                                                     [partner_id],
+                                                     ['invoice'])['invoice']
         fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id,
                                                 partner_invoice_id, company_id,
                                                 fiscal_category_id)
@@ -683,31 +686,17 @@ class account_invoice(osv.osv):
         return result
 
     def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type,
-                            invoice_line, currency_id, address_invoice_id,
+                            invoice_line, currency_id,
                             fiscal_category_id=False):
 
         result = super(account_invoice, self).onchange_company_id(
             cr, uid, ids, company_id, partner_id, type, invoice_line,
-            currency_id, address_invoice_id)
+            currency_id)
 
         fiscal_data = self._fiscal_position_map(
-            cr, uid, ids, partner_id, address_invoice_id, company_id,
+            cr, uid, ids, partner_id, partner_id, company_id,
             fiscal_category_id)
-        
-        result['value'].update(fiscal_data)
-        return result
 
-    def onchange_address_invoice_id(self, cr, uid, ids, company_id,
-                                    partner_id, address_invoice_id,
-                                    fiscal_category_id=False, context=False):
-
-        result = super(account_invoice, self).onchange_address_invoice_id(
-            cr,uid,ids,company_id,partner_id,address_invoice_id)
-        
-        fiscal_data = self._fiscal_position_map(
-            cr, uid, ids, partner_id, address_invoice_id, company_id,
-            fiscal_category_id)
-        
         result['value'].update(fiscal_data)
         return result
 
@@ -719,7 +708,7 @@ class account_invoice(osv.osv):
         fiscal_data = self._fiscal_position_map(
             cr, uid, ids, partner_id, partner_address_id, company_id,
             fiscal_category_id)
-        
+
         return result['value'].update(fiscal_data)
 
 account_invoice()
@@ -728,7 +717,7 @@ account_invoice()
 class account_invoice_line(osv.osv):
     _inherit = 'account.invoice.line'
     
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False, 
+    def fields_view_get2(self, cr, uid, view_id=None, view_type=False, 
                         context=None, toolbar=False, submenu=False):
         
         result = super(account_invoice_line, self).fields_view_get(
@@ -926,7 +915,7 @@ class account_invoice_line(osv.osv):
             }
 
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
+            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.partner_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
 
             icms_cst = '99'
             ipi_cst = '99'
@@ -1196,10 +1185,10 @@ class account_invoice_line(osv.osv):
                 else:
                     context['type_tax_use'] = 'purchase'
                     taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (account_id and self.pool.get('account.account').browse(cr, uid, account_id, context=context).tax_ids or False)
-    
+
                 tax_ids = self.pool.get('account.fiscal.position').map_tax(
                     cr, uid, obj_fposition, taxes, context)
-    
+
                 result['invoice_line_tax_id'] = tax_ids
 
         return result
@@ -1207,14 +1196,13 @@ class account_invoice_line(osv.osv):
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
                           type='out_invoice', partner_id=False,
                           fposition_id=False, price_unit=False,
-                          address_invoice_id=False, currency_id=False,
+                          currency_id=False,
                           context=None, company_id=False,
                           fiscal_category_id=False, parent_fposition_id=False):
 
         result = super(account_invoice_line, self).product_id_change(
             cr, uid, ids, product, uom, qty, name, type, partner_id,
-            fposition_id, price_unit, address_invoice_id, currency_id,
-            context, company_id)
+            fposition_id, price_unit, currency_id, context, company_id)
 
         if not fiscal_category_id or not product or not parent_fposition_id:
             return result
@@ -1233,26 +1221,30 @@ class account_invoice_line(osv.osv):
         else:
             result['value']['fiscal_category_id'] = product_fiscal_category_id
             fiscal_data = self._fiscal_position_map(
-                cr, uid, ids, partner_id, address_invoice_id, company_id,
+                cr, uid, ids, partner_id, partner_id, company_id,
                 product_fiscal_category_id, product,
                 result['value'].get('account_id', False), context)
             result['value'].update(fiscal_data)
         return result
-   
+
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     address_invoice_id, company_id, product_id,
                                     fiscal_category_id, account_id, context):
+        """NB: address_invoice_id param is left for possibl reuse from sale"""
+
         result = {'value': {}}
         fiscal_data = self._fiscal_position_map(
-            cr, uid, ids, partner_id, address_invoice_id, company_id,
+            cr, uid, ids, partner_id, partner_id, company_id,
             fiscal_category_id, product_id, account_id, context)
-        
+
         result['value'].update(fiscal_data)
         return result
-    
+
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
                                     address_invoice_id, company_id, product_id,
                                     fiscal_category_id, account_id, context):
+        """NB: address_invoice_id param is left for possibl reuse from sale"""
+
         result = {'value': {}}
         fiscal_data = self._fiscal_position_map(
             cr, uid, ids, partner_id, address_invoice_id, company_id,
