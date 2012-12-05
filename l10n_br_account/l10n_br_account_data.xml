@@ -7,7 +7,6 @@
 		    <field name="name">Bonificação</field>
 		    <field name="code">IBON</field>
 		    <field name="type">sale</field>
-		    <field name="view_id" ref="account.account_sp_journal_view"/>
 		    <field name="sequence_id" ref="account.sequence_sale_journal"/>
 		    <field name="update_posted" eval="1" />
 		    <field name="group_invoice_lines" eval="0" />
