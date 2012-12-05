@@ -19,13 +19,13 @@
 #################################################################################
 
 {
-    'name' : 'Brazilian Localization',
-    'description' : 'Brazilian Localization',
-    'category' : 'Localisation',
+    'name': 'Brazilian Localization',
+    'description': 'Brazilian Localization',
+    'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
-    'website' : 'http://openerpbrasil.org',
-    'version' : '0.6',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
     'depends': [
                 'l10n_br',
                 'l10n_br_base',
@@ -35,7 +35,7 @@
                 ],
     'init_xml': [
                  ],
-    'update_xml' : [
+    'update_xml': [
                     'account_view.xml',
                     'l10n_br_account_data.xml',
                     'l10n_br_account_sequence.xml',
@@ -52,14 +52,14 @@
 #                    'wizard/l10n_br_account_nfe_export_view.xml',
 #                    'wizard/nfe_export_from_invoice_view.xml',
                     ],
-    'demo_xml2': [
-                 'demo/account.account.csv',
-                 'demo/account_tax_code.xml',
-                 'demo/account_tax.xml',
-                 'demo/account_financial_demo.xml',
-                 'demo/account_fiscal_demo.xml',
-                 'demo/base_demo.xml',
-                 'demo/product_demo.xml',
+    'demo_xml': [
+#                 'demo/account.account.csv',
+#                 'demo/account_tax_code.xml',
+#                 'demo/account_tax.xml',
+#                 'demo/account_financial_demo.xml',
+#                 'demo/account_fiscal_demo.xml',
+#                 'demo/base_demo.xml',
+#                 'demo/product_demo.xml',
                  ],
     'test': [
              ],
