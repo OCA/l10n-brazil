@@ -31,7 +31,7 @@
                   ],
     'init_xml': [],
     'update_xml': [
-#                    'sale_view.xml',
+                    'sale_view.xml',
                     'security/ir.model.access.csv',
                     'l10n_br_sale_data.xml',
                     'report/sale_report_view.xml',
