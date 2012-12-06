@@ -1,108 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
-					
+	<data>
+
 		<record id="l10n_br_account_product_normal_form_view" model="ir.ui.view">
-            <field name="name">l10n_br_account.normal.form</field>
-            <field name="model">product.product</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
+			<field name="name">l10n_br_account.normal.form</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view" />
 			<field name="arch" type="xml">
-				<!-- Add tab l10n_br -->
-				<field name="supply_method" position="after">
+				<field name="type" position="after">
 					<field name="origin" attrs="{'required': [('type', '!=', 'service')]}" />
 				</field>
-				<notebook>
-					<page position="inside" string="l10n br">
-						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_default_ids" widget="one2many_list">
-	                        <form string="Operações Padrões">
-                   				<field name="fiscal_category_source_id" required="1" />		
+				<field position="after" name="type">
+					<field name="fiscal_type" required="1" />
+					<field name="is_on_service_invoice" attrs="{'invisible':[('fiscal_type','=','service')]}" />
+				</field>
+				<field name="default_code" position="replace">
+					<field name="default_code"
+						attrs="{'required':[('fiscal_type','=','product'),('is_on_service_invoice','=',False)]}" />
+				</field>
+				<notebook position="inside">
+					<page string="l10n br">
+						<field colspan="4" nolabel="1" name="fiscal_category_default_ids">
+							<tree string="Operações Padrões" editable="top">
+								<field name="fiscal_category_source_id" required="1" />
 								<field name="fiscal_category_destination_id" required="1" />
-							</form>
-							<tree string="Operações Padrões">
-                   				<field name="fiscal_category_source_id" required="1"/>		
-								<field name="fiscal_category_destination_id" required="1"/>
 							</tree>
 						</field>
 					</page>
 				</notebook>
-            </field>
-        </record>
-        
-        <record id="l10n_br_account_product_normal_form_view_1" model="ir.ui.view">
-            <field name="name">l10n_br_account.normal.form1</field>
-            <field name="model">product.product</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="priority">2</field>
-			<field name="arch" type="xml">
-				<field position="after" name="type">
-					<field name="fiscal_type" required="1" />
-			    </field>
-            </field>
-        </record>
-        
-        <record id="l10n_br_account_product_normal_form_view_2" model="ir.ui.view">
-            <field name="name">l10n_br_account.normal.form2</field>
-            <field name="model">product.product</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="arch" type="xml">
-				<field name="default_code" position="replace">
-				    <field name="default_code" attrs="{'required':[('fiscal_type','=','product'),('is_on_service_invoice','=',False)]}"/>
-				</field>
-         	</field>
-       </record>
-        
-        <record id="l10n_br_account_product_category_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.product.category.form</field>
-            <field name="model">l10n_br_account.product.category</field>
-            <field name="type">form</field>
-			<field name="arch" type="xml">
-				<field name="fiscal_category_source_id" required="1" />		
-				<field name="fiscal_category_destination_id" required="1" />
-            </field>
-        </record>
-        
-         <record id="product_is_on_service_invoice_form_view" model="ir.ui.view">
-            <field name="name">product_is_on_service_invoice_form_view</field>
-            <field name="model">product.product</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="arch" type="xml">
-				<field name="fiscal_type" position="after">
-				    <field name="is_on_service_invoice" attrs="{'invisible':[('fiscal_type','=','service')]}"/>
-				</field>
-         	</field>
-       </record>
+			</field>
+		</record>
 
-	<record id="l10n_br_account_product_template_form_view" model="ir.ui.view">
-            <field name="name">l10n_br_account_product_template_form_view</field>
-            <field name="model">product.template</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
-            <field name="arch" type="xml">
-   				<!-- Add field origin -->
-				<field name="supply_method" position="after">
+		<record id="l10n_br_account_product_template_form_view" model="ir.ui.view">
+			<field name="name">l10n_br_account_product_template_form_view</field>
+			<field name="model">product.template</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="product.product_template_form_view" />
+			<field name="arch" type="xml">
+				<field name="type" position="after">
 					<field name="origin" attrs="{'required': [('type', '!=', 'service')]}" />
 				</field>
 				<notebook>
 					<page position="inside" string="l10n br">
-						<field colspan="4" nolabel="1" mode="tree,form" name="fiscal_category_default_ids" widget="one2many_list">
-	                        <form string="Operações Padrões">
-                   				<field name="fiscal_category_source_id" required="1" />		
+						<field colspan="4" nolabel="1" name="fiscal_category_default_ids">
+							<tree string="Operações Padrões" editable="top">
+								<field name="fiscal_category_source_id" required="1" />
 								<field name="fiscal_category_destination_id" required="1" />
-							</form>
-							<tree string="Operações Padrões">
-                   				<field name="fiscal_category_source_id" required="1"/>		
-								<field name="fiscal_category_destination_id" required="1"/>
 							</tree>
 						</field>
 					</page>
-				</notebook>	
-         	</field>
-       </record>
+				</notebook>
+			</field>
+		</record>
 
-        
-	</data>		
+	</data>
 </openerp>						
