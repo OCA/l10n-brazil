@@ -93,8 +93,8 @@
         </record>
 
         <record model="ir.ui.view" id="view_l10n_br_taxdefinition_classification_sale_form">
-			<field name="name">l10n_br_tax.definition.classification.sale.form</field>
-			<field name="model">l10n_br_tax.definition.classification.sale</field>
+			<field name="name">l10n_br_tax.definition.sale.form</field>
+			<field name="model">l10n_br_tax.definition.sale</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
