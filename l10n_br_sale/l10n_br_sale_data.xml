@@ -2,7 +2,7 @@
 <openerp>
 	<data noupdate="1">
 	
-		<record id="sale.shop" model="sale.shop">
+		<record id="sale.sale_shop_1" model="sale.shop">
 		    <field name="default_fc_id" ref="l10n_br_account.fo_category_venda"/>
 		</record>
 	
