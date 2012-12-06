@@ -7,7 +7,7 @@
 			<field name="name">Diário de Vendas</field>
 			<field name="code">TSAJ</field>
 			<field name="type">sale</field>
-			<field name="view_id" ref="account.account_sp_journal_view"/>
+<!--			<field name="view_id" ref="account.account_sp_journal_view"/> -->
 			<field name="sequence_id" ref="account.sequence_sale_journal"/>
 			<field model="account.account" name="default_credit_account_id" ref="account.a_sale"/>
 			<field model="account.account" name="default_debit_account_id" ref="account.a_sale"/>
