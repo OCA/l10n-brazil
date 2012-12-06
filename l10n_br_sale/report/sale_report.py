@@ -55,8 +55,6 @@ class sale_report(osv.osv):
                     extract(epoch from avg(date_trunc('day',s.date_confirm)-date_trunc('day',s.create_date)))/(24*60*60)::decimal(16,2) as delay,
                     s.state,
                     t.categ_id as categ_id,
-                    s.shipped,
-                    s.shipped::integer as shipped_qty_1,
                     s.pricelist_id as pricelist_id,
                     s.project_id as analytic_account_id
                 from
@@ -81,7 +79,6 @@ class sale_report(osv.osv):
                     s.shop_id,
                     s.company_id,
                     s.state,
-                    s.shipped,
                     s.pricelist_id,
                     s.project_id
             )
