@@ -6,7 +6,6 @@
             <field name="name">l10n_br_account.fiscal.position.form</field>
             <field name="model">account.fiscal.position</field>
             <field name="inherit_id" ref="account.view_account_position_form"/>
-            <field name="type">form</field>
             <field name="arch" type="xml">
             	<form string="Fiscal Position" position="replace">
 	            	<form string="Fiscal Position">
