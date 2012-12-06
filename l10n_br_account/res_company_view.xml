@@ -75,7 +75,6 @@
 		<record model="ir.ui.view" id="l10n_br_tax_definition_company_product_form">
 			<field name="name">l10n_br_tax.definition.company.product.form</field>
 			<field name="model">l10n_br_tax.definition.company.product</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
 					<field name="tax_id" on_change="onchange_tax_id(tax_id)"
@@ -89,7 +88,6 @@
 		<record model="ir.ui.view" id="l10n_br_tax_definition_company_product_tree">
 			<field name="name">l10n_br_tax.definition.company.product.tree</field>
 			<field name="model">l10n_br_tax.definition.company.product</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
 					<field name="tax_id" on_change="onchange_tax_id(tax_id)"
@@ -104,7 +102,6 @@
 		<record model="ir.ui.view" id="l10n_br_tax_definition_company_service_form">
 			<field name="name">l10n_br_tax.definition.company.service.form</field>
 			<field name="model">l10n_br_tax.definition.company.service</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
 					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
@@ -117,7 +114,6 @@
 		<record model="ir.ui.view" id="l10n_br_tax_definition_company_service_tree">
 			<field name="name">l10n_br_tax.definition.company.service.tree</field>
 			<field name="model">l10n_br_tax.definition.company.service</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
 					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
