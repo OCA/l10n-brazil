@@ -71,7 +71,7 @@ class stock_return_picking(osv.osv_memory):
             from_country = company_addr_default.country_id.id
             from_state = company_addr_default.state_id.id
 
-            to_country = pick.address_id.country_id.id
+            to_invoice_country = pick.address_id.country_id.id
             to_invoice_state = pick.address_id.state_id.id
 
             obj_partner = self.pool.get('res.partner').browse(cr, uid, [pick.address_id.partner_id.id])[0]
@@ -83,8 +83,8 @@ class stock_return_picking(osv.osv_memory):
                           ('fiscal_category_id', '=', fc_return_id),
                           '|', ('from_country', '=', from_country),
                           ('from_country', '=', False),
-                          '|', ('to_country', '=', to_country),
-                          ('to_country', '=', False),
+                          '|', ('to_invoice_country', '=', to_invoice_country),
+                          ('to_invoice_country', '=', False),
                           '|', ('from_state', '=', from_state),
                           ('from_state', '=', False),
                           '|', ('to_invoice_state', '=', to_invoice_state),
