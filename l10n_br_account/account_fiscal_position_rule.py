@@ -93,7 +93,7 @@ class account_fiscal_position_rule(osv.osv):
             partner_addr_default = self.pool.get('res.partner.address').browse(
                 cr, uid, partner_invoice_id)
 
-        to_country = partner_addr_default.id and \
+        to_invoice_country = partner_addr_default.id and \
             partner_addr_default.country_id.id or False
         to_invoice_state = partner_addr_default.id and \
         partner_addr_default.state_id.id or False        
@@ -109,7 +109,7 @@ class account_fiscal_position_rule(osv.osv):
             ('fiscal_type', '=', obj_company.fiscal_type),
             '|', ('from_country','=',from_country),
             ('from_country', '=', False), 
-            '|', ('to_country', '=', to_country), ('to_country', '=', False), 
+            '|', ('to_invoice_country', '=', to_invoice_country), ('to_invoice_country', '=', False), 
             '|', ('from_state', '=', from_state), ('from_state', '=', False), 
             '|', ('to_invoice_state','=', to_invoice_state), ('to_invoice_state', '=', False),
             '|', ('date_start', '=', False),
@@ -172,7 +172,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
 
             from_country = fpr_template.from_country.id or False
             from_state = fpr_template.from_state.id or False
-            to_country = fpr_template.to_country.id or False
+            to_invoice_country = fpr_template.to_invoice_country.id or False
             to_invoice_state = fpr_template.to_invoice_state.id or False
             partner_fiscal_type_id = fpr_template.partner_fiscal_type_id.id or False
             fiscal_category_id = fpr_template.fiscal_category_id.id or False
@@ -190,7 +190,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                                                                ('description', '=', fpr_template.description),
                                                                ('from_country', '=', from_country),
                                                                ('from_state', '=', from_state),
-                                                               ('to_country', '=', to_country),
+                                                               ('to_invoice_country', '=', to_invoice_country),
                                                                ('to_invoice_state', '=', to_invoice_state),
                                                                ('use_sale', '=', fpr_template.use_sale),
                                                                ('use_invoice', '=', fpr_template.use_invoice),
@@ -217,7 +217,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                 
                 from_country = fpr.from_country.id or False
                 from_state = fpr.from_state.id or False
-                to_country = fpr.to_country.id or False
+                to_invoice_country = fpr.to_invoice_country.id or False
                 to_invoice_state = fpr.to_invoice_state.id or False
                 
                 values['from_state'] = company_addr_default.state_id.id
@@ -230,7 +230,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                     pfr_internal = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr.name),
                                                                              ('company_id','=',company_id),
                                                                              ('from_country','=',from_country),
-                                                                             ('to_country','=',to_country),
+                                                                             ('to_invoice_country','=',to_invoice_country),
                                                                              ('to_invoice_state','=',state_rj[0]),
                                                                              ('use_sale','=',fpr.use_sale),
                                                                              ('use_invoice','=',fpr.use_invoice),
@@ -252,7 +252,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
                     pfr_external = obj_fiscal_position_rule.search(cr, uid, [('name','=',fpr.name),
                                                                              ('company_id','=',company_id),
                                                                              ('from_country','=',from_country),
-                                                                             ('to_country','=',to_country),
+                                                                             ('to_invoice_country','=',to_invoice_country),
                                                                              ('to_invoice_state','=',state_sp[0]),
                                                                              ('use_sale','=',fpr.use_sale),
                                                                              ('use_invoice','=',fpr.use_invoice),
