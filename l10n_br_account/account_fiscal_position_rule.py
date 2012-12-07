@@ -58,7 +58,7 @@ class account_fiscal_position_rule(osv.osv):
 
     def fiscal_position_map(self, cr, uid, partner_id=False,
         partner_invoice_id=False, company_id=False, fiscal_category_id=False,
-        context=None):
+        context=None, **kwargs):
         
         # Initiate variable result
         result = {'fiscal_position': False}
@@ -74,7 +74,7 @@ class account_fiscal_position_rule(osv.osv):
             result['fiscal_position'] = obj_partner.property_account_position.id
             return result
 
-		# Case 2: Search fiscal position using Account Fiscal Position Rule
+	# Case 2: Search fiscal position using Account Fiscal Position Rule
         company_addr = self.pool.get('res.partner').address_get(
             cr, uid, [obj_company.partner_id.id], ['default'])
         company_addr_default = self.pool.get('res.partner.address').browse(
