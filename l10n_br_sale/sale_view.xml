@@ -10,11 +10,8 @@
 	   		<field name="priority">36</field>
 	   		<field name="arch" type="xml">
 	        	<field name="fiscal_position" position="replace">
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id)" required="1"/>
-					<field domain="[('fiscal_category_id', '=', fiscal_category_id)]" name="fiscal_position" />
-	        	</field>
-	        	<field name="shop_id" position="replace">
-					<field name="shop_id" widget="selection" on_change="onchange_shop_id(shop_id, partner_id, partner_invoice_id, fiscal_category_id)" />
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id, context)" required="1"/>
+					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
 	        	</field>
 	        	<xpath expr="//group/div/field[@name='discount']" position="after">
 		            	<field colspan="3" name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
@@ -32,20 +29,34 @@
 	        </field>
 		</record>
 
-		<record id="view_l10n_br_sale_order_form2" model="ir.ui.view">
-			<field name="name">l10n_br_sale.order.form2</field>
-	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form1"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-	        	<field name="partner_id" position="replace">
-					<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id)" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" />
-	        	</field>
-	        	<field name="partner_invoice_id" position="replace">
-	        		<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id" on_change="onchange_partner_invoice_id(partner_invoice_id, partner_id, shop_id, fiscal_category_id)"/>
-	        	</field>
-	        </field>
-		</record>
+        <record id="view_order_form1" model="ir.ui.view">
+            <field name="name">account_fiscal_postion_rule_form_view_order_form1</field>
+               <field name="model">sale.order</field>
+               <field name="inherit_id" ref="sale.view_order_form"/>
+               <field name="priority">26</field>
+               <field name="arch" type="xml">
+                <field name="shop_id" position="attributes">
+                    <attribute name="on_change">
+                        onchange_shop_id(shop_id, context, partner_id, partner_invoice_id, partner_shipping_id, fiscal_category_id)
+                    </attribute>
+                </field>
+                <field name="partner_invoice_id" position="attributes">
+                    <attribute name="on_change">
+                        onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)
+                    </attribute>
+                </field>
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="on_change">
+                        onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)
+                    </attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="on_change">
+                        onchange_partner_id(partner_id, context, shop_id, fiscal_category_id)
+                    </attribute>
+                </field>
+            </field>
+        </record>
 
 		<record id="l10n_br_sale_view_shop_form" model="ir.ui.view">
 			<field name="name">l10n_br_sale.sale.shop</field>
