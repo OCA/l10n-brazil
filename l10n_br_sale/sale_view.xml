@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-
 	<data>
 
 		<record id="view_l10n_br_sale_order_form1" model="ir.ui.view">
@@ -24,7 +23,7 @@
                            on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)" />
 			   	</xpath>
 			   	<xpath expr="//group/div/field[@name='product_uos']" position="replace">
-		            	<field groups="product.group_uos" name="product_uos" nolabel="1"/>
+		            	<field groups="product.group_uos" name="product_uos" nolabel="1"/><!-- FIXME required? -->
 			   	</xpath>
 	        </field>
 		</record>
@@ -32,7 +31,7 @@
         <record id="view_order_form1" model="ir.ui.view">
             <field name="name">account_fiscal_postion_rule_form_view_order_form1</field>
                <field name="model">sale.order</field>
-               <field name="inherit_id" ref="sale.view_order_form"/>
+               <field name="inherit_id" ref="account_fiscal_postion_rule_sale.view_order_form1"/>
                <field name="priority">26</field>
                <field name="arch" type="xml">
                 <field name="shop_id" position="attributes">
