@@ -202,8 +202,7 @@ class l10n_br_account_partner_fiscal_type(osv.osv):
     _columns = {
         'code': fields.char('Código', size=16, required=True),
         'name': fields.char('Descrição', size=64),
-        'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')],
-                                        'Tipo de pessoa', required=True),
+        'is_company': fields.boolean('Pessoa Juridica?'),
         'icms': fields.boolean('Recupera ICMS'),
         'ipi': fields.boolean('Recupera IPI')}
 
