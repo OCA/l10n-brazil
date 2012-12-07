@@ -71,7 +71,6 @@ class sale_order(osv.Model):
     def onchange_partner_id(self, cr, uid, ids, partner_id,
                             context=None, shop_id=None,
                             fiscal_category_id=None, **kwargs):
-#        kwargs.update({'fiscal_category_id': fiscal_category_id})
         return super(sale_order, self).onchange_partner_id(
             cr, uid, ids, partner_id, context, shop_id,
             fiscal_category_id=fiscal_category_id)
@@ -80,7 +79,6 @@ class sale_order(osv.Model):
                             partner_shipping_id, partner_id,
                             shop_id=None, context=None,
                             fiscal_category_id=None, **kwargs):
-#        kwargs.update({'fiscal_category_id': fiscal_category_id})
         return super(sale_order, self).onchange_address_id(
             cr, uid, ids, partner_invoice_id, partner_shipping_id,
             partner_id, shop_id, context,
@@ -90,7 +88,6 @@ class sale_order(osv.Model):
                          partner_id=None, partner_invoice_id=None,
                          partner_shipping_id=None,
                          fiscal_category_id=None, **kwargs):
-#        kwargs.update({'fiscal_category_id': fiscal_category_id})
         return super(sale_order, self).onchange_shop_id(
             cr, uid, ids, shop_id, context, partner_id, partner_invoice_id,
             partner_shipping_id, fiscal_category_id=fiscal_category_id)
