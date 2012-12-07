@@ -178,6 +178,6 @@ class res_partner(osv.osv):
         'partner_fiscal_type_id': fields.many2one(
             'l10n_br_account.partner.fiscal.type',
             'Tipo Fiscal do Parceiro',
-            domain="[('tipo_pessoa','=',tipo_pessoa)]")}
+            domain="[('is_company','=',is_company)]")}
 
 res_partner()
