@@ -132,7 +132,7 @@ class l10n_br_account_fiscal_category(osv.osv):
                                             "categoria de operação fiscal"),
         'fiscal_type': fields.selection([('product', 'Produto'),
                                          ('service', 'Serviço')],
-                                        'Tipo Fiscal', requeried=True),
+                                        'Tipo Fiscal', required=True),
         'journal_type': fields.selection(
             [('sale', 'Venda'),
              ('sale_refund','Devolução de Venda'),
