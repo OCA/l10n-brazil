@@ -17,8 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-from osv import osv
+from osv import osv, fields
 
 
 class l10n_br_data_zip(osv.Model):

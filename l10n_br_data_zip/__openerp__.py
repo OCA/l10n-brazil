@@ -30,8 +30,9 @@
                 'zip.sql'
                 ],
     "update_xml" : [
-                   'partner_view.xml',
-                   'wizard/l10n_br_base_zip_search_view.xml'
+                    'l10n_br_data_zip_view.xml',
+                    'partner_view.xml',
+                    'wizard/l10n_br_base_zip_search_view.xml'
                 ],
     "category" : "Localisation",
     "active": False,
