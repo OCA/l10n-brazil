@@ -27,12 +27,12 @@
                  "l10n_br_base"
                  ],
     'init_xml': [
-                #'zip.sql'
+                'zip.sql'
                 ],
     "update_xml" : [
                     'l10n_br_data_zip_view.xml',
-                    'partner_view.xml',
-                    #'wizard/l10n_br_base_zip_search_view.xml',
+                    'res_partner_view.xml',
+                    'wizard/l10n_br_data_zip_search_view.xml',
                     'security/ir.model.access.csv'
                 ],
     "category" : "Localisation",

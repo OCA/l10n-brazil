@@ -36,7 +36,7 @@ class res_partner(osv.Model):
                   'zip': False
                   }
 
-        obj_zip = self.pool.get('l10n_br_base.zip')
+        obj_zip = self.pool.get('l10n_br_data.zip')
 
         for res_partner_address in self.browse(cr, uid, ids):
 
@@ -75,7 +75,7 @@ class res_partner(osv.Model):
                         'name': 'Zip Search',
                         'view_type': 'form',
                         'view_mode': 'form',
-                        'res_model': 'l10n_br_base.zip.search',
+                        'res_model': 'l10n_br_data.zip.search',
                         'view_id': False,
                         'context': context,
                         'type': 'ir.actions.act_window',

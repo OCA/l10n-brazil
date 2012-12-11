@@ -23,10 +23,10 @@ import string
 from osv import osv, fields
 
 
-class l10n_br_base_zip_search(osv.osv_memory):
-    _name = 'l10n_br_base.zip.search'
+class l10n_br_data_zip_search(osv.osv_memory):
+    _name = 'l10n_br_data.zip.search'
     _description = 'Zipcode Search'
-    _inherit = 'ir.wizard.screen'
+    #_inherit = 'ir.wizard.screen'
     _columns = {
         'code': fields.char('CEP', size=8),
         'street': fields.char('Logradouro', size=72),
@@ -38,7 +38,7 @@ class l10n_br_base_zip_search(osv.osv_memory):
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Cidade',
             domain="[('state_id','=',state_id)]"),
-        'zip_ids': fields.many2many('l10n_br_base.zip','zip_search',
+        'zip_ids': fields.many2many('l10n_br_data.zip','zip_search',
                                     'zip_id', 'zip_search_id', 'CEP',
                                     readonly=True),
         'state':fields.selection([('init','init'),
@@ -52,7 +52,7 @@ class l10n_br_base_zip_search(osv.osv_memory):
         if context is None:
             context = {}
         
-        data = super(l10n_br_base_zip_search, self).default_get(
+        data = super(l10n_br_data_zip_search, self).default_get(
             cr, uid, fields_list, context)
         
         data['code'] = context.get('zip', False)
@@ -83,7 +83,7 @@ class l10n_br_base_zip_search(osv.osv_memory):
         if data['district']:
             domain.append(('district','=',data['district']))
 
-        obj_zip = self.pool.get('l10n_br_base.zip')
+        obj_zip = self.pool.get('l10n_br_data.zip')
         zip_ids = obj_zip.search(cr, uid, domain)
         
         self.write(cr, uid, ids, 
@@ -108,7 +108,7 @@ class l10n_br_base_zip_search(osv.osv_memory):
             address_id = context.get('address_id', False)
             object_name = context.get('object_name', False)
             if address_id and object_name:
-                obj_zip = self.pool.get('l10n_br_base.zip')
+                obj_zip = self.pool.get('l10n_br_data.zip')
                 zip_read = obj_zip.read(
                     cr, uid, data['zip_ids'], ['street_type', 
                                                'street',
@@ -135,4 +135,4 @@ class l10n_br_base_zip_search(osv.osv_memory):
 
         return {'type': 'ir.actions.act_window_close'}
 
-l10n_br_base_zip_search()
+l10n_br_data_zip_search()

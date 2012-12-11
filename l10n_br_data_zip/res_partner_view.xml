@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="l10n_br_data_zip_view_partner_form2">
+	   		<field name="name">l10n_br_base.partner.form2</field>
+      		<field name="model">res.partner</field>
+	   		<field name="inherit_id" ref="base.view_partner_form"/>
+	   		<field name="priority">33</field>
+	   		<field name="arch" type="xml">
+	   			<field name="zip" position="replace">
+					<field name="zip" placeholder="ZIP" on_change="onchange_mask_zip(zip)"/>
+					<button name="zip_search" string="Pesquisar CEP" type="object"/>
+        		</field>
+        	</field>
+   		</record>
+		
+	</data>
+</openerp>
