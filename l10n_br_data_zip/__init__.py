@@ -17,7 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
 #################################################################################
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
 import res_partner
+import l10n_br_data_zip
 import wizard
