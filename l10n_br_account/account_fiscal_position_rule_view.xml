@@ -44,6 +44,9 @@
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
 					</group>
 				</field>
+				<field name="fiscal_position_id" position="replace">
+					<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+				</field>
 			</field>
 		</record>
 
@@ -63,6 +66,9 @@
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start" />
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
 					</group>
+				</field>
+				<field name="fiscal_position_id" position="replace">
+					<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
 				</field>
 			</field>
 		</record>
