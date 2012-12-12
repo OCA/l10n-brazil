@@ -35,11 +35,10 @@ class stock_picking(osv.osv):
         self.pool.get('account.invoice').write(
             cr, uid, invoice_id, {
                 'partner_shipping_id': picking.address_id.id,
-                'fiscal_operation_category_id': picking.fiscal_operation_category_id and picking.fiscal_operation_category_id.id,
-                'fiscal_operation_id': picking.fiscal_operation_id and picking.fiscal_operation_id.id,
-                'cfop_id': picking.fiscal_operation_id and picking.fiscal_operation_id.cfop_id.id,
-                'fiscal_document_id': picking.fiscal_operation_id and  picking.fiscal_operation_id.fiscal_document_id.id,
-                'fiscal_position': picking.fiscal_position and picking.fiscal_position.id,
+                #'fiscal_category_id': picking.fiscal_category_id and picking.fiscal_category_id.id,
+                #'cfop_id': picking.fiscal_operation_id and picking.fiscal_operation_id.cfop_id.id,
+                #'fiscal_document_id': picking.fiscal_operation_id and  picking.fiscal_operation_id.fiscal_document_id.id,
+                #'fiscal_position': picking.fiscal_position and picking.fiscal_position.id,
                 'carrier_id': picking.carrier_id and picking.carrier_id.id,
                 'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
                 'incoterm': picking.incoterm.id,
