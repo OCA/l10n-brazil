@@ -53,12 +53,12 @@
 #                    'wizard/nfe_export_from_invoice_view.xml',
                     ],
     'demo_xml': [
-                 'demo/account.account.csv',
-                 'demo/account_tax_code.xml',
-                 'demo/account_tax.xml',
-                 'demo/account_financial_demo.xml',
-                 'demo/account_fiscal_demo.xml',
-                 'demo/base_demo.xml',
+#                 'demo/account.account.csv',
+#                 'demo/account_tax_code.xml',
+#                 'demo/account_tax.xml',
+#                 'demo/account_financial_demo.xml',
+#                 'demo/account_fiscal_demo.xml',
+#                 'demo/base_demo.xml',
 #                 'demo/product_demo.xml',
                  ],
     'test': [
