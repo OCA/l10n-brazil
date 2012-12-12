@@ -21,7 +21,7 @@ from osv import osv
 
 
 class crm_lead2partner(osv.TransientModel):
-    _inherit = 'crm.lead2partner'
+    _inherit = 'crm.partner.binding'
 
     def _create_partner(self, cr, uid, ids, context=None):
         """
