@@ -278,7 +278,7 @@ class purchase_order_line(osv.osv):
                                         product_id=False,
                                         fiscal_category_id=False,
                                         company_id=False, context=None):
-    
+
         result = {'value': {'fiscal_position': False}}
 
         if not company_id or not partner_id or not fiscal_category_id:
