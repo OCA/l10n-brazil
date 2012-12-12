@@ -31,7 +31,7 @@
         <record id="view_order_form1" model="ir.ui.view">
             <field name="name">account_fiscal_postion_rule_form_view_order_form1</field>
                <field name="model">sale.order</field>
-               <field name="inherit_id" ref="account_fiscal_postion_rule_sale.view_order_form1"/>
+               <field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form1"/>
                <field name="priority">26</field>
                <field name="arch" type="xml">
                 <field name="shop_id" position="attributes">
