@@ -72,7 +72,7 @@
 			<field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
 			<field name="arch" type="xml">
 				<field name="suframa" position="after">
-					<field name="partner_fiscal_type_id" required="1" />
+					<field name="partner_fiscal_type_id" attrs="{'required':[('is_company','=',True)]}" />
 				</field>
 			</field>
 		</record>
