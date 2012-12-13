@@ -57,7 +57,7 @@
 					<field name="city" invisible="1" />
 				</field>
 				<notebook>
-					<page position="inside" string="l10n br - NF">
+					<page position="inside" string="l10n br - NF" attrs="{'invisible':[('is_company','=',False)]}">
 						<separator colspan="4" string="Dados Adicionais do Parceiro" />
 						<group>
 							<field name="inscr_est" />
