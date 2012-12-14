@@ -269,7 +269,11 @@ class l10n_br_tax_definition(osv.osv):
         'tax_domain': fields.related('tax_id', 'domain',
                                      type='char'),
         'tax_code_id': fields.many2one('account.tax.code',
-                                       'Código de Imposto')}
+                                       'Código de Imposto'),
+        'company_id': fields.related(
+            'tax_id', 'company_id', type='many2one', readonly=True,
+            relation='res.company', store=True,
+            string='Company')}
     
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False
