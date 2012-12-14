@@ -96,30 +96,30 @@ class res_company(osv.osv):
         'in_invoice_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Entrada',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
+            domain="[('journal_type','=','purchase'), ('fiscal_type','=','product'),"
             " ('type','=','input')]"),
         'out_invoice_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Saida',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
+            domain="[('journal_type','=','sale'), ('fiscal_type','=','product'),"
             " ('type','=','output')]"),
         'in_refund_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Devolução Entrada',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
+            domain="[('journal_type','=','purchase_refund'), ('fiscal_type','=','product'),"
             " ('type','=','output')]"),
         'out_refund_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Devolução Saida',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','product'),"
+            domain="[('journal_type','=','sale_refund'), ('fiscal_type','=','product'),"
             " ('type','=','input')]"),
         'in_invoice_service_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Aquisição de Serviço',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','service'),"
+            domain="[('journal_type','=','purchase'), ('fiscal_type','=','service'),"
             " ('type','=','input')]"),
         'out_invoice_service_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Prestação de Serviço',
-            domain="[('use_invoice','=',True), ('fiscal_type','=','service'),"
+            domain="[('journal_type','=','sale'), ('fiscal_type','=','service'),"
             " ('type','=','output')]")}
 
     _defaults = {
