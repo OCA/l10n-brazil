@@ -26,7 +26,7 @@ class res_company(osv.osv):
                 'purchase_fiscal_category_id': fields.many2one(
                     'l10n_br_account.fiscal.category',
                     'Categoria Fiscal Padrão Compras',
-                    domain="[('use_purchase','=',True)]"),
+                    domain="[('journal_type', '=', 'purchase')]"),
     }
 
 res_company()
