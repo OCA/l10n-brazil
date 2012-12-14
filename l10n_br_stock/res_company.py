@@ -25,6 +25,6 @@ class res_company(osv.osv):
     _columns = {
         'stock_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
-            'Categoria Fiscal Padrão Estoque'}
+            'Categoria Fiscal Padrão Estoque')}
 
 res_company()
