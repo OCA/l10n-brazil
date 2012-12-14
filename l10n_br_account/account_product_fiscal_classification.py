@@ -267,7 +267,7 @@ class wizard_account_product_fiscal_classification(osv.osv_memory):
                             'fiscal_classification_id': new_fclass_id})
     
                 for purchase_tax in fclass_template.purchase_tax_definition_line:
-                    if obj_tax_purchase.search(cr, uid, ['tax_id', '=',tax_template_ref[company_id].get(purchase_tax.tax_id.id, False), ('fiscal_classification_id', '=', new_fclass_id)]):
+                    if not obj_tax_purchase.search(cr, uid, [('tax_id', '=',tax_template_ref[company_id].get(purchase_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
                         obj_tax_purchase.create(cr, uid, {
                             'tax_id': tax_template_ref[company_id].get(purchase_tax.tax_id.id, False),
                             'tax_code_id': tax_code_template_ref[company_id].get(purchase_tax.tax_code_id.id, False),
