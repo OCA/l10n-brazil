@@ -61,11 +61,11 @@
 		
 		<record id="fo_category_bonificacao" model="l10n_br_account.fiscal.category">
 			<field name="code">Bonificação</field>
-	    	<field name="name">Bonificação</field>
+	    		<field name="name">Bonificação</field>
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">sale</field>
-			<field name="journal_ids" eval="[(6,0,[ref('profile_diario_bonificacao')])]"/>
+			<field name="property_journal" ref="profile_diario_bonificacao"/>
 		</record>
 		
 		<record id="fo_category_vendast" model="l10n_br_account.fiscal.category">
