@@ -41,7 +41,7 @@ class sale_order(osv.osv):
 
         for order in self.browse(cr, uid, ids):
             for invoice in order.invoice_ids:
-                if invoice.state in ('draft') and order.fiscal_operation_id:
+                if invoice.state in ('draft'):
                     self.pool.get('account.invoice').write(
                         cr, uid, invoice.id, {
                             'partner_shipping_id': order.partner_shipping_id.id,
