@@ -58,7 +58,7 @@ class purchase_order(osv.osv):
             cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
-    
+
     def _default_fiscal_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         return user.company_id.purchase_fiscal_category_id and user.company_id.purchase_fiscal_category_id.id or False
@@ -91,8 +91,8 @@ class purchase_order(osv.osv):
     def _fiscal_position_map(self, cr, uid, ids, partner_id,
                              partner_invoice_id, company_id,
                              fiscal_category_id):
+        
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-
         result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_invoice_id, company_id,
             fiscal_category_id,
@@ -128,7 +128,7 @@ class purchase_order(osv.osv):
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     partner_id=False, partner_address_id=False,
                                     company_id=False,
-                                    fiscal_category_id=False):
+                                    fiscal_category_id=False, context=None):
         result = {'value': {}}
         fiscal_data = self._fiscal_position_map(
             cr, uid, ids, partner_id, partner_address_id, company_id,
@@ -228,12 +228,25 @@ class purchase_order_line(osv.osv):
     def _fiscal_position_map(self, cr, uid, partner_id, partner_address_id,
                              company_id, fiscal_category_id, product_id=False,
                              context=None):
-
+        
+        if context is None: context = {}
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_address_id, company_id,
             fiscal_category_id,
-            context={'use_domain': ('use_purchase', '=', True)})
+            context=context)
+        if product_id and fiscal_result.get('fiscal_position', False):
+            obj_fposition = self.pool.get('account.fiscal.position').browse(
+                cr, uid, fiscal_result['fiscal_position'])
+            obj_product = self.pool.get('product.product').browse(
+                cr, uid, product_id)
+            context.update({'fiscal_type': obj_product.fiscal_type,
+                       'type_tax_use': 'purchase'})
+            taxes = obj_product.supplier_taxes_id or False
+            tax_ids = self.pool.get('account.fiscal.position').map_tax(
+                cr, uid, obj_fposition, taxes, context)
+
+            fiscal_result['taxes_id'] = tax_ids
 
         return fiscal_result
 
@@ -243,7 +256,7 @@ class purchase_order_line(osv.osv):
                           name=False, price_unit=False, notes=False,
                           context=None, fiscal_category_id=False,
                           partner_address_id=False, company_id=False):
-
+        print context
         if context is None: context = {}
         if product_id:
             obj_product = self.pool.get('product.product').browse(
@@ -268,25 +281,24 @@ class purchase_order_line(osv.osv):
 
         fiscal_result = self._fiscal_position_map(
             cr, uid, partner_id, partner_address_id, company_id,
-            result['value']['fiscal_category_id'],
+            result['value']['fiscal_category_id'], product_id,
             context={'use_domain': ('use_purchase', '=', True)})
         result['value'].update(fiscal_result)
         return result
-    
+
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                         partner_address_id=False,
                                         product_id=False,
                                         fiscal_category_id=False,
                                         company_id=False, context=None):
 
-        result = {'value': {'fiscal_position': False}}
-
-        if not company_id or not partner_id or not fiscal_category_id:
+        result = {'value': {}}
+        if not company_id or not partner_id:
             return result
 
         fiscal_result = self._fiscal_position_map(
             cr, uid, partner_id, partner_address_id, company_id,
-            fiscal_category_id,
+            fiscal_category_id, product_id,
             context={'use_domain': ('use_purchase', '=', True)})
 
         result['value'].update(fiscal_result)
@@ -297,31 +309,16 @@ class purchase_order_line(osv.osv):
                                  fiscal_position=False,
                                  fiscal_category_id=False, company_id=False,
                                  context=None):
-
-        result = {'value': {'taxes_id': False}}
+        result = {'value': {}}
         if not company_id or not partner_id or not fiscal_position:
             return result
 
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-        fiscal_result = obj_fp_rule.fiscal_position_map(
+        fiscal_result = self._fiscal_position_map(
             cr, uid, partner_id, partner_address_id, company_id,
-            fiscal_category_id,
+            fiscal_category_id, product_id,
             context={'use_domain': ('use_purchase', '=', True)})
+        
         result['value'].update(fiscal_result)
-
-        if product_id:
-            obj_fposition = self.pool.get('account.fiscal.position').browse(
-                cr, uid, fiscal_position)
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, product_id)
-            context = {'fiscal_type': obj_product.fiscal_type,
-                       'type_tax_use': 'purchase'}
-            taxes = obj_product.supplier_taxes_id or False
-            tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                cr, uid, obj_fposition, taxes, context)
-
-            result['value']['taxes_id'] = tax_ids
-
         return result
 
 purchase_order_line()
