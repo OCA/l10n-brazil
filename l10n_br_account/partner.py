@@ -58,18 +58,22 @@ class account_fiscal_position_template(osv.osv):
         return {'value': 
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
         
-    def generate_fiscal_position(self, cr, uid, chart_temp_id, tax_template_ref, acc_template_ref, company_id, context=None):
+    def generate_fiscal_position(self, cr, uid, chart_temp_id,
+                                 tax_template_ref, acc_template_ref,
+                                 company_id, context=None):
         """
-        This method generate Fiscal Position, Fiscal Position Accounts and Fiscal Position Taxes from templates.
+        This method generate Fiscal Position, Fiscal Position Accounts and 
+        Fiscal Position Taxes from templates.
 
         :param chart_temp_id: Chart Template Id.
-        :param taxes_ids: Taxes templates reference for generating account.fiscal.position.tax.
-        :param acc_template_ref: Account templates reference for generating account.fiscal.position.account.
+        :param taxes_ids: Taxes templates reference for generating 
+        account.fiscal.position.tax.
+        :param acc_template_ref: Account templates reference for generating 
+        account.fiscal.position.account.
         :param company_id: company_id selected from wizard.multi.charts.accounts.
         :returns: True
         """
-        if context is None:
-            context = {}
+        if context is None: context = {}
 
         obj_tax_fp = self.pool.get('account.fiscal.position.tax')
         obj_ac_fp = self.pool.get('account.fiscal.position.account')
@@ -81,7 +85,8 @@ class account_fiscal_position_template(osv.osv):
             cr, uid, [('company_id', '=', company_id)])
                 
         for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
-            tax_code_template = obj_tax_code_template.search(cr,uid,[('name', '=', tax_code.name)])
+            tax_code_template = obj_tax_code_template.search(
+                cr, uid, [('name', '=', tax_code.name)])
             if tax_code_template:
                 tax_code_template_ref[tax_code_template[0]] = tax_code.id
         
@@ -128,13 +133,32 @@ class account_fiscal_position_tax_template(osv.osv):
         'tax_code_dest_id': fields.many2one('account.tax.code.template',
                                             'Replacement Tax Code')}
 
-    def onchange_tax_src_id(self, cr, uid, ids,
-                            tax_src_id=False, context=None):
+    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
+                    tax_code_src_id=False, context=None):
+        
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax.template').read(
                 cr, uid, tax_src_id, ['domain'], context=context)['domain']
+
+        if tax_code_src_id:
+            tax_domain = self.pool.get('account.tax.code.template').read(
+                cr, uid, tax_code_src_id, ['domain'],
+                context=context)['domain']
+        
         return {'value': {'tax_src_domain': tax_domain}}
+
+    def onchange_tax_src_id(self, cr, uid, ids,tax_src_id=False, 
+                            tax_code_src_id=False, context=None):
+
+        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
+                                context=context)
+    
+    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False, 
+                                 tax_code_src_id=False, context=None):
+
+        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
+                                context=context)
 
 account_fiscal_position_tax_template()
 
@@ -217,13 +241,32 @@ class account_fiscal_position_tax(osv.osv):
         'tax_code_dest_id': fields.many2one('account.tax.code',
                                             'Replacement Tax Code')}
 
-    def onchange_tax_src_id(self, cr, uid, ids,
-                            tax_src_id=False, context=None):
+    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
+                    tax_code_src_id=False, context=None):
+        
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax').read(
                 cr, uid, tax_src_id, ['domain'], context=context)['domain']
+
+        if tax_code_src_id:
+            tax_domain = self.pool.get('account.tax.code').read(
+                cr, uid, tax_code_src_id, ['domain'],
+                context=context)['domain']
+        
         return {'value': {'tax_src_domain': tax_domain}}
+
+    def onchange_tax_src_id(self, cr, uid, ids,tax_src_id=False, 
+                            tax_code_src_id=False, context=None):
+
+        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
+                                context=context)
+    
+    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False, 
+                                 tax_code_src_id=False, context=None):
+
+        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
+                                context=context)
 
 account_fiscal_position_tax()
 
