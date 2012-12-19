@@ -99,6 +99,8 @@
 						<separator colspan="4" string="Diário Contábil"/>
 						<field name="journal_type" select="1"/>
 						<field required="1" name="property_journal" domain="[('type', '=', journal_type)]" />
+						<separator colspan="4" string="Posições Fiscais"/>
+						<field colspan="4" name="fiscal_position_ids" nolabel="1" widget="one2many_list"/>
 					</form>
 				</field>
 			</record>
