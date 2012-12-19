@@ -171,9 +171,7 @@ class purchase_order(osv.osv):
                     raise osv.except_osv(
                         _('No fiscal document serie found!'),
                         _("No fiscal document serie found for selected \
-                        company %s and fiscal operation: '%s'") % (
-                            order.company_id.name,
-                            order.fiscal_operation_id.code))
+                        company %s") % (order.company_id.name))
                 
                 journal_id = order.fiscal_category_id and \
                 order.fiscal_category_id.property_journal.id or False
