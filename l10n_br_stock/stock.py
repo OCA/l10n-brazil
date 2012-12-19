@@ -55,8 +55,8 @@ class stock_picking(osv.osv):
          'fiscal_category_id': _default_fiscal_category}
 
     def _fiscal_position_map(self, cr, uid, partner_id,
-        partner_invoice_id=False, company_id=False,
-        fiscal_operation_category_id=False):
+                             partner_invoice_id=False, company_id=False,
+                             fiscal_category_id=False):
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_invoice_id, company_id,
@@ -66,7 +66,7 @@ class stock_picking(osv.osv):
 
     def onchange_partner_in(self, cr, uid, context=None,
                             partner_address_id=None, company_id=False,
-                            fiscal_operation_category_id=False):
+                            fiscal_category_id=False):
         result = super(stock_picking, self).onchange_partner_in(
             cr, uid, context, partner_address_id)
         if result and partner_address_id:
@@ -105,8 +105,8 @@ class stock_picking(osv.osv):
             fiscal_position = move_line.purchase_line_id.fiscal_position or move_line.purchase_line_id.order_id.fiscal_position
             fiscal_category_id = move_line.purchase_line_id.fiscal_category_id or move_line.purchase_line_id.order_id.fiscal_category_id
         else:
-            fiscal_position = move_line.picking_id.fiscal_operation_id
-            fiscal_category_id = move_line.picking_id.fiscal_operation_category_id
+            fiscal_position = move_line.picking_id.fiscal_position
+            fiscal_category_id = move_line.picking_id.fiscal_category_id
         res['cfop_id'] = fiscal_position and fiscal_position.cfop_id and fiscal_position.cfop_id.id
         res['fiscal_category_id'] = fiscal_category_id and fiscal_category_id.id
         res['fiscal_position'] = fiscal_position and fiscal_position.id
