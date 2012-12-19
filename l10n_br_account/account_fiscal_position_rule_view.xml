@@ -36,7 +36,7 @@
 					<separator string="l10n br" colspan="4" />
 					<field name="partner_fiscal_type_id" />
 					<field name="fiscal_type" />
-					<field name="fiscal_category_id" />
+					<field name="fiscal_category_id" required="1" />
 					<newline />
 					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
 						<separator string="Faixa de Faturamento" colspan="4" />
@@ -59,7 +59,7 @@
 					<separator string="l10n br" colspan="4" />
 					<field name="partner_fiscal_type_id" />
 					<field name="fiscal_type" />
-					<field name="fiscal_category_id" />
+					<field name="fiscal_category_id" required="1"/>
 					<newline />
 					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
 						<separator string="Faixa de Faturamento" colspan="4" />
