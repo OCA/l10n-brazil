@@ -948,16 +948,23 @@ class account_invoice_line(osv.osv):
             }
 
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
+            taxes = tax_obj.compute_all(
+                cr, uid, line.invoice_line_tax_id, price, line.quantity,
+                product=line.product_id,
+                address_id=line.invoice_id.address_invoice_id,
+                partner=line.invoice_id.partner_id,
+                fiscal_position=line.fiscal_position)
 
-            company_id = line.company_id.id or line.invoice_id.company_id.id or False
+            company_id = (line.company_id and line.company_id.id) or \
+            (line.invoice_id.company_id and line.invoice_id.company_id.id) \
+             or False
 
             context = {}
             if line.invoice_id.type in ('out_invoice', 'out_refund'):
                 context['type_tax_use'] = 'sale'
             else:
                 context['type_tax_use'] = 'purchase'
-                
+
             context['fiscal_type'] = line.product_id.fiscal_type
 
             tax_code_cst = self.pool.get('account.fiscal.position').map_tax_code(
