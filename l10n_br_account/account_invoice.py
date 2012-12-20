@@ -950,38 +950,24 @@ class account_invoice_line(osv.osv):
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, address_id=line.invoice_id.address_invoice_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
 
-            icms_cst = '99'
-            ipi_cst = '99'
-            pis_cst = '99'
-            cofins_cst = '99'
-            company_id = line.company_id.id and line.invoice_id.company_id.id or False
+            company_id = line.company_id.id or line.invoice_id.company_id.id or False
 
-            # FIXME - AGORA DEVE UTILIZAR AS TAX.CODE DAS LINHAS DA POSIÇÃO FISCAL
-            #if line.fiscal_operation_id:
+            context = {}
+            if line.invoice_id.type in ('out_invoice', 'out_refund'):
+                context['type_tax_use'] = 'sale'
+            else:
+                context['type_tax_use'] = 'purchase'
+                
+            context['fiscal_type'] = line.product_id.fiscal_type
 
-           #     fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
-           #     for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
-           #         if fo_line.tax_code_id.domain == 'icms':
-           #             icms_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'ipi':
-           #             ipi_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'pis':
-           #             pis_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'cofins':
-           #             cofins_cst = fo_line.cst_id.code
+            tax_code_cst = self.pool.get('account.fiscal.position').map_tax_code(
+                cr, uid, line.product_id.id, line.fiscal_position,
+                company_id, line.invoice_line_tax_id, context=context)
 
-           #     if line.product_id:
-           #         fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
-    
-           #         for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
-           #             if fo_line_ncm.tax_code_id.domain == 'icms':
-           #                 icms_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'ipi':
-           #                 ipi_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'pis':
-           #                 pis_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'cofins':
-           #                 cofins_cst = fo_line_ncm.cst_id.code
+            icms_cst = tax_code_cst.get('icms', '99')
+            ipi_cst = tax_code_cst.get('ipi', '99')
+            pis_cst = tax_code_cst.get('pis', '99')
+            cofins_cst = tax_code_cst.get('cofins', '99')
 
             for tax in taxes['taxes']:
                 try:
@@ -1202,8 +1188,7 @@ class account_invoice_line(osv.osv):
                              fiscal_category_id, product_id=False, 
                              account_id=False, context=None):
         
-        if not context:
-            context = {}
+        if not context: context = {}
         
         context['use_domain'] = ('use_invoice', '=', True)
         result = {'cfop_id': False}
