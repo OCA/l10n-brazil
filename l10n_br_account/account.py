@@ -96,7 +96,7 @@ class account_tax(osv.osv):
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
-        tax_obj = self.pool.get('account.tax')        
+        tax_obj = self.pool.get('account.tax')
         result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner, force_excluded)
 
         totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
@@ -126,16 +126,20 @@ class account_tax(osv.osv):
             ipi_value += ipi['amount']
 
         # Calcula ICMS
+        print fiscal_position
         specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
-        if fiscal_position and fiscal_position.asset_operation or False:
+        if fiscal_position and fiscal_position.asset_operation:
+            print 'Asset'
             total_base = result['total'] + ipi_value
         else:
+            print 'not asset'
             total_base = result['total']
 
-        result_icms = self._compute_tax(cr, uid, specific_icms, result['total'], product, quantity, precision)
+        result_icms = self._compute_tax(cr, uid, specific_icms, total_base, product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
+            icms_base = result_icms['taxes'][0]['total_base']
             icms_value = result_icms['taxes'][0]['amount']
             icms_percent = result_icms['taxes'][0]['percent']
             icms_percent_reduction = result_icms['taxes'][0]['base_reduction']
@@ -147,14 +151,16 @@ class account_tax(osv.osv):
         if result_icmsst['taxes']:
             icms_st_percent = result_icmsst['taxes'][0]['percent'] or icms_percent
             icms_st_percent_reduction = result_icmsst['taxes'][0]['base_reduction'] or icms_percent_reduction
-            icms_st_base = round(((result['total'] + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])) * (1 - icms_st_percent_reduction), precision)
+            icms_st_base = round(((icms_base + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])) * (1 - icms_st_percent_reduction), precision)
             icms_st_base_other = round(((result['total'] + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision) - icms_st_base
             result_icmsst['taxes'][0]['total_base'] = icms_st_base
             result_icmsst['taxes'][0]['amount'] = (icms_st_base  * icms_st_percent) - icms_value
             result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
             result_icmsst['taxes'][0]['icms_st_percent_reduction'] = icms_st_percent_reduction
             result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
-        calculed_taxes +=result_icmsst['taxes']
+
+        if result_icmsst['taxes'][0]['amount_mva']:
+            calculed_taxes +=result_icmsst['taxes']
 
         return {
             'total': result['total'],
