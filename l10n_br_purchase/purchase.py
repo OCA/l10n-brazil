@@ -239,7 +239,7 @@ class purchase_order_line(osv.osv):
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product_id)
             context.update({'fiscal_type': obj_product.fiscal_type,
-                       'type_tax_use': 'purchase'})
+                            'type_tax_use': 'purchase'})
             taxes = obj_product.supplier_taxes_id or False
             tax_ids = self.pool.get('account.fiscal.position').map_tax(
                 cr, uid, obj_fposition, taxes, context)
