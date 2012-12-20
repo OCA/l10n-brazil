@@ -182,13 +182,69 @@ class account_fiscal_position(osv.osv):
                                                   'journal_type'], context=context)
         return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+    
+    
+    def map_tax_code(self, cr, uid, product_id, fiscal_position,
+                     company_id=False, tax_ids=False, context=None):
         
+        if not context: context = {}
+        
+        result = {}
+        
+        if tax_ids:
+            
+            product = self.pool.get('product.product').browse(
+                cr, uid, product_id, context=context)
+
+            fclassificaion = product.property_fiscal_classification
+            
+            if context.get('type_tax_use') == 'sale':
+            
+                tax_sale_ids = fclassificaion.sale_tax_definition_line
+                for tax_def in tax_sale_ids:
+                    if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                        result.update({tax_def.tax_id.domain:
+                                       tax_def.tax_code_id.code})
+
+                company = self.pool.get('res.company').browse(
+                    cr, uid, company_id, context=context)
+                
+                if context.get('fiscal_type', 'product') == 'product':
+                    company_tax_def = company.product_tax_definition_line
+                else:
+                    company_tax_def = company.service_tax_definition_line
+            
+                for tax_def in company_tax_def:
+                    if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                            result.update({tax_def.tax_id.domain:
+                                           tax_def.tax_code_id.code})
+
+            if context.get('type_tax_use') == 'purchase':
+            
+                tax_purchase_ids = fclassificaion.purchase_tax_definition_line
+                for tax_def in tax_purchase_ids:
+                    if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                        result.update({tax_def.tax_id.domain:
+                                       tax_def.tax_code_id.code})
+        
+            for fp_tax in fiscal_position.tax_ids:
+                if fp_tax.tax_dest_id in tax_ids and fp_tax.tax_code_dest_id:
+                    result.update({fp_tax.tax_dest_id.domain:
+                                   fp_tax.tax_code_dest_id.code})
+                if not fp_tax.tax_dest_id and fp_tax.tax_code_src_id and \
+                fp_tax.tax_code_dest_id:
+                    result.update({fp_tax.tax_code_src_id.domain:
+                                   fp_tax.tax_code_dest_id.code})
+                    
+        
+        return result
+    
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
-        if not context:
-            context = {}
+        if not context: context = {}
+        
         if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use', 'all') in ('sale', 'all'):
+        context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
