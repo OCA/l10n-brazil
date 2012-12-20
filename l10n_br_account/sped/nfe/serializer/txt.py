@@ -220,9 +220,25 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         i = 0
         for inv_line in inv.invoice_line:
             i += 1
-        
+            
+            # FIXME
+            if inv_line.freight_value:
+                freight_value = str("%.2f" % inv_line.freight_value)
+            else:
+                freight_value = ''
+            
+            if inv_line.insurance_value:
+                insurance_value = str("%.2f" % inv_line.insurance_value)
+            else:
+                insurance_value = ''
+                
+            if inv_line.other_costs_value:
+                other_costs_value = str("%.2f" % inv_line.other_costs_value)
+            else:
+                other_costs_value = ''
+            
             StrH = 'H|%s||\n' % (i)
-        
+            
             StrFile += StrH
         
             StrRegI = {
@@ -240,10 +256,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'UTrib': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QTrib': str("%.4f" % inv_line.quantity),
                    'VUnTrib': str("%.2f" % inv_line.price_unit),
-                   'VFrete': str("%.2f" % inv_line.freight_value),
-                   'VSeg': str("%.2f" % inv_line.insurance_value),
+                   'VFrete': freight_value,
+                   'VSeg': insurance_value,
                    'VDesc': '',
-                   'vOutro': str("%.2f" % inv_line.costs_value),
+                   'vOutro': other_costs_value,
                    'indTot': '1',
                    'xPed': '',
                    'nItemPed': '',
