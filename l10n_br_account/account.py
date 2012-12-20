@@ -158,9 +158,9 @@ class account_tax(osv.osv):
             result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
             result_icmsst['taxes'][0]['icms_st_percent_reduction'] = icms_st_percent_reduction
             result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
-
-        if result_icmsst['taxes'][0]['amount_mva']:
-            calculed_taxes +=result_icmsst['taxes']
+    
+            if result_icmsst['taxes'][0]['amount_mva']:
+                calculed_taxes +=result_icmsst['taxes']
 
         return {
             'total': result['total'],
