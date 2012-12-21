@@ -126,13 +126,10 @@ class account_tax(osv.osv):
             ipi_value += ipi['amount']
 
         # Calcula ICMS
-        print fiscal_position
         specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
         if fiscal_position and fiscal_position.asset_operation:
-            print 'Asset'
             total_base = result['total'] + ipi_value
         else:
-            print 'not asset'
             total_base = result['total']
 
         result_icms = self._compute_tax(cr, uid, specific_icms, total_base, product, quantity, precision)

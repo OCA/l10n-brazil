@@ -95,27 +95,47 @@ class stock_picking(osv.osv):
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
-        res = super(stock_picking, self)._prepare_invoice_line(
+        result = super(stock_picking, self)._prepare_invoice_line(
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
         if move_line.sale_line_id:
             fiscal_position = move_line.sale_line_id.fiscal_position or move_line.sale_line_id.order_id.fiscal_position
             fiscal_category_id = move_line.sale_line_id.fiscal_category_id or move_line.sale_line_id.order_id.fiscal_category_id
+            refund_fiscal_position = fiscal_category_id.refund_fiscal_category_id or False
         elif move_line.purchase_line_id:
             fiscal_position = move_line.purchase_line_id.fiscal_position or move_line.purchase_line_id.order_id.fiscal_position
             fiscal_category_id = move_line.purchase_line_id.fiscal_category_id or move_line.purchase_line_id.order_id.fiscal_category_id
+            refund_fiscal_position = fiscal_category_id.refund_fiscal_category_id or False
         else:
             fiscal_position = move_line.picking_id.fiscal_position
             fiscal_category_id = move_line.picking_id.fiscal_category_id
-        res['cfop_id'] = fiscal_position and fiscal_position.cfop_id and fiscal_position.cfop_id.id
-        res['fiscal_category_id'] = fiscal_category_id and fiscal_category_id.id
-        res['fiscal_position'] = fiscal_position and fiscal_position.id
-        return res
+
+        if context.get('inv_type') in ('in_refund', 'out_refund'):
+            if not refund_fiscal_position:
+                raise osv.except_osv(
+                    _('Error!'),
+                    _("This Fiscal Operation does not has Fiscal Operation \
+                    for Returns!"))
+
+            fiscal_category_id = refund_fiscal_position
+            fiscal_data = self._fiscal_position_map(
+                cr, uid, move_line.picking_id.partner_id.id,
+                move_line.picking_id.address_id.id,
+                move_line.picking_id.company_id.id,
+                fiscal_category_id.id)
+
+            fiscal_position = self.pool.get('account.fiscal.position').browse(
+                cr, uid, fiscal_data.get('fiscal_position', 0))
+
+        result['cfop_id'] = fiscal_position and fiscal_position.cfop_id and fiscal_position.cfop_id.id
+        result['fiscal_category_id'] = fiscal_category_id and fiscal_category_id.id
+        result['fiscal_position'] = fiscal_position and fiscal_position.id
+        return result
 
     def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
-        res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
-        res['fiscal_category_id'] = picking.fiscal_category_id and picking.fiscal_category_id.id
-        res['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
-        return res
+        result = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
+        result['fiscal_category_id'] = picking.fiscal_category_id and picking.fiscal_category_id.id
+        result['fiscal_position'] = picking.fiscal_position and picking.fiscal_position.id
+        return result
 
 stock_picking()

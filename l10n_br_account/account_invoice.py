@@ -818,7 +818,6 @@ class account_invoice_line(osv.osv):
         return result
     
     def _amount_tax_icms(self, cr, uid, tax=False):
-        print tax.get('total_base', 0.0)
         result = {
                   'icms_base_type': tax.get('type'),
                   'icms_base': tax.get('total_base', 0.0),
