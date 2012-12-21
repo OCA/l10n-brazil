@@ -894,7 +894,8 @@ class account_invoice_line(osv.osv):
         return result
     
     def _amount_tax_issqn(self, cr, uid, taxes=False):
-        pass
+        result = {}
+        return result
     
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         res = {}
