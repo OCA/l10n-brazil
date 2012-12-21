@@ -197,9 +197,16 @@ class sale_order(osv.osv):
             if obj_inv_lines:
                 fiscal_category_id = obj_inv_lines[0]['fiscal_category_id'][0]
                 result['fiscal_position'] = obj_inv_lines[0]['fiscal_position'][0]
+
+                if fiscal_category_id:
+                    journal = self.pool.get('l10n_br_account.fiscal.category').read(
+                        cr, uid, fiscal_category_id, ['property_journal'])['property_journal']
+                    if journal:
+                        result['journal_id'] = journal[0]
         else:
             fiscal_category_id = order.fiscal_category_id.id
-
+            result['journal_id'] = order.fiscal_category_id.property_journal.id
+        
         # FIXME - Deveria pegar as observações das
         # posições fiscais de cada linha.
         comment = ''
