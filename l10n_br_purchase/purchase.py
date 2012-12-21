@@ -254,7 +254,6 @@ class purchase_order_line(osv.osv):
                           name=False, price_unit=False, notes=False,
                           context=None, fiscal_category_id=False,
                           partner_address_id=False, company_id=False):
-        print context
         if context is None: context = {}
         if product_id:
             obj_product = self.pool.get('product.product').browse(
