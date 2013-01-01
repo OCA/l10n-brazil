@@ -219,6 +219,11 @@ class account_invoice(osv.osv):
         'partner_shipping_id': fields.many2one('res.partner.address', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
         'own_invoice': fields.boolean('Nota Fiscal Própria', readonly=True,
                                       states={'draft':[('readonly',False)]}),
+        'nfe_purpose': fields.selection(
+            [('1', 'Normal'),
+             ('2', 'Complementar'),
+             ('3', 'Ajuste')], 'Finalidade da Emissão', readonly=True,
+            states={'draft': [('readonly', False)]}),
         'internal_number': fields.char('Invoice Number', size=32,
                                        readonly=True,
                                        states={'draft':[('readonly',False)]},
@@ -529,6 +534,7 @@ class account_invoice(osv.osv):
 
     _defaults = {
         'own_invoice': True,
+        'nfe_purpose': 1,
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
         'fiscal_document_id': _default_fiscal_document,

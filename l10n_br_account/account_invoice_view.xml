@@ -140,6 +140,7 @@
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
 									<field name="fiscal_document_id" required="1" />
+									<field name="nfe_purpose" required="1"/>
 								</group>
 							</page>
 							<page string="CFOP">
