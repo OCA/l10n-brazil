@@ -534,7 +534,7 @@ class account_invoice(osv.osv):
 
     _defaults = {
         'own_invoice': True,
-        'nfe_purpose': 1,
+        'nfe_purpose': '1',
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
         'fiscal_document_id': _default_fiscal_document,
@@ -602,15 +602,28 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def action_internal_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
+        if context is None: context = {}
         
-        for obj_inv in self.browse(cr, uid, ids):
-            if obj_inv.own_invoice:
-                obj_sequence = self.pool.get('ir.sequence')
-                seq_no = obj_sequence.get_id(cr, uid, obj_inv.document_serie_id.internal_sequence_id.id, context=context)
-                self.write(cr, uid, obj_inv.id, {'internal_number': seq_no})
-        
+        for inv in self.browse(cr, uid, ids):
+            if inv.own_invoice:
+                sequence = self.pool.get('ir.sequence')
+                sequence_read = sequence.read(
+                    cr, uid, inv.document_serie_id.internal_sequence_id.id,
+                    ['number_next'])
+                invalid_number = self.pool.get('l10n_br_account.invoice.invalid.number').search(
+                    cr, uid, [('number_start', '<=', sequence_read['number_next']),
+                              ('number_end', '>=', sequence_read['number_next']),
+                              ('state', '=', 'done')])
+
+                if invalid_number:
+                    raise osv.except_osv(
+                        _(u'Número Inválido !'),
+                        _("O número: %s da série: %s, esta inutilizado") % (
+                            sequence_read['number_next'],
+                            inv.document_serie_id.name))
+
+                seq_no = sequence.get_id(cr, uid, inv.document_serie_id.internal_sequence_id.id, context=context)
+                self.write(cr, uid, inv.id, {'internal_number': seq_no})
         return True
 
     def action_number(self, cr, uid, ids, context=None):
