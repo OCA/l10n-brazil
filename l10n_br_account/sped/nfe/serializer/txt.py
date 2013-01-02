@@ -60,7 +60,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'TpEmis': '1',
                    'cDV': '',
                    'tpAmb': nfe_environment,
-                   'finNFe': '1',
+                   'finNFe': inv.nfe_purpose,
                    'procEmi': '0',
                    'VerProc': '2.2.1',
                    'dhCont': '',
