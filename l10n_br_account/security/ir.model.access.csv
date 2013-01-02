@@ -40,3 +40,5 @@
 "l10n_br_tax_definition_purchase_user","l10n_br_tax.definition.purchase","model_l10n_br_tax_definition_purchase","account.group_account_invoice",1,0,0,0
 "l10n_br_tax_definition_company_product_user","l10n_br_tax.definition.company.product","model_l10n_br_tax_definition_company_product","account.group_account_invoice",1,0,0,0
 "l10n_br_tax_definition_company_service_user","l10n_br_tax.definition.company.service","model_l10n_br_tax_definition_company_service","account.group_account_invoice",1,0,0,0
+"l10n_br_account_invoice_invalid_number_manager","l10n_br_account.invoice.invalid.number","model_l10n_br_account_invoice_invalid_number","account.group_account_manager",1,1,1,1
+"l10n_br_account_invoice_invalid_number_user","l10n_br_account.invoice.invalid.number","model_l10n_br_account_invoice_invalid_number","account.group_account_invoice",1,0,0,0
