@@ -67,6 +67,14 @@ class sale_order(osv.Model):
             readonly=True, states={'draft': [('readonly', False)]}),
         'invoiced_rate': fields.function(_invoiced_rate, method=True,
                                          string='Invoiced', type='float')}
+    
+    def _default_fiscal_category(self, cr, uid, context=None):
+        shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"])["shop_id"], context)
+        return  self.pool.get("sale.shop").read(cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
+        
+    _defaults = {
+        'fiscal_category_id': _default_fiscal_category,
+    }
 
     def onchange_partner_id(self, cr, uid, ids, partner_id,
                             context=None, shop_id=None,
