@@ -69,7 +69,7 @@ class account_fiscal_position_rule(osv.osv):
         obj_partner = self.pool.get("res.partner").browse(cr, uid, partner_id)
         obj_company = self.pool.get("res.company").browse(cr, uid, company_id)
         
-        # Case 1: If Partner has Specific Fiscal Posigion
+        # Case 1: If Partner has a specific Fiscal Position
         if obj_partner.property_account_position.id:
             result['fiscal_position'] = obj_partner.property_account_position.id
             return result
@@ -77,20 +77,17 @@ class account_fiscal_position_rule(osv.osv):
 	# Case 2: Search fiscal position using Account Fiscal Position Rule
         company_addr = self.pool.get('res.partner').address_get(
             cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(
-           cr, uid, [company_addr['default']])[0]
+        company_addr_default = self.pool.get('res.partner').browse(
+            cr, uid, [company_addr.get('invoice', company_addr.get('default'))])[0]
         
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
 
         # FIXME - Este comando if repete o browse que poderia ser melhorado
         if not partner_invoice_id:
-            partner_addr = self.pool.get('res.partner').address_get(
-                cr, uid, [obj_partner.id], ['invoice'])
-            partner_addr_default = self.pool.get('res.partner.address').browse(
-                cr, uid, [partner_addr['invoice']])[0]
+            partner_addr_default = obj_partner #FIXME: check if it has been migrated to v7 properly!
         else:
-            partner_addr_default = self.pool.get('res.partner.address').browse(
+            partner_addr_default = self.pool.get('res.partner').browse(
                 cr, uid, partner_invoice_id)
 
         to_invoice_country = partner_addr_default.id and \
