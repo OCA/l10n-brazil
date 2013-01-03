@@ -1,0 +1,1 @@
+override product_id_change in sale order from view to pass the product_packaging field just like sale_stock does
