@@ -48,7 +48,11 @@ class account_invoice(osv.osv):
                 'pis_value': 0.0,
                 'cofins_base': 0.0,
                 'cofins_value': 0.0,
-                'ii_value': 0.0}
+                'ii_value': 0.0,
+                'amount_insurance': 0.0,
+                'amount_freight': 0.0,
+                'amount_costs': 0.0,
+                }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
                 res[invoice.id]['icms_base'] += line.icms_base
@@ -62,6 +66,9 @@ class account_invoice(osv.osv):
                 res[invoice.id]['cofins_base'] += line.cofins_base
                 res[invoice.id]['cofins_value'] += line.cofins_value
                 res[invoice.id]['ii_value'] += line.ii_value
+                res[invoice.id]['amount_insurance'] += line.insurance_value
+                res[invoice.id]['amount_freight'] += line.freight_value
+                res[invoice.id]['amount_costs'] += line.other_costs_value
            
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
@@ -212,6 +219,11 @@ class account_invoice(osv.osv):
         'partner_shipping_id': fields.many2one('res.partner', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
         'own_invoice': fields.boolean('Nota Fiscal Própria', readonly=True,
                                       states={'draft':[('readonly',False)]}),
+        'nfe_purpose': fields.selection(
+            [('1', 'Normal'),
+             ('2', 'Complementar'),
+             ('3', 'Ajuste')], 'Finalidade da Emissão', readonly=True,
+            states={'draft': [('readonly', False)]}),
         'internal_number': fields.char('Invoice Number', size=32,
                                        readonly=True,
                                        states={'draft':[('readonly',False)]},
@@ -432,16 +444,31 @@ class account_invoice(osv.osv):
                                    states={'draft':[('readonly',False)]}),
         'number_of_packages': fields.integer(
             'Volume', readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_insurance': fields.float(
-            'Valor do Seguro', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_costs': fields.float(
-            'Outros Custos', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-        'amount_freight': fields.float(
-            'Frete', digits_compute=dp.get_precision('Account'),
-            readonly=True, states={'draft':[('readonly',False)]}),
-    }
+        'amount_insurance': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.line': (_get_invoice_line,
+                                         ['insurance_value'], 20),
+            }, multi='all'),
+        'amount_freight': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.line': (_get_invoice_line, ['freight_value'], 20),
+            }, multi='all'),
+            'amount_costs': fields.function(
+        _amount_all, method=True,
+        digits_compute=dp.get_precision('Account'), string='Outros Custos',
+        store={
+            'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                ['invoice_line'], 20),
+            'account.invoice.line': (_get_invoice_line, ['other_costs_value'], 20),
+        }, multi='all')}
     
     def _default_fiscal_category(self, cr, uid, context=None):
         
@@ -507,6 +534,7 @@ class account_invoice(osv.osv):
 
     _defaults = {
         'own_invoice': True,
+        'nfe_purpose': '1',
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
         'fiscal_document_id': _default_fiscal_document,
@@ -574,15 +602,28 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def action_internal_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
+        if context is None: context = {}
         
-        for obj_inv in self.browse(cr, uid, ids):
-            if obj_inv.own_invoice:
-                obj_sequence = self.pool.get('ir.sequence')
-                seq_no = obj_sequence.get_id(cr, uid, obj_inv.document_serie_id.internal_sequence_id.id, context=context)
-                self.write(cr, uid, obj_inv.id, {'internal_number': seq_no})
-        
+        for inv in self.browse(cr, uid, ids):
+            if inv.own_invoice:
+                sequence = self.pool.get('ir.sequence')
+                sequence_read = sequence.read(
+                    cr, uid, inv.document_serie_id.internal_sequence_id.id,
+                    ['number_next'])
+                invalid_number = self.pool.get('l10n_br_account.invoice.invalid.number').search(
+                    cr, uid, [('number_start', '<=', sequence_read['number_next']),
+                              ('number_end', '>=', sequence_read['number_next']),
+                              ('state', '=', 'done')])
+
+                if invalid_number:
+                    raise osv.except_osv(
+                        _(u'Número Inválido !'),
+                        _("O número: %s da série: %s, esta inutilizado") % (
+                            sequence_read['number_next'],
+                            inv.document_serie_id.name))
+
+                seq_no = sequence.get_id(cr, uid, inv.document_serie_id.internal_sequence_id.id, context=context)
+                self.write(cr, uid, inv.id, {'internal_number': seq_no})
         return True
 
     def action_number(self, cr, uid, ids, context=None):
@@ -860,7 +901,8 @@ class account_invoice_line(osv.osv):
         return result
     
     def _amount_tax_issqn(self, cr, uid, taxes=False):
-        pass
+        result = {}
+        return result
     
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         res = {}
@@ -915,40 +957,32 @@ class account_invoice_line(osv.osv):
             }
 
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, partner=line.invoice_id.partner_id, fiscal_position=line.fiscal_position)
+            taxes = tax_obj.compute_all(
+                cr, uid, line.invoice_line_tax_id, price, line.quantity,
+                product=line.product_id,
+                partner=line.invoice_id.partner_id,
+                fiscal_position=line.fiscal_position)
 
-            icms_cst = '99'
-            ipi_cst = '99'
-            pis_cst = '99'
-            cofins_cst = '99'
-            company_id = line.company_id.id and line.invoice_id.company_id.id or False
+            company_id = (line.company_id and line.company_id.id) or \
+            (line.invoice_id.company_id and line.invoice_id.company_id.id) \
+             or False
 
-            # FIXME - AGORA DEVE UTILIZAR AS TAX.CODE DAS LINHAS DA POSIÇÃO FISCAL
-            #if line.fiscal_operation_id:
+            context = {}
+            if line.invoice_id.type in ('out_invoice', 'out_refund'):
+                context['type_tax_use'] = 'sale'
+            else:
+                context['type_tax_use'] = 'purchase'
 
-           #     fiscal_operation_ids = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',False)], order="fiscal_classification_id")
-           #     for fo_line in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fiscal_operation_ids):
-           #         if fo_line.tax_code_id.domain == 'icms':
-           #             icms_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'ipi':
-           #             ipi_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'pis':
-           #             pis_cst = fo_line.cst_id.code
-           #         elif fo_line.tax_code_id.domain == 'cofins':
-           #             cofins_cst = fo_line.cst_id.code
+            context['fiscal_type'] = line.product_id.fiscal_type
 
-           #     if line.product_id:
-           #         fo_ids_ncm = self.pool.get('l10n_br_account.fiscal.operation.line').search(cr, uid, [('company_id','=',company_id),('fiscal_operation_id','=',line.fiscal_operation_id.id),('fiscal_classification_id','=',line.product_id.property_fiscal_classification.id)])
-    
-           #         for fo_line_ncm in self.pool.get('l10n_br_account.fiscal.operation.line').browse(cr, uid, fo_ids_ncm):
-           #             if fo_line_ncm.tax_code_id.domain == 'icms':
-           #                 icms_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'ipi':
-           #                 ipi_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'pis':
-           #                 pis_cst = fo_line_ncm.cst_id.code
-           #             elif fo_line_ncm.tax_code_id.domain == 'cofins':
-           #                 cofins_cst = fo_line_ncm.cst_id.code
+            tax_code_cst = self.pool.get('account.fiscal.position').map_tax_code(
+                cr, uid, line.product_id.id, line.fiscal_position,
+                company_id, line.invoice_line_tax_id, context=context)
+
+            icms_cst = tax_code_cst.get('icms', '99')
+            ipi_cst = tax_code_cst.get('ipi', '99')
+            pis_cst = tax_code_cst.get('pis', '99')
+            cofins_cst = tax_code_cst.get('cofins', '99')
 
             for tax in taxes['taxes']:
                 try:
@@ -1149,6 +1183,15 @@ class account_invoice_line(osv.osv):
             digits_compute= dp.get_precision('Account')),
         'ii_customhouse_charges': fields.float(
             'Depesas Atuaneiras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'insurance_value': fields.float(
+            'Valor do Seguro', 
+            digits_compute=dp.get_precision('Account')),
+        'other_costs_value': fields.float(
+            'Outros Custos', 
+            digits_compute=dp.get_precision('Account')),
+        'freight_value': fields.float(
+            'Frete',
             digits_compute=dp.get_precision('Account'))}
 
     _defaults = {
@@ -1160,8 +1203,7 @@ class account_invoice_line(osv.osv):
                              fiscal_category_id, product_id=False, 
                              account_id=False, context=None):
         
-        if not context:
-            context = {}
+        if not context: context = {}
         
         context['use_domain'] = ('use_invoice', '=', True)
         result = {'cfop_id': False}
@@ -1254,3 +1296,57 @@ class account_invoice_line(osv.osv):
         return result
 
 account_invoice_line()
+
+
+class account_invoice_tax(osv.osv):
+    _inherit = "account.invoice.tax"
+
+    def compute(self, cr, uid, invoice_id, context=None):
+        tax_grouped = {}
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context=context)
+        cur = inv.currency_id
+        company_currency = inv.company_id.currency_id.id
+
+        for line in inv.invoice_line:
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id, fiscal_position=line.fiscal_position)['taxes']:
+                tax['price_unit'] = cur_obj.round(cr, uid, cur, tax['price_unit'])
+                val={}
+                val['invoice_id'] = inv.id
+                val['name'] = tax['name']
+                val['amount'] = tax['amount']
+                val['manual'] = False
+                val['sequence'] = tax['sequence']
+                val['base'] = tax['total_base']
+
+                if inv.type in ('out_invoice','in_invoice'):
+                    val['base_code_id'] = tax['base_code_id']
+                    val['tax_code_id'] = tax['tax_code_id']
+                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['account_id'] = tax['account_collected_id'] or line.account_id.id
+                else:
+                    val['base_code_id'] = tax['ref_base_code_id']
+                    val['tax_code_id'] = tax['ref_tax_code_id']
+                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['ref_base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['ref_tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['account_id'] = tax['account_paid_id'] or line.account_id.id
+
+                key = (val['tax_code_id'], val['base_code_id'], val['account_id'])
+                if not key in tax_grouped:
+                    tax_grouped[key] = val
+                else:
+                    tax_grouped[key]['amount'] += val['amount']
+                    tax_grouped[key]['base'] += val['base']
+                    tax_grouped[key]['base_amount'] += val['base_amount']
+                    tax_grouped[key]['tax_amount'] += val['tax_amount']
+
+        for t in tax_grouped.values():
+            t['base'] = cur_obj.round(cr, uid, cur, t['base'])
+            t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
+            t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
+            t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
+        return tax_grouped
+
+account_invoice_tax()

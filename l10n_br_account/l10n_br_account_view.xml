@@ -3,8 +3,9 @@
 	<data>
 	
 		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil" web_icon="images/l10n_br.png" web_icon_hover="images/l10n_br-hover.png"/>
-		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="0"/>
-		<menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
+		<menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="0"/>
+		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="99"/>
+		<menuitem id="menu_l10n_br_account_configuration_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
 
 		<record model="ir.ui.view" id="view_l10n_br_account_cfop_form">
 			<field name="name">l10n_br_account.cfop.name</field>
@@ -93,6 +94,8 @@
 						<separator colspan="4" string="Diário Contábil"/>
 						<field name="journal_type" select="1"/>
 						<field required="1" name="property_journal" domain="[('type', '=', journal_type)]" />
+						<separator colspan="4" string="Posições Fiscais"/>
+						<field colspan="4" name="fiscal_position_ids" nolabel="1" widget="one2many_list"/>
 					</form>
 				</field>
 			</record>
@@ -162,6 +165,43 @@
 						<field name="fiscal_document_id" select="1"/>
 						<field name="company_id" select="1"/>
 						<field name="active" select="1"/>
+					</tree>
+				</field>
+			</record>
+			
+			
+			<record model="ir.ui.view" id="l10n_br_account_invoice_invalid_number_form">
+				<field name="name">l10n_br_account.invoice.invalid.number.form</field>
+				<field name="model">l10n_br_account.invoice.invalid.number</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Inutilizar Faixa de Numeração">
+						<field name="company_id"/>
+						<field name="fiscal_document_id"/>
+						<field name="document_serie_id"/>
+						<field name="number_start"/>
+						<field name="number_end"/>
+						<newline/>
+						<group colspan="4">
+							<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+							<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+						</group>
+					</form>
+				</field>
+			</record>
+	
+			<record model="ir.ui.view" id="l10n_br_account_invoice_invalid_number_tree">
+				<field name="name">l10n_br_account.invoice.invalid.number.tree</field>
+				<field name="model">l10n_br_account.invoice.invalid.number</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Inutilizar Faixa de Numeração">
+						<field name="company_id"/>
+						<field name="fiscal_document_id"/>
+						<field name="document_serie_id"/>
+						<field name="number_start"/>
+						<field name="number_end"/>
+						<field name="state"/>
 					</tree>
 				</field>
 			</record>
@@ -322,6 +362,15 @@
 				<field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
 			</record>
 			
+			<record model="ir.actions.act_window" id="action_l10n_br_account_invoice_invalid_number">
+				<field name="name">Inutilizar Faixa de Numeração</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">l10n_br_account.invoice.invalid.number</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_type">form</field>
+				<field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
+			</record>
+			
 			<record model="ir.actions.act_window" id="action_l10n_br_account_partner_fiscal_type_form">
 				<field name="name">Tipo Fiscal de Parceiro</field>
 				<field name="type">ir.actions.act_window</field>
@@ -376,7 +425,7 @@
 	            <field name="view_id" ref="view_l10n_br_account_service_type_structure"/>
         	</record>
 			
-			<menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_fiscal" sequence="0"/>
+			<menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
 			
 			<menuitem name="CFOP" id="menu_action_l10n_br_account_cfop_form" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cfop_form" sequence="10" />
 			
@@ -390,13 +439,16 @@
 			
 			<menuitem name="Estrutura de Tipo de Serviço" id="menu_action_service_type_structure" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_structure" sequence="60" />
 			
-			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
+			<menuitem name="Tipo Fiscal de Parceiro" id="menu_action_l10n_br_account_partner_fiscal_type_form" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
 				
-			<menuitem name="Categoria Fiscal" id="menu_action_l10n_br_account_fiscal_category_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
+			<menuitem name="Categoria Fiscal" id="menu_action_l10n_br_account_fiscal_category_form" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
 	
-			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
+			<menuitem name="Documento Fiscal" id="menu_action_l10n_br_account_fiscal_document_form" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
 			
-			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_serie_form"/>
+			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
+			
+			<menuitem name="Inutilizar Faixa de Numeração" id="menu_l10n_br_account_invoice_invalid_number" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>			
+			
 			
 	</data>
 

@@ -144,6 +144,9 @@ class l10n_br_account_fiscal_category(osv.osv):
             'Categoria Fiscal de Devolução',
             domain="[('type', '!=', type), ('fiscal_type', '=', fiscal_type), \
             ('journal_type', 'like', journal_type)]"),
+        'fiscal_position_ids': fields.one2many('account.fiscal.position',
+                                               'fiscal_category_id',
+                                               'Fiscal Positions'),
         'note': fields.text(u'Observações')}
     _defaults = {
         'type': 'output',
@@ -194,6 +197,87 @@ class l10n_br_account_document_serie(osv.osv):
         return super(l10n_br_account_document_serie, self).create(cr, uid, vals, context)
 
 l10n_br_account_document_serie()
+
+
+class l10n_br_account_invoice_invalid_number(osv.osv):
+    _name = 'l10n_br_account.invoice.invalid.number'
+    _description = 'Inutilização de Faixa de Numeração'
+    _columns = {
+        'company_id': fields.many2one('res.company', 'Empresa', readonly=True,
+                                      states={'draft':[('readonly',False)]},
+                                      required=True),
+        'fiscal_document_id': fields.many2one(
+            'l10n_br_account.fiscal.document', 'Documento Fiscal',
+            readonly=True, states={'draft':[('readonly',False)]},
+            required=True),
+        'document_serie_id': fields.many2one(
+            'l10n_br_account.document.serie', 'Série',
+            domain="[('fiscal_document_id', '=', fiscal_document_id),\
+            ('company_id', '=', company_id)]", readonly=True,
+            states={'draft':[('readonly',False)]}, required=True),
+        'number_start': fields.integer(u'Número Inicial', readonly=True,
+                                       states={'draft':[('readonly',False)]},
+                                       required=True),
+        'number_end': fields.integer(u'Número Final', readonly=True,
+                                     states={'draft':[('readonly',False)]},
+                                     required=True),
+        'state': fields.selection([('draft', 'Rascunho'),
+                                   ('cancel', 'Cancelado'),
+                                   ('done', 'Concluído')], 'Status',
+                                  required=True)}
+    _rec_name = 'document_serie_id'
+    _defaults = {
+        'state': 'draft',
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c)}
+    
+    _sql_constraints = [
+        ('number_uniq',
+         'unique(document_serie_id, number_start, number_end, state)',
+         u'Sequência existente!'),
+    ]
+    
+    def _check_range(self, cursor, user, ids, context=None):
+        for invalid_number in self.browse(cursor, user, ids, context=context):
+            where = []
+            if invalid_number.number_start:
+                where.append("((number_end>='%s') or (number_end is null))" % (invalid_number.number_start,))
+            if invalid_number.number_end:
+                where.append("((number_start<='%s') or (number_start is null))" % (invalid_number.number_end,))
+
+            cursor.execute('SELECT id ' \
+                    'FROM l10n_br_account_invoice_invalid_number ' \
+                    'WHERE '+' and '.join(where) + (where and ' and ' or '') +
+                        'document_serie_id = %s ' \
+                        "AND state = 'done'" \
+                        'AND id <> %s' % (invalid_number.document_serie_id.id, invalid_number.id))
+            if cursor.fetchall() or (invalid_number.number_start > invalid_number.number_end):
+                return False
+        return True
+    
+    _constraints = [
+        (_check_range, 'Não é permitido faixas sobrepostas!',
+            ['number_start', 'number_end'])
+    ]
+
+    def action_draft_done(self, cr, uid, ids, *args):
+        self.write(cr, uid, ids, {'state': 'done'})
+        return True
+    
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None: context = {}
+        invalid_numbers = self.read(cr, uid, ids, ['state'], context=context)
+        unlink_ids = []
+        for invalid_number in invalid_numbers:
+            if invalid_number['state'] in ('draft'):
+                unlink_ids.append(invalid_number['id'])
+            else:
+                raise osv.except_osv(
+                    (u'Ação Inválida!'),
+                    (u'Você não pode excluir uma sequência concluída.'))
+        osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
+        return True
+
+l10n_br_account_invoice_invalid_number()
 
 
 class l10n_br_account_partner_fiscal_type(osv.osv):
@@ -268,7 +352,11 @@ class l10n_br_tax_definition(osv.osv):
         'tax_domain': fields.related('tax_id', 'domain',
                                      type='char'),
         'tax_code_id': fields.many2one('account.tax.code',
-                                       'Código de Imposto')}
+                                       'Código de Imposto'),
+        'company_id': fields.related(
+            'tax_id', 'company_id', type='many2one', readonly=True,
+            relation='res.company', store=True,
+            string='Company')}
     
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False

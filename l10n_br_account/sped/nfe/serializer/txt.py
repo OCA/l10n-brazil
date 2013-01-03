@@ -60,7 +60,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'TpEmis': '1',
                    'cDV': '',
                    'tpAmb': nfe_environment,
-                   'finNFe': '1',
+                   'finNFe': inv.nfe_purpose,
                    'procEmi': '0',
                    'VerProc': '2.2.1',
                    'dhCont': '',
@@ -220,9 +220,25 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         i = 0
         for inv_line in inv.invoice_line:
             i += 1
-        
+            
+            # FIXME
+            if inv_line.freight_value:
+                freight_value = str("%.2f" % inv_line.freight_value)
+            else:
+                freight_value = ''
+            
+            if inv_line.insurance_value:
+                insurance_value = str("%.2f" % inv_line.insurance_value)
+            else:
+                insurance_value = ''
+                
+            if inv_line.other_costs_value:
+                other_costs_value = str("%.2f" % inv_line.other_costs_value)
+            else:
+                other_costs_value = ''
+            
             StrH = 'H|%s||\n' % (i)
-        
+            
             StrFile += StrH
         
             StrRegI = {
@@ -237,13 +253,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'VUnCom': str("%.2f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))),
                    'VProd': str("%.2f" % inv_line.price_total),
                    'CEANTrib': inv_line.product_id.ean13 or '',
-                   'UTrib': inv_line.uos_id.name,
+                   'UTrib': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QTrib': str("%.4f" % inv_line.quantity),
                    'VUnTrib': str("%.2f" % inv_line.price_unit),
-                   'VFrete': '',
-                   'VSeg': '',
+                   'VFrete': freight_value,
+                   'VSeg': insurance_value,
                    'VDesc': '',
-                   'vOutro': '',
+                   'vOutro': other_costs_value,
                    'indTot': '1',
                    'xPed': '',
                    'nItemPed': '',

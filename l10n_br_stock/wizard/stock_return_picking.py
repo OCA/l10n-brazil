@@ -96,7 +96,7 @@ class stock_return_picking(osv.osv_memory):
             
             if fp_id:
                 obj_fp_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fp_id)[0]
-                vals['fiscal_position'] = obj_fp_rule.fiscal_position.id
+                vals['fiscal_position'] = obj_fp_rule.fiscal_position_id.id
 
             pick_obj.write(cr, uid, pick.id, vals)
 

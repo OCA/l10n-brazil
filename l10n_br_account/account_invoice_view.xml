@@ -128,6 +128,7 @@
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
 									<field name="fiscal_document_id" required="1" />
+									<field name="nfe_purpose" required="1"/>
 								</group>
 							</page>
 							<page string="CFOP">
@@ -426,6 +427,9 @@
 								<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
 								<field colspan="4" name="cfop_id"/>
 								<field name="price_total"/>
+								<field name="freight_value"/>
+								<field name="insurance_value"/>
+								<field name="other_costs_value"/>
 								<separator string="Notes" colspan="4"/>
 								<field colspan="4" name="note" nolabel="1"/>
 								<separator colspan="4" string="Taxes"/>

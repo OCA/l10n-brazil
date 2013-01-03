@@ -192,70 +192,86 @@ class wizard_account_product_fiscal_classification(osv.osv_memory):
     _columns = {
         'company_id':fields.many2one('res.company','Company')}
 
-    # TODO - Caso não seja informado a empresa deveria criar o NCM 
-    # com os impostos de todas as empresas cadastradas no OpenERP.
     def action_create(self, cr, uid, ids, context=None):
 
         obj_wizard = self.browse(cr,uid,ids[0])
         obj_tax = self.pool.get('account.tax')
+        obj_company = self.pool.get('res.company')
         obj_tax_template = self.pool.get('account.tax.template')
         obj_tax_code = self.pool.get('account.tax.code')
         obj_tax_code_template = self.pool.get('account.tax.code.template')
         obj_fclass = self.pool.get('account.product.fiscal.classification')
-        obj_fclass_template = self.pool.get('account.product.fiscal.classification.template')
+        obj_fclass_template = self.pool.get(
+            'account.product.fiscal.classification.template')
         obj_tax_purchase = self.pool.get('l10n_br_tax.definition.purchase')
+        obj_tax_purchase_template = self.pool.get('l10n_br_tax.definition.purchase.template')
         obj_tax_sale = self.pool.get('l10n_br_tax.definition.sale')
-
-        company_id = obj_wizard.company_id.id
+        obj_tax_sale_template = self.pool.get('l10n_br_tax.definition.sale.template')
+        
+        if obj_wizard.company_id:
+            company_ids = [obj_wizard.company_id.id]
+        else:
+            company_ids = obj_company.search(cr,uid,[])
+        
         tax_template_ref = {}
         tax_code_template_ref = {}
+        for company_id in company_ids:
+            
+            tax_template_ref[company_id] = {}
+            tax_ids = obj_tax.search(cr,uid,[('company_id','=',company_id)])
+            for tax in obj_tax.browse(cr, uid, tax_ids):
+                tax_template = obj_tax_template.search(cr,uid,[('name', '=', tax.name)])
+                if tax_template:
+                    tax_template_ref[company_id][tax_template[0]] = tax.id
+            
+            tax_code_template_ref[company_id] = {}
+            tax_code_ids = obj_tax_code.search(cr,uid,[('company_id', '=', company_id)])
+            for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
+                tax_code_template = obj_tax_code_template.search(cr,uid,[('name', '=', tax_code.name)])
+                if tax_code_template:
+                    tax_code_template_ref[company_id][tax_code_template[0]] = tax_code.id
+
         fclass_ref = {}
-        
-        if not company_id:
-            return {}
-
-        tax_ids = obj_tax.search(cr,uid,[('company_id','=',company_id)])
-        tax_code_ids = obj_tax_code.search(cr,uid,[('company_id','=',company_id)])
-
-        for tax in obj_tax.browse(cr, uid, tax_ids):
-            tax_template = obj_tax_template.search(cr,uid,[('name', '=', tax.name)])
-            if tax_template:
-                tax_template_ref[tax_template[0]] = tax.id
-                
-        for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
-            tax_code_template = obj_tax_code_template.search(cr,uid,[('name', '=', tax_code.name)])
-            if tax_code_template:
-                tax_code_template_ref[tax_code_template[0]] = tax_code.id
-        
         fclass_ids_template = obj_fclass_template.search(cr, uid, [])
-
         for fclass_template in obj_fclass_template.browse(cr, uid, fclass_ids_template):
-            parent_ids = obj_fclass.search(cr, uid, [('name', '=', fclass_template.parent_id.name)])
-            if parent_ids:
-                parent_id = parent_ids[0]
-            else:
-                parent_id = False
+            parent_ids = False
+            parent_id = False
+            for company_id in company_ids:
+                vals = {
+                        'name': fclass_template.name,
+                        'description': fclass_template.description,
+                        'type': fclass_template.type,
+                        'parent_id': parent_id}
+                if obj_wizard.company_id:
+                    parent_ids = obj_fclass.search(cr, uid, [('name', '=', fclass_template.parent_id.name), ('company_id', '=', company_id)])
+                    fclass = obj_fclass.search(cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', company_id)])
+                    vals['company_id'] = company_id
+                else:
+                    parent_ids = obj_fclass.search(cr, uid, [('name', '=', fclass_template.parent_id.name), ('company_id', '=', False)])
+                    fclass = obj_fclass.search(cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', False)])
+                    vals['company_id'] = False
 
-            vals = {
-                'name': fclass_template.name,
-                'description': fclass_template.description,
-                'type': fclass_template.type,
-                'company_id': company_id,
-                'parent_id': parent_id}
+                if parent_ids:
+                    parent_id = parent_ids[0]
 
-            new_fclass_id = obj_fclass.create(cr, uid, vals)
-            for sale_tax in fclass_template.sale_tax_definition_line:
-                obj_tax_sale.create(cr, uid, {
-                    'tax_id': tax_template_ref.get(sale_tax.tax_id.id, False),
-                    'tax_code_id': tax_code_template_ref.get(sale_tax.tax_code_id.id, False),
-                    'fiscal_classification_id': new_fclass_id})
+                if not fclass:
+                    new_fclass_id = obj_fclass.create(cr, uid, vals)
+                else:
+                    new_fclass_id = fclass[0]
 
-            for purchase_tax in fclass_template.purchase_tax_definition_line:
-                obj_tax_purchase.create(cr, uid, {
-                    'tax_id': tax_template_ref.get(purchase_tax.tax_id.id, False),
-                    'tax_code_id': tax_code_template_ref.get(purchase_tax.tax_code_id.id, False),
-                    'fiscal_classification_id': new_fclass_id})
-
+                for sale_tax in fclass_template.sale_tax_definition_line:
+                    if not obj_tax_sale.search(cr, uid, [('tax_id', '=', tax_template_ref[company_id].get(sale_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
+                        obj_tax_sale.create(cr, uid, {
+                            'tax_id': tax_template_ref[company_id].get(sale_tax.tax_id.id, False),
+                            'tax_code_id': tax_code_template_ref[company_id].get(sale_tax.tax_code_id.id, False),
+                            'fiscal_classification_id': new_fclass_id})
+    
+                for purchase_tax in fclass_template.purchase_tax_definition_line:
+                    if not obj_tax_purchase.search(cr, uid, [('tax_id', '=',tax_template_ref[company_id].get(purchase_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
+                        obj_tax_purchase.create(cr, uid, {
+                            'tax_id': tax_template_ref[company_id].get(purchase_tax.tax_id.id, False),
+                            'tax_code_id': tax_code_template_ref[company_id].get(purchase_tax.tax_code_id.id, False),
+                            'fiscal_classification_id': new_fclass_id})
         return {}
 
 wizard_account_product_fiscal_classification()

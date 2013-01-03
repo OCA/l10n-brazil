@@ -69,7 +69,7 @@ class sale_order(osv.Model):
                                          string='Invoiced', type='float')}
     
     def _default_fiscal_category(self, cr, uid, context=None):
-        shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"])["shop_id"], context)
+        shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"], context)["shop_id"])
         return  self.pool.get("sale.shop").read(cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
         
     _defaults = {
@@ -142,9 +142,16 @@ class sale_order(osv.Model):
             if obj_inv_lines:
                 fiscal_category_id = obj_inv_lines[0]['fiscal_category_id'][0]
                 result['fiscal_position'] = obj_inv_lines[0]['fiscal_position'][0]
+
+                if fiscal_category_id:
+                    journal = self.pool.get('l10n_br_account.fiscal.category').read(
+                        cr, uid, fiscal_category_id, ['property_journal'])['property_journal']
+                    if journal:
+                        result['journal_id'] = journal[0]
         else:
             fiscal_category_id = order.fiscal_category_id.id
-
+            result['journal_id'] = order.fiscal_category_id.property_journal.id
+        
         # FIXME - Deveria pegar as observações das
         # posições fiscais de cada linha.
         comment = ''
@@ -342,7 +349,8 @@ class sale_order_line(osv.Model):
                 cr, uid, fiscal_position)
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product_id)
-            context = {'fiscal_type': obj_product.fiscal_type}
+            context = {'fiscal_type': obj_product.fiscal_type,
+                       'type_tax_use': 'sale'}
             taxes = obj_product.taxes_id or False
             tax_ids = self.pool.get('account.fiscal.position').map_tax(
                 cr, uid, obj_fposition, taxes, context)

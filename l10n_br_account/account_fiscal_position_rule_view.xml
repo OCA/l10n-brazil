@@ -36,13 +36,16 @@
 					<separator string="l10n br" colspan="4" />
 					<field name="partner_fiscal_type_id" />
 					<field name="fiscal_type" />
-					<field name="fiscal_category_id" />
+					<field name="fiscal_category_id" required="1" />
 					<newline />
 					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
 						<separator string="Faixa de Faturamento" colspan="4" />
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start" />
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
 					</group>
+				</field>
+				<field name="fiscal_position_id" position="replace">
+					<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
 				</field>
 			</field>
 		</record>
@@ -56,13 +59,16 @@
 					<separator string="l10n br" colspan="4" />
 					<field name="partner_fiscal_type_id" />
 					<field name="fiscal_type" />
-					<field name="fiscal_category_id" />
+					<field name="fiscal_category_id" required="1"/>
 					<newline />
 					<group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
 						<separator string="Faixa de Faturamento" colspan="4" />
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start" />
 						<field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
 					</group>
+				</field>
+				<field name="fiscal_position_id" position="replace">
+					<field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
 				</field>
 			</field>
 		</record>
