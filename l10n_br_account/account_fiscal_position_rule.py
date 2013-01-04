@@ -161,7 +161,7 @@ class wizard_account_fiscal_position_rule(osv.osv_memory):
 
         company_id = obj_wizard.company_id.id
         company_addr = obj_res_partner.address_get(cr, uid, [company_id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+        company_addr_default = self.pool.get('res.partner').browse(cr, uid, [company_addr['default']])[0]
 
         pfr_ids = obj_fiscal_position_rule_template.search(cr, uid, [])
 
