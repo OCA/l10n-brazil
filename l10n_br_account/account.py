@@ -210,3 +210,23 @@ class wizard_multi_charts_accounts(osv.osv_memory):
         return result
 
 wizard_multi_charts_accounts()
+
+
+class account_account(osv.osv):
+    _inherit = 'account.account'
+
+    def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):
+        """Hack to allow re-shaping demo chart of account in demo mode"""
+        cr.execute("select demo from ir_module_module where name='l10n_br_account';")
+        if cr.fetchone()[0]:
+            return True
+        else:
+            return super(account_account, self)._check_allow_type_change(cr, uid, ids, context)
+
+    def _check_allow_code_change(self, cr, uid, ids, context=None):
+        """Hack to allow re-shaping demo chart of account in demo mode"""
+        cr.execute("select demo from ir_module_module where name='l10n_br_account';")
+        if cr.fetchone()[0]:
+            return True
+        else:
+            return super(account_account, self)._check_allow_code_change(cr, uid, ids, context)
