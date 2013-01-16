@@ -33,6 +33,7 @@
                 'account_product_fiscal_classification'
                 ],
     'init_xml': [
+                 'l10n_br_account.cfop.csv'
                  ],
     'update_xml': [
                     'account_view.xml',
