@@ -33,11 +33,12 @@
                 'account_product_fiscal_classification'
                 ],
     'init_xml': [
-                 'l10n_br_account.cfop.csv'
+                 'data/l10n_br_account.fiscal.document.csv',
+                 'data/l10n_br_account.cfop.csv',
+                 'l10n_br_account_data.xml',
                  ],
     'update_xml': [
                     'account_view.xml',
-                    'l10n_br_account_data.xml',
                     'l10n_br_account_sequence.xml',
                     'account_fiscal_position_rule_view.xml',
 #                    'account_invoice_view.xml',
