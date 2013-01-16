@@ -28,7 +28,8 @@ class sale_shop(osv.Model):
     _columns = {
                 'default_fc_id': fields.many2one(
                     'l10n_br_account.fiscal.category',
-                    'Categoria Fiscal Padrão')}
+                    'Categoria Fiscal Padrão')
+    }
 
 sale_shop()
 
@@ -48,7 +49,8 @@ class sale_order(osv.Model):
                 continue
             tot = 0.0
             for invoice in sale.invoice_ids:
-                if invoice.state not in ('draft', 'cancel') and invoice.fiscal_category_id.id == sale.fiscal_category_id.id:
+                if invoice.state not in ('draft', 'cancel') and \
+                invoice.fiscal_category_id.id == sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
                 res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
@@ -66,12 +68,13 @@ class sale_order(osv.Model):
             domain="[('fiscal_category_id', '=', fiscal_category_id)]",
             readonly=True, states={'draft': [('readonly', False)]}),
         'invoiced_rate': fields.function(_invoiced_rate, method=True,
-                                         string='Invoiced', type='float')}
+                                         string='Invoiced', type='float')
+    }
     
     def _default_fiscal_category(self, cr, uid, context=None):
         shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"], context)["shop_id"])
         return  self.pool.get("sale.shop").read(cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
-        
+
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
     }

@@ -14,7 +14,7 @@
 		<!-- account.fiscal.position -->
 		<record id="template_fp_vendaparadentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Venda para Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_5101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_5101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -23,7 +23,7 @@
 		
 		<record id="template_fp_vendaforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Venda Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_6101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -32,7 +32,7 @@
 
 		<record id="template_fp_vendaforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Venda Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_6101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -41,7 +41,7 @@
 		
 		<record id="template_fp_revendademercadoriasparadentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Revenda de Mercadorias para Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_5102" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_5102" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -50,7 +50,7 @@
 		
 		<record id="template_fp_revendademercadoriasparaforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_6102" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6102" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -59,7 +59,7 @@
 
 		<record id="fp_revendademercadoriasparaforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_6102" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6102" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_revenda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -68,7 +68,7 @@
 
 		<record id="template_fp_vendastparadentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Venda com ST para Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_5401" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_5401" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -77,7 +77,7 @@
 		
 		<record id="template_fp_vendastforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Venda com ST Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_6401" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6401" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -86,7 +86,7 @@
 
 		<record id="template_fp_vendastforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Venda com ST Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_5401" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_5401" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_vendast" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -102,7 +102,7 @@
 
 		<record id="template_fp_devolucaodentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Devolução Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_1201" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_1201" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -111,7 +111,7 @@
 		
 		<record id="template_fp_devolucaoforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Devolução Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_2201" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_2201" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -120,7 +120,7 @@
 
 		<record id="template_fp_devolucaoforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Devolução Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_2201" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_2201" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_devolucao_venda" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -129,7 +129,7 @@
 
 		<record id="template_fp_simplesremessadentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Simples Remessa Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_5949" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_5949" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -138,7 +138,7 @@
 		
 		<record id="template_fp_simplesremessaforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Simples Remessa Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_6949" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6949" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -147,7 +147,7 @@
 
 		<record id="template_fp_simplesremessaforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Simples Remessa Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_6949" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_6949" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_simples_remessa" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
@@ -156,7 +156,7 @@
 
 		<record id="template_fp_comprasinddentrodoestado0" model="account.fiscal.position.template">
 			<field name="name">Compras para Industrialização Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_1101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_1101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>
@@ -165,7 +165,7 @@
 		
 		<record id="template_fp_comprasindforadoestadoicms0" model="account.fiscal.position.template">
 			<field name="name">Compras para Industrialização Fora do Estado ICMS 7%</field>
-			<field name="cfop_id" ref="cfop_2101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_2101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>
@@ -174,7 +174,7 @@
 
 		<record id="template_fp_comprasindforadoestadoicms1" model="account.fiscal.position.template">
 			<field name="name">Compras para Industrialização Fora do Estado ICMS 12%</field>
-			<field name="cfop_id" ref="cfop_2101" />
+			<field name="cfop_id" ref="l10n_br_account.cfop_2101" />
 			<field name="fiscal_category_id" ref="l10n_br_account.fo_category_compras_ind" />
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>

@@ -959,8 +959,7 @@ class account_invoice_line(osv.osv):
             price = line.price_unit * (1-(line.discount or 0.0)/100.0)
             taxes = tax_obj.compute_all(
                 cr, uid, line.invoice_line_tax_id, price, line.quantity,
-                product=line.product_id,
-                partner=line.invoice_id.partner_id,
+                line.product_id, line.invoice_id.partner_id,
                 fiscal_position=line.fiscal_position)
 
             company_id = (line.company_id and line.company_id.id) or \
@@ -1310,7 +1309,7 @@ class account_invoice_tax(osv.osv):
         company_currency = inv.company_id.currency_id.id
 
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id, fiscal_position=line.fiscal_position)['taxes']:
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, line.product_id, inv.partner_id, fiscal_position=line.fiscal_position)['taxes']:
                 tax['price_unit'] = cur_obj.round(cr, uid, cur, tax['price_unit'])
                 val={}
                 val['invoice_id'] = inv.id
