@@ -72,15 +72,17 @@ class res_company(osv.osv):
             'res_company_l10n_br_account_cnae',
             'company_id', 'cnae_id',
             'CNAE Segundários'),
-        'nfe_version': fields.selection([('1.00', '1.00'),
-                                         ('2.00', '2.00')], 'Versão NFe',
+        'nfe_version': fields.selection([('110', '1.10'),
+                                         ('200', '2.00')], 'Versão NFe',
                                         required=True),
-        'nfe_source_folder': fields.char('Pasta de Origem', size=254),
-        'nfe_destination_folder': fields.char('Pasta de Destino', size=254),
-        'nfse_version': fields.selection([('1.00', '1.00')], 'Versão NFse',
+        'nfe_import_folder': fields.char('Pasta de Importação', size=254),
+        'nfe_export_folder': fields.char('Pasta de Exportação', size=254),
+        'nfe_backup_folder': fields.char('Pasta de Backup', size=254),
+        'nfse_version': fields.selection([('100', '1.00')], 'Versão NFse',
                                          required=True),
-        'nfse_source_folder': fields.char('Pasta de Origem', size=254),
-        'nfse_destination_folder': fields.char('Pasta de Destino', size=254),
+        'nfse_import_folder': fields.char('Pasta de Origem', size=254),
+        'nfse_export_folder': fields.char('Pasta de Destino', size=254),
+        'nfse_backup_folder': fields.char('Pasta de Backup', size=254),
         'product_tax_definition_line': fields.one2many(
             'l10n_br_tax.definition.company.product',
             'company_id', 'Taxes Definitions'),
@@ -120,12 +122,16 @@ class res_company(osv.osv):
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Prestação de Serviço',
             domain="[('journal_type','=','sale'), ('fiscal_type','=','service'),"
-            " ('type','=','output')]")}
-
+            " ('type','=','output')]"),
+        'ecnpj_a1_file': fields.binary('Arquivo e-CNPJ A1'),
+        'ecnpj_a1_password': fields.char('Senha e-CNPJ A1', size=64),
+        'nfe_a1_file': fields.binary('Arquivo NFe A1'),
+        'nfe_a1_password': fields.char('Senha NFe A1', size=64)
+    }
     _defaults = {
         'fiscal_type': '3',
-        'nfe_version': '2.00',
-        'nfse_version': '1.00',
+        'nfe_version': '200',
+        'nfse_version': '110',
         'annual_revenue': 0.0}
 
 res_company()
