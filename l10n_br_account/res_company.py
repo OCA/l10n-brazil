@@ -131,7 +131,7 @@ class res_company(osv.osv):
     _defaults = {
         'fiscal_type': '3',
         'nfe_version': '200',
-        'nfse_version': '110',
+        'nfse_version': '100',
         'annual_revenue': 0.0}
 
 res_company()
