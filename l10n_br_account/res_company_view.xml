@@ -17,6 +17,14 @@
 								<separator colspan="4" string="CNAE Secundários" />
 								<field colspan="4" nolabel="1" name="cnae_secondary_ids" />
 							</page>
+							<page string="Indentificação">
+								<separator colspan="4" string="e-CNPJ" />
+								<field colspan="4" name="ecnpj_a1_file" />
+								<field colspan="4" name="ecnpj_a1_password" password="True" />
+								<separator colspan="4" string="NFe" />
+								<field colspan="4" name="nfe_a1_file" />
+								<field colspan="4" name="nfe_a1_password" password="True" />
+							</page>
 							<page string="Regine Normal" attrs="{'invisible': [('fiscal_type', '!=', '3')]}">
 							</page>
 							<page string="Simples Nacional" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
@@ -43,8 +51,7 @@
 								<separator colspan="4" string="Série da Nota Fiscal de Serviço" />
 								<field colspan="4" name="document_serie_service_id" />
 								<separator colspan="4" string="Série de Documentos Fiscais" />
-								<field colspan="4" nolabel="1" name="document_serie_product_ids"
-									required="1" />
+								<field colspan="4" nolabel="1" name="document_serie_product_ids" required="1" />
 							</page>
 							<page string="Impostos">
 								<separator colspan="4" string="Impostos sobre Produtos" />
@@ -57,14 +64,16 @@
 							<page string="NFe">
 								<field name="nfe_version" required="1" />
 								<newline />
-								<field colspan="4" name="nfe_source_folder" />
-								<field colspan="4" name="nfe_destination_folder" />
+								<field colspan="4" name="nfe_import_folder" />
+								<field colspan="4" name="nfe_export_folder" />
+								<field colspan="4" name="nfe_backup_folder" />
 							</page>
 							<page string="NFse">
 								<field name="nfse_version" required="1" />
 								<newline />
-								<field colspan="4" name="nfse_source_folder" />
-								<field colspan="4" name="nfse_destination_folder" />
+								<field colspan="4" name="nfse_import_folder" />
+								<field colspan="4" name="nfse_export_folder" />
+								<field colspan="4" name="nfse_backup_folder" />
 							</page>
 						</notebook>
 					</page>

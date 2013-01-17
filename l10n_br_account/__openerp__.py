@@ -35,7 +35,7 @@
     'init_xml': [
                  'data/l10n_br_account.fiscal.document.csv',
                  'data/l10n_br_account.cfop.csv',
-                 'l10n_br_account_data.xml',
+                 'data/l10n_br_account_data.xml',
                  ],
     'update_xml': [
                     'account_view.xml',
