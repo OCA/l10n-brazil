@@ -51,7 +51,7 @@ class res_partner(osv.Model):
 
     def _display_address(self, cr, uid, address,
                          without_company=False, context=None):
-        if address.country_id and address.country_id.name != 'Brazil':
+        if address.country_id and address.country_id.code != 'BR':
             #this ensure other localizations could do what they want
             return super(res_partner,
                          self)._display_address(cr, uid, address,
