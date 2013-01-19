@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
 				<page string="Payments" position="before">
-					<page string="l10n br - Vencimentos">
+					<page string="Vencimentos">
 						<field colspan="4" nolabel="1" name="move_line_receivable_id" />
 					</page>
 				</page>
@@ -40,10 +40,10 @@
 				<field position="replace" name="fiscal_position">
 				</field>
 				<!-- Adding and moving fields -->
-				<field position="before" name="address_invoice_id">
+				<!-- <field position="before" name="address_invoice_id">
 					<field name="journal_id" groups="base.group_user"
 						on_change="onchange_journal_id(journal_id, context)" widget="selection" />
-				</field>
+				</field> -->
 				<field position="replace" name="number">
 					<field name="partner_id"
 						on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)"
@@ -56,10 +56,10 @@
 						on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)"
 						widget="selection" groups="base.group_multi_company" />
 				</field>
-				<field position="after" name="address_contact_id">
+				<!-- <field position="after" name="address_contact_id">
 					<field colspan="4" domain="[('partner_id','=',partner_id)]"
-						name="partner_shipping_id" groups="base.group_extended" />
-				</field>
+						name="partner_shipping_id" groups="base.group_extended" /> 
+				</field>-->
 			</field>
 		</record>
 
@@ -105,12 +105,12 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
-				<field position="after" name="address_invoice_id">
+				 <field position="after" name="partner_id">
 					<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
-				</field>
+				</field>  
 			</field>
 		</record>
-
+<!--
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form10">
 			<field name="name">l10n_br_account.invoice.form10</field>
 			<field name="model">account.invoice</field>
@@ -149,7 +149,7 @@
 					</page>
 				</notebook>
 			</field>
-		</record>
+		</record>-->
 
 		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form11">
 			<field name="name">l10n_br_account.invoice.form11</field>
@@ -160,12 +160,12 @@
 					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
 				</field>
-				<button position="replace" name="%(account.action_account_change_currency)d">
+				<!-- <button position="replace" name="%(account.action_account_change_currency)d">
 				</button>
 				<field position="after" name="name">
 					<field name="currency_id" width="50" />
 					<button name="%(account.action_account_change_currency)d" type="action" icon="terp-stock_effects-object-colorize" string="Change" attrs="{'invisible':[('state','!=','draft')]}" groups="account.group_account_user" />
-				</field>
+				</field> -->
 			</field>
 		</record>
 
@@ -299,10 +299,10 @@
 				<field position="replace" name="fiscal_position">
 				</field>
 				<!-- Adding and moving fields -->
-				<field position="before" name="address_invoice_id">
+				<!-- <field position="before" name="address_invoice_id">
 					<field name="journal_id" groups="base.group_user"
 						on_change="onchange_journal_id(journal_id, context)" widget="selection" />
-				</field>
+				</field>  -->
 				<field position="replace" name="number">
 					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)" groups="base.group_user" />
 					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
@@ -356,7 +356,7 @@
 				</button>
 			</field>
 		</record>
-
+<!-- 
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form6">
 			<field name="name">l10n_br_account.invoice.supplier.form6</field>
 			<field name="model">account.invoice</field>
@@ -366,7 +366,7 @@
 					<field name="own_invoice" />
 				</field>
 			</field>
-		</record>
+		</record> -->
 
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form8">
 			<field name="name">l10n_br_account.invoice.supplier.form8</field>
@@ -408,100 +408,133 @@
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
 				<form position="replace" string="Invoice Line">
-					<form string="Invoice Line">
-						<notebook>
+				 	<form string="Invoice Line" version="7.0">
+				 	<notebook>
 							<page string="General">
-								<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, context, parent.company_id, parent.fiscal_category_id, parent.fiscal_position)" />
-								<field colspan="2" name="name" />
-								<label string="Quantity :" align="1.0" />
-								<group colspan="1" col="2">
-									<field name="quantity" nolabel="1" />
-									<field name="uos_id" on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, context, parent.company_id)" nolabel="1" />
-								</group>
-								<field name="price_unit" />
-								<field domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, fiscal_position, account_id)" />
-								<field name="discount" groups="base.group_extended" />
-								<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id), ('parent_id', '!=', False)]" name="account_analytic_id" groups="analytic.group_analytic_accounting" />
-								<field name="company_id" groups="base.group_multi_company" readonly="1"/>
-								<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
-								<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
-								<field colspan="4" name="cfop_id"/>
-								<field name="price_total"/>
-								<field name="freight_value"/>
-								<field name="insurance_value"/>
-								<field name="other_costs_value"/>
-								<separator string="Notes" colspan="4"/>
-								<field colspan="4" name="note" nolabel="1"/>
-								<separator colspan="4" string="Taxes"/>
-								<field colspan="4" name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" nolabel="1"/>
-							</page>
-							<page position="inside" string="l10n br - Impostos">
+	                    <group>
+	                        <group>
+	                            <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+	                            <label for="quantity"/>
+	                            <div>
+	                                <field name="quantity" class="oe_inline"/>
+	                                <field name="uos_id" class="oe_inline" groups="product.group_uom"
+	                                  on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+	                            </div>
+	                            <field name="price_unit"/>
+	                            <field name="discount" groups="sale.group_discount_per_so_line"/>
+	                        </group>
+	                        <group>
+	                            <field domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)" groups="account.group_account_user"/>
+	                            <field name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" widget="many2many_tags"/>
+	                            <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]" name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+	                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+	                        </group>
+	                    </group>
+	                    <label for="name"/>
+	                    <field name="name"/>
+	                    </page>
+	                    <page position="inside" string="Impostos">
 								<notebook>
 									<page string="ICMS">
-										<separator colspan="4" string="Detalhes do ICMS" />
-										<field name="icms_cst" />
-										<field name="icms_base_type" />
-										<field name="icms_base" />
-										<field name="icms_percent_reduction" />
-										<field name="icms_base_other" />
-										<field name="icms_percent" />
-										<field name="icms_value" />
-										<separator colspan="4" string="Substituição Tributária ICMS" />
-										<field name="icms_st_base_type" />
-										<field name="icms_st_base" />
-										<field name="icms_st_percent_reduction" />
-										<field name="icms_st_base_other" />
-										<field name="icms_st_percent" />
-										<field name="icms_st_mva" />
-										<field name="icms_st_value" />
+										<group string="Detalhes do ICMS">
+											<group>
+												<field name="icms_cst" />
+												<field name="icms_base_type" />
+												<field name="icms_base" />
+												<field name="icms_percent_reduction" />
+											</group>
+											<group>
+												<field name="icms_base_other" />
+												<field name="icms_percent" />
+												<field name="icms_value" />
+											</group>
+										</group>
+										<group string="Substituição Tributária ICMS">
+											<group>
+												<field name="icms_st_base_type" />
+												<field name="icms_st_base" />
+												<field name="icms_st_percent_reduction" />
+												<field name="icms_st_base_other" />
+											</group>
+											<group>
+												<field name="icms_st_percent" />
+												<field name="icms_st_mva" />
+												<field name="icms_st_value" />
+											</group>
+										</group>
 									</page>
 									<page string="IPI">
-										<separator colspan="4" string="Detalhes do IPI" />
-										<field name="ipi_cst" />
-										<field name="ipi_type" />
-										<field name="ipi_base" />
-										<field name="ipi_base_other" />
-										<field name="ipi_percent" />
-										<field name="ipi_value" />
+										<group string="Detalhes do IPI">
+											<group>
+												<field name="ipi_cst" />
+												<field name="ipi_type" />
+												<field name="ipi_base" />
+											</group>
+											<group>
+												<field name="ipi_base_other" />
+												<field name="ipi_percent" />
+												<field name="ipi_value" />
+											</group>
+										</group>
 									</page>
 									<page string="PIS">
-										<separator colspan="4" string="Detalhes do PIS" />
-										<field name="pis_cst" />
-										<field name="pis_type" />
-										<field name="pis_base" />
-										<field name="pis_percent" />
-										<field name="pis_value" />
-										<separator colspan="4" string="Detalhes do PIS ST" />
-										<field name="pis_st_type" />
-										<field name="pis_st_base" />
-										<field name="pis_st_percent" />
-										<field name="pis_st_value" />
+										<group string="Detalhes do PIS">
+											<group>
+												<field name="pis_cst" />
+												<field name="pis_type" />
+												<field name="pis_base" />
+											</group>
+											<group>
+												<field name="pis_percent" />
+												<field name="pis_value" />
+											</group>
+										</group>
+										<group string="Detalhes do PIS ST">
+											<group>
+												<field name="pis_st_type" />
+												<field name="pis_st_base" />
+											</group>
+											<group>
+												<field name="pis_st_percent" />
+												<field name="pis_st_value" />
+											</group>
+										</group>
 									</page>
 									<page string="COFINS">
-										<separator colspan="4" string="Detalhes do COFINS" />
-										<field name="cofins_cst" />
-										<field name="cofins_type" />
-										<field name="cofins_base" />
-										<field name="cofins_percent" />
-										<field name="cofins_value" />
-										<separator colspan="4" string="Detalhes do COFINS ST" />
-										<field name="cofins_st_type" />
-										<field name="cofins_st_base" />
-										<field name="cofins_st_percent" />
-										<field name="cofins_st_value" />
+										<group string="Detalhes do COFINS">
+											<group>
+												<field name="cofins_cst" />
+												<field name="cofins_type" />
+												<field name="cofins_base" />
+											</group>
+											<group>
+												<field name="cofins_percent" />
+												<field name="cofins_value" />
+											</group>
+										</group>
+										<group string="Detalhes do COFINS ST">
+											<group>
+												<field name="cofins_st_type" />
+												<field name="cofins_st_base" />
+											</group>
+											<group>
+												<field name="cofins_st_percent" />
+												<field name="cofins_st_value" />
+											</group>
+										</group>
 									</page>
 									<page string="II">
-										<separator colspan="4"
-											string="Detalhes do Imposto de Importação" />
-										<field name="ii_base" />
-										<field name="ii_customhouse_charges" />
-										<field name="ii_iof" />
-										<field name="ii_value" />
+										<group string="Detalhes do Imposto de Importação">
+											<field name="ii_base" />
+											<field name="ii_customhouse_charges" />
+											<field name="ii_iof" />
+											<field name="ii_value" />
+										</group>
 									</page>
 								</notebook>
 							</page>
 						</notebook>
-					</form>
+                	</form>
 				</form>
 			</field>
 		</record>
