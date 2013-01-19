@@ -39,7 +39,7 @@ FISCAL_POSITION_COLUMNS = {
                                         calculo do ICMS.")}
 
 
-class account_fiscal_position_template(osv.osv):
+class account_fiscal_position_template(osv.Model):
     _inherit = 'account.fiscal.position.template'
     _columns = FISCAL_POSITION_COLUMNS
     
@@ -119,10 +119,8 @@ class account_fiscal_position_template(osv.osv):
                 })
         return True
 
-account_fiscal_position_template()
 
-
-class account_fiscal_position_tax_template(osv.osv):
+class account_fiscal_position_tax_template(osv.Model):
     _inherit = 'account.fiscal.position.tax.template'
     _columns = {
         'tax_src_id': fields.many2one('account.tax.template', 'Tax Source'),
@@ -131,7 +129,8 @@ class account_fiscal_position_tax_template(osv.osv):
         'tax_src_domain': fields.related('tax_src_id', 'domain',
                                          type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code.template',
-                                            'Replacement Tax Code')}
+                                            'Replacement Tax Code')
+    }
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
@@ -160,10 +159,8 @@ class account_fiscal_position_tax_template(osv.osv):
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
                                 context=context)
 
-account_fiscal_position_tax_template()
 
-
-class account_fiscal_position(osv.osv):
+class account_fiscal_position(osv.Model):
     _inherit = 'account.fiscal.position'
     _columns = FISCAL_POSITION_COLUMNS
     
@@ -182,8 +179,7 @@ class account_fiscal_position(osv.osv):
                                                   'journal_type'], context=context)
         return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-    
-    
+        
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
         
@@ -286,10 +282,8 @@ class account_fiscal_position(osv.osv):
 
         return list(set(result))
 
-account_fiscal_position()
 
-
-class account_fiscal_position_tax(osv.osv):
+class account_fiscal_position_tax(osv.Model):
     _inherit = 'account.fiscal.position.tax'
     _columns = {
         'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
@@ -298,7 +292,8 @@ class account_fiscal_position_tax(osv.osv):
         'tax_src_domain': fields.related('tax_src_id', 'domain',
                                          type='char'),
         'tax_code_dest_id': fields.many2one('account.tax.code',
-                                            'Replacement Tax Code')}
+                                            'Replacement Tax Code')
+    }
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
@@ -327,15 +322,12 @@ class account_fiscal_position_tax(osv.osv):
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
                                 context=context)
 
-account_fiscal_position_tax()
 
-
-class res_partner(osv.osv):
+class res_partner(osv.Model):
     _inherit = 'res.partner'
     _columns = {
         'partner_fiscal_type_id': fields.many2one(
             'l10n_br_account.partner.fiscal.type',
             'Tipo Fiscal do Parceiro',
-            domain="[('is_company','=',is_company)]")}
-
-res_partner()
+            domain="[('is_company','=',is_company)]")
+    }
