@@ -21,7 +21,7 @@ from osv import osv, fields
 import decimal_precision as dp
 
 
-class res_company(osv.osv):
+class res_company(osv.Model):
     _inherit = 'res.company'
     
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -132,27 +132,26 @@ class res_company(osv.osv):
         'fiscal_type': '3',
         'nfe_version': '200',
         'nfse_version': '100',
-        'annual_revenue': 0.0}
+        'annual_revenue': 0.0
+    }
 
-res_company()
 
-
-class l10n_br_tax_definition_company_product(osv.osv):
+class l10n_br_tax_definition_company_product(osv.Model):
     _name = 'l10n_br_tax.definition.company.product'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
                 'company_id': fields.many2one(
-                    'res.company', 'Company', select=True)}
+                    'res.company', 'Company', select=True)
+    }
     
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
         company_id)',
-        u'Imposto já existente nesta empresa!')]
+        u'Imposto já existente nesta empresa!')
+    ]
 
-l10n_br_tax_definition_company_product()
 
-
-class l10n_br_tax_definition_company_service(osv.osv):
+class l10n_br_tax_definition_company_service(osv.Model):
     _name = 'l10n_br_tax.definition.company.service'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
@@ -163,5 +162,3 @@ class l10n_br_tax_definition_company_service(osv.osv):
         ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
         company_id)',
         u'Imposto já existente nesta empresa!')]
-
-l10n_br_tax_definition_company_service()
