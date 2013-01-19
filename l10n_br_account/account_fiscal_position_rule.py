@@ -36,22 +36,22 @@ FISCAL_RULE_COLUMNS = {
                                   help="Faixa inicial de faturamento bruto"),
     'revenue_end': fields.float('Faturamento Final',
                                 digits_compute=dp.get_precision('Account'),
-                                help="Faixa inicial de faturamento bruto")}
+                                help="Faixa inicial de faturamento bruto")
+}
 
 FISCAL_RULE_DEFAULTS = {
     'fiscal_type': '3',
     'revenue_start': 0.00,
-    'revenue_end': 0.00}
+    'revenue_end': 0.00
+}
 
-class account_fiscal_position_rule_template(osv.osv):
+class account_fiscal_position_rule_template(osv.Model):
     _inherit = 'account.fiscal.position.rule.template'
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
 
-account_fiscal_position_rule_template()
 
-
-class account_fiscal_position_rule(osv.osv):
+class account_fiscal_position_rule(osv.Model):
     _inherit = 'account.fiscal.position.rule'
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
