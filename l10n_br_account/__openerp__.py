@@ -41,7 +41,7 @@
                     'account_view.xml',
                     'l10n_br_account_sequence.xml',
                     'account_fiscal_position_rule_view.xml',
-#                    'account_invoice_view.xml',
+                    'account_invoice_view.xml',
                     'account_invoice_workflow.xml',
                     'l10n_br_account_view.xml',
                     'partner_view.xml',
@@ -51,7 +51,7 @@
                     'security/ir.model.access.csv',
                     'security/l10n_br_account_security.xml',
 #                    'wizard/l10n_br_account_nfe_export_view.xml',
-#                    'wizard/nfe_export_from_invoice_view.xml',
+                    #'wizard/nfe_export_from_invoice_view.xml',
                     ],
     'demo_xml': [
                  'demo/account.account.csv',
