@@ -20,19 +20,17 @@
 from osv import osv, fields
 
 
-class res_country(osv.osv):
+class res_country(osv.Model):
     _inherit = 'res.country'
     _columns = {
         'bc_code': fields.char('Codigo BC', size=5),
         'ibge_code': fields.char('Codigo IBGE', size=5),
-        'siscomex_code': fields.char('Codigo Siscomex', size=4)}
+        'siscomex_code': fields.char('Codigo Siscomex', size=4)
+    }
 
-res_country()
 
-
-class res_country_state(osv.osv):
+class res_country_state(osv.Model):
     _inherit = 'res.country.state'
     _columns = {
-        'ibge_code': fields.char('Cód. IBGE', size=2)}
-
-res_country_state()
+        'ibge_code': fields.char('Cód. IBGE', size=2)
+    }
