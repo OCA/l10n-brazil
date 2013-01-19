@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	
+
 		<menuitem icon="terp-crm" id="menu_l10n_br_account" name="Localização Brasil" web_icon="images/l10n_br.png" web_icon_hover="images/l10n_br-hover.png"/>
 		<menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="0"/>
 		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="99"/>
@@ -173,7 +173,6 @@
 			<record model="ir.ui.view" id="l10n_br_account_invoice_invalid_number_form">
 				<field name="name">l10n_br_account.invoice.invalid.number.form</field>
 				<field name="model">l10n_br_account.invoice.invalid.number</field>
-				<field name="type">form</field>
 				<field name="arch" type="xml">
 					<form string="Inutilizar Faixa de Numeração">
 						<field name="company_id"/>
@@ -181,10 +180,9 @@
 						<field name="document_serie_id"/>
 						<field name="number_start"/>
 						<field name="number_end"/>
-						<newline/>
 						<group colspan="4">
-							<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
-							<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+						<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
 						</group>
 					</form>
 				</field>
@@ -193,15 +191,14 @@
 			<record model="ir.ui.view" id="l10n_br_account_invoice_invalid_number_tree">
 				<field name="name">l10n_br_account.invoice.invalid.number.tree</field>
 				<field name="model">l10n_br_account.invoice.invalid.number</field>
-				<field name="type">tree</field>
 				<field name="arch" type="xml">
 					<tree string="Inutilizar Faixa de Numeração">
-						<field name="company_id"/>
 						<field name="fiscal_document_id"/>
 						<field name="document_serie_id"/>
 						<field name="number_start"/>
 						<field name="number_end"/>
 						<field name="state"/>
+						<field name="company_id"/>
 					</tree>
 				</field>
 			</record>
@@ -447,7 +444,7 @@
 			
 			<menuitem name="Serie de Documento Fiscal" id="menu_action_document_serie_form" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
 			
-			<menuitem name="Inutilizar Faixa de Numeração" id="menu_l10n_br_account_invoice_invalid_number" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>			
+			<menuitem name="Inutilizar Faixa de Numeracao" id="menu_l10n_br_account_invoice_invalid_number" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>			
 			
 			
 	</data>
