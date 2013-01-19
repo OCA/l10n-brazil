@@ -28,13 +28,13 @@ class res_partner(osv.Model):
     def zip_search(self, cr, uid, ids, context=None):
 
         result = {
-                  'street': False,
-                  'l10n_br_city_id': False,
-                  'city': False,
-                  'state_id': False,
-                  'country_id': False,
-                  'zip': False
-                  }
+            'street': False,
+            'l10n_br_city_id': False,
+            'city': False,
+            'state_id': False,
+            'country_id': False,
+            'zip': False
+        }
 
         obj_zip = self.pool.get('l10n_br_data.zip')
 
