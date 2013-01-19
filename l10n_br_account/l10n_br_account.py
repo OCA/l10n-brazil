@@ -20,7 +20,7 @@
 from osv import osv, fields
 
 
-class l10n_br_account_cfop(osv.osv):
+class l10n_br_account_cfop(osv.Model):
     """ CFOP - Código Fiscal de Operações e Prestações """
     _name = 'l10n_br_account.cfop'
     _description = 'CFOP'
@@ -64,10 +64,8 @@ class l10n_br_account_cfop(osv.osv):
         return [(x['id'], (x['code'] and x['code'] or '') +
                  (x['name'] and ' - ' + x['name'] or '')) for x in reads]
 
-l10n_br_account_cfop()
 
-
-class l10n_br_account_service_type(osv.osv):
+class l10n_br_account_service_type(osv.Model):
     _name = 'l10n_br_account.service.type'
     _description = 'Cadastro de Operações Fiscais de Serviço'
     _columns = {
@@ -84,9 +82,11 @@ class l10n_br_account_service_type(osv.osv):
         'internal_type': fields.selection([('view', 'Visualização'),
                                            ('normal', 'Normal')],
                                           'Tipo Interno',
-                                          required=True)}
+                                          required=True)
+    }
     _defaults = {
-        'internal_type': 'normal'}
+        'internal_type': 'normal'
+    }
 
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
@@ -100,21 +100,18 @@ class l10n_br_account_service_type(osv.osv):
             res.append((record['id'], name))
         return res
 
-l10n_br_account_service_type()
 
-
-class l10n_br_account_fiscal_document(osv.osv):
+class l10n_br_account_fiscal_document(osv.Model):
     _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
     _columns = {
         'code': fields.char(u'Codigo', size=8, required=True),
         'name': fields.char(u'Descrição', size=64),
-        'electronic': fields.boolean(u'Eletrônico')}
+        'electronic': fields.boolean(u'Eletrônico')
+    }
 
-l10n_br_account_fiscal_document()
 
-
-class l10n_br_account_fiscal_category(osv.osv):
+class l10n_br_account_fiscal_category(osv.Model):
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscail'
     _columns = {
@@ -147,16 +144,16 @@ class l10n_br_account_fiscal_category(osv.osv):
         'fiscal_position_ids': fields.one2many('account.fiscal.position',
                                                'fiscal_category_id',
                                                'Fiscal Positions'),
-        'note': fields.text(u'Observações')}
+        'note': fields.text(u'Observações')
+    }
     _defaults = {
         'type': 'output',
         'fiscal_type': 'product',
-        'journal_type': 'sale'}
+        'journal_type': 'sale'
+    }
 
-l10n_br_account_fiscal_category()
 
-
-class l10n_br_account_document_serie(osv.osv):
+class l10n_br_account_document_serie(osv.Model):
     _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
     _columns = {
@@ -172,10 +169,12 @@ class l10n_br_account_document_serie(osv.osv):
                                          ('service', 'Service')],
                                         'Tipo Fiscal', required=True),
         'internal_sequence_id': fields.many2one('ir.sequence',
-                                                'Sequência Interna')}
+                                                'Sequência Interna')
+    }
     _defaults = {
         'active': True,
-        'fiscal_type': 'product'}
+        'fiscal_type': 'product'
+    }
 
     def create_sequence(self, cr, uid, vals, context=None):
         """ Create new no_gap entry sequence for every
@@ -196,39 +195,38 @@ class l10n_br_account_document_serie(osv.osv):
             vals.update({'internal_sequence_id': self.create_sequence(cr, uid, vals, context)})
         return super(l10n_br_account_document_serie, self).create(cr, uid, vals, context)
 
-l10n_br_account_document_serie()
 
-
-class l10n_br_account_invoice_invalid_number(osv.osv):
+class l10n_br_account_invoice_invalid_number(osv.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = 'Inutilização de Faixa de Numeração'
     _columns = {
         'company_id': fields.many2one('res.company', 'Empresa', readonly=True,
-                                      states={'draft':[('readonly',False)]},
+                                      states={'draft':[('readonly', False)]},
                                       required=True),
         'fiscal_document_id': fields.many2one(
             'l10n_br_account.fiscal.document', 'Documento Fiscal',
-            readonly=True, states={'draft':[('readonly',False)]},
+            readonly=True, states={'draft':[('readonly', False)]},
             required=True),
         'document_serie_id': fields.many2one(
             'l10n_br_account.document.serie', 'Série',
-            domain="[('fiscal_document_id', '=', fiscal_document_id),\
-            ('company_id', '=', company_id)]", readonly=True,
+            domain="[('fiscal_document_id', '=', fiscal_document_id), ('company_id', '=', company_id)]", readonly=True,
             states={'draft':[('readonly',False)]}, required=True),
-        'number_start': fields.integer(u'Número Inicial', readonly=True,
-                                       states={'draft':[('readonly',False)]},
+        'number_start': fields.integer('Número Inicial', readonly=True,
+                                       states={'draft':[('readonly', False)]},
                                        required=True),
-        'number_end': fields.integer(u'Número Final', readonly=True,
-                                     states={'draft':[('readonly',False)]},
+        'number_end': fields.integer('Número Final', readonly=True,
+                                     states={'draft':[('readonly', False)]},
                                      required=True),
         'state': fields.selection([('draft', 'Rascunho'),
                                    ('cancel', 'Cancelado'),
                                    ('done', 'Concluído')], 'Status',
-                                  required=True)}
+                                  required=True)
+    }
     _rec_name = 'document_serie_id'
     _defaults = {
         'state': 'draft',
-        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c)}
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c)
+    }
     
     _sql_constraints = [
         ('number_uniq',
@@ -277,10 +275,8 @@ class l10n_br_account_invoice_invalid_number(osv.osv):
         osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
         return True
 
-l10n_br_account_invoice_invalid_number()
 
-
-class l10n_br_account_partner_fiscal_type(osv.osv):
+class l10n_br_account_partner_fiscal_type(osv.Model):
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
     _columns = {
@@ -288,12 +284,11 @@ class l10n_br_account_partner_fiscal_type(osv.osv):
         'name': fields.char('Descrição', size=64),
         'is_company': fields.boolean('Pessoa Juridica?'),
         'icms': fields.boolean('Recupera ICMS'),
-        'ipi': fields.boolean('Recupera IPI')}
+        'ipi': fields.boolean('Recupera IPI')
+    }
 
-l10n_br_account_partner_fiscal_type()
 
-
-class l10n_br_account_cnae(osv.osv):
+class l10n_br_account_cnae(osv.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
     _columns = {
@@ -306,9 +301,11 @@ class l10n_br_account_cnae(osv.osv):
         'internal_type': fields.selection([('view', 'Visualização'),
                                            ('normal', 'Normal')],
                                           'Tipo Interno',
-                                          required=True)}
+                                          required=True)
+    }
     _defaults = {
-        'internal_type': 'normal'}
+        'internal_type': 'normal'
+    }
 
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
@@ -322,10 +319,8 @@ class l10n_br_account_cnae(osv.osv):
             res.append((record['id'], name))
         return res
 
-l10n_br_account_cnae()
 
-
-class l10n_br_tax_definition_template(osv.osv):
+class l10n_br_tax_definition_template(osv.Model):
     _name = 'l10n_br_tax.definition.template'
     _columns = {
         'tax_id': fields.many2one('account.tax.template', 'Imposto',
@@ -342,10 +337,8 @@ class l10n_br_tax_definition_template(osv.osv):
                 cr, uid, tax_id, ['domain'], context=context)['domain']
         return {'value': {'tax_domain': tax_domain}}
 
-l10n_br_tax_definition_template()
 
-
-class l10n_br_tax_definition(osv.osv):
+class l10n_br_tax_definition(osv.Model):
     _name = 'l10n_br_tax.definition'
     _columns = {
         'tax_id': fields.many2one('account.tax', 'Imposto', required=True),
@@ -365,4 +358,3 @@ class l10n_br_tax_definition(osv.osv):
                 cr, uid, tax_id, ['domain'], context=context)['domain']
         return {'value': {'tax_domain': tax_domain}}
 
-l10n_br_tax_definition()
