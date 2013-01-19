@@ -26,9 +26,10 @@ class sale_order(osv.Model):
     _inherit = 'sale.order'
 
     def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(sale_order, self)._prepare_order_picking(cr, uid, order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and order.fiscal_position.id
+        result = super(sale_order, self)._prepare_order_picking(
+            cr, uid, order, context)
+        result['fiscal_category_id'] = order.fiscal_category_id and \
+            order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position and \
+            order.fiscal_position.id
         return result
-
-sale_order()
