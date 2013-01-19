@@ -19,6 +19,7 @@
 
 from osv import osv, fields
 
+
 class l10n_br_base_city(osv.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
@@ -30,9 +31,8 @@ class l10n_br_base_city(osv.Model):
         'name': fields.char('Nome', size=64, required=True),
         'state_id': fields.many2one('res.country.state', 'Estado',
                                     required=True),
-        'ibge_code': fields.char('Codigo IBGE', size=7)}
-
-l10n_br_base_city()
+        'ibge_code': fields.char('Codigo IBGE', size=7)
+    }
 
 
 class l10n_br_base_zip(osv.Model):
@@ -52,6 +52,5 @@ class l10n_br_base_zip(osv.Model):
                                     domain="[('country_id','=',country_id)]"),
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Cidade',
-            required=True, domain="[('state_id','=',state_id)]")}
-
-l10n_br_base_zip()
+            required=True, domain="[('state_id','=',state_id)]")
+    }
