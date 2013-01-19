@@ -20,7 +20,7 @@
 from osv import osv, fields
 
 
-class product_template(osv.osv):
+class product_template(osv.Model):
     _inherit = 'product.template'
     _columns = {
         'fiscal_category_default_ids': fields.one2many(
@@ -35,17 +35,17 @@ class product_template(osv.osv):
         'origin': fields.selection([('0', 'Nacional'),
                                     ('1', 'Internacional'),
                                     ('2', 'Inter. Adiquirido Internamente')],
-                                   'Origem')}
+                                   'Origem')
+    }
 
     _defaults = {
         'fiscal_type': 'product',
         'is_on_service_invoice': False,
-        'origin': '0'}
+        'origin': '0'
+    }
 
-product_template()
 
-
-class l10n_br_account_product_fiscal_category(osv.osv):
+class l10n_br_account_product_fiscal_category(osv.Model):
     _name = 'l10n_br_account.product.category'
     _columns = {
         'fiscal_category_source_id': fields.many2one(
@@ -55,6 +55,5 @@ class l10n_br_account_product_fiscal_category(osv.osv):
             'l10n_br_account.fiscal.category',
             'Categoria de Destino'),
         'product_tmpl_id': fields.many2one('product.template', 'Produto',
-                                           ondelete='cascade')}
-
-l10n_br_account_product_fiscal_category()
+                                           ondelete='cascade')
+    }
