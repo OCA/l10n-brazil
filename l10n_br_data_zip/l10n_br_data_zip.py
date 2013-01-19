@@ -37,6 +37,5 @@ class l10n_br_data_zip(osv.Model):
                                     domain="[('country_id','=',country_id)]"),
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Cidade',
-            required=True, domain="[('state_id','=',state_id)]")}
-
-l10n_br_data_zip()
+            required=True, domain="[('state_id','=',state_id)]")
+    }

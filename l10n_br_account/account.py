@@ -20,24 +20,22 @@
 from osv import fields, osv
 
 
-class account_journal(osv.osv):
+class account_journal(osv.Model):
     _inherit = 'account.journal'
     _columns = {
-        'revenue_expense': fields.boolean('Gera Financeiro')}
+        'revenue_expense': fields.boolean('Gera Financeiro')
+    }
 
-account_journal()
 
-
-class account_tax_computation(osv.osv):
+class account_tax_computation(osv.Model):
     """ Implement computation method in taxes """
     _name = 'account.tax.computation'
     _columns = {
-        'name': fields.char('Name', size=64)}
+        'name': fields.char('Name', size=64)
+    }
 
-account_tax_computation()
 
-
-class account_tax(osv.osv):
+class account_tax(osv.Model):
     _inherit = 'account.tax'
 
     def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
@@ -160,12 +158,13 @@ class account_tax(osv.osv):
             'total': result['total'],
             'total_included': result['total_included'],
             'total_tax_discount': totaldc,
-            'taxes': calculed_taxes}
+            'taxes': calculed_taxes
+        }
 
 account_tax()
 
 
-class wizard_multi_charts_accounts(osv.osv_memory):
+class wizard_multi_charts_accounts(osv.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
     def execute(self, cr, uid, ids, context=None):
@@ -209,10 +208,8 @@ class wizard_multi_charts_accounts(osv.osv_memory):
                         {'cfop_id': fp_template.cfop_id.id})
         return result
 
-wizard_multi_charts_accounts()
 
-
-class account_account(osv.osv):
+class account_account(osv.Model):
     _inherit = 'account.account'
 
     def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):
@@ -221,7 +218,8 @@ class account_account(osv.osv):
         if cr.fetchone()[0]:
             return True
         else:
-            return super(account_account, self)._check_allow_type_change(cr, uid, ids, context)
+            return super(account_account, self)._check_allow_type_change(
+                cr, uid, ids, context)
 
     def _check_allow_code_change(self, cr, uid, ids, context=None):
         """Hack to allow re-shaping demo chart of account in demo mode"""
@@ -229,4 +227,5 @@ class account_account(osv.osv):
         if cr.fetchone()[0]:
             return True
         else:
-            return super(account_account, self)._check_allow_code_change(cr, uid, ids, context)
+            return super(account_account, self)._check_allow_code_change(
+                cr, uid, ids, context)

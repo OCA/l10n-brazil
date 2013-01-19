@@ -27,7 +27,8 @@ from tools.translate import _
 import decimal_precision as dp
 from sped.nfe.validator import txt
 
-class account_invoice(osv.osv):
+
+class account_invoice(osv.Model):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
@@ -52,7 +53,7 @@ class account_invoice(osv.osv):
                 'amount_insurance': 0.0,
                 'amount_freight': 0.0,
                 'amount_costs': 0.0,
-                }
+            }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
                 res[invoice.id]['icms_base'] += line.icms_base
@@ -107,12 +108,14 @@ class account_invoice(osv.osv):
                 OPERATION_TYPE = {'out_invoice': 'output',
                                   'in_invoice': 'input',
                                   'out_refund': 'input',
-                                  'in_refund': 'output'}
+                                  'in_refund': 'output'
+                }
                 
                 JOURNAL_TYPE = {'out_invoice': 'sale',
                                 'in_invoice': 'purchase',
                                 'out_refund': 'sale_refund',
-                                'in_refund': 'purchase_refund'}
+                                'in_refund': 'purchase_refund'
+                }
                     
                 fiscal_types = eview.xpath("//field[@name='invoice_line']")
                 for fiscal_type in fiscal_types:
@@ -354,7 +357,9 @@ class account_invoice(osv.osv):
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
             }, multi='all'),
-        'ipi_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base IPI',
+        'ipi_base': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Base IPI',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
@@ -467,8 +472,9 @@ class account_invoice(osv.osv):
         store={
             'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                 ['invoice_line'], 20),
-            'account.invoice.line': (_get_invoice_line, ['other_costs_value'], 20),
-        }, multi='all')}
+            'account.invoice.line': (_get_invoice_line,
+                                     ['other_costs_value'], 20)}, multi='all')
+    }
     
     def _default_fiscal_category(self, cr, uid, context=None):
         
@@ -476,15 +482,18 @@ class account_invoice(osv.osv):
             'in_invoice': 'in_invoice_fiscal_category_id', 
             'out_invoice': 'out_invoice_fiscal_category_id',
             'in_refund': 'in_refund_fiscal_category_id', 
-            'out_refund': 'out_refund_fiscal_category_id'}
+            'out_refund': 'out_refund_fiscal_category_id'
+        }
         
         DEFAULT_FCATEGORY_SERVICE = {
             'in_invoice': 'in_invoice_service_fiscal_category_id', 
-            'out_invoice': 'out_invoice_service_fiscal_category_id'}
+            'out_invoice': 'out_invoice_service_fiscal_category_id'
+        }
         
         default_fo_category = {
            'product': DEFAULT_FCATEGORY_PRODUCT, 
-           'service': DEFAULT_FCATEGORY_SERVICE}
+           'service': DEFAULT_FCATEGORY_SERVICE
+        }
         
         invoice_type = context.get('type', 'out_invoice')
         invoice_fiscal_type = context.get('fiscal_type', 'product')
@@ -538,7 +547,8 @@ class account_invoice(osv.osv):
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
         'fiscal_document_id': _default_fiscal_document,
-        'document_serie_id': _default_fiscal_document_serie}
+        'document_serie_id': _default_fiscal_document_serie
+    }
 
     def _check_invoice_number(self, cr, uid, ids, context=None):
         if context is None:
@@ -569,10 +579,10 @@ class account_invoice(osv.osv):
         return True
 
     _constraints = [
-                    (_check_invoice_number,
-                     u"Error!\nNão é possível registrar \
-                     documentos fiscais com números repetidos.",
-                     ['number']),
+        (_check_invoice_number,
+        u"Error!\nNão é possível registrar \
+        documentos fiscais com números repetidos.",
+        ['number']),
     ]
 
     def init(self, cr):
@@ -752,10 +762,8 @@ class account_invoice(osv.osv):
 
         return result['value'].update(fiscal_data)
 
-account_invoice()
 
-
-class account_invoice_line(osv.osv):
+class account_invoice_line(osv.Model):
     _inherit = 'account.invoice.line'
     
     def fields_view_get2(self, cr, uid, view_id=None, view_type=False, 
@@ -777,12 +785,14 @@ class account_invoice_line(osv.osv):
                 OPERATION_TYPE = {'out_invoice': 'output',
                                   'in_invoice': 'input',
                                   'out_refund': 'input',
-                                  'in_refund': 'output'}
+                                  'in_refund': 'output'
+                }
                 
                 JOURNAL_TYPE = {'out_invoice': 'sale',
                                 'in_invoice': 'purchase',
                                 'out_refund': 'sale_refund',
-                                'in_refund': 'purchase_refund'}
+                                'in_refund': 'purchase_refund'
+                }
                     
                 fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
                 for fiscal_category_id in fiscal_categories:
@@ -827,77 +837,77 @@ class account_invoice_line(osv.osv):
     
     def _amount_tax_icms(self, cr, uid, tax=False):
         result = {
-                  'icms_base_type': tax.get('type'),
-                  'icms_base': tax.get('total_base', 0.0),
-                  'icms_base_other': tax.get('total_base_other', 0.0),
-                  'icms_value': tax.get('amount', 0.0),
-                  'icms_percent': tax.get('percent', 0.0) * 100,
-                  'icms_percent_reduction': tax.get('base_reduction') * 100,
-                  }
+            'icms_base_type': tax.get('type'),
+            'icms_base': tax.get('total_base', 0.0),
+            'icms_base_other': tax.get('total_base_other', 0.0),
+            'icms_value': tax.get('amount', 0.0),
+            'icms_percent': tax.get('percent', 0.0) * 100,
+            'icms_percent_reduction': tax.get('base_reduction') * 100,
+        }
         return result
     
     def _amount_tax_icmsst(self, cr, uid, tax=False):
         result = {
-                  'icms_st_base_type': tax.get('type'),
-                  'icms_st_value': tax.get('amount', 0.0),
-                  'icms_st_base': tax.get('total_base', 0.0),
-                  'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
-                  'icms_st_percent_reduction': tax.get('icms_st_percent_reduction', 0.0) * 100,
-                  'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
-                  'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
-                  }
+            'icms_st_base_type': tax.get('type'),
+            'icms_st_value': tax.get('amount', 0.0),
+            'icms_st_base': tax.get('total_base', 0.0),
+            'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
+            'icms_st_percent_reduction': tax.get('icms_st_percent_reduction', 0.0) * 100,
+            'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
+            'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
+        }
         return result
     
     def _amount_tax_ipi(self, cr, uid, tax=False):
         result = {
-                  'ipi_type': tax.get('type'),
-                  'ipi_base': tax.get('total_base', 0.0),
-                  'ipi_value': tax.get('amount', 0.0),
-                  'ipi_percent': tax.get('percent', 0.0) * 100,
-                  }
+            'ipi_type': tax.get('type'),
+            'ipi_base': tax.get('total_base', 0.0),
+            'ipi_value': tax.get('amount', 0.0),
+            'ipi_percent': tax.get('percent', 0.0) * 100,
+        }
         return result
     
     def _amount_tax_cofins(self, cr, uid, tax=False):
         result = {
-                  'cofins_base': tax.get('total_base', 0.0),
-                  'cofins_base_other': tax.get('total_base_other', 0.0), #FIXME
-                  'cofins_value': tax.get('amount', 0.0),
-                  'cofins_percent': tax.get('percent', 0.0) * 100,
-                  }
+            'cofins_base': tax.get('total_base', 0.0),
+            'cofins_base_other': tax.get('total_base_other', 0.0), #FIXME
+            'cofins_value': tax.get('amount', 0.0),
+            'cofins_percent': tax.get('percent', 0.0) * 100,
+        }
         return result
     
     def _amount_tax_cofinsst(self, cr, uid, tax=False):
         result = {
-                  'cofins_st_type': 'percent',
-                  'cofins_st_base': 0.0,
-                  'cofins_st_percent': 0.0,
-                  'cofins_st_value': 0.0,
-                  }
+            'cofins_st_type': 'percent',
+            'cofins_st_base': 0.0,
+            'cofins_st_percent': 0.0,
+            'cofins_st_value': 0.0,
+        }
         return result
     
     def _amount_tax_pis(self, cr, uid, tax=False):
         result = {
-                  'pis_base': tax.get('total_base', 0.0),
-                  'pis_base_other': tax.get('total_base'),
-                  'pis_value': tax.get('amount', 0.0),
-                  'pis_percent': tax.get('percent', 0.0) * 100,
-                  }
+            'pis_base': tax.get('total_base', 0.0),
+            'pis_base_other': tax.get('total_base'),
+            'pis_value': tax.get('amount', 0.0),
+            'pis_percent': tax.get('percent', 0.0) * 100,
+        }
         return result
     
     def _amount_tax_pisst(self, cr, uid, tax=False):
         result = {
-                  'pis_st_type': 'percent',
-                  'pis_st_base': 0.0,
-                  'pis_st_percent': 0.0, 
-                  'pis_st_value': 0.0,
-                  }
+            'pis_st_type': 'percent',
+            'pis_st_base': 0.0,
+            'pis_st_percent': 0.0, 
+            'pis_st_value': 0.0,
+        }
         return result
     
     def _amount_tax_ii(self, cr, uid, tax=False):
         result = {
-                  'ii_base': tax.get('total_base', 0.0),
-                  'ii_value': tax.get('amount', 0.0),
-                  }
+            'ii_base': tax.get('total_base', 0.0),
+            'ii_value': tax.get('amount', 0.0),
+        }
         return result
     
     def _amount_tax_issqn(self, cr, uid, taxes=False):
@@ -995,13 +1005,13 @@ class account_invoice_line(osv.osv):
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
                 res[line.id].update({
-                                'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
-                                'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
-                                'icms_cst': icms_cst,
-                                'ipi_cst': ipi_cst,
-                                'pis_cst': pis_cst,
-                                'cofins_cst': cofins_cst,
-                                })
+                    'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
+                    'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
+                    'icms_cst': icms_cst,
+                    'ipi_cst': ipi_cst,
+                    'pis_cst': pis_cst,
+                    'cofins_cst': cofins_cst,
+                })
 
         return res
 
@@ -1191,11 +1201,12 @@ class account_invoice_line(osv.osv):
             digits_compute=dp.get_precision('Account')),
         'freight_value': fields.float(
             'Frete',
-            digits_compute=dp.get_precision('Account'))}
-
+            digits_compute=dp.get_precision('Account'))
+    }
     _defaults = {
          'ii_iof': 0.0,
-         'ii_customhouse_charges': 0.0}
+         'ii_customhouse_charges': 0.0
+    }
 
     def _fiscal_position_map(self, cr, uid, ids, partner_id,
                              partner_invoice_id, company_id,
@@ -1294,10 +1305,8 @@ class account_invoice_line(osv.osv):
         result['value'].update(fiscal_data)
         return result
 
-account_invoice_line()
 
-
-class account_invoice_tax(osv.osv):
+class account_invoice_tax(osv.Model):
     _inherit = "account.invoice.tax"
 
     def compute(self, cr, uid, invoice_id, context=None):
@@ -1347,5 +1356,3 @@ class account_invoice_tax(osv.osv):
             t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
             t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
         return tax_grouped
-
-account_invoice_tax()

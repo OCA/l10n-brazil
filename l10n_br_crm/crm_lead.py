@@ -29,6 +29,5 @@ class crm_lead(crm_lead, osv.Model):
             'l10n_br_base.city', 'Municipio',
             domain="[('state_id','=',state_id)]"),
         'district': fields.char('Bairro', size=32),
-        'number': fields.char('Número', size=10)}
-
-crm_lead()
+        'number': fields.char('Número', size=10)
+    }
