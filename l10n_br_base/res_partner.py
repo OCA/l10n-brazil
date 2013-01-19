@@ -43,7 +43,8 @@ PARAMETERS = {
     'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
            'div': 9},
     'sc': {'tam': 9},
-    'se': {'tam': 9}}
+    'se': {'tam': 9}
+}
 
 
 class res_partner(osv.Model):
@@ -139,17 +140,15 @@ class res_partner(osv.Model):
             type="char", size=2,
             multi='all',
             store={
-                   'res.partner': (
-                                   _get_partner,
-                                   ['country_id', 'state_id'], 20), }),
-
-        # address fields:
-        'l10n_br_city_id':\
-        fields.many2one('l10n_br_base.city', 'Municipio',\
-                        domain="[('state_id','=',state_id)]"),
+                'res.partner': (
+                    _get_partner,
+                    ['country_id', 'state_id'], 20), }),
+        'l10n_br_city_id': fields.many2one(
+            'l10n_br_base.city', 'Municipio',
+            domain="[('state_id','=',state_id)]"),
         'district': fields.char('Bairro', size=32),
         'number': fields.char('Número', size=10)
-                }
+    }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
 
@@ -706,4 +705,5 @@ class res_partner_bank(osv.Model):
         'bank': fields.many2one('res.bank', 'Bank', required=False),
         'acc_number_dig': fields.char("Digito Conta", size=8),
         'bra_number': fields.char("Agência", size=8),
-        'bra_number_dig': fields.char("Dígito Agência", size=8)}
+        'bra_number_dig': fields.char("Dígito Agência", size=8)
+    }
