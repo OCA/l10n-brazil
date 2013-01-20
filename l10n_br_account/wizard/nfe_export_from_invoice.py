@@ -24,11 +24,10 @@ from osv import fields, osv
 from tools.translate import _
 
 
-class nfe_export_from_invoice(osv.osv_memory):
+class nfe_export_from_invoice(osv.TransientModel):
     """ Export fiscal eletronic file from invoice"""
     _name = "l10n_br_account.nfe_export_from_invoice"
     _description = "Export eletronic invoice for Emissor de NFe SEFAZ SP"
-#    _inherit = "ir.wizard.screen"
     _columns = {
         'name': fields.char('Nome', size=255),
         'file': fields.binary('Arquivo', readonly=True),
@@ -38,13 +37,14 @@ class nfe_export_from_invoice(osv.osv_memory):
                                    ('done', 'done')],
                                   'state', readonly=True),
         'nfe_environment': fields.selection([('1', 'Produção'),
-	                                         ('2', 'Homologação')],
-                                            'Ambiente')}
-
+                                             ('2', 'Homologação')],
+                                            'Ambiente')
+    }
     _defaults = {
         'state': 'init',
         'file_type': 'txt',
-        'nfe_environment': '1'}
+        'nfe_environment': '1'
+    }
 
     def nfe_export_from_invoice(self, cr, uid, ids, context=None):
         data = self.read(cr, uid, ids, [], context=context)[0]
@@ -58,7 +58,7 @@ class nfe_export_from_invoice(osv.osv_memory):
         for inv in inv_obj.browse(cr, uid, active_ids, context=context):
             if inv.state not in ('sefaz_export'):
                 err_msg += u"O Documento Fiscal %s não esta definida para ser \
-                exportação para a SEFAZ.\n" % inv.internal_number    
+                exportação para a SEFAZ.\n" % inv.internal_number
             elif not inv.own_invoice:
                 err_msg += u"O Documento Fiscal %s é do tipo externa e não \
                 pode ser exportada para a receita.\n" % inv.internal_number
@@ -67,13 +67,13 @@ class nfe_export_from_invoice(osv.osv_memory):
                                                   'nfe_access_key': False,
                                                   'nfe_status': False,
                                                   'nfe_date': False})
-                
+
                 message = "O Documento Fiscal %s foi \
                     exportada." % inv.internal_number
                 inv_obj.log(cr, uid, inv.id, message)
                 export_inv_ids.append(inv.id)
                 company_ids.append(inv.company_id.id)
-                
+
             export_inv_numbers.append(inv.internal_number)
 
         if len(set(company_ids)) > 1:
@@ -91,12 +91,12 @@ class nfe_export_from_invoice(osv.osv_memory):
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
 
             mod = __import__(
-                'l10n_br_account.sped.nfe.serializer.' + data['file_type'], 
+                'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
                  globals(), locals(), data['file_type'])
-            
+
             func = getattr(mod, 'nfe_export')
             nfe_file = func(cr, uid, export_inv_ids, data['nfe_environment'])
-            
+
             self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file),
                                       'state': 'done',
                                       'name': name}, context=context)
@@ -105,5 +105,3 @@ class nfe_export_from_invoice(osv.osv_memory):
             raise osv.except_osv(_('Error !'), _("'%s'") % _(err_msg, ))
 
         return False
-
-nfe_export_from_invoice()
