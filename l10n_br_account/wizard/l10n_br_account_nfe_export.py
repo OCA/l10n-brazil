@@ -22,14 +22,11 @@ import base64
 from osv import osv, fields
 from tools.translate import _
 
-from l10n_br_account.sped.nfe.serializer import txt, xml
 
-
-class l10n_br_account_nfe_export(osv.osv_memory):
+class l10n_br_account_nfe_export(osv.TransientModel):
     """ Exportar Nota Fiscal Eletrônica """
-    _name = "l10n_br_account.nfe_export"
-    _description = "Exportação de Nota Fiscal Eletrônica"
-#    _inherit = "ir.wizard.screen"
+    _name = 'l10n_br_account.nfe_export'
+    _description = u'Exportação de Nota Fiscal Eletrônica'
     _columns = {
         'name': fields.char('Name', size=255),
         'file': fields.binary('Arquivo', readonly=True),
@@ -42,16 +39,17 @@ class l10n_br_account_nfe_export(osv.osv_memory):
                                   'state', readonly=True),
         'nfe_environment': fields.selection([('1', 'Produção'),
                                              ('2', 'Homologação')],
-                                            'Ambiente')}
-
+                                            'Ambiente')
+    }
     _defaults = {
         'state': 'init',
-        'company_id': lambda self, cr, uid, c: 
-            self.pool.get('res.company')._company_default_get(
+        'company_id': lambda self, cr, uid,
+            c: self.pool.get('res.company')._company_default_get(
                 cr, uid, 'account.invoice', context=c),
         'file_type': 'txt',
         'import_status_draft': False,
-        'nfe_environment': '1'}
+        'nfe_environment': '1'
+    }
 
     def nfe_export(self, cr, uid, ids, context=None):
         data = self.read(cr, uid, ids, [], context=context)[0]
@@ -65,27 +63,25 @@ class l10n_br_account_nfe_export(osv.osv_memory):
              ('own_invoice', '=', True)])
 
         if not inv_ids:
-            raise osv.except_osv(_('Error !'), _("'%s'") % 
+            raise osv.except_osv(_('Error !'), _("'%s'") %
                                  _('Nenhum documento fiscal para exportação!'))
 
         mod = __import__(
             'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
             globals(), locals(), data['file_type'])
-            
+
         func = getattr(mod, 'nfe_export')
-        file = func(cr, uid, inv_ids, data['nfe_environment'])
+        nfe_file = func(cr, uid, inv_ids, data['nfe_environment'])
 
         name = 'nfes%s-%s.%s' % (time.strftime('%d-%m-%Y'),
                                  self.pool.get('ir.sequence').get(
                                      cr, uid, 'nfe.export'),
                                  data['file_type'])
 
-        self.write(cr, uid, ids, 
-                   {'file': base64.b64encode(file),
+        self.write(cr, uid, ids,
+                   {'file': base64.b64encode(nfe_file),
                     'state': 'done',
                     'name': name},
                    context=context)
 
         return False
-
-l10n_br_account_nfe_export()
