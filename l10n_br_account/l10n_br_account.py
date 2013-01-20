@@ -189,33 +189,34 @@ class l10n_br_account_document_serie(osv.Model):
         return self.pool.get('ir.sequence').create(cr, uid, seq)
 
     def create(self, cr, uid, vals, context=None):
-        """ Overwrite method to create a new ir.sequence if 
+        """ Overwrite method to create a new ir.sequence if
          this field is null """
         if not 'internal_sequence_id' in vals or not vals['internal_sequence_id']:
             vals.update({'internal_sequence_id': self.create_sequence(cr, uid, vals, context)})
-        return super(l10n_br_account_document_serie, self).create(cr, uid, vals, context)
+        return super(l10n_br_account_document_serie, self).create(
+            cr, uid, vals, context)
 
 
 class l10n_br_account_invoice_invalid_number(osv.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
-    _description = 'Inutilização de Faixa de Numeração'
+    _description = u'Inutilização de Faixa de Numeração'
     _columns = {
         'company_id': fields.many2one('res.company', 'Empresa', readonly=True,
-                                      states={'draft':[('readonly', False)]},
+                                      states={'draft': [('readonly', False)]},
                                       required=True),
         'fiscal_document_id': fields.many2one(
             'l10n_br_account.fiscal.document', 'Documento Fiscal',
-            readonly=True, states={'draft':[('readonly', False)]},
+            readonly=True, states={'draft': [('readonly', False)]},
             required=True),
         'document_serie_id': fields.many2one(
             'l10n_br_account.document.serie', 'Série',
             domain="[('fiscal_document_id', '=', fiscal_document_id), ('company_id', '=', company_id)]", readonly=True,
             states={'draft':[('readonly',False)]}, required=True),
         'number_start': fields.integer('Número Inicial', readonly=True,
-                                       states={'draft':[('readonly', False)]},
+                                       states={'draft': [('readonly', False)]},
                                        required=True),
         'number_end': fields.integer('Número Final', readonly=True,
-                                     states={'draft':[('readonly', False)]},
+                                     states={'draft': [('readonly', False)]},
                                      required=True),
         'state': fields.selection([('draft', 'Rascunho'),
                                    ('cancel', 'Cancelado'),
@@ -225,20 +226,23 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
     _rec_name = 'document_serie_id'
     _defaults = {
         'state': 'draft',
-        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c)
+        'company_id': lambda self, cr, uid,
+            c: self.pool.get('res.company')._company_default_get(
+                cr, uid, 'account.invoice', context=c)
     }
-    
+
     _sql_constraints = [
         ('number_uniq',
          'unique(document_serie_id, number_start, number_end, state)',
          u'Sequência existente!'),
     ]
-    
+
     def _check_range(self, cursor, user, ids, context=None):
         for invalid_number in self.browse(cursor, user, ids, context=context):
             where = []
             if invalid_number.number_start:
-                where.append("((number_end>='%s') or (number_end is null))" % (invalid_number.number_start,))
+                where.append("((number_end>='%s') or (number_end is null))" % (
+                    invalid_number.number_start,))
             if invalid_number.number_end:
                 where.append("((number_start<='%s') or (number_start is null))" % (invalid_number.number_end,))
 
@@ -251,7 +255,7 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
             if cursor.fetchall() or (invalid_number.number_start > invalid_number.number_end):
                 return False
         return True
-    
+
     _constraints = [
         (_check_range, 'Não é permitido faixas sobrepostas!',
             ['number_start', 'number_end'])
@@ -260,9 +264,10 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
     def action_draft_done(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state': 'done'})
         return True
-    
+
     def unlink(self, cr, uid, ids, context=None):
-        if context is None: context = {}
+        if context is None:
+            context = {}
         invalid_numbers = self.read(cr, uid, ids, ['state'], context=context)
         unlink_ids = []
         for invalid_number in invalid_numbers:
@@ -329,7 +334,7 @@ class l10n_br_tax_definition_template(osv.Model):
                                      type='char'),
         'tax_code_id': fields.many2one('account.tax.code.template',
                                        'Código de Imposto')}
-    
+
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False
         if tax_id:
@@ -350,11 +355,10 @@ class l10n_br_tax_definition(osv.Model):
             'tax_id', 'company_id', type='many2one', readonly=True,
             relation='res.company', store=True,
             string='Company')}
-    
+
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False
         if tax_id:
             tax_domain = self.pool.get('account.tax').read(
                 cr, uid, tax_id, ['domain'], context=context)['domain']
         return {'value': {'tax_domain': tax_domain}}
-
