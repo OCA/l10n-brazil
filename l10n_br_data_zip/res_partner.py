@@ -38,35 +38,35 @@ class res_partner(osv.Model):
 
         obj_zip = self.pool.get('l10n_br_data.zip')
 
-        for res_partner_address in self.browse(cr, uid, ids):
+        for res_partner in self.browse(cr, uid, ids):
 
             domain = []
-            if res_partner_address.zip:
-                zip = re.sub('[^0-9]', '', res_partner_address.zip or '')
+            if res_partner.zip:
+                zip = re.sub('[^0-9]', '', res_partner.zip or '')
                 domain.append(('code', '=', zip))
             else:
-                domain.append(('street', '=', res_partner_address.street))
-                domain.append(('district', '=', res_partner_address.district))
+                domain.append(('street', '=', res_partner.street))
+                domain.append(('district', '=', res_partner.district))
                 domain.append(('country_id', '=', \
-                               res_partner_address.country_id.id))
+                               res_partner.country_id.id))
                 domain.append(('state_id', '=', \
-                               res_partner_address.state_id.id))
+                               res_partner.state_id.id))
                 domain.append(('l10n_br_city_id', '=', \
-                               res_partner_address.l10n_br_city_id.id))
+                               res_partner.l10n_br_city_id.id))
 
             zip_id = obj_zip.search(cr, uid, domain)
 
             if not len(zip_id) == 1:
 
                 context.update({
-                                'zip': res_partner_address.zip,
-                                'street': res_partner_address.street,
-                                'district': res_partner_address.district,
+                                'zip': res_partner.zip,
+                                'street': res_partner.street,
+                                'district': res_partner.district,
                                 'country_id': \
-                                res_partner_address.country_id.id,
-                                'state_id': res_partner_address.state_id.id,
+                                res_partner.country_id.id,
+                                'state_id': res_partner.state_id.id,
                                 'l10n_br_city_id': \
-                                res_partner_address.l10n_br_city_id.id,
+                                res_partner.l10n_br_city_id.id,
                                 'address_id': ids,
                                 'object_name': self._name,
                                 })
@@ -110,5 +110,5 @@ class res_partner(osv.Model):
             and zip_read['state_id'][0] or False
             result['country_id'] = zip_read['country_id'] \
             and zip_read['country_id'][0] or False
-            self.write(cr, uid, res_partner_address.id, result)
+            self.write(cr, uid, res_partner.id, result)
             return False
