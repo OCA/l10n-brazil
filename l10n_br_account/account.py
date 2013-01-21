@@ -93,15 +93,15 @@ class account_tax(osv.Model):
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
-        tax_obj = self.pool.get('account.tax')
-        result = super(account_tax, self).compute_all(cr, uid, taxes, price_unit, quantity, address_id, product, partner, force_excluded)
-
+        result = super(account_tax, self).compute_all(cr, uid, taxes,
+            price_unit, quantity, product, partner, force_excluded)
         totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
-            if tax_list: tax_brw = tax_list[0]
+            if tax_list:
+                tax_brw = tax_list[0]
             tax['domain'] = tax_brw.domain
             tax['type'] = tax_brw.type
             tax['percent'] = tax_brw.amount
@@ -110,13 +110,15 @@ class account_tax(osv.Model):
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
         common_taxes = [tx for tx in result['taxes'] if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
-        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'], product, quantity, precision)
+        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
+            product, quantity, precision)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'], product, quantity, precision)
+        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
+            product, quantity, precision)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
         for ipi in result_ipi['taxes']:
@@ -152,7 +154,7 @@ class account_tax(osv.Model):
             result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
             result_icmsst['taxes'][0]['icms_st_percent_reduction'] = icms_st_percent_reduction
             result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
-    
+
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes +=result_icmsst['taxes']
 
