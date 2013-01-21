@@ -85,7 +85,7 @@ class account_invoice(osv.Model):
 
     def fields_view_get2(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
-        result = super(account_invoice,self).fields_view_get(
+        result = super(account_invoice, self).fields_view_get(
             cr, uid, view_id=view_id, view_type=view_type, context=context,
             toolbar=toolbar, submenu=submenu)
 
@@ -96,7 +96,8 @@ class account_invoice(osv.Model):
         result['fields'].update(self.fields_get(cr, uid, field_names, context))
 
         if not view_type:
-            view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'account.invoice.tree')])
+            view_id = self.pool.get('ir.ui.view').search(
+                cr, uid, [('name', '=', 'account.invoice.tree')])
             view_type = 'tree'
 
         if view_type == 'form':
@@ -202,16 +203,21 @@ class account_invoice(osv.Model):
         return res
 
     _columns = {
+        'partner_shipping_id': fields.many2one(
+            'res.partner', 'Delivery Address',
+            readonly=True, required=True,
+            states={'draft': [('readonly', False)]},
+            help="Delivery address for current sales order."),
         'state': fields.selection([
-            ('draft','Draft'),
-            ('proforma','Pro-forma'),
-            ('proforma2','Pro-forma'),
-            ('open','Open'),
-            ('sefaz_export','Enviar para Receita'),
-            ('sefaz_exception','Erro de autorização da Receita'),
-            ('paid','Paid'),
-            ('cancel','Cancelled')
-            ],'State', select=True, readonly=True,
+            ('draft', 'Draft'),
+            ('proforma', 'Pro-forma'),
+            ('proforma2', 'Pro-forma'),
+            ('open', 'Open'),
+            ('sefaz_export', 'Enviar para Receita'),
+            ('sefaz_exception', 'Erro de autorização da Receita'),
+            ('paid', 'Paid'),
+            ('cancel', 'Cancelled')
+            ], 'State', select=True, readonly=True,
             help=' * The \'Draft\' state is used when a user is encoding a new and unconfirmed Invoice. \
             \n* The \'Pro-forma\' when invoice is in Pro-forma state,invoice does not have an invoice number. \
             \n* The \'Open\' state is used when user create invoice,a invoice number is generated.Its in open state till user does not pay invoice. \
@@ -1024,61 +1030,61 @@ class account_invoice_line(osv.Model):
         'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
         'price_subtotal': fields.function(
             _amount_line, method=True, string='Subtotal', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'price_total': fields.function(
             _amount_line, method=True, string='Total', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_base_type': fields.function(
             _amount_line, method=True, string='Tipo Base ICMS', type="char",
             size=64, store=True, multi='all'),
         'icms_base': fields.function(
             _amount_line, method=True, string='Base ICMS', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_base_other': fields.function(
             _amount_line, method=True, string='Base ICMS Outras', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_value': fields.function(
             _amount_line, method=True, string='Valor ICMS', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_percent': fields.function(
             _amount_line, method=True, string='Perc ICMS', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_percent_reduction': fields.function(
             _amount_line, method=True, string='Perc Redução de Base ICMS',
-            type="float", digits_compute= dp.get_precision('Account'),
+            type="float", digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_base_type': fields.function(
             _amount_line, method=True, string='Tipo Base ICMS ST', type="char",
             size=64, store=True, multi='all'),
         'icms_st_value': fields.function(
             _amount_line, method=True, string='Valor ICMS ST', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_base': fields.function(
             _amount_line, method=True, string='Base ICMS ST', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_percent': fields.function(
             _amount_line, method=True, string='Percentual ICMS ST',
-            type="float", digits_compute= dp.get_precision('Account'),
+            type="float", digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_percent_reduction': fields.function(
             _amount_line, method=True, string='Perc Redução de Base ICMS ST',
-            type="float", digits_compute= dp.get_precision('Account'),
+            type="float", digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_mva': fields.function(
             _amount_line, method=True, string='MVA ICMS ST', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_st_base_other': fields.function(
             _amount_line, method=True, string='Base ICMS ST Outras',
-            type="float", digits_compute= dp.get_precision('Account'),
+            type="float", digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_cst': fields.function(
             _amount_line, method=True, string='CST ICMS', type="char", size=3,
@@ -1088,19 +1094,19 @@ class account_invoice_line(osv.Model):
             size=64, store=True, multi='all'),
         'ipi_base': fields.function(
             _amount_line, method=True, string='Base IPI', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'ipi_base_other': fields.function(
             _amount_line, method=True, string='Base IPI Outras', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'ipi_value': fields.function(
             _amount_line, method=True, string='Valor IPI', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'ipi_percent': fields.function(
             _amount_line, method=True, string='Perc IPI', type="float",
-            digits_compute= dp.get_precision('Account'),
+            digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'ipi_cst': fields.function(
             _amount_line, method=True, string='CST IPI', type="char", size=2,
@@ -1174,7 +1180,7 @@ class account_invoice_line(osv.Model):
         'cofins_st_percent': fields.function(
             _amount_line, method=True, string='Perc COFINS ST',
             type="float", digits_compute=dp.get_precision('Account'),
-            store=True,  multi='all'),
+            store=True, multi='all'),
         'cofins_st_value': fields.function(
             _amount_line, method=True, string='Valor COFINS ST',
             type="float", digits_compute=dp.get_precision('Account'),
@@ -1189,7 +1195,7 @@ class account_invoice_line(osv.Model):
             store=True, multi='all'),
         'ii_iof': fields.float(
             'Valor IOF', required=True,
-            digits_compute= dp.get_precision('Account')),
+            digits_compute=dp.get_precision('Account')),
         'ii_customhouse_charges': fields.float(
             'Depesas Atuaneiras', required=True,
             digits_compute=dp.get_precision('Account')),
@@ -1213,7 +1219,8 @@ class account_invoice_line(osv.Model):
                              fiscal_category_id, product_id=False,
                              account_id=False, context=None):
 
-        if not context: context = {}
+        if not context:
+            context = {}
 
         context['use_domain'] = ('use_invoice', '=', True)
         result = {'cfop_id': False}
