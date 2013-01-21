@@ -22,7 +22,6 @@
 import re
 from osv import osv, fields
 
-
 PARAMETERS = {
     'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'},
     'al': {'tam': 9, 'starts_with': '24'},
@@ -38,7 +37,7 @@ PARAMETERS = {
     'pr': {'tam': 10, 'val_tam': 8, 'prod': [3, 2, 7, 6, 5, 4, 3, 2]},
     'pi': {'tam': 9},
     'rj': {'tam': 8, 'prod': [2, 7, 6, 5, 4, 3, 2]},
-    'rn': {'tam': 10, 'val_tam':  9,  'prod': [10, 9, 8, 7, 6, 5, 4, 3, 2]},
+    'rn': {'tam': 10, 'val_tam': 9, 'prod': [10, 9, 8, 7, 6, 5, 4, 3, 2]},
     'rs': {'tam': 10},
     'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
            'div': 9},
@@ -50,14 +49,12 @@ PARAMETERS = {
 class res_partner(osv.Model):
     _inherit = 'res.partner'
 
-    def _display_address(self, cr, uid, address,
-                         without_company=False, context=None):
+    def _display_address(self, cr, uid, address, without_company=False,
+                        context=None):
         if address.country_id and address.country_id.code != 'BR':
             #this ensure other localizations could do what they want
-            return super(res_partner,
-                         self)._display_address(cr, uid, address,
-                                                without_company=False,
-                                                context=None)
+            return super(res_partner, self)._display_address(
+                cr, uid, address, without_company=False, context=None)
         else:
             address_format = address.country_id and \
             address.country_id.address_format or \
@@ -66,13 +63,13 @@ class res_partner(osv.Model):
             args = {
                 'state_code': address.state_id and address.state_id.code or '',
                 'state_name': address.state_id and address.state_id.name or '',
-                'country_code': address.country_id and \
+                'country_code': address.country_id and
                 address.country_id.code or '',
-                'country_name': address.country_id and \
+                'country_name': address.country_id and
                 address.country_id.name or '',
-                'company_name': address.parent_id and \
+                'company_name': address.parent_id and
                 address.parent_id.name or '',
-                'l10n_br_city_name': address.l10n_br_city_id and \
+                'l10n_br_city_name': address.l10n_br_city_id and
                 address.l10n_br_city_id.name or '',
                 'state_code': address.state_id and address.state_id.code or ''
             }
@@ -640,8 +637,8 @@ class res_partner(osv.Model):
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
-        res = super(res_partner, self).onchange_type(self, cr, uid, ids, \
-                                                     is_company)
+        res = super(res_partner, self).onchange_type(
+            cr, uid, ids, is_company)
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
             if is_company and len(val) == 14:
@@ -680,18 +677,18 @@ class res_partner(osv.Model):
         return result
 
     #TODO migrate
-    def onchange_mask_zip(self, cr, uid, ids, zip):
+    def onchange_mask_zip(self, cr, uid, ids, code_zip):
 
         result = {'value': {'zip': False}}
 
-        if not zip:
+        if not code_zip:
             return result
 
-        val = re.sub('[^0-9]', '', zip)
+        val = re.sub('[^0-9]', '', code_zip)
 
         if len(val) == 8:
-            zip = "%s-%s" % (val[0:5], val[5:8])
-            result['value']['zip'] = zip
+            code_zip = "%s-%s" % (val[0:5], val[5:8])
+            result['value']['zip'] = code_zip
         return result
 
 
@@ -701,9 +698,9 @@ class res_partner_bank(osv.Model):
     """
     _inherit = 'res.partner.bank'
     _columns = {
-        'acc_number': fields.char('Account Number', size=64, required=False),
+        'acc_number': fields.char("Account Number", size=64, required=False),
         'bank': fields.many2one('res.bank', 'Bank', required=False),
-        'acc_number_dig': fields.char("Digito Conta", size=8),
-        'bra_number': fields.char("Agência", size=8),
-        'bra_number_dig': fields.char("Dígito Agência", size=8)
+        'acc_number_dig': fields.char('Digito Conta', size=8),
+        'bra_number': fields.char(u'Agência', size=8),
+        'bra_number_dig': fields.char(u'Dígito Agência', size=8)
     }
