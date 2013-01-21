@@ -20,25 +20,30 @@
 from osv import osv, fields
 import decimal_precision as dp
 
+SQL_CONSTRAINTS = [
+    ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id, company_id)',
+    u'Imposto já existente nesta empresa!')
+]
+
 
 class res_company(osv.Model):
     _inherit = 'res.company'
-    
+
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
         result = {}
         for company in self.browse(cr, uid, ids, context=context):
             result[company.id] = {'product_tax_ids': [],
                                   'service_tax_ids': []}
-            product_tax_ids = [tax.tax_id.id for tax in 
+            product_tax_ids = [tax.tax_id.id for tax in
                                company.product_tax_definition_line]
-            service_tax_ids = [tax.tax_id.id for tax in 
+            service_tax_ids = [tax.tax_id.id for tax in
                                company.service_tax_definition_line]
             product_tax_ids.sort()
             service_tax_ids.sort()
             result[company.id]['product_tax_ids'] = product_tax_ids
             result[company.id]['service_tax_ids'] = service_tax_ids
         return result
-    
+
     _columns = {
         'fiscal_type': fields.selection([
             ('1', 'Simples Nacional'),
@@ -143,12 +148,7 @@ class l10n_br_tax_definition_company_product(osv.Model):
                 'company_id': fields.many2one(
                     'res.company', 'Company', select=True)
     }
-    
-    _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
-        company_id)',
-        u'Imposto já existente nesta empresa!')
-    ]
+    _sql_constraints = SQL_CONSTRAINTS
 
 
 class l10n_br_tax_definition_company_service(osv.Model):
@@ -156,9 +156,6 @@ class l10n_br_tax_definition_company_service(osv.Model):
     _inherit = 'l10n_br_tax.definition'
     _columns = {
                 'company_id': fields.many2one(
-                    'res.company', 'Company', select=True)}
-    
-    _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
-        company_id)',
-        u'Imposto já existente nesta empresa!')]
+                    'res.company', 'Company', select=True)
+    }
+    _sql_constraints = SQL_CONSTRAINTS
