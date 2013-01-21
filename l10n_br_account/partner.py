@@ -25,9 +25,9 @@ FISCAL_POSITION_COLUMNS = {
                                           'Categoria Fiscal'),
     'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
                              'Tipo'),
-    'type_tax_use': fields.selection([('sale','Sale'),
-                                      ('purchase','Purchase'),
-                                      ('all','All')], 'Tax Application'),
+    'type_tax_use': fields.selection([('sale', 'Sale'),
+                                      ('purchase', 'Purchase'),
+                                      ('all', 'All')], 'Tax Application'),
     'fiscal_category_fiscal_type': fields.related(
         'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
         relation='l10n_br_account.fiscal.category', store=True,
@@ -42,38 +42,38 @@ FISCAL_POSITION_COLUMNS = {
 class account_fiscal_position_template(osv.Model):
     _inherit = 'account.fiscal.position.template'
     _columns = FISCAL_POSITION_COLUMNS
-    
+
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purhcase', 'output': 'sale'}
-        return {'value': {'type_tax_use': type_tax.get(type, 'all'), 
+        return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
 
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     fiscal_category_id=False, context=None):
         if fiscal_category_id:
-             fc_fields = self.pool.get(
-                'l10n_br_account.fiscal.category').read(
-                    cr, uid, fiscal_category_id, ['fiscal_type',
-                                                  'journal_type'], context=context)
-        return {'value': 
+            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
+                    cr, uid, fiscal_category_id,
+                    ['fiscal_type', 'journal_type'], context=context)
+        return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-        
+
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
                                  company_id, context=None):
         """
-        This method generate Fiscal Position, Fiscal Position Accounts and 
+        This method generate Fiscal Position, Fiscal Position Accounts and
         Fiscal Position Taxes from templates.
 
         :param chart_temp_id: Chart Template Id.
-        :param taxes_ids: Taxes templates reference for generating 
+        :param taxes_ids: Taxes templates reference for generating
         account.fiscal.position.tax.
-        :param acc_template_ref: Account templates reference for generating 
+        :param acc_template_ref: Account templates reference for generating
         account.fiscal.position.account.
-        :param company_id: company_id selected from wizard.multi.charts.accounts.
+        :param company_id: selected from wizard.multi.charts.accounts.
         :returns: True
         """
-        if context is None: context = {}
+        if context is None:
+            context = {}
 
         obj_tax_fp = self.pool.get('account.fiscal.position.tax')
         obj_ac_fp = self.pool.get('account.fiscal.position.account')
@@ -83,14 +83,15 @@ class account_fiscal_position_template(osv.Model):
         tax_code_template_ref = {}
         tax_code_ids = obj_tax_code.search(
             cr, uid, [('company_id', '=', company_id)])
-                
+
         for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
             tax_code_template = obj_tax_code_template.search(
                 cr, uid, [('name', '=', tax_code.name)])
             if tax_code_template:
                 tax_code_template_ref[tax_code_template[0]] = tax_code.id
-        
-        fp_ids = self.search(cr, uid, [('chart_template_id', '=', chart_temp_id)])
+
+        fp_ids = self.search(cr, uid,
+            [('chart_template_id', '=', chart_temp_id)])
         for position in self.browse(cr, uid, fp_ids, context=context):
             new_fp = obj_fiscal_position.create(
                 cr, uid, {'company_id': company_id,
@@ -134,7 +135,7 @@ class account_fiscal_position_tax_template(osv.Model):
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
-        
+
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax.template').read(
@@ -144,16 +145,16 @@ class account_fiscal_position_tax_template(osv.Model):
             tax_domain = self.pool.get('account.tax.code.template').read(
                 cr, uid, tax_code_src_id, ['domain'],
                 context=context)['domain']
-        
+
         return {'value': {'tax_src_domain': tax_domain}}
 
-    def onchange_tax_src_id(self, cr, uid, ids,tax_src_id=False, 
+    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
                             tax_code_src_id=False, context=None):
 
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
                                 context=context)
-    
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False, 
+
+    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
                                  tax_code_src_id=False, context=None):
 
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
@@ -163,39 +164,38 @@ class account_fiscal_position_tax_template(osv.Model):
 class account_fiscal_position(osv.Model):
     _inherit = 'account.fiscal.position'
     _columns = FISCAL_POSITION_COLUMNS
-    
+
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
-    
+
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     fiscal_category_id=False, context=None):
-        fiscal_category_fields = False
         if fiscal_category_id:
-             fc_fields = self.pool.get(
-                'l10n_br_account.fiscal.category').read(
-                    cr, uid, fiscal_category_id, ['fiscal_type',
-                                                  'journal_type'], context=context)
+            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
+                cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
+                context=context)
         return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-        
+
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
-        
-        if not context: context = {}
-        
+
+        if not context:
+            context = {}
+
         result = {}
-        
+
         if tax_ids:
-            
+
             product = self.pool.get('product.product').browse(
                 cr, uid, product_id, context=context)
 
             fclassificaion = product.property_fiscal_classification
-            
+
             if context.get('type_tax_use') == 'sale':
-            
+
                 if fclassificaion:
                     tax_sale_ids = fclassificaion.sale_tax_definition_line
                     for tax_def in tax_sale_ids:
@@ -206,26 +206,26 @@ class account_fiscal_position(osv.Model):
                 if company_id:
                     company = self.pool.get('res.company').browse(
                         cr, uid, company_id, context=context)
-                    
+
                     if context.get('fiscal_type', 'product') == 'product':
                         company_tax_def = company.product_tax_definition_line
                     else:
                         company_tax_def = company.service_tax_definition_line
-                
+
                     for tax_def in company_tax_def:
                         if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
                                 result.update({tax_def.tax_id.domain:
                                                tax_def.tax_code_id.code})
 
             if context.get('type_tax_use') == 'purchase':
-            
+
                 if fclassificaion:
                     tax_purchase_ids = fclassificaion.purchase_tax_definition_line
                     for tax_def in tax_purchase_ids:
                         if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
                             result.update({tax_def.tax_id.domain:
                                            tax_def.tax_code_id.code})
-        
+
             for fp_tax in fiscal_position.tax_ids:
                 if fp_tax.tax_dest_id in tax_ids and fp_tax.tax_code_dest_id:
                     result.update({fp_tax.tax_dest_id.domain:
@@ -234,14 +234,14 @@ class account_fiscal_position(osv.Model):
                 fp_tax.tax_code_dest_id:
                     result.update({fp_tax.tax_code_src_id.domain:
                                    fp_tax.tax_code_dest_id.code})
-                    
-        
+
         return result
-    
+
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
-        if not context: context = {}
-        
+        if not context:
+            context = {}
+
         if fposition_id and fposition_id.company_id and \
         context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
@@ -272,11 +272,11 @@ class account_fiscal_position(osv.Model):
                 tax_src = tax.tax_src_id and tax.tax_src_id.id == t.id
                 tax_code_src = tax.tax_code_src_id and \
                     tax.tax_code_src_id.id == t.tax_code_id.id
-                    
+
                 if tax_src or tax_code_src:
                     if tax.tax_dest_id:
                         result.append(tax.tax_dest_id.id)
-                    ok=True
+                    ok = True
             if not ok:
                 result.append(t.id)
 
@@ -297,7 +297,7 @@ class account_fiscal_position_tax(osv.Model):
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
-        
+
         tax_domain = False
         if tax_src_id:
             tax_domain = self.pool.get('account.tax').read(
@@ -307,16 +307,16 @@ class account_fiscal_position_tax(osv.Model):
             tax_domain = self.pool.get('account.tax.code').read(
                 cr, uid, tax_code_src_id, ['domain'],
                 context=context)['domain']
-        
+
         return {'value': {'tax_src_domain': tax_domain}}
 
-    def onchange_tax_src_id(self, cr, uid, ids,tax_src_id=False, 
+    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
                             tax_code_src_id=False, context=None):
 
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
                                 context=context)
-    
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False, 
+
+    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
                                  tax_code_src_id=False, context=None):
 
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
