@@ -31,8 +31,6 @@ class sale_shop(osv.Model):
                     'Categoria Fiscal Padrão')
     }
 
-sale_shop()
-
 
 class sale_order(osv.Model):
     _inherit = 'sale.order'
@@ -53,7 +51,8 @@ class sale_order(osv.Model):
                 invoice.fiscal_category_id.id == sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
-                res[sale.id] = min(100.0, tot * 100.0 / (sale.amount_untaxed or 1.00))
+                res[sale.id] = min(100.0, tot * 100.0 / (
+                    sale.amount_untaxed or 1.00))
             else:
                 res[sale.id] = 0.0
         return res
@@ -70,7 +69,7 @@ class sale_order(osv.Model):
         'invoiced_rate': fields.function(_invoiced_rate, method=True,
                                          string='Invoiced', type='float')
     }
-    
+
     def _default_fiscal_category(self, cr, uid, context=None):
         shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"], context)["shop_id"])
         return  self.pool.get("sale.shop").read(cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
@@ -154,7 +153,7 @@ class sale_order(osv.Model):
         else:
             fiscal_category_id = order.fiscal_category_id.id
             result['journal_id'] = order.fiscal_category_id.property_journal.id
-        
+
         # FIXME - Deveria pegar as observações das
         # posições fiscais de cada linha.
         comment = ''
@@ -219,9 +218,12 @@ class sale_order(osv.Model):
         return inv_id_product or inv_id_service
 
     def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(sale_order, self)._prepare_order_picking(cr, uid, order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and order.fiscal_position.id
+        result = super(sale_order, self)._prepare_order_picking(cr, uid,
+            order, context)
+        result['fiscal_category_id'] = order.fiscal_category_id and \
+        order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position and \
+        order.fiscal_position.id
         return result
 
     def _amount_line_tax(self, cr, uid, line, context=None):
@@ -237,8 +239,6 @@ class sale_order(osv.Model):
                 val += c.get('amount', 0.0)
         return val
 
-sale_order()
-
 
 class sale_order_line(osv.Model):
     _inherit = 'sale.order.line'
@@ -252,7 +252,10 @@ class sale_order_line(osv.Model):
             context = {}
         for line in self.browse(cr, uid, ids, context=context):
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.tax_id, price, line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id, fiscal_position=line.fiscal_position)
+            taxes = tax_obj.compute_all(cr, uid, line.tax_id, price,
+                line.product_uom_qty, line.order_id.partner_invoice_id.id,
+                line.product_id, line.order_id.partner_id,
+                fiscal_position=line.fiscal_position)
             cur = line.order_id.pricelist_id.currency_id
             res[line.id] = cur_obj.round(cr, uid, cur, taxes['total'])
         return res
@@ -263,7 +266,7 @@ class sale_order_line(osv.Model):
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
             readonly=True, states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
-            'account.fiscal.position','Fiscal Position',
+            'account.fiscal.position', 'Fiscal Position',
             domain="[('fiscal_category_id','=',fiscal_category_id)]",
             readonly=True, states={'draft': [('readonly', False)]}),
         'price_subtotal': fields.function(
@@ -379,5 +382,3 @@ class sale_order_line(osv.Model):
                 result['cfop_id'] = fp.cfop_id and fp.cfop_id.id or False
 
         return result
-
-sale_order_line()
