@@ -10,13 +10,12 @@
 					<field invisible="1" name="state"/>
 					<field name="name" invisible="1" />
 					<group>
-						<group states="init" colspan="4">
-							<label string="Click em exportar para iniciar a exportação..." />
+						<group states="init">
 							<field name="file_type" />
 							<field name="nfe_environment" />
 						</group>
-						<group states="done" colspan="4">
-							<field name="file" filename="name" width="250" />
+						<group states="done">
+							<field name="file" filename="name" />
 						</group>
 					</group>
 						<footer states="init">
