@@ -18,6 +18,7 @@
 						<group states="done" colspan="4">
 							<field name="file" filename="name" width="250" />
 						</group>
+					</group>
 						<footer states="init">
 							<button name="nfe_export_from_invoice" string="Exportar" type="object" class="oe_highlight" /> ou
 	                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
@@ -25,7 +26,6 @@
 	                    <footer states="done">
 	                        <button special="cancel" string="Close" type="object"/>
 	                    </footer>
-					</group>
 				</form>
 			</field>
 		</record>
