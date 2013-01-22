@@ -104,4 +104,12 @@ class nfe_export_from_invoice(osv.TransientModel):
         if err_msg:
             raise osv.except_osv(_('Error !'), _("'%s'") % _(err_msg, ))
 
-        return False
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'l10n_br_account.nfe_export_from_invoice',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': data['id'],
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
