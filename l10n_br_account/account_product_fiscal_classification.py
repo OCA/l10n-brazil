@@ -18,12 +18,11 @@
 ###############################################################################
 
 from osv import fields, osv
-from tools.translate import _
 
 
-class account_product_fiscal_classification_template(osv.osv):
+class account_product_fiscal_classification_template(osv.Model):
     _inherit = 'account.product.fiscal.classification.template'
-    
+
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
         result = {}
         for fiscal_classification in self.browse(cr, uid, ids,
@@ -42,7 +41,7 @@ class account_product_fiscal_classification_template(osv.osv):
             result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
             result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
         return result
-       
+
     _columns = {
         'type': fields.selection([('view', u'Visão'),
                                   ('normal', 'Normal'),
@@ -81,7 +80,7 @@ class l10n_br_tax_definition_sale_template(osv.osv):
                     'Fiscal Classification', select=True)}
 
     _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
+        ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')]
 
@@ -95,18 +94,16 @@ class l10n_br_tax_definition_purchase_template(osv.osv):
                 'fiscal_classification_id': fields.many2one(
                     'account.product.fiscal.classification.template',
                     'Fiscal Classification', select=True)}
-    
+
     _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
+        ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')]
 
-l10n_br_tax_definition_purchase_template()
 
-
-class account_product_fiscal_classification(osv.osv):
+class account_product_fiscal_classification(osv.Model):
     _inherit = 'account.product.fiscal.classification'
-    
+
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
         result = {}
         for fiscal_classification in self.browse(cr, uid, ids,
@@ -125,7 +122,7 @@ class account_product_fiscal_classification(osv.osv):
             result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
             result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
         return result
-       
+
     _columns = {
         'type': fields.selection([('view', u'Visão'),
                                   ('normal', 'Normal'),
@@ -152,78 +149,70 @@ class account_product_fiscal_classification(osv.osv):
     _defaults = {
         'type': 'normal'}
 
-account_product_fiscal_classification()
 
-
-class l10n_br_tax_definition_sale(osv.osv):
+class l10n_br_tax_definition_sale(osv.Model):
     _name = 'l10n_br_tax.definition.sale'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
                 'fiscal_classification_id': fields.many2one(
                     'account.product.fiscal.classification',
                     'Parent Fiscal Classification', select=True)}
-    
+
     _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
+        ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')]
 
-l10n_br_tax_definition_sale()
 
-
-class l10n_br_tax_definition_purchase(osv.osv):
+class l10n_br_tax_definition_purchase(osv.Model):
     _name = 'l10n_br_tax.definition.purchase'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
                 'fiscal_classification_id': fields.many2one(
                     'account.product.fiscal.classification',
-                    'Fiscal Classification', select=True)}
-    
+                    'Fiscal Classification', select=True)
+    }
     _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq','unique (tax_id,\
+        ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')]
-
-l10n_br_tax_definition_purchase()
 
 
 class wizard_account_product_fiscal_classification(osv.osv_memory):
     _inherit = 'wizard.account.product.fiscal.classification'
     _columns = {
-        'company_id':fields.many2one('res.company','Company')}
+        'company_id': fields.many2one('res.company', 'Company')
+    }
 
     def action_create(self, cr, uid, ids, context=None):
 
-        obj_wizard = self.browse(cr,uid,ids[0])
+        obj_wizard = self.browse(cr, uid, ids[0])
         obj_tax = self.pool.get('account.tax')
         obj_company = self.pool.get('res.company')
         obj_tax_template = self.pool.get('account.tax.template')
         obj_tax_code = self.pool.get('account.tax.code')
         obj_tax_code_template = self.pool.get('account.tax.code.template')
         obj_fclass = self.pool.get('account.product.fiscal.classification')
-        obj_fclass_template = self.pool.get(
-            'account.product.fiscal.classification.template')
+        obj_fclass_template = self.pool.get('account.product.fiscal.classification.template')
         obj_tax_purchase = self.pool.get('l10n_br_tax.definition.purchase')
-        obj_tax_purchase_template = self.pool.get('l10n_br_tax.definition.purchase.template')
         obj_tax_sale = self.pool.get('l10n_br_tax.definition.sale')
-        obj_tax_sale_template = self.pool.get('l10n_br_tax.definition.sale.template')
-        
+
         if obj_wizard.company_id:
             company_ids = [obj_wizard.company_id.id]
         else:
-            company_ids = obj_company.search(cr,uid,[])
-        
+            company_ids = obj_company.search(cr, uid, [])
+
         tax_template_ref = {}
         tax_code_template_ref = {}
         for company_id in company_ids:
-            
+
             tax_template_ref[company_id] = {}
-            tax_ids = obj_tax.search(cr,uid,[('company_id','=',company_id)])
+            tax_ids = obj_tax.search(cr, uid, [('company_id', '=', company_id)])
             for tax in obj_tax.browse(cr, uid, tax_ids):
                 tax_template = obj_tax_template.search(cr,uid,[('name', '=', tax.name)])
                 if tax_template:
                     tax_template_ref[company_id][tax_template[0]] = tax.id
-            
+
             tax_code_template_ref[company_id] = {}
             tax_code_ids = obj_tax_code.search(cr,uid,[('company_id', '=', company_id)])
             for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
@@ -231,7 +220,6 @@ class wizard_account_product_fiscal_classification(osv.osv_memory):
                 if tax_code_template:
                     tax_code_template_ref[company_id][tax_code_template[0]] = tax_code.id
 
-        fclass_ref = {}
         fclass_ids_template = obj_fclass_template.search(cr, uid, [])
         for fclass_template in obj_fclass_template.browse(cr, uid, fclass_ids_template):
             parent_ids = False
@@ -265,7 +253,7 @@ class wizard_account_product_fiscal_classification(osv.osv_memory):
                             'tax_id': tax_template_ref[company_id].get(sale_tax.tax_id.id, False),
                             'tax_code_id': tax_code_template_ref[company_id].get(sale_tax.tax_code_id.id, False),
                             'fiscal_classification_id': new_fclass_id})
-    
+
                 for purchase_tax in fclass_template.purchase_tax_definition_line:
                     if not obj_tax_purchase.search(cr, uid, [('tax_id', '=',tax_template_ref[company_id].get(purchase_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
                         obj_tax_purchase.create(cr, uid, {
@@ -273,5 +261,3 @@ class wizard_account_product_fiscal_classification(osv.osv_memory):
                             'tax_code_id': tax_code_template_ref[company_id].get(purchase_tax.tax_code_id.id, False),
                             'fiscal_classification_id': new_fclass_id})
         return {}
-
-wizard_account_product_fiscal_classification()

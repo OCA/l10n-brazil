@@ -19,7 +19,6 @@
 
 from lxml import etree
 import time
-from datetime import datetime
 import netsvc
 
 from osv import fields, osv
@@ -177,21 +176,19 @@ class account_invoice(osv.Model):
     def _get_cfops(self, cr, uid, ids, name, arg, context=None):
         result = {}
         for invoice in self.browse(cr, uid, ids, context=context):
-            id = invoice.id
-            result[id] = []
+            result[invoice.id] = []
             new_ids = []
             for line in invoice.invoice_line:
                 if line.cfop_id and not line.cfop_id.id in new_ids:
                     new_ids.append(line.cfop_id.id)
             new_ids.sort()
-            result[id] = new_ids
+            result[invoice.id] = new_ids
         return result
 
     def _get_receivable_lines(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for invoice in self.browse(cr, uid, ids, context=context):
-            id = invoice.id
-            res[id] = []
+            res[invoice.id] = []
             if not invoice.move_id:
                 continue
             data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.journal_id.revenue_expense]
@@ -199,7 +196,7 @@ class account_invoice(osv.Model):
             for line in data_lines:
                 New_ids.append(line.id)
                 New_ids.sort()
-            res[id] = New_ids
+            res[invoice.id] = New_ids
         return res
 
     _columns = {
@@ -227,7 +224,7 @@ class account_invoice(osv.Model):
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'partner_shipping_id': fields.many2one('res.partner', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
         'own_invoice': fields.boolean('Nota Fiscal Própria', readonly=True,
-                                      states={'draft':[('readonly',False)]}),
+                                      states={'draft': [('readonly', False)]}),
         'nfe_purpose': fields.selection(
             [('1', 'Normal'),
              ('2', 'Complementar'),
@@ -235,23 +232,23 @@ class account_invoice(osv.Model):
             states={'draft': [('readonly', False)]}),
         'internal_number': fields.char('Invoice Number', size=32,
                                        readonly=True,
-                                       states={'draft':[('readonly',False)]},
+                                       states={'draft': [('readonly', False)]},
                                        help="Unique number of the invoice, \
                                        computed automatically when the \
                                        invoice is created."),
         'vendor_serie': fields.char('Série NF Entrada', size=12, readonly=True,
-                                    states={'draft':[('readonly',False)]},
+                                    states={'draft': [('readonly', False)]},
                                     help="Série do número da Nota Fiscal do \
                                     Fornecedor"),
         'nfe_access_key': fields.char(
             'Chave de Acesso NFE', size=44,
-            readonly=True, states={'draft':[('readonly',False)]}),
+            readonly=True, states={'draft': [('readonly', False)]}),
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
         'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document', 'Documento',  readonly=True,
-            states={'draft':[('readonly',False)]}),
+            'l10n_br_account.fiscal.document', 'Documento', readonly=True,
+            states={'draft': [('readonly', False)]}),
         'fiscal_document_electronic': fields.related(
             'fiscal_document_id', 'electronic', type='boolean', readonly=True,
             relation='l10n_br_account.fiscal.document', store=True,
@@ -266,20 +263,20 @@ class account_invoice(osv.Model):
             'l10n_br_account.document.serie', 'Série',
             domain="[('fiscal_document_id','=',fiscal_document_id),\
             ('company_id','=',company_id)]", readonly=True,
-            states={'draft':[('readonly',False)]}),
+            states={'draft': [('readonly', False)]}),
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria', readonly=True,
-            states={'draft':[('readonly',False)]}),
+            states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Fiscal Position', readonly=True,
-            states={'draft':[('readonly',False)]},
+            states={'draft': [('readonly', False)]},
             domain="[('fiscal_category_id','=',fiscal_category_id)]"),
         'cfop_ids': fields.function(
             _get_cfops, method=True, type='many2many',
             relation='l10n_br_account.cfop', string='CFOP'),
         'service_type_id': fields.many2one(
             'l10n_br_account.service.type', 'Tipo de Serviço', readonly=True,
-            states={'draft':[('readonly',False)]}),
+            states={'draft': [('readonly', False)]}),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -340,7 +337,9 @@ class account_invoice(osv.Model):
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
             }, multi='all'),
-        'icms_st_base': fields.function(_amount_all, method=True, digits_compute=dp.get_precision('Account'), string='Base ICMS ST',
+        'icms_st_base': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Base ICMS ST',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
@@ -447,17 +446,18 @@ class account_invoice(osv.Model):
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
             }, multi='all'),
-        'weight': fields.float('Gross weight',readonly=True,
-                               states={'draft':[('readonly',False)]},
+        'weight': fields.float('Gross weight', readonly=True,
+                               states={'draft': [('readonly', False)]},
                                help="The gross weight in Kg.",),
         'weight_net': fields.float('Net weight', help="The net weight in Kg.",
                                     readonly=True,
-                                   states={'draft':[('readonly',False)]}),
+                                    states={'draft': [('readonly', False)]}),
         'number_of_packages': fields.integer(
-            'Volume', readonly=True, states={'draft':[('readonly',False)]}),
+            'Volume', readonly=True, states={'draft': [('readonly', False)]}),
         'amount_insurance': fields.function(
             _amount_all, method=True,
-            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            digits_compute=dp.get_precision('Account'),
+            string='Valor do Seguro',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
@@ -466,11 +466,13 @@ class account_invoice(osv.Model):
             }, multi='all'),
         'amount_freight': fields.function(
             _amount_all, method=True,
-            digits_compute=dp.get_precision('Account'), string='Valor do Seguro',
+            digits_compute=dp.get_precision('Account'),
+            string='Valor do Seguro',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
-                'account.invoice.line': (_get_invoice_line, ['freight_value'], 20),
+                'account.invoice.line': (_get_invoice_line,
+                                        ['freight_value'], 20),
             }, multi='all'),
             'amount_costs': fields.function(
         _amount_all, method=True,
@@ -514,7 +516,6 @@ class account_invoice(osv.Model):
         return fcategory and fcategory[0] or False
 
     def _default_fiscal_document(self, cr, uid, context):
-
         invoice_fiscal_type = context.get('fiscal_type', 'product')
         fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
 
@@ -526,7 +527,6 @@ class account_invoice(osv.Model):
         return fiscal_document and fiscal_document[0] or False
 
     def _default_fiscal_document_serie(self, cr, uid, context):
-
         invoice_fiscal_type = context.get('fiscal_type', 'product')
         fiscal_document_serie = False
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
@@ -534,10 +534,10 @@ class account_invoice(osv.Model):
             cr, uid, user.company_id.id, context=context)
 
         if invoice_fiscal_type == 'product':
-            fiscal_document_series = [doc_serie for doc_serie in \
-                                     company.document_serie_product_ids if \
-                                     doc_serie.fiscal_document_id.id == \
-                                     company.product_invoice_id.id and \
+            fiscal_document_series = [doc_serie for doc_serie in
+                                     company.document_serie_product_ids if
+                                     doc_serie.fiscal_document_id.id ==
+                                     company.product_invoice_id.id and
                                      doc_serie.active]
             if fiscal_document_series:
                 fiscal_document_serie = fiscal_document_series[0].id
@@ -565,23 +565,24 @@ class account_invoice(osv.Model):
             if not invoice.number:
                 continue
             fiscal_document = invoice.fiscal_document_id and invoice.fiscal_document_id.id or False
-            domain.extend([('internal_number','=',invoice.number),
-                           ('fiscal_type','=',invoice.fiscal_type),
-                           ('fiscal_document_id','=',fiscal_document)
+            domain.extend([('internal_number', '=', invoice.number),
+                           ('fiscal_type', '=', invoice.fiscal_type),
+                           ('fiscal_document_id', '=', fiscal_document)
                            ])
             if invoice.own_invoice:
-                domain.extend([('company_id','=',invoice.company_id.id),
-                              ('internal_number','=',invoice.number),
-                              ('fiscal_document_id','=',invoice.fiscal_document_id.id),
-                              ('own_invoice','=',True)])
+                domain.extend([('company_id', '=', invoice.company_id.id),
+                              ('internal_number', '=', invoice.number),
+                              ('fiscal_document_id', '=', invoice.fiscal_document_id.id),
+                              ('own_invoice', '=', True)])
             else:
-                domain.extend([('partner_id','=',invoice.partner_id.id),
-                              ('vendor_serie','=',invoice.vendor_serie),
-                              ('own_invoice','=',False)])
+                domain.extend([('partner_id', '=', invoice.partner_id.id),
+                              ('vendor_serie', '=', invoice.vendor_serie),
+                              ('own_invoice', '=', False)])
 
-            invoice_id = self.pool.get('account.invoice').search(cr, uid, domain)
+            invoice_id = self.pool.get('account.invoice').search(
+                cr, uid, domain)
             if len(invoice_id) > 1:
-                    return False
+                return False
         return True
 
     _constraints = [
@@ -595,12 +596,18 @@ class account_invoice(osv.Model):
         # Remove a constraint na coluna número do documento fiscal,
         # no caso dos documentos de entradas dos fornecedores pode existir
         # documentos fiscais de fornecedores diferentes com a mesma numeração
-        cr.execute("ALTER TABLE %s DROP CONSTRAINT IF EXISTS %s" % ('account_invoice', 'account_invoice_number_uniq'))
+        cr.execute("ALTER TABLE %s DROP CONSTRAINT IF EXISTS %s" % (
+            'account_invoice', 'account_invoice_number_uniq'))
 
     # go from canceled state to draft state
     def action_cancel_draft(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state':'draft', 'internal_number':False, 'nfe_access_key':False,
-                                  'nfe_status':False, 'nfe_date':False, 'nfe_export_date':False})
+        self.write(cr, uid, ids, {
+            'state': 'draft',
+            'internal_number': False,
+            'nfe_access_key': False,
+            'nfe_status': False,
+            'nfe_date': False,
+            'nfe_export_date': False})
         wf_service = netsvc.LocalService("workflow")
         for inv_id in ids:
             wf_service.trg_delete(uid, 'account.invoice', inv_id, cr)
@@ -618,7 +625,8 @@ class account_invoice(osv.Model):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def action_internal_number(self, cr, uid, ids, context=None):
-        if context is None: context = {}
+        if context is None:
+            context = {}
 
         for inv in self.browse(cr, uid, ids):
             if inv.own_invoice:
@@ -693,18 +701,21 @@ class account_invoice(osv.Model):
         result = txt.validate(cr, uid, ids, context)
         return result
 
-    def _fiscal_position_map(self, cr, uid, ids, partner_id,
-                             partner_invoice_id, company_id,
-                             fiscal_category_id):
-        result = {'journal_id': False}
+    def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
 
-        if not fiscal_category_id:
+        if not context:
+            context = {'use_domain': ('use_invoice', '=', True)}
+        kwargs.update({'context': context})
+
+        if not kwargs.get('fiscal_category_id', False):
             return result
 
-        obj_company = self.pool.get('res.company').browse(cr, uid, company_id)
+        obj_company = self.pool.get('res.company').browse(
+            cr, uid, kwargs.get('company_id', False))
         obj_fcategory = self.pool.get('l10n_br_account.fiscal.category')
 
-        fcategory = obj_fcategory.browse(cr, uid, fiscal_category_id)
+        fcategory = obj_fcategory.browse(
+            cr, uid, kwargs.get('fiscal_category_id'))
         result['journal_id'] = fcategory.property_journal and \
         fcategory.property_journal.id or False
         if not result.get('journal_id', False):
@@ -713,14 +724,8 @@ class account_invoice(osv.Model):
                 _("Categoria fisca: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, obj_company.name))
 
-        obj_rule = self.pool.get('account.fiscal.position.rule')
-        fiscal_result = obj_rule.fiscal_position_map(
-            cr, uid, partner_id, partner_invoice_id, company_id,
-            fiscal_category_id, context={
-                'use_domain': ('use_invoice', '=',True)})
-
-        result.update(fiscal_result)
-        return result
+        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        return obj_fp_rule.apply_fiscal_mapping(cr, uid, result, kwargs)
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
                             date_invoice=False, payment_term=False,
@@ -731,16 +736,10 @@ class account_invoice(osv.Model):
             cr, uid, ids, type, partner_id, date_invoice, payment_term,
             partner_bank_id, company_id)
 
-        partner_obj = self.pool.get('res.partner')
-        partner_invoice_id = partner_obj.address_get(cr, uid,
-                                                     [partner_id],
-                                                     ['invoice'])['invoice']
-        fiscal_data = self._fiscal_position_map(cr, uid, ids, partner_id,
-                                                partner_invoice_id, company_id,
-                                                fiscal_category_id)
-
-        result['value'].update(fiscal_data)
-        return result
+        return self._fiscal_position_map(
+            cr, uid, result, False, partner_id=partner_id,
+            partner_invoice_id=partner_id, company_id=company_id,
+            fiscal_category_id=fiscal_category_id)
 
     def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type,
                             invoice_line, currency_id,
@@ -750,23 +749,20 @@ class account_invoice(osv.Model):
             cr, uid, ids, company_id, partner_id, type, invoice_line,
             currency_id)
 
-        fiscal_data = self._fiscal_position_map(
-            cr, uid, ids, partner_id, partner_id, company_id,
-            fiscal_category_id)
-
-        result['value'].update(fiscal_data)
-        return result
+        return self._fiscal_position_map(
+            cr, uid, result, False, partner_id=partner_id,
+            partner_invoice_id=partner_id, company_id=company_id,
+            fiscal_category_id=fiscal_category_id)
 
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     partner_address_id=False,
                                     partner_id=False, company_id=False,
                                     fiscal_category_id=False):
         result = {'value': {}}
-        fiscal_data = self._fiscal_position_map(
-            cr, uid, ids, partner_id, partner_address_id, company_id,
-            fiscal_category_id)
-
-        return result['value'].update(fiscal_data)
+        return self._fiscal_position_map(
+            cr, uid, result, False, partner_id=partner_id,
+            partner_invoice_id=partner_id, company_id=company_id,
+            fiscal_category_id=fiscal_category_id)
 
 
 class account_invoice_line(osv.Model):
@@ -876,7 +872,7 @@ class account_invoice_line(osv.Model):
     def _amount_tax_cofins(self, cr, uid, tax=False):
         result = {
             'cofins_base': tax.get('total_base', 0.0),
-            'cofins_base_other': tax.get('total_base_other', 0.0), #FIXME
+            'cofins_base_other': tax.get('total_base_other', 0.0),  # FIXME
             'cofins_value': tax.get('amount', 0.0),
             'cofins_percent': tax.get('percent', 0.0) * 100,
         }
@@ -972,7 +968,7 @@ class account_invoice_line(osv.Model):
                 'ii_value': 0.0,
             }
 
-            price = line.price_unit * (1-(line.discount or 0.0)/100.0)
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             taxes = tax_obj.compute_all(
                 cr, uid, line.invoice_line_tax_id, price, line.quantity,
                 line.product_id, line.invoice_id.partner_id,
@@ -1302,7 +1298,6 @@ class account_invoice_line(osv.Model):
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
                                     address_invoice_id, company_id, product_id,
                                     fiscal_category_id, account_id, context):
-        """NB: address_invoice_id param is left for possibl reuse from sale"""
 
         result = {'value': {}}
         fiscal_data = self._fiscal_position_map(
