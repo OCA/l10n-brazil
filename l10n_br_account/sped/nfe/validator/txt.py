@@ -17,7 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from osv import osv
 from tools.translate import _
 import pooler
 
@@ -32,7 +32,8 @@ def validate(cr, uid, ids, context=None):
     for inv in pool.get('account.invoice').browse(cr, uid, ids):
 
         #Nota fiscal
-        if not inv.own_invoice or inv.fiscal_type == 'service' or not inv.fiscal_document_electronic:
+        if not inv.own_invoice or inv.fiscal_type == 'service' or \
+        not inv.fiscal_document_electronic:
             continue
 
         if not inv.document_serie_id:
@@ -40,9 +41,6 @@ def validate(cr, uid, ids, context=None):
 
         if not inv.fiscal_document_id:
             strErro += u'Nota Fiscal - Tipo de documento fiscal\n'
-
-        #if not inv.date_invoice:
-        #    strErro = 'Nota Fiscal - Data da nota fiscal\n'
 
         if not inv.document_serie_id.internal_sequence_id:
             strErro += u'Nota Fiscal - Número da nota fiscal, a série deve ter uma sequencia interna\n'
