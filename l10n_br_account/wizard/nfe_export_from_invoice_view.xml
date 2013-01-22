@@ -11,6 +11,9 @@
 					<field name="name" invisible="1" />
 					<group>
 						<group states="init">
+							<h2>
+								<label string="Click em exportar para iniciar a exportação..."/>
+							</h2>
 							<field name="file_type" />
 							<field name="nfe_environment" />
 						</group>
