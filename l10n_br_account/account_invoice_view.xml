@@ -39,48 +39,27 @@
 					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
 				</field>
 				<field position="replace" name="number">
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
 				</field>
 				<field position="replace" name="company_id">
 					<field name="company_id"
 						on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)"
 						widget="selection" groups="base.group_multi_company" />
 				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form5">
-			<field name="name">l10n_br_account.invoice.form5</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
+				<field name="date_invoice" position="before">
+					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+					<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+				</field>
+				<button name="invoice_cancel" position="attributes">
+					<attribute name="states">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
+				</button>
 				<button name="invoice_open" position="replace">
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward" />
 					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward" />
 					<field invisible="True" name="fiscal_document_electronic" />
 				</button>
-			</field>
-		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form6">
-			<field name="name">l10n_br_account.invoice.form6</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				<button name="invoice_cancel" position="replace">
-					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancel" icon="gtk-cancel" />
-				</button>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form7">
-			<field name="name">l10n_br_account.invoice.form7</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				 <field position="after" name="partner_id">
-					<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
-				</field>  
 			</field>
 		</record>
 
@@ -127,20 +106,29 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_delivery_invoice_form11">
-			<field name="name">l10n_br_account.invoice.form11</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
-				<field position="replace" name="currency_id">
-					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
-				</field>
-			</field>
+
+		<record id="account.action_invoice_tree" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'product')]</field>
 		</record>
 
 		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
-			<field name="domain">[('type','=','out_invoice'),('fiscal_type','=','product')]</field>
+			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'product')]</field>
+		</record>
+
+		<record id="account.action_invoice_tree2" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'in_invoice'), ('fiscal_type', '=', 'product')]</field>
+		</record>
+
+		<record id="account.action_invoice_tree3" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'out_refund'), ('fiscal_type', '=', 'product')]</field>
+		</record>
+
+		<record id="account.action_invoice_tree4" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'in_refund'), ('fiscal_type', '=', 'product')]</field>
+		</record>
+
+		<record id="account.action_invoice_tree_pending_invoice" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'product')]</field>
 		</record>
 
 		<record id="action_invoice_tree_service_out" model="ir.actions.act_window">
