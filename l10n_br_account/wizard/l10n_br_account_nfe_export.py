@@ -84,4 +84,12 @@ class l10n_br_account_nfe_export(osv.TransientModel):
                     'name': name},
                    context=context)
 
-        return False
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'l10n_br_account.nfe_export',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': data['id'],
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
