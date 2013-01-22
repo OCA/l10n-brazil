@@ -107,7 +107,7 @@ def validate(cr, uid, ids, context=None):
         if not inv.partner_id.number:
             strErro += u'Destinatário / Endereço - Número\n'
 
-        if inv.parnter_id.country_id.id == inv.company_id.partner_id.country_id.id:
+        if inv.partner_id.country_id.id == inv.company_id.partner_id.country_id.id:
             if not inv.partner_id.zip:
                 strErro += u'Destinatário / Endereço - CEP\n'
 
