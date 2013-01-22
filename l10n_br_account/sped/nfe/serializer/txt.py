@@ -99,7 +99,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
         StrFile += StrC
 
-        if inv.company_id.partner_id.tipo_pessoa == 'J':
+        if inv.company_id.partner_id.is_company:
             StrC02 = 'C02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
         else:
             StrC02 = 'C02a|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or ''))
@@ -136,10 +136,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         UFEmbarq = ''
         XLocEmbarq = ''
         partner_cep = ''
-        if inv.parnter_id.country_id.bc_code:
+        if inv.partner_id.country_id.bc_code:
             partner_bc_code = inv.partner_id.country_id.bc_code[1:]
 
-        if inv.parnter_id.country_id.id != company_addr_default.country_id.id:
+        if inv.partner_id.country_id.id != company_addr_default.country_id.id:
             address_invoice_state_code = 'EX'
             address_invoice_city = 'Exterior'
             UFEmbarq = company_addr_default.state_id.code
@@ -167,7 +167,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
         StrFile += StrE
 
-        if inv.partner_id.tipo_pessoa == 'J':
+        if inv.partner_id.is_company:
             StrE0 = 'E02|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
         else:
             StrE0 = 'E03|%s|\n' % (re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or ''))
@@ -175,17 +175,17 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         StrFile += StrE0
 
         StrRegE05 = {
-                   'xLgr': normalize('NFKD',unicode(inv.parnter_id.street or '')).encode('ASCII','ignore'),
-                   'nro': normalize('NFKD',unicode(inv.parnter_id.number or '')).encode('ASCII','ignore'),
-                   'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.parnter_id.street2 or '' )).encode('ASCII','ignore')),
-                   'xBairro': normalize('NFKD',unicode(inv.parnter_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
-                   'cMun': ('%s%s') % (inv.parnter_id.state_id.ibge_code, inv.parnter_id.l10n_br_city_id.ibge_code),
+                   'xLgr': normalize('NFKD',unicode(inv.partner_id.street or '')).encode('ASCII','ignore'),
+                   'nro': normalize('NFKD',unicode(inv.partner_id.number or '')).encode('ASCII','ignore'),
+                   'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_id.street2 or '' )).encode('ASCII','ignore')),
+                   'xBairro': normalize('NFKD',unicode(inv.partner_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
+                   'cMun': ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code),
                    'xMun': address_invoice_city,
                    'UF': address_invoice_state_code,
                    'CEP': partner_cep,
                    'cPais': partner_bc_code,
-                   'xPais': normalize('NFKD',unicode(inv.parnter_id.country_id.name or '')).encode('ASCII','ignore'),
-                   'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.parnter_id.phone or '').replace(' ','')),
+                   'xPais': normalize('NFKD',unicode(inv.partner_id.country_id.name or '')).encode('ASCII','ignore'),
+                   'fone': re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.phone or '').replace(' ','')),
                    }
 
         StrE05 = 'E05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegE05['xLgr'], StrRegE05['nro'], StrRegE05['xCpl'], StrRegE05['xBairro'],
@@ -196,7 +196,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
         if inv.partner_shipping_id:
 
-            if inv.parnter_id.id != inv.partner_shipping_id.id:
+            if inv.partner_id.id != inv.partner_shipping_id.id:
 
                 StrRegG = {
                            'XLgr': normalize('NFKD',unicode(inv.partner_shipping_id.street or '',)).encode('ASCII','ignore'),
@@ -654,7 +654,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                 if carrier_addr_default.l10n_br_city_id:
                     StrRegX03['XMun'] = normalize('NFKD', unicode(carrier_addr_default.l10n_br_city_id.name or '')).encode('ASCII', 'ignore')
 
-                if inv.carrier_id.partner_id.tipo_pessoa == 'J':
+                if inv.carrier_id.partner_id.is_company:
                     StrX0 = 'X04|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
                 else:
                     StrX0 = 'X05|%s|\n' %  (re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or ''))
