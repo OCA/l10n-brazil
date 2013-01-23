@@ -1,86 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	
+
 		<record id="l10n_br_sale_view_shop_form" model="ir.ui.view">
 			<field name="name">l10n_br_sale.sale.shop.form</field>
-	   		<field name="model">sale.shop</field>
-	   		<field name="inherit_id" ref="sale.view_shop_form"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-	        	<field name="project_id" position="after">
-					<field name="default_fc_id" required="1"/>
-	        	</field>
-	        </field>
+			<field name="model">sale.shop</field>
+			<field name="inherit_id" ref="sale.view_shop_form" />
+			<field name="priority">36</field>
+			<field name="arch" type="xml">
+				<field name="project_id" position="after">
+					<field name="default_fc_id" required="1" />
+				</field>
+			</field>
 		</record>
 
 		<record id="l10n_br_sale_order_form" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form</field>
-	   		<field name="model">sale.order</field>
-	   		<field name="inherit_id" ref="sale.view_order_form"/>
-	   		<field name="priority">36</field>
-	   		<field name="arch" type="xml">
-	        	<field name="fiscal_position" position="replace">
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id, context)" required="1"/>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="priority">36</field>
+			<field name="arch" type="xml">
+				<field name="fiscal_position" position="replace">
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id, context)" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
-	        	</field>
-<!-- Form -->
-               <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="after">
-                   <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
-               </xpath>
-
-               <xpath expr="//field[@name='order_line']/form/group/group/field[@name='tax_id']" position="before">
-                   <field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
-               </xpath>
-
-<!-- Tree -->
-	        	<xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
-		            	<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
-			   			<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" groups="base.group_sale_salesman" required="1"/>
-			   	</xpath>
-
-			   	<xpath expr="//group/div/field[@name='product_uos']" position="replace">
-		            	<field groups="product.group_uos" name="product_uos" nolabel="1"/><!-- FIXME required? -->
-			   	</xpath>
-
-               <xpath expr="//group/field[@name='product_id']" position="replace">
-                   <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'shop':parent.shop_id, 'uom':product_uom}"
-                          name="product_id"
-                          on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)" />
-               </xpath>
-
-            </field>
+				</field>
+				<xpath expr="//field[@name='product_id']" position="attributes">
+					<attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_packaging']" position="before">
+						<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
+						<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" required="1" />
+				</xpath>
+			</field>
 		</record>
 
-        <record id="view_order_form1" model="ir.ui.view">
-            <field name="name">account_fiscal_postion_rule_form_view_order_form1</field>
-               <field name="model">sale.order</field>
-               <field name="inherit_id" ref="account_fiscal_position_rule_sale.view_order_form1"/>
-               <field name="priority">26</field>
-               <field name="arch" type="xml">
-                <field name="shop_id" position="attributes">
-                    <attribute name="on_change">
-                        onchange_shop_id(shop_id, context, partner_id, partner_invoice_id, partner_shipping_id, fiscal_category_id)
-                    </attribute>
-                </field>
-                <field name="partner_invoice_id" position="attributes">
-                    <attribute name="on_change">
-                        onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)
-                    </attribute>
-                </field>
-                <field name="partner_shipping_id" position="attributes">
-                    <attribute name="on_change">
-                        onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)
-                    </attribute>
-                </field>
-                <field name="partner_id" position="attributes">
-                    <attribute name="on_change">
-                        onchange_partner_id(partner_id, context, shop_id, fiscal_category_id)
-                    </attribute>
-                </field>
-            </field>
-        </record>
+		<record id="view_order_form1" model="ir.ui.view">
+			<field name="name">account_fiscal_postion_rule_form_view_order_form1
+			</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id"
+				ref="account_fiscal_position_rule_sale.view_order_form1" />
+			<field name="priority">26</field>
+			<field name="arch" type="xml">
+				<field name="shop_id" position="attributes">
+					<attribute name="on_change">
+						onchange_shop_id(shop_id, context,
+						partner_id, partner_invoice_id, partner_shipping_id,
+						fiscal_category_id)
+					</attribute>
+				</field>
+				<field name="partner_invoice_id" position="attributes">
+					<attribute name="on_change">
+						onchange_address_id(partner_invoice_id,
+						partner_shipping_id, partner_id, shop_id, context,
+						fiscal_category_id)
+					</attribute>
+				</field>
+				<field name="partner_shipping_id" position="attributes">
+					<attribute name="on_change">
+						onchange_address_id(partner_invoice_id,
+						partner_shipping_id, partner_id, shop_id, context,
+						fiscal_category_id)
+					</attribute>
+				</field>
+				<field name="partner_id" position="attributes">
+					<attribute name="on_change">
+						onchange_partner_id(partner_id, context,
+						shop_id, fiscal_category_id)
+					</attribute>
+				</field>
+			</field>
+		</record>
 
-    </data>
+	</data>
 </openerp>
 
