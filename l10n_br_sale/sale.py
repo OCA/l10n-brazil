@@ -59,7 +59,7 @@ class sale_order(osv.Model):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria',
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
             readonly=True, states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
@@ -262,7 +262,7 @@ class sale_order_line(osv.Model):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria',
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
             readonly=True, states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
