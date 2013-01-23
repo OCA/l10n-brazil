@@ -52,14 +52,16 @@
 					<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
 				</field>
 				<button name="invoice_cancel" position="attributes">
-					<attribute name="states">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
+					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
 				</button>
 				<button name="invoice_open" position="replace">
-					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward" />
-					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward" />
-					<field invisible="True" name="fiscal_document_electronic" />
+					<button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" class="oe_highlight" />
+					<field invisible="1" name="fiscal_document_electronic" />
 				</button>
-
+				<xpath expr="//tree[@string='Invoice Lines']" position="attributes">
+					<attribute name="editable"></attribute>
+				</xpath>
 			</field>
 		</record>
 
