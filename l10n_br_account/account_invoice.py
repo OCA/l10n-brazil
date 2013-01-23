@@ -82,7 +82,8 @@ class account_invoice(osv.Model):
             context = {}
         return context.get('fiscal_type', 'product')
 
-    def fields_view_get2(self, cr, uid, view_id=None, view_type=False,
+    # TODO - Melhorar esse método!
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(account_invoice, self).fields_view_get(
             cr, uid, view_id=view_id, view_type=view_type, context=context,
@@ -91,26 +92,20 @@ class account_invoice(osv.Model):
         if context is None:
             context = {}
 
-        field_names = ['service_type_id']
-        result['fields'].update(self.fields_get(cr, uid, field_names, context))
-
         if not view_type:
             view_id = self.pool.get('ir.ui.view').search(
                 cr, uid, [('name', '=', 'account.invoice.tree')])
             view_type = 'tree'
 
         if view_type == 'form':
-
             eview = etree.fromstring(result['arch'])
 
             if 'type' in context.keys():
-
                 OPERATION_TYPE = {'out_invoice': 'output',
                                   'in_invoice': 'input',
                                   'out_refund': 'input',
                                   'in_refund': 'output'
                 }
-
                 JOURNAL_TYPE = {'out_invoice': 'sale',
                                 'in_invoice': 'purchase',
                                 'out_refund': 'sale_refund',
@@ -209,9 +204,9 @@ class account_invoice(osv.Model):
             ('draft', 'Draft'),
             ('proforma', 'Pro-forma'),
             ('proforma2', 'Pro-forma'),
-            ('open', 'Open'),
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', 'Erro de autorização da Receita'),
+            ('open', 'Open'),
             ('paid', 'Paid'),
             ('cancel', 'Cancelled')
             ], 'State', select=True, readonly=True,
@@ -274,9 +269,6 @@ class account_invoice(osv.Model):
         'cfop_ids': fields.function(
             _get_cfops, method=True, type='many2many',
             relation='l10n_br_account.cfop', string='CFOP'),
-        'service_type_id': fields.many2one(
-            'l10n_br_account.service.type', 'Tipo de Serviço', readonly=True,
-            states={'draft': [('readonly', False)]}),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -716,9 +708,10 @@ class account_invoice(osv.Model):
 
         fcategory = obj_fcategory.browse(
             cr, uid, kwargs.get('fiscal_category_id'))
-        result['journal_id'] = fcategory.property_journal and \
+        result['value']['journal_id'] = fcategory.property_journal and \
         fcategory.property_journal.id or False
-        if not result.get('journal_id', False):
+        print result
+        if not result['value'].get('journal_id', False):
             raise osv.except_osv(
                 _('Nenhuma Diário !'),
                 _("Categoria fisca: '%s', não tem um diário contábil para a \
@@ -768,7 +761,7 @@ class account_invoice(osv.Model):
 class account_invoice_line(osv.Model):
     _inherit = 'account.invoice.line'
 
-    def fields_view_get2(self, cr, uid, view_id=None, view_type=False,
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
 
         result = super(account_invoice_line, self).fields_view_get(
@@ -779,7 +772,6 @@ class account_invoice_line(osv.Model):
             context = {}
 
         if view_type == 'form':
-
             eview = etree.fromstring(result['arch'])
 
             if 'type' in context.keys():
@@ -789,7 +781,6 @@ class account_invoice_line(osv.Model):
                                   'out_refund': 'input',
                                   'in_refund': 'output'
                 }
-
                 JOURNAL_TYPE = {'out_invoice': 'sale',
                                 'in_invoice': 'purchase',
                                 'out_refund': 'sale_refund',
@@ -825,15 +816,15 @@ class account_invoice_line(osv.Model):
 
             result['arch'] = etree.tostring(eview)
 
-        if view_type == 'tree':
-            doc = etree.XML(result['arch'])
-            nodes = doc.xpath("//field[@name='partner_id']")
-            partner_string = _('Customer')
-            if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
-                partner_string = _('Supplier')
-            for node in nodes:
-                node.set('string', partner_string)
-            result['arch'] = etree.tostring(doc)
+        #if view_type == 'tree':
+        #    doc = etree.XML(result['arch'])
+        #    nodes = doc.xpath("//field[@name='partner_id']")
+        #    partner_string = _('Customer')
+        #    if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
+        #        partner_string = _('Supplier')
+        #    for node in nodes:
+        #        node.set('string', partner_string)
+        #    result['arch'] = etree.tostring(doc)
 
         return result
 
