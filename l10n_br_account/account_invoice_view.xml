@@ -62,6 +62,15 @@
 				<xpath expr="//tree[@string='Invoice Lines']" position="attributes">
 					<attribute name="editable"></attribute>
 				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
+					<field name="cfop_id" />
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
+					<field name="price_total" />
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
 			</field>
 		</record>
 
@@ -359,7 +368,6 @@
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
 			<field name="arch" type="xml">
-				<form position="replace" string="Invoice Line">
 				 	<form position="replace" string="Invoice Line">
 				 	<form string="Invoice Line" version="7.0">
 				 	<notebook>
@@ -374,6 +382,9 @@
                             </div>
                             <field name="price_unit"/>
                             <field name="discount" groups="sale.group_discount_per_so_line"/>
+			    <field name="freight_value"/>
+			    <field name="insurance_value"/>
+			    <field name="other_costs_value"/>
                         </group>
                         <group>
 				<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]" on_change="onchange_fiscal_category_id(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
@@ -491,7 +502,6 @@
 						</notebook>
                 	</form>
 				</form>
-				</form>
 			</field>
 		</record>
 
@@ -501,6 +511,9 @@
 			<field name="inherit_id" ref="account.view_invoice_line_tree" />
 			<field name="priority">26</field>
 			<field name="arch" type="xml">
+				<field name="account_id" position="replace">
+					<field name="cfop_id" />
+				</field>
 				<field position="replace" name="price_subtotal">
 					<field name="price_total" />
 				</field>
