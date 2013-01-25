@@ -241,7 +241,6 @@ class account_fiscal_position(osv.Model):
         result = []
         if not context:
             context = {}
-
         if fposition_id and fposition_id.company_id and \
         context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
