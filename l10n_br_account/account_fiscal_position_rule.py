@@ -57,77 +57,43 @@ class account_fiscal_position_rule(osv.Model):
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
 
-    def fiscal_position_map(self, cr, uid, partner_id=False,
-        partner_invoice_id=False, company_id=False, fiscal_category_id=False,
-        context=None, **kwargs):
+    def _map_domain(self, cr, uid, partner, addrs, company,
+                    context=None, **kwargs):
+        if context is None:
+            context = {}
 
-        # Initiate variable result
-        result = {'fiscal_position': False}
-
-        if not partner_id or not company_id or not fiscal_category_id:
-            return result
-
-        obj_partner = self.pool.get("res.partner").browse(cr, uid, partner_id)
-        obj_company = self.pool.get("res.company").browse(cr, uid, company_id)
-
-        # Case 1: If Partner has a specific Fiscal Position
-        if obj_partner.property_account_position.id:
-            result['fiscal_position'] = obj_partner.property_account_position.id
-            return result
-
-        # Case 2: Search fiscal position using Account Fiscal Position Rule
-        company_addr = self.pool.get('res.partner').address_get(
-            cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner').browse(
-            cr, uid, [company_addr.get(
-                'invoice', company_addr.get('default'))])[0]
-
-        from_country = company_addr_default.country_id.id
-        from_state = company_addr_default.state_id.id
-
-        # FIXME - Este comando if repete o browse que poderia ser melhorado
-        if not partner_invoice_id:
-            # FIXME: check if it has been migrated to v7 properly!
-            partner_addr_default = obj_partner
-        else:
-            partner_addr_default = self.pool.get('res.partner').browse(
-                cr, uid, partner_invoice_id)
-
-        to_invoice_country = partner_addr_default.id and \
-            partner_addr_default.country_id.id or False
-        to_invoice_state = partner_addr_default.id and \
-        partner_addr_default.state_id.id or False
+        from_country = company.partner_id.country_id.id
+        from_state = company.partner_id.state_id.id
 
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
-
         use_domain = context.get('use_domain', ('use_sale', '=', True))
 
-        domain = [
-            '&', ('company_id', '=', company_id),
-            ('fiscal_category_id', '=', fiscal_category_id),
-            use_domain,
-            ('fiscal_type', '=', obj_company.fiscal_type),
-            '|', ('from_country', '=', from_country),
-            ('from_country', '=', False),
-            '|', ('to_invoice_country', '=', to_invoice_country), ('to_invoice_country', '=', False),
-            '|', ('from_state', '=', from_state), ('from_state', '=', False),
-            '|', ('to_invoice_state','=', to_invoice_state), ('to_invoice_state', '=', False),
-            '|', ('date_start', '=', False),
-            ('date_start', '<=', document_date),
-            '|', ('date_end', '=', False), ('date_end', '>=', document_date),
-            '|', ('revenue_start', '=', False),
-            ('revenue_start', '<=', obj_company.annual_revenue),
-            '|', ('revenue_end', '=', False),
-            ('revenue_end', '>=', obj_company.annual_revenue)]
+        domain = ['&', ('company_id', '=', company.id), use_domain,
+                ('fiscal_type', '=', company.fiscal_type),
+                ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
+                '|', ('from_country', '=', from_country),
+                ('from_country', '=', False),
+                '|', ('from_state', '=', from_state),
+                ('from_state', '=', False),
+                '|', ('date_start', '=', False),
+                ('date_start', '<=', document_date),
+                '|', ('date_end', '=', False),
+                ('date_end', '>=', document_date),
+                '|', ('revenue_start', '=', False),
+                ('revenue_start', '<=', company.annual_revenue),
+                '|', ('revenue_end', '=', False),
+                ('revenue_end', '>=', company.annual_revenue)
+                ]
 
-        fsc_pos_id = self.search(cr, uid, domain)
+        for address_type, address in addrs.items():
+            key_country = 'to_%s_country' % address_type
+            key_state = 'to_%s_state' % address_type
+            to_country = address.country_id.id or False
+            domain += ['|', (key_country, '=', to_country), (key_country, '=', False)]
+            to_state = address.state_id.id or False
+            domain += ['|', (key_state, '=', to_state), (key_state, '=', False)]
 
-        if fsc_pos_id:
-            obj_fpo_rule = self.pool.get(
-                'account.fiscal.position.rule').browse(cr, uid, fsc_pos_id)[0]
-            result['fiscal_position'] = obj_fpo_rule.fiscal_position_id.id
-
-        return result
+        return domain
 
     def product_fiscal_category_map(self, cr, uid, product_id=False,
                                         fiscal_category_id=False):
@@ -138,8 +104,10 @@ class account_fiscal_position_rule(osv.Model):
 
         product_tmpl_id = self.pool.get('product.product').read(
             cr, uid, product_id, ['product_tmpl_id'])['product_tmpl_id'][0]
-        default_product_fiscal_category = self.pool.get('l10n_br_account.product.category').search(cr, uid, [('product_tmpl_id', '=', product_tmpl_id),
-                                                                                                             ('fiscal_category_source_id', '=', fiscal_category_id)])
+        default_product_fiscal_category = self.pool.get(
+            'l10n_br_account.product.category').search(
+                cr, uid, [('product_tmpl_id', '=', product_tmpl_id),
+                ('fiscal_category_source_id', '=', fiscal_category_id)])
         if default_product_fiscal_category:
             fiscal_category_destination_id = self.pool.get(
                 'l10n_br_account.product.category').read(cr, uid, default_product_fiscal_category,
