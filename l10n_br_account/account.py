@@ -131,7 +131,8 @@ class account_tax(osv.Model):
         else:
             total_base = result['total']
 
-        result_icms = self._compute_tax(cr, uid, specific_icms, total_base, product, quantity, precision)
+        result_icms = self._compute_tax(cr, uid, specific_icms, total_base,
+                                        product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -156,7 +157,7 @@ class account_tax(osv.Model):
             result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
 
             if result_icmsst['taxes'][0]['amount_mva']:
-                calculed_taxes +=result_icmsst['taxes']
+                calculed_taxes += result_icmsst['taxes']
 
         return {
             'total': result['total'],
