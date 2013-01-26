@@ -20,7 +20,7 @@
 from osv import osv, fields
 
 
-class res_company(osv.osv):
+class res_company(osv.Model):
     _inherit = 'res.company'
     _columns = {
                 'purchase_fiscal_category_id': fields.many2one(
@@ -28,5 +28,3 @@ class res_company(osv.osv):
                     'Categoria Fiscal Padrão Compras',
                     domain="[('journal_type', '=', 'purchase')]"),
     }
-
-res_company()
