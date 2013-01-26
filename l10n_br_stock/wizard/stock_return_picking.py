@@ -21,7 +21,7 @@ from osv import osv
 from tools.translate import _
 
 
-class stock_return_picking(osv.osv_memory):
+class stock_return_picking(osv.TransientModel):
     _inherit = 'stock.return.picking'
 
     def create_returns(self, cr, uid, ids, context=None):
@@ -55,7 +55,8 @@ class stock_return_picking(osv.osv_memory):
                 'fiscal_category_id': False,
                 'fiscal_position': False}
 
-            fc_return_id = pick.fiscal_category_id.refund_fiscal_category_id and pick.fiscal_category_id.refund_fiscal_category_id.id
+            fc_return_id = pick.fiscal_category_id.refund_fiscal_category_id \
+            and pick.fiscal_category_id.refund_fiscal_category_id.id
 
             if not fc_return_id:
                 raise osv.except_osv(
@@ -93,7 +94,7 @@ class stock_return_picking(osv.osv_memory):
                           ('partner_fiscal_type_id', '=', partner_fiscal_type)])
 
             vals['fiscal_category_id'] = fc_return_id
-            
+
             if fp_id:
                 obj_fp_rule = self.pool.get('account.fiscal.position.rule').browse(cr, uid, fp_id)[0]
                 vals['fiscal_position'] = obj_fp_rule.fiscal_position_id.id
@@ -101,5 +102,3 @@ class stock_return_picking(osv.osv_memory):
             pick_obj.write(cr, uid, pick.id, vals)
 
         return result
-
-stock_return_picking()

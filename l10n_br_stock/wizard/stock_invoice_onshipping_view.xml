@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    
+
 		<record model="ir.ui.view" id="view_l10n_br_stock_invoice_onshipping">
 			<field name="name">L10n_br_Stock Invoice Onshipping</field>
 			<field name="model">stock.invoice.onshipping</field>
@@ -13,7 +13,7 @@
 					<field name="journal_id" attrs="{'required': [('fiscal_category_journal', '=', False)], 'readonly': [('fiscal_category_journal', '=', True)]}" />
 	        	</field>
 			</field>
-		</record>		
+		</record>
 
     </data>
 </openerp>
