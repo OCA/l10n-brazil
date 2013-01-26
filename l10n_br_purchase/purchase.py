@@ -23,7 +23,7 @@ from tools.translate import _
 import decimal_precision as dp
 
 
-class purchase_order(osv.osv):
+class purchase_order(osv.Model):
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -43,7 +43,7 @@ class purchase_order(osv.osv):
                     cr, uid, line.taxes_id, line.price_unit, line.product_qty,
                     order.partner_address_id.id, line.product_id.id,
                     order.partner_id)['taxes']:
-                    
+
                     tax_brw = self.pool.get('account.tax').browse(cr, uid, c['id'])
                     if not tax_brw.tax_code_id.tax_discount:
                         val += c.get('amount', 0.0)
@@ -91,7 +91,7 @@ class purchase_order(osv.osv):
     def _fiscal_position_map(self, cr, uid, ids, partner_id,
                              partner_invoice_id, company_id,
                              fiscal_category_id):
-        
+
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         result = obj_fp_rule.fiscal_position_map(
             cr, uid, partner_id, partner_invoice_id, company_id,
@@ -137,25 +137,25 @@ class purchase_order(osv.osv):
         return result
 
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
-        
+
         result = super(purchase_order, self)._prepare_inv_line(
             cr, uid, account_id, order_line, context)
-        
+
         order = order_line.order_id
-        
+
         result['fiscal_category_id'] = order_line.fiscal_category_id and \
         order_line.fiscal_category_id.id or order.fiscal_category_id and \
         order.fiscal_category_id.id
-        
+
         result['fiscal_position'] = order_line.fiscal_position and \
         order_line.fiscal_position.id or order.fiscal_position and \
         order.fiscal_position.id
-        
+
         result['cfop_id'] = order.fiscal_position and \
         order.fiscal_position.cfop_id and order.fiscal_position.cfop_id.id or \
         order.fiscal_position and order.fiscal_position.cfop_id and \
         order.fiscal_position.cfop_id.id
-        
+
         return result
 
     # TODO ask OpenERP SA for a _prepare_invoice method!
@@ -172,10 +172,10 @@ class purchase_order(osv.osv):
                         _('No fiscal document serie found!'),
                         _("No fiscal document serie found for selected \
                         company %s") % (order.company_id.name))
-                
+
                 journal_id = order.fiscal_category_id and \
                 order.fiscal_category_id.property_journal.id or False
-                
+
                 if not journal_id:
                     raise osv.except_osv(
                         _(u'Nenhuma Diário!'),
@@ -204,15 +204,13 @@ class purchase_order(osv.osv):
             picking_id = super(purchase_order, self).action_picking_create(
                 cr, uid, ids, *args)
             self.pool.get('stock.picking').write(
-                cr, uid, picking_id, 
+                cr, uid, picking_id,
                 {'fiscal_category_id': order.fiscal_category_id.id,
                  'fiscal_position': order.fiscal_position.id})
         return picking_id
 
-purchase_order()
 
-
-class purchase_order_line(osv.osv):
+class purchase_order_line(osv.Model):
     _inherit = 'purchase.order.line'
     _columns = {
         'fiscal_category_id': fields.many2one(
@@ -226,7 +224,7 @@ class purchase_order_line(osv.osv):
     def _fiscal_position_map(self, cr, uid, partner_id, partner_address_id,
                              company_id, fiscal_category_id, product_id=False,
                              context=None):
-        
+
         if context is None: context = {}
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         fiscal_result = obj_fp_rule.fiscal_position_map(
@@ -260,7 +258,7 @@ class purchase_order_line(osv.osv):
                 cr, uid, product_id)
             context.update({'fiscal_type': obj_product.fiscal_type,
                             'type_tax_use': 'purchase'})
-        
+
         result = super(purchase_order_line, self).product_id_change(
             cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
@@ -268,7 +266,7 @@ class purchase_order_line(osv.osv):
 
         if not product_id or not fiscal_category_id:
             return result
-        
+
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
             cr, uid, product_id, fiscal_category_id)
@@ -299,8 +297,8 @@ class purchase_order_line(osv.osv):
             context={'use_domain': ('use_purchase', '=', True)})
 
         result['value'].update(fiscal_result)
-        return result    
-    
+        return result
+
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
                                  partner_address_id=False, product_id=False,
                                  fiscal_position=False,
@@ -314,8 +312,6 @@ class purchase_order_line(osv.osv):
             cr, uid, partner_id, partner_address_id, company_id,
             fiscal_category_id, product_id,
             context={'use_domain': ('use_purchase', '=', True)})
-        
+
         result['value'].update(fiscal_result)
         return result
-
-purchase_order_line()
