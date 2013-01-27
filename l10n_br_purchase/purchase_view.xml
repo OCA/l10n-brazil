@@ -3,37 +3,32 @@
 
 	<data>
 
-		<record model="ir.ui.view" id="view_l10n_br_order_form">
-			<field name="name">l10n_br_purchase.order.form</field>
-			<field name="model">purchase.order</field>
-			<field name="inherit_id" ref="purchase.purchase_order_form"/>
-			<field name="arch" type="xml">
-				<field name="fiscal_position" position="replace" >
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_address_id, company_id, fiscal_category_id)" required="1"/>
-					<field domain="[('fiscal_category_id','=',fiscal_category_id)]" name="fiscal_position" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_order_form1">
+		<record model="ir.ui.view" id="l10n_br_purchase_order_form1">
 			<field name="name">l10n_br_purchase.order.form1</field>
 			<field name="model">purchase.order</field>
-			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form1"/>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="priority">36</field>
 			<field name="arch" type="xml">
-				<field name="partner_id" position="replace" >
-                	<field name="partner_id" on_change="onchange_partner_id(partner_id, partner_address_id, company_id, fiscal_category_id)" context="{'search_default_supplier': 1}"/>
+				<field name="fiscal_position" position="replace" >
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)" required="1"/>
+					<field domain="[('fiscal_category_id', '=', fiscal_category_id)]" name="fiscal_position" />
 				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_order_form2">
-			<field name="name">l10n_br_purchase.order.form2</field>
-			<field name="model">purchase.order</field>
-			<field name="inherit_id" ref="account_fiscal_position_rule_purchase.view_account_fiscal_position_rule_purchase_order_form2"/>
-			<field name="arch" type="xml">
-				<field name="partner_address_id" position="replace" >
-	               <field name="partner_address_id" on_change="onchange_partner_address_id(partner_id, partner_address_id, company_id, fiscal_category_id)"/>
-				</field>
+				<field name="partner_id" position="attributes" >
+                            <attribute name="on_change">onchange_partner_id(partner_id, company_id, context, fiscal_category_id)</attribute>
+                </field>
+                <field name="dest_address_id" position="attributes" >
+                           <attribute name="on_change">onchange_dest_address_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)</attribute>
+                </field>
+                <field name="company_id" position="attributes" >
+                           <attribute name="on_change">onchange_company_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)</attribute>
+                </field>
+				<xpath expr="//tree[@string='Purchase Order Lines']" position="attributes">
+					<attribute name="editable"></attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="replace">
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="replace">
+				</xpath>
 			</field>
 		</record>
 		
@@ -42,20 +37,12 @@
 			<field name="model">purchase.order.line</field>
 			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
 			<field name="arch" type="xml">
-				<field name="product_id" position="replace" >
-	               <field name="product_id" colspan="4" context="{'partner_id': parent.partner_id, 'quantity': product_qty, 'pricelist': parent.pricelist_id, 'uom': product_uom, 'warehouse': parent.warehouse_id}" on_change="product_id_change(parent.pricelist_id, product_id, product_qty, product_uom, parent.partner_id, parent.date_order, parent.fiscal_position, date_planned, name, price_unit, notes, context, parent.fiscal_category_id, parent.partner_address_id, parent.company_id)"/>
+				<field name="taxes_id" position="before" >
+	               <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.dest_address_id, product_id, fiscal_category_id, parent.company_id, context)" required="1" />
+	               <field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.dest_address_id, product_id, fiscal_position, fiscal_category_id, parent.company_id, context)" required="1" />
 				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="l10n_br_purchase_order_line_form2">
-			<field name="name">l10n_br_purchase.order.line.form2</field>
-			<field name="model">purchase.order.line</field>
-			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
-			<field name="arch" type="xml">
-				<field name="name" position="after" >
-	               <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_address_id, product_id, fiscal_category_id, company_id)" required="1" />
-	               <field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_address_id, product_id, fiscal_position, fiscal_category_id, company_id)" required="1" />
+				<field name="product_id" position="attributes" >
+	               <attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_qty, product_uom, parent.partner_id, parent.date_order, fiscal_position, date_planned, name, price_unit, context, parent.company_id, parent.fiscal_position, parent.fiscal_category_id)</attribute>
 				</field>
 			</field>
 		</record>
