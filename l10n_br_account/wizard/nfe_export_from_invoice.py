@@ -59,7 +59,7 @@ class nfe_export_from_invoice(osv.TransientModel):
             if inv.state not in ('sefaz_export'):
                 err_msg += u"O Documento Fiscal %s não esta definida para ser \
                 exportação para a SEFAZ.\n" % inv.internal_number
-            elif not inv.own_invoice:
+            elif not inv.issuer == '0':
                 err_msg += u"O Documento Fiscal %s é do tipo externa e não \
                 pode ser exportada para a receita.\n" % inv.internal_number
             else:
