@@ -60,7 +60,7 @@ class l10n_br_account_nfe_export(osv.TransientModel):
             [('state', '=', 'sefaz_export'),
              ('nfe_export_date', '=', False),
              ('company_id', '=', data['company_id'][0]),
-             ('own_invoice', '=', True)])
+             ('issuer', '=', '0')])
 
         if not inv_ids:
             raise osv.except_osv(_('Error !'), _("'%s'") %
