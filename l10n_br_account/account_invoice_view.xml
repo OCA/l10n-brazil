@@ -40,10 +40,8 @@
 				</field>
 				<field position="replace" name="number">
 				</field>
-				<field position="replace" name="company_id">
-					<field name="company_id"
-						on_change="onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)"
-						widget="selection" groups="base.group_multi_company" />
+				<field position="attributes" name="company_id">
+					<attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
 				</field>
 				<field name="date_invoice" position="before">
 					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
@@ -216,34 +214,72 @@
 		</record>
 
 		<!-- Vendor Invoice views -->
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form">
+		<record model="ir.ui.view" id="l10n_br_account_invoice_supplier_form">
 			<field name="name">l10n_br_account.invoice.supplier.form</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+				<page string="Payments" position="before">
+					<page string="Vencimentos">
+						<field colspan="4" nolabel="1" name="move_line_receivable_id" />
+					</page>
+				</page>
+				<field position="attributes" name="journal_id">
+					<attribute name="on_change">onchange_journal_id(journal_id, context)</attribute>
+				</field>
+				<field name="partner_id" position="attributes">
+					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
+				</field>
+				<field position="replace" name="number">
+				</field>
+				<field position="attributes" name="company_id">
+					<attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
+				</field>
+				<field name="date_invoice" position="before">
+					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+					<field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+				</field>
+				<field position="replace" name="fiscal_position">
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','in',('sale', 'sale_refund')),('fiscal_type','=','product')]" required="1" />
+					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+				</field>
+				<button name="invoice_cancel" position="attributes">
+					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
+				</button>
+				<button name="invoice_open" position="replace">
+					<button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" class="oe_highlight" />
+					<field invisible="1" name="fiscal_document_electronic" />
+				</button>
 				<notebook>
-					<page string="l10n br - NF">
+					<page string="Dados Adicionais">
 						<notebook>
-							<page string="Outras Informações">
-								<group colspan="4" name="l10n_br_nf">
-									<separator colspan="4" string="Dados Adicionais da NF" />
-									<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
-									<field colspan="4" name="nfe_status" />
+							<page string="Documento Fiscal">
+								<group>
+									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
+									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
-									<field name="fiscal_document_id" required="1"/>
+								</group>
+								<group>
+									<field name="fiscal_document_id" required="1" />
+									<field name="nfe_purpose" required="1"/>
 								</group>
 							</page>
 							<page string="CFOP">
-								<separator colspan="4" string="CFOP" />
-								<field colspan="4" nolabel="1" name="cfop_ids" />
+								<group string="CFOP">
+									<field nolabel="1" name="cfop_ids" />
+								</group>
 							</page>
 							<page string="Transporte">
-							 	<group name="delivery_info" colspan="4">
-									<separator colspan="4" string="Dados da Transportadora"/>
+							 	<group name="delivery_info">
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
+								</group>
+								<group>
 									<field name="weight"/>
 									<field name="weight_net"/>
 									<field name="number_of_packages"/>
@@ -252,44 +288,21 @@
 						</notebook>
 					</page>
 				</notebook>
+				<xpath expr="//tree[@string='Invoice lines']" position="attributes">
+					<attribute name="editable"></attribute>
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
+					<field name="cfop_id" />
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
+					<field name="price_total" />
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form1">
-			<field name="name">l10n_br_account.invoice.supplier.form1</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<!-- Adding and moving fields -->
-				<field position="replace" name="journal_id">
-				</field>
-				<field position="replace" name="partner_id">
-				</field>
-				<field position="replace" name="fiscal_position">
-				</field>
-				<!-- Adding and moving fields -->
-				<!-- <field position="before" name="address_invoice_id">
-					<field name="journal_id" groups="base.group_user"
-						on_change="onchange_journal_id(journal_id, context)" widget="selection" />
-				</field>  -->
-				<field position="replace" name="number">
-					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)" groups="base.group_user" />
-					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form2">
-			<field name="name">l10n_br_account.invoice.supplier.form2</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<field position="after" name="move_id">
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','=','sale')]" required="1" />
-					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
-				</field>
-			</field>
-		</record>
 
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form3">
 			<field name="name">l10n_br_account.invoice.supplier.form3</field>
@@ -298,66 +311,6 @@
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="price_total" />
-				</field>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form4">
-			<field name="name">l10n_br_account.invoice.supplier.form4</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<button name="invoice_open" position="replace">
-					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" icon="gtk-go-forward" />
-					<button name="invoice_validate" states="draft" string="Confirmar" icon="gtk-go-forward" />
-					<field invisible="True" name="fiscal_document_electronic" />
-				</button>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form5">
-			<field name="name">l10n_br_account.invoice.supplier.form5</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<button name="invoice_cancel" position="replace">
-					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception,open" string="Cancel" icon="gtk-cancel" />
-				</button>
-			</field>
-		</record>
-<!--
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form6">
-			<field name="name">l10n_br_account.invoice.supplier.form6</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<field name="address_invoice_id" position="after">
-					<field name="issuer" />
-				</field>
-			</field>
-		</record> -->
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form8">
-			<field name="name">l10n_br_account.invoice.supplier.form8</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<page string="Payments" position="before">
-					<page string="l10n br - Vencimentos">
-						<field colspan="4" nolabel="1" name="move_line_receivable_id" />
-					</page>
-				</page>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form9">
-			<field name="name">l10n_br_account.invoice.supplier.form9</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<field position="replace" name="currency_id">
-					<field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
 				</field>
 			</field>
 		</record>
@@ -373,7 +326,7 @@
 				 	<notebook>
 							<page string="General">
 	                                        <group>
-                        <group>
+                        <group>Invoice lines
                             <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position, price_unit, parent.currency_id, context, parent.company_id, parent.fiscal_category_id, parent.fiscal_position)"/>
                             <label for="quantity"/>
                             <div>
