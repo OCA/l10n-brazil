@@ -32,7 +32,7 @@ def validate(cr, uid, ids, context=None):
     for inv in pool.get('account.invoice').browse(cr, uid, ids):
 
         #Nota fiscal
-        if not inv.own_invoice or inv.fiscal_type == 'service' or \
+        if inv.issuer == '1' or inv.fiscal_type == 'service' or \
         not inv.fiscal_document_electronic:
             continue
 
