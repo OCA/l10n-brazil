@@ -188,11 +188,11 @@ class purchase_order(osv.Model):
                     comment += ' - ' + order.notes
 
                 self.pool.get('account.invoice').write(cr, uid, inv_id, {
-                     'fiscal_category_id': order.fiscal_category_id and \
+                     'fiscal_category_id': order.fiscal_category_id and
                      order.fiscal_category_id.id,
-                     'fiscal_position': order.fiscal_position and \
+                     'fiscal_position': order.fiscal_position and
                      order.fiscal_position.id,
-                     'own_invoice': False,
+                     'issuer': '1',
                      'comment': comment,
                      'journal_id': journal_id})
         return inv_id
@@ -227,7 +227,8 @@ class purchase_order_line(osv.Model):
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         result_rule = fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
         print result_rule
-        if kwargs.get('product_id', False) and result_rule.get('fiscal_position', False):
+        if kwargs.get('product_id', False) and \
+        result_rule.get('fiscal_position', False):
             obj_fposition = self.pool.get('account.fiscal.position').browse(
                 cr, uid, result_rule['fiscal_position'])
             obj_product = self.pool.get('product.product').browse(
