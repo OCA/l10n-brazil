@@ -33,7 +33,7 @@
 					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 				<field position="after" name="partner_id">
-					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" /> 
+					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
 				</field>
 				<field name="partner_id" position="attributes">
 					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
@@ -46,10 +46,10 @@
 						widget="selection" groups="base.group_multi_company" />
 				</field>
 				<field name="date_invoice" position="before">
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
-					<field name="own_invoice" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+					<field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
 				</field>
 				<button name="invoice_cancel" position="attributes">
 					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
@@ -84,7 +84,7 @@
 						<notebook>
 							<page string="Documento Fiscal">
 								<group>
-									<field name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}" />
+									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
@@ -227,7 +227,7 @@
 							<page string="Outras Informações">
 								<group colspan="4" name="l10n_br_nf">
 									<separator colspan="4" string="Dados Adicionais da NF" />
-									<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('own_invoice', '=', True)]}" />
+									<field colspan="4" name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
 									<field colspan="4" name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
@@ -274,7 +274,7 @@
 				</field>  -->
 				<field position="replace" name="number">
 					<field name="partner_id" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)" groups="base.group_user" />
-					<field name="internal_number" attrs="{'readonly': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
+					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
 				</field>
 			</field>
 		</record>
@@ -325,14 +325,14 @@
 				</button>
 			</field>
 		</record>
-<!-- 
+<!--
 		<record model="ir.ui.view" id="view_l10n_br_account_invoice_supplier_form6">
 			<field name="name">l10n_br_account.invoice.supplier.form6</field>
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
 				<field name="address_invoice_id" position="after">
-					<field name="own_invoice" />
+					<field name="issuer" />
 				</field>
 			</field>
 		</record> -->
@@ -356,8 +356,8 @@
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
 				<field position="replace" name="currency_id">
-					<field name="vendor_serie" attrs="{'invisible': [('own_invoice', '=', True)], 'required': [('own_invoice', '=', False)]}" />
-					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('own_invoice', '=', False)], 'required': [('own_invoice', '=', True)]}" />
+					<field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
 				</field>
 			</field>
 		</record>
