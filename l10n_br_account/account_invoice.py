@@ -545,7 +545,7 @@ class account_invoice(osv.Model):
         return fiscal_document_serie
 
     _defaults = {
-        'own_invoice': '0',
+        'issuer': '0',
         'nfe_purpose': '1',
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
