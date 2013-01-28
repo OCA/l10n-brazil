@@ -221,8 +221,10 @@ class account_invoice(osv.Model):
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
         'partner_shipping_id': fields.many2one('res.partner', 'Endereço de Entrega', readonly=True, states={'draft': [('readonly', False)]}, help="Shipping address for current sales order."),
-        'own_invoice': fields.boolean('Nota Fiscal Própria', readonly=True,
-                                      states={'draft': [('readonly', False)]}),
+        'issuer': fields.selection(
+            [('0', 'Emissão própria'),
+            ('1', 'Terceiros')], 'Emitente', readonly=True,
+            states={'draft': [('readonly', False)]}),
         'nfe_purpose': fields.selection(
             [('1', 'Normal'),
              ('2', 'Complementar'),
@@ -543,7 +545,7 @@ class account_invoice(osv.Model):
         return fiscal_document_serie
 
     _defaults = {
-        'own_invoice': True,
+        'own_invoice': '0',
         'nfe_purpose': '1',
         'fiscal_type': _get_fiscal_type,
         'fiscal_category_id': _default_fiscal_category,
@@ -564,15 +566,15 @@ class account_invoice(osv.Model):
                            ('fiscal_type', '=', invoice.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
                            ])
-            if invoice.own_invoice:
+            if invoice.issuer == '0':
                 domain.extend([('company_id', '=', invoice.company_id.id),
                               ('internal_number', '=', invoice.number),
                               ('fiscal_document_id', '=', invoice.fiscal_document_id.id),
-                              ('own_invoice', '=', True)])
+                              ('issuer', '=', '0')])
             else:
                 domain.extend([('partner_id', '=', invoice.partner_id.id),
                               ('vendor_serie', '=', invoice.vendor_serie),
-                              ('own_invoice', '=', False)])
+                              ('issuer', '=', '1')])
 
             invoice_id = self.pool.get('account.invoice').search(
                 cr, uid, domain)
@@ -624,7 +626,7 @@ class account_invoice(osv.Model):
             context = {}
 
         for inv in self.browse(cr, uid, ids):
-            if inv.own_invoice:
+            if inv.issuer == '0':
                 sequence = self.pool.get('ir.sequence')
                 sequence_read = sequence.read(
                     cr, uid, inv.document_serie_id.internal_sequence_id.id,
