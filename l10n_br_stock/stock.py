@@ -31,8 +31,7 @@ class stock_incoterms(osv.Model):
             ('2', 'Terceiros'),
             ('9', 'Sem Frete')],
             'Frete por Conta', required=True)
-        }
-
+    }
     _defaults = {
         'freight_responsibility': 0
     }

@@ -18,22 +18,20 @@
 ###############################################################################
 
 {
-    "name" : "Brazilian Localisation Data Extension for Base",
-    "description" : "Brazilian Localisation Data Extension for Base",
+    'name': 'Brazilian Localisation Data Extension for Base',
+    'description': 'Brazilian Localisation Data Extension for Base',
     'license': 'AGPL-3',
-    "author" : "Akretion, OpenERP Brasil",
-    "version" : "0.1",
-    "depends" : [
-                 "l10n_br_base"
-                 ],
+    'author': 'Akretion, OpenERP Brasil',
+    'version': "0.1",
+    'depends': [
+        'l10n_br_base'
+    ],
     'init_xml': [
-                'res.bank.csv',
-                'l10n_br_base_data.xml',
-                ],
-    "update_xml" : [
-
-                   ],
-    "category" : "Localisation",
-    "active": False,
-    "installable": True
+        'res.bank.csv',
+        'l10n_br_base_data.xml',
+    ],
+    'update_xml': [],
+    'category': 'Localisation',
+    'active': False,
+    'installable': True
 }

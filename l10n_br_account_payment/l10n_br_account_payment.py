@@ -1,36 +1,37 @@
 # -*- encoding: utf-8 -*-
-#################################################################################
-#                                                                               #
-# Copyright (C) 2011  Renato Lima - Akretion                                    #
-#                                                                               #
-#This program is free software: you can redistribute it and/or modify           #
-#it under the terms of the GNU Affero General Public License as published by    #
-#the Free Software Foundation, either version 3 of the License, or              #
-#(at your option) any later version.                                            #
-#                                                                               #
-#This program is distributed in the hope that it will be useful,                #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#GNU Affero General Public License for more details.                            #
-#                                                                               #
-#You should have received a copy of the GNU Affero General Public License       #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.          #
-#################################################################################
+###############################################################################
+#                                                                             #
+# Copyright (C) 2011  Renato Lima - Akretion                                  #
+#                                                                             #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
+#                                                                             #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
+#                                                                             #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+###############################################################################
 
 from osv import fields, osv
 
 
-class payment_line(osv.osv):
+class payment_line(osv.Model):
     _inherit = 'payment.line'
     _columns = {
-                'related_mode_id': fields.related('order_id','mode',type='many2one',relation='payment.mode',string='Payment Mode',store=True,readonly=True),
-                }
-payment_line()
+        'related_mode_id': fields.related(
+            'order_id', 'mode', type='many2one', relation='payment.mode',
+            string='Payment Mode', store=True, readonly=True),
+    }
 
 
-class account_move_line(osv.osv):
+class account_move_line(osv.Model):
     _inherit = 'account.move.line'
-    
+
     def _payment_mode_search(self, cr, uid, obj, name, args, context):
         if not len(args):
             return []
@@ -41,7 +42,7 @@ class account_move_line(osv.osv):
         if isinstance(value, int) or isinstance(value, long):
             ids = [value]
         elif isinstance(value, list):
-            ids = value 
+            ids = value
         else:
             ids = self.pool.get('payment.mode').search(cr,uid,[('id','=',value)], context=context)
         if ids:
@@ -52,7 +53,7 @@ class account_move_line(osv.osv):
             if len(res):
                 return [('id', 'in', [x[0] for x in res])]
         return [('id','=','0')]
-    
+
     def _payment_mode_get(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
         line_obj = self.pool.get('payment.line')
@@ -66,12 +67,9 @@ class account_move_line(osv.osv):
             else:
                 result[rec.id] = (0, 0)
         return result
-    
+
     _columns = {
-                'related_mode_id': fields.function(_payment_mode_get, method=True, fnct_search=_payment_mode_search, type="many2one", relation="payment.mode", string="Payment Mode", readonly=True),
-                }
-    
-account_move_line()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+        'related_mode_id': fields.function(_payment_mode_get, method=True,
+            fnct_search=_payment_mode_search, type="many2one",
+            relation="payment.mode", string="Payment Mode", readonly=True),
+    }
