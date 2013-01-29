@@ -23,8 +23,8 @@ from osv import osv, fields
 class res_company(osv.Model):
     _inherit = 'res.company'
     _columns = {
-                'purchase_fiscal_category_id': fields.many2one(
-                    'l10n_br_account.fiscal.category',
-                    'Categoria Fiscal Padrão Compras',
-                    domain="[('journal_type', '=', 'purchase')]"),
+        'purchase_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            'Categoria Fiscal Padrão Compras',
+            domain="[('journal_type', '=', 'purchase')]"),
     }
