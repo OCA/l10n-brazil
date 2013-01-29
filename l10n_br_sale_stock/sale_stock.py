@@ -18,8 +18,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import decimal_precision as dp
-from osv import fields, osv
+from osv import osv
 
 
 class sale_order(osv.Model):
