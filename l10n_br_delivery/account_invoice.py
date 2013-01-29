@@ -26,7 +26,7 @@ from tools import config
 from tools.translate import _
 
 
-class account_invoice(osv.osv):
+class account_invoice(osv.Model):
     _inherit = 'account.invoice'
     _columns = {
         'carrier_id':fields.many2one("delivery.carrier", "Carrier",
@@ -73,5 +73,3 @@ class account_invoice(osv.osv):
                 _("Validação da Nota fiscal:\n '%s'") % (strErro.encode('utf-8')))
 
         return res
-
-account_invoice()
