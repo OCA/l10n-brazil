@@ -2,19 +2,37 @@
 <openerp>
     <data>
 
-		<record id="l10n_br_view_picking_form" model="ir.ui.view">
+                <record id="l10n_br_view_picking_form" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.form</field>
+	   		<field name="model">stock.picking</field>
+	   		<field name="inherit_id" ref="stock.view_picking_form"/>
+	   		<field name="priority">16</field>
+	   		<field name="arch" type="xml">
+		                  <field name="invoice_state" position="replace">
+		                       <field name="invoice_state" string="Invoice Control" groups="account.group_account_invoice" />
+		                  </field>
+		                  <field name="company_id" position="attributes">
+		                      <attribute name="on_change">onchange_company_id(partner_id, company_id, fiscal_category_id, context)</attribute>
+                                    </field>
+	            </field>
+		</record>
+
+		<record id="l10n_br_view_picking_form1" model="ir.ui.view">
+			<field name="name">l10n_br_stock.picking.form1</field>
 	   		<field name="model">stock.picking</field>
 	   		<field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_stock_view_picking_form"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
+		                  <field name="invoice_state" position="replace">
+		                       <field name="invoice_state" string="Invoice Control" groups="account.group_account_invoice" />
+		                  </field>
   				<field name="fiscal_position" position="replace">
 			            <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
 			            <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')]}" />
 				</field>
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_in(partner_id, company_id, fiscal_category_id, context)</attribute>
-	            </field>
+					<attribute name="on_change">onchange_partner_in(partner_id, company_id, context, fiscal_category_id)</attribute>
+	                            </field>
 	        </field>
 		</record>
 
@@ -31,7 +49,7 @@
 		</record>
 
 		<record id="l10n_br_view_picking_in_form" model="ir.ui.view">
-			<field name="name">l10n_br_stock.picking.in.form1</field>
+			<field name="name">l10n_br_stock.picking.in.form</field>
 	   		<field name="model">stock.picking.in</field>
 	   		<field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_stock_view_picking_in_form"/>
 	   		<field name="priority">32</field>
@@ -41,6 +59,7 @@
 	            </field>
 	        </field>	
 		</record>
+		
 
 	<record id="l10n_br_stock_incoterms_form" model="ir.ui.view">
             <field name="name">l10n_br_stock.incoterms.form</field>

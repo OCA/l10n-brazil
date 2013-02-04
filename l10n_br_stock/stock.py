@@ -58,14 +58,14 @@ class stock_picking(osv.Model):
     }
 
     def onchange_partner_in(self, cr, uid, ids, partner_id=None,
-                            context=None, company_id=None,
+                            company_id=None, context=None,
                             fiscal_category_id=None):
         if not context:
             context = {}
 
         return super(stock_picking, self).onchange_partner_in(
-            cr, uid, partner_id=partner_id, context=context,
-            company_id=company_id, fiscal_category_id=fiscal_category_id)
+            cr, uid, ids, partner_id=partner_id, company_id=company_id,
+            context=context, fiscal_category_id=fiscal_category_id)
 
     def onchange_fiscal_category_id(self, cr, uid, ids,
                                     partner_id, company_id=False,
@@ -92,8 +92,32 @@ class stock_picking(osv.Model):
            'context': context,
            'fiscal_category_id': fiscal_category_id
         }
+        return self._fiscal_position_map(cr, uid, result, **kwargs)
 
-        return self._fiscal_position_map(cr, uid, ids, result, **kwargs)
+    def onchange_company_id(self, cr, uid, ids, partner_id, company_id=False,
+                            fiscal_category_id=False, context=None, **kwargs):
+        if not context:
+            context = {}
+
+        result = {'value': {'fiscal_position': False}}
+
+        if not partner_id or not company_id:
+            return result
+
+        partner_invoice_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['delivery'])['delivery']
+
+        kwargs = {
+           'partner_id': partner_id,
+           'partner_invoice_id': partner_invoice_id,
+           'partner_shipping_id': partner_shipping_id,
+           'company_id': company_id,
+           'context': context,
+           'fiscal_category_id': fiscal_category_id
+        }
+        return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
