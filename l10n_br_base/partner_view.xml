@@ -49,6 +49,9 @@
 				<field name="street2" position="replace">
 					<field name="street2" placeholder="complemento" />
 				</field>
+				<field name="state_id" position="attributes">
+				    <attribute name="domain">[('country_id','=',country_id)]</attribute>
+				</field>
 				<field name="state_id" position="after">
 					<field name="l10n_br_city_id" placeholder="cidade"
 						on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
