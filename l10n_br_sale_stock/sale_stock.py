@@ -28,7 +28,7 @@ class sale_order(osv.Model):
         result = super(sale_order, self)._prepare_order_picking(
             cr, uid, order, context)
         result['fiscal_category_id'] = order.fiscal_category_id and \
-            order.fiscal_category_id.id
+        order.fiscal_category_id.id
         result['fiscal_position'] = order.fiscal_position and \
-            order.fiscal_position.id
+        order.fiscal_position.id
         return result
