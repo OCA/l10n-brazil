@@ -91,22 +91,11 @@ class res_partner(osv.Model):
         return result.keys()
 
     def _address_default_fs(self, cr, uid, ids, name, arg, context=None):
-        res = {}
+        result = {}
         for partner in self.browse(cr, uid, ids, context=context):
-            res[partner.id] = {'addr_fs_code': False}
-
-            partner_addr = self.pool.get('res.partner').address_get(
-                cr, uid, [partner.id], ['invoice'])
-            #TODO shouldn't we get the default one if no invoice one is found?
-
-            if partner_addr:
-                partner_addr_default = self.pool.get('res.partner')\
-                .browse(cr, uid, [partner_addr['invoice']])[0]
-                addr_fs_code = partner_addr_default.state_id\
-                and partner_addr_default.state_id.code or ''
-                res[partner.id]['addr_fs_code'] = addr_fs_code.lower()
-
-        return res
+            addr_fs_code = partner.state_id and partner.state_id.code or ''
+            result[partner.id] = {'addr_fs_code': addr_fs_code.lower()}
+        return result
 
     _columns = {
 <<<<<<< HEAD
@@ -127,7 +116,7 @@ class res_partner(osv.Model):
         'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
         'suframa': fields.char('Suframa', size=18),
-        'legal_name': fields.char('Razão Social', size=128,
+        'legal_name': fields.char(u'Razão Social', size=128,
                                    help="nome utilizado em "
                                    "documentos fiscais"),
         'addr_fs_code': fields.function(
@@ -139,12 +128,12 @@ class res_partner(osv.Model):
             store={
                 'res.partner': (
                     _get_partner,
-                    ['country_id', 'state_id'], 20), }),
+                    ['country_id', 'state_id', 'inscr_est'], 20), }),
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Municipio',
             domain="[('state_id','=',state_id)]"),
         'district': fields.char('Bairro', size=32),
-        'number': fields.char('Número', size=10)
+        'number': fields.char(u'Número', size=10)
     }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
@@ -626,15 +615,16 @@ class res_partner(osv.Model):
         return nova_ie == inscr_est
 
     _constraints = [
-                    (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-                    (_check_ie, u'Inscrição Estadual inválida!',
-                     ['inscr_est'])]
+        (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
+        (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
+    ]
 
     _sql_constraints = [
         ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
          u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
         ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
-         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')]
+         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
+    ]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
         res = super(res_partner, self).onchange_type(
