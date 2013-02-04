@@ -5,12 +5,13 @@
 		<record id="view_l10n_br_account_journal_form" model="ir.ui.view">
            <field name="name">l10n_br_account.journal.form</field>
            <field name="model">account.journal</field>
-           <field name="type">form</field>
            <field name="inherit_id" ref="account.view_account_journal_form"/>
            <field name="arch" type="xml">
                 <notebook>
                 	<page string="l10n br">
+                	    <group>
                     	<field name="revenue_expense"/>
+                    </group>
                     </page>
                 </notebook>
            </field>
@@ -20,7 +21,6 @@
 			<field name="name">l10n_br_account.fiscal.position.template.form</field>
 			<field name="model">account.fiscal.position.template</field>
 			<field name="inherit_id" ref="account.view_account_position_template_form"/>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="cfop_id"/>
@@ -32,7 +32,6 @@
 			<field name="name">l10n_br_account.move.line.form</field>
 			<field name="model">account.move.line</field>
 			<field name="inherit_id" ref="account.view_account_move_line_filter"/>
-			<field name="type">search</field>
 			<field name="arch" type="xml">
 				<field name="period_id" position="after">
 					<field name="date_maturity"/>
