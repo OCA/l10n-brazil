@@ -173,3 +173,97 @@ class stock_picking(osv.Model):
         result['fiscal_position'] = picking.fiscal_position and \
         picking.fiscal_position.id
         return result
+
+
+class stock_picking_in(stock_picking):
+    _inherit = 'stock.picking.in'
+    _columns = {
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria'),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Posição Fiscal',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    }
+    _defaults = {
+        'invoice_state': 'none',
+    }
+
+    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+        kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
+        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+
+    def onchange_partner_in(self, cr, uid, ids, partner_id=None,
+                            company_id=None, context=None,
+                            fiscal_category_id=None):
+
+        result = super(stock_picking, self).onchange_partner_in(
+            cr, uid, partner_id, context)
+
+        if not result:
+            result = {'value': {'fiscal_position': False}}
+
+        if not partner_id or not company_id:
+            return result
+
+        partner_invoice_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['delivery'])['delivery']
+
+        kwargs = {
+           'partner_id': partner_id,
+           'partner_invoice_id': partner_invoice_id,
+           'partner_shipping_id': partner_shipping_id,
+           'company_id': company_id,
+           'fiscal_category_id': fiscal_category_id,
+           'context': context
+        }
+        return self._fiscal_position_map(cr, uid, result, **kwargs)
+
+
+class stock_picking_out(stock_picking):
+    _inherit = 'stock.picking.out'
+    _columns = {
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria'),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Posição Fiscal',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    }
+    _defaults = {
+        'invoice_state': 'none',
+    }
+
+    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+        kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
+        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+
+    def onchange_partner_in(self, cr, uid, ids, partner_id=None,
+                            company_id=None, context=None,
+                            fiscal_category_id=None):
+
+        result = super(stock_picking, self).onchange_partner_in(
+            cr, uid, partner_id, context)
+
+        if not result:
+            result = {'value': {'fiscal_position': False}}
+
+        if not partner_id or not company_id:
+            return result
+
+        partner_invoice_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.pool.get('res.partner').address_get(
+            cr, uid, [partner_id], ['delivery'])['delivery']
+
+        kwargs = {
+           'partner_id': partner_id,
+           'partner_invoice_id': partner_invoice_id,
+           'partner_shipping_id': partner_shipping_id,
+           'company_id': company_id,
+           'fiscal_category_id': fiscal_category_id,
+           'context': context
+        }
+        return self._fiscal_position_map(cr, uid, result, **kwargs)

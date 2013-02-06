@@ -39,12 +39,20 @@
 		<record id="l10n_br_view_picking_out_form" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.out.form</field>
 	   		<field name="model">stock.picking.out</field>
-	   		<field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_stock_view_picking_out_form"/>
+	   		<!--<field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_stock_view_picking_out_form"/>-->
+	   		<field name="inherit_id" ref="stock.view_picking_form"/>
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_in(partner_id, company_id, fiscal_category_id, context)</attribute>
-	            </field>
+					<attribute name="on_change">onchange_partner_in(partner_id, company_id, context, fiscal_category_id)</attribute>
+	                            </field>
+	                            <field name="invoice_state" position="replace">
+		                       <field name="invoice_state" string="Invoice Control" groups="account.group_account_invoice" />
+		                  </field>
+	                            <field name="stock_journal_id" position="after">
+			            <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
+			            <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')]}" />
+				</field>
 			</field>
 		</record>
 
@@ -55,8 +63,15 @@
 	   		<field name="priority">32</field>
 	   		<field name="arch" type="xml">
 	   			<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_in(partner_id, company_id, fiscal_category_id, context)</attribute>
-	            </field>
+					<attribute name="on_change">onchange_partner_in(partner_id, company_id, context, fiscal_category_id)</attribute>
+	                            </field>
+	                            <field name="invoice_state" position="replace">
+		                       <field name="invoice_state" string="Invoice Control" groups="account.group_account_invoice" />
+		                  </field>
+	                            <field name="stock_journal_id" position="after">
+			            <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
+			            <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'readonly':[('invoice_state', '!=', '2binvoiced')]}" />
+				</field>
 	        </field>	
 		</record>
 		
