@@ -17,31 +17,26 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import time
-import netsvc
 from osv import fields, osv
-import decimal_precision as dp
-import pooler
-from tools import config
 from tools.translate import _
 
 
 class account_invoice(osv.Model):
     _inherit = 'account.invoice'
     _columns = {
-        'carrier_id':fields.many2one("delivery.carrier", "Carrier",
-                                     readonly=True,
-                                     states={'draft':[('readonly',False)]}),
-        'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle',
-                                      'Veículo', readonly=True,
-                                      states={'draft': [('readonly', False)]}),
-        'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete',
-                                    readonly=True,
-                                    states={'draft': [('readonly', False)]},
-                                    help="Incoterm which stands for \
-                                    'International Commercial terms' implies \
-                                    its a series of sales terms which are \
-                                    used in the commercial transaction."),}
+        'carrier_id': fields.many2one(
+            'delivery.carrier', 'Transportadora', readonly=True,
+            states={'draft': [('readonly', False)]}),
+        'vehicle_id': fields.many2one(
+            'l10n_br_delivery.carrier.vehicle', 'Veículo', readonly=True,
+            states={'draft': [('readonly', False)]}),
+        'incoterm': fields.many2one(
+            'stock.incoterms', 'Tipo do Frete', readonly=True,
+            states={'draft': [('readonly', False)]},
+            help="Incoterm which stands for 'International Commercial terms' "
+            "implies its a series of sales terms which are used in the "
+            "commercial transaction."),
+    }
 
     def nfe_check(self, cr, uid, ids, context=None):
         res = super(account_invoice, self).nfe_check(cr, uid, ids)
