@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-    
+
     	<!-- Delivery Carriers Vehicle -->
 		<record id="l10n_br_delivery_carrier_vehicle_form" model="ir.ui.view">
 			<field name="name">l10n_br_delivery.carrier.vehicle.form</field>
@@ -51,7 +51,7 @@
 		</record>
 	
 		<menuitem name="Veículo" id="menu_l10n_br_delivery_carrier_vehicle_form" parent="delivery.menu_delivery" action="action_l10n_br_delivery_carrier_vehicle_form" sequence="10" />	
-    
+
     </data>
-    
+
 </openerp>
