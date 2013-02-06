@@ -154,6 +154,9 @@ class sale_order(osv.Model):
             fiscal_category_id = order.fiscal_category_id.id
             result['journal_id'] = order.fiscal_category_id.property_journal.id
 
+        result['partner_shipping_id'] = order.partner_shipping_id and \
+        order.partner_shipping_id.id or False
+
         # FIXME - Deveria pegar as observações das
         # posições fiscais de cada linha.
         comment = ''
