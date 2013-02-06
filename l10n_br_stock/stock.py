@@ -27,7 +27,7 @@ class stock_incoterms(osv.Model):
     _columns = {
         'freight_responsibility': fields.selection(
             [('0', 'Emitente'),
-            ('1', 'Destinatário'),
+            ('1', u'Destinatário'),
             ('2', 'Terceiros'),
             ('9', 'Sem Frete')],
             'Frete por Conta', required=True)
@@ -48,9 +48,9 @@ class stock_picking(osv.Model):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria'),
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
         'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Posição Fiscal',
+            'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
     }
     _defaults = {
@@ -63,6 +63,10 @@ class stock_picking(osv.Model):
         if not context:
             context = {}
 
+        result = super(stock_picking, self).onchange_partner_in(
+            cr, uid, ids, partner_id=partner_id, company_id=company_id,
+            context=context, fiscal_category_id=fiscal_category_id)
+        print result
         return super(stock_picking, self).onchange_partner_in(
             cr, uid, ids, partner_id=partner_id, company_id=company_id,
             context=context, fiscal_category_id=fiscal_category_id)
@@ -186,11 +190,11 @@ class stock_picking_in(stock_picking):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria',
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('journal_type', 'in', ('sale_refund', 'purchase')), "
             "('fiscal_type', '=', 'product'), ('type', '=', 'input')]"),
         'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Posição Fiscal',
+            'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
     }
     _defaults = {
@@ -243,11 +247,11 @@ class stock_picking_out(stock_picking):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria',
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('journal_type', 'in', ('purchase_refund', 'sale')), "
             "('fiscal_type', '=', 'product'), ('type', '=', 'output')]"),
         'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Posição Fiscal',
+            'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
     }
     _defaults = {
