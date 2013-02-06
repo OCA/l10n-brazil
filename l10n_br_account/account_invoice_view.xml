@@ -69,14 +69,6 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="view_l10n_br_account_invoice_form10">
-			<field name="name">l10n_br_account.invoice.form10</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form" />
-			<field name="arch" type="xml">
 				<notebook>
 					<page string="Dados Adicionais">
 						<notebook>
@@ -114,7 +106,6 @@
 				</notebook>
 			</field>
 		</record>
-
 
 		<record id="account.action_invoice_tree" model="ir.actions.act_window">
 			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'product')]</field>
