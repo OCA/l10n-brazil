@@ -336,7 +336,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'VBC': str("%.2f" % inv_line.icms_base),
                    'PICMS': str("%.2f" % inv_line.icms_percent),
                    'VICMS': str("%.2f" % inv_line.icms_value),
-                   'ModBCST': '4', #TODO
+                   'ModBCST': '4',  # TODO
                    'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
                    'PRedBCST': '',
                    'VBCST': str("%.2f" % inv_line.icms_st_base),
@@ -353,12 +353,20 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
                 StrFile += StrN03
 
-            if inv_line.icms_cst in ('40', '41', '50', '51'):
+            if inv_line.icms_cst in ('40', '50'):
                 StrRegN06 = {
                    'Orig': inv_line.product_id.origin or '0',
                    'CST': inv_line.icms_cst,
                    'vICMS': str("%.2f" % inv_line.icms_value),
-                   'motDesICMS': '9', #FIXME
+                   'motDesICMS': '9',  # FIXME
+                   }
+
+            if inv_line.icms_cst in ('41', '51'):
+                StrRegN06 = {
+                   'Orig': inv_line.product_id.origin or '0',
+                   'CST': inv_line.icms_cst,
+                   'vICMS': '',
+                   'motDesICMS': '',
                    }
 
                 StrN06 = 'N06|%s|%s|%s|%s|\n' % (
