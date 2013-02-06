@@ -44,7 +44,7 @@ class stock_picking(osv.Model):
         user = self.pool.get('res.users').browse(
             cr, uid, uid, context=context)
         return user.company_id.stock_fiscal_category_id and \
-        user.company_id.stock_fiscal_category_id.id
+        user.company_id.stock_fiscal_category_id.id or False
 
     _columns = {
         'fiscal_category_id': fields.many2one(
@@ -177,15 +177,25 @@ class stock_picking(osv.Model):
 
 class stock_picking_in(stock_picking):
     _inherit = 'stock.picking.in'
+
+    def _default_fiscal_category(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context)
+        return user.company_id.stock_in_fiscal_category_id and \
+        user.company_id.stock_in_fiscal_category_id.id or False
+
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria'),
+            'l10n_br_account.fiscal.category', 'Categoria',
+            domain="[('journal_type', 'in', ('sale_refund', 'purchase')), "
+            "('fiscal_type', '=', 'product'), ('type', '=', 'input')]"),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
     }
     _defaults = {
         'invoice_state': 'none',
+        'fiscal_category_id': _default_fiscal_category
     }
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
@@ -224,15 +234,25 @@ class stock_picking_in(stock_picking):
 
 class stock_picking_out(stock_picking):
     _inherit = 'stock.picking.out'
+
+    def _default_fiscal_category(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context)
+        return user.company_id.stock_out_fiscal_category_id and \
+        user.company_id.stock_out_fiscal_category_id.id or False
+
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria'),
+            'l10n_br_account.fiscal.category', 'Categoria',
+            domain="[('journal_type', 'in', ('purchase_refund', 'sale')), "
+            "('fiscal_type', '=', 'product'), ('type', '=', 'output')]"),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
     }
     _defaults = {
         'invoice_state': 'none',
+        'fiscal_category_id': _default_fiscal_category,
     }
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):

@@ -9,8 +9,11 @@
 			<field name="arch" type="xml">
 				<page position="after" string="NFse">
 					<page string="Estoque">
-						<separator colspan="8" string="Configurações de Estoque" />
-						<field name="stock_fiscal_category_id" />
+						<group string="Configurações de Estoque">
+						    <field name="stock_fiscal_category_id" />
+						    <field name="stock_in_fiscal_category_id"/>
+						    <field name="stock_out_fiscal_category_id"/>
+						</group>
 					</page>
 				</page>
 			</field>
