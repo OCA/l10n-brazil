@@ -226,14 +226,15 @@ class account_fiscal_position(osv.Model):
                             result.update({tax_def.tax_id.domain:
                                            tax_def.tax_code_id.code})
 
-            for fp_tax in fiscal_position.tax_ids:
-                if fp_tax.tax_dest_id in tax_ids and fp_tax.tax_code_dest_id:
-                    result.update({fp_tax.tax_dest_id.domain:
-                                   fp_tax.tax_code_dest_id.code})
-                if not fp_tax.tax_dest_id and fp_tax.tax_code_src_id and \
-                fp_tax.tax_code_dest_id:
-                    result.update({fp_tax.tax_code_src_id.domain:
-                                   fp_tax.tax_code_dest_id.code})
+            if fiscal_position:
+                for fp_tax in fiscal_position.tax_ids:
+                    if fp_tax.tax_dest_id in tax_ids and fp_tax.tax_code_dest_id:
+                        result.update({fp_tax.tax_dest_id.domain:
+                                       fp_tax.tax_code_dest_id.code})
+                    if not fp_tax.tax_dest_id and fp_tax.tax_code_src_id and \
+                    fp_tax.tax_code_dest_id:
+                        result.update({fp_tax.tax_code_src_id.domain:
+                                       fp_tax.tax_code_dest_id.code})
 
         return result
 
