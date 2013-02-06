@@ -19,22 +19,23 @@
 
 from osv import osv, fields
 
-class stock_picking(osv.osv):
+
+class stock_picking(osv.Model):
     _inherit = 'stock.picking'
-    _description = "Picking List"
     _columns = {
-        'vehicle_id': fields.many2one('l10n_br_delivery.carrier.vehicle',
-                                      'Veículo'),
-        'incoterm': fields.many2one('stock.incoterms', 'Tipo do Frete',
-        help="Incoterm which stands for 'International Commercial terms' \
-        implies its a series of sales terms which are used in the commercial \
-        transaction.")}
+        'vehicle_id': fields.many2one(
+            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+        'incoterm': fields.many2one(
+            'stock.incoterms', 'Tipo do Frete',
+        help="Incoterm which stands for 'International Commercial terms"
+        "implies its a series of sales terms which are used in the "
+        "commercial transaction.")}
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         """Call after the creation of the invoice."""
         self.pool.get('account.invoice').write(
             cr, uid, invoice_id, {
-                'partner_shipping_id': picking.address_id.id,
+                'partner_shipping_id': picking.partner_id.id,
                 'carrier_id': picking.carrier_id and picking.carrier_id.id,
                 'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
                 'incoterm': picking.incoterm.id,
@@ -45,5 +46,26 @@ class stock_picking(osv.osv):
         return super(stock_picking, self)._invoice_hook(
             cr, uid, picking, invoice_id)
 
-stock_picking()
 
+class stock_picking_in(osv.Model):
+    _inherit = 'stock.picking.in'
+    _columns = {
+        'vehicle_id': fields.many2one(
+            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+        'incoterm': fields.many2one(
+            'stock.incoterms', 'Tipo do Frete',
+        help="Incoterm which stands for 'International Commercial terms"
+        "implies its a series of sales terms which are used in the "
+        "commercial transaction.")}
+
+
+class stock_picking_out(osv.Model):
+    _inherit = 'stock.picking.out'
+    _columns = {
+        'vehicle_id': fields.many2one(
+            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+        'incoterm': fields.many2one(
+            'stock.incoterms', 'Tipo do Frete',
+        help="Incoterm which stands for 'International Commercial terms"
+        "implies its a series of sales terms which are used in the "
+        "commercial transaction.")}
