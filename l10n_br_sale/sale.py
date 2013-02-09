@@ -78,12 +78,9 @@ class sale_order(osv.Model):
         'fiscal_category_id': _default_fiscal_category,
     }
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id,
-                            context=None, shop_id=None,
-                            fiscal_category_id=None, **kwargs):
+    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         return super(sale_order, self).onchange_partner_id(
-            cr, uid, ids, partner_id, context, shop_id,
-            fiscal_category_id=fiscal_category_id)
+            cr, uid, ids, partner_id, context)
 
     def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
                             partner_shipping_id, partner_id,
