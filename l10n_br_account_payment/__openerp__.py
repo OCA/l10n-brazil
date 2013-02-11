@@ -30,17 +30,14 @@
         'l10n_br_account',
         'account_payment',
     ],
-    'init_xml': [
-        #'l10n_br_account_payment_extension.csv',
-    ],
-    'update_xml': [
+    'data': [
         'l10n_br_account_payment_data.xml',
         'account_invoice_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_payment_security.xml',
     ],
-    'demo_xml': [
-        'l10n_br_account_payment_demo.xml'
+    'demo': [
+        'l10n_br_account_payment_demo.xml',
     ],
     'installable': True
 }

@@ -29,8 +29,7 @@
         'l10n_br_sale',
         'delivery',
     ],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'account_invoice_view.xml',
         'delivery_view.xml',
         'sale_view.xml',
@@ -38,6 +37,7 @@
         'l10n_br_delivery_view.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': [],
     'category': 'Localisation',
     'active': False,
     'installable': True

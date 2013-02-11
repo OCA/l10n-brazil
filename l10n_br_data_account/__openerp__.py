@@ -26,16 +26,15 @@
     'depends': [
         'l10n_br_account',
     ],
-    'init_xml': [
+    'data': [
         'account.product.fiscal.classification.template.csv',
         'l10n_br_account.cnae.csv',
         'l10n_br_account.service.type.csv',
         'l10n_br_data_account_data.xml',
         'account_fiscal_position_rule_data.xml',
     ],
-    'update_xml': [],
-    'demo_xml': [
-        'l10n_br_data_account_demo.xml'
+    'demo': [
+        'l10n_br_data_account_demo.xml',
     ],
     'category': 'Localisation',
     'active': False,

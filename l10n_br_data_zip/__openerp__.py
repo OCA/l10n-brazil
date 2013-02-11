@@ -24,17 +24,16 @@
     'author': 'Akretion, OpenERP Brasil',
     'version': '0.1',
     'depends': [
-        'l10n_br_base'
+        'l10n_br_base',
     ],
-    'init_xml': [
+    'data': [
         'zip.sql'
-    ],
-    'update_xml': [
         'l10n_br_data_zip_view.xml',
         'res_partner_view.xml',
         'wizard/l10n_br_data_zip_search_view.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
     ],
+    'demo': [],
     'category': 'Localisation',
     'active': False,
     'installable': True

@@ -24,13 +24,13 @@
     'author': 'Akretion, OpenERP Brasil',
     'version': "0.1",
     'depends': [
-        'l10n_br_base'
+        'l10n_br_base',
     ],
-    'init_xml': [
+    'data': [
         'res.bank.csv',
         'l10n_br_base_data.xml',
     ],
-    'update_xml': [],
+    'demo': [],
     'category': 'Localisation',
     'active': False,
     'installable': True

@@ -30,14 +30,13 @@
     'depends': [
         'product',
     ],
-    'init_xml': [
+    'data': [
         'l10n_br_product_data.xml',
     ],
-    'update_xml': [],
-    'test': [],
-    'demo_xml': [
+    'demo': [
         'l10n_br_product_demo.xml',
     ],
+    'test': [],
     'installable': True,
     'active': False,
     'auto_install': True,

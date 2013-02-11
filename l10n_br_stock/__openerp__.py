@@ -29,15 +29,14 @@
         'account_fiscal_position_rule_stock',
         'l10n_br_account',
     ],
-    'init_xml': [
+    'data': [
         'l10n_br_stock_data.xml',
-    ],
-    'update_xml': [
         'stock_view.xml',
         'res_company_view.xml',
         'wizard/stock_invoice_onshipping_view.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': [],
     'installable': True,
     'auto_install': True,
 }
