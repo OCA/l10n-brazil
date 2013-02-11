@@ -8,11 +8,11 @@
 			<field name="model">res.country</field>
 			<field name="inherit_id" ref="base.view_country_form"/>
 			<field name="arch" type="xml">
-				<form>
-					<field name="bc_code" select="2"/>
-					<field name="siscomex_code" select="2"/>
-					<field name="ibge_code" select="2"/>
-				</form>
+				<field name="currency_id" position="after">
+					<field name="bc_code"/>
+					<field name="siscomex_code"/>
+					<field name="ibge_code"/>
+				</field>
 			</field>
 		</record>
 
@@ -22,9 +22,9 @@
 			<field name="model">res.country.state</field>
 			<field name="inherit_id" ref="base.view_country_state_form"/>
 			<field name="arch" type="xml">
-				<form>
-					<field name="ibge_code" select="2"/>
-				</form>
+				<field name="country_id" position="after">
+					<field name="ibge_code"/>
+				</field>
 			</field>
 		</record>
 
