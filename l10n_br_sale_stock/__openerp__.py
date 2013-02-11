@@ -30,11 +30,11 @@
         'l10n_br_sale',
         'sale_stock',
     ],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'sale_stock_view.xml',
     ],
-    'demo_xml': [],
+    'demo': [],
+    'demo': [],
     'installable': True,
     'auto_install': True,
 }
