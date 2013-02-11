@@ -29,13 +29,13 @@
         'l10n_br_account',
         'account_fiscal_position_rule_sale',
     ],
-    'init_xml': [],
-    'update_xml': [
+    'data': [
         'sale_view.xml',
         'security/ir.model.access.csv',
         'l10n_br_sale_data.xml',
         'report/sale_report_view.xml',
     ],
+    'demo': [],
     'installable': True,
     'auto_install': True
 }
