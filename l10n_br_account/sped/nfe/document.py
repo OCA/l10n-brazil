@@ -41,5 +41,5 @@ class NFe200(FiscalDocument):
     def get_txt():
         pass
 
-    def set_xml():
+    def set_txt():
         pass
