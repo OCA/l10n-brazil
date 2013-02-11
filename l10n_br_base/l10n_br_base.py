@@ -26,7 +26,7 @@ class l10n_br_base_city(osv.Model):
     do IBGE dos município envolvidos da transação.
     """
     _name = 'l10n_br_base.city'
-    _description = 'Municipio'
+    _description = u'Municipio'
     _columns = {
         'name': fields.char('Nome', size=64, required=True),
         'state_id': fields.many2one('res.country.state', 'Estado',
