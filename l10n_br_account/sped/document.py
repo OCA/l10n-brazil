@@ -38,5 +38,5 @@ class FiscalDocument(object):
     def get_txt():
         pass
 
-    def set_xml():
+    def set_txt():
         pass
