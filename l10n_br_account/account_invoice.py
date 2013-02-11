@@ -32,6 +32,7 @@ OPERATION_TYPE = {
     'out_refund': 'input',
     'in_refund': 'output'
 }
+
 JOURNAL_TYPE = {
     'out_invoice': 'sale',
     'in_invoice': 'purchase',
@@ -274,6 +275,10 @@ class account_invoice(osv.Model):
         'cfop_ids': fields.function(
             _get_cfops, method=True, type='many2many',
             relation='l10n_br_account.cfop', string='CFOP'),
+        'fiscal_document_related_ids': fields.one2many(
+            'l10n_br_account.document.related', 'invoice_id',
+            'Fiscal Document Related', readonly=True,
+            states={'draft': [('readonly', False)]}),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -1212,7 +1217,6 @@ class account_invoice_line(osv.Model):
                     cr, uid, obj_fp, taxes, context)
 
                 result_rule['value']['invoice_line_tax_id'] = tax_ids
-        print result_rule
         return result_rule
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
@@ -1221,17 +1225,12 @@ class account_invoice_line(osv.Model):
                           currency_id=False, context=None, company_id=False,
                           parent_fiscal_category_id=False,
                           parent_fposition_id=False):
-        print 'product'
-        print 'context', context
+
         result = super(account_invoice_line, self).product_id_change(
             cr, uid, ids, product, uom, qty, name, type, partner_id,
             fposition_id, price_unit, currency_id, context, company_id)
 
         fiscal_position = fposition_id or parent_fposition_id or False
-
-        print 'parent_fiscal_category_id', parent_fiscal_category_id
-        print 'product', product
-        print 'fiscal_position', fiscal_position
 
         if not parent_fiscal_category_id or not product or not fiscal_position:
             return result
@@ -1254,7 +1253,6 @@ class account_invoice_line(osv.Model):
                                     company_id, product_id, fiscal_category_id,
                                     account_id, context):
         result = {'value': {}}
-        print 'category'
         return self._fiscal_position_map(
             cr, uid, result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
@@ -1265,7 +1263,6 @@ class account_invoice_line(osv.Model):
                                 product_id, fiscal_category_id,
                                 account_id, context):
         result = {'value': {}}
-        print 'fiscal_position'
         return self._fiscal_position_map(
             cr, uid, result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
