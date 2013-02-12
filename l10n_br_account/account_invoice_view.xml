@@ -46,7 +46,7 @@
 						            <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
 						            <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
 						            <field name="cpfcpnj_type" attrs="{'required': [('document_type', 'in', ('nfural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
-						            <field name="cnpj_cpf" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+						            <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcpnj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
                                                                 <field name="inscr_est" attrs="{'required': [('document_type', '=', 'nfrural')], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
 						        </group>
 						    </form>
