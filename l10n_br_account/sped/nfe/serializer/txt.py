@@ -48,7 +48,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'cUF': company_addr_default.state_id.ibge_code,
                    'cNF': '',
                    'NatOp': normalize('NFKD', unicode(inv.cfop_ids[0].small_name or '')).encode('ASCII','ignore'),
-                   'intPag': '0',
+                   'indPag':  inv.payment_term and inv.payment_term.indPag or '0',
                    'mod': inv.fiscal_document_id.code,
                    'serie': inv.document_serie_id.code,
                    'nNF': inv.internal_number or '',
@@ -73,7 +73,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         else:
             StrRegB['tpNF'] = '1'
 
-        StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegB['cUF'], StrRegB['cNF'], StrRegB['NatOp'], StrRegB['intPag'],
+        StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegB['cUF'], StrRegB['cNF'], StrRegB['NatOp'], StrRegB['indPag'],
                                                                              StrRegB['mod'], StrRegB['serie'], StrRegB['nNF'], StrRegB['dEmi'], StrRegB['dSaiEnt'],
                                                                              StrRegB['hSaiEnt'], StrRegB['tpNF'], StrRegB['cMunFG'], StrRegB['TpImp'], StrRegB['TpEmis'],
                                                                              StrRegB['cDV'], StrRegB['tpAmb'], StrRegB['finNFe'], StrRegB['procEmi'], StrRegB['VerProc'],
