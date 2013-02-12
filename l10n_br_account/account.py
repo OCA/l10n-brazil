@@ -35,6 +35,18 @@ class account_tax_computation(osv.Model):
     }
 
 
+class account_payment_term(osv.Model):
+    _inherit = 'account.payment.term'
+    _columns = {
+        'indPag': fields.selection(
+            [('0', 'Pagamento à Vista'), ('1', 'Pagamento à Prazo'),
+                ('2', 'Outros')], 'Indicador de Pagamento'),
+    }
+    _defaults = {
+        'indPag': '1',
+    }
+
+
 class account_tax(osv.Model):
     _inherit = 'account.tax'
 
