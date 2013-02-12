@@ -80,64 +80,62 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                                                                              StrRegB['dhCont'], StrRegB['xJust'])
         StrFile += StrB
 
-        for inv_related in inv.invoice_related_ids:
+        for inv_related in inv.fiscal_document_related_ids:
 
             if inv_related.document_type == 'nf':
                 StrRegB14 = {
-                    'cUF': inv_related.state_id and inv_related.state_id.ibge_code or '',
-                    'AAMM': inv_related.date.strftime('%y%m') or '',
-                    'CNPJ': inv_related.cnpj_cpf or '',
+                    'cUF': '%s' % inv_related.state_id and inv_related.state_id.ibge_code or '',
+                    'AAMM': datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or '',
+                    'CNPJ': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')),
                     'Mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
                     'serie': inv_related.serie or '',
-                    'nNF': inv_related.internal_number or '',
+                    'nNF': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.internal_number or '')),
                 }
 
-                StrB14 = 'B14|%s|%s|%s|%s|%s|%s|' % (StrRegB14['cUF'],
+                StrB14 = 'B14|%s|%s|%s|%s|%s|%s|\n' % (StrRegB14['cUF'],
                     StrRegB14['AAMM'], StrRegB14['CNPJ'], StrRegB14['CNPJ'],
                     StrRegB14['serie'], StrRegB14['nNF'])
 
                 StrFile += StrB14
 
             elif inv_related.document_type == 'nfrural':
-
                 StrRegB20a = {
-                    'cUF': inv_related.state_id and inv_related.state_id.ibge_code or '',
-                    'AAMM': inv_related.date.strftime('%y%m') or '',
-                    'IE': inv_related.inscr_est or '',
+                    'cUF': '%s' % inv_related.state_id and inv_related.state_id.ibge_code or '',
+                    'AAMM': datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or '',
+                    'IE': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.inscr_est or '')),
                     'mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
-                    'serie': inv_related.serie or '',
-                    'nNF': inv_related.internal_number or '',
+                    'serie': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.serie or '')),
+                    'nNF': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.internal_number or '')),
                 }
-
-                StrB20a = 'B20a|%s|%s|%s|%s|%s|%s|' % (StrRegB20a['cUF'],
-                    StrRegB20a['AAMM'], StrRegB20a['IE'], StrRegB20a['IE'],
-                    StrRegB20a['mod'], StrRegB20a['serie'], StrRegB20a['nNF'])
+                StrB20a = 'B20a|%s|%s|%s|%s|%s|%s|\n' % (StrRegB20a['cUF'],
+                    StrRegB20a['AAMM'], StrRegB20a['IE'], StrRegB20a['mod'],
+                    StrRegB20a['serie'], StrRegB20a['nNF'])
 
                 StrFile += StrB20a
 
                 if inv_related.cpfcpnj_type == 'cnpj':
                     StrRegB20d = {
-                        'CNPJ': inv_related.cnpj_cpf or ''
+                        'CNPJ': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or ''))
                     }
-                    StrB20d = 'B20d|%s|' % StrRegB20d['CNPJ']
+                    StrB20d = 'B20d|%s|\n' % StrRegB20d['CNPJ']
                     StrFile += StrB20d
                 else:
                     StrRegB20e = {
-                        'CPF': inv_related.cnpj_cpf or ''
+                        'CPF': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or ''))
                     }
-                    StrB20e = 'B20e|%s|' % StrRegB20e['CPF']
+                    StrB20e = 'B20e|%s|\n' % StrRegB20e['CPF']
                     StrFile += StrB20e
             elif inv_related.document_type == 'nfe':
                 StrRegB13 = {
                     'refNFe': inv_related.access_key or '',
                     }
-                StrB13 = 'B13|%s|' & StrRegB13['refNFe']
+                StrB13 = 'B13|%s|\n' & StrRegB13['refNFe']
                 StrFile += StrB13
             elif inv_related.document_type == 'cte':
                 StrRegB20i = {
                     'refCTe': inv_related.access_key or '',
                 }
-                StrB20i = 'B20i|%s|' % StrRegB20i['refCTe']
+                StrB20i = 'B20i|%s|\n' % StrRegB20i['refCTe']
                 StrFile += StrB20i
             elif inv_related.document_type == 'cf':
                 StrRegB20j = {
@@ -145,7 +143,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                     'nECF': inv_related.internal_number,
                     'nCOO': inv_related.serie,
                 }
-                StrB20j = 'B20j|%s|%s|%s|' % (StrRegB20j['mod'], StrRegB20j['nECF'], StrRegB20j['nCOO'])
+                StrB20j = 'B20j|%s|%s|%s|\n' % (StrRegB20j['mod'], StrRegB20j['nECF'], StrRegB20j['nCOO'])
                 StrFile += StrB20j
 
         StrRegC = {
