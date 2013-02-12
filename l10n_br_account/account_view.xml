@@ -17,6 +17,17 @@
            </field>
         </record>
 
+        <record id="l10n_br_account_payment_term_form" model="ir.ui.view">
+           <field name="name">l10n_br_account.payment.term.form</field>
+           <field name="model">account.payment.term</field>
+           <field name="inherit_id" ref="account.view_payment_term_form"/>
+           <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="indPag" required="1"/>
+                </field>
+           </field>
+        </record>
+
 		<record id="view_l10n_br_account_position_template_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.fiscal.position.template.form</field>
 			<field name="model">account.fiscal.position.template</field>
