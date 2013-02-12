@@ -46,6 +46,77 @@ PARAMETERS = {
 }
 
 
+def validate_cnpj(cnpj):
+    """ Rotina para validação do CNPJ - Cadastro Nacional
+    de Pessoa Juridica.
+
+    :param string cnpj: CNPJ para ser validado
+
+    :return bool: True or False
+    """
+    # Limpando o cnpj
+    if not cnpj.isdigit():
+        cnpj = re.sub('[^0-9]', '', cnpj)
+
+    # verificando o tamano do  cnpj
+    if len(cnpj) != 14:
+        return False
+
+    # Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos
+    cnpj = map(int, cnpj)
+    novo = cnpj[:12]
+
+    prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    while len(novo) < 14:
+        r = sum([x * y for (x, y) in zip(novo, prod)]) % 11
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        novo.append(f)
+        prod.insert(0, 6)
+
+    # Se o número gerado coincidir com o número original, é válido
+    if novo == cnpj:
+        return True
+
+    return False
+
+def validate_cpf(cpf):
+    """Rotina para validação do CPF - Cadastro Nacional
+    de Pessoa Física.
+
+    :Return: True or False
+
+    :Parameters:
+      - 'cpf': CPF to be validate.
+    """
+    if not cpf.isdigit():
+        cpf = re.sub('[^0-9]', '', cpf)
+
+    if len(cpf) != 11:
+        return False
+
+    # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos
+    cpf = map(int, cpf)
+    novo = cpf[:9]
+
+    while len(novo) < 11:
+        r = sum([(len(novo) + 1 - i) * v for i, v in enumerate(novo)]) % 11
+
+        if r > 1:
+            f = 11 - r
+        else:
+            f = 0
+        novo.append(f)
+
+    # Se o número gerado coincidir com o número original, é válido
+    if novo == cpf:
+        return True
+
+    return False
+
+
 class res_partner(osv.Model):
     _inherit = 'res.partner'
 
@@ -143,82 +214,12 @@ class res_partner(osv.Model):
                 continue
 
             if partner.is_company:
-                if not self._validate_cnpj(partner.cnpj_cpf):
+                if not validate_cnpj(partner.cnpj_cpf):
                     return False
-            elif not self._validate_cpf(partner.cnpj_cpf):
+            elif not validate_cpf(partner.cnpj_cpf):
                     return False
 
         return True
-
-    def _validate_cnpj(self, cnpj):
-        """ Rotina para validação do CNPJ - Cadastro Nacional
-        de Pessoa Juridica.
-
-        :param string cnpj: CNPJ para ser validado
-
-        :return bool: True or False
-        """
-        # Limpando o cnpj
-        if not cnpj.isdigit():
-            cnpj = re.sub('[^0-9]', '', cnpj)
-
-        # verificando o tamano do  cnpj
-        if len(cnpj) != 14:
-            return False
-
-        # Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos
-        cnpj = map(int, cnpj)
-        novo = cnpj[:12]
-
-        prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-        while len(novo) < 14:
-            r = sum([x * y for (x, y) in zip(novo, prod)]) % 11
-            if r > 1:
-                f = 11 - r
-            else:
-                f = 0
-            novo.append(f)
-            prod.insert(0, 6)
-
-        # Se o número gerado coincidir com o número original, é válido
-        if novo == cnpj:
-            return True
-
-        return False
-
-    def _validate_cpf(self, cpf):
-        """Rotina para validação do CPF - Cadastro Nacional
-        de Pessoa Física.
-
-        :Return: True or False
-
-        :Parameters:
-          - 'cpf': CPF to be validate.
-        """
-        if not cpf.isdigit():
-            cpf = re.sub('[^0-9]', '', cpf)
-
-        if len(cpf) != 11:
-            return False
-
-        # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos
-        cpf = map(int, cpf)
-        novo = cpf[:9]
-
-        while len(novo) < 11:
-            r = sum([(len(novo) + 1 - i) * v for i, v in enumerate(novo)]) % 11
-
-            if r > 1:
-                f = 11 - r
-            else:
-                f = 0
-            novo.append(f)
-
-        # Se o número gerado coincidir com o número original, é válido
-        if novo == cpf:
-            return True
-
-        return False
 
     def _validate_ie_param(self, uf, inscr_est):
 
@@ -627,7 +628,7 @@ class res_partner(osv.Model):
     ]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
-        res = super(res_partner, self).onchange_type(
+        result = super(res_partner, self).onchange_type(
             cr, uid, ids, is_company)
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
@@ -637,8 +638,8 @@ class res_partner(osv.Model):
             elif not is_company and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s"\
                 % (val[0:3], val[3:6], val[6:9], val[9:11])
-            res['value'].update({'cnpj_cpf': cnpj_cpf})
-        return res
+            result['value'].update({'cnpj_cpf': cnpj_cpf})
+        return result
 
     #TODO migrate
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
