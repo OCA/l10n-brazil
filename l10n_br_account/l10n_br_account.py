@@ -17,6 +17,8 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+import re
+from l10n_br_base import res_partner
 from osv import osv, fields
 
 
@@ -389,6 +391,25 @@ class l10n_br_account_document_related(osv.Model):
         'cpfcpnj_type': 'cnpj',
     }
 
+    def _check_cnpj_cpf(self, cr, uid, ids):
+
+        for inv_related in self.browse(cr, uid, ids):
+            if not inv_related.cnpj_cpf:
+                continue
+
+            if inv_related.cpfcpnj_type == 'cnpj':
+                if not res_partner.validate_cnpj(inv_related.cnpj_cpf):
+                    return False
+            elif not res_partner.validate_cpf(inv_related.cnpj_cpf):
+                    return False
+
+        return True
+
+    _constraints = [
+        (_check_cnpj_cpf, u'CNPJ/CPF do documento relacionado é invalido!',
+            ['cnpj_cpf']),
+    ]
+
     def onchange_invoice_related_id(self, cr, uid, ids,
                                     invoice_related_id=False, context=None):
         result = {'value': {}}
@@ -455,4 +476,18 @@ class l10n_br_account_document_related(osv.Model):
             result['value']['inscr_est'] = inv_related.partner_id and \
             inv_related.partner_id.inscr_est or False
 
+        return result
+
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, cpfcpnj_type, cnpj_cpf,
+                            context=None):
+        result = {'value': {}}
+        if cnpj_cpf:
+            val = re.sub('[^0-9]', '', cnpj_cpf)
+            if cpfcpnj_type == 'cnpj' and len(val) == 14:
+                cnpj_cpf = "%s.%s.%s/%s-%s"\
+                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+            elif cpfcpnj_type == 'cpf' and len(val) == 11:
+                cnpj_cpf = "%s.%s.%s-%s"\
+                % (val[0:3], val[3:6], val[6:9], val[9:11])
+            result['value'].update({'cnpj_cpf': cnpj_cpf})
         return result
