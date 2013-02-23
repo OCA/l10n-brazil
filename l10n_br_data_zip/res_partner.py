@@ -27,88 +27,48 @@ class res_partner(osv.Model):
     #TODO migrate
     def zip_search(self, cr, uid, ids, context=None):
 
-        result = {
-            'street': False,
-            'l10n_br_city_id': False,
-            'city': False,
-            'state_id': False,
-            'country_id': False,
-            'zip': False
-        }
-
         obj_zip = self.pool.get('l10n_br_data.zip')
 
         for res_partner in self.browse(cr, uid, ids):
+           
+            zip_read = obj_zip.zip_search(cr, uid, ids, context,
+                                        country_id = res_partner.country_id.id, \
+                                        state_id = res_partner.state_id.id, \
+                                        l10n_br_city_id = res_partner.l10n_br_city_id.id, \
+                                        district = res_partner.district, \
+                                        street = res_partner.street, \
+                                        zip = res_partner.zip,
+                                        )
 
-            domain = []
-            if res_partner.zip:
-                zip = re.sub('[^0-9]', '', res_partner.zip or '')
-                domain.append(('code', '=', zip))
-            else:
-                domain.append(('street', '=', res_partner.street))
-                domain.append(('district', '=', res_partner.district))
-                domain.append(('country_id', '=', \
-                               res_partner.country_id.id))
-                domain.append(('state_id', '=', \
-                               res_partner.state_id.id))
-                domain.append(('l10n_br_city_id', '=', \
-                               res_partner.l10n_br_city_id.id))
-
-            zip_id = obj_zip.search(cr, uid, domain)
-
-            if not len(zip_id) == 1:
-
-                context.update({
-                                'zip': res_partner.zip,
-                                'street': res_partner.street,
-                                'district': res_partner.district,
-                                'country_id': \
-                                res_partner.country_id.id,
-                                'state_id': res_partner.state_id.id,
-                                'l10n_br_city_id': \
-                                res_partner.l10n_br_city_id.id,
-                                'address_id': ids,
-                                'object_name': self._name,
-                                })
+            if zip_read != False:
 
                 result = {
-                        'name': 'Zip Search',
-                        'view_type': 'form',
-                        'view_mode': 'form',
-                        'res_model': 'l10n_br_data.zip.search',
-                        'view_id': False,
-                        'context': context,
-                        'type': 'ir.actions.act_window',
-                        'target': 'new',
-                        'nodestroy': True,
-                        }
-                return result
+                    'country_id': zip_read['country_id'],
+                    'state_id': zip_read['state_id'],
+                    'l10n_br_city_id': zip_read['l10n_br_city_id'],
+                    'district': zip_read['district'],
+                    'street': zip_read['street'],
+                    'zip': zip_read['zip'],
+                }                
+               
+                self.write(cr, uid, res_partner.id, result)
+                
+                return False
+            
+            else:
+                
+                return obj_zip.create_wizard(cr, uid, ids, context, self._name,
+                                        country_id = res_partner.country_id.id, \
+                                        state_id = res_partner.state_id.id, \
+                                        l10n_br_city_id = res_partner.l10n_br_city_id.id, \
+                                        district = res_partner.district, \
+                                        street = res_partner.street, \
+                                        zip = res_partner.zip,
+                                        )
 
-            zip_read = obj_zip.read(cr, uid, zip_id, [
-                                                      'street_type',
-                                                      'street', 'district',
-                                                      'code',
-                                                      'l10n_br_city_id',
-                                                      'city', 'state_id',
-                                                      'country_id'
-                                                      ],
-                                    context=context)[0]
+                
 
-            zip = re.sub('[^0-9]', '', zip_read['code'] or '')
-            if len(zip) == 8:
-                zip = '%s-%s' % (zip[0:5], zip[5:8])
 
-            result['street'] = ((zip_read['street_type'] or '') + ' ' \
-                                + (zip_read['street'] or ''))
-            result['district'] = zip_read['district']
-            result['zip'] = zip
-            result['l10n_br_city_id'] = zip_read['l10n_br_city_id'] \
-            and zip_read['l10n_br_city_id'][0] or False
-            result['city'] = zip_read['l10n_br_city_id'] \
-            and zip_read['l10n_br_city_id'][1] or ''
-            result['state_id'] = zip_read['state_id'] \
-            and zip_read['state_id'][0] or False
-            result['country_id'] = zip_read['country_id'] \
-            and zip_read['country_id'][0] or False
-            self.write(cr, uid, res_partner.id, result)
-            return False
+                
+                
+            

@@ -19,7 +19,7 @@
 
 {
     'name': 'Brazilian Localisation Data Extension for zip codes',
-    'description': 'Brazilian Localisation Data Extension for zip codes',
+    'description': 'Brazilian Localization Data Extension for zip codes',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'version': '0.1',
@@ -27,14 +27,14 @@
         'l10n_br_base',
     ],
     'data': [
-        'zip.sql'
+        #'zip.sql',
         'l10n_br_data_zip_view.xml',
         'res_partner_view.xml',
         'wizard/l10n_br_data_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
-    'category': 'Localisation',
+    'category': 'Localization',
     'active': False,
     'installable': True
 }

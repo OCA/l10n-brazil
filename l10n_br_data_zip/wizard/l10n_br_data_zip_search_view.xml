@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data noupdate="0">
-		
+
         <record id="view_l10n_br_data_zip_search" model="ir.ui.view">
             <field name="name">Pesquisar CEP</field>
             <field name="model">l10n_br_data.zip.search</field>
@@ -19,15 +19,15 @@
 	                </group>
 					<group colspan="8" col="8" states="done">
 						<!-- <separator colspan="8" string="Resuldado da Pesquisa"/>  -->
-						<field colspan="8" height="130" nolabel="1" name="zip_ids" />
+						<field colspan="8" height="130" nolabel="1" name="zip_ids" wizard="one2many_list"/>
 					</group>
                     <footer states="init">
 						<button name="zip_search" string="Pesquisar" type="object" class="oe_highlight"/>
-						or
 						<button special="cancel" string="Cancelar" class="oe_link"/>
 					</footer>
                     <footer states="done">
-                    	<button name="zip_search_end" type="object" string="Fechar" class="oe_highlight"/>
+						<button name="zip_search_end" type="object" string="Selecionar" class="oe_highlight"/>						<button name="zip_new_search" string="Nova Pesquisa" type="object" class="oe_highlight"/>
+						<button special="cancel" string="Cancelar" class="oe_link"/>
                     </footer>
                 </form>
             </field>
@@ -41,6 +41,6 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-		
+			
 	</data>
 </openerp>
