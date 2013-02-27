@@ -45,7 +45,10 @@ class l10n_br_data_zip_search(osv.osv_memory):
                                     readonly=False),
         
         'state':fields.selection([('init','init'),
-                                  ('done','done')], 'state', readonly=True)}
+                                  ('done','done')], 'state', readonly=True),
+        'address_id': fields.integer('Id do objeto', invisible=True),
+        'object_name': fields.char('Nome do bjeto', size=100, invisible=True),
+    }
     
     _defaults = {
         'state': 'init'}
@@ -64,7 +67,8 @@ class l10n_br_data_zip_search(osv.osv_memory):
         data['country_id'] = context.get('country_id', False)
         data['state_id'] = context.get('state_id', False)
         data['l10n_br_city_id'] = context.get('l10n_br_city_id', False)
-        
+        data['address_id'] = context.get('address_id', False)
+        data['object_name'] = context.get('object_name', False)
         return data
     
 
@@ -90,7 +94,7 @@ class l10n_br_data_zip_search(osv.osv_memory):
         zip_ids = obj_zip.search(cr, uid, domain)
         
         #TODO: MAP zip to zip.search.result
-        zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, ids, context, zip_ids)
+        zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, ids, context, data['id'], zip_ids)
         
         self.write(cr, uid, ids, 
                    {'state': 'done',
@@ -123,11 +127,72 @@ class l10n_br_data_zip_search(osv.osv_memory):
             'views': [(False, 'form')],
             'target': 'new',
         } 
-
            
-    
-    def zip_search_end(self, cr, uid, ids, context=None):
+l10n_br_data_zip_search()
 
+class l10n_br_data_zip_result(osv.osv_memory):
+    _name = 'l10n_br_data.zip.result'
+    _description = 'Zipcode result'
+    
+    _columns = {
+        'zip_id': fields.many2one('l10n_br_data.zip', 'Zipcode', readonly=True, invisible=True),
+        'search_id': fields.many2one('l10n_br_data.zip.search', 'Search', readonly=True, invisible=True),
+        #ZIPCODE data to be shown
+        'code': fields.char('CEP', size=8, readonly=True),
+        'street': fields.char('Logradouro', size=72, readonly=True),
+        'district': fields.char('Bairro', size=72, readonly=True),
+        'country_id': fields.many2one('res.country', 'Country', readonly=True),
+        'state_id': fields.many2one('res.country.state', 'Estado',
+                                    domain="[('country_id','=',country_id)]", readonly=True),
+        'l10n_br_city_id': fields.many2one(
+            'l10n_br_base.city', 'Cidade',
+            required=True, domain="[('state_id','=',state_id)]", readonly=True),        
+        }
+
+
+    def map_to_zip_result(self, cr, uid, ids, context, search_id, zip_ids):
+        
+        obj_zip = self.pool.get('l10n_br_data.zip')
+      
+        result = []
+        
+        for zip_id in zip_ids:
+            
+            zip_data = obj_zip.set_result(cr, uid, ids, context, [zip_id])
+            
+            zip_result_data = {
+                'selected': False,
+                'zip_id': False,
+                'code': False,
+                'street': False,
+                'district': False,
+                'country_id': False,
+                'state_id': False,
+                'l10n_br_city_id': False,
+                }
+                    
+            zip_result_data['zip_id'] = zip_id
+            zip_result_data['search_id'] = search_id
+            zip_result_data['code'] = zip_data['zip']
+            zip_result_data['street'] = zip_data['street']
+            zip_result_data['district'] = zip_data['district']
+            zip_result_data['country_id'] = zip_data['country_id']
+            zip_result_data['state_id'] = zip_data['state_id']
+            zip_result_data['l10n_br_city_id'] = zip_data['l10n_br_city_id']
+            
+            
+            zip_result_id = self.create(cr, uid, zip_result_data, context=context)
+            
+            result.append(zip_result_id)
+        
+        return result
+    
+    def zip_select(self, cr, uid, ids, context=None):
+        
+        data = self.read(cr, uid, ids, [], context=context)[0]
+        
+        obj_search = self.pool.get('l10n_br_data.zip.search')
+        
         result = {
                   'street': False, 
                   'l10n_br_city_id': False, 
@@ -136,55 +201,30 @@ class l10n_br_data_zip_search(osv.osv_memory):
                   'country_id': False, 
                   'zip': False
                   }
-
-        data = self.read(cr, uid, ids, [], context=context)[0]
         
-        zip_id = False
-
-        if data['zip_ids']:
+        search_values = obj_search.read(cr, uid,[data['search_id'][0]],
+                                        ['address_id',
+                                         'object_name'],
+                                        context=context)[0] 
+                                        
+        address_id = search_values['address_id']
             
-            address_id = context.get('address_id', False)
-            
-            object_name = context.get('object_name', False)
+        object_name = search_values['object_name']
                 
-            obj_zip_result = self.pool.get('l10n_br_data.zip.result')
-            
-            obj_zip = self.pool.get('l10n_br_data.zip')
-            
-            for zip_result in data['zip_ids']:
+        obj_zip = self.pool.get('l10n_br_data.zip')
                 
-                result_data = obj_zip_result.read(cr, uid, zip_result, [
-                                                  'selected',
-                                                  'zip_id', 
-                                                  ],
-                                context=context)
-                
-                if result_data['selected']:
-                    
-                    zip_id = result_data['zip_id']
-                    
-                    break
-        
-            if not zip_id==False:
-                    
-                result = obj_zip.set_result(cr, uid, ids, context, [zip_id[0]])
+        result = obj_zip.set_result(cr, uid, ids, context, [data['zip_id'][0]])
     
-                if address_id and object_name:
+        if address_id and object_name:
                     
-                    obj_partner = self.pool.get(object_name)
-                        
-                    obj_partner.write(cr, uid, address_id, result, context=context)
+            obj = self.pool.get(object_name)
+                
+            obj.write(cr, uid, address_id, result, context=context)
                     
-
-        #return {'type': 'ir.actions.act_window_close'}
+   
         return {
             'type': 'ir.actions.act_window_close',
-            'res_model': 'l10n_br_data.zip.search',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': data['id'],
-            'views': [(False, 'form')],
-            'target': 'new',
-        } 
-l10n_br_data_zip_search()
-
+            'value': result,
+        }
+        
+l10n_br_data_zip_result()

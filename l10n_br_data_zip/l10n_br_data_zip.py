@@ -138,7 +138,7 @@ class l10n_br_data_zip(osv.Model):
                         'country_id': country_id,
                         'state_id': state_id,
                         'l10n_br_city_id': l10n_br_city_id,
-                        'address_id': ids,
+                        'address_id': ids[0],
                         'object_name': object_name})
 
         result = {
@@ -155,61 +155,5 @@ class l10n_br_data_zip(osv.Model):
              
         return result
 
-class l10n_br_data_zip_result(osv.osv_memory):
-    _name = 'l10n_br_data.zip.result'
-    _description = 'Zipcode result'
-    
-    _columns = {
-        'selected': fields.boolean('Selecionar'),
-        'zip_id': fields.many2one('l10n_br_data.zip', 'Zipcode', readonly=True, invisible=True),
-        #ZIPCODE data to be shown
-        'code': fields.char('CEP', size=8, readonly=True),
-        'street': fields.char('Logradouro', size=72, readonly=True),
-        'district': fields.char('Bairro', size=72, readonly=True),
-        'country_id': fields.many2one('res.country', 'Country', readonly=True),
-        'state_id': fields.many2one('res.country.state', 'Estado',
-                                    domain="[('country_id','=',country_id)]", readonly=True),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Cidade',
-            required=True, domain="[('state_id','=',state_id)]", readonly=True),        
-        }
+l10n_br_data_zip()
 
-
-    def map_to_zip_result(self, cr, uid, ids, context, zip_ids):
-        
-        obj_zip = self.pool.get('l10n_br_data.zip')
-      
-        result = []
-        
-        for zip_id in zip_ids:
-            
-            zip_data = obj_zip.set_result(cr, uid, ids, context, [zip_id])
-            
-            zip_result_data = {
-                'selected': False,
-                'zip_id': False,
-                'code': False,
-                'street': False,
-                'district': False,
-                'country_id': False,
-                'state_id': False,
-                'l10n_br_city_id': False,
-                }
-                    
-            zip_result_data['zip_id'] = zip_id
-            zip_result_data['code'] = zip_data['zip']
-            zip_result_data['street'] = zip_data['street']
-            zip_result_data['district'] = zip_data['district']
-            zip_result_data['country_id'] = zip_data['country_id']
-            zip_result_data['state_id'] = zip_data['state_id']
-            zip_result_data['l10n_br_city_id'] = zip_data['l10n_br_city_id']
-            
-            
-            zip_result_id = self.create(cr, uid, zip_result_data, context=context)
-            
-            result.append(zip_result_id)
-        
-        return result
-    
-      
-l10n_br_data_zip_result()

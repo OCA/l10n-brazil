@@ -31,34 +31,6 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_data_zip_result_tree">
-			<field name="name">l10n_br_data.zip.result</field>
-			<field name="model">l10n_br_data.zip.result</field>
-			<field name="arch" type="xml">
-				<tree string="CEPs">
-					<field name="selected" colspan="2" select="1"/>
-					<field name="code" select="1"/>
-					<field name="district" select="1"/>
-					<field name="street" select="1"/>
-				</tree>
-			</field>
-		</record>
-				
-		<record model="ir.ui.view" id="view_l10n_br_data_zip_result_form">
-			<field name="name">l10n_br_data.zip.result</field>
-			<field name="model">l10n_br_data.zip.result</field>
-			<field name="arch" type="xml">
-				<form string="CEPs">
-					<field name="selected" select="1"/>
-					<field name="code" select="1"/>
-					<field name="street" select="1"/>
-					<field name="district" select="2"/>
-					<field name="country_id" select="2"/>
-					<field name="state_id" select="2"/>
-					<field name="l10n_br_city_id" select="2"/>
-				</form>
-			</field>
-		</record>
 
 		<record model="ir.actions.act_window" id="action_l10n_br_data_zip">
 			<field name="name">CEPs</field>
