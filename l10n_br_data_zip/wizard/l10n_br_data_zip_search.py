@@ -100,7 +100,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
         # Search zip_ids
         zip_ids = obj_zip.search(cr, uid, domain)
         
-        #TODO: MAP zip to zip.search.result
+        #MAP zip to zip.search.result
         zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, ids, context, data['id'], zip_ids)
         
         self.write(cr, uid, ids, 
