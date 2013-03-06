@@ -10,7 +10,7 @@
 	   		<field name="arch" type="xml">
 	   			<field name="zip" position="replace">
 					<field name="zip" placeholder="ZIP" on_change="onchange_mask_zip(zip)"/>
-					<button name="zip_search" string="Pesquisar CEP" type="object"/>
+					<button name="zip_search" string="Buscar Endereço" type="object"/>
         		</field>
         	</field>
    		</record>

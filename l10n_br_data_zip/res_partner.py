@@ -18,20 +18,19 @@
 ###############################################################################
 
 import re
-from osv import osv
+from openerp.osv import osv
 
 
 class res_partner(osv.Model):
     _inherit = 'res.partner'
 
-    #TODO migrate
     def zip_search(self, cr, uid, ids, context=None):
 
         obj_zip = self.pool.get('l10n_br_data.zip')
 
         for res_partner in self.browse(cr, uid, ids):
            
-            zip_read = obj_zip.zip_search(cr, uid, ids, context,
+            zip_ids = obj_zip.zip_search_multi(cr, uid, ids, context,
                                         country_id = res_partner.country_id.id, \
                                         state_id = res_partner.state_id.id, \
                                         l10n_br_city_id = res_partner.l10n_br_city_id.id, \
@@ -39,8 +38,10 @@ class res_partner(osv.Model):
                                         street = res_partner.street, \
                                         zip = res_partner.zip,
                                         )
-
-            if zip_read != False:
+            
+            if len(zip_ids) == 1:
+                
+                zip_read = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
 
                 result = {
                     'country_id': zip_read['country_id'],
@@ -53,22 +54,21 @@ class res_partner(osv.Model):
                
                 self.write(cr, uid, res_partner.id, result)
                 
-                return False
+                return True
             
             else:
                 
-                return obj_zip.create_wizard(cr, uid, ids, context, self._name,
+                if len(zip_ids) > 1:
+                
+                    return obj_zip.create_wizard(cr, uid, ids, context, self._name,
                                         country_id = res_partner.country_id.id, \
                                         state_id = res_partner.state_id.id, \
                                         l10n_br_city_id = res_partner.l10n_br_city_id.id, \
                                         district = res_partner.district, \
                                         street = res_partner.street, \
                                         zip = res_partner.zip,
+                                        zip_ids = zip_ids
                                         )
-
-                
-
-
-                
-                
-            
+                else:
+                    
+                    return True

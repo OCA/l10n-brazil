@@ -17,7 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 import re
-from osv import osv, fields
+from openerp.osv import osv, fields
 
 
 class l10n_br_data_zip(osv.Model):
@@ -88,7 +88,7 @@ class l10n_br_data_zip(osv.Model):
                                                       'state_id',
                                                       'country_id'
                                                       ],
-                                    context=context)[0]
+                                    context=context)
 
             zip = zip_read['code']
             
@@ -107,22 +107,34 @@ class l10n_br_data_zip(osv.Model):
         return result
             
                 
-    def zip_search(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
+    def zip_search_multi(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
         
-        result = self.set_result(cr, uid, ids, context)
-         
         domain = self.set_domain(country_id = country_id, 
                                  state_id = state_id, 
                                  l10n_br_city_id = l10n_br_city_id,
                                  district = district,
                                  street = street,
                                  zip = zip)
-        
+
         zip_id = self.search(cr, uid, domain)
+
+        return zip_id
+    
+    def zip_search(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
+        
+        result = self.set_result(cr, uid, ids, context)
+        
+        zip_id = self.zip_search_multi(cr, uid, ids, context, 
+                                       country_id,
+                                       state_id,
+                                       l10n_br_city_id,
+                                       district,
+                                       street,
+                                       zip)
         
         if len(zip_id) == 1:
             
-            result = self.set_result(cr, uid, ids, context, zip_id)
+            result = self.set_result(cr, uid, ids, context, zip_id[0])
             
             return result
                     
@@ -130,7 +142,7 @@ class l10n_br_data_zip(osv.Model):
             
             return False
     
-    def create_wizard(self, cr, uid, ids, context, object_name, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
+    def create_wizard(self, cr, uid, ids, context, object_name, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False, zip_ids=False):
 
         context.update({'zip': zip,
                         'street': street,
@@ -138,6 +150,7 @@ class l10n_br_data_zip(osv.Model):
                         'country_id': country_id,
                         'state_id': state_id,
                         'l10n_br_city_id': l10n_br_city_id,
+                        'zip_ids': zip_ids,
                         'address_id': ids[0],
                         'object_name': object_name})
 
@@ -154,6 +167,3 @@ class l10n_br_data_zip(osv.Model):
                     }
              
         return result
-
-l10n_br_data_zip()
-

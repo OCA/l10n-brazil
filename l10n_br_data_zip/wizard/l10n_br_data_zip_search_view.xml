@@ -26,8 +26,9 @@
 						<button special="cancel" string="Cancelar" class="oe_link"/>
 					</footer>
                     <footer states="done">
-						<button name="zip_new_search" string="Nova Pesquisa" type="object" class="oe_highlight"/>
+                        <!-- <button name="zip_search_end" string="Transferir" type="object" class="oe_highlight"/> -->
 						<button special="cancel" string="Cancelar" class="oe_link"/>
+                        <button name="zip_new_search" string="Nova Pesquisa" type="object" class="oe_highlight"/>
                     </footer>
                 </form>
             </field>
@@ -38,8 +39,8 @@
 			<field name="model">l10n_br_data.zip.result</field>
 			<field name="arch" type="xml">
 				<tree string="CEPs">
-					<!-- <field name="selected" colspan="2" select="1"/> -->
 					<button name="zip_select" string="Selecionar" type="object" icon="gtk-apply"/>
+                    <!--<field name="selected" colspan="2" select="1"/> -->
 					<field name="code" select="1"/>
 					<field name="district" select="1"/>
 					<field name="street" select="1"/>
