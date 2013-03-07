@@ -171,7 +171,18 @@ class l10n_br_data_zip_search(osv.TransientModel):
                 
             obj.write(cr, uid, address_id, result, context=context)
   
-        return {'type': 'ir.actions.act_window_close'}
+        #return {'type': 'ir.actions.act_window_close'}
+        
+        #return {'type': 'ir.actions.window',
+        #        'res_model': object_name,
+        #        'view_mode': 'form',
+        #        'view_type': 'form',
+        #        'res_id': address_id,
+        #        'views': [(False, 'form')]
+        #        }
+        
+        return {'type': 'ir.actions.client',
+                'tag': 'reload',}
     
     
 class l10n_br_data_zip_result(osv.TransientModel):
