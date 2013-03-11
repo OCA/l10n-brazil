@@ -40,7 +40,6 @@
 			<field name="arch" type="xml">
 				<tree string="CEPs">
 					<button name="zip_select" string="Selecionar" type="object" icon="gtk-apply"/>
-                    <!--<field name="selected" colspan="2" select="1"/> -->
 					<field name="code" select="1"/>
 					<field name="district" select="1"/>
 					<field name="street" select="1"/>
