@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	   
+	   	<!-- CRM Opportunity Form View  -->
+	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor1">
+			<field name="name">l10n_br_crm.opportunities1</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<field name="zip" position="replace">
+					<field name="zip"/>
+					<button name="zip_search" string="Buscar Endereço" colspan="2" type="object" icon="gtk-select-all"/>
+				</field>
+			</field>
+		</record>
+	
+	</data>
+</openerp>
