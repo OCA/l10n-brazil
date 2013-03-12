@@ -49,6 +49,13 @@ class l10n_br_data_zip(osv.Model):
             domain.append(('code', '=', new_zip))
         else:
             
+            if country_id == False or \
+               state_id == False or \
+               l10n_br_city_id == False or\
+               len(street or '') == 0:
+                raise   osv.except_osv('Parametros insuficientes',
+                                       'Necessário informar Estado, município e logradouro') 
+            
             if country_id:
                domain.append(('country_id', '=', country_id))
             
