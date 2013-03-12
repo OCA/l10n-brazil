@@ -13,16 +13,13 @@
 				</field>
 				<field name="state_id" position="replace">
 					<field name="state_id" />
-					<field name="l10n_br_city_id" placeholder="municipio" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" placeholder="municipio" />
 				</field>
 				<field name="street2" position="replace">
+                    <field name="district" placeholder="bairro"/>
 					<field name="number" placeholder="numero" />
 					<field name="street2" placeholder="complemento" />
 				</field>
-				<!-- FIXME field name="zip" position="replace">
-					<field name="zip" on_change="onchange_mask_zip(zip)" />
-					<button name="zip_search" string="Pesquisar CEP" colspan="2" type="object" icon="gtk-select-all"/>
-				</field -->
 			</field>
 		</record>
 	
