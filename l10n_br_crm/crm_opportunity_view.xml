@@ -12,7 +12,7 @@
 					<field name="city" invisible="1" />
 				</field>
 				<field name="state_id" position="replace">
-					<field name="state_id" />
+					<field name="state_id" placeholder="estado"/>
 					<field name="l10n_br_city_id" placeholder="municipio" />
 				</field>
 				<field name="street2" position="replace">
