@@ -18,7 +18,7 @@
 ###############################################################################
 import re
 from openerp.osv import osv, fields
-
+from openerp.tools.translate import _
 
 class l10n_br_data_zip(osv.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
@@ -49,12 +49,11 @@ class l10n_br_data_zip(osv.Model):
             domain.append(('code', '=', new_zip))
         else:
             
-            if country_id == False or \
-               state_id == False or \
+            if state_id == False or \
                l10n_br_city_id == False or\
                len(street or '') == 0:
-                raise   osv.except_osv('Parametros insuficientes',
-                                       'Necessário informar Estado, município e logradouro') 
+                raise   osv.except_osv(_('Parametros insuficientes'),
+                                       _('Necessário informar Estado, município e logradouro')) 
             
             if country_id:
                domain.append(('country_id', '=', country_id))
