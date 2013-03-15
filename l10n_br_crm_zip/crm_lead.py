@@ -17,20 +17,16 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import fields, orm
 
 
-class crm_lead(osv.Model):
+class crm_lead(orm.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
 
-
     def zip_search(self, cr, uid, ids, context=None):
-        
         obj_zip = self.pool.get('l10n_br_data.zip')
-
         for crm_lead in self.browse(cr, uid, ids):
-           
             zip_ids = obj_zip.zip_search_multi(cr, uid, ids, context,
                                         country_id = crm_lead.country_id.id, \
                                         state_id = crm_lead.state_id.id, \
@@ -41,9 +37,7 @@ class crm_lead(osv.Model):
                                         )
             
             if len(zip_ids) == 1:
-                
                 zip_read = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
-
                 result = {
                     'country_id': zip_read['country_id'],
                     'state_id': zip_read['state_id'],
@@ -54,13 +48,9 @@ class crm_lead(osv.Model):
                 }                
                
                 self.write(cr, uid, crm_lead.id, result)
-                
                 return True
-            
             else:
-                
                 if len(zip_ids) > 1:
-                
                     return obj_zip.create_wizard(cr, uid, ids, context, self._name,
                                         country_id = crm_lead.country_id.id, \
                                         state_id = crm_lead.state_id.id, \
@@ -71,5 +61,4 @@ class crm_lead(osv.Model):
                                         zip_ids = zip_ids
                                         )
                 else:
-                    
                     return True

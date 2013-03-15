@@ -17,10 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 import re
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
+from openerp.osv.osv import except_osv
 
-class l10n_br_data_zip(osv.Model):
+
+class l10n_br_data_zip(orm.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
@@ -41,39 +43,31 @@ class l10n_br_data_zip(osv.Model):
     }
 
     def set_domain(self, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
-        
         domain = []
-        
         if zip:
             new_zip = re.sub('[^0-9]', '', zip or '')
             domain.append(('code', '=', new_zip))
         else:
-            
             if state_id == False or \
                l10n_br_city_id == False or\
                len(street or '') == 0:
-                raise   osv.except_osv(u'Parametros insuficientes',
-                                       u'Necessário informar Estado, município e logradouro') 
+               raise except_osv(u'Parametros insuficientes',
+                                u'Necessário informar Estado, município e logradouro') 
             
             if country_id:
                domain.append(('country_id', '=', country_id))
-            
             if state_id:
                 domain.append(('state_id', '=', state_id))
-            
             if l10n_br_city_id:
                 domain.append(('l10n_br_city_id', '=', l10n_br_city_id))
-
             if district:
                 domain.append(('district', 'like', district))
-
             if street:
                 domain.append(('street', 'like', street))
         
         return domain
     
     def set_result(self, cr, uid, ids, context, zip_id=None):
-
         result = {
             'country_id': False,
             'state_id': False,
@@ -82,9 +76,7 @@ class l10n_br_data_zip(osv.Model):
             'street': False,
             'zip': False
         }
-        
         if zip_id != None:        
-        
             zip_read = self.read(cr, uid, zip_id, [
                                                       'street_type',
                                                       'street', 
@@ -95,7 +87,6 @@ class l10n_br_data_zip(osv.Model):
                                                       'country_id'
                                                       ],
                                     context=context)
-
             zip = zip_read['code']
             
             if len(zip) == 8:
@@ -109,12 +100,10 @@ class l10n_br_data_zip(osv.Model):
                 'street': ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or '')),
                 'zip': zip,
             }
-        
         return result
             
                 
     def zip_search_multi(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
-        
         domain = self.set_domain(country_id = country_id, 
                                  state_id = state_id, 
                                  l10n_br_city_id = l10n_br_city_id,
@@ -123,13 +112,10 @@ class l10n_br_data_zip(osv.Model):
                                  zip = zip)
 
         zip_id = self.search(cr, uid, domain)
-
         return zip_id
     
     def zip_search(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
-        
         result = self.set_result(cr, uid, ids, context)
-        
         zip_id = self.zip_search_multi(cr, uid, ids, context, 
                                        country_id,
                                        state_id,
@@ -139,17 +125,12 @@ class l10n_br_data_zip(osv.Model):
                                        zip)
         
         if len(zip_id) == 1:
-            
             result = self.set_result(cr, uid, ids, context, zip_id[0])
-            
             return result
-                    
         else:
-            
             return False
     
     def create_wizard(self, cr, uid, ids, context, object_name, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False, zip_ids=False):
-
         context.update({'zip': zip,
                         'street': street,
                         'district': district,
