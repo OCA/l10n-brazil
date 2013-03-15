@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2011  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,24 +17,5 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localisation Data Extension for zip codes',
-    'description': 'Brazilian Localization Data Extension for zip codes',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'version': '0.1',
-    'depends': [
-        'l10n_br_base',
-    ],
-    'data': [
-        'zip.sql',
-        'l10n_br_data_zip_view.xml',
-        'res_partner_view.xml',
-        'wizard/l10n_br_data_zip_search_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo': [],
-    'category': 'Localization',
-    'active': False,
-    'installable': True
-}
+import crm_lead
+

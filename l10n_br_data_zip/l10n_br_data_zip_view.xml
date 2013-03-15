@@ -8,6 +8,7 @@
 			<field name="arch" type="xml">
 				<tree string="CEPs">
 					<field name="code" select="1"/>
+					<field name="district" select="1"/>
 					<field name="street_type" select="1"/>
 					<field name="street" select="1"/>
 				</tree>
@@ -29,7 +30,8 @@
 				</form>
 			</field>
 		</record>
-		
+
+
 		<record model="ir.actions.act_window" id="action_l10n_br_data_zip">
 			<field name="name">CEPs</field>
 			<field name="type">ir.actions.act_window</field>

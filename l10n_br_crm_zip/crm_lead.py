@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2010-2012  Renato Lima (Akretion)                             #
+# Copyright (C) 2012  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,26 +17,27 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-from openerp.osv import osv
+from openerp.osv import fields, osv
 
 
-class res_partner(osv.Model):
-    _inherit = 'res.partner'
+class crm_lead(osv.Model):
+    """ CRM Lead Case """
+    _inherit = "crm.lead"
+
 
     def zip_search(self, cr, uid, ids, context=None):
-
+        
         obj_zip = self.pool.get('l10n_br_data.zip')
 
-        for res_partner in self.browse(cr, uid, ids):
+        for crm_lead in self.browse(cr, uid, ids):
            
             zip_ids = obj_zip.zip_search_multi(cr, uid, ids, context,
-                                        country_id = res_partner.country_id.id, \
-                                        state_id = res_partner.state_id.id, \
-                                        l10n_br_city_id = res_partner.l10n_br_city_id.id, \
-                                        district = res_partner.district, \
-                                        street = res_partner.street, \
-                                        zip = res_partner.zip,
+                                        country_id = crm_lead.country_id.id, \
+                                        state_id = crm_lead.state_id.id, \
+                                        l10n_br_city_id = crm_lead.l10n_br_city_id.id, \
+                                        district = crm_lead.district, \
+                                        street = crm_lead.street, \
+                                        zip = crm_lead.zip,
                                         )
             
             if len(zip_ids) == 1:
@@ -52,7 +53,7 @@ class res_partner(osv.Model):
                     'zip': zip_read['zip'],
                 }                
                
-                self.write(cr, uid, res_partner.id, result)
+                self.write(cr, uid, crm_lead.id, result)
                 
                 return True
             
@@ -61,12 +62,12 @@ class res_partner(osv.Model):
                 if len(zip_ids) > 1:
                 
                     return obj_zip.create_wizard(cr, uid, ids, context, self._name,
-                                        country_id = res_partner.country_id.id, \
-                                        state_id = res_partner.state_id.id, \
-                                        l10n_br_city_id = res_partner.l10n_br_city_id.id, \
-                                        district = res_partner.district, \
-                                        street = res_partner.street, \
-                                        zip = res_partner.zip,
+                                        country_id = crm_lead.country_id.id, \
+                                        state_id = crm_lead.state_id.id, \
+                                        l10n_br_city_id = crm_lead.l10n_br_city_id.id, \
+                                        district = crm_lead.district, \
+                                        street = crm_lead.street, \
+                                        zip = crm_lead.zip,
                                         zip_ids = zip_ids
                                         )
                 else:
