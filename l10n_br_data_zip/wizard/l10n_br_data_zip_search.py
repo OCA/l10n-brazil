@@ -35,8 +35,8 @@ class l10n_br_data_zip_search(osv.TransientModel):
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Cidade',
             domain="[('state_id','=',state_id)]"),
-        'zip_ids': fields.many2many('l10n_br_data.zip.result','zip_search',
-                                    'zip_id', 'zip_search_id', 'CEP',
+        'zip_ids': fields.many2many('l10n_br_data.zip.result', 'zip_search',
+                                    'zip_search_id', 'zip_id', 'CEP',
                                     readonly=False),
         'state':fields.selection([('init','init'),
                                   ('done','done')], 'state', readonly=True),
