@@ -34,20 +34,10 @@ class res_partner(orm.Model):
                                         street = res_partner.street, \
                                         zip = res_partner.zip,
                                         )
-            
             if len(zip_ids) == 1:
-                zip_read = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
-                result = {
-                    'country_id': zip_read['country_id'],
-                    'state_id': zip_read['state_id'],
-                    'l10n_br_city_id': zip_read['l10n_br_city_id'],
-                    'district': zip_read['district'],
-                    'street': zip_read['street'],
-                    'zip': zip_read['zip'],
-                }                
+                result = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
                 self.write(cr, uid, res_partner.id, result)
                 return True
-            
             else:
                 if len(zip_ids) > 1:
                     return obj_zip.create_wizard(cr, uid, ids, context, self._name,

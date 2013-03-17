@@ -110,9 +110,7 @@ class l10n_br_data_zip(orm.Model):
                                  district = district,
                                  street = street,
                                  zip = zip)
-
-        zip_id = self.search(cr, uid, domain)
-        return zip_id
+        return self.search(cr, uid, domain)
     
     def zip_search(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
         result = self.set_result(cr, uid, ids, context)
@@ -123,7 +121,6 @@ class l10n_br_data_zip(orm.Model):
                                        district,
                                        street,
                                        zip)
-        
         if len(zip_id) == 1:
             result = self.set_result(cr, uid, ids, context, zip_id[0])
             return result
@@ -140,7 +137,6 @@ class l10n_br_data_zip(orm.Model):
                         'zip_ids': zip_ids,
                         'address_id': ids[0],
                         'object_name': object_name})
-
         result = {
                     'name': 'Zip Search',
                     'view_type': 'form',
@@ -152,5 +148,4 @@ class l10n_br_data_zip(orm.Model):
                     'target': 'new',
                     'nodestroy': True,
                     }
-             
         return result

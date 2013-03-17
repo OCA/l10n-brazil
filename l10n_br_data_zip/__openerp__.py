@@ -27,7 +27,7 @@
         'l10n_br_base',
     ],
     'data': [
-        'zip.sql',
+#        'zip.sql',
         'l10n_br_data_zip_view.xml',
         'res_partner_view.xml',
         'wizard/l10n_br_data_zip_search_view.xml',

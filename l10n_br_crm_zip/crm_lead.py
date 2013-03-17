@@ -35,18 +35,8 @@ class crm_lead(orm.Model):
                                         street = crm_lead.street, \
                                         zip = crm_lead.zip,
                                         )
-            
             if len(zip_ids) == 1:
-                zip_read = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
-                result = {
-                    'country_id': zip_read['country_id'],
-                    'state_id': zip_read['state_id'],
-                    'l10n_br_city_id': zip_read['l10n_br_city_id'],
-                    'district': zip_read['district'],
-                    'street': zip_read['street'],
-                    'zip': zip_read['zip'],
-                }                
-               
+                result = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
                 self.write(cr, uid, crm_lead.id, result)
                 return True
             else:
