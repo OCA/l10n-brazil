@@ -17,17 +17,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-import string
-
 from openerp.osv import osv, fields
-
 
     
 class l10n_br_data_zip_search(osv.TransientModel):
-
     _name = 'l10n_br_data.zip.search'
-
     _description = 'Zipcode Search'
 
     _columns = {
@@ -41,11 +35,9 @@ class l10n_br_data_zip_search(osv.TransientModel):
         'l10n_br_city_id': fields.many2one(
             'l10n_br_base.city', 'Cidade',
             domain="[('state_id','=',state_id)]"),
-
         'zip_ids': fields.many2many('l10n_br_data.zip.result','zip_search',
                                     'zip_id', 'zip_search_id', 'CEP',
                                     readonly=False),
-        
         'state':fields.selection([('init','init'),
                                   ('done','done')], 'state', readonly=True),
         'address_id': fields.integer('Id do objeto', invisible=True),
@@ -56,18 +48,13 @@ class l10n_br_data_zip_search(osv.TransientModel):
         'state': 'init'}
 
     def create(self, cr, uid, vals, context):
-        
         result = super(l10n_br_data_zip_search, self).create(cr, uid, vals, context)
-        
         context.update({'search_id': result})
-        
         return result
         
     def default_get(self, cr, uid, fields_list, context=None):
-        
         if context is None:
             context = {}
-        
         data = super(l10n_br_data_zip_search, self).default_get(
             cr, uid, fields_list, context)
         
@@ -83,26 +70,18 @@ class l10n_br_data_zip_search(osv.TransientModel):
         zip_ids = context.get('zip_ids', False)
         
         if zip_ids != False:
-            
             obj_zip_result = self.pool.get('l10n_br_data.zip.result')
-            
             zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, 0, context, 
                     zip_ids, data['object_name'], data['address_id'])
-            
             data['zip_ids'] = zip_result_ids
-            
             data['state'] = 'done'
         
         return data
     
     def zip_search(self, cr, uid, ids, context=None):
-
         data = self.read(cr, uid, ids, [], context=context)[0]
-
         obj_zip = self.pool.get('l10n_br_data.zip')
-        
         obj_zip_result = self.pool.get('l10n_br_data.zip.result')
-
         domain = obj_zip.set_domain(country_id = data['country_id'][0], \
                                     state_id = data['state_id'][0], \
                                     l10n_br_city_id = data['l10n_br_city_id'][0],\
@@ -112,11 +91,9 @@ class l10n_br_data_zip_search(osv.TransientModel):
         
         # Search zip_ids
         zip_ids = obj_zip.search(cr, uid, domain)
-        
         #MAP zip to zip.search.result
         zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, ids, context, 
                                                           zip_ids, data['object_name'], data['address_id'])
-        
         self.write(cr, uid, ids, 
                    {'state': 'done',
                     'zip_ids': [[6, 0, zip_result_ids]]}, context=context)
@@ -133,9 +110,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
         } 
     
     def zip_new_search(self, cr, uid, ids, context=None):
-        
         data = self.read(cr, uid, ids, [], context=context)[0]
-        
         self.write(cr, uid, ids, 
                    {'state': 'init',
                     'zip_ids': [[6, 0, []]]}, context=context)
@@ -155,9 +130,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
     
     
 class l10n_br_data_zip_result(osv.TransientModel):
-
     _name = 'l10n_br_data.zip.result'
-
     _description = 'Zipcode result'
     
     _columns = {
@@ -179,15 +152,11 @@ class l10n_br_data_zip_result(osv.TransientModel):
 
 
     def map_to_zip_result(self, cr, uid, ids, context, zip_ids, object_name, address_id):
-        
         obj_zip = self.pool.get('l10n_br_data.zip')
-      
         result = []
         
         for zip_id in zip_ids:
-            
             zip_data = obj_zip.set_result(cr, uid, ids, context, zip_id)
-            
             zip_result_data = {
                 'zip_id': False,
                 'code': False,
@@ -208,34 +177,17 @@ class l10n_br_data_zip_result(osv.TransientModel):
             zip_result_data['state_id'] = zip_data['state_id']
             zip_result_data['l10n_br_city_id'] = zip_data['l10n_br_city_id']
             
-            
             zip_result_id = self.create(cr, uid, zip_result_data, context=context)
-            
             result.append(zip_result_id)
-        
         return result
 
     def zip_select(self, cr, uid, ids, context=None):
-        
         data = self.read(cr, uid, ids, [], context=context)[0]
-        
         address_id = data['address_id']
-            
         object_name = data['object_name']
-        
         if address_id and object_name:
-    
             obj = self.pool.get(object_name)
-
             obj_zip = self.pool.get('l10n_br_data.zip')
-
             result = obj_zip.set_result(cr, uid, ids, context, data['zip_id'][0])
-                
             obj.write(cr, uid, address_id, result, context=context)
-        
         return True
-
-        
-
-        
-
