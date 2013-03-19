@@ -30,3 +30,13 @@ class crm_lead(osv.Model):
         'district': fields.char('Bairro', size=32),
         'number': fields.char('Número', size=10)
     }
+
+    def _create_lead_partner(self, cr, uid, lead, context=None):
+        partner_id = super(crm_lead, self)._create_lead_partner(cr, uid, lead, context)
+        self.pool.get('res.partner').write(cr, uid, [partner_id],
+        {
+            'number': lead.number,
+            'district': lead.district,
+            'l10n_br_city_id': lead.l10n_br_city_id.id
+        })
+        return partner_id
