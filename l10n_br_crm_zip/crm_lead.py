@@ -37,7 +37,7 @@ class crm_lead(orm.Model):
                                         )
             if len(zip_ids) == 1:
                 result = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
-                self.write(cr, uid, crm_lead.id, result)
+                self.write(cr, uid, [crm_lead.id], result, context)
                 return True
             else:
                 if len(zip_ids) > 1:

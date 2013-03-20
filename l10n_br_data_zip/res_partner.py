@@ -36,7 +36,7 @@ class res_partner(orm.Model):
                                         )
             if len(zip_ids) == 1:
                 result = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
-                self.write(cr, uid, res_partner.id, result)
+                self.write(cr, uid, [res_partner.id], result, context)
                 return True
             else:
                 if len(zip_ids) > 1:

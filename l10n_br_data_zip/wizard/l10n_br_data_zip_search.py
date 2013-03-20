@@ -189,5 +189,5 @@ class l10n_br_data_zip_result(osv.TransientModel):
             obj = self.pool.get(object_name)
             obj_zip = self.pool.get('l10n_br_data.zip')
             result = obj_zip.set_result(cr, uid, ids, context, data['zip_id'][0])
-            obj.write(cr, uid, address_id, result, context=context)
+            obj.write(cr, uid, [address_id], result, context=context)
         return True
