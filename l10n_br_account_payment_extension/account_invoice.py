@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv
+from openerp.osv import orm
 
 
-class account_invoice(osv.Model):
+class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
@@ -30,5 +30,5 @@ class account_invoice(osv.Model):
 
         result = super(account_invoice, self).onchange_partner_id(
             cr, uid, ids, type, partner_id, date_invoice, payment_term,
-            partner_bank_id, company_id, fiscal_category_id=False)
+            partner_bank_id, company_id, fiscal_category_id)
         return result

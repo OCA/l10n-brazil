@@ -17,11 +17,3 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import time
-import netsvc
-from osv import fields, osv
-import decimal_precision as dp
-import pooler
-from tools import config
-from tools.translate import _
-from datetime import datetime

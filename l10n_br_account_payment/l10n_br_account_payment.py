@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from openerp.osv import fields, orm
 
 
-class payment_line(osv.Model):
+class payment_line(orm.Model):
     _inherit = 'payment.line'
     _columns = {
         'related_mode_id': fields.related(
@@ -29,7 +29,7 @@ class payment_line(osv.Model):
     }
 
 
-class account_move_line(osv.Model):
+class account_move_line(orm.Model):
     _inherit = 'account.move.line'
 
     def _payment_mode_search(self, cr, uid, obj, name, args, context):
