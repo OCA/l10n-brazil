@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class stock_picking(osv.Model):
+class stock_picking(orm.Model):
     _inherit = 'stock.picking'
     _columns = {
         'vehicle_id': fields.many2one(
@@ -47,7 +47,7 @@ class stock_picking(osv.Model):
             cr, uid, picking, invoice_id)
 
 
-class stock_picking_in(osv.Model):
+class stock_picking_in(orm.Model):
     _inherit = 'stock.picking.in'
     _columns = {
         'vehicle_id': fields.many2one(
@@ -59,7 +59,7 @@ class stock_picking_in(osv.Model):
         "commercial transaction.")}
 
 
-class stock_picking_out(osv.Model):
+class stock_picking_out(orm.Model):
     _inherit = 'stock.picking.out'
     _columns = {
         'vehicle_id': fields.many2one(

@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from openerp.osv import orm, fields
 
 
-class l10n_br_delivery_carrier_vehicle(osv.Model):
+class l10n_br_delivery_carrier_vehicle(orm.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
     _description = 'Veiculos das transportadoras'
     _columns = {
@@ -45,7 +45,7 @@ class l10n_br_delivery_carrier_vehicle(osv.Model):
     }
 
 
-class l10n_br_delivery_shipment(osv.Model):
+class l10n_br_delivery_shipment(orm.Model):
     _name = 'l10n_br_delivery.shipment'
     _columns = {
         'code': fields.char('Nome', size=32),
@@ -78,6 +78,7 @@ class l10n_br_delivery_shipment(osv.Model):
 
     def _get_picking_line(self, cr, uid, ids, context=None):
             result = {}
-            for line in self.pool.get('stock.move').browse(cr, uid, ids, context=context):
+            for line in self.pool.get('stock.move').browse(
+                cr, uid, ids, context=context):
                 result[line.picking_id.id] = True
             return result.keys()
