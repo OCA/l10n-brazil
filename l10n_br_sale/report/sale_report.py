@@ -17,18 +17,19 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import tools
-from osv import fields, osv
+from openerp import tools
+from openerp.osv import orm, fields
 
 
-class sale_report(osv.osv):
+class sale_report(orm.Model):
     _inherit = "sale.report"
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Fiscal Category',
             readonly=True),
         'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position', readonly=True)}
+            'account.fiscal.position', 'Fiscal Position', readonly=True)
+    }
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'sale_report')
@@ -83,4 +84,4 @@ class sale_report(osv.osv):
                     s.project_id
             )
         """)
-sale_report()
+
