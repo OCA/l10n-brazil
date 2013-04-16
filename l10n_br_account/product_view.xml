@@ -7,12 +7,17 @@
 			<field name="model">product.product</field>
 			<field name="inherit_id" ref="product.product_normal_form_view" />
 			<field name="arch" type="xml">
+			        <field name="property_account_income" position="after">
+                                        <group string="Tipo do Serviço" attrs="{'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}">
+                                            <field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
+                                        </group>
+                                    </field>
 				<field name="type" position="after">
 					<field name="origin" attrs="{'required': [('type', '!=', 'service')]}" />
 				</field>
 				<field position="after" name="type">
 					<field name="fiscal_type" required="1" />
-					<field name="is_on_service_invoice" attrs="{'invisible':[('fiscal_type','=','service')]}" />
+					<field name="is_on_service_invoice" attrs="{'invisible': [('fiscal_type', '=', 'service')]}" />
 				</field>
 				<field name="default_code" position="replace">
 					<field name="default_code"
