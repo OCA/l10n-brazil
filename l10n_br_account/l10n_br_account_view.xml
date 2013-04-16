@@ -174,15 +174,17 @@
 				<field name="name">l10n_br_account.invoice.invalid.number.form</field>
 				<field name="model">l10n_br_account.invoice.invalid.number</field>
 				<field name="arch" type="xml">
-					<form string="Inutilizar Faixa de Numeração">
-						<field name="company_id"/>
-						<field name="fiscal_document_id"/>
-						<field name="document_serie_id"/>
-						<field name="number_start"/>
-						<field name="number_end"/>
-						<group colspan="4">
-						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
-						<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+					<form string="Inutilizar Faixa de Numeração" version="7.0">
+						<header>
+							<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+							<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+						</header>
+						<group>
+							<field name="company_id"/>
+							<field name="fiscal_document_id"/>
+							<field name="document_serie_id"/>
+							<field name="number_start"/>
+							<field name="number_end"/>
 						</group>
 					</form>
 				</field>
@@ -193,6 +195,7 @@
 				<field name="model">l10n_br_account.invoice.invalid.number</field>
 				<field name="arch" type="xml">
 					<tree string="Inutilizar Faixa de Numeração">
+						<field name="name"/>
 						<field name="fiscal_document_id"/>
 						<field name="document_serie_id"/>
 						<field name="number_start"/>
@@ -266,9 +269,6 @@
 						<field name="name" colspan="4" select="1"/>
 						<field name="parent_id" select="1"/>
 						<field name="internal_type"/>
-						<field name="country_id" select="1"/>
-						<field name="state_id" select="1"/>
-						<field name="l10n_br_city_id" select="1"/>
 					</form>
 				</field>
 			</record>
@@ -293,7 +293,6 @@
 	                <tree string="Estrutura de Tipo de Serviço">
 	                    <field name="code"/>
 	                    <field name="name"/>
-	                    <field name="l10n_br_city_id"/>
 	                    <field name="internal_type"/>
 	                </tree>
 	            </field>
