@@ -20,7 +20,7 @@
 import l10n_br_account
 import sped
 import res_company
-import partner
+import res_partner
 import account
 import account_invoice
 import product
