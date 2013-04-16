@@ -18,11 +18,12 @@
 ###############################################################################
 
 import re
-from l10n_br_base import res_partner
-from osv import osv, fields
+
+from l10n_br_base.tools import fiscal
+from openerp.osv import orm, fields
 
 
-class l10n_br_account_cfop(osv.Model):
+class l10n_br_account_cfop(orm.Model):
     """ CFOP - Código Fiscal de Operações e Prestações """
     _name = 'l10n_br_account.cfop'
     _description = 'CFOP'
@@ -67,7 +68,7 @@ class l10n_br_account_cfop(osv.Model):
                  (x['name'] and ' - ' + x['name'] or '')) for x in reads]
 
 
-class l10n_br_account_service_type(osv.Model):
+class l10n_br_account_service_type(orm.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
     _columns = {
@@ -78,9 +79,6 @@ class l10n_br_account_service_type(osv.Model):
         'child_ids': fields.one2many(
             'l10n_br_account.service.type', 'parent_id',
             u'Tipo de Serviço Filhos'),
-        'country_id': fields.many2one('res.country', u'País'),
-        'state_id': fields.many2one('res.country.state', 'Estado'),
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city', u'Município'),
         'internal_type': fields.selection(
             [('view', u'Visualização'), ('normal', 'Normal')],
             'Tipo Interno', required=True),
@@ -102,7 +100,7 @@ class l10n_br_account_service_type(osv.Model):
         return res
 
 
-class l10n_br_account_fiscal_document(osv.Model):
+class l10n_br_account_fiscal_document(orm.Model):
     _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
     _columns = {
@@ -112,7 +110,7 @@ class l10n_br_account_fiscal_document(osv.Model):
     }
 
 
-class l10n_br_account_fiscal_category(osv.Model):
+class l10n_br_account_fiscal_category(orm.Model):
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscail'
     _columns = {
@@ -149,7 +147,7 @@ class l10n_br_account_fiscal_category(osv.Model):
     }
 
 
-class l10n_br_account_document_serie(osv.Model):
+class l10n_br_account_document_serie(orm.Model):
     _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
     _columns = {
@@ -195,10 +193,22 @@ class l10n_br_account_document_serie(osv.Model):
             cr, uid, vals, context)
 
 
-class l10n_br_account_invoice_invalid_number(osv.Model):
+class l10n_br_account_invoice_invalid_number(orm.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
+
+    def _name_get(self, cr, uid, ids, field_name, arg, context=None):
+        result = {}
+        for record in self.browse(cr, uid, ids, context):
+            result[record.id] = record.fiscal_document_id.name + ' (' + \
+            record.document_serie_id.name + '): ' + \
+            str(record.number_start) + ' - ' + str(record.number_end)
+        return result
+
     _columns = {
+        'name': fields.function(
+            _name_get, method=True, type="char",
+            size=64, string="Nome"),
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
             states={'draft': [('readonly', False)]}, required=True),
@@ -221,7 +231,6 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
             [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
             ('done', u'Concluído')], 'Status', required=True),
     }
-    _rec_name = 'document_serie_id'
     _defaults = {
         'state': 'draft',
         'company_id': lambda self, cr, uid,
@@ -271,14 +280,14 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
             if invalid_number['state'] in ('draft'):
                 unlink_ids.append(invalid_number['id'])
             else:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     (u'Ação Inválida!'),
                     (u'Você não pode excluir uma sequência concluída.'))
-        osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
+        orm.Model.unlink(self, cr, uid, unlink_ids, context=context)
         return True
 
 
-class l10n_br_account_partner_fiscal_type(osv.Model):
+class l10n_br_account_partner_fiscal_type(orm.Model):
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
     _columns = {
@@ -290,7 +299,7 @@ class l10n_br_account_partner_fiscal_type(osv.Model):
     }
 
 
-class l10n_br_account_cnae(osv.Model):
+class l10n_br_account_cnae(orm.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
     _columns = {
@@ -321,7 +330,7 @@ class l10n_br_account_cnae(osv.Model):
         return res
 
 
-class l10n_br_tax_definition_template(osv.Model):
+class l10n_br_tax_definition_template(orm.Model):
     _name = 'l10n_br_tax.definition.template'
     _columns = {
         'tax_id': fields.many2one(
@@ -339,7 +348,7 @@ class l10n_br_tax_definition_template(osv.Model):
         return {'value': {'tax_domain': tax_domain}}
 
 
-class l10n_br_tax_definition(osv.Model):
+class l10n_br_tax_definition(orm.Model):
     _name = 'l10n_br_tax.definition'
     _columns = {
         'tax_id': fields.many2one('account.tax', 'Imposto', required=True),
@@ -360,7 +369,7 @@ class l10n_br_tax_definition(osv.Model):
         return {'value': {'tax_domain': tax_domain}}
 
 
-class l10n_br_account_document_related(osv.Model):
+class l10n_br_account_document_related(orm.Model):
     _name = 'l10n_br_account.document.related'
     _columns = {
         'invoice_id': fields.many2one(
@@ -398,9 +407,41 @@ class l10n_br_account_document_related(osv.Model):
                 continue
 
             if inv_related.cpfcpnj_type == 'cnpj':
-                if not res_partner.validate_cnpj(inv_related.cnpj_cpf):
+                if not fiscal.validate_cnpj(inv_related.cnpj_cpf):
                     return False
-            elif not res_partner.validate_cpf(inv_related.cnpj_cpf):
+            elif not fiscal.validate_cpf(inv_related.cnpj_cpf):
+                    return False
+
+        return True
+
+    def _check_ie(self, cr, uid, ids):
+        """Checks if company register number in field insc_est is valid,
+        this method call others methods because this validation is State wise
+
+        :Return: True or False.
+
+        :Parameters:
+            - 'cr': Database cursor.
+            - 'uid': Current user’s ID for security checks.
+            - 'ids': List of partner objects IDs.
+        """
+        for inv_related in self.browse(cr, uid, ids):
+            if not inv_related.inscr_est \
+            or inv_related.inscr_est == 'ISENTO':
+                continue
+
+            uf = inv_related.state_id and \
+            inv_related.state_id.code.lower() or ''
+
+            try:
+                mod = __import__(
+                'l10n_br_base.tools.fiscal', globals(), locals(), 'fiscal')
+
+                validate = getattr(mod, 'validate_ie_%s' % uf)
+                if not validate(inv_related.inscr_est):
+                    return False
+            except AttributeError:
+                if not fiscal.validate_ie_param(uf, inv_related.inscr_est):
                     return False
 
         return True
@@ -408,6 +449,8 @@ class l10n_br_account_document_related(osv.Model):
     _constraints = [
         (_check_cnpj_cpf, u'CNPJ/CPF do documento relacionado é invalido!',
             ['cnpj_cpf']),
+        (_check_ie, u'Inscrição Estadual do documento fiscal inválida!',
+            ['inscr_est']),
     ]
 
     def onchange_invoice_related_id(self, cr, uid, ids,
