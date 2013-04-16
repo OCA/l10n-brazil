@@ -18,21 +18,21 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import decimal_precision as dp
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 
 
-class sale_shop(osv.Model):
+class sale_shop(orm.Model):
     _inherit = 'sale.shop'
     _columns = {
-                'default_fc_id': fields.many2one(
-                    'l10n_br_account.fiscal.category',
-                    'Categoria Fiscal Padrão')
+        'default_fc_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            'Categoria Fiscal Padrão')
     }
 
 
-class sale_order(osv.Model):
+class sale_order(orm.Model):
     _inherit = 'sale.order'
 
     def _get_order(self, cr, uid, ids, context={}):
@@ -71,8 +71,10 @@ class sale_order(osv.Model):
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
-        shop_id = context.get("shop_id", self.default_get(cr, uid, ["shop_id"], context)["shop_id"])
-        return  self.pool.get("sale.shop").read(cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
+        shop_id = context.get("shop_id", self.default_get(
+            cr, uid, ["shop_id"], context)["shop_id"])
+        return  self.pool.get("sale.shop").read(
+            cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
 
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
@@ -184,13 +186,13 @@ class sale_order(osv.Model):
 
         if not obj_company.product_invoice_id or \
         not obj_company.service_invoice_id:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('No fiscal document serie found !'),
                 _("No fiscal document serie found for selected company %s") % (
                     order.company_id.name))
 
         if not order.fiscal_category_id.property_journal:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error !'),
                 _('There is no journal defined for this company in Fiscal \
                 Category: %s Company: %s)') % (
@@ -240,7 +242,7 @@ class sale_order(osv.Model):
         return val
 
 
-class sale_order_line(osv.Model):
+class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
 
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
@@ -391,5 +393,8 @@ class sale_order_line(osv.Model):
             result['fiscal_position'] = fp.id
             if line.product_id.fiscal_type == 'product':
                 result['cfop_id'] = fp.cfop_id and fp.cfop_id.id or False
+
+        result['partner_id'] = line.order_id.partner_id.id
+        result['company_id'] = line.order_id.company_id.id
 
         return result
