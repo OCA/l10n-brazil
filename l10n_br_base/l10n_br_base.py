@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class l10n_br_base_city(osv.Model):
+class l10n_br_base_city(orm.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos da transação.
