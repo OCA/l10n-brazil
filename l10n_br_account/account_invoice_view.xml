@@ -40,14 +40,14 @@
 						            <field name="access_key"/>
 						        </group>
 						        <group col="4" string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
-						            <field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfural', 'cf'))]}"/>
-						            <field name="internal_number" attrs="{'required': [('document_type', 'in', ('nf', 'nfural', 'cf'))]}"/>
-						            <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfural', 'cf'))]}"/>
-						            <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-						            <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-						            <field name="cpfcpnj_type" attrs="{'required': [('document_type', 'in', ('nfural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
-						            <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcpnj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-                                                                <field name="inscr_est" attrs="{'required': [('document_type', '=', 'nfrural')], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+						            <field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+						            <field name="internal_number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+						            <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+						            <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+						            <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+						            <field name="cpfcpnj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+						            <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcpnj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                                                <field name="inscr_est" attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
 						        </group>
 						    </form>
 						</field>
@@ -122,6 +122,10 @@
 							</page>
 							<page string="Transporte">
 							 	<group name="delivery_info">
+									<field name="carrier_name"/>
+									<field name="vehicle_plate"/>
+									<field name="vehicle_state_id"/>
+									<field name="vehicle_l10n_br_city_id"/>
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
@@ -296,7 +300,11 @@
 								</group>
 							</page>
 							<page string="Transporte">
-							 	<group name="delivery_info">
+								<group name="delivery_info">
+									<field name="carrier_name"/>
+									<field name="vehicle_plate"/>
+									<field name="vehicle_state_id"/>
+									<field name="vehicle_l10n_br_city_id"/>
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
@@ -348,7 +356,7 @@
 				 	<notebook>
 							<page string="General">
 	                                        <group>
-                        <group>Invoice lines
+                        <group>
                             <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position, price_unit, parent.currency_id, context, parent.company_id, parent.fiscal_category_id, parent.fiscal_position)"/>
                             <label for="quantity"/>
                             <div>
@@ -362,6 +370,8 @@
 			    <field name="other_costs_value"/>
                         </group>
                         <group>
+                                    <field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
+                                    <field name="fiscal_classification_id" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
 				<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]" on_change="onchange_fiscal_category_id(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
 				<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
 				<field name="cfop_id"/>
@@ -376,10 +386,12 @@
 	                    </page>
 	                    <page position="inside" string="Impostos">
 								<notebook>
-									<page string="ICMS">
+									<page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">
 										<group string="Detalhes do ICMS">
 											<group>
-												<field name="icms_cst"/>
+											        <field name="icms_manual" invisible="True"/>
+												<field name="icms_cst_id" attrs="{'required': [('product_type','=', 'product')]}"/>
+												<field name="icms_origin"/>
 												<field name="icms_base_type"/>
 												<field name="icms_base"/>
 												<field name="icms_percent_reduction"/>
@@ -404,10 +416,21 @@
 											</group>
 										</group>
 									</page>
-									<page string="IPI">
+									<page string="ISSQN" attrs="{'invisible': [('product_type','!=', 'service')]}">
+										<group>
+										    <field name="issqn_manual" invisible="True"/>
+										    <field name="issqn_type"/>
+										    <field name="issqn_base"/>
+										    <field name="issqn_percent"/>
+										    <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
+										    <field name="issqn_value"/>
+										</group>
+									</page>
+									<page string="IPI" attrs="{'invisible': [('product_type','=', 'service')]}">
 										<group string="Detalhes do IPI">
 											<group>
-												<field name="ipi_cst"/>
+											        <field name="ipi_manual" invisible="True"/>
+												<field name="ipi_cst_id" attrs="{'required': [('product_type','=', 'product')]}"/>
 												<field name="ipi_type"/>
 												<field name="ipi_base"/>
 											</group>
@@ -421,7 +444,8 @@
 									<page string="PIS">
 										<group string="Detalhes do PIS">
 											<group>
-												<field name="pis_cst"/>
+											            <field name="pis_manual" invisible="True"/>
+												<field name="pis_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
 												<field name="pis_type"/>
 												<field name="pis_base"/>
 											</group>
@@ -444,7 +468,8 @@
 									<page string="COFINS">
 										<group string="Detalhes do COFINS">
 											<group>
-												<field name="cofins_cst"/>
+							                                             <field name="cofins_manual" invisible="True"/>
+												<field name="cofins_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
 												<field name="cofins_type"/>
 												<field name="cofins_base"/>
 											</group>
@@ -464,7 +489,7 @@
 											</group>
 										</group>
 									</page>
-									<page string="II">
+									<page string="II" attrs="{'invisible': [('product_type','=', 'service')]}">
 										<group string="Detalhes do Imposto de Importação">
 											<field name="ii_base"/>
 											<field name="ii_customhouse_charges"/>
