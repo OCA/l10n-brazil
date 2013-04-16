@@ -17,79 +17,44 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import time
-import base64
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import orm, fields
 
 
-class l10n_br_account_nfe_export(osv.TransientModel):
+class l10n_br_account_nfe_export(orm.TransientModel):
     """ Exportar Nota Fiscal Eletrônica """
     _name = 'l10n_br_account.nfe_export'
-    _description = u'Exportação de Nota Fiscal Eletrônica'
+    _inherit = 'l10n_br_account.nfe_export_invoice'
     _columns = {
-        'name': fields.char('Name', size=255),
-        'file': fields.binary('Arquivo', readonly=True),
         'company_id': fields.many2one('res.company', 'Company'),
-        'file_type': fields.selection([('xml', 'XML'), ('txt', 'TXT')],
-                                      'Tipo do Arquivo'),
         'import_status_draft': fields.boolean("Importar NFs com status "
                                               "em rascunho"),
-        'state': fields.selection([('init', 'init'), ('done', 'done')],
-                                  'state', readonly=True),
-        'nfe_environment': fields.selection([('1', 'Produção'),
-                                             ('2', 'Homologação')],
-                                            'Ambiente')
+        'nfe_export_result': fields.one2many(
+            'l10n_br_account.nfe_export_result', 'wizard_id',
+            'NFe Export Result'),
     }
     _defaults = {
-        'state': 'init',
         'company_id': lambda self, cr, uid,
             c: self.pool.get('res.company')._company_default_get(
                 cr, uid, 'account.invoice', context=c),
-        'file_type': 'txt',
-        'import_status_draft': False,
-        'nfe_environment': '1'
     }
 
-    def nfe_export(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
+    def _get_invoice_ids(self, cr, uid, data, context=None):
 
-        inv_obj = self.pool.get('account.invoice')
+        if not context:
+            context = {}
 
-        inv_ids = inv_obj.search(cr, uid,
+        return self.pool.get('account.invoice').search(cr, uid,
             [('state', '=', 'sefaz_export'),
              ('nfe_export_date', '=', False),
              ('company_id', '=', data['company_id'][0]),
              ('issuer', '=', '0')])
 
-        if not inv_ids:
-            raise osv.except_osv(_('Error !'), _("'%s'") %
-                                 _('Nenhum documento fiscal para exportação!'))
 
-        mod = __import__(
-            'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
-            globals(), locals(), data['file_type'])
-
-        func = getattr(mod, 'nfe_export')
-        nfe_file = func(cr, uid, inv_ids, data['nfe_environment'])
-
-        name = 'nfes%s-%s.%s' % (time.strftime('%d-%m-%Y'),
-                                 self.pool.get('ir.sequence').get(
-                                     cr, uid, 'nfe.export'),
-                                 data['file_type'])
-
-        self.write(cr, uid, ids,
-                   {'file': base64.b64encode(nfe_file),
-                    'state': 'done',
-                    'name': name},
-                   context=context)
-
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'l10n_br_account.nfe_export',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': data['id'],
-            'views': [(False, 'form')],
-            'target': 'new',
-        }
+class l10n_br_account_nfe_export_result(orm.TransientModel):
+    _name = 'l10n_br_account.nfe_export_result'
+    _inherit = 'l10n_br_account.nfe_export_invoice_result'
+    _columns = {
+        'wizard_id': fields.many2one(
+            'l10n_br_account.nfe_export', 'Wizard ID',
+            ondelete='cascade', select=True),
+    }
