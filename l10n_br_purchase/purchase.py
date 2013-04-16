@@ -18,12 +18,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
-from tools.translate import _
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 
 
-class purchase_order(osv.Model):
+class purchase_order(orm.Model):
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -165,7 +165,7 @@ class purchase_order(osv.Model):
             if inv_id:
                 company_id = order.company_id
                 if not company_id.document_serie_product_ids:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _('No fiscal document serie found!'),
                         _("No fiscal document serie found for selected \
                         company %s") % (order.company_id.name))
@@ -174,7 +174,7 @@ class purchase_order(osv.Model):
                 order.fiscal_category_id.property_journal.id or False
 
                 if not journal_id:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _(u'Nenhuma Diário!'),
                         _(u"Categoria de operação fisca: '%s', não tem um \
                         diário contábil para a empresa %s") % (
@@ -209,7 +209,7 @@ class purchase_order(osv.Model):
         return picking_id
 
 
-class purchase_order_line(osv.Model):
+class purchase_order_line(orm.Model):
     _inherit = 'purchase.order.line'
     _columns = {
         'fiscal_category_id': fields.many2one(
@@ -226,7 +226,6 @@ class purchase_order_line(osv.Model):
         kwargs['context'].update({'use_domain': ('use_purchase', '=', True)})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         result_rule = fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
-        print result_rule
         if kwargs.get('product_id', False) and \
         result_rule.get('fiscal_position', False):
             obj_fposition = self.pool.get('account.fiscal.position').browse(
