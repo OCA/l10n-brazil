@@ -48,8 +48,8 @@
         'account_product_fiscal_classification_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
+        'wizard/l10n_br_account_nfe_export_invoice_view.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
-        'wizard/nfe_export_from_invoice_view.xml',
     ],
     'demo': [
         'demo/account.account.csv',
