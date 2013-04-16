@@ -17,8 +17,8 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp.addons import decimal_precision as dp
 
 SQL_CONSTRAINTS = [
     ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id, company_id)',
@@ -26,7 +26,7 @@ SQL_CONSTRAINTS = [
 ]
 
 
-class res_company(osv.Model):
+class res_company(orm.Model):
     _inherit = 'res.company'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -103,31 +103,31 @@ class res_company(osv.Model):
         'in_invoice_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Entrada',
-            domain="[('journal_type','=','purchase'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"),
+            domain="[('journal_type','=','purchase'),"
+            " ('fiscal_type','=','product'), ('type','=','input')]"),
         'out_invoice_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal de Produto Padrão de Saida',
-            domain="[('journal_type','=','sale'), ('fiscal_type','=','product'),"
-            " ('type','=','output')]"),
+            domain="[('journal_type','=','sale'), "
+            " ('fiscal_type','=','product'), ('type','=','output')]"),
         'in_refund_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Devolução Entrada',
-            domain="[('journal_type','=','purchase_refund'), ('fiscal_type','=','product'),"
-            " ('type','=','output')]"),
+            domain="[('journal_type','=','purchase_refund'),"
+            " ('fiscal_type','=','product'), ('type','=','output')]"),
         'out_refund_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Devolução Saida',
-            domain="[('journal_type','=','sale_refund'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"),
+            domain="[('journal_type','=','sale_refund'),"
+            " ('fiscal_type','=','product'), ('type','=','input')]"),
         'in_invoice_service_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Aquisição de Serviço',
-            domain="[('journal_type','=','purchase'), ('fiscal_type','=','service'),"
-            " ('type','=','input')]"),
+            domain="[('journal_type','=','purchase'),"
+            " ('fiscal_type','=','service'), ('type','=','input')]"),
         'out_invoice_service_fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category',
             'Categoria Fiscal Padrão de Prestação de Serviço',
-            domain="[('journal_type','=','sale'), ('fiscal_type','=','service'),"
-            " ('type','=','output')]"),
+            domain="[('journal_type','=','sale'),"
+            " ('fiscal_type','=','service'), ('type','=','output')]"),
         'ecnpj_a1_file': fields.binary('Arquivo e-CNPJ A1'),
         'ecnpj_a1_password': fields.char('Senha e-CNPJ A1', size=64),
         'nfe_a1_file': fields.binary('Arquivo NFe A1'),
@@ -141,7 +141,7 @@ class res_company(osv.Model):
     }
 
 
-class l10n_br_tax_definition_company_product(osv.Model):
+class l10n_br_tax_definition_company_product(orm.Model):
     _name = 'l10n_br_tax.definition.company.product'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
@@ -151,7 +151,7 @@ class l10n_br_tax_definition_company_product(osv.Model):
     _sql_constraints = SQL_CONSTRAINTS
 
 
-class l10n_br_tax_definition_company_service(osv.Model):
+class l10n_br_tax_definition_company_service(orm.Model):
     _name = 'l10n_br_tax.definition.company.service'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
