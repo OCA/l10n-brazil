@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv
+from openerp.osv import orm
 
 
-class sale_order(osv.Model):
+class sale_order(orm.Model):
     _inherit = 'sale.order'
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -37,15 +37,19 @@ class sale_order(osv.Model):
         result = super(sale_order, self)._prepare_invoice(
             cr, uid, order, lines, context)
 
-        result['carrier_id'] = order.carrier_id.id,
-        result['incoterm'] = order.incoterm and order.incoterm.id or False
+        if order.carrier_id:
+            result['carrier_id'] = order.carrier_id.id
+
+        if order.incoterm:
+            result['incoterm'] = order.incoterm.id
         return result
 
     def _prepare_order_picking(self, cr, uid, order, context=None):
         result = super(sale_order, self)._prepare_order_picking(cr, uid,
             order, context)
 
-        # TODO - Possível bug do modulo delivery do OpenERP
-        # porque esse campo já deveria ser copiado pelo módulo nativo delivery
+        # FIXME - Confirmado bug do OpenERP
+        # https://bugs.launchpad.net/bugs/1161138
+        # Esse campo já deveria ser copiado pelo módulo nativo delivery
         result['incoterm'] = order.incoterm and order.incoterm.id or False
         return result
