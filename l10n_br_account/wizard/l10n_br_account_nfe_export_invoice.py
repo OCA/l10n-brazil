@@ -20,40 +20,55 @@
 
 import time
 import base64
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
-class nfe_export_from_invoice(osv.TransientModel):
+class l10n_br_account_nfe_export_invoice(orm.TransientModel):
     """ Export fiscal eletronic file from invoice"""
-    _name = "l10n_br_account.nfe_export_from_invoice"
-    _description = "Export eletronic invoice for Emissor de NFe SEFAZ SP"
+    _name = 'l10n_br_account.nfe_export_invoice'
+    _description = 'Export eletronic invoice for Emissor de NFe SEFAZ SP'
     _columns = {
         'name': fields.char('Nome', size=255),
         'file': fields.binary('Arquivo', readonly=True),
-        'file_type': fields.selection([('xml', 'XML'),
-                                       ('txt', ' TXT')], 'Tipo do Arquivo'),
-        'state': fields.selection([('init', 'init'),
-                                   ('done', 'done')],
-                                  'state', readonly=True),
-        'nfe_environment': fields.selection([('1', 'Produção'),
-                                             ('2', 'Homologação')],
-                                            'Ambiente')
+        'file_type': fields.selection(
+            [('xml', 'XML'), ('txt', ' TXT')], 'Tipo do Arquivo'),
+        'state': fields.selection(
+            [('init', 'init'), ('done', 'done')], 'state', readonly=True),
+        'nfe_environment': fields.selection(
+            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
+        'sign_xml': fields.boolean('Assinar XML'),
+        'nfe_export_result': fields.one2many(
+            'l10n_br_account.nfe_export_invoice_result', 'wizard_id',
+            'NFe Export Result'),
+        'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
     }
     _defaults = {
         'state': 'init',
         'file_type': 'txt',
-        'nfe_environment': '1'
+        'nfe_environment': '1',
+        'sign_xml': False,
+        'export_folder': False,
     }
 
-    def nfe_export_from_invoice(self, cr, uid, ids, context=None):
+    def _get_invoice_ids(self, cr, uid, data, context=None):
+
+        if not context:
+            context = {}
+
+        return context.get('active_ids', [])
+
+    def nfe_export(self, cr, uid, ids, context=None):
         data = self.read(cr, uid, ids, [], context=context)[0]
         inv_obj = self.pool.get('account.invoice')
-        active_ids = context.get('active_ids', [])
+        active_ids = self._get_invoice_ids(cr, uid, data, context)
         export_inv_ids = []
         export_inv_numbers = []
         company_ids = []
         err_msg = ''
+
+        if not active_ids:
+            err_msg = u'Não existe nenhum documento fiscal para ser exportado!'
 
         for inv in inv_obj.browse(cr, uid, active_ids, context=context):
             if inv.state not in ('sefaz_export'):
@@ -69,7 +84,7 @@ class nfe_export_from_invoice(osv.TransientModel):
                                                   'nfe_date': False})
 
                 message = "O Documento Fiscal %s foi \
-                    exportada." % inv.internal_number
+                    exportado." % inv.internal_number
                 inv_obj.log(cr, uid, inv.id, message)
                 export_inv_ids.append(inv.id)
                 company_ids.append(inv.company_id.id)
@@ -90,26 +105,64 @@ class nfe_export_from_invoice(osv.TransientModel):
             else:
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
 
-            mod = __import__(
+            mod_serializer = __import__(
                 'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
                  globals(), locals(), data['file_type'])
 
-            func = getattr(mod, 'nfe_export')
-            nfe_file = func(cr, uid, export_inv_ids, data['nfe_environment'])
+            func = getattr(mod_serializer, 'nfe_export')
+            nfes = func(
+                cr, uid, export_inv_ids, data['nfe_environment'],
+                '200', context)
 
-            self.write(cr, uid, ids, {'file': base64.b64encode(nfe_file),
-                                      'state': 'done',
-                                      'name': name}, context=context)
+            for nfe in nfes:
+                #if nfe['message']:
+                    #status = 'error'
+                #else:
+                    #status = 'success'
+
+                #self.pool.get(self._name + '_result').create(
+                    #cr, uid, {'document': nfe['key'],
+                        #'message': nfe['message'],
+                        #'status': status,
+                        #'wizard_id': data['id']})
+
+                nfe_file = nfe['nfe'].encode('utf8')
+
+            self.write(
+                cr, uid, ids, {'file': base64.b64encode(nfe_file),
+                'state': 'done', 'name': name}, context=context)
 
         if err_msg:
-            raise osv.except_osv(_('Error !'), _("'%s'") % _(err_msg, ))
+            raise orm.except_orm(_('Error!'), _("'%s'") % _(err_msg, ))
+
+        mod_obj = self.pool.get('ir.model.data')
+        model_data_ids = mod_obj.search(
+            cr, uid, [('model', '=', 'ir.ui.view'),
+            ('name', '=', 'l10n_br_account_nfe_export_invoice_form')],
+            context=context)
+        resource_id = mod_obj.read(
+            cr, uid, model_data_ids,
+            fields=['res_id'], context=context)[0]['res_id']
 
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'l10n_br_account.nfe_export_from_invoice',
+            'res_model': self._name,
             'view_mode': 'form',
             'view_type': 'form',
             'res_id': data['id'],
-            'views': [(False, 'form')],
+            'views': [(resource_id, 'form')],
             'target': 'new',
         }
+
+
+class l10n_br_account_nfe_export_invoice_result(orm.TransientModel):
+    _name = 'l10n_br_account.nfe_export_invoice_result'
+    _columns = {
+        'wizard_id': fields.many2one(
+            'l10n_br_account.nfe_export_invoice', 'Wizard ID',
+            ondelete='cascade', select=True),
+        'document': fields.char('Documento', size=255),
+        'status': fields.selection(
+            [('success', 'Sucesso'), ('error', 'Erro')], 'Status'),
+        'message': fields.char('Mensagem', size=255),
+    }
