@@ -18,10 +18,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv
+from openerp.osv import orm
 
 
-class sale_order(osv.Model):
+class sale_order(orm.Model):
     _inherit = 'sale.order'
 
     def _prepare_order_picking(self, cr, uid, order, context=None):
