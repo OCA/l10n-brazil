@@ -19,11 +19,11 @@
 
 from lxml import etree
 import time
-import netsvc
 
-from osv import fields, osv
-from tools.translate import _
-import decimal_precision as dp
+from openerp import netsvc
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 from sped.nfe.validator import txt
 
 OPERATION_TYPE = {
@@ -41,7 +41,7 @@ JOURNAL_TYPE = {
 }
 
 
-class account_invoice(osv.Model):
+class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
@@ -142,11 +142,6 @@ class account_invoice(osv.Model):
                 for delivery_info in delivery_infos:
                     delivery_info.set('invisible', '1')
 
-                cfops = eview.xpath("//field[@name='cfop_ids']")
-                for cfop_ids in cfops:
-                    cfop_ids.set('name', 'service_type_id')
-                    cfop_ids.set('domain', '[]')
-
             result['arch'] = etree.tostring(eview)
 
         if view_type == 'tree':
@@ -162,13 +157,15 @@ class account_invoice(osv.Model):
 
     def _get_invoice_line(self, cr, uid, ids, context=None):
         result = {}
-        for line in self.pool.get('account.invoice.line').browse(cr, uid, ids, context=context):
+        for line in self.pool.get('account.invoice.line').browse(
+            cr, uid, ids, context=context):
             result[line.invoice_id.id] = True
         return result.keys()
 
     def _get_invoice_tax(self, cr, uid, ids, context=None):
         result = {}
-        for tax in self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context):
+        for tax in self.pool.get('account.invoice.tax').browse(
+            cr, uid, ids, context=context):
             result[tax.invoice_id.id] = True
         return result.keys()
 
@@ -279,6 +276,12 @@ class account_invoice(osv.Model):
             'l10n_br_account.document.related', 'invoice_id',
             'Fiscal Document Related', readonly=True,
             states={'draft': [('readonly', False)]}),
+        'carrier_name': fields.char('Nome Transportadora', size=32),
+        'vehicle_plate': fields.char('Placa do Veiculo', size=7),
+        'vehicle_state_id': fields.many2one(
+            'res.country.state', 'UF da Placa'),
+        'vehicle_l10n_br_city_id': fields.many2one('l10n_br_base.city',
+            'Municipio', domain="[('state_id','=',state_id)]"),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -566,20 +569,23 @@ class account_invoice(osv.Model):
         for invoice in invoices:
             if not invoice.number:
                 continue
-            fiscal_document = invoice.fiscal_document_id and invoice.fiscal_document_id.id or False
+            fiscal_document = invoice.fiscal_document_id and \
+            invoice.fiscal_document_id.id or False
             domain.extend([('internal_number', '=', invoice.number),
                            ('fiscal_type', '=', invoice.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
                            ])
             if invoice.issuer == '0':
-                domain.extend([('company_id', '=', invoice.company_id.id),
-                              ('internal_number', '=', invoice.number),
-                              ('fiscal_document_id', '=', invoice.fiscal_document_id.id),
-                              ('issuer', '=', '0')])
+                domain.extend(
+                    [('company_id', '=', invoice.company_id.id),
+                    ('internal_number', '=', invoice.number),
+                    ('fiscal_document_id', '=', invoice.fiscal_document_id.id),
+                    ('issuer', '=', '0')])
             else:
-                domain.extend([('partner_id', '=', invoice.partner_id.id),
-                              ('vendor_serie', '=', invoice.vendor_serie),
-                              ('issuer', '=', '1')])
+                domain.extend(
+                    [('partner_id', '=', invoice.partner_id.id),
+                    ('vendor_serie', '=', invoice.vendor_serie),
+                    ('issuer', '=', '1')])
 
             invoice_id = self.pool.get('account.invoice').search(
                 cr, uid, domain)
@@ -642,7 +648,7 @@ class account_invoice(osv.Model):
                               ('state', '=', 'done')])
 
                 if invalid_number:
-                    raise osv.except_osv(
+                    raise orm.except_orm(
                         _(u'Número Inválido !'),
                         _("O número: %s da série: %s, esta inutilizado") % (
                             sequence_read['number_next'],
@@ -663,17 +669,17 @@ class account_invoice(osv.Model):
             move_id = obj_inv.move_id and obj_inv.move_id.id or False
             ref = obj_inv.internal_number or obj_inv.reference or ''
 
-            cr.execute('UPDATE account_move SET ref=%s ' \
-                    'WHERE id=%s AND (ref is null OR ref = \'\')',
+            cr.execute('UPDATE account_move SET ref=%s '
+                'WHERE id=%s AND (ref is null OR ref = \'\')',
                     (ref, move_id))
-            cr.execute('UPDATE account_move_line SET ref=%s ' \
-                    'WHERE move_id=%s AND (ref is null OR ref = \'\')',
-                    (ref, move_id))
-            cr.execute('UPDATE account_analytic_line SET ref=%s ' \
-                    'FROM account_move_line ' \
-                    'WHERE account_move_line.move_id = %s ' \
-                        'AND account_analytic_line.move_id = account_move_line.id',
-                        (ref, move_id))
+            cr.execute('UPDATE account_move_line SET ref=%s '
+                'WHERE move_id=%s AND (ref is null OR ref = \'\')',
+                (ref, move_id))
+            cr.execute('UPDATE account_analytic_line SET ref=%s '
+                'FROM account_move_line '
+                'WHERE account_move_line.move_id = %s '
+                'AND account_analytic_line.move_id = account_move_line.id',
+                (ref, move_id))
 
             for inv_id, name in self.name_get(cr, uid, [inv_id]):
                 ctx = context.copy()
@@ -722,7 +728,7 @@ class account_invoice(osv.Model):
         result['value']['journal_id'] = fcategory.property_journal and \
         fcategory.property_journal.id or False
         if not result['value'].get('journal_id', False):
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Nenhuma Diário !'),
                 _("Categoria fisca: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, obj_company.name))
@@ -768,7 +774,7 @@ class account_invoice(osv.Model):
             fiscal_category_id=fiscal_category_id)
 
 
-class account_invoice_line(osv.Model):
+class account_invoice_line(orm.Model):
     _inherit = 'account.invoice.line'
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
@@ -816,9 +822,250 @@ class account_invoice_line(osv.Model):
 
         return result
 
-    def _amount_tax_icms(self, cr, uid, tax=False):
+    def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
+        res = {}
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids):
+            res[line.id] = {
+                'price_subtotal': 0.0,
+                'price_total': 0.0,
+            }
+
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_obj.compute_all(
+                cr, uid, line.invoice_line_tax_id, price, line.quantity,
+                line.product_id, line.invoice_id.partner_id,
+                fiscal_position=line.fiscal_position,
+                insurance_value=line.insurance_value,
+                freight_value=line.freight_value,
+                other_costs_value=line.other_costs_value)
+
+            if line.invoice_id:
+                currency = line.invoice_id.currency_id
+                res[line.id].update({
+                    'price_subtotal': cur_obj.round(
+                        cr, uid, currency,
+                        taxes['total'] - taxes['total_tax_discount']),
+                    'price_total': cur_obj.round(
+                        cr, uid, currency, taxes['total']),
+                })
+
+        return res
+
+    _columns = {
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria'),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', u'Posição Fiscal',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
+        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification', 'Classficação Fiscal'),
+        'product_type': fields.selection(
+            [('product', 'Produto'), ('service', u'Serviço')],
+            'Tipo do Produto', required=True),
+        'price_subtotal': fields.function(
+            _amount_line, method=True, string='Subtotal', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'price_total': fields.function(
+            _amount_line, method=True, string='Total', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'icms_manual': fields.boolean('ICMS Manual?'),
+        'icms_origin': fields.selection(
+            [('0', '0 - Nacional, exceto as indicadas nos códigos 3 a 5'),
+            ('1', '1 - Estrangeira - Importação direta, exceto a indicada no código 6'),
+            ('2', '2 - Estrangeira - Adquirida no mercado interno, exceto a indicada no código 7'),
+            ('3', '3 - Nacional, mercadoria ou bem com Conteúdo de Importação superior a  40% (quarenta por cento)'),
+            ('4', '4 - Nacional, cuja produção tenha sido feita em conformidade com os processos produtivos básicos de que tratam o Decreto-Lei nº 288/67, e as Leis nºs 8.248/91, 8.387/91, 10.176/01 e 11.484/07'),
+            ('5', '5 - Nacional, mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40% (quarenta por cento)'),
+            ('6', '6 - Estrangeira - Importação direta, sem similar nacional, constante em lista de Resolução CAMEX'),
+            ('7', '7 - Estrangeira - Adquirida no mercado interno, sem similar nacional, constante em lista de Resolução CAMEX')],
+            'Origem'),
+        'icms_base_type': fields.selection(
+            [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
+            ('2', 'Preço Tabelado Máximo (valor)'),
+            ('3', 'Valor da Operação')],
+            'Tipo Base ICMS', required=True),
+        'icms_base': fields.float('Base ICMS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'icms_base_other': fields.float('Base ICMS Outras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'icms_value': fields.float('Valor ICMS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'icms_percent': fields.float('Perc ICMS',
+            digits_compute=dp.get_precision('Discount')),
+        'icms_percent_reduction': fields.float('Perc Redução de Base ICMS',
+            digits_compute=dp.get_precision('Discount')),
+        'icms_st_base_type': fields.selection(
+            [('0', 'Preço tabelado ou máximo  sugerido'),
+            ('1', 'Lista Negativa (valor)'),
+            ('2', 'Lista Positiva (valor)'), ('3', 'Lista Neutra (valor)'),
+            ('4', 'Margem Valor Agregado (%)'), ('5', 'Pauta (valor)')],
+            'Tipo Base ICMS ST', required=True),
+        'icms_st_value': fields.float('Valor ICMS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'icms_st_base': fields.float('Base ICMS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'icms_st_percent': fields.float('Percentual ICMS ST',
+            digits_compute=dp.get_precision('Discount')),
+        'icms_st_percent_reduction': fields.float(
+            'Perc Redução de Base ICMS ST',
+            digits_compute=dp.get_precision('Discount')),
+        'icms_st_mva': fields.float('MVA ICMS ST',
+            digits_compute=dp.get_precision('Discount')),
+        'icms_st_base_other': fields.float('Base ICMS ST Outras',
+            required=True, digits_compute=dp.get_precision('Account')),
+        'icms_cst_id': fields.many2one('account.tax.code', 'CST ICMS',
+            domain=[('domain', '=', 'icms')]),
+        'issqn_manual': fields.boolean('ISSQN Manual?'),
+        'issqn_type': fields.selection(
+            [('N', 'Normal'), ('R', 'Retida'),
+            ('S', 'Substituta'), ('I', 'Isenta')], 'Tipo do ISSQN',
+            required=True),
+        'service_type_id': fields.many2one(
+            'l10n_br_account.service.type', 'Tipo de Serviço'),
+        'issqn_base': fields.float('Base ISSQN', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'issqn_percent': fields.float('Perc ISSQN', required=True,
+            digits_compute=dp.get_precision('Discount')),
+        'issqn_value': fields.float('Valor ISSQN', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ipi_manual': fields.boolean('IPI Manual?'),
+        'ipi_type': fields.selection(
+            [('percent', 'Percentual'), ('quantity', 'Em Valor')],
+            'Tipo do IPI', required=True),
+        'ipi_base': fields.float('Base IPI', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ipi_base_other': fields.float('Base IPI Outras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ipi_value': fields.float('Valor IPI', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ipi_percent': fields.float('Perc IPI', required=True,
+            digits_compute=dp.get_precision('Discount')),
+        'ipi_cst_id': fields.many2one('account.tax.code', 'CST IPI',
+            domain=[('domain', '=', 'ipi')]),
+        'pis_manual': fields.boolean('PIS Manual?'),
+        'pis_type': fields.selection(
+            [('percent', 'Percentual'), ('quantity', 'Em Valor')],
+            'Tipo do PIS', required=True),
+        'pis_base': fields.float('Base PIS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'pis_base_other': fields.float('Base PIS Outras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'pis_value': fields.float('Valor PIS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'pis_percent': fields.float('Perc PIS', required=True,
+            digits_compute=dp.get_precision('Discount')),
+        'pis_cst_id': fields.many2one('account.tax.code', 'CST PIS',
+            domain=[('domain', '=', 'pis')]),
+        'pis_st_type': fields.selection(
+            [('percent', 'Percentual'), ('quantity', 'Em Valor')],
+            'Tipo do PIS ST', required=True),
+        'pis_st_base': fields.float('Base PIS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'pis_st_percent': fields.float('Perc PIS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'pis_st_value': fields.float('Valor PIS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'cofins_manual': fields.boolean('COFINS Manual?'),
+        'cofins_type': fields.selection(
+            [('percent', 'Percentual'), ('quantity', 'Em Valor')],
+            'Tipo do COFINS', required=True),
+        'cofins_base': fields.float('Base COFINS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'cofins_base_other': fields.float('Base COFINS Outras', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'cofins_value': fields.float('Valor COFINS', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'cofins_percent': fields.float('Perc COFINS', required=True,
+            digits_compute=dp.get_precision('Discount')),
+        'cofins_cst_id': fields.many2one('account.tax.code', 'CST PIS',
+            domain=[('domain', '=', 'cofins')]),
+        'cofins_st_type': fields.selection(
+            [('percent', 'Percentual'), ('quantity', 'Em Valor')],
+            'Tipo do COFINS ST', required=True),
+        'cofins_st_base': fields.float('Base COFINS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'cofins_st_percent': fields.float('Perc COFINS ST', required=True,
+            digits_compute=dp.get_precision('Discount')),
+        'cofins_st_value': fields.float('Valor COFINS ST', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ii_base': fields.float('Base II', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ii_value': fields.float('Valor II', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ii_iof': fields.float('Valor IOF', required=True,
+            digits_compute=dp.get_precision('Account')),
+        'ii_customhouse_charges': fields.float('Depesas Atuaneiras',
+            required=True, digits_compute=dp.get_precision('Account')),
+        'insurance_value': fields.float('Valor do Seguro',
+            digits_compute=dp.get_precision('Account')),
+        'other_costs_value': fields.float('Outros Custos',
+            digits_compute=dp.get_precision('Account')),
+        'freight_value': fields.float('Frete',
+            digits_compute=dp.get_precision('Account'))
+    }
+    _defaults = {
+        'product_type': 'product',
+        'icms_manual': False,
+        'icms_origin': '0',
+        'icms_base_type': '0',
+        'icms_base': 0.0,
+        'icms_base_other': 0.0,
+        'icms_value': 0.0,
+        'icms_percent': 0.0,
+        'icms_percent_reduction': 0.0,
+        'icms_st_base_type': 'percent',
+        'icms_st_value': 0.0,
+        'icms_st_base': 0.0,
+        'icms_st_percent': 0.0,
+        'icms_st_percent_reduction': 0.0,
+        'icms_st_mva': 0.0,
+        'icms_st_base_other': 0.0,
+        'icms_st_base_type': '4',
+        'issqn_manual': False,
+        'issqn_type': 'N',
+        'issqn_base': 0.0,
+        'issqn_percent': 0.0,
+        'issqn_value': 0.0,
+        'ipi_manual': False,
+        'ipi_type': 'percent',
+        'ipi_base': 0.0,
+        'ipi_base_other': 0.0,
+        'ipi_value': 0.0,
+        'ipi_percent': 0.0,
+        'pis_manual': False,
+        'pis_type': 'percent',
+        'pis_base': 0.0,
+        'pis_base_other': 0.0,
+        'pis_value': 0.0,
+        'pis_percent': 0.0,
+        'pis_st_type': 'percent',
+        'pis_st_base': 0.0,
+        'pis_st_percent': 0.0,
+        'pis_st_value': 0.0,
+        'cofins_manual': False,
+        'cofins_type': 'percent',
+        'cofins_base': 0.0,
+        'cofins_base_other': 0.0,
+        'cofins_value': 0.0,
+        'cofins_percent': 0.0,
+        'cofins_st_type': 'percent',
+        'cofins_st_base': 0.0,
+        'cofins_st_percent': 0.0,
+        'cofins_st_value': 0.0,
+        'ii_base': 0.0,
+        'ii_value': 0.0,
+        'ii_iof': 0.0,
+        'ii_customhouse_charges': 0.0
+    }
+
+    def _amount_tax_icms(self, cr, uid, tax=None):
         result = {
-            'icms_base_type': tax.get('type'),
+            'icms_base_type': '0',
             'icms_base': tax.get('total_base', 0.0),
             'icms_base_other': tax.get('total_base_other', 0.0),
             'icms_value': tax.get('amount', 0.0),
@@ -827,9 +1074,8 @@ class account_invoice_line(osv.Model):
         }
         return result
 
-    def _amount_tax_icmsst(self, cr, uid, tax=False):
+    def _amount_tax_icmsst(self, cr, uid, tax=None):
         result = {
-            'icms_st_base_type': tax.get('type'),
             'icms_st_value': tax.get('amount', 0.0),
             'icms_st_base': tax.get('total_base', 0.0),
             'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
@@ -839,7 +1085,7 @@ class account_invoice_line(osv.Model):
         }
         return result
 
-    def _amount_tax_ipi(self, cr, uid, tax=False):
+    def _amount_tax_ipi(self, cr, uid, tax=None):
         result = {
             'ipi_type': tax.get('type'),
             'ipi_base': tax.get('total_base', 0.0),
@@ -848,16 +1094,16 @@ class account_invoice_line(osv.Model):
         }
         return result
 
-    def _amount_tax_cofins(self, cr, uid, tax=False):
+    def _amount_tax_cofins(self, cr, uid, tax=None):
         result = {
             'cofins_base': tax.get('total_base', 0.0),
-            'cofins_base_other': tax.get('total_base_other', 0.0),  # FIXME
+            'cofins_base_other': tax.get('total_base_other', 0.0),
             'cofins_value': tax.get('amount', 0.0),
             'cofins_percent': tax.get('percent', 0.0) * 100,
         }
         return result
 
-    def _amount_tax_cofinsst(self, cr, uid, tax=False):
+    def _amount_tax_cofinsst(self, cr, uid, tax=None):
         result = {
             'cofins_st_type': 'percent',
             'cofins_st_base': 0.0,
@@ -869,7 +1115,7 @@ class account_invoice_line(osv.Model):
     def _amount_tax_pis(self, cr, uid, tax=False):
         result = {
             'pis_base': tax.get('total_base', 0.0),
-            'pis_base_other': tax.get('total_base'),
+            'pis_base_other': tax.get('total_base_other', 0.0),
             'pis_value': tax.get('amount', 0.0),
             'pis_percent': tax.get('percent', 0.0) * 100,
         }
@@ -886,308 +1132,139 @@ class account_invoice_line(osv.Model):
 
     def _amount_tax_ii(self, cr, uid, tax=False):
         result = {
-            'ii_base': tax.get('total_base', 0.0),
-            'ii_value': tax.get('amount', 0.0),
+            'ii_base': 0.0,
+            'ii_value': 0.0,
         }
         return result
 
-    def _amount_tax_issqn(self, cr, uid, taxes=False):
-        result = {}
+    def _amount_tax_issqn(self, cr, uid, tax=False):
+
+        # TODO deixar dinamico a definição do tipo do ISSQN
+        # assim como todos os impostos
+        issqn_type = 'N'
+        if not tax.get('amount'):
+            issqn_type = 'I'
+
+        result = {
+            'issqn_type': issqn_type,
+            'issqn_base': tax.get('total_base', 0.0),
+            'issqn_percent': tax.get('percent', 0.0) * 100,
+            'issqn_value': tax.get('amount', 0.0),
+        }
         return result
 
-    def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
-        res = {}
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        for line in self.browse(cr, uid, ids):
-            res[line.id] = {
-                'price_subtotal': 0.0,
-                'price_total': 0.0,
-                'icms_base_type': 'percent',
-                'icms_base': 0.0,
-                'icms_base_other': 0.0,
-                'icms_value': 0.0,
-                'icms_percent': 0.0,
-                'icms_percent_reduction': 0.0,
-                'icms_st_base_type': 'percent',
-                'icms_st_value': 0.0,
-                'icms_st_base': 0.0,
-                'icms_st_percent': 0.0,
-                'icms_st_percent_reduction': 0.0,
-                'icms_st_mva': 0.0,
-                'icms_st_base_other': 0.0,
-                'icms_cst': '40', #Coloca como isento caso não tenha ICMS
-                'ipi_type': 'percent',
-                'ipi_base': 0.0,
-                'ipi_base_other': 0.0,
-                'ipi_value': 0.0,
-                'ipi_percent': 0.0,
-                'ipi_cst': '53', #Coloca como isento caso não tenha IPI
-                'pis_type': 'percent',
-                'pis_base': 0.0,
-                'pis_base_other': 0.0,
-                'pis_value': 0.0,
-                'pis_percent': 0.0,
-                'pis_st_type': 'percent',
-                'pis_st_base': 0.0,
-                'pis_st_percent': 0.0,
-                'pis_st_value': 0.0,
-                'pis_cst': '99', #Coloca como isento caso não tenha PIS]
-                'cofins_type': 'percent',
-                'cofins_base': 0.0,
-                'cofins_base_other': 0.0,
-                'cofins_value': 0.0,
-                'cofins_percent': 0.0,
-                'cofins_st_type': 'percent',
-                'cofins_st_base': 0.0,
-                'cofins_st_percent': 0.0,
-                'cofins_st_value': 0.0,
-                'cofins_cst': '99', #Coloca como isento caso não tenha COFINS
-                'ii_base': 0.0,
-                'ii_value': 0.0,
-            }
+    def _get_tax_codes(self, cr, uid, product_id, fiscal_position,
+                        taxes, company_id, context=None):
 
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = tax_obj.compute_all(
-                cr, uid, line.invoice_line_tax_id, price, line.quantity,
-                line.product_id, line.invoice_id.partner_id,
-                fiscal_position=line.fiscal_position)
-
-            company_id = (line.company_id and line.company_id.id) or \
-            (line.invoice_id.company_id and line.invoice_id.company_id.id) \
-             or False
-
+        if not context:
             context = {}
-            if line.invoice_id.type in ('out_invoice', 'out_refund'):
-                context['type_tax_use'] = 'sale'
+
+        result = {}
+
+        if fiscal_position.fiscal_category_id.journal_type in ('sale', 'sale_refund'):
+            context['type_tax_use'] = 'sale'
+        else:
+            context['type_tax_use'] = 'purchase'
+
+        context['fiscal_type'] = fiscal_position.fiscal_category_fiscal_type
+
+        tax_codes = self.pool.get('account.fiscal.position').map_tax_code(
+            cr, uid, product_id, fiscal_position, company_id,
+            taxes, context=context)
+
+        result['icms_cst_id'] = tax_codes.get('icms', False)
+        result['ipi_cst_id'] = tax_codes.get('ipi', False)
+        result['pis_cst_id'] = tax_codes.get('pis', False)
+        result['cofins_cst_id'] = tax_codes.get('cofins', False)
+        return result
+
+    def _validate_taxes(self, cr, uid, values, context=None):
+        """Verifica se o valor dos campos dos impostos estão sincronizados
+        com os impostos do OpenERP"""
+        if not context:
+            context = {}
+
+        tax_obj = self.pool.get('account.tax')
+
+        if not values.get('product_id') or not values.get('quantity') \
+        or not values.get('fiscal_position'):
+            return {}
+
+        result = {
+            'product_type': 'product',
+            'service_type_id': False,
+            'fiscal_classification_id': False
+        }
+
+        if values.get('partner_id') and values.get('company_id'):
+            partner_id = values.get('partner_id')
+            company_id = values.get('company_id')
+        else:
+            if values.get('invoice_id'):
+                inv = self.pool.get('account.invoice').read(
+                    cr, uid, values.get('invoice_id'),
+                    ['partner_id', 'company_id'])
+
+                partner_id = inv.get('partner_id', [False])[0]
+                company_id = inv.get('company_id', [False])[0]
+
+        taxes = tax_obj.browse(
+            cr, uid, values.get('invoice_line_tax_id')[0][2])
+        fiscal_position = self.pool.get('account.fiscal.position').browse(
+            cr, uid, values.get('fiscal_position'))
+
+        price_unit = values.get('price_unit', 0.0)
+        price = price_unit * (1 - values.get('discount', 0.0) / 100.0)
+
+        taxes_calculed = tax_obj.compute_all(
+            cr, uid, taxes, price, values.get('quantity', 0.0),
+            values.get('product_id'), partner_id,
+            fiscal_position=fiscal_position,
+            insurance_value=values.get('insurance_value', 0.0),
+            freight_value=values.get('freight_value', 0.0),
+            other_costs_value=values.get('other_costs_value', 0.0))
+
+        if values.get('product_id'):
+            obj_product = self.pool.get('product.product').browse(
+                cr, uid, values.get('product_id'), context=context)
+            if obj_product.type == 'service':
+                result['product_type'] = 'service'
+                result['service_type_id'] = obj_product.service_type_id.id
             else:
-                context['type_tax_use'] = 'purchase'
+                result['product_type'] = 'product'
+            if obj_product.property_fiscal_classification:
+                result['fiscal_classification_id'] = obj_product.property_fiscal_classification.id
 
-            context['fiscal_type'] = line.product_id.fiscal_type
+            result['icms_origin'] = obj_product.origin
 
-            tax_code_cst = self.pool.get('account.fiscal.position').map_tax_code(
-                cr, uid, line.product_id.id, line.fiscal_position,
-                company_id, line.invoice_line_tax_id, context=context)
+        for tax in taxes_calculed['taxes']:
+            try:
+                amount_tax = getattr(
+                    self, '_amount_tax_%s' % tax.get('domain', ''))
+                result.update(amount_tax(cr, uid, tax))
+            except AttributeError:
+                # Caso não exista campos especificos dos impostos
+                # no documento fiscal, os mesmos são calculados.
+                continue
 
-            icms_cst = tax_code_cst.get('icms', '99')
-            ipi_cst = tax_code_cst.get('ipi', '99')
-            pis_cst = tax_code_cst.get('pis', '99')
-            cofins_cst = tax_code_cst.get('cofins', '99')
+        result.update(self._get_tax_codes(
+            cr, uid, values.get('product_id'), fiscal_position,
+            values.get('invoice_line_tax_id')[0][2],
+            company_id, context=context))
+        return result
 
-            for tax in taxes['taxes']:
-                try:
-                    amount_tax = getattr(self, '_amount_tax_%s' % tax.get('domain', ''))
-                    res[line.id].update(amount_tax(cr, uid, tax))
-                except AttributeError:
-                    # Caso não exista campos especificos dos impostos
-                    # no documento fiscal, os mesmos são calculados.
-                    continue
+    def create(self, cr, uid, vals, context=None):
+        if not context:
+            context = {}
+        vals.update(self._validate_taxes(cr, uid, vals, context))
+        return super(account_invoice_line, self).create(cr, uid, vals, context)
 
-            if line.invoice_id:
-                currency = line.invoice_id.currency_id
-                res[line.id].update({
-                    'price_subtotal': cur_obj.round(cr, uid, currency, taxes['total'] - taxes['total_tax_discount']),
-                    'price_total': cur_obj.round(cr, uid, currency, taxes['total']),
-                    'icms_cst': icms_cst,
-                    'ipi_cst': ipi_cst,
-                    'pis_cst': pis_cst,
-                    'cofins_cst': cofins_cst,
-                })
-
-        return res
-
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria'),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', u'Posição Fiscal',
-            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
-        'cfop_id': fields.many2one('l10n_br_account.cfop', 'CFOP'),
-        'price_subtotal': fields.function(
-            _amount_line, method=True, string='Subtotal', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'price_total': fields.function(
-            _amount_line, method=True, string='Total', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_base_type': fields.function(
-            _amount_line, method=True, string='Tipo Base ICMS', type="char",
-            size=64, store=True, multi='all'),
-        'icms_base': fields.function(
-            _amount_line, method=True, string='Base ICMS', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_base_other': fields.function(
-            _amount_line, method=True, string='Base ICMS Outras', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_value': fields.function(
-            _amount_line, method=True, string='Valor ICMS', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_percent': fields.function(
-            _amount_line, method=True, string='Perc ICMS', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_percent_reduction': fields.function(
-            _amount_line, method=True, string='Perc Redução de Base ICMS',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_base_type': fields.function(
-            _amount_line, method=True, string='Tipo Base ICMS ST', type="char",
-            size=64, store=True, multi='all'),
-        'icms_st_value': fields.function(
-            _amount_line, method=True, string='Valor ICMS ST', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_base': fields.function(
-            _amount_line, method=True, string='Base ICMS ST', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_percent': fields.function(
-            _amount_line, method=True, string='Percentual ICMS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_percent_reduction': fields.function(
-            _amount_line, method=True, string='Perc Redução de Base ICMS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_mva': fields.function(
-            _amount_line, method=True, string='MVA ICMS ST', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_st_base_other': fields.function(
-            _amount_line, method=True, string='Base ICMS ST Outras',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'icms_cst': fields.function(
-            _amount_line, method=True, string='CST ICMS', type="char", size=3,
-            store=True, multi='all'),
-        'ipi_type': fields.function(
-            _amount_line, method=True, string='Tipo do IPI', type="char",
-            size=64, store=True, multi='all'),
-        'ipi_base': fields.function(
-            _amount_line, method=True, string='Base IPI', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ipi_base_other': fields.function(
-            _amount_line, method=True, string='Base IPI Outras', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ipi_value': fields.function(
-            _amount_line, method=True, string='Valor IPI', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ipi_percent': fields.function(
-            _amount_line, method=True, string='Perc IPI', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ipi_cst': fields.function(
-            _amount_line, method=True, string='CST IPI', type="char", size=2,
-            store=True, multi='all'),
-        'pis_type': fields.function(
-            _amount_line, method=True, string='Tipo do PIS',
-            type="char", size=64, store=True, multi='all'),
-        'pis_base': fields.function(
-            _amount_line, method=True, string='Base PIS', type="float",
-            digits_compute=dp.get_precision('Account'), store=True,
-            multi='all'),
-        'pis_base_other': fields.function(
-            _amount_line, method=True, string='Base PIS Outras',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'pis_value': fields.function(
-            _amount_line, method=True, string='Valor PIS', type="float",
-            digits_compute=dp.get_precision('Account'), store=True,
-            multi='all'),
-        'pis_percent': fields.function(
-            _amount_line, method=True, string='Perc PIS', type="float",
-            digits_compute=dp.get_precision('Account'), store=True,
-            multi='all'),
-        'pis_cst': fields.function(
-            _amount_line, method=True, string='CST PIS', type="char",
-            size=2, store=True, multi='all'),
-        'pis_st_type': fields.function(
-            _amount_line, method=True, string='Calculo PIS ST',
-            type="char", size=64, store=True, multi='all'),
-        'pis_st_base': fields.function(
-            _amount_line, method=True, string='Base PIS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'pis_st_percent': fields.function(
-            _amount_line, method=True, string='Perc PIS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'pis_st_value': fields.function(
-            _amount_line, method=True, string='Valor PIS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_type': fields.function(
-            _amount_line, method=True, string='Tipo do COFINS',
-            type="char", size=64, store=True, multi='all'),
-        'cofins_base': fields.function(
-            _amount_line, method=True, string='Base COFINS',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_base_other': fields.function(
-            _amount_line, method=True, string='Base COFINS Outras',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_value': fields.function(
-            _amount_line, method=True, string='Valor COFINS',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_percent': fields.function(
-            _amount_line, method=True, string='Perc COFINS',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_cst': fields.function(
-            _amount_line, method=True, string='Valor COFINS',
-            type="char", size=2, store=True, multi='all'),
-        'cofins_st_type': fields.function(
-            _amount_line, method=True, string='Calculo COFINS ST',
-            type="char", size=64, store=True, multi='all'),
-        'cofins_st_base': fields.function(
-            _amount_line, method=True, string='Base COFINS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_st_percent': fields.function(
-            _amount_line, method=True, string='Perc COFINS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'cofins_st_value': fields.function(
-            _amount_line, method=True, string='Valor COFINS ST',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ii_base': fields.function(
-            _amount_line, method=True, string='Base II',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ii_value': fields.function(
-            _amount_line, method=True, string='Valor II',
-            type="float", digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-        'ii_iof': fields.float(
-            'Valor IOF', required=True,
-            digits_compute=dp.get_precision('Account')),
-        'ii_customhouse_charges': fields.float(
-            'Depesas Atuaneiras', required=True,
-            digits_compute=dp.get_precision('Account')),
-        'insurance_value': fields.float(
-            'Valor do Seguro',
-            digits_compute=dp.get_precision('Account')),
-        'other_costs_value': fields.float(
-            'Outros Custos',
-            digits_compute=dp.get_precision('Account')),
-        'freight_value': fields.float(
-            'Frete',
-            digits_compute=dp.get_precision('Account'))
-    }
-    _defaults = {
-         'ii_iof': 0.0,
-         'ii_customhouse_charges': 0.0
-    }
+    def write(self, cr, uid, ids, vals, context=None):
+        if not context:
+            context = {}
+        vals.update(self._validate_taxes(cr, uid, vals, context))
+        return super(account_invoice_line, self).write(
+            cr, uid, ids, vals, context=context)
 
     def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
 
@@ -1217,6 +1294,12 @@ class account_invoice_line(osv.Model):
                     cr, uid, obj_fp, taxes, context)
 
                 result_rule['value']['invoice_line_tax_id'] = tax_ids
+
+                result['value'].update(self._get_tax_codes(
+                    cr, uid, kwargs.get('product_id'),
+                    obj_fp, tax_ids, kwargs.get('company_id'),
+                    context=context))
+
         return result_rule
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
@@ -1243,11 +1326,23 @@ class account_invoice_line(osv.Model):
 
         result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
-        return self._fiscal_position_map(cr, uid, result, context,
+        result = self._fiscal_position_map(cr, uid, result, context,
             partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=parent_fiscal_category_id,
             account_id=result['value'].get('account_id'))
+
+        values = {
+            'partner_id': partner_id,
+            'company_id': company_id,
+            'product_id': product,
+            'quantity': qty,
+            'price_unit': price_unit,
+            'fiscal_position': result['value'].get('fiscal_position'),
+            'invoice_line_tax_id': [[6, 0, result['value'].get('invoice_line_tax_id')]],
+        }
+        result['value'].update(self._validate_taxes(cr, uid, values, context))
+        return result
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     company_id, product_id, fiscal_category_id,
@@ -1298,39 +1393,64 @@ class account_invoice_line(osv.Model):
             account_id=False)
 
 
-class account_invoice_tax(osv.Model):
+class account_invoice_tax(orm.Model):
     _inherit = "account.invoice.tax"
 
     def compute(self, cr, uid, invoice_id, context=None):
         tax_grouped = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
-        inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context=context)
+        inv = self.pool.get('account.invoice').browse(
+            cr, uid, invoice_id, context=context)
         cur = inv.currency_id
+        currenty_date = time.strftime('%Y-%m-%d')
         company_currency = inv.company_id.currency_id.id
 
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, line.product_id, inv.partner_id, fiscal_position=line.fiscal_position)['taxes']:
-                val={}
+            for tax in tax_obj.compute_all(
+                cr, uid, line.invoice_line_tax_id,
+                (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
+                line.quantity, line.product_id, inv.partner_id,
+                fiscal_position=line.fiscal_position,
+               insurance_value=line.insurance_value,
+                freight_value=line.freight_value,
+                other_costs_value=line.other_costs_value)['taxes']:
+                val = {}
                 val['invoice_id'] = inv.id
                 val['name'] = tax['name']
                 val['amount'] = tax['amount']
                 val['manual'] = False
                 val['sequence'] = tax['sequence']
-                val['base'] = cur_obj.round(cr, uid, cur, tax['price_unit'] * line['quantity'])
+                val['base'] = tax.get('total_base', 0.0)
 
-                if inv.type in ('out_invoice','in_invoice'):
+                if inv.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
-                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['base_amount'] = cur_obj.compute(cr, uid,
+                        inv.currency_id.id, company_currency,
+                        val['base'] * tax['base_sign'],
+                        context={'date': inv.date_invoice or currenty_date},
+                        round=False)
+                    val['tax_amount'] = cur_obj.compute(
+                        cr, uid, inv.currency_id.id, company_currency,
+                        val['amount'] * tax['tax_sign'],
+                        context={'date': inv.date_invoice or currenty_date},
+                        round=False)
                     val['account_id'] = tax['account_collected_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_collected_id']
                 else:
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['ref_base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
-                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['ref_tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['base_amount'] = cur_obj.compute(
+                        cr, uid, inv.currency_id.id, company_currency,
+                        val['base'] * tax['ref_base_sign'],
+                        context={'date': inv.date_invoice or currenty_date},
+                        round=False)
+                    val['tax_amount'] = cur_obj.compute(
+                        cr, uid, inv.currency_id.id,
+                        company_currency, val['amount'] * tax['ref_tax_sign'],
+                        context={'date': inv.date_invoice or currenty_date},
+                        round=False)
                     val['account_id'] = tax['account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_paid_id']
 
