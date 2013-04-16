@@ -19,8 +19,8 @@
 
 import time
 
-from osv import osv, fields
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp.addons import decimal_precision as dp
 
 FISCAL_RULE_COLUMNS = {
     'partner_fiscal_type_id': fields.many2one(
@@ -46,13 +46,13 @@ FISCAL_RULE_DEFAULTS = {
 }
 
 
-class account_fiscal_position_rule_template(osv.Model):
+class account_fiscal_position_rule_template(orm.Model):
     _inherit = 'account.fiscal.position.rule.template'
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
 
 
-class account_fiscal_position_rule(osv.Model):
+class account_fiscal_position_rule(orm.Model):
     _inherit = 'account.fiscal.position.rule'
     _columns = FISCAL_RULE_COLUMNS
     _defaults = FISCAL_RULE_DEFAULTS
@@ -89,9 +89,11 @@ class account_fiscal_position_rule(osv.Model):
             key_country = 'to_%s_country' % address_type
             key_state = 'to_%s_state' % address_type
             to_country = address.country_id.id or False
-            domain += ['|', (key_country, '=', to_country), (key_country, '=', False)]
+            domain += ['|', (key_country, '=', to_country),
+                (key_country, '=', False)]
             to_state = address.state_id.id or False
-            domain += ['|', (key_state, '=', to_state), (key_state, '=', False)]
+            domain += ['|', (key_state, '=', to_state),
+                (key_state, '=', False)]
 
         return domain
 
@@ -109,14 +111,15 @@ class account_fiscal_position_rule(osv.Model):
                 cr, uid, [('product_tmpl_id', '=', product_tmpl_id),
                 ('fiscal_category_source_id', '=', fiscal_category_id)])
         if default_product_fiscal_category:
-            fiscal_category_destination_id = self.pool.get(
-                'l10n_br_account.product.category').read(cr, uid, default_product_fiscal_category,
-                ['fiscal_category_destination_id'])[0]['fiscal_category_destination_id'][0]
-            result = fiscal_category_destination_id
+            fc_des_id = self.pool.get('l10n_br_account.product.category').read(
+                cr, uid, default_product_fiscal_category,
+                ['fiscal_category_destination_id']
+            )[0]['fiscal_category_destination_id'][0]
+            result = fc_des_id
         return result
 
 
-class wizard_account_fiscal_position_rule(osv.TransientModel):
+class wizard_account_fiscal_position_rule(orm.TransientModel):
     _inherit = 'wizard.account.fiscal.position.rule'
 
     def action_create(self, cr, uid, ids, context=None):
