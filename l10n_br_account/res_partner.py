@@ -186,7 +186,6 @@ class account_fiscal_position(osv.Model):
             context = {}
 
         result = {}
-
         if tax_ids:
 
             product = self.pool.get('product.product').browse(
@@ -199,9 +198,9 @@ class account_fiscal_position(osv.Model):
                 if fclassificaion:
                     tax_sale_ids = fclassificaion.sale_tax_definition_line
                     for tax_def in tax_sale_ids:
-                        if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
                             result.update({tax_def.tax_id.domain:
-                                           tax_def.tax_code_id.code})
+                                           tax_def.tax_code_id.id})
 
                 if company_id:
                     company = self.pool.get('res.company').browse(
@@ -213,28 +212,29 @@ class account_fiscal_position(osv.Model):
                         company_tax_def = company.service_tax_definition_line
 
                     for tax_def in company_tax_def:
-                        if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
                                 result.update({tax_def.tax_id.domain:
-                                               tax_def.tax_code_id.code})
+                                               tax_def.tax_code_id.id})
 
             if context.get('type_tax_use') == 'purchase':
 
                 if fclassificaion:
                     tax_purchase_ids = fclassificaion.purchase_tax_definition_line
                     for tax_def in tax_purchase_ids:
-                        if tax_def.tax_id in tax_ids and tax_def.tax_code_id:
+                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
                             result.update({tax_def.tax_id.domain:
-                                           tax_def.tax_code_id.code})
+                                           tax_def.tax_code_id.id})
 
             if fiscal_position:
                 for fp_tax in fiscal_position.tax_ids:
-                    if fp_tax.tax_dest_id in tax_ids and fp_tax.tax_code_dest_id:
-                        result.update({fp_tax.tax_dest_id.domain:
-                                       fp_tax.tax_code_dest_id.code})
+                    if fp_tax.tax_dest_id:
+                        if fp_tax.tax_dest_id.id in tax_ids and fp_tax.tax_code_dest_id:
+                            result.update({fp_tax.tax_dest_id.domain:
+                                           fp_tax.tax_code_dest_id.id})
                     if not fp_tax.tax_dest_id and fp_tax.tax_code_src_id and \
                     fp_tax.tax_code_dest_id:
                         result.update({fp_tax.tax_code_src_id.domain:
-                                       fp_tax.tax_code_dest_id.code})
+                                       fp_tax.tax_code_dest_id.id})
 
         return result
 
