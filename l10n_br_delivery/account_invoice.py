@@ -17,11 +17,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
-class account_invoice(osv.Model):
+class account_invoice(orm.Model):
     _inherit = 'account.invoice'
     _columns = {
         'carrier_id': fields.many2one(
@@ -63,7 +63,7 @@ class account_invoice(osv.Model):
                 if not inv.vehicle_id.rntc_code:
                     strErro = 'Transportadora / Veículo - RNTC\n'
         if strErro:
-            raise osv.except_osv(
+            raise orm.except_orm(
                 _('Error !'),
                 _("Validação da Nota fiscal:\n '%s'") % (strErro.encode('utf-8')))
 

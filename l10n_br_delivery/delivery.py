@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from openerp.osv import orm, fields
 
 
-class delivery_carrier(osv.Model):
+class delivery_carrier(orm.Model):
     _inherit = 'delivery.carrier'
     _columns = {
         'antt_code': fields.char('Codigo ANTT', size=32),
