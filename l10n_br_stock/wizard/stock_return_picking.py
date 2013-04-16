@@ -17,11 +17,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv
-from tools.translate import _
+from openerp.osv import orm
+from openerp.tools.translate import _
 
 
-class stock_return_picking(osv.TransientModel):
+class stock_return_picking(orm.TransientModel):
     _inherit = 'stock.return.picking'
 
     def create_returns(self, cr, uid, ids, context=None):
@@ -43,8 +43,6 @@ class stock_return_picking(osv.TransientModel):
             return result
 
         pick_obj = self.pool.get('stock.picking')
-        fiscal_category_obj = self.pool.get('l10n_br_account.fiscal.category')
-        fiscal_position_obj = self.pool.get('account.fiscal.position')
         result_domain = eval(result['domain'])
         record_ids = result_domain and result_domain[0] and result_domain[0][2]
         picks = pick_obj.browse(cr, uid, record_ids, context=context)
@@ -59,7 +57,7 @@ class stock_return_picking(osv.TransientModel):
             and pick.fiscal_category_id.refund_fiscal_category_id.id
 
             if not fc_return_id:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error!'),
                     _("This Fiscal Operation does not has Fiscal Operation \
                     for Returns!"))

@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class res_company(osv.Model):
+class res_company(orm.Model):
     _inherit = 'res.company'
     _columns = {
         'stock_fiscal_category_id': fields.many2one(

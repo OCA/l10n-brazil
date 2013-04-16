@@ -18,11 +18,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class stock_incoterms(osv.Model):
+class stock_incoterms(orm.Model):
     _inherit = 'stock.incoterms'
     _columns = {
         'freight_responsibility': fields.selection(
@@ -37,7 +37,7 @@ class stock_incoterms(osv.Model):
     }
 
 
-class stock_picking(osv.Model):
+class stock_picking(orm.Model):
     _inherit = 'stock.picking'
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -63,10 +63,6 @@ class stock_picking(osv.Model):
         if not context:
             context = {}
 
-        result = super(stock_picking, self).onchange_partner_in(
-            cr, uid, ids, partner_id=partner_id, company_id=company_id,
-            context=context, fiscal_category_id=fiscal_category_id)
-        print result
         return super(stock_picking, self).onchange_partner_in(
             cr, uid, ids, partner_id=partner_id, company_id=company_id,
             context=context, fiscal_category_id=fiscal_category_id)
@@ -145,7 +141,7 @@ class stock_picking(osv.Model):
 
         if context.get('inv_type') in ('in_refund', 'out_refund'):
             if not refund_fiscal_position:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Error!'),
                     _("This Fiscal Operation does not has Fiscal Operation \
                     for Returns!"))
@@ -166,6 +162,10 @@ class stock_picking(osv.Model):
         fiscal_category_id.id
         result['fiscal_position'] = fiscal_position and \
         fiscal_position.id
+
+        result['partner_id'] = picking.partner_id.id
+        result['company_id'] = picking.company_id.id
+
         return result
 
     def _prepare_invoice(self, cr, uid, picking, partner,

@@ -17,11 +17,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
-class stock_invoice_onshipping(osv.TransientModel):
+class stock_invoice_onshipping(orm.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     def _get_journal_id(self, cr, uid, context=None):
@@ -88,7 +88,7 @@ class stock_invoice_onshipping(osv.TransientModel):
             journal_id = inv.fiscal_category_id and \
             inv.fiscal_category_id.property_journal
             if not journal_id:
-                raise osv.except_osv(
+                raise orm.except_orm(
                     _('Invalid Journal!'),
                     _('There is not journal defined for this company: %s in \
                     fiscal operation: %s !') % (inv.company_id.name,
