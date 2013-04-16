@@ -17,17 +17,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from openerp.osv import orm, fields
 
 
-class account_journal(osv.Model):
+class account_journal(orm.Model):
     _inherit = 'account.journal'
     _columns = {
         'revenue_expense': fields.boolean('Gera Financeiro')
     }
 
 
-class account_tax_computation(osv.Model):
+class account_tax_computation(orm.Model):
     """ Implement computation method in taxes """
     _name = 'account.tax.computation'
     _columns = {
@@ -35,19 +35,19 @@ class account_tax_computation(osv.Model):
     }
 
 
-class account_payment_term(osv.Model):
+class account_payment_term(orm.Model):
     _inherit = 'account.payment.term'
     _columns = {
         'indPag': fields.selection(
-            [('0', 'Pagamento à Vista'), ('1', 'Pagamento à Prazo'),
-                ('2', 'Outros')], 'Indicador de Pagamento'),
+            [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
+            ('2', 'Outros')], 'Indicador de Pagamento'),
     }
     _defaults = {
         'indPag': '1',
     }
 
 
-class account_tax(osv.Model):
+class account_tax(orm.Model):
     _inherit = 'account.tax'
 
     def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
@@ -65,6 +65,7 @@ class account_tax(osv.Model):
             if tax.get('tax_discount', False):
                 result['tax_discount'] += tax['amount']
 
+            tax['amount'] = round(total_line * tax['percent'], precision)
             tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
             if tax['percent']:
                 tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
@@ -78,7 +79,8 @@ class account_tax(osv.Model):
 
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
-                    fiscal_position=False):
+                    fiscal_position=False, insurance_value=0.0,
+                    freight_value=0.0, other_costs_value=0.0):
         """Compute taxes
 
         Returns a dict of the form::
@@ -139,9 +141,11 @@ class account_tax(osv.Model):
         # Calcula ICMS
         specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
         if fiscal_position and fiscal_position.asset_operation:
-            total_base = result['total'] + ipi_value
+            total_base = result['total'] + insurance_value + \
+            freight_value + other_costs_value + ipi_value
         else:
-            total_base = result['total']
+            total_base = result['total'] + insurance_value + \
+            freight_value + other_costs_value
 
         result_icms = self._compute_tax(cr, uid, specific_icms, total_base,
                                         product, quantity, precision)
@@ -181,7 +185,7 @@ class account_tax(osv.Model):
 account_tax()
 
 
-class wizard_multi_charts_accounts(osv.TransientModel):
+class wizard_multi_charts_accounts(orm.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
     def execute(self, cr, uid, ids, context=None):
@@ -197,7 +201,7 @@ class wizard_multi_charts_accounts(osv.TransientModel):
         :Parameters:
             - 'cr': Database cursor.
             - 'uid': Current user.
-            - 'ids': Osv_memory id used to read all data.
+            - 'ids': orm_memory id used to read all data.
             - 'context': Context.
         """
         result = super(wizard_multi_charts_accounts, self).execute(
@@ -226,7 +230,7 @@ class wizard_multi_charts_accounts(osv.TransientModel):
         return result
 
 
-class account_account(osv.Model):
+class account_account(orm.Model):
     _inherit = 'account.account'
 
     def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):
