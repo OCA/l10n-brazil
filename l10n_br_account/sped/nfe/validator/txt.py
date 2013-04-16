@@ -17,9 +17,9 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import osv
-from tools.translate import _
-import pooler
+from openerp import pooler
+from openerp.osv import orm
+from openerp.tools.translate import _
 
 
 def validate(cr, uid, ids, context=None):
@@ -195,23 +195,36 @@ def validate(cr, uid, ids, context=None):
                 if not inv_line.quantity:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name, inv_line.quantity)
 
+                #Se for Documento Fiscal de Produto
+                if inv.fiscal_type == 'product':
+                    if not inv_line.fiscal_classification_id:
+                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Classificação Fiscal(NCM)\n' % (inv_line.product_id.name, inv_line.quantity)
+
                 if not inv_line.price_unit:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name, inv_line.quantity)
 
-                if not inv_line.icms_cst:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name, inv_line.quantity)
+                if inv_line.product_type == 'product':
+                    if not inv_line.icms_cst_id:
+                        strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name, inv_line.quantity)
 
-                if not inv_line.ipi_cst:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name, inv_line.quantity)
+                    if not inv_line.ipi_cst_id:
+                        strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name, inv_line.quantity)
 
-                if not inv_line.pis_cst:
+                if inv_line.product_type == 'service':
+                    if not inv_line.issqn_type:
+                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Tipo do ISSQN\n' % (inv_line.product_id.name, inv_line.quantity)
+
+                    if not inv_line.service_type_id:
+                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Tipo do Serviço\n' % (inv_line.product_id.name, inv_line.quantity)
+
+                if not inv_line.pis_cst_id:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name, inv_line.quantity)
 
-                if not inv_line.cofins_cst:
+                if not inv_line.cofins_cst_id:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name, inv_line.quantity)
 
     if strErro:
-        raise osv.except_osv(
+        raise orm.except_orm(
             _('Error !'), ("Error Validating NFE:\n '%s'") % (strErro, ))
 
     return True
