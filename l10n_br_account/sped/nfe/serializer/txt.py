@@ -19,21 +19,24 @@
 
 import time
 from datetime import datetime
-import netsvc
 import re
 import string
 from unicodedata import normalize
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import osv
+from openerp.tools.translate import _
+from openerp import netsvc
 import pooler
 
 
-def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
+def nfe_export(cr, uid, ids, nfe_environment='1',
+                nfe_version='200', context=False):
     StrFile = ''
     StrNF = 'NOTA FISCAL|%s|\n' % len(ids)
     StrFile = StrNF
     pool = pooler.get_pool(cr.dbname)
+
+    nfes = []
 
     for inv in pool.get('account.invoice').browse(cr, uid, ids, context={'lang': 'pt_BR'}):
         #Endereço do company
@@ -41,7 +44,6 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         company_addr_default = pool.get('res.partner').browse(cr, uid, [company_addr['default']], context={'lang': 'pt_BR'})[0]
 
         StrA = 'A|%s|%s|\n' % ('2.00', '')
-
         StrFile += StrA
 
         StrRegB = {
@@ -104,7 +106,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                     'AAMM': datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or '',
                     'IE': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.inscr_est or '')),
                     'mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
-                    'serie': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.serie or '')),
+                    'serie': inv_related.serie or '',
                     'nNF': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.internal_number or '')),
                 }
                 StrB20a = 'B20a|%s|%s|%s|%s|%s|%s|\n' % (StrRegB20a['cUF'],
@@ -312,7 +314,6 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'CProd': normalize('NFKD',unicode(inv_line.product_id.code or '',)).encode('ASCII','ignore'),
                    'CEAN': inv_line.product_id.ean13 or '',
                    'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
-                   'NCM': re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.product_id.property_fiscal_classification.name or ''),
                    'EXTIPI': '',
                    'CFOP': inv_line.cfop_id.code,
                    'UCom': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
@@ -332,6 +333,24 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                    'nItemPed': '',
                    }
 
+            #FIXME - Houve mudança ao ler campos do tipo property?
+            property_obj = pool.get('ir.property')
+            fclass_obj = pool.get('account.product.fiscal.classification')
+            f_class_property_id = property_obj.search(cr, uid,
+                [('name', '=', 'property_fiscal_classification'),
+                    ('res_id', '=', 'product.template,' +
+                    str(inv_line.product_id.product_tmpl_id.id) + ''),
+                    ('company_id', '=', inv.company_id.id)])
+
+            f_class_property_data = property_obj.read(
+                cr, uid, f_class_property_id,
+                ['name', 'value_reference', 'res_id'])
+
+            f_class_id = f_class_property_data and f_class_property_data[0].get('value_reference', False) and int(f_class_property_data[0]['value_reference'].split(',')[1]) or False
+            fclassificaion = fclass_obj.browse(cr, uid, f_class_id, context)
+
+            StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation), '', fclassificaion.name or '')
+
             if inv_line.product_id.code:
                 StrRegI['CProd'] = inv_line.product_id.code
             else:
@@ -350,6 +369,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
             StrFile += StrI
 
+            icms_cst = inv_line.icms_cst_id and inv_line.icms_cst_id.code or ''
+            ipi_cst = inv_line.ipi_cst_id and inv_line.ipi_cst_id.code or ''
+            pis_cst = inv_line.pis_cst_id and inv_line.pis_cst_id.code or ''
+            cofins_cst = inv_line.cofins_cst_id and inv_line.cofins_cst_id.code or ''
+
             StrM = 'M|\n'
 
             StrFile += StrM
@@ -358,237 +382,299 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
             StrFile += StrN
 
-            #TODO - Fazer alteração para cada tipo de cst
-            if inv_line.icms_cst in ('00'):
+            #TODO - Fazer alteração para cada tipo de cst ICMS
+            if inv_line.product_type == 'product':
+                if icms_cst in ('00'):
 
-                StrRegN02 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'ModBC': '0',
-                   'VBC': str("%.2f" % inv_line.icms_base),
-                   'PICMS': str("%.2f" % inv_line.icms_percent),
-                   'VICMS': str("%.2f" % inv_line.icms_value),
+                    StrRegN02 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       }
+
+                    StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
+                                                     StrRegN02['VICMS'])
+
+                    StrFile += StrN02
+
+                if icms_cst in ('20'):
+
+                    StrRegN04 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       }
+
+                    StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                        StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'],
+                        StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
+                        StrRegN04['VICMS'])
+
+                    StrFile += StrN04
+
+                if icms_cst in ('10'):
+                    StrRegN03 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       'ModBCST': inv_line.icms_st_base_type,
+                       'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
+                       'PRedBCST': '',
+                       'VBCST': str("%.2f" % inv_line.icms_st_base),
+                       'PICMSST': str("%.2f" % inv_line.icms_st_percent),
+                       'VICMSST': str("%.2f" % inv_line.icms_st_value),
+                       }
+
+                    StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                        StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'],
+                        StrRegN03['VBC'], StrRegN03['PICMS'], StrRegN03['VICMS'],
+                        StrRegN03['ModBCST'], StrRegN03['PMVAST'],
+                        StrRegN03['PRedBCST'], StrRegN03['VBCST'],
+                        StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+
+                    StrFile += StrN03
+
+                if icms_cst in ('40', '50'):
+                    StrRegN06 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'vICMS': str("%.2f" % inv_line.icms_value),
+                       'motDesICMS': '9',  # FIXME
+                    }
+                    StrN06 = 'N06|%s|%s|%s|%s|\n' % (
+                        StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'],
+                        StrRegN06['motDesICMS'])
+                    StrFile += StrN06
+
+                if icms_cst in ('41', '51'):
+                    StrRegN06 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'vICMS': '',
+                       'motDesICMS': '',
+                    }
+                    StrN06 = 'N06|%s|%s|%s|%s|\n' % (
+                        StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'],
+                        StrRegN06['motDesICMS'])
+                    StrFile += StrN06
+
+                if icms_cst in ('60'):
+                    StrRegN08 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'VBCST': str("%.2f" % 0.00),
+                       'VICMSST': str("%.2f" % 0.00),
+                       }
+
+                    StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
+                    StrFile += StrN08
+
+                if icms_cst in ('70'):
+                    StrRegN09 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       'ModBCST': inv_line.icms_st_base_type,
+                       'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
+                       'PRedBCST': '',
+                       'VBCST': str("%.2f" % inv_line.icms_st_base),
+                       'PICMSST': str("%.2f" % inv_line.icms_st_percent),
+                       'VICMSST': str("%.2f" % inv_line.icms_st_value),
                    }
 
-                StrN02 = 'N02|%s|%s|%s|%s|%s|%s|\n' % (StrRegN02['Orig'], StrRegN02['CST'], StrRegN02['ModBC'], StrRegN02['VBC'], StrRegN02['PICMS'],
-                                                 StrRegN02['VICMS'])
+                    StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
+                    StrFile += StrN09
 
-                StrFile += StrN02
-
-            if inv_line.icms_cst in ('20'):
-
-                StrRegN04 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'ModBC': '0',
-                   'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
-                   'VBC': str("%.2f" % inv_line.icms_base),
-                   'PICMS': str("%.2f" % inv_line.icms_percent),
-                   'VICMS': str("%.2f" % inv_line.icms_value),
+                if icms_cst in ('90'):
+                    StrRegN10 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                       'ModBCST': inv_line.icms_st_base_type,
+                       'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
+                       'PRedBCST': '',
+                       'VBCST': str("%.2f" % inv_line.icms_st_base),
+                       'PICMSST': str("%.2f" % inv_line.icms_st_percent),
+                       'VICMSST': str("%.2f" % inv_line.icms_st_value),
                    }
 
-                StrN04 = 'N04|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                    StrRegN04['Orig'], StrRegN04['CST'], StrRegN04['ModBC'],
-                    StrRegN04['PRedBC'], StrRegN04['VBC'], StrRegN04['PICMS'],
-                    StrRegN04['VICMS'])
+                    StrN10 = 'N10|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10['Orig'], StrRegN10['CST'], StrRegN10['ModBC'], StrRegN10['PRedBC'], StrRegN10['VBC'], StrRegN10['PICMS'], StrRegN10['VICMS'], StrRegN10['ModBCST'], StrRegN10['PMVAST'], StrRegN10['PRedBCST'], StrRegN10['VBCST'], StrRegN10['PICMSST'], StrRegN10['VICMSST'])
+                    StrFile += StrN10
 
-                StrFile += StrN04
 
-            if inv_line.icms_cst in ('10'):
-                StrRegN03 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'ModBC': '0',
-                   'VBC': str("%.2f" % inv_line.icms_base),
-                   'PICMS': str("%.2f" % inv_line.icms_percent),
-                   'VICMS': str("%.2f" % inv_line.icms_value),
-                   'ModBCST': '4',  # TODO
-                   'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
-                   'PRedBCST': '',
-                   'VBCST': str("%.2f" % inv_line.icms_st_base),
-                   'PICMSST': str("%.2f" % inv_line.icms_st_percent),
-                   'VICMSST': str("%.2f" % inv_line.icms_st_value),
-                   }
+                if icms_cst in ('101'):
+                    StrRegN10c = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst,
+                       'pCredSN': str("%.2f" % inv_line.icms_percent),
+                       'vCredICMSSN': str("%.2f" % inv_line.icms_value),
+                    }
 
-                StrN03 = 'N03|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                    StrRegN03['Orig'], StrRegN03['CST'], StrRegN03['ModBC'],
-                    StrRegN03['VBC'], StrRegN03['PICMS'], StrRegN03['VICMS'],
-                    StrRegN03['ModBCST'], StrRegN03['PMVAST'],
-                    StrRegN03['PRedBCST'], StrRegN03['VBCST'],
-                    StrRegN03['PICMSST'], StrRegN03['VICMSST'])
+                    StrN10c = 'N10c|%s|%s|%s|%s|\n' % (StrRegN10c['Orig'], StrRegN10c['CSOSN'], StrRegN10c['pCredSN'], StrRegN10c['vCredICMSSN'])
+                    StrFile += StrN10c
 
-                StrFile += StrN03
+                if icms_cst in ('400'):
+                    StrRegN10d = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst
+                    }
 
-            if inv_line.icms_cst in ('40', '50'):
-                StrRegN06 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'vICMS': str("%.2f" % inv_line.icms_value),
-                   'motDesICMS': '9',  # FIXME
-                   }
+                    StrN10d = 'N10d|%s|%s|\n' % (StrRegN10d['Orig'], StrRegN10d['CSOSN'])
+                    StrFile += StrN10d
 
-            if inv_line.icms_cst in ('41', '51'):
-                StrRegN06 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'vICMS': '',
-                   'motDesICMS': '',
-                   }
+                if icms_cst in ('900'):
+                    StrRegN10h = {
+                                  'Orig': inv_line.product_id.origin or '0',
+                                  'CSOSN': icms_cst,
+                                  'modBC': inv_line.icms_base_type,
+                                  'vBC': str("%.2f" % 0.00),
+                                  'pRedBC': '',
+                                  'pICMS': str("%.2f" % 0.00),
+                                  'vICMS': str("%.2f" % 0.00),
+                                  'modBCST': '',
+                                  'pMVAST': '',
+                                  'pRedBCST': '',
+                                  'vBCST': '',
+                                  'pICMSST': '',
+                                  'vICMSST': '',
+                                  'pCredSN': str("%.2f" % 0.00),
+                                  'vCredICMSSN': str("%.2f" % 0.00),
+                                  }
 
-                StrN06 = 'N06|%s|%s|%s|%s|\n' % (
-                    StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'],
-                    StrRegN06['motDesICMS'])
+                    StrN10h = 'N10h|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10h['Orig'],
+                                                                                        StrRegN10h['CSOSN'],
+                                                                                        StrRegN10h['modBC'],
+                                                                                        StrRegN10h['vBC'],
+                                                                                        StrRegN10h['pRedBC'],
+                                                                                        StrRegN10h['pICMS'],
+                                                                                        StrRegN10h['vICMS'],
+                                                                                        StrRegN10h['modBCST'],
+                                                                                        StrRegN10h['pMVAST'],
+                                                                                        StrRegN10h['pRedBCST'],
+                                                                                        StrRegN10h['vBCST'],
+                                                                                        StrRegN10h['pICMSST'],
+                                                                                        StrRegN10h['vICMSST'],
+                                                                                        StrRegN10h['pCredSN'],
+                                                                                        StrRegN10h['vCredICMSSN'])
 
-                StrFile += StrN06
+                    StrFile += StrN10h
 
-            if inv_line.icms_cst in ('60'):
-                StrRegN08 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'VBCST': str("%.2f" % 0.00),
-                   'VICMSST': str("%.2f" % 0.00),
-                   }
-
-                StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
-
-                StrFile += StrN08
-
-            if inv_line.icms_cst in ('70'):
-                StrRegN09 = {
-                   'Orig': inv_line.product_id.origin or '0',
-                   'CST': inv_line.icms_cst,
-                   'ModBC': '0',
-                   'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
-                   'VBC': str("%.2f" % inv_line.icms_base),
-                   'PICMS': str("%.2f" % inv_line.icms_percent),
-                   'VICMS': str("%.2f" % inv_line.icms_value),
-                   'ModBCST': '4', #TODO
-                   'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
-                   'PRedBCST': '',
-                   'VBCST': str("%.2f" % inv_line.icms_st_base),
-                   'PICMSST': str("%.2f" % inv_line.icms_st_percent),
-                   'VICMSST': str("%.2f" % inv_line.icms_st_value),
-                   }
-
-                StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
-
-                StrFile += StrN09
-
-            if inv_line.icms_cst in ('90', '900'):
-                StrRegN10h = {
-                              'Orig': inv_line.product_id.origin or '0',
-                              'CSOSN': inv_line.icms_cst,
-                              'modBC': '0',
-                              'vBC': str("%.2f" % 0.00),
-                              'pRedBC': '',
-                              'pICMS': str("%.2f" % 0.00),
-                              'vICMS': str("%.2f" % 0.00),
-                              'modBCST': '',
-                              'pMVAST': '',
-                              'pRedBCST': '',
-                              'vBCST': '',
-                              'pICMSST': '',
-                              'vICMSST': '',
-                              'pCredSN': str("%.2f" % 0.00),
-                              'vCredICMSSN': str("%.2f" % 0.00),
-                              }
-
-                StrN10h = 'N10h|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10h['Orig'],
-                                                                                    StrRegN10h['CSOSN'],
-                                                                                    StrRegN10h['modBC'],
-                                                                                    StrRegN10h['vBC'],
-                                                                                    StrRegN10h['pRedBC'],
-                                                                                    StrRegN10h['pICMS'],
-                                                                                    StrRegN10h['vICMS'],
-                                                                                    StrRegN10h['modBCST'],
-                                                                                    StrRegN10h['pMVAST'],
-                                                                                    StrRegN10h['pRedBCST'],
-                                                                                    StrRegN10h['vBCST'],
-                                                                                    StrRegN10h['pICMSST'],
-                                                                                    StrRegN10h['vICMSST'],
-                                                                                    StrRegN10h['pCredSN'],
-                                                                                    StrRegN10h['vCredICMSSN'])
-
-                StrFile += StrN10h
-
-            StrRegO = {
-                   'ClEnq': '',
-                   'CNPJProd': '',
-                   'CSelo': '',
-                   'QSelo': '',
-                   'CEnq': '999',
-            }
-
-            StrO = 'O|%s|%s|%s|%s|%s|\n' % (StrRegO['ClEnq'], StrRegO['CNPJProd'], StrRegO['CSelo'], StrRegO['QSelo'], StrRegO['CEnq'])
-
-            StrFile += StrO
-
-            if inv_line.ipi_cst in ('50', '51', '52') and inv_line.ipi_percent > 0:
-                StrRegO07 = {
-                   'CST': inv_line.ipi_cst,
-                   'VIPI': str("%.2f" % inv_line.ipi_value),
+                StrRegO = {
+                       'ClEnq': '',
+                       'CNPJProd': '',
+                       'CSelo': '',
+                       'QSelo': '',
+                       'CEnq': '999',
                 }
 
-                StrO07 = 'O07|%s|%s|\n' % (StrRegO07['CST'], StrRegO07['VIPI'])
+                StrO = 'O|%s|%s|%s|%s|%s|\n' % (StrRegO['ClEnq'], StrRegO['CNPJProd'], StrRegO['CSelo'], StrRegO['QSelo'], StrRegO['CEnq'])
 
-                StrFile += StrO07
+                StrFile += StrO
 
-                if inv_line.ipi_type == 'percent' or '':
+                if ipi_cst in ('50', '51', '52') and inv_line.ipi_percent > 0:
+                    StrRegO07 = {
+                       'CST': ipi_cst,
+                       'VIPI': str("%.2f" % inv_line.ipi_value),
+                    }
+
+                    StrO07 = 'O07|%s|%s|\n' % (StrRegO07['CST'], StrRegO07['VIPI'])
+
+                    StrFile += StrO07
+
+                    if inv_line.ipi_type == 'percent' or '':
+                        StrRegO10 = {
+                           'VBC': str("%.2f" % inv_line.ipi_base),
+                           'PIPI': str("%.2f" % inv_line.ipi_percent),
+                        }
+                        StrO1 = 'O10|%s|%s|\n' % (StrRegO10['VBC'], StrRegO10['PIPI'])
+
+                    if inv_line.ipi_type == 'quantity':
+                        pesol = 0
+                        if inv_line.product_id:
+                            pesol = inv_line.product_id.weight_net
+                        StrRegO11 = {
+                           'QUnid': str("%.4f" % (inv_line.quantity * pesol)),
+                           'VUnid': str("%.4f" % inv_line.ipi_percent),
+                        }
+                        StrO1 = 'O11|%s|%s|\n' % (StrRegO11['QUnid'], StrRegO11['VUnid'])
+
+                    StrFile += StrO1
+
+                if ipi_cst in ('99'):
+                    StrRegO07 = {
+                                 'CST': ipi_cst,
+                                 'VIPI': str("%.2f" % inv_line.ipi_value),
+                                 }
+
+                    StrO07 = ('O07|%s|%s|\n') % (StrRegO07['CST'], StrRegO07['VIPI'])
+                    StrFile += StrO07
+
                     StrRegO10 = {
-                       'VBC': str("%.2f" % inv_line.ipi_base),
-                       'PIPI': str("%.2f" % inv_line.ipi_percent),
-                    }
-                    StrO1 = 'O10|%s|%s|\n' % (StrRegO10['VBC'], StrRegO10['PIPI'])
+                                 'VBC': str("%.2f" % inv_line.ipi_base),
+                                 'PIPI': str("%.2f" % inv_line.ipi_percent),
+                                 }
 
-                if inv_line.ipi_type == 'quantity':
-                    pesol = 0
-                    if inv_line.product_id:
-                        pesol = inv_line.product_id.weight_net
-                    StrRegO11 = {
-                       'QUnid': str("%.4f" % (inv_line.quantity * pesol)),
-                       'VUnid': str("%.4f" % inv_line.ipi_percent),
-                    }
-                    StrO1 = 'O11|%s|%s|\n' % (StrRegO11['QUnid'], StrRegO11['VUnid'])
+                    StrO10 = ('O10|%s|%s|\n') % (StrRegO10['VBC'], StrRegO10['PIPI'])
+                    StrFile += StrO10
 
-                StrFile += StrO1
+                if inv_line.ipi_percent == 0 and not ipi_cst in ('99'):
+                    StrO1 = 'O08|%s|\n' % ipi_cst
+                    StrFile += StrO1
 
-            if inv_line.ipi_cst in ('99'):
-                StrRegO07 = {
-                             'CST': inv_line.ipi_cst,
-                             'VIPI': str("%.2f" % inv_line.ipi_value),
-                             }
+                StrRegP = {
+                       'VBC': str("%.2f" % inv_line.ii_base),
+                       'VDespAdu': str("%.2f" % inv_line.ii_customhouse_charges),
+                       'VII': str("%.2f" % inv_line.ii_value),
+                       'VIOF': str("%.2f" % inv_line.ii_iof),
+                }
 
-                StrO07 = ('O07|%s|%s|\n') % (StrRegO07['CST'], StrRegO07['VIPI'])
-                StrFile += StrO07
+                StrP = ('P|%s|%s|%s|%s|\n') % (StrRegP['VBC'], StrRegP['VDespAdu'], StrRegP['VII'], StrRegP['VIOF'])
+                StrFile += StrP
 
-                StrRegO10 = {
-                             'VBC': str("%.2f" % inv_line.ipi_base),
-                             'PIPI': str("%.2f" % inv_line.ipi_percent),
-                             }
+            if inv_line.product_type == 'service':
 
-                StrO10 = ('O10|%s|%s|\n') % (StrRegO10['VBC'], StrRegO10['PIPI'])
-                StrFile += StrO10
+                StrRegU = {
+                       'VBC': str("%.2f" % inv_line.issqn_base),
+                       'VAliq': str("%.2f" % inv_line.issqn_percent),
+                       'VISSQN': str("%.2f" % inv_line.issqn_value),
+                       'CMunFG': ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code),
+                       'CListServ': re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.service_type_id.code or ''),
+                       'cSitTrib': inv_line.issqn_type
+                }
 
-            if inv_line.ipi_percent == 0 and not inv_line.ipi_cst in ('99'):
-                StrO1 = 'O08|%s|\n' % inv_line.ipi_cst
-                StrFile += StrO1
-
-            StrRegP = {
-                   'VBC': str("%.2f" % inv_line.ii_base),
-                   'VDespAdu': str("%.2f" % inv_line.ii_customhouse_charges),
-                   'VII': str("%.2f" % inv_line.ii_value),
-                   'VIOF': str("%.2f" % inv_line.ii_iof),
-            }
-
-            StrP = ('P|%s|%s|%s|%s|\n') % (StrRegP['VBC'], StrRegP['VDespAdu'], StrRegP['VII'], StrRegP['VIOF'])
-            StrFile += StrP
+                StrU = ('U|%s|%s|%s|%s|%s|%s|\n') % (
+                    StrRegU['VBC'],
+                    StrRegU['VAliq'],
+                    StrRegU['VISSQN'],
+                    StrRegU['CMunFG'],
+                    StrRegU['CListServ'],
+                    StrRegU['cSitTrib'])
+                StrFile += StrU
 
             StrQ = 'Q|\n'
             StrFile += StrQ
 
-            if inv_line.pis_cst in ('01') and inv_line.pis_percent > 0:
+            if pis_cst in ('01') and inv_line.pis_percent > 0:
                 StrRegQ02 = {
-                             'CST': inv_line.pis_cst,
+                             'CST': pis_cst,
                              'VBC': str("%.2f" % inv_line.pis_base),
                              'PPIS': str("%.2f" % inv_line.pis_percent),
                              'VPIS': str("%.2f" % inv_line.pis_value),
@@ -601,9 +687,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
 
                 StrFile += StrQ02
 
-            if inv_line.pis_cst in ('99'):
+            if pis_cst in ('99'):
                 StrRegQ05 = {
-                             'CST': inv_line.pis_cst,
+                             'CST': pis_cst,
                              'VPIS': str("%.2f" % inv_line.pis_value),
                              }
 
@@ -618,17 +704,17 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                 StrQ07 = ('Q07|%s|%s|\n') % (StrRegQ07['VBC'], StrRegQ07['PPIS'])
                 StrFile += StrQ07
 
-            if inv_line.pis_percent == 0 and not inv_line.pis_cst in ('99'):
-                StrQ02 = 'Q04|%s|\n' % inv_line.pis_cst
+            if inv_line.pis_percent == 0 and not pis_cst in ('99'):
+                StrQ02 = 'Q04|%s|\n' % pis_cst
                 StrFile += StrQ02
 
             StrQ = 'S|\n'
 
             StrFile += StrQ
 
-            if inv_line.cofins_cst in ('01') and inv_line.cofins_percent > 0:
+            if cofins_cst in ('01') and inv_line.cofins_percent > 0:
                 StrRegS02 = {
-                   'CST': inv_line.cofins_cst,
+                   'CST': cofins_cst,
                    'VBC': str("%.2f" % inv_line.cofins_base),
                    'PCOFINS': str("%.2f" % inv_line.cofins_percent),
                    'VCOFINS': str("%.2f" % inv_line.cofins_value),
@@ -637,9 +723,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                 StrS02 = ('S02|%s|%s|%s|%s|\n') % (StrRegS02['CST'], StrRegS02['VBC'], StrRegS02['PCOFINS'], StrRegS02['VCOFINS'])
                 StrFile += StrS02
 
-            if inv_line.cofins_cst in ('99'):
+            if cofins_cst in ('99'):
                 StrRegS05 = {
-                             'CST': inv_line.cofins_cst,
+                             'CST': cofins_cst,
                              'VCOFINS': str("%.2f" % inv_line.cofins_value),
                              }
 
@@ -647,16 +733,16 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                 StrFile += StrS05
 
                 StrRegS07 = {
-                             'VBC': str("%.2f" % inv_line.cofins_base),
-                             'PCOFINS': str("%.2f" % inv_line.cofins_percent),
-                             }
+                    'VBC': str("%.2f" % inv_line.cofins_base),
+                    'PCOFINS': str("%.2f" % inv_line.cofins_percent),
+                }
 
                 StrS07 = ('S07|%s|%s|\n') % (StrRegS07['VBC'], StrRegS07['PCOFINS'])
                 StrFile += StrS07
 
-        if inv_line.cofins_percent == 0 and not inv_line.cofins_cst in ('99'):
-            StrS02 = 'S04|%s|\n' % inv_line.cofins_cst
-            StrFile += StrS02
+            if inv_line.cofins_percent == 0 and not cofins_cst in ('99'):
+                StrS04 = 'S04|%s|\n' % cofins_cst
+                StrFile += StrS04
 
         StrW = 'W|\n'
 
@@ -710,6 +796,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         StrX0 = ''
 
         try:
+
+            StrRegX03['XNome'] = normalize('NFKD', unicode(inv.carrier_name or '')).encode('ASCII', 'ignore')
+
+
             if inv.carrier_id:
 
                 #Endereço da transportadora
@@ -746,9 +836,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
                      }
 
         try:
+            StrRegX18['Placa'] = inv.vehicle_plate or ''
+            StrRegX18['UF'] = inv.vehicle_state_id.code or ''
             if inv.vehicle_id:
-                StrRegX18['Placa'] = inv.vehicle_id.plate or ''
-                StrRegX18['UF'] = inv.vehicle_id.plate.state_id.code or ''
                 StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
         except AttributeError:
             pass
@@ -812,9 +902,14 @@ def nfe_export(cr, uid, ids, nfe_environment='1', context=False):
         StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
         StrFile += StrZA
 
+        documents = inv.internal_number
+
         pool.get('account.invoice').write(cr, uid, [inv.id], {'nfe_export_date': datetime.now()})
 
-    return unicode(StrFile.encode('utf-8'), errors='replace')
+    nfes.append({'key': documents, 'nfe': StrFile,
+                'message': ''})
+    return nfes
+    #return unicode(StrFile.encode('utf-8'), errors='replace')
 
 def nfe_import(cr, ids, nfe_environment='1', context=False):
     return 'TESTE Import'
