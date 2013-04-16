@@ -17,10 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from osv import fields, osv
+from openerp.osv import orm, fields
 
 
-class account_product_fiscal_classification_template(osv.Model):
+class account_product_fiscal_classification_template(orm.Model):
     _inherit = 'account.product.fiscal.classification.template'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -68,40 +68,38 @@ class account_product_fiscal_classification_template(osv.Model):
     _defaults = {
         'type': 'normal'}
 
-account_product_fiscal_classification_template()
 
-
-class l10n_br_tax_definition_sale_template(osv.osv):
+class l10n_br_tax_definition_sale_template(orm.Model):
     _name = 'l10n_br_tax.definition.sale.template'
     _inherit = 'l10n_br_tax.definition.template'
     _columns = {
-                'fiscal_classification_id': fields.many2one(
-                    'account.product.fiscal.classification.template',
-                    'Fiscal Classification', select=True)}
-
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification.template',
+            'Fiscal Classification', select=True)
+    }
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')]
+        u'Imposto já existente nesta classificação fiscal!')
+    ]
 
-l10n_br_tax_definition_sale_template()
 
-
-class l10n_br_tax_definition_purchase_template(osv.osv):
+class l10n_br_tax_definition_purchase_template(orm.Model):
     _name = 'l10n_br_tax.definition.purchase.template'
     _inherit = 'l10n_br_tax.definition.template'
     _columns = {
-                'fiscal_classification_id': fields.many2one(
-                    'account.product.fiscal.classification.template',
-                    'Fiscal Classification', select=True)}
-
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification.template',
+            'Fiscal Classification', select=True)
+    }
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')]
+        u'Imposto já existente nesta classificação fiscal!')
+    ]
 
 
-class account_product_fiscal_classification(osv.Model):
+class account_product_fiscal_classification(orm.Model):
     _inherit = 'account.product.fiscal.classification'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -150,21 +148,22 @@ class account_product_fiscal_classification(osv.Model):
         'type': 'normal'}
 
 
-class l10n_br_tax_definition_sale(osv.Model):
+class l10n_br_tax_definition_sale(orm.Model):
     _name = 'l10n_br_tax.definition.sale'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
-                'fiscal_classification_id': fields.many2one(
-                    'account.product.fiscal.classification',
-                    'Parent Fiscal Classification', select=True)}
-
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification',
+            'Parent Fiscal Classification', select=True)
+    }
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')]
+        u'Imposto já existente nesta classificação fiscal!')
+    ]
 
 
-class l10n_br_tax_definition_purchase(osv.Model):
+class l10n_br_tax_definition_purchase(orm.Model):
     _name = 'l10n_br_tax.definition.purchase'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
@@ -178,7 +177,7 @@ class l10n_br_tax_definition_purchase(osv.Model):
         u'Imposto já existente nesta classificação fiscal!')]
 
 
-class wizard_account_product_fiscal_classification(osv.osv_memory):
+class wizard_account_product_fiscal_classification(orm.TransientModel):
     _inherit = 'wizard.account.product.fiscal.classification'
     _columns = {
         'company_id': fields.many2one('res.company', 'Company')
