@@ -153,6 +153,9 @@ class purchase_order(orm.Model):
         order.fiscal_position and order.fiscal_position.cfop_id and \
         order.fiscal_position.cfop_id.id
 
+        result['partner_id'] = order_line.partner_id.id
+        result['company_id'] = order_line.company_id.id
+
         return result
 
     # TODO ask OpenERP SA for a _prepare_invoice method!
