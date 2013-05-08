@@ -28,9 +28,9 @@ class l10n_br_data_zip(orm.Model):
     """
     _name = 'l10n_br_data.zip'
     _description = 'CEP'
-    _rec_name = 'code'
+    _rec_name = 'zip'
     _columns = {
-        'code': fields.char('CEP', size=8, required=True),
+        'zip': fields.char('CEP', size=8, required=True),
         'street_type': fields.char('Tipo', size=26),
         'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
@@ -46,7 +46,7 @@ class l10n_br_data_zip(orm.Model):
         domain = []
         if zip:
             new_zip = re.sub('[^0-9]', '', zip or '')
-            domain.append(('code', '=', new_zip))
+            domain.append(('zip', '=', new_zip))
         else:
             if state_id == False or \
                l10n_br_city_id == False or\
@@ -67,28 +67,9 @@ class l10n_br_data_zip(orm.Model):
         
         return domain
     
-    def set_result(self, cr, uid, ids, context, zip_id=None):
-        result = {
-            'country_id': False,
-            'state_id': False,
-            'l10n_br_city_id': False,
-            'district': False,
-            'street': False,
-            'zip': False
-        }
-        if zip_id != None:        
-            zip_read = self.read(cr, uid, zip_id, [
-                                                      'street_type',
-                                                      'street', 
-                                                      'district',
-                                                      'code',
-                                                      'l10n_br_city_id',
-                                                      'state_id',
-                                                      'country_id'
-                                                      ],
-                                    context=context)
-            zip = zip_read['code']
-            
+    def set_result(self, cr, uid, ids, context, zip_read=None):
+        if zip_read != None:
+            zip = zip_read['zip']
             if len(zip) == 8:
                 zip = '%s-%s' % (zip[0:5], zip[5:8])
             
@@ -100,6 +81,8 @@ class l10n_br_data_zip(orm.Model):
                 'street': ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or '')),
                 'zip': zip,
             }
+        else:
+            result = {}
         return result
             
                 

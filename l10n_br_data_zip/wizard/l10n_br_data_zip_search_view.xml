@@ -9,7 +9,7 @@
                 <form string="Pesquisar CEP" version="7.0">
 	                <group colspan="8" col="8" states="init">
 	                    <!-- <separator colspan="8" string="Pesquisar Endereço"/>  -->
-	                	<field colspan="8" name="code" />
+	                	<field colspan="8" name="zip" />
 	                    <field colspan="8" name="street" />
 	                    <field colspan="4" name="district" />
 	                    <field colspan="4" name="country_id" required="True" />
@@ -40,7 +40,7 @@
 			<field name="arch" type="xml">
 				<tree string="CEPs">
 					<button name="zip_select" string="Selecionar" type="object" icon="gtk-apply"/>
-					<field name="code" select="1"/>
+					<field name="zip" select="1"/>
 					<field name="district" select="1"/>
 					<field name="street" select="1"/>
 				</tree>
@@ -52,7 +52,7 @@
 			<field name="model">l10n_br_data.zip.result</field>
 			<field name="arch" type="xml">
 				<form string="CEPs">
-					<field name="code" select="1"/>
+					<field name="zip" select="1"/>
 					<field name="street" select="1"/>
 					<field name="district" select="2"/>
 					<field name="country_id" select="2"/>

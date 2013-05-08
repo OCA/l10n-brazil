@@ -25,7 +25,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
     _description = 'Zipcode Search'
 
     _columns = {
-        'code': fields.char('CEP', size=8),
+        'zip': fields.char('CEP', size=8),
         'street': fields.char('Logradouro', size=72),
         'district': fields.char('Bairro', size=72),
         'country_id': fields.many2one('res.country', 'Country'),
@@ -58,7 +58,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
         data = super(l10n_br_data_zip_search, self).default_get(
             cr, uid, fields_list, context)
         
-        data['code'] = context.get('zip', False)
+        data['zip'] = context.get('zip', False)
         data['street'] = context.get('street', False)
         data['district'] = context.get('district', False)
         data['country_id'] = context.get('country_id', False)
@@ -67,15 +67,9 @@ class l10n_br_data_zip_search(osv.TransientModel):
         data['address_id'] = context.get('address_id', False)
         data['object_name'] = context.get('object_name', False)
         
-        zip_ids = context.get('zip_ids', False)
-        
-        if zip_ids != False:
-            obj_zip_result = self.pool.get('l10n_br_data.zip.result')
-            zip_result_ids = obj_zip_result.map_to_zip_result(cr, uid, 0, context, 
-                    zip_ids, data['object_name'], data['address_id'])
-            data['zip_ids'] = zip_result_ids
-            data['state'] = 'done'
-        
+        data['zip_ids'] = context.get('zip_ids', False)
+        data['state'] = 'done'
+
         return data
     
     def zip_search(self, cr, uid, ids, context=None):
@@ -87,7 +81,7 @@ class l10n_br_data_zip_search(osv.TransientModel):
                                     l10n_br_city_id = data['l10n_br_city_id'][0],\
                                     district = data['district'], \
                                     street = data['street'], \
-                                    zip = data['code'])
+                                    zip = data['zip'])
         
         # Search zip_ids
         zip_ids = obj_zip.search(cr, uid, domain)
@@ -139,8 +133,9 @@ class l10n_br_data_zip_result(osv.TransientModel):
         'address_id': fields.integer('Id do objeto', invisible=True),
         'object_name': fields.char('Nome do bjeto', size=100, invisible=True),
         #ZIPCODE data to be shown
-        'code': fields.char('CEP', size=9, readonly=True),
+        'zip': fields.char('CEP', size=9, readonly=True),
         'street': fields.char('Logradouro', size=72, readonly=True),
+        'street_type': fields.char('Tipo', size=26, readonly=True),
         'district': fields.char('Bairro', size=72, readonly=True),
         'country_id': fields.many2one('res.country', 'Country', readonly=True),
         'state_id': fields.many2one('res.country.state', 'Estado',
@@ -151,31 +146,15 @@ class l10n_br_data_zip_result(osv.TransientModel):
         }
 
 
-    def map_to_zip_result(self, cr, uid, ids, context, zip_ids, object_name, address_id):
+    def map_to_zip_result(self, cr, uid, ids, context, zip_data, object_name, address_id):
         obj_zip = self.pool.get('l10n_br_data.zip')
         result = []
         
-        for zip_id in zip_ids:
-            zip_data = obj_zip.set_result(cr, uid, ids, context, zip_id)
-            zip_result_data = {
-                'zip_id': False,
-                'code': False,
-                'street': False,
-                'district': False,
-                'country_id': False,
-                'state_id': False,
-                'l10n_br_city_id': False,
-                }
-                    
-            zip_result_data['zip_id'] = zip_id
+        for zip_read in zip_data:
+            zip_data = obj_zip.set_result(cr, uid, ids, context, zip_read)
+            zip_result_data = zip_data
             zip_result_data['object_name'] = object_name
             zip_result_data['address_id'] = address_id
-            zip_result_data['code'] = zip_data['zip']
-            zip_result_data['street'] = zip_data['street']
-            zip_result_data['district'] = zip_data['district']
-            zip_result_data['country_id'] = zip_data['country_id']
-            zip_result_data['state_id'] = zip_data['state_id']
-            zip_result_data['l10n_br_city_id'] = zip_data['l10n_br_city_id']
             
             zip_result_id = self.create(cr, uid, zip_result_data, context=context)
             result.append(zip_result_id)
@@ -188,6 +167,6 @@ class l10n_br_data_zip_result(osv.TransientModel):
         if address_id and object_name:
             obj = self.pool.get(object_name)
             obj_zip = self.pool.get('l10n_br_data.zip')
-            result = obj_zip.set_result(cr, uid, ids, context, data['zip_id'][0])
+            result = obj_zip.set_result(cr, uid, ids, context, data)
             obj.write(cr, uid, [address_id], result, context=context)
         return True
