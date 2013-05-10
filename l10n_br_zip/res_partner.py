@@ -24,7 +24,7 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     def zip_search(self, cr, uid, ids, context=None):
-        obj_zip = self.pool.get('l10n_br_data.zip')
+        obj_zip = self.pool.get('l10n_br.zip')
         for res_partner in self.browse(cr, uid, ids):
             zip_ids = obj_zip.zip_search_multi(cr, uid, ids, context,
                                         country_id = res_partner.country_id.id, \
@@ -35,7 +35,7 @@ class res_partner(orm.Model):
                                         zip = res_partner.zip,
                                         )
             zip_data = obj_zip.read(cr, uid, zip_ids, False, context)
-            obj_zip_result = self.pool.get('l10n_br_data.zip.result')
+            obj_zip_result = self.pool.get('l10n_br.zip.result')
             zip_ids = obj_zip_result.map_to_zip_result(cr, uid, 0, context,
                     zip_data, self._name, ids[0])		
             if len(zip_ids) == 1:  #FIXME

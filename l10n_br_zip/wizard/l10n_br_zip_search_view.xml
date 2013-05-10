@@ -2,9 +2,9 @@
 <openerp>
 	<data noupdate="0">
 
-        <record id="view_l10n_br_data_zip_search" model="ir.ui.view">
+        <record id="view_l10n_br_zip_search" model="ir.ui.view">
             <field name="name">Pesquisar CEP</field>
-            <field name="model">l10n_br_data.zip.search</field>
+            <field name="model">l10n_br.zip.search</field>
             <field name="arch" type="xml">
                 <form string="Pesquisar CEP" version="7.0">
 	                <group colspan="8" col="8" states="init">
@@ -34,9 +34,9 @@
             </field>
         </record>
 
-		<record model="ir.ui.view" id="view_l10n_br_data_zip_result_tree">
-			<field name="name">l10n_br_data.zip.result</field>
-			<field name="model">l10n_br_data.zip.result</field>
+		<record model="ir.ui.view" id="view_l10n_br_zip_result_tree">
+			<field name="name">l10n_br.zip.result</field>
+			<field name="model">l10n_br.zip.result</field>
 			<field name="arch" type="xml">
 				<tree string="CEPs">
 					<button name="zip_select" string="Selecionar" type="object" icon="gtk-apply"/>
@@ -47,9 +47,9 @@
 			</field>
 		</record>
 				
-		<record model="ir.ui.view" id="view_l10n_br_data_zip_result_form">
-			<field name="name">l10n_br_data.zip.result</field>
-			<field name="model">l10n_br_data.zip.result</field>
+		<record model="ir.ui.view" id="view_l10n_br_zip_result_form">
+			<field name="name">l10n_br.zip.result</field>
+			<field name="model">l10n_br.zip.result</field>
 			<field name="arch" type="xml">
 				<form string="CEPs">
 					<field name="zip" select="1"/>
@@ -62,10 +62,10 @@
 			</field>
 		</record>
 		         
-        <record id="action_l10n_br_data_zip_search" model="ir.actions.act_window">
+        <record id="action_l10n_br_zip_search" model="ir.actions.act_window">
             <field name="name">Pesquisar CEP</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_data.zip.search</field>
+            <field name="res_model">l10n_br.zip.search</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>

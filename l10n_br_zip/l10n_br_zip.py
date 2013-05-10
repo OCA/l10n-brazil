@@ -22,11 +22,11 @@ from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
 
 
-class l10n_br_data_zip(orm.Model):
+class l10n_br_zip(orm.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
-    _name = 'l10n_br_data.zip'
+    _name = 'l10n_br.zip'
     _description = 'CEP'
     _rec_name = 'zip'
     _columns = {
@@ -72,7 +72,7 @@ class l10n_br_data_zip(orm.Model):
             zip = zip_read['zip']
             if len(zip) == 8:
                 zip = '%s-%s' % (zip[0:5], zip[5:8])
-            
+            print "ùùùùùùùùù", zip_read
             result = {
                 'country_id': zip_read['country_id'] and zip_read['country_id'][0] or False,
                 'state_id': zip_read['state_id'] and zip_read['state_id'][0] or False,
@@ -83,6 +83,7 @@ class l10n_br_data_zip(orm.Model):
             }
         else:
             result = {}
+	print "hhhhhhhhhh", result
         return result
             
                 
@@ -124,7 +125,7 @@ class l10n_br_data_zip(orm.Model):
                     'name': 'Zip Search',
                     'view_type': 'form',
                     'view_mode': 'form',
-                    'res_model': 'l10n_br_data.zip.search',
+                    'res_model': 'l10n_br.zip.search',
                     'view_id': False,
                     'context': context,
                     'type': 'ir.actions.act_window',
