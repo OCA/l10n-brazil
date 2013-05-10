@@ -26,7 +26,7 @@
     'website': 'http://openerpbrasil.org',
     'version': '0.6',
     'depends': [
-        'l10n_br_data_zip',
+        'l10n_br_zip',
         'l10n_br_crm',
     ],
     'data': [
