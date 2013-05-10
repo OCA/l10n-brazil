@@ -35,8 +35,12 @@ class crm_lead(orm.Model):
                                         street = crm_lead.street, \
                                         zip = crm_lead.zip,
                                         )
+            zip_data = obj_zip.read(cr, uid, zip_ids, False, context)
+            obj_zip_result = self.pool.get('l10n_br.zip.result')
+            zip_ids = obj_zip_result.map_to_zip_result(cr, uid, 0, context,
+                    zip_data, self._name, ids[0])
             if len(zip_ids) == 1:
-                result = obj_zip.set_result(cr, uid, ids, context, zip_ids[0])
+                result = obj_zip.set_result(cr, uid, ids, context, zip_data[0])
                 self.write(cr, uid, [crm_lead.id], result, context)
                 return True
             else:
