@@ -52,8 +52,8 @@ class l10n_br_zip(orm.Model):
                l10n_br_city_id == False or\
                len(street or '') == 0:
                raise except_osv(u'Parametros insuficientes',
-                                u'Necessário informar Estado, município e logradouro') 
-            
+                                u'Necessário informar Estado, município e logradouro')
+
             if country_id:
                domain.append(('country_id', '=', country_id))
             if state_id:
@@ -64,15 +64,14 @@ class l10n_br_zip(orm.Model):
                 domain.append(('district', 'like', district))
             if street:
                 domain.append(('street', 'like', street))
-        
+
         return domain
-    
+
     def set_result(self, cr, uid, ids, context, zip_read=None):
         if zip_read != None:
             zip = zip_read['zip']
             if len(zip) == 8:
                 zip = '%s-%s' % (zip[0:5], zip[5:8])
-            print "ùùùùùùùùù", zip_read
             result = {
                 'country_id': zip_read['country_id'] and zip_read['country_id'][0] or False,
                 'state_id': zip_read['state_id'] and zip_read['state_id'][0] or False,
@@ -83,22 +82,21 @@ class l10n_br_zip(orm.Model):
             }
         else:
             result = {}
-	print "hhhhhhhhhh", result
         return result
-            
-                
+
+
     def zip_search_multi(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
-        domain = self.set_domain(country_id = country_id, 
-                                 state_id = state_id, 
+        domain = self.set_domain(country_id = country_id,
+                                 state_id = state_id,
                                  l10n_br_city_id = l10n_br_city_id,
                                  district = district,
                                  street = street,
                                  zip = zip)
         return self.search(cr, uid, domain)
-    
+
     def zip_search(self, cr, uid, ids, context, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False):
         result = self.set_result(cr, uid, ids, context)
-        zip_id = self.zip_search_multi(cr, uid, ids, context, 
+        zip_id = self.zip_search_multi(cr, uid, ids, context,
                                        country_id,
                                        state_id,
                                        l10n_br_city_id,
@@ -110,7 +108,7 @@ class l10n_br_zip(orm.Model):
             return result
         else:
             return False
-    
+
     def create_wizard(self, cr, uid, ids, context, object_name, country_id=False, state_id=False, l10n_br_city_id=False, district=False, street=False, zip=False, zip_ids=False):
         context.update({'zip': zip,
                         'street': street,
