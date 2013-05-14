@@ -18,8 +18,8 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Localisation Data Extension for zip codes',
-    'description': 'Brazilian Localization Data Extension for zip codes',
+    'name': 'Brazilian Localisation ZIP Codes',
+    'description': 'Brazilian Localisation ZIP Codes',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'version': '0.1',
