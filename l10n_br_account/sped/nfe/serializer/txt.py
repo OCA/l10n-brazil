@@ -456,7 +456,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
 
-                if icms_cst in ('41', '51'):
+                if icms_cst in ('41'):
                     StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -467,6 +467,22 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['Orig'], StrRegN06['CST'], StrRegN06['vICMS'],
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
+
+                if icms_cst in ('51'):
+                    StrRegN07 = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CST': icms_cst,
+                       'ModBC': inv_line.icms_base_type,
+                       'PRedBC': str("%.2f" % inv_line.icms_percent_reduction),
+                       'VBC': str("%.2f" % inv_line.icms_base),
+                       'PICMS': str("%.2f" % inv_line.icms_percent),
+                       'VICMS': str("%.2f" % inv_line.icms_value),
+                    }
+                    StrN07 = 'N07|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                        StrRegN07['Orig'], StrRegN07['CST'], StrRegN07['ModBC'],
+                        StrRegN07['PRedBC'], StrRegN07['VBC'],
+                        StrRegN07['PICMS'], StrRegN07['VICMS'])
+                    StrFile += StrN07
 
                 if icms_cst in ('60'):
                     StrRegN08 = {
