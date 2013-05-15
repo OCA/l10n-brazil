@@ -121,7 +121,7 @@ class l10n_br_zip(orm.Model):
                     zip_ids=False):
 
         context.update({
-            'zip': zip,
+            'zip': zip_code,
             'street': street,
             'district': district,
             'country_id': country_id,
