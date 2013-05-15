@@ -281,7 +281,7 @@ class account_invoice(orm.Model):
         'vehicle_state_id': fields.many2one(
             'res.country.state', 'UF da Placa'),
         'vehicle_l10n_br_city_id': fields.many2one('l10n_br_base.city',
-            'Municipio', domain="[('state_id','=',state_id)]"),
+            'Municipio', domain="[('state_id', '=', vehicle_state_id)]"),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
