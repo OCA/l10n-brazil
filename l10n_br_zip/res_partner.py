@@ -32,7 +32,7 @@ class res_partner(orm.Model):
                                         l10n_br_city_id = res_partner.l10n_br_city_id.id, \
                                         district = res_partner.district, \
                                         street = res_partner.street, \
-                                        zip = res_partner.zip,
+                                        zip_code = res_partner.zip,
                                         )
             zip_data = obj_zip.read(cr, uid, zip_ids, False, context)
             obj_zip_result = self.pool.get('l10n_br.zip.result')
@@ -50,7 +50,7 @@ class res_partner(orm.Model):
                                         l10n_br_city_id = res_partner.l10n_br_city_id.id, \
                                         district = res_partner.district, \
                                         street = res_partner.street, \
-                                        zip = res_partner.zip,
+                                        zip_code = res_partner.zip,
                                         zip_ids = zip_ids
                                         )
                 else:
