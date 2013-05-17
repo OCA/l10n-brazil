@@ -64,7 +64,7 @@ class stock_invoice_onshipping(orm.TransientModel):
 
     _columns = {
         'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),
-        'fiscal_category_journal': fields.boolean("Diário da Categoria")
+        'fiscal_category_journal': fields.boolean("Diário da Categoria Fiscal")
     }
     _defaults = {
         'fiscal_category_journal': True

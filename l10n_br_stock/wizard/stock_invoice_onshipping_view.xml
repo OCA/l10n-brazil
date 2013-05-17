@@ -10,7 +10,7 @@
 				<field name="journal_id" position="replace" >
 					<field name="fiscal_category_journal" />
 					<newline/>
-					<field name="journal_id" attrs="{'required': [('fiscal_category_journal', '=', False)], 'readonly': [('fiscal_category_journal', '=', True)]}" />
+					<field name="journal_id" attrs="{'required': [('fiscal_category_journal', '=', False)], 'invisible': [('fiscal_category_journal', '=', True)]}" />
 	        	</field>
 			</field>
 		</record>
