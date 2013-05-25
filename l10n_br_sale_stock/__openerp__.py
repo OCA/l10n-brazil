@@ -27,13 +27,13 @@
     'website': 'http://openerpbrasil.org',
     'version': '0.1',
     'depends': [
-        'l10n_br_sale',
         'sale_stock',
+        'l10n_br_sale',
+        'l10n_br_stock',
     ],
     'data': [
         'sale_stock_view.xml',
     ],
-    'demo': [],
     'demo': [],
     'installable': True,
     'auto_install': True,
