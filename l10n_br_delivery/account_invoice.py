@@ -39,32 +39,34 @@ class account_invoice(orm.Model):
     }
 
     def nfe_check(self, cr, uid, ids, context=None):
-        res = super(account_invoice, self).nfe_check(cr, uid, ids)
+        result = super(account_invoice, self).nfe_check(cr, uid, ids, context)
         strErro = ''
-        for inv in self.browse(cr, uid, ids):
-            #Carrier
+
+        for inv in self.browse(cr, uid, ids, context=context):
+            # Carrier
             if inv.carrier_id:
 
                 if not inv.carrier_id.partner_id.legal_name:
-                    strErro = 'Transportadora - Razão Social\n'
+                    strErro = u'Transportadora - Razão Social\n'
 
                 if not inv.carrier_id.partner_id.cnpj_cpf:
                     strErro = 'Transportadora - CNPJ/CPF\n'
 
-            #Carrier Vehicle
+            # Carrier Vehicle
             if inv.vehicle_id:
 
                 if not inv.vehicle_id.plate:
-                    strErro = 'Transportadora / Veículo - Placa\n'
+                    strErro = u'Transportadora / Veículo - Placa\n'
 
-                if not inv.vehicle_id.plate.state_id.code:
-                    strErro = 'Transportadora / Veículo - UF da Placa\n'
+                if not inv.vehicle_id.state_id.code:
+                    strErro = u'Transportadora / Veículo - UF da Placa\n'
 
                 if not inv.vehicle_id.rntc_code:
-                    strErro = 'Transportadora / Veículo - RNTC\n'
+                    strErro = u'Transportadora / Veículo - RNTC\n'
+
         if strErro:
             raise orm.except_orm(
-                _('Error !'),
-                _("Validação da Nota fiscal:\n '%s'") % (strErro.encode('utf-8')))
+                _('Error!'),
+                _(u"Validação da Nota fiscal:\n '%s'") % (strErro))
 
-        return res
+        return result
