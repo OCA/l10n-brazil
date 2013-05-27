@@ -27,6 +27,9 @@
 					<field name="inscr_mun" />
 					<field name="suframa" />
 				</field>
+				<field name="zip" position="attributes">
+					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
+				</field>
 			</field>
 		</record>
 	
