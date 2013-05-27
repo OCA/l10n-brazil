@@ -105,6 +105,18 @@ class crm_lead(orm.Model):
             result['value'].update({'cnpj_cpf': cnpj_cpf})
         return result
 
+    def onchange_mask_zip(self, cr, uid, ids, code_zip):
+
+        result = {'value': {'zip': False}}
+        if not code_zip:
+            return result
+
+        val = re.sub('[^0-9]', '', code_zip)
+        if len(val) == 8:
+            code_zip = "%s-%s" % (val[0:5], val[5:8])
+            result['value']['zip'] = code_zip
+        return result
+
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
         result = super(crm_lead, self).on_change_partner(
             cr, uid, ids, partner_id, context)
