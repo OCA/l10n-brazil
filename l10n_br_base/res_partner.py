@@ -188,7 +188,6 @@ class res_partner(orm.Model):
 
         return result
 
-    #TODO migrate
     def onchange_mask_zip(self, cr, uid, ids, code_zip):
 
         result = {'value': {'zip': False}}
