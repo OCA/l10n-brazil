@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	   
+
 	   	<!-- CRM Opportunity Form View  -->
 	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor1">
 			<field name="name">l10n_br_crm.opportunities1</field>
@@ -16,9 +16,16 @@
 					<field name="l10n_br_city_id" placeholder="municipio" />
 				</field>
 				<field name="street2" position="replace">
-                    <field name="district" placeholder="bairro"/>
+					<field name="district" placeholder="bairro"/>
 					<field name="number" placeholder="numero" />
 					<field name="street2" placeholder="complemento" />
+				</field>
+				<field name="partner_name" position="after">
+					<field name="legal_name" />
+					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(partner_name, cnpj_cpf)"/>
+					<field name="inscr_est" />
+					<field name="inscr_mun" />
+					<field name="suframa" />
 				</field>
 			</field>
 		</record>
