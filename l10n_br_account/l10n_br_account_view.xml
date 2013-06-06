@@ -185,6 +185,7 @@
 							<field name="document_serie_id"/>
 							<field name="number_start"/>
 							<field name="number_end"/>
+							<field name="justificative"/>
 						</group>
 					</form>
 				</field>

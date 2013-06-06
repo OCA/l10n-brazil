@@ -230,6 +230,8 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
         'state': fields.selection(
             [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
             ('done', u'Concluído')], 'Status', required=True),
+        'justificative': fields.char('Justificativa', size=255,
+            readonly=True, states={'draft': [('readonly', False)]}, required=True),        
     }
     _defaults = {
         'state': 'draft',
@@ -242,6 +244,11 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
          'unique(document_serie_id, number_start, number_end, state)',
          u'Sequência existente!'),
     ]
+
+    def _check_justificative(self, cr,uid, ids):
+        for invalid in self.browse(cr, uid, ids):
+            if len(invalid.justificative) < 15:return  False
+        return True
 
     def _check_range(self, cursor, user, ids, context=None):
         for invalid_number in self.browse(cursor, user, ids, context=context):
@@ -264,7 +271,8 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
 
     _constraints = [
         (_check_range, u'Não é permitido faixas sobrepostas!',
-            ['number_start', 'number_end'])
+            ['number_start', 'number_end']),
+        (_check_justificative,'Justificativa deve ter tamanho minimo de 15 caracteres.', ['justificative'])
     ]
 
     def action_draft_done(self, cr, uid, ids, *args):
