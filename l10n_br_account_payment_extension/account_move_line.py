@@ -24,7 +24,7 @@ class account_move_line(osv.Model):
     _inherit = 'account.move.line'
     _columns = {
         'revenue_expense': fields.related(
-            'journal_id', 'revenue_expense', type='many2one',
-            relation='account.journal', string='Revenue Expense',
+            'journal_id', 'revenue_expense', type='boolean',
+            string='Revenue Expense',
             store=True, readonly=True),
     }
