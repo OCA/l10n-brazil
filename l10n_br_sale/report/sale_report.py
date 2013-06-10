@@ -33,8 +33,7 @@ class sale_report(orm.Model):
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'sale_report')
-        cr.execute("""
-            create or replace view sale_report as (
+        cr.execute("""create or replace view sale_report as (
                 select
                     min(l.id) as id,
                     l.product_id as product_id,
@@ -60,15 +59,15 @@ class sale_report(orm.Model):
                     s.project_id as analytic_account_id
                 from
                     sale_order s
-                    left join sale_order_line l on (s.id=l.order_id)
+                    join sale_order_line l on (s.id=l.order_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.product_uom)
                     left join product_uom u2 on (u2.id=t.uom_id)
                 group by
-                    l.product_id,
                     l.fiscal_category_id,
                     l.fiscal_position,
+                    l.product_id,
                     l.product_uom_qty,
                     l.order_id,
                     t.uom_id,
@@ -81,7 +80,5 @@ class sale_report(orm.Model):
                     s.company_id,
                     s.state,
                     s.pricelist_id,
-                    s.project_id
-            )
+                    s.project_id)
         """)
-
