@@ -265,10 +265,12 @@
 				<field name="model">l10n_br_account.service.type</field>
 				<field name="arch" type="xml">
 					<form string="Tipo de Serviço">
-						<field name="code" select="1"/>
-						<field name="name" colspan="4" select="1"/>
-						<field name="parent_id" select="1"/>
-						<field name="internal_type"/>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="internal_type"/>
+                        </group>
 					</form>
 				</field>
 			</record>
