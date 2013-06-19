@@ -71,11 +71,16 @@ class sale_order(orm.Model):
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
+        result = False
         shop_id = context.get("shop_id", self.default_get(
             cr, uid, ["shop_id"], context)["shop_id"])
-        return  self.pool.get("sale.shop").read(
-            cr, uid, [shop_id], ["default_fc_id"])[0]["default_fc_id"]
-
+        if shop_id:
+            shop = self.pool.get("sale.shop").read(
+                cr, uid, [shop_id], ["default_fc_id"])
+            if shop[0]["default_fc_id"]:
+                result = shop[0]["default_fc_id"][0]
+        return result
+        
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
     }
