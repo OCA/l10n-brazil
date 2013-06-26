@@ -76,7 +76,7 @@ class crm_lead(orm.Model):
 
             try:
                 mod = __import__(
-                'tools.fiscal', globals(), locals(), 'fiscal')
+                'l10n_br_base.tools.fiscal', globals(), locals(), 'fiscal')
 
                 validate = getattr(mod, 'validate_ie_%s' % uf)
                 if not validate(partner.inscr_est):
