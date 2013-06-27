@@ -80,7 +80,7 @@ class sale_order(orm.Model):
             if shop[0]["default_fc_id"]:
                 result = shop[0]["default_fc_id"][0]
         return result
-        
+
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
     }
@@ -119,11 +119,11 @@ class sale_order(orm.Model):
         company_id = obj_shop.company_id.id
         context.update({'use_domain': ('use_sale', '=', True)})
         kwargs = {
-                       'partner_id': partner_id,
-                       'partner_invoice_id': partner_invoice_id,
-                       'company_id': company_id,
-                       'context': context
-                 }
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_invoice_id,
+            'company_id': company_id,
+            'context': context
+        }
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
 
@@ -148,10 +148,11 @@ class sale_order(orm.Model):
             if obj_inv_lines:
                 fiscal_category_id = obj_inv_lines[0]['fiscal_category_id'][0]
                 result['fiscal_position'] = obj_inv_lines[0]['fiscal_position'][0]
-
                 if fiscal_category_id:
-                    journal = self.pool.get('l10n_br_account.fiscal.category').read(
-                        cr, uid, fiscal_category_id, ['property_journal'])['property_journal']
+                    journal = self.pool.get(
+                        'l10n_br_account.fiscal.category').read(cr, uid,
+                        fiscal_category_id,
+                        ['property_journal'])['property_journal']
                     if journal:
                         result['journal_id'] = journal[0]
         else:
@@ -161,16 +162,29 @@ class sale_order(orm.Model):
         result['partner_shipping_id'] = order.partner_shipping_id and \
         order.partner_shipping_id.id or False
 
-        # FIXME - Deveria pegar as observações das
-        # posições fiscais de cada linha.
-        comment = ''
-        if order.fiscal_position.inv_copy_note:
-            comment += order.fiscal_position.note or ''
-
+        fp_comment = []
+        fc_comment = []
+        fp_ids = []
+        fc_ids = []
         if order.note:
-            comment += ' - ' + order.note
+            fp_comment.append(order.note)
 
-        result['comment'] = comment
+        for line in order.order_line:
+            if line.fiscal_position and \
+            line.fiscal_position.inv_copy_note and \
+            line.fiscal_position.note:
+                if not line.lllfiscal_position.id in fp_ids:
+                    fp_comment.append(line.fiscal_position.note)
+                    fp_ids.append(line.fiscal_position.id)
+
+            if line.product_id.property_fiscal_classification:
+                fc = line.product_id.property_fiscal_classification
+                if fc.inv_copy_note and fc.note:
+                    if not fc.id in fc_ids:
+                        fc_comment.append(fc.note)
+                        fc_ids.append(fc.id)
+
+        result['comment'] = " - ".join(fp_comment + fc_comment)
         result['fiscal_category_id'] = fiscal_category_id
         return result
 
@@ -324,7 +338,6 @@ class sale_order_line(orm.Model):
             'fiscal_category_id': parent_fiscal_category_id,
             'context': context
         }
-
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
@@ -348,7 +361,6 @@ class sale_order_line(orm.Model):
             'fiscal_category_id': fiscal_category_id,
             'context': context
         }
-
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
@@ -380,7 +392,6 @@ class sale_order_line(orm.Model):
             'fiscal_category_id': fiscal_category_id,
             'context': {}
         }
-
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
@@ -401,5 +412,4 @@ class sale_order_line(orm.Model):
 
         result['partner_id'] = line.order_id.partner_id.id
         result['company_id'] = line.order_id.company_id.id
-
         return result
