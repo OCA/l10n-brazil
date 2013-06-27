@@ -172,6 +172,15 @@ class stock_picking(orm.Model):
                         inv_type, journal_id, context=None):
         result = super(stock_picking, self)._prepare_invoice(
             cr, uid, picking, partner, inv_type, journal_id, context)
+
+        comment = ''
+        if picking.fiscal_position.inv_copy_note:
+            comment += picking.fiscal_position.note or ''
+
+        if picking.note:
+            comment += ' - ' + picking.note
+
+        result['comment'] = comment
         result['fiscal_category_id'] = picking.fiscal_category_id and \
         picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position and \
