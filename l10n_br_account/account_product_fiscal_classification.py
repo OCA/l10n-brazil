@@ -45,7 +45,7 @@ class account_product_fiscal_classification_template(orm.Model):
     _columns = {
         'type': fields.selection([('view', u'Visão'),
                                   ('normal', 'Normal'),
-                                  ('extension','Extensão')], 'Tipo'),
+                                  ('extension', 'Extensão')], 'Tipo'),
         'parent_id': fields.many2one(
             'account.product.fiscal.classification.template',
             'Parent Fiscal Classification',
@@ -56,6 +56,10 @@ class account_product_fiscal_classification_template(orm.Model):
         'sale_tax_definition_line': fields.one2many(
             'l10n_br_tax.definition.sale.template',
             'fiscal_classification_id', 'Taxes Definitions'),
+        'note': fields.text(u'Observações'),
+        'inv_copy_note': fields.boolean(
+            u'Copiar Observação',
+            help=u"Copia a observação no documento fiscal"),
         'sale_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
             relation='account.tax', string='Sale Taxes', multi='all'),
@@ -64,7 +68,8 @@ class account_product_fiscal_classification_template(orm.Model):
             'fiscal_classification_id', 'Taxes Definitions'),
         'purchase_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Purchase Taxes', multi='all')}
+            relation='account.tax', string='Purchase Taxes', multi='all')
+    }
     _defaults = {
         'type': 'normal'}
 
@@ -124,7 +129,7 @@ class account_product_fiscal_classification(orm.Model):
     _columns = {
         'type': fields.selection([('view', u'Visão'),
                                   ('normal', 'Normal'),
-                                  ('extension','Extensão')], 'Tipo'),
+                                  ('extension', 'Extensão')], 'Tipo'),
         'parent_id': fields.many2one(
             'account.product.fiscal.classification',
             'Parent Fiscal Classification',
@@ -135,6 +140,9 @@ class account_product_fiscal_classification(orm.Model):
         'sale_tax_definition_line': fields.one2many(
             'l10n_br_tax.definition.sale',
             'fiscal_classification_id', 'Taxes Definitions'),
+        'note': fields.text(u'Observações'),
+        'inv_copy_note': fields.boolean(
+            u'Copiar Observação no Documento Fiscal'),
         'sale_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
             relation='account.tax', string='Sale Taxes', multi='all'),
@@ -143,7 +151,8 @@ class account_product_fiscal_classification(orm.Model):
             'fiscal_classification_id', 'Taxes Definitions'),
         'purchase_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Purchase Taxes', multi='all')}
+            relation='account.tax', string='Purchase Taxes', multi='all')
+    }
     _defaults = {
         'type': 'normal'}
 
@@ -192,7 +201,8 @@ class wizard_account_product_fiscal_classification(orm.TransientModel):
         obj_tax_code = self.pool.get('account.tax.code')
         obj_tax_code_template = self.pool.get('account.tax.code.template')
         obj_fclass = self.pool.get('account.product.fiscal.classification')
-        obj_fclass_template = self.pool.get('account.product.fiscal.classification.template')
+        obj_fclass_template = self.pool.get(
+            'account.product.fiscal.classification.template')
         obj_tax_purchase = self.pool.get('l10n_br_tax.definition.purchase')
         obj_tax_sale = self.pool.get('l10n_br_tax.definition.sale')
 
@@ -208,14 +218,17 @@ class wizard_account_product_fiscal_classification(orm.TransientModel):
             tax_template_ref[company_id] = {}
             tax_ids = obj_tax.search(cr, uid, [('company_id', '=', company_id)])
             for tax in obj_tax.browse(cr, uid, tax_ids):
-                tax_template = obj_tax_template.search(cr,uid,[('name', '=', tax.name)])
+                tax_template = obj_tax_template.search(
+                    cr, uid, [('name', '=', tax.name)])
                 if tax_template:
                     tax_template_ref[company_id][tax_template[0]] = tax.id
 
             tax_code_template_ref[company_id] = {}
-            tax_code_ids = obj_tax_code.search(cr,uid,[('company_id', '=', company_id)])
+            tax_code_ids = obj_tax_code.search(
+                cr, uid, [('company_id', '=', company_id)])
             for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
-                tax_code_template = obj_tax_code_template.search(cr,uid,[('name', '=', tax_code.name)])
+                tax_code_template = obj_tax_code_template.search(
+                    cr, uid, [('name', '=', tax_code.name)])
                 if tax_code_template:
                     tax_code_template_ref[company_id][tax_code_template[0]] = tax_code.id
 
