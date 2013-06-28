@@ -39,7 +39,7 @@
         'l10n_br_account',        
     ],
     "init_xml": [],
-    'update_xml': ['l10n_br_inutilizacao_view.xml'],
+    'update_xml': ['l10n_br_nfe.xml'],
     'demo_xml': [],
     'installable': True,
     'active': False,
