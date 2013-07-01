@@ -173,7 +173,7 @@ class sale_order(orm.Model):
             if line.fiscal_position and \
             line.fiscal_position.inv_copy_note and \
             line.fiscal_position.note:
-                if not line.lllfiscal_position.id in fp_ids:
+                if not line.fiscal_position.id in fp_ids:
                     fp_comment.append(line.fiscal_position.note)
                     fp_ids.append(line.fiscal_position.id)
 
