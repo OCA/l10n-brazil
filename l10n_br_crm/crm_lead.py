@@ -134,10 +134,12 @@ class crm_lead(orm.Model):
 
         return result
 
-    def _create_lead_partner(self, cr, uid, lead, context=None):
-        partner_id = super(crm_lead, self)._create_lead_partner(
-            cr, uid, lead, context)
-        self.pool.get('res.partner').write(cr, uid, [partner_id],
+    def _lead_create_contact(self, cr, uid, lead, name, is_company,
+                            parent_id=False, context=None):
+        result = super(crm_lead, self)._lead_create_contact(
+            cr, uid, lead, name, is_company, parent_id, context)
+
+        self.pool.get('res.partner').write(cr, uid, [result],
         {
             'legal_name': lead.legal_name,
             'cnpj_cpf': lead.cnpj_cpf,
@@ -148,4 +150,4 @@ class crm_lead(orm.Model):
             'district': lead.district,
             'l10n_br_city_id': lead.l10n_br_city_id.id
         })
-        return partner_id
+        return result
