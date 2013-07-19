@@ -139,15 +139,21 @@ class crm_lead(orm.Model):
         result = super(crm_lead, self)._lead_create_contact(
             cr, uid, lead, name, is_company, parent_id, context)
 
-        self.pool.get('res.partner').write(cr, uid, [result],
-        {
-            'legal_name': lead.legal_name,
-            'cnpj_cpf': lead.cnpj_cpf,
-            'inscr_est': lead.inscr_est,
-            'inscr_mun': lead.inscr_mun,
-            'suframa': lead.suframa,
+        value = {
             'number': lead.number,
             'district': lead.district,
             'l10n_br_city_id': lead.l10n_br_city_id.id
-        })
+        }
+
+        if is_company:
+            value = {
+                'legal_name': lead.legal_name,
+                'cnpj_cpf': lead.cnpj_cpf,
+                'inscr_est': lead.inscr_est,
+                'inscr_mun': lead.inscr_mun,
+                'suframa': lead.suframa,
+            }
+
+        self.pool.get('res.partner').write(
+            cr, uid, [result], value, context=context)
         return result
