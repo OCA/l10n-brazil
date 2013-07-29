@@ -25,9 +25,9 @@
 					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(partner_name, cnpj_cpf)"/>
 					<field name="inscr_est" />
 				</field>
-				<field name="section_id" position="after">
+				<field name="type" position="after">
 					<field name="inscr_mun" />
-					<field name="suframa" />
+                                        <field name="suframa" />
 				</field>
 				<field name="zip" position="attributes">
 					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
