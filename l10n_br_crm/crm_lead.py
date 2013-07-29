@@ -146,13 +146,13 @@ class crm_lead(orm.Model):
         }
 
         if is_company:
-            value = {
+            value.update({
                 'legal_name': lead.legal_name,
                 'cnpj_cpf': lead.cnpj_cpf,
                 'inscr_est': lead.inscr_est,
                 'inscr_mun': lead.inscr_mun,
                 'suframa': lead.suframa,
-            }
+            })
 
         self.pool.get('res.partner').write(
             cr, uid, [result], value, context=context)
