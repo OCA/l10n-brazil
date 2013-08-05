@@ -62,6 +62,7 @@
 				<field position="replace" name="fiscal_position">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','in',('sale', 'sale_refund')),('fiscal_type','=','product')]" required="1" />
 					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_type" invisible="1"/>
 				</field>
 				<field position="after" name="partner_id">
 					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
@@ -111,7 +112,7 @@
 									<field name="nfe_date" />
 								</group>
 								<group>
-									<field name="fiscal_document_id" required="1" />
+									<field name="fiscal_document_id" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)" required="1" />
 									<field name="nfe_purpose" required="1"/>
 								</group>
 							</page>
@@ -290,7 +291,7 @@
 									<field name="nfe_date" />
 								</group>
 								<group>
-									<field name="fiscal_document_id" required="1" />
+									<field name="fiscal_document_id" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)" required="1" />
 									<field name="nfe_purpose" required="1"/>
 								</group>
 							</page>
