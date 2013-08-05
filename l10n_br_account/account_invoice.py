@@ -773,6 +773,31 @@ class account_invoice(orm.Model):
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
+    def onchange_fiscal_document_id(self, cr, uid, ids, fiscal_document_id,
+                                    company_id, issuer, fiscal_type,
+                                    context=None):
+        result = {'value': {'document_serie_id': False}}
+        if not context:
+            context = {}
+        company = self.pool.get('res.company').browse(cr, uid, company_id,
+            context=context)
+
+        if issuer == '0':
+            serie = False
+            if fiscal_type == 'product':
+                series = [doc_serie.id for doc_serie in
+                    company.document_serie_product_ids if
+                    doc_serie.fiscal_document_id.id == fiscal_document_id and
+                    doc_serie.active]
+                if series:
+                    serie = series[0]
+            else:
+                serie = company.document_serie_service_id and \
+                company.document_serie_service_id.id or False
+            result['value']['document_serie_id'] = serie
+
+        return result
+
 
 class account_invoice_line(orm.Model):
     _inherit = 'account.invoice.line'
