@@ -156,14 +156,14 @@ class l10n_br_account_document_serie(orm.Model):
         'fiscal_document_id': fields.many2one(
             'l10n_br_account.fiscal.document',
             'Documento Fiscal', required=True),
-        'company_id': fields.many2one('res.company', 'Empresa',
-                                      required=True),
+        'company_id': fields.many2one(
+            'res.company', 'Empresa', required=True),
         'active': fields.boolean('Ativo'),
-        'fiscal_type': fields.selection([('product', 'Produto'),
-                                         ('service', u'Serviço')],
-                                        'Tipo Fiscal', required=True),
-        'internal_sequence_id': fields.many2one('ir.sequence',
-                                                u'Sequência Interna')
+        'fiscal_type': fields.selection(
+            [('product', 'Produto'), ('service', u'Serviço')],
+            'Tipo Fiscal', required=True),
+        'internal_sequence_id': fields.many2one(
+            'ir.sequence', u'Sequência Interna')
     }
     _defaults = {
         'active': True,
@@ -189,8 +189,23 @@ class l10n_br_account_document_serie(orm.Model):
         not vals['internal_sequence_id']:
             vals.update({'internal_sequence_id': self.create_sequence(
                 cr, uid, vals, context)})
-        return super(l10n_br_account_document_serie, self).create(
+        result = super(l10n_br_account_document_serie, self).create(
             cr, uid, vals, context)
+        if result:
+            company = self.pool.get('res.company').browse(
+                cr, uid, vals.get('company_id'), context=context)
+            value = {}
+            if vals.get('fiscal_type') == 'product':
+                series = [doc_serie.id for doc_serie in
+                    company.document_serie_product_ids]
+                series.append(result)
+                value = {
+                    'document_serie_product_ids': [(6, 0, list(set(series)))]}
+            else:
+                value = {'document_serie_service_id': result}
+            self.pool.get('res.company').write(
+                cr, uid, vals.get('company_id'), value, context=context)
+        return result
 
 
 class l10n_br_account_invoice_invalid_number(orm.Model):
@@ -231,7 +246,7 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
             [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
             ('done', u'Concluído')], 'Status', required=True),
         'justificative': fields.char('Justificativa', size=255,
-            readonly=True, states={'draft': [('readonly', False)]}, required=True),        
+            readonly=True, states={'draft': [('readonly', False)]}, required=True),
     }
     _defaults = {
         'state': 'draft',
