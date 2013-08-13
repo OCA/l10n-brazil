@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
@@ -18,6 +17,23 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import sale_stock
-import stock
-import report
+{
+    'name': 'Brazilian Account Voucher',
+    'description': 'Brazilian Localization Account Voucher',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '0.6',
+    'depends': [
+        'l10n_br_base',
+        'l10n_br_account',
+        'account_payment',
+    ],
+    'data': [
+        'wizard/account_statement_from_invoice_view.xml',
+    ],
+    'demo': [
+    ],
+    'installable': True
+}

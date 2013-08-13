@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="l10n_br_account_voucher_statement_from_invoice_lines" model="ir.ui.view">
+            <field name="name">l10n_br_account_voucher.statement.from.invoice.lines.form</field>
+            <field name="model">account.statement.from.invoice.lines</field>
+	    <field name="inherit_id" ref="account_voucher.view_account_statement_from_invoice_lines"/>
+            <field name="arch" type="xml">
+		<field name="line_ids" position="attributes" version="7.0">
+                	<attribute name="domain">[('account_id.type','in',['receivable','payable']),('reconcile_id','=',False), ('reconcile_partial_id','=',False), ('state', '=', 'valid'), ('revenue_expense', '=', True)]</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
+
