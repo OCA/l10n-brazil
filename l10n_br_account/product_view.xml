@@ -7,9 +7,9 @@
 			<field name="model">product.product</field>
 			<field name="inherit_id" ref="product.product_normal_form_view" />
 			<field name="arch" type="xml">
-                <field name="property_fiscal_classification" position="after">
-                    <field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
-                </field>
+                                <field name="property_fiscal_classification" position="after">
+                                        <field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
+                                </field>
 				<field name="type" position="after">
 					<field name="origin" attrs="{'required': [('type', '!=', 'service')]}" />
 				</field>
