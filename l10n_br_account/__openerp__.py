@@ -18,8 +18,8 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Localization',
-    'description': 'Brazilian Localization',
+    'name': 'Brazilian Localization Account',
+    'description': 'Brazilian Localization Account',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
