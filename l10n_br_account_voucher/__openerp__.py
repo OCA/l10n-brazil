@@ -18,7 +18,7 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Account Voucher',
+    'name': 'Brazilian Localization Account Voucher',
     'description': 'Brazilian Localization Account Voucher',
     'category': 'Localisation',
     'license': 'AGPL-3',

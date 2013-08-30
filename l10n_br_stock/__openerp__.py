@@ -18,7 +18,7 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Localization',
+    'name': 'Brazilian Localization Warehouse',
     'description': 'Brazilian Localization',
     'category': 'Localisation',
     'license': 'AGPL-3',

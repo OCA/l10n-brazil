@@ -18,7 +18,7 @@
 ###############################################################################
 
 {
-    'name': 'l10n_br Produto',
+    'name': 'Brazilian Localization Product',
     'version': '0.1',
     'category': 'Generic Modules',
     'license': 'AGPL-3',

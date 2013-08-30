@@ -18,7 +18,7 @@
 ###############################################################################
 
 {
-    'name': 'Account Payment',
+    'name': 'Brazilian Localization Account Payment',
     'description': 'Brazilian Localization Account Payment',
     'category': 'Localisation',
     'license': 'AGPL-3',
