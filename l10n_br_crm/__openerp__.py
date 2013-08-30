@@ -18,7 +18,7 @@
 ###############################################################################
 
 {
-    'name': 'CRM',
+    'name': 'Brazilian Localization CRM',
     'description': 'Brazilian Localization for CRM module',
     'category': 'Localisation',
     'license': 'AGPL-3',
