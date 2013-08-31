@@ -271,6 +271,7 @@
 				<field position="replace" name="fiscal_position">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','in',('sale', 'sale_refund')),('fiscal_type','=','product')]" required="1" />
 					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+					<field name="fiscal_type" invisible="1"/>
 				</field>
 				<button name="invoice_cancel" position="attributes">
 					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
