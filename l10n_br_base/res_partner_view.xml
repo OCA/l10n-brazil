@@ -60,9 +60,8 @@
 					<field name="city" invisible="1" />
 				</field>
 				<notebook>
-					<page position="inside" string="l10n br - NF" attrs="{'invisible':[('is_company','=',False)]}">
-						<separator colspan="4" string="Dados Adicionais do Parceiro" />
-						<group>
+					<page position="inside" string="Outros Dados">
+						<group string="Dados Fiscais">
 							<field name="inscr_est" />
 							<field name="inscr_mun" />
 							<field name="suframa" />
