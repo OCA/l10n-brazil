@@ -62,3 +62,29 @@ class stock_picking(orm.Model):
         result['fiscal_position'] = picking.fiscal_position and \
         picking.fiscal_position.id
         return result
+
+    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
+                              invoice_id, invoice_vals, context=None):
+        result = super(stock_picking, self)._prepare_invoice_line(
+            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
+            context)
+        if move_line.sale_line_id:
+            fiscal_position = move_line.sale_line_id.fiscal_position or \
+            move_line.sale_line_id.order_id.fiscal_position
+            fiscal_category_id = move_line.sale_line_id.fiscal_category_id or \
+            move_line.sale_line_id.order_id.fiscal_category_id
+        else:
+            fiscal_position = move_line.picking_id.fiscal_position
+            fiscal_category_id = move_line.picking_id.fiscal_category_id
+
+        result['cfop_id'] = fiscal_position and \
+        fiscal_position.cfop_id and fiscal_position.cfop_id.id
+        result['fiscal_category_id'] = fiscal_category_id and \
+        fiscal_category_id.id
+        result['fiscal_position'] = fiscal_position and \
+        fiscal_position.id
+
+        result['partner_id'] = picking.partner_id.id
+        result['company_id'] = picking.company_id.id
+
+        return result
