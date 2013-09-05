@@ -48,10 +48,12 @@ class stock_picking(orm.Model):
 
     _columns = {
         'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+            readonly=True, states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
-            domain="[('fiscal_category_id','=',fiscal_category_id)]")
+            domain="[('fiscal_category_id','=',fiscal_category_id)]",
+            readonly=True, states={'draft': [('readonly', False)]})
     }
     _defaults = {
         'fiscal_category_id': _default_fiscal_category
