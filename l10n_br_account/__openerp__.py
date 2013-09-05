@@ -50,6 +50,7 @@
         'security/l10n_br_account_security.xml',
         'wizard/l10n_br_account_nfe_export_invoice_view.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
+        'wizard/l10n_br_refund_view.xml'
     ],
     'demo': [
         'demo/account.account.csv',
