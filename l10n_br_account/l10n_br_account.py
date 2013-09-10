@@ -246,7 +246,8 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
             [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
             ('done', u'Concluído')], 'Status', required=True),
         'justificative': fields.char('Justificativa', size=255,
-            readonly=True, states={'draft': [('readonly', False)]}, required=True),
+            readonly=True, states={'draft': [('readonly', False)]},
+            required=True),
     }
     _defaults = {
         'state': 'draft',
@@ -260,9 +261,10 @@ class l10n_br_account_invoice_invalid_number(orm.Model):
          u'Sequência existente!'),
     ]
 
-    def _check_justificative(self, cr,uid, ids):
+    def _check_justificative(self, cr, uid, ids):
         for invalid in self.browse(cr, uid, ids):
-            if len(invalid.justificative) < 15:return  False
+            if len(invalid.justificative) < 15:
+                return False
         return True
 
     def _check_range(self, cursor, user, ids, context=None):
