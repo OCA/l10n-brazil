@@ -70,10 +70,10 @@
 				<notebook>
 					<page position="inside" string="Outros Dados">
 						<group string="Dados Fiscais">
-                                                        <group>
+                                                        <div>
                                                            <label for="inscr_est" string="Inscr. Estadual" attrs="{'invisible': [('is_company','!=', True)]}" />
                                                            <label for="inscr_est" string="RG" attrs="{'invisible': [('is_company','=', True)]}" />
-                                                       </group>
+                                                       </div>
                                                         <field name="inscr_est" nolabel="1" />
 							<field name="inscr_mun" />
 							<field name="suframa" />
