@@ -44,7 +44,7 @@
 						<field colspan="4" name="legal_name" nolabel="1"/>
                                             <div class="oe_edit_only">
                                                 <label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
-                                                <label for="cnpj_cpf" string="CNPJ/CPF" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                                                <label for="cnpj_cpf" string="CNPJ" attrs="{'invisible': [('is_company','!=', True)]}"/>
                                             </div>
 						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" nolabel="1" />
 					</group>
