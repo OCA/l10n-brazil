@@ -120,7 +120,7 @@ class NFe200(FiscalDocument):
                     nfref.refNFP.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNFP.serie.valor = inv_related.serie or ''
                     nfref.refNFP.nNF.valor = inv_related.internal_number or ''
-                    if inv_related.cpfcpnj_type == 'cnpj':
+                    if inv_related.cpfcnpj_type == 'cnpj':
                         nfref.refNFP.CNPJ.valor = inv_related.cnpj_cpf or ''
                     else:
                         nfref.refNFP.CPF.valor = inv_related.cnpj_cpf or ''
