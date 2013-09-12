@@ -131,7 +131,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrRegB13 = {
                     'refNFe': inv_related.access_key or '',
                     }
-                StrB13 = 'B13|%s|\n' & StrRegB13['refNFe']
+                StrB13 = 'B13|%s|\n' % StrRegB13['refNFe']
                 StrFile += StrB13
             elif inv_related.document_type == 'cte':
                 StrRegB20i = {
