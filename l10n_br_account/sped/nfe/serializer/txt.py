@@ -115,7 +115,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrFile += StrB20a
 
-                if inv_related.cpfcpnj_type == 'cnpj':
+                if inv_related.cpfcnpj_type == 'cnpj':
                     StrRegB20d = {
                         'CNPJ': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or ''))
                     }
