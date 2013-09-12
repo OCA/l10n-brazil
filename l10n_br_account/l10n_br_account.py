@@ -414,7 +414,7 @@ class l10n_br_account_document_related(orm.Model):
             'res.country.state', 'Estado',
             domain="[('country_id.code', '=', 'BR')]"),
         'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-        'cpfcpnj_type': fields.selection(
+        'cpfcnpj_type': fields.selection(
             [('cpf', 'CPF'), ('cnpj', 'CNPJ')], 'Tipo Doc.'),
         'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
         'date': fields.date('Data'),
@@ -422,7 +422,7 @@ class l10n_br_account_document_related(orm.Model):
             'l10n_br_account.fiscal.document', 'Documento'),
     }
     _defaults = {
-        'cpfcpnj_type': 'cnpj',
+        'cpfcnpj_type': 'cnpj',
     }
 
     def _check_cnpj_cpf(self, cr, uid, ids):
@@ -431,7 +431,7 @@ class l10n_br_account_document_related(orm.Model):
             if not inv_related.cnpj_cpf:
                 continue
 
-            if inv_related.cpfcpnj_type == 'cnpj':
+            if inv_related.cpfcnpj_type == 'cnpj':
                 if not fiscal.validate_cnpj(inv_related.cnpj_cpf):
                     return False
             elif not fiscal.validate_cpf(inv_related.cnpj_cpf):
@@ -511,7 +511,7 @@ class l10n_br_account_document_related(orm.Model):
             result['value']['internal_number'] = False
             result['value']['state_id'] = False
             result['value']['cnpj_cpf'] = False
-            result['value']['cpfcpnj_type'] = False
+            result['value']['cpfcnpj_type'] = False
             result['value']['date'] = False
             result['value']['fiscal_document_id'] = False
             result['value']['inscr_est'] = False
@@ -532,9 +532,9 @@ class l10n_br_account_document_related(orm.Model):
             inv_related.partner_id.cnpj_cpf or False
 
             if inv_related.partner_id.is_company:
-                result['value']['cpfcpnj_type'] = 'cnpj'
+                result['value']['cpfcnpj_type'] = 'cnpj'
             else:
-                result['value']['cpfcpnj_type'] = 'cpf'
+                result['value']['cpfcnpj_type'] = 'cpf'
 
             result['value']['date'] = inv_related.date_invoice
             result['value']['fiscal_document_id'] = inv_related.fiscal_document_id and \
@@ -546,15 +546,15 @@ class l10n_br_account_document_related(orm.Model):
 
         return result
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, cpfcpnj_type, cnpj_cpf,
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, cpfcnpj_type, cnpj_cpf,
                             context=None):
         result = {'value': {}}
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
-            if cpfcpnj_type == 'cnpj' and len(val) == 14:
+            if cpfcnpj_type == 'cnpj' and len(val) == 14:
                 cnpj_cpf = "%s.%s.%s/%s-%s"\
                 % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            elif cpfcpnj_type == 'cpf' and len(val) == 11:
+            elif cpfcnpj_type == 'cpf' and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s"\
                 % (val[0:3], val[3:6], val[6:9], val[9:11])
             result['value'].update({'cnpj_cpf': cnpj_cpf})
