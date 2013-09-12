@@ -45,8 +45,8 @@
 						            <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
 						            <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
 						            <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-						            <field name="cpfcpnj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
-						            <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcpnj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+						            <field name="cpfcnpj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+						            <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcnpj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
                                                                 <field name="inscr_est" attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
 						        </group>
 						    </form>
