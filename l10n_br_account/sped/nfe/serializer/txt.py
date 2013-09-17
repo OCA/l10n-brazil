@@ -310,18 +310,27 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             StrFile += StrH
 
+            CProd = ''
+            XProd = ''
+            if inv_line.product_id.code:
+                CProd = inv_line.product_id.code
+                XProd = normalize('NFKD', unicode(inv_line.product_id.name or '')).encode('ASCII','ignore')
+            else:
+                CProd = unicode(i).strip().rjust(4, u'0')
+                XProd = normalize('NFKD', unicode(inv_line.name or '')).encode('ASCII','ignore')
+
             StrRegI = {
-                   'CProd': normalize('NFKD',unicode(inv_line.product_id.code or '',)).encode('ASCII','ignore'),
+                   'CProd': CProd,
                    'CEAN': inv_line.product_id.ean13 or '',
-                   'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
+                   'XProd': XProd,
                    'EXTIPI': '',
                    'CFOP': inv_line.cfop_id.code,
-                   'UCom': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
+                   'UCom': normalize('NFKD', unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QCom': str("%.4f" % inv_line.quantity),
                    'VUnCom': str("%.7f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))),
                    'VProd': str("%.2f" % inv_line.price_total),
                    'CEANTrib': inv_line.product_id.ean13 or '',
-                   'UTrib': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
+                   'UTrib': normalize('NFKD', unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QTrib': str("%.4f" % inv_line.quantity),
                    'VUnTrib': str("%.7f" % inv_line.price_unit),
                    'VFrete': freight_value,
@@ -333,28 +342,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'nItemPed': '',
                    }
 
-            #FIXME - Houve mudança ao ler campos do tipo property?
-            property_obj = pool.get('ir.property')
-            fclass_obj = pool.get('account.product.fiscal.classification')
-            f_class_property_id = property_obj.search(cr, uid,
-                [('name', '=', 'property_fiscal_classification'),
-                    ('res_id', '=', 'product.template,' +
-                    str(inv_line.product_id.product_tmpl_id.id) + ''),
-                    ('company_id', '=', inv.company_id.id)])
-
-            f_class_property_data = property_obj.read(
-                cr, uid, f_class_property_id,
-                ['name', 'value_reference', 'res_id'])
-
-            f_class_id = f_class_property_data and f_class_property_data[0].get('value_reference', False) and int(f_class_property_data[0]['value_reference'].split(',')[1]) or False
-            fclassificaion = fclass_obj.browse(cr, uid, f_class_id, context)
-
-            StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation), '', fclassificaion.name or '')
-
-            if inv_line.product_id.code:
-                StrRegI['CProd'] = inv_line.product_id.code
-            else:
-                StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
+            StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation),
+                '', inv_line.fiscal_classification_id.name or '')
 
             #No OpenERP já traz o valor unitário como desconto
             #if inv_line.discount > 0:
