@@ -214,24 +214,7 @@ class NFe200(FiscalDocument):
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
-
-                #FIXME - Houve mudança ao ler campos do tipo property?
-                property_obj = pool.get('ir.property')
-                fclass_obj = pool.get('account.product.fiscal.classification')
-                f_class_property_id = property_obj.search(cr, uid,
-                    [('name', '=', 'property_fiscal_classification'),
-                        ('res_id', '=', 'product.template,' +
-                        str(inv_line.product_id.product_tmpl_id.id) + ''),
-                        ('company_id', '=', inv.company_id.id)])
-
-                f_class_property_data = property_obj.read(
-                    cr, uid, f_class_property_id,
-                    ['name', 'value_reference', 'res_id'])
-
-                f_class_id = f_class_property_data and f_class_property_data[0].get('value_reference', False) and int(f_class_property_data[0]['value_reference'].split(',')[1]) or False
-                fclassificaion = fclass_obj.browse(cr, uid, f_class_id, context)
-
-                det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', fclassificaion.name or '')
+                det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.fiscal_classification_id.name or '')
                 det.prod.EXTIPI.valor = ''
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
