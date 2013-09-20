@@ -31,12 +31,6 @@ Non goal
 * manter dados para a folha de pagamento legal no Brasil.
 * ter a responsabilidade de manter dados fiscais em geral. Em geral esse tipo de serviço requer uma responsabilidade jurídica que se negocia caso a caso.
 
-Aviso - “As proezas deste filme são realizadas por profissionais”
------------------------------------------------------------------
-
-Apesar do OpenERP ser relativamente fácil de baixar para brincar, implementar um ERP (e não apenas um software de banca de jornal) já não é fácil. Mas aqui se trata então de um ERP de código aberto que apesar de ter um bom framework para um ERP não é um produto pronto assim como um ERP proprietário com milhões de investimento ou décadas de mercado, ainda menos aqui no Brasil. Além de metodologia de implementação de ERP, é preciso bastante conhecimento contábil e fiscal, e ainda alta capacitação técnica como programador (“eu já fiz um site em PHP” não basta).
-
-Ou seja, os autores desse projeto, investem diariamente para democratizar o OpenERP melhorando-o, mas não apóiam a demagogia de deixar pensar que pessoas que não estejam extremamente bem preparadas vão se dar bem implementando o OpenERP em casa por conta própria. Seria um pouco como se você quisesse reescrever o driver Linux da sua placa wifi ou construir um carro no seu quintal a partir de planos que você baixou da Internet. Algumas pessoas tem disposição para esse tipo de desafio, mas é melhor ser bem lúcido e criterioso na escolha.
 
 Instalação
 ----------
