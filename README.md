@@ -12,15 +12,6 @@ Este projeto contêm os principais módulos da localização brasileira do OpenE
 * Contábil
 * Sped
 
-Sobre
------
-
-Este projeto é open source sob licença AGPL v3 http://www.gnu.org/licenses/agpl-3.0.html
-
-Esse projeto [segue se aperfeiçoando desde o início de 2009](https://github.com/openerpbrasil/l10n_br_core/network). O código era [inicialmente desenvolvido no Launchpad](https://code.launchpad.net/openerp.pt-br-localiz), mas segue agora no Github (ainda que [com espelho Launchpad](https://code.launchpad.net/~openerp-brazil-core-team/openerp.pt-br-localiz/l10n_br_core-7.0)). Trata-se de um projeto aberto, meritocrático, sob a liderança da [Akretion](http://www.akretion.com/) (gold partner OpenERP; >90% dos commits do projeto, membro co-fundador da organização OpenERP Community Assotiation - OCA http://openerp-community-association.org), e com a ajuda de vários outros queridos contribuidores listados aqui https://github.com/openerpbrasil/l10n_br_core/graphs/contributors
-
-Além de desenvolver as funcionalidades, os profissionais por trás desse projeto interagem com o core do projeto OpenERP para propor melhorias para que a localização se integre da forma mais suave possível, mesmo que o OpenERP não tenha sido inicialmente projetado para o mercado brasileiro pela editora Belga OpenERP SA. Assim, graças a esse projeto, dezenas de “merge proposals” já foram feitas e integradas no core do OpenERP, melhorando sua modularidade em geral.
-
 Non goal
 --------
 
