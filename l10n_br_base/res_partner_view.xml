@@ -84,6 +84,36 @@
 						</group>
 					</page>
 				</notebook>
+				<field name="phone" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+				</field>
+				<field name="mobile" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+				</field>
+				<field name="fax" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+				</field>
+                <xpath expr="//field[@name='child_ids']/form//field[@name='phone']" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']/form//field[@name='mobile']" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+                </xpath>
+			</field>
+		</record>
+
+		<!-- res.partner -->
+        <record id="view_l10n_br_base_partner_simple_form" model="ir.ui.view">
+            <field name="name">l10n_br_base.partner.simplified.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_simple_form" />
+            <field name="arch" type="xml">
+				<field name="phone" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+				</field>
+				<field name="mobile" position="attributes">
+                    <attribute name="placeholder">(99) 9999 9999</attribute>
+				</field>
 			</field>
 		</record>
 
