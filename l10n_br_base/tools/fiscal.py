@@ -165,6 +165,9 @@ def validate_ie_ba(inscr_est):
         else:
             f = 0
 
+        if f >= 10 and modulo == 11:
+            f = 0
+
         if len(nova_ie) == val_tam:
             nova_ie.append(f)
         else:
