@@ -85,10 +85,6 @@ class sale_order(orm.Model):
         'fiscal_category_id': _default_fiscal_category,
     }
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        return super(sale_order, self).onchange_partner_id(
-            cr, uid, ids, partner_id, context)
-
     def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
                             partner_shipping_id, partner_id,
                             shop_id=None, context=None,
