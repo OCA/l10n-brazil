@@ -117,6 +117,7 @@ class sale_order(orm.Model):
         kwargs = {
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
+            'fiscal_category_id': fiscal_category_id,
             'company_id': company_id,
             'context': context
         }
