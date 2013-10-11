@@ -128,6 +128,7 @@ class purchase_order(orm.Model):
             'company_id': company_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
+            'fiscal_category_id': fiscal_category_id,
             'partner_shipping_id': dest_address_id,
             'context': context
         })
