@@ -554,7 +554,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                        'vICMSSTRet: ''  # Todo - Variavel cf. Faixa faturamento
                     }
 
-                    StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g['CSOSN'], StrRegN10g['modBCST'], StrRegN10g['vICMSST'])
+                    StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g['CSOSN'], StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
                     StrFile += StrN10g
                     
                 if icms_cst in ('900',):
