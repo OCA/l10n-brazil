@@ -551,7 +551,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                        'Orig': inv_line.product_id.origin or '0',
                        'CSOSN': icms_cst,
                        'vBCSTRet': '', # Todo - Variavel cf. Faixa faturamento
-                       'vICMSSTRet: ''  # Todo - Variavel cf. Faixa faturamento
+                       'vICMSSTRet': ''  # Todo - Variavel cf. Faixa faturamento
                     }
 
                     StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g['CSOSN'], StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
