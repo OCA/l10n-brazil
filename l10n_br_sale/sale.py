@@ -61,13 +61,15 @@ class sale_order(orm.Model):
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Fiscal Position',
             domain="[('fiscal_category_id', '=', fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'invoiced_rate': fields.function(_invoiced_rate, method=True,
-                                         string='Invoiced', type='float')
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+        'invoiced_rate': fields.function(
+            _invoiced_rate, method=True, string='Invoiced', type='float')
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -282,11 +284,13 @@ class sale_order_line(orm.Model):
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Fiscal Position',
             domain="[('fiscal_category_id','=',fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'price_subtotal': fields.function(
             _amount_line, string='Subtotal',
             digits_compute=dp.get_precision('Sale Price'))}
