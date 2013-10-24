@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '0.6',
+    'version': '0.572',
     'depends': [
         'base',
     ],
@@ -35,6 +35,7 @@
         'l10n_br_base_view.xml',
         'res_country_view.xml',
         'res_partner_view.xml',
+        'res_company_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_base_security.xml',
     ],
