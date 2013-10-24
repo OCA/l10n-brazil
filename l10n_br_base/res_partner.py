@@ -201,6 +201,13 @@ class res_partner(orm.Model):
             code_zip = "%s-%s" % (val[0:5], val[5:8])
             result['value']['zip'] = code_zip
         return result
+    
+    def _address_fields(self, cr, uid, context=None):
+        """ Returns the list of address fields that are synced from the parent
+        when the `use_parent_address` flag is set.
+        Extenção para os novos campos do endereço """
+        address_fields = super(res_partner,self)._address_fields(cr, uid, context=context)
+        return list(address_fields+['l10n_br_city_id', 'number', 'district'])
 
 
 class res_partner_bank(orm.Model):
