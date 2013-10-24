@@ -29,6 +29,7 @@
     'data': [
         'l10n_br_zip_view.xml',
         'res_partner_view.xml',
+        'res_company_view.xml',
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
