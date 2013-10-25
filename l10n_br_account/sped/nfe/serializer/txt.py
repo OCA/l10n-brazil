@@ -373,7 +373,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             #TODO - Fazer alteração para cada tipo de cst ICMS
             if inv_line.product_type == 'product':
-                if icms_cst in ('00'):
+                if icms_cst in ('00',):
 
                     StrRegN02 = {
                        'Orig': inv_line.product_id.origin or '0',
@@ -389,7 +389,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrN02
 
-                if icms_cst in ('20'):
+                if icms_cst in ('20',):
 
                     StrRegN04 = {
                        'Orig': inv_line.product_id.origin or '0',
@@ -408,7 +408,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrN04
 
-                if icms_cst in ('10'):
+                if icms_cst in ('10',):
                     StrRegN03 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -445,7 +445,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
 
-                if icms_cst in ('41'):
+                if icms_cst in ('41',):
                     StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -457,7 +457,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
 
-                if icms_cst in ('51'):
+                if icms_cst in ('51',):
                     StrRegN07 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -473,7 +473,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN07['PICMS'], StrRegN07['VICMS'])
                     StrFile += StrN07
 
-                if icms_cst in ('60'):
+                if icms_cst in ('60',):
                     StrRegN08 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -484,7 +484,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
                     StrFile += StrN08
 
-                if icms_cst in ('70'):
+                if icms_cst in ('70',):
                     StrRegN09 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -504,7 +504,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
                     StrFile += StrN09
 
-                if icms_cst in ('90'):
+                if icms_cst in ('90',):
                     StrRegN10 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -525,7 +525,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrFile += StrN10
 
 
-                if icms_cst in ('101'):
+                if icms_cst in ('101',):
                     StrRegN10c = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CSOSN': icms_cst,
@@ -536,7 +536,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN10c = 'N10c|%s|%s|%s|%s|\n' % (StrRegN10c['Orig'], StrRegN10c['CSOSN'], StrRegN10c['pCredSN'], StrRegN10c['vCredICMSSN'])
                     StrFile += StrN10c
 
-                if icms_cst in ('400'):
+                # Incluido CST 102,103 e 300 - Uso no Simples Nacional - Linha original era para CST 400
+                if icms_cst in ('102','103','300','400'):
                     StrRegN10d = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CSOSN': icms_cst
@@ -545,7 +546,18 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN10d = 'N10d|%s|%s|\n' % (StrRegN10d['Orig'], StrRegN10d['CSOSN'])
                     StrFile += StrN10d
 
-                if icms_cst in ('900'):
+                if icms_cst in ('500',):
+                    StrRegN10g = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst,
+                       'vBCSTRet': '', # Todo - Variavel cf. Faixa faturamento
+                       'vICMSSTRet': ''  # Todo - Variavel cf. Faixa faturamento
+                    }
+
+                    StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g['CSOSN'], StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
+                    StrFile += StrN10g
+                    
+                if icms_cst in ('900',):
                     StrRegN10h = {
                                   'Orig': inv_line.product_id.origin or '0',
                                   'CSOSN': icms_cst,
