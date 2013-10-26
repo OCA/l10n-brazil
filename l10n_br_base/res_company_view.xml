@@ -17,7 +17,7 @@
                 <field name="state_id" position="attributes">
                     <attribute name="domain">[('country_id','=',country_id)]</attribute>
                 </field>
-                <field name="name" position="after">
+                <field name="parent_id" position="before">
                     <field name="legal_name" placeholder="Razão Social"/>
                 </field>
                 <field name="state_id" position="after">
