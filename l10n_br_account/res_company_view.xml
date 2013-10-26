@@ -13,6 +13,7 @@
 							<page string="Dados Fiscais">
 								<group>
 									<field name="fiscal_type"/>
+                                    <field name="partner_fiscal_type_id"/>
 								</group>
 								<group string="CNAE">
 									<field name="cnae_main_id"/>
