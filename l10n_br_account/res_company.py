@@ -50,7 +50,7 @@ class res_company(orm.Model):
         return super(res_company,self)._set_address_data(cr, uid, company_id, name, value, arg, context=context)
 
     _columns = {
-        'partner_fiscal_type_id': fields.function(_get_l10n_br_data, fnct_inv=_set_l10n_br_data, type='many2one', relation='l10n_br_account.partner.fiscal.type', string="Tipo Fiscal do Parceiro", multi='l10n_br'),
+        'partner_fiscal_type_id': fields.function(_get_l10n_br_data, fnct_inv=_set_l10n_br_data, type='many2one', relation='l10n_br_account.partner.fiscal.type', string="Tipo Fiscal da Empresa", multi='l10n_br'),
         'fiscal_type': fields.selection([
             ('1', 'Simples Nacional'),
             ('2', 'Simples Nacional – excesso de sublimite de receita bruta'),
