@@ -546,6 +546,32 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN10d = 'N10d|%s|%s|\n' % (StrRegN10d['Orig'], StrRegN10d['CSOSN'])
                     StrFile += StrN10d
 
+                if icms_cst in ('201',):
+                    StrRegN10e = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst,
+                       'ModBCST': inv_line.icms_st_base_type,
+                       'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
+                       'PRedBCST': '',
+                       'VBCST': str("%.2f" % inv_line.icms_st_base),
+                       'PICMSST': str("%.2f" % inv_line.icms_st_percent),
+                       'VICMSST': str("%.2f" % inv_line.icms_st_value),
+                       'pCredSN': str("%.2f" % 0.00), # TODO Obter aliquota ICMS Simples
+                       'vCredICMSSN': str("%.2f" % 0.00), #TODO Calcular Crédito ICMS baseado aliquota anterior.
+                   }
+
+                    StrN10e = 'N10e|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10e['Orig'],
+                                                                        StrRegN10e['CSOSN'],
+                                                                        StrRegN10e['ModBCST'],
+                                                                        StrRegN10e['PMVAST'],
+                                                                        StrRegN10e['PRedBCST'],
+                                                                        StrRegN10e['VBCST'],
+                                                                        StrRegN10e['PICMSST'],
+                                                                        StrRegN10e['VICMSST'],
+                                                                        StrRegN10e['pCredSN'],
+                                                                        StrRegN10e['vCredICMSSN'])
+                    StrFile += StrN10e
+
                 if icms_cst in ('500',):
                     StrRegN10g = {
                        'Orig': inv_line.product_id.origin or '0',
