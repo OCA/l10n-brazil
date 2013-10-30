@@ -572,6 +572,28 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                                                                         StrRegN10e['vCredICMSSN'])
                     StrFile += StrN10e
 
+                if icms_cst in ('202','203'):
+                    StrRegN10f = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst,
+                       'ModBCST': inv_line.icms_st_base_type,
+                       'PMVAST': str("%.2f" % inv_line.icms_st_mva) or '',
+                       'PRedBCST': '',
+                       'VBCST': str("%.2f" % inv_line.icms_st_base),
+                       'PICMSST': str("%.2f" % inv_line.icms_st_percent),
+                       'VICMSST': str("%.2f" % inv_line.icms_st_value),
+                   }
+
+                    StrN10f = 'N10f|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10f['Orig'],
+                                                                        StrRegN10f['CSOSN'],
+                                                                        StrRegN10f['ModBCST'],
+                                                                        StrRegN10f['PMVAST'],
+                                                                        StrRegN10f['PRedBCST'],
+                                                                        StrRegN10f['VBCST'],
+                                                                        StrRegN10f['PICMSST'],
+                                                                        StrRegN10f['VICMSST'])
+                    StrFile += StrN10f
+
                 if icms_cst in ('500',):
                     StrRegN10g = {
                        'Orig': inv_line.product_id.origin or '0',
