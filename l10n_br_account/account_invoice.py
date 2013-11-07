@@ -734,7 +734,7 @@ class account_invoice(orm.Model):
                 empresa %s") % (fcategory.name, obj_company.name))
 
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-        return obj_fp_rule.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return obj_fp_rule.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
                             date_invoice=False, payment_term=False,
@@ -1300,7 +1300,7 @@ class account_invoice_line(orm.Model):
         result['value']['cfop_id'] = False
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')
         result_rule = obj_fp_rule.apply_fiscal_mapping(
-            cr, uid, result, kwargs)
+            cr, uid, result, **kwargs)
         if result['value'].get('fiscal_position', False):
             obj_fp = self.pool.get('account.fiscal.position').browse(
                 cr, uid, result['value'].get('fiscal_position', False))
