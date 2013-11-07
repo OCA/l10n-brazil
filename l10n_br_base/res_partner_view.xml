@@ -37,7 +37,7 @@
 				</field>
 				<field name="parent_id" position="before">
 					<group colspan="4">
-                                           <div class="oe_edit_only">   
+                                           <div class="oe_edit_only">
                                                 <label for="legal_name" string="Nome e Sobrenome" attrs="{'invisible': [('is_company','=', True)]}"/>
                                                 <label for="legal_name" string="Razão Social" attrs="{'invisible': [('is_company','!=', True)]}"/>
                                            </div>
@@ -66,6 +66,10 @@
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1" />
+				</field>
+				<field name="zip" position="attributes">
+					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
+					<attribute name="style">width: 50%%</attribute>
 				</field>
 				<notebook>
 					<page position="inside" string="Outros Dados">

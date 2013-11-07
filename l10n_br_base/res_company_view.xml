@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-    
-        <record model="ir.ui.view" id="view_company_form_inherited">
-            <field name="name">view_company_form_inherited</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_form"/>
-            <field name="arch" type="xml">
-                <field name="street2" position="replace"/>
-                <field name="street" position="replace">
-                    <field name="street"/>
-                    <field name="number" placeholder="número"/>
-                    <field name="street2" placeholder="complemento"/>
-                    <field name="district" placeholder="bairro"/>
-                </field>
-                <field name="state_id" position="attributes">
-                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                </field>
-                <field name="parent_id" position="before">
-                    <field name="legal_name" placeholder="Razão Social"/>
-                </field>
-                <field name="state_id" position="after">
-                    <field name="l10n_br_city_id" placeholder="cidade"
-                        on_change="onchange_l10n_br_city_id(l10n_br_city_id)"/>
-                </field>
-                <field name="city" position="replace">
-                    <field name="city" invisible="1"/>
-                </field>
-                <field name="company_registry" position="after">
-                    <field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cnpj_cpf)" placeholder="CNPJ"/>
-                    <field name="inscr_est" placeholder="Inscr. Estadual"/>
-                    <field name="inscr_mun" placeholder="Inscr. Municipal"/>
-                    <field name="suframa" placeholder="Suframa"/>
-                </field>
-            </field>
-        </record>
-        
-        <record id="view_company_tree_inherited" model="ir.ui.view">
-            <field name="name">res.company.tree.inherited</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_tree"/>
-            <field name="field_parent">child_ids</field>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="cnpj_cpf"/>
-                </field>
-            </field>
-        </record>
-        
-    </data>
+	<data>
+
+		<record id="view_company_form_inherited" model="ir.ui.view">
+			<field name="name">view_company_form_inherited</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				<field name="zip" position="attributes">
+					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
+					<attribute name="style">width: 50%%</attribute>
+				</field>
+				<field name="street2" position="replace"/>
+					<field name="street" position="replace">
+					<field name="street"/>
+					<field name="number" placeholder="número"/>
+					<field name="street2" placeholder="complemento"/>
+					<field name="district" placeholder="bairro"/>
+				</field>
+				<field name="state_id" position="attributes">
+					<attribute name="domain">[('country_id','=',country_id)]</attribute>
+				</field>
+				<field name="parent_id" position="before">
+					<field name="legal_name" placeholder="Razão Social"/>
+				</field>
+				<field name="state_id" position="after">
+					<field name="l10n_br_city_id" placeholder="cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)"/>
+				</field>
+				<field name="city" position="replace">
+					<field name="city" invisible="1"/>
+				</field>
+				<field name="company_registry" position="after">
+					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cnpj_cpf)" placeholder="CNPJ"/>
+					<field name="inscr_est" placeholder="Inscr. Estadual"/>
+					<field name="inscr_mun" placeholder="Inscr. Municipal"/>
+					<field name="suframa" placeholder="Suframa"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_company_tree_inherited" model="ir.ui.view">
+			<field name="name">res.company.tree.inherited</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_tree"/>
+			<field name="field_parent">child_ids</field>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="cnpj_cpf"/>
+				</field>
+			</field>
+		</record>
+
+	</data>
 </openerp>
