@@ -27,7 +27,7 @@ class stock_return_picking(orm.TransientModel):
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
         kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def create_returns(self, cr, uid, ids, context=None):
         """
