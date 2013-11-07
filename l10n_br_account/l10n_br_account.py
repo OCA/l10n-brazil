@@ -45,6 +45,10 @@ class l10n_br_account_cfop(orm.Model):
     _defaults = {
         'internal_type': 'normal',
     }
+    _sql_constraints = [
+        ('l10n_br_account_cfop_code_uniq', 'unique (code)',
+         u'Já existe um CFOP com esse código !')
+    ]
 
     def name_search(self, cr, user, name, args=None, operator='ilike',
                     context=None, limit=80):
