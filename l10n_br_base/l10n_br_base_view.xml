@@ -13,7 +13,6 @@
 		<record model="ir.ui.view" id="view_l10n_br_base_city_tree">
 			<field name="name">l10n_br_base.city</field>
 			<field name="model">l10n_br_base.city</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Municípios">
 					<field name="name" select="1"/>
@@ -26,7 +25,6 @@
 		<record model="ir.ui.view" id="view_l10n_br_base_city_form">
 			<field name="name">l10n_br_base.city</field>
 			<field name="model">l10n_br_base.city</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Municípios">
 					<field name="name" select="1"/>
