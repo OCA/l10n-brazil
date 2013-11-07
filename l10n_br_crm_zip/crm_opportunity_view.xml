@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
 			<field name="arch" type="xml">
 				<field name="zip" position="after">
-					<button name="zip_search" string="Buscar Endereço" colspan="2" type="object"/>
+					<button name="zip_search" type="object" icon="terp-stock_zoom" class="oe_edit_only"/>
 				</field>
 			</field>
 		</record>
