@@ -124,7 +124,7 @@ class sale_order(orm.Model):
             'context': context
         }
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
@@ -304,7 +304,7 @@ class sale_order_line(orm.Model):
         kwargs.update({'company_id': company_id})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
 
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',
