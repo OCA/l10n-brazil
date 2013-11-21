@@ -24,7 +24,7 @@
 									<field name="status"/>
 								</tree>
 							</field>
-							<field name="file" colspan="4" filename="name" attrs="{'invisible': [('export_folder','=', True)]}" />
+							<field name="file" colspan="4" filename="name" />
 						</group>
 					</group>
 						<footer states="init">

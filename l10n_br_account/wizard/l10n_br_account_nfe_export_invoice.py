@@ -128,6 +128,12 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
 
                 nfe_file = nfe['nfe'].encode('utf8')
 
+            save_dir = inv.company_id.nfe_export_folder
+            if (data['export_folder']) & (save_dir != ''):
+                f = open(save_dir + name, "w")
+                f.write(nfe_file)
+                f.close()
+
             self.write(
                 cr, uid, ids, {'file': base64.b64encode(nfe_file),
                 'state': 'done', 'name': name}, context=context)
