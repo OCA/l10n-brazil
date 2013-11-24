@@ -486,7 +486,7 @@ class account_invoice(orm.Model):
         'amount_freight': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'),
-            string='Valor do Seguro',
+            string='Valor do Frete',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
