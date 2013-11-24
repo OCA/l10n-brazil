@@ -390,7 +390,7 @@ class sale_order_line(orm.Model):
                           parent_fiscal_category_id=False, shop_id=False,
                           parent_fiscal_position=False,
                           partner_invoice_id=False, **kwargs):
-
+	uom=False
         result = super(sale_order_line, self).product_id_change(
             cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
             partner_id, lang, update_tax, date_order, packaging,
