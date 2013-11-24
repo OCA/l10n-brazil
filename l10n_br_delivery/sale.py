@@ -62,7 +62,7 @@ class sale_order(orm.Model):
     def delivery_set(self, cr, uid, ids, context=None):
         #Copia do modulo delivery
         #Exceto pelo final que adiciona ao campo total do frete.
-
+        print "delivery set br"
         grid_obj = self.pool.get('delivery.grid')
         carrier_obj = self.pool.get('delivery.carrier')
 

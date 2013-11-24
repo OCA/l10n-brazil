@@ -31,6 +31,10 @@ class stock_picking(orm.Model):
         "implies its a series of sales terms which are used in the "
         "commercial transaction.")}
 
+    def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context=None):
+        #TODO: Calcular o valor correto em caso de alteração da quantidade
+        return None
+
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
         result = super(stock_picking, self)._prepare_invoice_line(
