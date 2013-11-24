@@ -61,13 +61,15 @@ class sale_order(orm.Model):
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Fiscal Position',
             domain="[('fiscal_category_id', '=', fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'invoiced_rate': fields.function(_invoiced_rate, method=True,
-                                         string='Invoiced', type='float')
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+        'invoiced_rate': fields.function(
+            _invoiced_rate, method=True, string='Invoiced', type='float')
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -84,10 +86,6 @@ class sale_order(orm.Model):
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
     }
-
-    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        return super(sale_order, self).onchange_partner_id(
-            cr, uid, ids, partner_id, context)
 
     def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
                             partner_shipping_id, partner_id,
@@ -121,11 +119,12 @@ class sale_order(orm.Model):
         kwargs = {
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
+            'fiscal_category_id': fiscal_category_id,
             'company_id': company_id,
             'context': context
         }
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
@@ -285,11 +284,13 @@ class sale_order_line(orm.Model):
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
             domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', 'Fiscal Position',
             domain="[('fiscal_category_id','=',fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
         'price_subtotal': fields.function(
             _amount_line, string='Subtotal',
             digits_compute=dp.get_precision('Sale Price'))}
@@ -303,7 +304,7 @@ class sale_order_line(orm.Model):
         kwargs.update({'company_id': company_id})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
 
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',

@@ -115,7 +115,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrFile += StrB20a
 
-                if inv_related.cpfcpnj_type == 'cnpj':
+                if inv_related.cpfcnpj_type == 'cnpj':
                     StrRegB20d = {
                         'CNPJ': (re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or ''))
                     }
@@ -131,7 +131,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrRegB13 = {
                     'refNFe': inv_related.access_key or '',
                     }
-                StrB13 = 'B13|%s|\n' & StrRegB13['refNFe']
+                StrB13 = 'B13|%s|\n' % StrRegB13['refNFe']
                 StrFile += StrB13
             elif inv_related.document_type == 'cte':
                 StrRegB20i = {
@@ -310,18 +310,27 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             StrFile += StrH
 
+            CProd = ''
+            XProd = ''
+            if inv_line.product_id.code:
+                CProd = inv_line.product_id.code
+                XProd = normalize('NFKD', unicode(inv_line.product_id.name or '')).encode('ASCII','ignore')
+            else:
+                CProd = unicode(i).strip().rjust(4, u'0')
+                XProd = normalize('NFKD', unicode(inv_line.name or '')).encode('ASCII','ignore')
+
             StrRegI = {
-                   'CProd': normalize('NFKD',unicode(inv_line.product_id.code or '',)).encode('ASCII','ignore'),
+                   'CProd': CProd,
                    'CEAN': inv_line.product_id.ean13 or '',
-                   'XProd': normalize('NFKD',unicode(inv_line.product_id.name or '')).encode('ASCII','ignore'),
+                   'XProd': XProd,
                    'EXTIPI': '',
                    'CFOP': inv_line.cfop_id.code,
-                   'UCom': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
+                   'UCom': normalize('NFKD', unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QCom': str("%.4f" % inv_line.quantity),
                    'VUnCom': str("%.7f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))),
                    'VProd': str("%.2f" % inv_line.price_total),
                    'CEANTrib': inv_line.product_id.ean13 or '',
-                   'UTrib': normalize('NFKD',unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
+                   'UTrib': normalize('NFKD', unicode(inv_line.uos_id.name or '',)).encode('ASCII','ignore'),
                    'QTrib': str("%.4f" % inv_line.quantity),
                    'VUnTrib': str("%.7f" % inv_line.price_unit),
                    'VFrete': freight_value,
@@ -333,28 +342,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'nItemPed': '',
                    }
 
-            #FIXME - Houve mudança ao ler campos do tipo property?
-            property_obj = pool.get('ir.property')
-            fclass_obj = pool.get('account.product.fiscal.classification')
-            f_class_property_id = property_obj.search(cr, uid,
-                [('name', '=', 'property_fiscal_classification'),
-                    ('res_id', '=', 'product.template,' +
-                    str(inv_line.product_id.product_tmpl_id.id) + ''),
-                    ('company_id', '=', inv.company_id.id)])
-
-            f_class_property_data = property_obj.read(
-                cr, uid, f_class_property_id,
-                ['name', 'value_reference', 'res_id'])
-
-            f_class_id = f_class_property_data and f_class_property_data[0].get('value_reference', False) and int(f_class_property_data[0]['value_reference'].split(',')[1]) or False
-            fclassificaion = fclass_obj.browse(cr, uid, f_class_id, context)
-
-            StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation), '', fclassificaion.name or '')
-
-            if inv_line.product_id.code:
-                StrRegI['CProd'] = inv_line.product_id.code
-            else:
-                StrRegI['CProd'] = unicode(i).strip().rjust(4, u'0')
+            StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation),
+                '', inv_line.fiscal_classification_id.name or '')
 
             #No OpenERP já traz o valor unitário como desconto
             #if inv_line.discount > 0:
@@ -384,7 +373,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             #TODO - Fazer alteração para cada tipo de cst ICMS
             if inv_line.product_type == 'product':
-                if icms_cst in ('00'):
+                if icms_cst in ('00',):
 
                     StrRegN02 = {
                        'Orig': inv_line.product_id.origin or '0',
@@ -400,7 +389,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrN02
 
-                if icms_cst in ('20'):
+                if icms_cst in ('20',):
 
                     StrRegN04 = {
                        'Orig': inv_line.product_id.origin or '0',
@@ -419,7 +408,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrN04
 
-                if icms_cst in ('10'):
+                if icms_cst in ('10',):
                     StrRegN03 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -456,7 +445,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
 
-                if icms_cst in ('41'):
+                if icms_cst in ('41',):
                     StrRegN06 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -468,7 +457,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN06['motDesICMS'])
                     StrFile += StrN06
 
-                if icms_cst in ('51'):
+                if icms_cst in ('51',):
                     StrRegN07 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -484,7 +473,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegN07['PICMS'], StrRegN07['VICMS'])
                     StrFile += StrN07
 
-                if icms_cst in ('60'):
+                if icms_cst in ('60',):
                     StrRegN08 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -495,7 +484,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08['CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
                     StrFile += StrN08
 
-                if icms_cst in ('70'):
+                if icms_cst in ('70',):
                     StrRegN09 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -515,7 +504,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN09['Orig'], StrRegN09['CST'], StrRegN09['ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'], StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09['ModBCST'], StrRegN09['PMVAST'], StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
                     StrFile += StrN09
 
-                if icms_cst in ('90'):
+                if icms_cst in ('90',):
                     StrRegN10 = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CST': icms_cst,
@@ -536,7 +525,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrFile += StrN10
 
 
-                if icms_cst in ('101'):
+                if icms_cst in ('101',):
                     StrRegN10c = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CSOSN': icms_cst,
@@ -547,7 +536,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN10c = 'N10c|%s|%s|%s|%s|\n' % (StrRegN10c['Orig'], StrRegN10c['CSOSN'], StrRegN10c['pCredSN'], StrRegN10c['vCredICMSSN'])
                     StrFile += StrN10c
 
-                if icms_cst in ('400'):
+                # Incluido CST 102,103 e 300 - Uso no Simples Nacional - Linha original era para CST 400
+                if icms_cst in ('102','103','300','400'):
                     StrRegN10d = {
                        'Orig': inv_line.product_id.origin or '0',
                        'CSOSN': icms_cst
@@ -556,7 +546,18 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrN10d = 'N10d|%s|%s|\n' % (StrRegN10d['Orig'], StrRegN10d['CSOSN'])
                     StrFile += StrN10d
 
-                if icms_cst in ('900'):
+                if icms_cst in ('500',):
+                    StrRegN10g = {
+                       'Orig': inv_line.product_id.origin or '0',
+                       'CSOSN': icms_cst,
+                       'vBCSTRet': '', # Todo - Variavel cf. Faixa faturamento
+                       'vICMSSTRet': ''  # Todo - Variavel cf. Faixa faturamento
+                    }
+
+                    StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g['CSOSN'], StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
+                    StrFile += StrN10g
+                    
+                if icms_cst in ('900',):
                     StrRegN10h = {
                                   'Orig': inv_line.product_id.origin or '0',
                                   'CSOSN': icms_cst,

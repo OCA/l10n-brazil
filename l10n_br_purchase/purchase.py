@@ -128,6 +128,7 @@ class purchase_order(orm.Model):
             'company_id': company_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
+            'fiscal_category_id': fiscal_category_id,
             'partner_shipping_id': dest_address_id,
             'context': context
         })
@@ -228,7 +229,8 @@ class purchase_order_line(orm.Model):
 
         kwargs['context'].update({'use_domain': ('use_purchase', '=', True)})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        result_rule = fp_rule_obj.apply_fiscal_mapping(cr, uid, result, kwargs)
+        result_rule = fp_rule_obj.apply_fiscal_mapping(
+            cr, uid, result, **kwargs)
         if kwargs.get('product_id', False) and \
         result_rule.get('fiscal_position', False):
             obj_fposition = self.pool.get('account.fiscal.position').browse(
