@@ -49,6 +49,7 @@ class account_invoice(orm.Model):
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
                 'amount_untaxed': 0.0,
+                'amount_extra': 0.0,
                 'amount_tax': 0.0,
                 'amount_tax_discount': 0.0,
                 'amount_total': 0.0,
@@ -88,7 +89,8 @@ class account_invoice(orm.Model):
                 if not invoice_tax.tax_code_id.tax_discount:
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
 
-            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
+            res[invoice.id]['amount_extra'] = res[invoice.id]['amount_freight'] + res[invoice.id]['amount_costs'] + res[invoice.id]['amount_insurance']
+            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed'] + res[invoice.id]['amount_extra']
         return res
 
     def _get_fiscal_type(self, cr, uid, context=None):
@@ -282,6 +284,18 @@ class account_invoice(orm.Model):
             'res.country.state', 'UF da Placa'),
         'vehicle_l10n_br_city_id': fields.many2one('l10n_br_base.city',
             'Municipio', domain="[('state_id', '=', vehicle_state_id)]"),
+        'amount_extra': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Extra',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (
+                    _get_invoice_line, ['price_unit',
+                                        'invoice_line_tax_id',
+                                        'quantity', 'discount'], 20),
+            }, multi='all'),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
