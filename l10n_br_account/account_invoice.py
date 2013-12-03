@@ -49,7 +49,6 @@ class account_invoice(orm.Model):
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
                 'amount_untaxed': 0.0,
-                'amount_extra': 0.0,
                 'amount_tax': 0.0,
                 'amount_tax_discount': 0.0,
                 'amount_total': 0.0,
@@ -88,6 +87,7 @@ class account_invoice(orm.Model):
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
                     res[invoice.id]['amount_tax'] += invoice_tax.amount
+
             res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed']
         return res
 
@@ -472,7 +472,7 @@ class account_invoice(orm.Model):
         'amount_freight': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'),
-            string='Valor do Frete',
+            string='Valor do Seguro',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
