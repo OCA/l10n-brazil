@@ -63,16 +63,16 @@ class stock_picking(orm.Model):
         
         ait_obj = self.pool.get('account.invoice.tax')
         for tax in vals:
-            
-            ait_obj.create(cr, uid,
-            {
-             'invoice_id': invoice_id,
-             'name': tax[0],
-             'account_id': tax[1].id,
-             'amount': tax[2],
-             'manual': 1,
-             'company_id': company.id,
-            }, context=context)
+            if tax[2] > 0:
+                ait_obj.create(cr, uid,
+                {
+                 'invoice_id': invoice_id,
+                 'name': tax[0],
+                 'account_id': tax[1].id,
+                 'amount': tax[2],
+                 'manual': 1,
+                 'company_id': company.id,
+                }, context=context)
 
         self.pool.get('account.invoice').write(
             cr, uid, invoice_id, {
