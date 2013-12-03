@@ -48,6 +48,32 @@ class stock_picking(orm.Model):
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
         """Call after the creation of the invoice."""
+        context = {}
+        
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+        inv = self.pool.get("account.invoice").browse(cr,uid,invoice_id)
+        vals = [
+            ('Frete', company.account_freight_id, inv.amount_freight),
+            ('Seguro', company.account_insurance_id, inv.amount_insurance),
+            ('Outros Custos',company.account_other_costs, inv.amount_costs)
+            ]
+        
+        
+        ait_obj = self.pool.get('account.invoice.tax')
+        for tax in vals:
+            
+            ait_obj.create(cr, uid,
+            {
+             'invoice_id': invoice_id,
+             'name': tax[0],
+             'account_id': tax[1].id,
+             'amount': tax[2],
+             'manual': 1,
+             'company_id': company.id,
+            }, context=context)
+
         self.pool.get('account.invoice').write(
             cr, uid, invoice_id, {
                 'partner_shipping_id': picking.partner_id.id,
@@ -56,8 +82,8 @@ class stock_picking(orm.Model):
                 'incoterm': picking.incoterm.id,
                 'weight': picking.weight,
                 'weight_net': picking.weight_net,
-                'number_of_packages': picking.number_of_packages})
-
+                'number_of_packages': picking.number_of_packages,
+                })
         return super(stock_picking, self)._invoice_hook(
             cr, uid, picking, invoice_id)
 
