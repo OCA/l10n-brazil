@@ -65,7 +65,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'tpAmb': nfe_environment,
                    'finNFe': inv.nfe_purpose,
                    'procEmi': '0',
-                   'VerProc': '2.2.1',
+                   'VerProc': '2.2.20',
                    'dhCont': '',
                    'xJust': '',
                    }
@@ -224,9 +224,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         else:
             xNome = normalize('NFKD', unicode(inv.partner_id.legal_name or '')).encode('ASCII', 'ignore')
 
+        inscricao_estadual = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
         StrRegE = {
                    'xNome': xNome,
-                   'IE': re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or ''),
+                   'IE': inscricao_estadual if inv.partner_id.is_company else '',
                    'ISUF': '',
                    'email': inv.partner_id.email or '',
                    }
@@ -606,7 +607,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrFile += StrO
 
-                if ipi_cst in ('50', '51', '52') and inv_line.ipi_percent > 0:
+                if ipi_cst in ('00', '49', '50', '99'):
                     StrRegO07 = {
                        'CST': ipi_cst,
                        'VIPI': str("%.2f" % inv_line.ipi_value),
@@ -635,24 +636,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrO1
 
-                if ipi_cst in ('99'):
-                    StrRegO07 = {
-                                 'CST': ipi_cst,
-                                 'VIPI': str("%.2f" % inv_line.ipi_value),
-                                 }
-
-                    StrO07 = ('O07|%s|%s|\n') % (StrRegO07['CST'], StrRegO07['VIPI'])
-                    StrFile += StrO07
-
-                    StrRegO10 = {
-                                 'VBC': str("%.2f" % inv_line.ipi_base),
-                                 'PIPI': str("%.2f" % inv_line.ipi_percent),
-                                 }
-
-                    StrO10 = ('O10|%s|%s|\n') % (StrRegO10['VBC'], StrRegO10['PIPI'])
-                    StrFile += StrO10
-
-                if inv_line.ipi_percent == 0 and not ipi_cst in ('99'):
+                else:
                     StrO1 = 'O08|%s|\n' % ipi_cst
                     StrFile += StrO1
 
@@ -689,7 +673,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrQ = 'Q|\n'
             StrFile += StrQ
 
-            if pis_cst in ('01') and inv_line.pis_percent > 0:
+            if pis_cst in ('01','02'):
                 StrRegQ02 = {
                              'CST': pis_cst,
                              'VBC': str("%.2f" % inv_line.pis_base),
@@ -704,7 +688,26 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrFile += StrQ02
 
-            if pis_cst in ('99'):
+            elif pis_cst in ('03'):
+                StrRegQ03 = {
+                             'CST': pis_cst,
+                             'QBCProd': str("%.2f" % inv_line.pis_base),
+                             'VAliqProd': str("%.2f" % inv_line.pis_percent),
+                             'VPIS': str("%.2f" % inv_line.pis_value),
+                             }
+
+                StrQ03 = ('Q02|%s|%s|%s|%s|\n') % (StrRegQ03['CST'],
+                                                   StrRegQ03['QBCProd'],
+                                                   StrRegQ03['VAliqProd'],
+                                                   StrRegQ03['VPIS'])
+
+                StrFile += StrQ03
+            
+            elif pis_cst in ('04','06','07','08','09'):
+                StrQ02 = 'Q04|%s|\n' % pis_cst
+                StrFile += StrQ02
+                
+            else:
                 StrRegQ05 = {
                              'CST': pis_cst,
                              'VPIS': str("%.2f" % inv_line.pis_value),
@@ -721,15 +724,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrQ07 = ('Q07|%s|%s|\n') % (StrRegQ07['VBC'], StrRegQ07['PPIS'])
                 StrFile += StrQ07
 
-            if inv_line.pis_percent == 0 and not pis_cst in ('99'):
-                StrQ02 = 'Q04|%s|\n' % pis_cst
-                StrFile += StrQ02
-
+            
+                
             StrQ = 'S|\n'
 
             StrFile += StrQ
 
-            if cofins_cst in ('01') and inv_line.cofins_percent > 0:
+            if cofins_cst in ('01', '02'):
                 StrRegS02 = {
                    'CST': cofins_cst,
                    'VBC': str("%.2f" % inv_line.cofins_base),
@@ -739,8 +740,23 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrS02 = ('S02|%s|%s|%s|%s|\n') % (StrRegS02['CST'], StrRegS02['VBC'], StrRegS02['PCOFINS'], StrRegS02['VCOFINS'])
                 StrFile += StrS02
+            
+            elif cofins_cst in ('03'):
+                StrRegS03 = {
+                   'CST': cofins_cst,
+                   'QBCProd': str("%.2f" % inv_line.cofins_base),
+                   'VAliqProd': str("%.2f" % inv_line.cofins_percent),
+                   'VCOFINS': str("%.2f" % inv_line.cofins_value),
+                }
 
-            if cofins_cst in ('99'):
+                StrS03 = ('S03|%s|%s|%s|%s|\n') % (StrRegS03['CST'], StrRegS03['QBCProd'], StrRegS03['VAliqProd'], StrRegS03['VCOFINS'])
+                StrFile += StrS03
+                
+            elif cofins_cst in ('04','06','07','08','09'):
+                StrS04 = 'S04|%s|\n' % cofins_cst
+                StrFile += StrS04
+                
+            else:
                 StrRegS05 = {
                              'CST': cofins_cst,
                              'VCOFINS': str("%.2f" % inv_line.cofins_value),
@@ -757,9 +773,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrS07 = ('S07|%s|%s|\n') % (StrRegS07['VBC'], StrRegS07['PCOFINS'])
                 StrFile += StrS07
 
-            if inv_line.cofins_percent == 0 and not cofins_cst in ('99'):
-                StrS04 = 'S04|%s|\n' % cofins_cst
-                StrFile += StrS04
+           
 
         StrW = 'W|\n'
 
