@@ -859,6 +859,8 @@ class account_invoice_line(orm.Model):
         res = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
+        
+        print "line amounty br"
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
                 'price_subtotal': 0.0,
@@ -879,11 +881,12 @@ class account_invoice_line(orm.Model):
                 res[line.id].update({
                     'price_subtotal': cur_obj.round(
                         cr, uid, currency,
-                        taxes['total'] - taxes['total_tax_discount']),
+                        line.price_unit * line.quantity),
                     'price_total': cur_obj.round(
                         cr, uid, currency, taxes['total']),
                 })
-
+                
+        print res
         return res
 
     _columns = {
