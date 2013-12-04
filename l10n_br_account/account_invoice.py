@@ -486,7 +486,15 @@ class account_invoice(orm.Model):
             'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                 ['invoice_line'], 20),
             'account.invoice.line': (_get_invoice_line,
-                                     ['other_costs_value'], 20)}, multi='all')
+                                     ['other_costs_value'], 20)}, multi='all'),
+#         'amount_discount': fields.function(
+#         _amount_all, method=True,
+#         digits_compute=dp.get_precision('Account'), string='Total Descontos',
+#         store={
+#             'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+#                                 ['invoice_line'], 20),
+#             'account.invoice.line': (_get_invoice_line,
+#                                      ['discount'], 20)}, multi='all')
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
