@@ -87,12 +87,13 @@ class sale_order(orm.Model):
 
     def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
         result = {}
-        if not amount_freight or not ids:
+        if (amount_freight is False) or not ids:
             return {'value': {'amount_freight': 0.00}}
         
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
+                print amount_freight
                 line_obj.write(cr, uid, [line.id], {'freight_value':
             calc_price_ratio(line.price_subtotal, amount_freight,
                 order.amount_untaxed)}, context=None)
@@ -100,12 +101,13 @@ class sale_order(orm.Model):
 
     def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
         result = {}
-        if not amount_insurance or not ids:
+        if (amount_insurance is False) or not ids:
             return {'value': {'amount_insurance': 0.00}}
-        
+
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
+                print amount_insurance
                 line_obj.write(cr, uid, [line.id], {'insurance_value':
           calc_price_ratio(line.price_subtotal, amount_insurance,
                 order.amount_untaxed)}, context=None)
@@ -113,12 +115,13 @@ class sale_order(orm.Model):
 
     def onchange_amount_other(self, cr, uid, ids, amount_other=False):
         result = {}
-        if not amount_other or not ids:
+        if (amount_other is False) or not ids:
             return {'value': {'amount_other': 0.00}}
 
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
+                print amount_other
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
           calc_price_ratio(line.price_subtotal, amount_other,
                 order.amount_untaxed)}, context=None)
