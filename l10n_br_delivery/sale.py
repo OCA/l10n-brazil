@@ -85,35 +85,44 @@ class sale_order(orm.Model):
             self.onchange_amount_freight(cr, uid, ids, amount_freight)
         return self.write(cr, uid, ids, {'amount_freight': amount_freight})
 
-    def onchange_amount_freight(self, cr, uid, ids, amount_freight):
-        res = {}
+    def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
+        result = {}
+        if not amount_freight or not ids:
+            return {'value': {'amount_freight': 0.00}}
+        
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'freight_value':
             calc_price_ratio(line.price_subtotal, amount_freight,
-                order.amount_total)}, context=None)
-        return res
+                order.amount_untaxed)}, context=None)
+        return result
 
-    def onchange_amount_insurance(self, cr, uid, ids, amount_insurance):
-        res = {}
+    def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
+        result = {}
+        if not amount_insurance or not ids:
+            return {'value': {'amount_insurance': 0.00}}
+        
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'insurance_value':
           calc_price_ratio(line.price_subtotal, amount_insurance,
-                order.amount_total)}, context=None)
-        return res
+                order.amount_untaxed)}, context=None)
+        return result
 
-    def onchange_amount_other(self, cr, uid, ids, amount_other):
-        res = {}
+    def onchange_amount_other(self, cr, uid, ids, amount_other=False):
+        result = {}
+        if not amount_other or not ids:
+            return {'value': {'amount_other': 0.00}}
+
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
           calc_price_ratio(line.price_subtotal, amount_other,
-                order.amount_total)}, context=None)
-        return res
+                order.amount_untaxed)}, context=None)
+        return result
 
 
 class sale_order_line(orm.Model):
