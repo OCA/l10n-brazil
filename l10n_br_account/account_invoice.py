@@ -486,7 +486,15 @@ class account_invoice(orm.Model):
             'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                 ['invoice_line'], 20),
             'account.invoice.line': (_get_invoice_line,
-                                     ['other_costs_value'], 20)}, multi='all')
+                                     ['other_costs_value'], 20)}, multi='all'),
+#         'amount_discount': fields.function(
+#         _amount_all, method=True,
+#         digits_compute=dp.get_precision('Account'), string='Total Descontos',
+#         store={
+#             'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+#                                 ['invoice_line'], 20),
+#             'account.invoice.line': (_get_invoice_line,
+#                                      ['discount'], 20)}, multi='all')
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -851,6 +859,8 @@ class account_invoice_line(orm.Model):
         res = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
+        
+        print "line amounty br"
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
                 'price_subtotal': 0.0,
@@ -871,11 +881,12 @@ class account_invoice_line(orm.Model):
                 res[line.id].update({
                     'price_subtotal': cur_obj.round(
                         cr, uid, currency,
-                        taxes['total'] - taxes['total_tax_discount']),
+                        line.price_unit * line.quantity),
                     'price_total': cur_obj.round(
                         cr, uid, currency, taxes['total']),
                 })
-
+                
+        print res
         return res
 
     _columns = {

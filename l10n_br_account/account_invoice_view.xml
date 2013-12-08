@@ -95,7 +95,7 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
-				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
 					<field name="price_total" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
@@ -326,7 +326,7 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
-				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
 					<field name="price_total" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
@@ -516,9 +516,9 @@
 				<field name="account_id" position="replace">
 					<field name="cfop_id" />
 				</field>
-				<field position="replace" name="price_subtotal">
+				<field position="after" name="price_subtotal">
 					<field name="price_total" />
-				</field>
+				</field>		
 			</field>
 		</record>
 
