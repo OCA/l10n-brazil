@@ -66,8 +66,12 @@ class account_invoice(orm.Model):
                 'amount_insurance': 0.0,
                 'amount_freight': 0.0,
                 'amount_costs': 0.0,
+                'amount_product': 0.0,
+                'amount_discount': 0.0,
             }
             for line in invoice.invoice_line:
+                res[invoice.id]['amount_product'] += line.price_subtotal
+                res[invoice.id]['amount_discount'] += line.discount_value
                 res[invoice.id]['amount_untaxed'] += line.price_total
                 res[invoice.id]['icms_base'] += line.icms_base
                 res[invoice.id]['icms_value'] += line.icms_value
@@ -318,7 +322,32 @@ class account_invoice(orm.Model):
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
             }, multi='all'),
-        'icms_base': fields.function(
+        'amount_product': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Valor Produtos',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (
+                    _get_invoice_line, ['price_unit',
+                                        'invoice_line_tax_id',
+                                        'quantity', 'discount'], 20),
+            }, multi='all'),
+        'amount_discount': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Desconto',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (
+                    _get_invoice_line, ['price_unit',
+                                        'invoice_line_tax_id',
+                                        'quantity', 'discount'], 20),
+            }, multi='all'),
+
+            'icms_base': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Base ICMS',
             store={
@@ -865,6 +894,7 @@ class account_invoice_line(orm.Model):
             res[line.id] = {
                 'price_subtotal': 0.0,
                 'price_total': 0.0,
+                'discount_value': 0.0,
             }
 
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
@@ -875,7 +905,8 @@ class account_invoice_line(orm.Model):
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
                 other_costs_value=line.other_costs_value)
-
+            discount_value = (line.price_unit - price) * line.quantity
+            print discount_value
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
                 res[line.id].update({
@@ -884,9 +915,9 @@ class account_invoice_line(orm.Model):
                         line.price_unit * line.quantity),
                     'price_total': cur_obj.round(
                         cr, uid, currency, taxes['total']),
+                    'discount_value': cur_obj.round(
+                        cr, uid, currency, discount_value),
                 })
-                
-        print res
         return res
 
     _columns = {
@@ -902,11 +933,15 @@ class account_invoice_line(orm.Model):
             [('product', 'Produto'), ('service', u'Serviço')],
             'Tipo do Produto', required=True),
         'price_subtotal': fields.function(
-            _amount_line, method=True, string='Subtotal', type="float",
+            _amount_line, method=True, string='Vlr. Produtos', type="float",
             digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'price_total': fields.function(
             _amount_line, method=True, string='Total', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'discount_value': fields.function(
+            _amount_line, method=True, string='Vlr. desconto', type="float",
             digits_compute=dp.get_precision('Account'),
             store=True, multi='all'),
         'icms_manual': fields.boolean('ICMS Manual?'),

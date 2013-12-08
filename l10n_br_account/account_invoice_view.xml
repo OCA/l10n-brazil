@@ -95,12 +95,29 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
-				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
+					<field name="discount_value"/>
 					<field name="price_total" />
+				</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
+					<field name="price_subtotal" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
+				<field name="amount_untaxed" position="before">
+               		<field name="amount_product"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+               		<field name="amount_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+				</field>
+				
+				 <xpath expr="//field[@name='invoice_line']" position="after">
+                    <group style="width: 65%%">
+	                        <field name="icms_base" />
+	                        <field name="icms_value" />
+	                        <field name="icms_st_base"/>      
+	                        <field name="icms_st_value"/> 	                                      
+                    </group>
+                </xpath>
 				<notebook>
 					<page string="Dados Adicionais">
 						<notebook>
@@ -516,7 +533,7 @@
 				<field name="account_id" position="replace">
 					<field name="cfop_id" />
 				</field>
-				<field position="after" name="price_subtotal">
+				<field position="replace" name="price_subtotal">
 					<field name="price_total" />
 				</field>		
 			</field>

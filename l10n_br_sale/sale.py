@@ -427,7 +427,7 @@ class sale_order_line(orm.Model):
          'discount_value': fields.function(
              _amount_line, string='Vlr. Desc. (-)',
              digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'product_subtotal': fields.function(
+        'product_subtotal': fields.function( #alterar nomes dos campos para price_total e price_subtotal ( vlr. produtos )
             _amount_line, string='Vlr. Produtos',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
         'price_subtotal': fields.function(
