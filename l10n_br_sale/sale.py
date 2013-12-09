@@ -160,12 +160,16 @@ class sale_order(orm.Model):
             },
             multi='sums', help="The amount product with no discounts or taxes.", track_visibility='always'),
         'amount_freight': fields.float('Frete',
-             digits_compute=dp.get_precision('Account')),
+             digits_compute=dp.get_precision('Account'), readonly=True,
+                               states={'draft': [('readonly', False)]}),
         'amount_other': fields.float('Outros Custos',
-            digits_compute=dp.get_precision('Account')),
+            digits_compute=dp.get_precision('Account'), readonly=True,
+                               states={'draft': [('readonly', False)]}),
         'amount_insurance': fields.float('Seguro',
-            digits_compute=dp.get_precision('Account')),
-        'discount_rate' : fields.float('Desconto'),
+            digits_compute=dp.get_precision('Account'), readonly=True,
+                               states={'draft': [('readonly', False)]}),
+        'discount_rate': fields.float('Desconto', readonly=True,
+                               states={'draft': [('readonly', False)]}),
         }
 
     def _default_fiscal_category(self, cr, uid, context=None):
