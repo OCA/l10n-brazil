@@ -889,7 +889,6 @@ class account_invoice_line(orm.Model):
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
         
-        print "line amounty br"
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
                 'price_subtotal': 0.0,
@@ -906,7 +905,6 @@ class account_invoice_line(orm.Model):
                 freight_value=line.freight_value,
                 other_costs_value=line.other_costs_value)
             discount_value = (line.price_unit - price) * line.quantity
-            print discount_value
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
                 res[line.id].update({

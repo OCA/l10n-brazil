@@ -75,7 +75,6 @@ class sale_order(orm.Model):
             res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax'] + res[order.id]['amount_extra']
             res[order.id]['amount_discount'] = cur_obj.round(cr, uid, cur, val3)
             res[order.id]['amount_product'] = cur_obj.round(cr, uid, cur, val4)
-            print res[order.id]
         return res
 
     def _get_order(self, cr, uid, ids, context=None):

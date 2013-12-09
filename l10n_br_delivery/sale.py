@@ -62,7 +62,6 @@ class sale_order(orm.Model):
     def delivery_set(self, cr, uid, ids, context=None):
         #Copia do modulo delivery
         #Exceto pelo final que adiciona ao campo total do frete.
-        print "delivery set br"
         grid_obj = self.pool.get('delivery.grid')
         carrier_obj = self.pool.get('delivery.carrier')
 
@@ -93,7 +92,6 @@ class sale_order(orm.Model):
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
-                print amount_freight
                 line_obj.write(cr, uid, [line.id], {'freight_value':
             calc_price_ratio(line.price_subtotal, amount_freight,
                 order.amount_untaxed)}, context=None)
@@ -107,7 +105,6 @@ class sale_order(orm.Model):
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
-                print amount_insurance
                 line_obj.write(cr, uid, [line.id], {'insurance_value':
           calc_price_ratio(line.price_subtotal, amount_insurance,
                 order.amount_untaxed)}, context=None)
@@ -121,7 +118,6 @@ class sale_order(orm.Model):
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
-                print amount_other
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
           calc_price_ratio(line.price_subtotal, amount_other,
                 order.amount_untaxed)}, context=None)

@@ -109,15 +109,6 @@
                		<field name="amount_product"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
                		<field name="amount_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
 				</field>
-				
-				 <xpath expr="//field[@name='invoice_line']" position="after">
-                    <group style="width: 65%%">
-	                        <field name="icms_base" />
-	                        <field name="icms_value" />
-	                        <field name="icms_st_base"/>      
-	                        <field name="icms_st_value"/> 	                                      
-                    </group>
-                </xpath>
 				<notebook>
 					<page string="Dados Adicionais">
 						<notebook>
