@@ -22,8 +22,8 @@ from openerp.osv import orm, osv
 from openerp.tools.translate import _
 
 
-def  calc_price_ratio(price_subtotal, amount_calc, amount_total):
-    return price_subtotal * amount_calc / amount_total
+def  calc_price_ratio(price_gross, amount_calc, amount_total):
+    return price_gross * amount_calc / amount_total
 
 class sale_order(orm.Model):
     _inherit = 'sale.order'
@@ -93,8 +93,8 @@ class sale_order(orm.Model):
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'freight_value':
-            calc_price_ratio(line.price_subtotal, amount_freight,
-                order.amount_product)}, context=None)
+            calc_price_ratio(line.price_gross, amount_freight,
+                order.amount_gross)}, context=None)
         return result
 
     def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
@@ -106,8 +106,8 @@ class sale_order(orm.Model):
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'insurance_value':
-          calc_price_ratio(line.price_subtotal, amount_insurance,
-                order.amount_product)}, context=None)
+          calc_price_ratio(line.price_gross, amount_insurance,
+                order.amount_gross)}, context=None)
         return result
 
     def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
@@ -119,8 +119,8 @@ class sale_order(orm.Model):
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
-          calc_price_ratio(line.price_subtotal, amount_costs,
-                order.amount_product)}, context=None)
+          calc_price_ratio(line.price_gross, amount_costs,
+                order.amount_gross)}, context=None)
         return result
 
 
