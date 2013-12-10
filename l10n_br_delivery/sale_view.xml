@@ -10,7 +10,7 @@
 				<field name="amount_untaxed" position="after">
 					<field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_freight(amount_freight)" />
 					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_insurance(amount_insurance)"/>
-					<field name="amount_other" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_other(amount_other)"/>
+					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_costs(amount_costs)"/>
 				</field>
 			</field>
 		</record>

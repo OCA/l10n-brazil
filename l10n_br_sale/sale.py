@@ -162,7 +162,7 @@ class sale_order(orm.Model):
         'amount_freight': fields.float('Frete',
              digits_compute=dp.get_precision('Account'), readonly=True,
                                states={'draft': [('readonly', False)]}),
-        'amount_other': fields.float('Outros Custos',
+        'amount_costs': fields.float('Outros Custos',
             digits_compute=dp.get_precision('Account'), readonly=True,
                                states={'draft': [('readonly', False)]}),
         'amount_insurance': fields.float('Seguro',
@@ -186,7 +186,7 @@ class sale_order(orm.Model):
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
         'amount_freight': 0.00,
-        'amount_other': 0.00,
+        'amount_costs': 0.00,
         'amount_insurance': 0.00,
     }
 
