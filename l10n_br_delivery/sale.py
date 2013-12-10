@@ -110,16 +110,16 @@ class sale_order(orm.Model):
                 order.amount_untaxed)}, context=None)
         return result
 
-    def onchange_amount_other(self, cr, uid, ids, amount_other=False):
+    def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
         result = {}
-        if (amount_other is False) or not ids:
-            return {'value': {'amount_other': 0.00}}
+        if (amount_costs is False) or not ids:
+            return {'value': {'amount_costs': 0.00}}
 
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
-          calc_price_ratio(line.price_subtotal, amount_other,
+          calc_price_ratio(line.price_subtotal, amount_costs,
                 order.amount_untaxed)}, context=None)
         return result
 
