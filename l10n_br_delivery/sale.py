@@ -94,7 +94,7 @@ class sale_order(orm.Model):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'freight_value':
             calc_price_ratio(line.price_subtotal, amount_freight,
-                order.amount_untaxed)}, context=None)
+                order.amount_product)}, context=None)
         return result
 
     def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
@@ -107,7 +107,7 @@ class sale_order(orm.Model):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'insurance_value':
           calc_price_ratio(line.price_subtotal, amount_insurance,
-                order.amount_untaxed)}, context=None)
+                order.amount_product)}, context=None)
         return result
 
     def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
@@ -120,7 +120,7 @@ class sale_order(orm.Model):
             for line in order.order_line:
                 line_obj.write(cr, uid, [line.id], {'other_costs_value':
           calc_price_ratio(line.price_subtotal, amount_costs,
-                order.amount_untaxed)}, context=None)
+                order.amount_product)}, context=None)
         return result
 
 

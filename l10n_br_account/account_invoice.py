@@ -1276,7 +1276,6 @@ class account_invoice_line(orm.Model):
 
         price_unit = values.get('price_unit', 0.0)
         price = price_unit * (1 - values.get('discount', 0.0) / 100.0)
-
         taxes_calculed = tax_obj.compute_all(
             cr, uid, taxes, price, values.get('quantity', 0.0),
             values.get('product_id'), partner_id,
