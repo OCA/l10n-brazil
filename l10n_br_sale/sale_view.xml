@@ -40,11 +40,11 @@
                     </group>
                 </xpath>     
                 <xpath expr="//tree[@string='Sales Order Lines']/field[@name='price_unit']" position="after">
-               		<field name="price_subtotal" />
+               		<field name="price_gross" />
                		<field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
                	</xpath> 
 				<field name="amount_untaxed" position="before">
-               		<field name="amount_product"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+               		<field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
                		<field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
 				</field>
 			</field>

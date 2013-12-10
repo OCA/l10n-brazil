@@ -882,7 +882,7 @@ class account_invoice_line(orm.Model):
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
                 'discount_value': 0.0,
-                'price_gross' : 0.0,
+                'price_gross': 0.0,
                 'price_subtotal': 0.0,
                 'price_total': 0.0,
             }
