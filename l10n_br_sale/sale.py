@@ -45,7 +45,7 @@ class sale_order(orm.Model):
             val = 0.0
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
-                val += line.product_subtotal
+                val += line.price_subtotal
             res[order.id]['amount_product'] = cur_obj.round(cr, uid, cur, val)
         return res
 
@@ -64,11 +64,11 @@ class sale_order(orm.Model):
             val = val1 = val2 = val3 = val4 = 0.0
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
-                val1 += line.price_subtotal
+                val1 += line.price_total
                 val += self._amount_line_tax(cr, uid, line, context=context)
                 val2 += (line.insurance_value + line.freight_value + line.other_costs_value)
                 val3 += line.discount_value
-                val4 += line.product_subtotal
+                val4 += line.price_subtotal
             res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
             res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
             res[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
@@ -156,7 +156,7 @@ class sale_order(orm.Model):
         'amount_product': fields.function(_amount_products_all, digits_compute=dp.get_precision('Account'), string='Valor produtos',
             store={
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['product_subtotal'], 10),
+                'sale.order.line': (_get_order, ['price_subtotal'], 10),
             },
             multi='sums', help="The amount product with no discounts or taxes.", track_visibility='always'),
         'amount_freight': fields.float('Frete',
@@ -377,17 +377,6 @@ class sale_order(orm.Model):
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
     
-#     def _amount_product_subtotal(self, cr, uid, ids, field_name, arg, context=None):
-#         cur_obj = self.pool.get('res.currency')
-#         res = {}
-# 
-#         if context is None:
-#             context = {}
-#         for line in self.browse(cr, uid, ids, context=context):
-#             product_subtotal = line.price_unit * line.product_uom_qty
-#             res[line.id] = product_subtotal
-#         return res
-
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
@@ -396,8 +385,8 @@ class sale_order_line(orm.Model):
             context = {}
         for line in self.browse(cr, uid, ids, context=context):
             res[line.id] = {
+                'price_total': 0.0,
                 'price_subtotal': 0.0,
-                'product_subtotal': 0.0,
                 'discount_value': 0.0,
             }
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
@@ -410,9 +399,9 @@ class sale_order_line(orm.Model):
                 other_costs_value=line.other_costs_value)
             cur = line.order_id.pricelist_id.currency_id
 
-            res[line.id]['price_subtotal'] = cur_obj.round(cr, uid, cur, taxes['total'])
-            res[line.id]['product_subtotal'] = line.price_unit * line.product_uom_qty
-            res[line.id]['discount_value'] = res[line.id]['product_subtotal']-(price * line.product_uom_qty) 
+            res[line.id]['price_total'] = cur_obj.round(cr, uid, cur, taxes['total'])
+            res[line.id]['price_subtotal'] = line.price_unit * line.product_uom_qty
+            res[line.id]['discount_value'] = res[line.id]['price_subtotal']-(price * line.product_uom_qty) 
 
         return res
 
@@ -430,10 +419,10 @@ class sale_order_line(orm.Model):
          'discount_value': fields.function(
              _amount_line, string='Vlr. Desc. (-)',
              digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'product_subtotal': fields.function( #alterar nomes dos campos para price_total e price_subtotal ( vlr. produtos )
+        'price_subtotal': fields.function(
             _amount_line, string='Vlr. Produtos',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'price_subtotal': fields.function(
+        'price_total': fields.function(
             _amount_line, string='Subtotal',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
         'insurance_value': fields.float('Insurance',
