@@ -100,13 +100,13 @@
 					<field name="price_total" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
-					<field name="price_subtotal" />
+					<field name="price_gross" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
 				<field name="amount_untaxed" position="before">
-               		<field name="amount_product"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+               		<field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
                		<field name="amount_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
 				</field>
 				<notebook>
@@ -334,7 +334,7 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
-				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="replace">
 					<field name="price_total" />
 				</xpath>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
@@ -526,7 +526,7 @@
 				</field>
 				<field position="replace" name="price_subtotal">
 					<field name="price_total" />
-				</field>		
+				</field>
 			</field>
 		</record>
 
