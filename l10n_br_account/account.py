@@ -62,11 +62,12 @@ class account_tax(orm.Model):
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
+            tax['amount'] = round(total_line * tax['percent'], precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+
             if tax.get('tax_discount', False):
                 result['tax_discount'] += tax['amount']
 
-            tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
             if tax['percent']:
                 tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
                 tax['total_base_other'] = round(total_line - tax['total_base'], precision)

@@ -66,6 +66,8 @@ class account_invoice(orm.Model):
                 'amount_insurance': 0.0,
                 'amount_freight': 0.0,
                 'amount_costs': 0.0,
+                'amount_gross': 0.0,
+                'amount_discount': 0.0,
             }
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed'] += line.price_total
@@ -83,6 +85,8 @@ class account_invoice(orm.Model):
                 res[invoice.id]['amount_insurance'] += line.insurance_value
                 res[invoice.id]['amount_freight'] += line.freight_value
                 res[invoice.id]['amount_costs'] += line.other_costs_value
+                res[invoice.id]['amount_gross'] += line.price_gross
+                res[invoice.id]['amount_discount'] += line.discount_value
 
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
@@ -282,6 +286,30 @@ class account_invoice(orm.Model):
             'res.country.state', 'UF da Placa'),
         'vehicle_l10n_br_city_id': fields.many2one('l10n_br_base.city',
             'Municipio', domain="[('state_id', '=', vehicle_state_id)]"),
+        'amount_gross': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Vlr. Bruto',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (
+                    _get_invoice_line, ['price_unit',
+                                        'invoice_line_tax_id',
+                                        'quantity', 'discount'], 20),
+            }, multi='all'),
+        'amount_discount': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'), string='Desconto',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (
+                    _get_invoice_line, ['price_unit',
+                                        'invoice_line_tax_id',
+                                        'quantity', 'discount'], 20),
+            }, multi='all'),                
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -853,10 +881,11 @@ class account_invoice_line(orm.Model):
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
             res[line.id] = {
+                'discount_value': 0.0,
+                'price_gross': 0.0,
                 'price_subtotal': 0.0,
                 'price_total': 0.0,
             }
-
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             taxes = tax_obj.compute_all(
                 cr, uid, line.invoice_line_tax_id, price, line.quantity,
@@ -868,12 +897,16 @@ class account_invoice_line(orm.Model):
 
             if line.invoice_id:
                 currency = line.invoice_id.currency_id
+                price_gross = cur_obj.round(cr, uid, currency,
+                        line.price_unit * line.quantity)
                 res[line.id].update({
                     'price_subtotal': cur_obj.round(
                         cr, uid, currency,
                         taxes['total'] - taxes['total_tax_discount']),
                     'price_total': cur_obj.round(
                         cr, uid, currency, taxes['total']),
+                    'price_gross': price_gross,
+                    'discount_value': (price_gross - taxes['total']),
                 })
 
         return res
@@ -890,6 +923,18 @@ class account_invoice_line(orm.Model):
         'product_type': fields.selection(
             [('product', 'Produto'), ('service', u'Serviço')],
             'Tipo do Produto', required=True),
+        'discount_value': fields.function(
+            _amount_line, method=True, string='Vlr. desconto', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'price_total': fields.function(
+            _amount_line, method=True, string='Total', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
+        'price_gross': fields.function(
+            _amount_line, method=True, string='Vlr. Bruto', type="float",
+            digits_compute=dp.get_precision('Account'),
+            store=True, multi='all'),
         'price_subtotal': fields.function(
             _amount_line, method=True, string='Subtotal', type="float",
             digits_compute=dp.get_precision('Account'),
