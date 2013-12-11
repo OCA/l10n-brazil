@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_l10n_br_delivery_company_form">
+		<field name="name">l10n_br_account.company</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form" />
+			<field name="arch" type="xml">
+				<page position="after" string="NFse">
+					<page string="Entrega">
+						<group string="Configurações das entregas">
+						    <field name="account_freight_id" />
+						    <field name="account_insurance_id"/>
+						    <field name="account_other_costs"/>
+						</group>
+					</page>
+				</page>
+			</field>
+		</record>
+    </data>
+</openerp>
