@@ -17,5 +17,42 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import l10n_br_account_product
-import l10n_br_account
+from openerp.osv import orm, fields
+
+from .l10n_br_account_product import (
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class L10n_brAccountFiscalCategory(orm.Model):
+    _inherit = 'l10n_br_account.fiscal.category'
+    _columns = {
+        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,
+            'Tipo Fiscal', required=True),
+    }
+    _defaults = {
+        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
+    }
+
+
+class L10n_brAccountDocumentSerie(orm.Model):
+    _inherit = 'l10n_br_account.document.serie'
+    _columns = {
+        'fiscal_type': fields.selection(
+            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
+    }
+    _defaults = {
+        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
+    }
+
+
+class L10n_brAccountPartnerFiscalType(orm.Model):
+    _inherit = 'l10n_br_account.partner.fiscal.type'
+    _columns = {
+        'icms': fields.boolean('Recupera ICMS'),
+        'ipi': fields.boolean('RecuperaPRODUCT_FISCAL_TYPE_DEFAULT IPI')
+    }
+    defaults = {
+        'icms': True,
+        'ipi': True
+    }
