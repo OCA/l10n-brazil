@@ -21,40 +21,58 @@ import time
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
+from .res_company import COMPANY_FISCAL_TYPE, COMPANY_FISCAL_TYPE_DEFAULT
 
 FISCAL_RULE_COLUMNS = {
     'partner_fiscal_type_id': fields.many2one(
         'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro'),
-    'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
-                                          'Categoria', requeried=True),
-    'fiscal_type': fields.selection(
-        [('1', 'Simples Nacional'),
-         ('2', 'Simples Nacional – excesso de sublimite de receita bruta'),
-         ('3', 'Regime Normal')], 'Regime Tributário', required=True),
-    'revenue_start': fields.float('Faturamento Inicial',
-                                  digits_compute=dp.get_precision('Account'),
-                                  help="Faixa inicial de faturamento bruto"),
-    'revenue_end': fields.float('Faturamento Final',
-                                digits_compute=dp.get_precision('Account'),
-                                help="Faixa inicial de faturamento bruto")
+    'fiscal_category_id': fields.many2one(
+        'l10n_br_account.fiscal.category', 'Categoria'),
+    'fiscal_type': fields.selection(COMPANY_FISCAL_TYPE,
+        u'Regime Tributário', required=True),
+    'revenue_start': fields.float(
+        'Faturamento Inicial', digits_compute=dp.get_precision('Account'),
+        help="Faixa inicial de faturamento bruto"),
+    'revenue_end': fields.float(
+        'Faturamento Final', digits_compute=dp.get_precision('Account'),
+        help="Faixa inicial de faturamento bruto")
+}
+
+OTHERS_FISCAL_RULE_COLUMNS_TEMPLATE = {
+    'parent_id': fields.many2one(
+            'account.fiscal.position.rule.template', 'Regra Pai'),
+    'child_ids': fields.one2many(
+            'account.fiscal.position.rule.template',
+            'parent_id', 'Regras Filhas'),
+}
+
+OTHERS_FISCAL_RULE_COLUMNS = {
+    'parent_id': fields.many2one(
+            'account.fiscal.position.rule', 'Regra Pai'),
+    'child_ids': fields.one2many(
+            'account.fiscal.position.rule', 'parent_id', 'Regras Filhas'),
 }
 
 FISCAL_RULE_DEFAULTS = {
-    'fiscal_type': '3',
+    'fiscal_type': COMPANY_FISCAL_TYPE_DEFAULT,
     'revenue_start': 0.00,
     'revenue_end': 0.00
 }
 
 
-class account_fiscal_position_rule_template(orm.Model):
+class AccountFiscalPositionRuleTemplate(orm.Model):
     _inherit = 'account.fiscal.position.rule.template'
-    _columns = FISCAL_RULE_COLUMNS
+    _columns = dict(
+        FISCAL_RULE_COLUMNS.items() +
+        OTHERS_FISCAL_RULE_COLUMNS_TEMPLATE.items())
     _defaults = FISCAL_RULE_DEFAULTS
 
 
-class account_fiscal_position_rule(orm.Model):
+class AccountFiscalPositionRule(orm.Model):
     _inherit = 'account.fiscal.position.rule'
-    _columns = FISCAL_RULE_COLUMNS
+    _columns = dict(
+        FISCAL_RULE_COLUMNS.items() +
+        OTHERS_FISCAL_RULE_COLUMNS.items())
     _defaults = FISCAL_RULE_DEFAULTS
 
     def _map_domain(self, cr, uid, partner, addrs, company,
@@ -64,26 +82,30 @@ class account_fiscal_position_rule(orm.Model):
 
         from_country = company.partner_id.country_id.id
         from_state = company.partner_id.state_id.id
+        fiscal_rule_parent_id = company.fiscal_rule_parent_id.id
 
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
         use_domain = context.get('use_domain', ('use_sale', '=', True))
 
-        domain = ['&', ('company_id', '=', company.id), use_domain,
-                ('fiscal_type', '=', company.fiscal_type),
-                ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
-                '|', ('from_country', '=', from_country),
-                ('from_country', '=', False),
-                '|', ('from_state', '=', from_state),
-                ('from_state', '=', False),
-                '|', ('date_start', '=', False),
-                ('date_start', '<=', document_date),
-                '|', ('date_end', '=', False),
-                ('date_end', '>=', document_date),
-                '|', ('revenue_start', '=', False),
-                ('revenue_start', '<=', company.annual_revenue),
-                '|', ('revenue_end', '=', False),
-                ('revenue_end', '>=', company.annual_revenue)
-                ]
+        domain = [
+            '&', ('company_id', '=', company.id), use_domain,
+            ('fiscal_type', '=', company.fiscal_type),
+            ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
+            '|', ('from_country', '=', from_country),
+            ('from_country', '=', False),
+            '|', ('from_state', '=', from_state),
+            ('from_state', '=', False),
+            '|', ('parent_id', '=', fiscal_rule_parent_id),
+            ('parent_id', '=', False),
+            '|', ('date_start', '=', False),
+            ('date_start', '<=', document_date),
+            '|', ('date_end', '=', False),
+            ('date_end', '>=', document_date),
+            '|', ('revenue_start', '=', False),
+            ('revenue_start', '<=', company.annual_revenue),
+            '|', ('revenue_end', '=', False),
+            ('revenue_end', '>=', company.annual_revenue)
+        ]
 
         for address_type, address in addrs.items():
             key_country = 'to_%s_country' % address_type
@@ -98,7 +120,7 @@ class account_fiscal_position_rule(orm.Model):
         return domain
 
     def product_fiscal_category_map(self, cr, uid, product_id=False,
-                                        fiscal_category_id=False):
+                                    fiscal_category_id=False):
         result = False
 
         if not product_id or not fiscal_category_id:
@@ -119,11 +141,11 @@ class account_fiscal_position_rule(orm.Model):
         return result
 
 
-class wizard_account_fiscal_position_rule(orm.TransientModel):
+class WizardAccountFiscalPositionRule(orm.TransientModel):
     _inherit = 'wizard.account.fiscal.position.rule'
 
     def action_create(self, cr, uid, ids, context=None):
-        super(wizard_account_fiscal_position_rule, self).action_create(
+        super(WizardAccountFiscalPositionRule, self).action_create(
             cr, uid, ids, context)
 
         obj_wizard = self.browse(cr, uid, ids[0])
