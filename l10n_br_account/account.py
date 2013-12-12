@@ -20,34 +20,21 @@
 from openerp.osv import orm, fields
 
 
-class account_journal(orm.Model):
+class AccountJournal(orm.Model):
     _inherit = 'account.journal'
     _columns = {
         'revenue_expense': fields.boolean('Gera Financeiro')
     }
 
 
-class account_tax_computation(orm.Model):
-    """ Implement computation method in taxes """
+class AccountTaxComputation(orm.Model):
     _name = 'account.tax.computation'
     _columns = {
         'name': fields.char('Name', size=64)
     }
 
 
-class account_payment_term(orm.Model):
-    _inherit = 'account.payment.term'
-    _columns = {
-        'indPag': fields.selection(
-            [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
-            ('2', 'Outros')], 'Indicador de Pagamento'),
-    }
-    _defaults = {
-        'indPag': '1',
-    }
-
-
-class account_tax(orm.Model):
+class AccountTax(orm.Model):
     _inherit = 'account.tax'
 
     def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
@@ -56,13 +43,14 @@ class account_tax(orm.Model):
 
         for tax in taxes:
             if tax.get('type') == 'weight' and product:
-                product_read = self.pool.get('product.product').read(cr, uid, product, ['weight_net'])
+                product_read = self.pool.get('product.product').read(
+                    cr, uid, product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get('weight_net', 0.0)) * tax['percent'], precision)
 
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
-            if tax.get('tax_discount', False):
+            if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
 
             tax['amount'] = round(total_line * tax['percent'], precision)
@@ -107,9 +95,9 @@ class account_tax(orm.Model):
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
-        result = super(account_tax, self).compute_all(cr, uid, taxes,
+        result = super(AccountTax, self).compute_all(cr, uid, taxes,
             price_unit, quantity, product, partner, force_excluded)
-        totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
+        totaldc = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
@@ -129,52 +117,6 @@ class account_tax(orm.Model):
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
-        # Calcula o IPI
-        specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
-            product, quantity, precision)
-        totaldc += result_ipi['tax_discount']
-        calculed_taxes += result_ipi['taxes']
-        for ipi in result_ipi['taxes']:
-            ipi_value += ipi['amount']
-
-        # Calcula ICMS
-        specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
-        if fiscal_position and fiscal_position.asset_operation:
-            total_base = result['total'] + insurance_value + \
-            freight_value + other_costs_value + ipi_value
-        else:
-            total_base = result['total'] + insurance_value + \
-            freight_value + other_costs_value
-
-        result_icms = self._compute_tax(cr, uid, specific_icms, total_base,
-                                        product, quantity, precision)
-        totaldc += result_icms['tax_discount']
-        calculed_taxes += result_icms['taxes']
-        if result_icms['taxes']:
-            icms_base = result_icms['taxes'][0]['total_base']
-            icms_value = result_icms['taxes'][0]['amount']
-            icms_percent = result_icms['taxes'][0]['percent']
-            icms_percent_reduction = result_icms['taxes'][0]['base_reduction']
-
-        # Calcula ICMS ST
-        specific_icmsst = [tx for tx in result['taxes'] if tx['domain'] == 'icmsst']
-        result_icmsst = self._compute_tax(cr, uid, specific_icmsst, result['total'], product, quantity, precision)
-        totaldc += result_icmsst['tax_discount']
-        if result_icmsst['taxes']:
-            icms_st_percent = result_icmsst['taxes'][0]['percent'] or icms_percent
-            icms_st_percent_reduction = result_icmsst['taxes'][0]['base_reduction'] or icms_percent_reduction
-            icms_st_base = round(((icms_base + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])) * (1 - icms_st_percent_reduction), precision)
-            icms_st_base_other = round(((result['total'] + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision) - icms_st_base
-            result_icmsst['taxes'][0]['total_base'] = icms_st_base
-            result_icmsst['taxes'][0]['amount'] = round((icms_st_base  * icms_st_percent) - icms_value, precision)
-            result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
-            result_icmsst['taxes'][0]['icms_st_percent_reduction'] = icms_st_percent_reduction
-            result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
-
-            if result_icmsst['taxes'][0]['amount_mva']:
-                calculed_taxes += result_icmsst['taxes']
-
         return {
             'total': result['total'],
             'total_included': result['total_included'],
@@ -182,10 +124,8 @@ class account_tax(orm.Model):
             'taxes': calculed_taxes
         }
 
-account_tax()
 
-
-class wizard_multi_charts_accounts(orm.TransientModel):
+class WizardMultiChartsAccounts(orm.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
     def execute(self, cr, uid, ids, context=None):
@@ -204,7 +144,7 @@ class wizard_multi_charts_accounts(orm.TransientModel):
             - 'ids': orm_memory id used to read all data.
             - 'context': Context.
         """
-        result = super(wizard_multi_charts_accounts, self).execute(
+        result = super(WizardMultiChartsAccounts, self).execute(
             cr, uid, ids, context)
 
         obj_multi = self.browse(cr, uid, ids[0])
@@ -230,23 +170,25 @@ class wizard_multi_charts_accounts(orm.TransientModel):
         return result
 
 
-class account_account(orm.Model):
+class AccountAccount(orm.Model):
     _inherit = 'account.account'
 
     def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):
         """Hack to allow re-shaping demo chart of account in demo mode"""
-        cr.execute("select demo from ir_module_module where name='l10n_br_account';")
+        cr.execute("""SELECT demo
+            FROM ir_module_module WHERE name = 'l10n_br_account';""")
         if cr.fetchone()[0]:
             return True
         else:
-            return super(account_account, self)._check_allow_type_change(
+            return super(AccountAccount, self)._check_allow_type_change(
                 cr, uid, ids, context)
 
     def _check_allow_code_change(self, cr, uid, ids, context=None):
         """Hack to allow re-shaping demo chart of account in demo mode"""
-        cr.execute("select demo from ir_module_module where name='l10n_br_account';")
+        cr.execute("""SELECT demo
+            FROM ir_module_module WHERE name = 'l10n_br_account';""")
         if cr.fetchone()[0]:
             return True
         else:
-            return super(account_account, self)._check_allow_code_change(
+            return super(AccountAccount, self)._check_allow_code_change(
                 cr, uid, ids, context)
