@@ -19,5 +19,4 @@
 
 import document
 import efd
-import nfe
-import nfse
+
