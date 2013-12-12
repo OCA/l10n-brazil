@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
+# Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -20,37 +20,19 @@
 from openerp.osv import orm, fields
 
 FISCAL_POSITION_COLUMNS = {
-    'name': fields.char('Fiscal Position', size=128, required=True),
-    'fiscal_category_id': fields.many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
-    'fiscal_category_fiscal_type': fields.related(
-        'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
-        relation='l10n_br_account.fiscal.category', store=True,
-        string='Fiscal Type'),
+    'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
+        'Categoria Fiscal'),
     'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
-                             'Tipo'),
-    'type_tax_use': fields.selection(
-        [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
-        'Tax Application'),
-    'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
-    'asset_operation': fields.boolean('Operação de Aquisição de Ativo',
-        help="""Caso seja marcada essa opção, será incluido o IPI na base de
-            calculo do ICMS."""),
-    'state': fields.selection([('draft', u'Rascunho'),
-            ('review', u'Revisão'), ('approved', u'Aprovada'),
-            ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
-            track_visibility='onchange', select=True),
-}
-
-FISCAL_POSITION_DEFAULTS = {
-    'state': 'draft',
-}
+        'Tipo'),
+    'type_tax_use': fields.selection([('sale', 'Sale'),
+                                      ('purchase', 'Purchase'),
+                                      ('all', 'All')], 'Tax Application'),
+    'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal')}
 
 
 class AccountFiscalPositionTemplate(orm.Model):
     _inherit = 'account.fiscal.position.template'
     _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purhcase', 'output': 'sale'}
@@ -102,17 +84,14 @@ class AccountFiscalPositionTemplate(orm.Model):
         fp_ids = self.search(cr, uid,
             [('chart_template_id', '=', chart_temp_id)])
         for position in self.browse(cr, uid, fp_ids, context=context):
-            new_fp = obj_fiscal_position.create(cr, uid,
-                {'company_id': company_id,
-                    'name': position.name,
-                    'note': position.note,
-                    'type': position.type,
-                    'state': position.state,
-                    'type_tax_use': position.type_tax_use,
-                    'cfop_id': position.cfop_id and position.cfop_id.id or False,
-                    'inv_copy_note': position.inv_copy_note,
-                    'asset_operation': position.asset_operation,
-                    'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
+            new_fp = obj_fiscal_position.create(
+                cr, uid, {'company_id': company_id,
+                          'name': position.name,
+                          'note': position.note,
+                          'type': position.type,
+                          'type_tax_use': position.type_tax_use,
+                          'inv_copy_note': position.inv_copy_note,
+                          'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
             for tax in position.tax_ids:
                 obj_tax_fp.create(cr, uid, {
                     'tax_src_id': tax.tax_src_id and tax_template_ref.get(tax.tax_src_id.id, False),
@@ -174,7 +153,6 @@ class AccountFiscalPositionTaxTemplate(orm.Model):
 class AccountFiscalPosition(orm.Model):
     _inherit = 'account.fiscal.position'
     _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purchase', 'output': 'sale'}
@@ -190,7 +168,6 @@ class AccountFiscalPosition(orm.Model):
         return {'value':
             {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
-    #TODO - Refatorar para trocar os impostos
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
 
@@ -299,12 +276,12 @@ class AccountFiscalPositionTax(orm.Model):
     _inherit = 'account.fiscal.position.tax'
     _columns = {
         'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
-        'tax_code_src_id': fields.many2one(
-            'account.tax.code', u'Código Taxa Origem'),
-        'tax_src_domain': fields.related(
-            'tax_src_id', 'domain', type='char'),
-        'tax_code_dest_id': fields.many2one(
-            'account.tax.code', 'Replacement Tax Code')
+        'tax_code_src_id': fields.many2one('account.tax.code',
+                                            u'Código Taxa Origem'),
+        'tax_src_domain': fields.related('tax_src_id', 'domain',
+                                         type='char'),
+        'tax_code_dest_id': fields.many2one('account.tax.code',
+                                            'Replacement Tax Code')
     }
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
@@ -333,12 +310,3 @@ class AccountFiscalPositionTax(orm.Model):
 
         return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
                                 context=context)
-
-
-class ResPartner(orm.Model):
-    _inherit = 'res.partner'
-    _columns = {
-        'partner_fiscal_type_id': fields.many2one(
-            'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
-            domain="[('is_company', '=', is_company)]")
-    }
