@@ -19,8 +19,13 @@
 
 from openerp.osv import orm, fields
 
+FC_SQL_CONSTRAINTS = [
+        ('account_fiscal_classfication_code_uniq', 'unique (name)',
+         u'Já existe um classificação fiscal com esse código!')
+    ]
 
-class account_product_fiscal_classification_template(orm.Model):
+
+class AccountProductFiscalClassificationTemplate(orm.Model):
     _inherit = 'account.product.fiscal.classification.template'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -72,9 +77,10 @@ class account_product_fiscal_classification_template(orm.Model):
     }
     _defaults = {
         'type': 'normal'}
+    _sql_constraints = FC_SQL_CONSTRAINTS
 
 
-class l10n_br_tax_definition_sale_template(orm.Model):
+class L10n_brTaxDefinitionSaleTemplate(orm.Model):
     _name = 'l10n_br_tax.definition.sale.template'
     _inherit = 'l10n_br_tax.definition.template'
     _columns = {
@@ -89,7 +95,7 @@ class l10n_br_tax_definition_sale_template(orm.Model):
     ]
 
 
-class l10n_br_tax_definition_purchase_template(orm.Model):
+class L10n_brTaxDefinitionPurchaseTemplate(orm.Model):
     _name = 'l10n_br_tax.definition.purchase.template'
     _inherit = 'l10n_br_tax.definition.template'
     _columns = {
@@ -104,7 +110,7 @@ class l10n_br_tax_definition_purchase_template(orm.Model):
     ]
 
 
-class account_product_fiscal_classification(orm.Model):
+class AccountProductFiscalClassification(orm.Model):
     _inherit = 'account.product.fiscal.classification'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
@@ -155,9 +161,44 @@ class account_product_fiscal_classification(orm.Model):
     }
     _defaults = {
         'type': 'normal'}
+    _sql_constraints = FC_SQL_CONSTRAINTS
+
+    def button_update_products(self, cr, uid, ids, context=None):
+
+        result = True
+        if not context:
+            context = {}
+
+        obj_product = self.pool.get('product.template')
+
+        for fiscal_classification in self.browse(cr, uid, ids):
+            product_ids = obj_product.search(
+                cr, uid, [('ncm_id', '=', fiscal_classification.id)],
+                context=context)
+
+            current_company_id = self.pool.get('res.users').browse(
+                cr, uid, uid).company_id.id
+
+            for product in obj_product.browse(cr, uid, product_ids, context):
+                to_keep_sale_tax_ids = self.pool.get('account.tax').search(
+                    cr, uid, [('id', 'in', [x.id for x in product.taxes_id]),
+                              ('company_id', '!=', current_company_id)])
+
+                to_keep_purchase_tax_ids = self.pool.get('account.tax').search(
+                    cr, uid, [('id', 'in', [x.id for x in product.supplier_taxes_id]),
+                    ('company_id', '!=', current_company_id)])
+
+                vals = {
+                        'taxes_id': [(6, 0, list(set(to_keep_sale_tax_ids + [x.id for x in fiscal_classification.sale_base_tax_ids])))],
+                        'supplier_taxes_id': [(6, 0, list(set(to_keep_purchase_tax_ids + [x.id for x in fiscal_classification.purchase_base_tax_ids])))],
+                }
+
+                obj_product.write(cr, uid, product.id, vals, context)
+
+        return result
 
 
-class l10n_br_tax_definition_sale(orm.Model):
+class L10n_brTaxDefinitionSale(orm.Model):
     _name = 'l10n_br_tax.definition.sale'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
@@ -172,7 +213,7 @@ class l10n_br_tax_definition_sale(orm.Model):
     ]
 
 
-class l10n_br_tax_definition_purchase(orm.Model):
+class L10n_brTaxDefinitionPurchase(orm.Model):
     _name = 'l10n_br_tax.definition.purchase'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
@@ -186,7 +227,7 @@ class l10n_br_tax_definition_purchase(orm.Model):
         u'Imposto já existente nesta classificação fiscal!')]
 
 
-class wizard_account_product_fiscal_classification(orm.TransientModel):
+class WizardAccountProductFiscalClassification(orm.TransientModel):
     _inherit = 'wizard.account.product.fiscal.classification'
     _columns = {
         'company_id': fields.many2one('res.company', 'Company')
