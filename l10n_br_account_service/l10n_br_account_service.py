@@ -17,8 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import l10n_br_account_service
-import l10n_br_account
-import product
-import res_company
-import sped
+from openerp.osv import orm, fields
+
+PRODUCT_FISCAL_TYPE = [
+    ('service', u'Serviço')
+]
+
+PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]

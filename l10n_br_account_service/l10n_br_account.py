@@ -17,8 +17,19 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import l10n_br_account_service
-import l10n_br_account
-import product
-import res_company
-import sped
+from openerp.osv import orm, fields
+
+from .l10n_br_account_service import (
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class L10n_brAccountFiscalCategory(orm.Model):
+    _inherit = 'l10n_br_account.fiscal.category'
+    _columns = {
+        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,
+            'Tipo Fiscal', required=True),
+    }
+    _defaults = {
+        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
+    }
