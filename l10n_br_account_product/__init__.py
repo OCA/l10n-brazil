@@ -17,5 +17,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+import account
+import res_partner
+import res_company
+import account_product_fiscal_classification
 import l10n_br_account_product
 import l10n_br_account
+import product
+import account_invoice
+import sped
+import wizard
