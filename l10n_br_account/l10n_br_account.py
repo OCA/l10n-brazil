@@ -189,7 +189,7 @@ class L10n_brAccountDocumentSerie(orm.Model):
         return result
 
 
-class l10n_br_account_invoice_invalid_number(orm.Model):
+class L10n_brAccountInvoiceInvalidNumber(orm.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
@@ -305,7 +305,7 @@ class L10n_brAccountPartnerFiscalType(orm.Model):
     }
 
 
-class l10n_br_account_cnae(orm.Model):
+class L10n_brAccountCNAE(orm.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
     _columns = {
