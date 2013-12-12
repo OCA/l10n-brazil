@@ -138,7 +138,7 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
         mod_obj = self.pool.get('ir.model.data')
         model_data_ids = mod_obj.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
-            ('name', '=', 'l10n_br_account_nfe_export_invoice_form')],
+            ('name', '=', 'l10n_br_account_product_nfe_export_invoice_form')],
             context=context)
         resource_id = mod_obj.read(
             cr, uid, model_data_ids,
