@@ -273,7 +273,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                            'XBairro': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_shipping_id.district or 'Sem Bairro' )).encode('ASCII','ignore')),
                            'CMun': ('%s%s') % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code),
                            'XMun': normalize('NFKD',unicode(inv.partner_shipping_id.l10n_br_city_id.name or '')).encode('ASCII','ignore'),
-                           'UF': inv.address_invoice_id.state_id.code,
+                           'UF': inv.partner_shipping_id.state_id.code,
                          }
 
                 StrG = 'G|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegG['XLgr'],StrRegG['Nro'],StrRegG['XCpl'],StrRegG['XBairro'],StrRegG['CMun'],StrRegG['XMun'],StrRegG['UF'])
