@@ -20,16 +20,16 @@
 from openerp.osv import orm, fields
 
 
-class l10n_br_account_nfe_export(orm.TransientModel):
+class L10n_brAccountNfeExport(orm.TransientModel):
     """ Exportar Nota Fiscal Eletrônica """
-    _name = 'l10n_br_account.nfe_export'
-    _inherit = 'l10n_br_account.nfe_export_invoice'
+    _name = 'l10n_br_account_product.nfe_export'
+    _inherit = 'l10n_br_account_product.nfe_export_invoice'
     _columns = {
         'company_id': fields.many2one('res.company', 'Company'),
         'import_status_draft': fields.boolean("Importar NFs com status "
                                               "em rascunho"),
         'nfe_export_result': fields.one2many(
-            'l10n_br_account.nfe_export_result', 'wizard_id',
+            'l10n_br_account_product.nfe_export_result', 'wizard_id',
             'NFe Export Result'),
     }
     _defaults = {
@@ -50,11 +50,11 @@ class l10n_br_account_nfe_export(orm.TransientModel):
              ('issuer', '=', '0')])
 
 
-class l10n_br_account_nfe_export_result(orm.TransientModel):
-    _name = 'l10n_br_account.nfe_export_result'
-    _inherit = 'l10n_br_account.nfe_export_invoice_result'
+class L10n_brAccountNfeExportResult(orm.TransientModel):
+    _name = 'l10n_br_account_product.nfe_export_result'
+    _inherit = 'l10n_br_account_product.nfe_export_invoice_result'
     _columns = {
         'wizard_id': fields.many2one(
-            'l10n_br_account.nfe_export', 'Wizard ID',
+            'l10n_br_account_product.nfe_export', 'Wizard ID',
             ondelete='cascade', select=True),
     }
