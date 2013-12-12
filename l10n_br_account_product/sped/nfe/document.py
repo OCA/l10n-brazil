@@ -24,7 +24,7 @@ from datetime import datetime
 from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
-from ..document import FiscalDocument
+from openerp.addons.l10n_br_account.sped.document import FiscalDocument
 
 
 class NFe200(FiscalDocument):
