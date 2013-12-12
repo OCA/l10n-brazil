@@ -852,26 +852,28 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                      'RNTC': '',
                      }
 
-        try:
-            StrRegX18['Placa'] = inv.vehicle_plate or ''
-            StrRegX18['UF'] = inv.vehicle_state_id.code or ''
-            if inv.vehicle_id:
-                StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
-        except AttributeError:
-            pass
+        if inv.vehicle_plate:
+            try:
+                StrRegX18['Placa'] = inv.vehicle_plate or ''
+                StrRegX18['UF'] = inv.vehicle_state_id.code or ''
+                if inv.vehicle_id:
+                    StrRegX18['RNTC'] = inv.vehicle_id.rntc_code or ''
+            except AttributeError:
+                pass
 
-        StrX18 = 'X18|%s|%s|%s|\n' % (StrRegX18['Placa'], StrRegX18['UF'], StrRegX18['RNTC'])
 
-        StrFile += StrX18
+            StrX18 = 'X18|%s|%s|%s|\n' % (StrRegX18['Placa'], StrRegX18['UF'], StrRegX18['RNTC'])
 
-        StrRegX26 = {
-                     'QVol': '',
-                     'Esp': '',
-                     'Marca': '',
-                     'NVol': '',
-                     'PesoL': '',
-                     'PesoB': '',
-                     }
+            StrFile += StrX18
+
+            StrRegX26 = {
+                         'QVol': '',
+                         'Esp': '',
+                         'Marca': '',
+                         'NVol': '',
+                         'PesoL': '',
+                         'PesoB': '',
+                         }
 
         if inv.number_of_packages:
             StrRegX26['QVol'] = inv.number_of_packages
@@ -881,9 +883,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrRegX26['PesoL'] = str("%.3f" % inv.weight_net)
             StrRegX26['PesoB'] = str("%.3f" % inv.weight)
 
-        StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
+            StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
 
-        StrFile += StrX26
+            StrFile += StrX26
 
         if inv.journal_id.revenue_expense:
 
@@ -911,13 +913,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         StrFile += StrZ
 
-        StrRegZA = {
-                    'UFEmbarq': UFEmbarq,
-                    'XLocEmbarq': XLocEmbarq,
-                    }
-
-        StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
-        StrFile += StrZA
+        if UFEmbarq!='' or XLocEmbarq!='':
+            StrRegZA = {
+                        'UFEmbarq': UFEmbarq,
+                        'XLocEmbarq': XLocEmbarq,
+                        }
+            StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
+            StrFile += StrZA
 
         documents = inv.internal_number
 
