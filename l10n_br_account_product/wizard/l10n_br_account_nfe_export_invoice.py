@@ -24,9 +24,9 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class l10n_br_account_nfe_export_invoice(orm.TransientModel):
+class L10n_brAccountNfeExportInvoice(orm.TransientModel):
     """ Export fiscal eletronic file from invoice"""
-    _name = 'l10n_br_account.nfe_export_invoice'
+    _name = 'l10n_br_account_product.nfe_export_invoice'
     _description = 'Export eletronic invoice for Emissor de NFe SEFAZ SP'
     _columns = {
         'name': fields.char('Nome', size=255),
@@ -39,7 +39,7 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
             [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
         'sign_xml': fields.boolean('Assinar XML'),
         'nfe_export_result': fields.one2many(
-            'l10n_br_account.nfe_export_invoice_result', 'wizard_id',
+            'l10n_br_account_product.nfe_export_invoice_result', 'wizard_id',
             'NFe Export Result'),
         'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
     }
@@ -106,8 +106,8 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
 
             mod_serializer = __import__(
-                'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
-                 globals(), locals(), data['file_type'])
+                'l10n_br_account_product.sped.nfe.serializer.' +
+                data['file_type'], globals(), locals(), data['file_type'])
 
             func = getattr(mod_serializer, 'nfe_export')
             nfes = func(
@@ -155,11 +155,11 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
         }
 
 
-class l10n_br_account_nfe_export_invoice_result(orm.TransientModel):
-    _name = 'l10n_br_account.nfe_export_invoice_result'
+class L10n_brAccountNfeExportInvoiceResult(orm.TransientModel):
+    _name = 'l10n_br_account_product.nfe_export_invoice_result'
     _columns = {
         'wizard_id': fields.many2one(
-            'l10n_br_account.nfe_export_invoice', 'Wizard ID',
+            'l10n_br_account_product.nfe_export_invoice', 'Wizard ID',
             ondelete='cascade', select=True),
         'document': fields.char('Documento', size=255),
         'status': fields.selection(
