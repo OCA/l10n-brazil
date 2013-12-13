@@ -21,12 +21,12 @@
 from openerp.osv import orm
 
 
-class stock_picking(orm.Model):
+class StockPicking(orm.Model):
     _inherit = 'stock.picking'
 
     def _prepare_invoice(self, cr, uid, picking, partner,
                         inv_type, journal_id, context=None):
-        result = super(stock_picking, self)._prepare_invoice(
+        result = super(StockPicking, self)._prepare_invoice(
             cr, uid, picking, partner, inv_type, journal_id, context)
 
         fp_comment = []
@@ -49,8 +49,8 @@ class stock_picking(orm.Model):
                         fp_comment.append(line.fiscal_position.note)
                         fp_ids.append(line.fiscal_position.id)
 
-            if move.product_id.property_fiscal_classification:
-                fc = move.product_id.property_fiscal_classification
+            if move.product_id.ncm_id:
+                fc = move.product_id.ncm_id
                 if fc.inv_copy_note and fc.note:
                     if not fc.id in fc_ids:
                         fc_comment.append(fc.note)
@@ -65,7 +65,7 @@ class stock_picking(orm.Model):
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
-        result = super(stock_picking, self)._prepare_invoice_line(
+        result = super(StockPicking, self)._prepare_invoice_line(
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
         if move_line.sale_line_id:
