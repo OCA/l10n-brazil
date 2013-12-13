@@ -23,7 +23,7 @@ from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 
-class purchase_order(orm.Model):
+class PurchaseOrder(orm.Model):
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -59,7 +59,7 @@ class purchase_order(orm.Model):
         for line in self.pool.get('purchase.order.line').browse(
             cr, uid, ids, context=context):
             result[line.order_id.id] = True
-        return result.keys()
+        return list(result.keys())
 
     def _default_fiscal_category(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
@@ -69,8 +69,8 @@ class purchase_order(orm.Model):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="[('type', '=', 'input'), \
-            ('journal_type', '=', 'purchase')]"),
+            domain="""[('type', '=', 'input'), ('state', '=', 'approved')
+                ('journal_type', '=', 'purchase')]"""),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Purchase Price'),
@@ -94,23 +94,23 @@ class purchase_order(orm.Model):
     def onchange_partner_id(self, cr, uid, ids, partner_id=False,
                             company_id=False, context=None,
                             fiscal_category_id=False, **kwargs):
-        return super(purchase_order, self).onchange_partner_id(
+        return super(PurchaseOrder, self).onchange_partner_id(
             cr, uid, ids, partner_id, company_id, context=None,
-            fiscal_category_id=fiscal_category_id)
+            fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_dest_address_id(self, cr, uid, ids, partner_id,
                                  dest_address_id, company_id, context,
                                  fiscal_category_id, **kwargs):
-        return super(purchase_order, self).onchange_dest_address_id(
+        return super(PurchaseOrder, self).onchange_dest_address_id(
             cr, uid, ids, partner_id, dest_address_id, company_id, context,
-            fiscal_category_id=fiscal_category_id)
+            fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_company_id(self, cr, uid, ids, partner_id,
-                                 dest_address_id, company_id, context,
-                                 fiscal_category_id, **kwargs):
-        return super(purchase_order, self).onchange_company_id(
+                                 dest_address_id, company_id, context=None,
+                                 fiscal_category_id=False, **kwargs):
+        return super(PurchaseOrder, self).onchange_company_id(
             cr, uid, ids, partner_id, dest_address_id, company_id, context,
-            fiscal_category_id=fiscal_category_id)
+            fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id=False,
                                     dest_address_id=False, company_id=False,
@@ -130,13 +130,13 @@ class purchase_order(orm.Model):
             'partner_invoice_id': partner_id,
             'fiscal_category_id': fiscal_category_id,
             'partner_shipping_id': dest_address_id,
-            'context': context
+            'context': context,
         })
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
 
-        result = super(purchase_order, self)._prepare_inv_line(
+        result = super(PurchaseOrder, self)._prepare_inv_line(
             cr, uid, account_id, order_line, context)
 
         order = order_line.order_id
@@ -161,7 +161,7 @@ class purchase_order(orm.Model):
 
     # TODO ask OpenERP SA for a _prepare_invoice method!
     def action_invoice_create(self, cr, uid, ids, *args):
-        inv_id = super(purchase_order, self).action_invoice_create(cr, uid,
+        inv_id = super(PurchaseOrder, self).action_invoice_create(cr, uid,
                                                                    ids, *args)
         for order in self.browse(cr, uid, ids):
             # REMARK: super method is ugly as it assumes only one invoice
@@ -204,7 +204,7 @@ class purchase_order(orm.Model):
     def action_picking_create(self, cr, uid, ids, *args):
         picking_id = False
         for order in self.browse(cr, uid, ids):
-            picking_id = super(purchase_order, self).action_picking_create(
+            picking_id = super(PurchaseOrder, self).action_picking_create(
                 cr, uid, ids, *args)
             self.pool.get('stock.picking').write(
                 cr, uid, picking_id,
@@ -213,7 +213,7 @@ class purchase_order(orm.Model):
         return picking_id
 
 
-class purchase_order_line(orm.Model):
+class PurchaseOrderLine(orm.Model):
     _inherit = 'purchase.order.line'
     _columns = {
         'fiscal_category_id': fields.many2one(
@@ -257,7 +257,7 @@ class purchase_order_line(orm.Model):
         if context is None:
             context = {}
 
-        result = super(purchase_order_line, self).product_id_change(
+        result = super(PurchaseOrderLine, self).product_id_change(
             cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
             context)
@@ -285,11 +285,11 @@ class purchase_order_line(orm.Model):
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
-                                        dest_address_id=False,
-                                        product_id=False,
-                                        fiscal_category_id=False,
-                                        company_id=False, context=None,
-                                        **kwargs):
+                                    dest_address_id=False,
+                                    product_id=False,
+                                    fiscal_category_id=False,
+                                    company_id=False, context=None,
+                                    **kwargs):
         result = {'value': {}}
         if not company_id or not partner_id:
             return result
