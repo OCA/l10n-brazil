@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    	<data>
+	<data>
 
 		<record id="l10n_br_delivery_stock_picking_out_form" model="ir.ui.view">
 			<field name="name">l10n_br_delivery.stock.picking.out.form</field>
-	   		<field name="model">stock.picking.out</field>
-	   		<field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
-	   		<field name="priority">32</field>
-		   	<field name="arch" type="xml">
-		        	    <field name="carrier_id" position="after">
-		        		<field name="incoterm" widget="selection" />
-		        		<field name="vehicle_id" domain="[('carrier_id', '=', carrier_id),('active', '=', True)]" />
-		        	    </field>
-		        </field>
+			<field name="model">stock.picking.out</field>
+			<field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+			<field name="priority">32</field>
+			<field name="arch" type="xml">
+				<field name="carrier_id" position="after">
+					<field name="incoterm" widget="selection" />
+					<field name="vehicle_id" domain="[('carrier_id', '=', carrier_id),('active', '=', True)]" />
+				</field>
+			</field>
 		</record>
 
-        </data>
-
+	</data>
 </openerp>
