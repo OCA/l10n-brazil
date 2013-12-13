@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class res_country(orm.Model):
+class ResCountry(orm.Model):
     _inherit = 'res.country'
     _columns = {
         'bc_code': fields.char('Codigo BC', size=5),
@@ -29,7 +29,7 @@ class res_country(orm.Model):
     }
 
 
-class res_country_state(orm.Model):
+class ResCountryState(orm.Model):
     _inherit = 'res.country.state'
     _columns = {
         'ibge_code': fields.char('Cód. IBGE', size=2)
