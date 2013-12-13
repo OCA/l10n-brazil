@@ -20,4 +20,5 @@
 
 import sale_stock
 import stock
+import sale
 import report
