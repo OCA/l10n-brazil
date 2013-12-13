@@ -32,9 +32,12 @@
         'l10n_br_stock',
     ],
     'data': [
+        'l10n_br_sale_stock_data.xml',
         'sale_stock_view.xml',
     ],
-    'demo': [],
+    'demo': [
+        'l10n_br_sale_stock_demo.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }
