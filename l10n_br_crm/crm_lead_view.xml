@@ -2,8 +2,8 @@
 <openerp>
 	<data>
 
-	   	<!-- CRM Lead Form View  -->
-	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads1">
+		<!-- CRM Lead Form View  -->
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads1">
 			<field name="name">l10n_br_crm.leads1</field>
 			<field name="model">crm.lead</field>
 			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
@@ -16,7 +16,7 @@
 					<field name="l10n_br_city_id" placeholder="municipio"/>
 				</field>
 				<field name="street2" position="replace">
-				    <field name="district" placeholder="bairro"/>
+					<field name="district" placeholder="bairro"/>
 					<field name="number" placeholder="numero"/>
 					<field name="street2" placeholder="complemento"/>
 				</field>
@@ -27,7 +27,7 @@
 				</field>
 				<field name="type" position="after">
 					<field name="inscr_mun" />
-                                        <field name="suframa" />
+					<field name="suframa" />
 				</field>
 				<field name="zip" position="attributes">
 					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
