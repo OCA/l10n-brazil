@@ -20,7 +20,7 @@
 from openerp.osv import orm
 
 
-class res_partner(orm.Model):
+class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
     def zip_search(self, cr, uid, ids, context=None):
