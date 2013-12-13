@@ -18,10 +18,11 @@
 ###############################################################################
 
 import re
+
 from openerp.osv import orm, fields
 
 
-class l10n_br_zip(orm.Model):
+class L10n_brZip(orm.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
