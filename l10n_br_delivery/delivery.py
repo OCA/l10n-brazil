@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class delivery_carrier(orm.Model):
+class DeliveryCarrier(orm.Model):
     _inherit = 'delivery.carrier'
     _columns = {
         'antt_code': fields.char('Codigo ANTT', size=32),
