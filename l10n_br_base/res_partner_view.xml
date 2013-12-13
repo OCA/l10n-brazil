@@ -3,7 +3,7 @@
 	<data>
 
 		<!-- Parceiro -->
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_filter">
+		<record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_res_partner_filter" />
@@ -14,7 +14,7 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_tree">
+		<record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
 			<field name="name">l10n_br_base.partner.tree</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_tree" />
@@ -26,26 +26,25 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_form">
+		<record id="view_l10n_br_base_partner_form" model="ir.ui.view">
 			<field name="name">l10n_br_base.partner.form</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<field name="is_company" position="replace">
-					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)"
-						class="oe_inline" />
+					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" class="oe_inline" />
 				</field>
 				<field name="parent_id" position="before">
 					<group colspan="4">
-                                           <div class="oe_edit_only">
-                                                <label for="legal_name" string="Nome e Sobrenome" attrs="{'invisible': [('is_company','=', True)]}"/>
-                                                <label for="legal_name" string="Razão Social" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                                           </div>
-						<field colspan="4" name="legal_name" nolabel="1"/>
-                                            <div class="oe_edit_only">
-                                                <label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
-                                                <label for="cnpj_cpf" string="CNPJ" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                                            </div>
+						<div class="oe_edit_only">
+							<label for="legal_name" string="Nome e Sobrenome" attrs="{'invisible': [('is_company','=', True)]}"/>
+							<label for="legal_name" string="Razão Social" attrs="{'invisible': [('is_company','!=', True)]}"/>
+						</div>
+							<field colspan="4" name="legal_name" nolabel="1"/>
+						<div class="oe_edit_only">
+							<label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
+							<label for="cnpj_cpf" string="CNPJ" attrs="{'invisible': [('is_company','!=', True)]}"/>
+						</div>
 						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" nolabel="1" />
 					</group>
 				</field>
@@ -58,11 +57,10 @@
 					<field name="street2" placeholder="complemento" />
 				</field>
 				<field name="state_id" position="attributes">
-				    <attribute name="domain">[('country_id','=',country_id)]</attribute>
+					<attribute name="domain">[('country_id','=',country_id)]</attribute>
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="cidade"
-						on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
+					<field name="l10n_br_city_id" placeholder="cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1" />
@@ -75,11 +73,11 @@
 					<page position="inside" string="Outros Dados">
 						<group string="Dados Fiscais">
 							<group>
-                                                        	<div>
-                                                           		<label for="inscr_est" string="Inscr. Estadual" attrs="{'invisible': [('is_company','!=', True)]}" />
-                                                           		<label for="inscr_est" string="RG" attrs="{'invisible': [('is_company','=', True)]}" />
+								<div>
+									<label for="inscr_est" string="Inscr. Estadual" attrs="{'invisible': [('is_company','!=', True)]}" />
+									<label for="inscr_est" string="RG" attrs="{'invisible': [('is_company','=', True)]}" />
 								</div>
-                                                        	<field name="inscr_est" nolabel="1"/>
+								<field name="inscr_est" nolabel="1"/>
 								<field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
 							</group>
 							<group>
@@ -92,7 +90,7 @@
 		</record>
 
 		<!-- res.partner.bank -->
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_form">
+		<record id="view_l10n_br_base_partner_bank_form" model="ir.ui.view">
 			<field name="name">view_l10n_br_base.partner.bank.form</field>
 			<field name="model">res.partner.bank</field>
 			<field name="inherit_id" ref="base.view_partner_bank_form" />
@@ -107,7 +105,7 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_l10n_br_base_partner_bank_tree">
+		<record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
 			<field name="name">view_l10n_br_base.partner.bank.tree</field>
 			<field name="model">res.partner.bank</field>
 			<field name="inherit_id" ref="base.view_partner_bank_tree" />
