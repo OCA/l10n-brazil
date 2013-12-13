@@ -22,7 +22,7 @@ from osv import fields, orm
 from l10n_br_base.tools import fiscal
 
 
-class crm_lead(orm.Model):
+class CrmLead(orm.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
     _columns = {
@@ -118,7 +118,7 @@ class crm_lead(orm.Model):
         return result
 
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
-        result = super(crm_lead, self).on_change_partner(
+        result = super(CrmLead, self).on_change_partner(
             cr, uid, ids, partner_id, context)
 
         if partner_id:
@@ -136,7 +136,7 @@ class crm_lead(orm.Model):
 
     def _lead_create_contact(self, cr, uid, lead, name, is_company,
                             parent_id=False, context=None):
-        result = super(crm_lead, self)._lead_create_contact(
+        result = super(CrmLead, self)._lead_create_contact(
             cr, uid, lead, name, is_company, parent_id, context)
 
         value = {
