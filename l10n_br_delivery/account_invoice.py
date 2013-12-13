@@ -21,14 +21,14 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class account_invoice(orm.Model):
+class AccountInvoice(orm.Model):
     _inherit = 'account.invoice'
     _columns = {
         'carrier_id': fields.many2one(
             'delivery.carrier', 'Transportadora', readonly=True,
             states={'draft': [('readonly', False)]}),
         'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', 'Veículo', readonly=True,
+            'l10n_br_delivery.carrier.vehicle', u'Veículo', readonly=True,
             states={'draft': [('readonly', False)]}),
         'incoterm': fields.many2one(
             'stock.incoterms', 'Tipo do Frete', readonly=True,
@@ -39,8 +39,8 @@ class account_invoice(orm.Model):
     }
 
     def nfe_check(self, cr, uid, ids, context=None):
-        result = super(account_invoice, self).nfe_check(cr, uid, ids, context)
-        strErro = ''
+        result = super(AccountInvoice, self).nfe_check(cr, uid, ids, context)
+        strErro = u''
 
         for inv in self.browse(cr, uid, ids, context=context):
             # Carrier

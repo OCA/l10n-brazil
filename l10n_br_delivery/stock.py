@@ -20,11 +20,11 @@
 from openerp.osv import orm, fields
 
 
-class stock_picking(orm.Model):
+class StockPicking(orm.Model):
     _inherit = 'stock.picking'
     _columns = {
         'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+            'l10n_br_delivery.carrier.vehicle', u'Veículo'),
         'incoterm': fields.many2one(
             'stock.incoterms', 'Tipo do Frete',
         help="Incoterm which stands for 'International Commercial terms"
@@ -43,15 +43,15 @@ class stock_picking(orm.Model):
                 'weight_net': picking.weight_net,
                 'number_of_packages': picking.number_of_packages})
 
-        return super(stock_picking, self)._invoice_hook(
+        return super(StockPicking, self)._invoice_hook(
             cr, uid, picking, invoice_id)
 
 
-class stock_picking_in(orm.Model):
+class StockPickingIn(orm.Model):
     _inherit = 'stock.picking.in'
     _columns = {
         'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+            'l10n_br_delivery.carrier.vehicle', u'Veículo'),
         'incoterm': fields.many2one(
             'stock.incoterms', 'Tipo do Frete',
         help="Incoterm which stands for 'International Commercial terms"
@@ -59,11 +59,11 @@ class stock_picking_in(orm.Model):
         "commercial transaction.")}
 
 
-class stock_picking_out(orm.Model):
+class StockPickingOut(orm.Model):
     _inherit = 'stock.picking.out'
     _columns = {
         'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', 'Veículo'),
+            'l10n_br_delivery.carrier.vehicle', u'Veículo'),
         'incoterm': fields.many2one(
             'stock.incoterms', 'Tipo do Frete',
         help="Incoterm which stands for 'International Commercial terms"

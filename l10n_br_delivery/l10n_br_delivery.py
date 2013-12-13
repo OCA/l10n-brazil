@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class l10n_br_delivery_carrier_vehicle(orm.Model):
+class L10n_brDeliveryCarrierVehicle(orm.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
     _description = 'Veiculos das transportadoras'
     _columns = {
@@ -45,7 +45,7 @@ class l10n_br_delivery_carrier_vehicle(orm.Model):
     }
 
 
-class l10n_br_delivery_shipment(orm.Model):
+class L10n_brDeliveryShipment(orm.Model):
     _name = 'l10n_br_delivery.shipment'
     _columns = {
         'code': fields.char('Nome', size=32),
@@ -61,8 +61,8 @@ class l10n_br_delivery_shipment(orm.Model):
     }
 
     def _cal_weight(self, cr, uid, ids, name, args, context=None):
-        res = {}
-        #uom_obj = self.pool.get('product.uom')
+        result = {}
+
         for picking in self.browse(cr, uid, ids, context):
             total_weight = total_weight_net = 0.00
 
@@ -70,15 +70,16 @@ class l10n_br_delivery_shipment(orm.Model):
                 total_weight += move.weight
                 total_weight_net += move.weight_net
 
-            res[picking.id] = {
-                                'weight': total_weight,
-                                'weight_net': total_weight_net,
-                              }
-        return res
+            result[picking.id] = {
+                'weight': total_weight,
+                'weight_net': total_weight_net,
+            }
+
+        return result
 
     def _get_picking_line(self, cr, uid, ids, context=None):
             result = {}
             for line in self.pool.get('stock.move').browse(
                 cr, uid, ids, context=context):
                 result[line.picking_id.id] = True
-            return result.keys()
+            return list(result.keys())
