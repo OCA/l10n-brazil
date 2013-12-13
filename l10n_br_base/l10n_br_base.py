@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class l10n_br_base_city(orm.Model):
+class L10n_brBaseCity(orm.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos da transação.
