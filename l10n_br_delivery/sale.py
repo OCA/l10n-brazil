@@ -20,7 +20,7 @@
 from openerp.osv import orm
 
 
-class sale_order(orm.Model):
+class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -34,7 +34,7 @@ class sale_order(orm.Model):
                                   attached to the invoice
            :return: dict of value to create() the invoice
         """
-        result = super(sale_order, self)._prepare_invoice(
+        result = super(SaleOrder, self)._prepare_invoice(
             cr, uid, order, lines, context)
 
         if order.carrier_id:
@@ -45,8 +45,8 @@ class sale_order(orm.Model):
         return result
 
     def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(sale_order, self)._prepare_order_picking(cr, uid,
-            order, context)
+        result = super(SaleOrder, self)._prepare_order_picking(
+            cr, uid, order, context)
 
         # FIXME - Confirmado bug do OpenERP
         # https://bugs.launchpad.net/bugs/1161138
