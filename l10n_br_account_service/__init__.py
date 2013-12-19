@@ -21,4 +21,5 @@ import l10n_br_account_service
 import l10n_br_account
 import product
 import res_company
+import res_partner
 import sped
