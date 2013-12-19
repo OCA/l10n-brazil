@@ -111,7 +111,7 @@ class AccountTax(orm.Model):
             tax['amount_mva'] = tax_brw.amount_mva
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
-        common_taxes = [tx for tx in result['taxes'] if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
+        common_taxes = [tx for tx in result['taxes'] if tx['domain']]
         result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
             product, quantity, precision)
         totaldc += result_tax['tax_discount']
