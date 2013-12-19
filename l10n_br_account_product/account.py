@@ -65,6 +65,9 @@ class AccountTax(orm.Model):
         result['taxes'] = taxes
         return result
 
+    #TODO
+    #Refatorar este método, para ficar mais simples e não repetir
+    #o que esta sendo feito no método l10n_br_account_product
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
