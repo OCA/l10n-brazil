@@ -131,11 +131,12 @@ class SaleOrder(orm.Model):
         obj_company = self.pool.get('res.company').browse(
             cr, uid, order.shop_id.company_id.id)
 
-        if not obj_company.service_invoice_id:
-            raise orm.except_orm(
-                _('No fiscal document serie found !'),
-                _("No fiscal document serie found for selected company %s") % (
-                    order.company_id.name))
+        #FIXME - criar um módulo l10n_br_sale_service
+        #if not obj_company.service_invoice_id:
+        #    raise orm.except_orm(
+        #        _('No fiscal document serie found !'),
+        #        _("No fiscal document serie found for selected company %s") % (
+        #            order.company_id.name))
 
         if order.fiscal_category_id:
             if not order.fiscal_category_id.property_journal:
