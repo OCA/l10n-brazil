@@ -35,6 +35,9 @@
         'l10n_br_sale_data.xml',
         'report/sale_report_view.xml',
     ],
+    'test': [
+        'test/sale_order_demo.yml',
+    ],
     'demo': [],
     'installable': True,
     'auto_install': True
