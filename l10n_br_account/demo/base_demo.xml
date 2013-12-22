@@ -2,6 +2,12 @@
 <openerp>
 	<data>
 
+                <record id="base.main_partner" model="res.partner">
+                        <field name="state_id" ref="l10n_br_base.br_sp"/>
+                        <field name="country_id" ref="base.br"/>
+                        <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+                </record>
+
 		<!-- Akretion -->
 		<record id="l10n_br_base.res_partner_akretion" model="res.partner">
 		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
