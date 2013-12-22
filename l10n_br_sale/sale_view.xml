@@ -43,31 +43,16 @@
 			<field name="priority">26</field>
 			<field name="arch" type="xml">
 				<field name="shop_id" position="attributes">
-					<attribute name="on_change">
-						onchange_shop_id(shop_id, context,
-						partner_id, partner_invoice_id, partner_shipping_id,
-						fiscal_category_id)
-					</attribute>
+					<attribute name="on_change">onchange_shop_id(shop_id, context, partner_id, partner_invoice_id, partner_shipping_id, fiscal_category_id)</attribute>
 				</field>
 				<field name="partner_invoice_id" position="attributes">
-					<attribute name="on_change">
-						onchange_address_id(partner_invoice_id,
-						partner_shipping_id, partner_id, shop_id, context,
-						fiscal_category_id)
-					</attribute>
+					<attribute name="on_change">onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)</attribute>
 				</field>
 				<field name="partner_shipping_id" position="attributes">
-					<attribute name="on_change">
-						onchange_address_id(partner_invoice_id,
-						partner_shipping_id, partner_id, shop_id, context,
-						fiscal_category_id)
-					</attribute>
+					<attribute name="on_change">onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)</attribute>
 				</field>
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">
-						onchange_partner_id(partner_id, context,
-						shop_id, fiscal_category_id)
-					</attribute>
+					<attribute name="on_change">onchange_partner_id(partner_id, context)</attribute>
 					<attribute name="context">{'shop_id': shop_id, 'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 			</field>
