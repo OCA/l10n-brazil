@@ -139,6 +139,7 @@
 				<field eval="1" name="customer"/>
 				<field eval="1" name="supplier"/>
 				<field eval="1" name="active"/>
+                                <field name="is_company" eval="1"/>
 				<field name="legal_name">AKRETION LTDA</field>
 				<field name="name">Akretion Rio de Janeiro</field>
 				<field name="parent_id" ref="res_partner_akretion"/>
@@ -147,7 +148,7 @@
 				<field name="zip">20081-000</field>
 				<field name="country_id" ref="base.br"/>
 				<field name="number">47</field>
-				<field name="phone">(21) 3010 9965</field>
+				<field name="phone">(21) 2516-2954</field>
 				<field name="street">Rua Acre</field>
 				<field name="street2">sala 1310</field>
 				<field name="website">http://www.akretion.com</field>
