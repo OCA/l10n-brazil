@@ -36,9 +36,10 @@
         'report/sale_report_view.xml',
     ],
     'test': [
-        'test/sale_order_demo.yml',
     ],
-    'demo': [],
+    'demo': [
+        'test/sale_order_demo.yml' # put in demo rather than test for easier testing on Travis-CI
+    ],
     'installable': True,
     'auto_install': True
 }
