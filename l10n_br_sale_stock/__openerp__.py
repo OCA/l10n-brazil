@@ -25,16 +25,19 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERPBrasil.org',
     'website': 'http://openerpbrasil.org',
-    'version': '0.1',
+    'version': '7.0',
     'depends': [
         'sale_stock',
         'l10n_br_sale',
         'l10n_br_stock',
     ],
     'data': [
+        'l10n_br_sale_stock_data.xml',
         'sale_stock_view.xml',
     ],
-    'demo': [],
+    'demo': [
+        'l10n_br_sale_stock_demo.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }

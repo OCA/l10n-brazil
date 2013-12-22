@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="fiscal_category_venda_servico" model="l10n_br_account.fiscal.category">
+			<field name="code">Venda de Serviço</field>
+			<field name="name">Venda de Serviço</field>
+			<field name="type">output</field>
+			<!-- <field name="service_type_id" ref="l10n_br_data_account.fiscal_operation_service_26" />  -->
+			<field name="fiscal_type">service</field>
+			<field name="journal_type">sale</field>
+		</record>
+
+		<record id="base.main_company" model="res.company">
+			<field name="out_invoice_service_fiscal_category_id" ref="fiscal_category_venda_servico" />
+		</record>
+
+	</data>
+</openerp>

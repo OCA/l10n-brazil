@@ -20,7 +20,7 @@
 from openerp.osv import orm
 
 
-class crm_lead(orm.Model):
+class CrmLead(orm.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
 

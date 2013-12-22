@@ -5,7 +5,7 @@
 		<!-- product.pricelist -->
 		<record id="product.list0" model="product.pricelist">
 			<field name="currency_id" ref="base.BRL" />
-       		</record>
+		</record>
 
 	</data>
 </openerp>

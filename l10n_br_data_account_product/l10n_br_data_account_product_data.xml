@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- account.fiscal.position -->
+		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_internal_template" model="account.fiscal.position.template">
+			<field name="name">Venda para Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_template" model="account.fiscal.position.template">
+			<field name="name">Venda Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+		
+		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_internal_template" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5102" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_f8f20f4fc3420ac4fc03a8e409e54914" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6102" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_f8f20f4fc3420ac4fc03a8e409e54914" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_external12_template" model="account.fiscal.position.template">
+			<field name="name">Revenda de Mercadorias para Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6102" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_f8f20f4fc3420ac4fc03a8e409e54914" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_9ca6c34b77a2c78171252551db171ff7_internal_template" model="account.fiscal.position.template">
+			<field name="name">Venda com ST para Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5401" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+		
+		<record id="fp_9ca6c34b77a2c78171252551db171ff7_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Venda com ST Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6401" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_9ca6c34b77a2c78171252551db171ff7_external_icms12_template" model="account.fiscal.position.template">
+			<field name="name">Venda com ST Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5401" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_internal_template" model="account.fiscal.position.template">
+			<field name="name">Devolução Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_1201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Devolução Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms12_template" model="account.fiscal.position.template">
+			<field name="name">Devolução Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_template" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5949" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6949" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_template" model="account.fiscal.position.template">
+			<field name="name">Simples Remessa Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6949" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_internal_template" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_1101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_template" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_template" model="account.fiscal.position.template">
+			<field name="name">Compras para Industrialização Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="template_fp_vendadeservico1" model="account.fiscal.position.template">
+			<field name="name">Venda de Serviço</field>
+			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+	</data>
+</openerp>

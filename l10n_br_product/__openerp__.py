@@ -19,7 +19,7 @@
 
 {
     'name': 'Brazilian Localization Product',
-    'version': '0.1',
+    'version': '7.0',
     'category': 'Generic Modules',
     'license': 'AGPL-3',
     'description': """

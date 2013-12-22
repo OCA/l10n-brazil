@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-    	<!-- Delivery Carriers Vehicle -->
+		<!-- Delivery Carriers Vehicle -->
 		<record id="l10n_br_delivery_carrier_vehicle_form" model="ir.ui.view">
 			<field name="name">l10n_br_delivery.carrier.vehicle.form</field>
 			<field name="model">l10n_br_delivery.carrier.vehicle</field>
@@ -34,24 +34,23 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Veículo">
-				    <field colspan="4" name="name"/>
-				    <field name="plate" />
-				    <field name="manufacture_year"/>
+					<field colspan="4" name="name"/>
+					<field name="plate" />
+					<field name="manufacture_year"/>
 				</tree>
 			</field>
 		</record>
 		
 		<record model="ir.actions.act_window" id="action_l10n_br_delivery_carrier_vehicle_form">
-				<field name="name">Veículo</field>
-				<field name="type">ir.actions.act_window</field>
-				<field name="res_model">l10n_br_delivery.carrier.vehicle</field>
-				<field name="view_mode">tree,form</field>
-				<field name="view_type">form</field>
-				<field name="view_id" ref="l10n_br_delivery_carrier_vehicle_tree"/>
+			<field name="name">Veículo</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br_delivery.carrier.vehicle</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="l10n_br_delivery_carrier_vehicle_tree"/>
 		</record>
 	
 		<menuitem name="Veículo" id="menu_l10n_br_delivery_carrier_vehicle_form" parent="delivery.menu_delivery" action="action_l10n_br_delivery_carrier_vehicle_form" sequence="10" />	
 
-    </data>
-
+	</data>
 </openerp>

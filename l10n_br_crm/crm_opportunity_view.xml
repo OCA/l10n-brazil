@@ -2,8 +2,8 @@
 <openerp>
 	<data>
 
-	   	<!-- CRM Opportunity Form View  -->
-	   	<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor1">
+		<!-- CRM Opportunity Form View  -->
+		<record model="ir.ui.view" id="l10n_br_crm_case_form_view_oppor1">
 			<field name="name">l10n_br_crm.opportunities1</field>
 			<field name="model">crm.lead</field>
 			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
@@ -32,6 +32,6 @@
 				</field>
 			</field>
 		</record>
-	
+
 	</data>
 </openerp>
