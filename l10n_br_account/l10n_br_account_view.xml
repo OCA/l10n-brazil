@@ -170,6 +170,41 @@
 				</tree>
 			</field>
 		</record>
+		
+		<record id="l10n_br_account_eletronic_document_event_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.eletronic_document_event.form</field>
+			<field name="model">l10n_br_account.eletronic_document_event</field>
+			<field name="arch" type="xml">
+				<form string="Eventos Eletronicos" version="7.0">
+					<header>
+						<field name="state" widget="statusbar" statusbar_visible="draft,send,wait,done"/>
+					</header>
+					<group>
+						<field name="name"/>
+						<field name="company_id"/>
+						<field name="file"/>
+						<field name="create_date"/>
+						<field name="write_date"/>						
+						<field name="end_date"/>	
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record id="l10n_br_account_eletronic_document_event_tree" model="ir.ui.view">
+			<field name="name">l10n_br_account.eletronic_document_event.tree</field>
+			<field name="model">l10n_br_account.eletronic_document_event</field>
+			<field name="arch" type="xml">
+				<tree string="Eventos Eletronicos">
+						<field name="name"/>
+						<field name="company_id"/>
+						<field name="file"/>
+						<field name="create_date"/>
+						<field name="write_date"/>						
+						<field name="end_date"/>	
+				</tree>
+			</field>
+		</record>
 
 		<record id="l10n_br_account_invoice_invalid_number_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.invalid.number.form</field>
@@ -341,6 +376,16 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
 		</record>
+		
+		<record id="action_l10n_br_account_eletronic_document_event" model="ir.actions.act_window">
+			<field name="name">Eventos Eletronicos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br_account.eletronic_document_event</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="l10n_br_account_eletronic_document_event_tree"/>
+		</record>
+
 
 		<record id="action_l10n_br_account_invoice_invalid_number" model="ir.actions.act_window">
 			<field name="name">Inutilizar Faixa de Numeração</field>
@@ -350,6 +395,8 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
 		</record>
+		
+
 
 		<record id="action_l10n_br_account_partner_fiscal_type_form" model="ir.actions.act_window">
 			<field name="name">Tipo Fiscal de Parceiro</field>
@@ -415,6 +462,8 @@
 		<menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
 
 		<menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
+		
+		<menuitem id="menu_l10n_br_account_eletronic_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_eletronic_document_event"/>
 
 	</data>
 
