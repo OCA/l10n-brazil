@@ -202,6 +202,7 @@
 						<field name="create_date"/>
 						<field name="write_date"/>						
 						<field name="end_date"/>	
+						<field name="state"/>	
 				</tree>
 			</field>
 		</record>
