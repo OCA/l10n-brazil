@@ -38,14 +38,14 @@ class L10n_brEletronicDocumentEvent(orm.Model):
     _name = 'l10n_br_account.eletronic_document_event'
 
     _columns = {
-        'name': fields.char(u'Descrição', size=64, required=True),
+        'name': fields.char(u'Descrição', size=64, readonly=True),
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'file': fields.char('Caminho xml', readonly=True),
+            states={'draft': [('readonly', False)]}),
+        'file': fields.char('Caminho do arquivo', readonly=True),
         'create_date': fields.datetime('Data Criação', readonly=True),
         'write_date': fields.datetime('Date Alteração', readonly=True),
-        'end_date': fields.datetime('Fim'),
+        'end_date': fields.datetime('Data Finalização', readonly=True),
         'state': fields.selection([
             ('draft','Rascunho'),
             ('send','Enviado'),
