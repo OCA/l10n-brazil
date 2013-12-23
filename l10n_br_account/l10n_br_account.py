@@ -33,9 +33,9 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-class L10n_brEletronicDocumentEvent(orm.Model):
+class L10n_brDocumentEvent(orm.Model):
 
-    _name = 'l10n_br_account.eletronic_document_event'
+    _name = 'l10n_br_account.document_event'
 
     _columns = {
         'name': fields.char(u'Descrição', size=64, readonly=True),
