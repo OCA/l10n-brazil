@@ -50,6 +50,12 @@ class ResCompany(orm.Model):
         'nfe_import_folder': fields.char('Pasta de Importação', size=254),
         'nfe_export_folder': fields.char('Pasta de Exportação', size=254),
         'nfe_backup_folder': fields.char('Pasta de Backup', size=254),
+        'nfe_environment': fields.selection(
+            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente Padrão'),
+        'file_type': fields.selection(
+            [('xml', 'XML'), ('txt', ' TXT')], 'Tipo do Arquivo Padrão'),
+        'sign_xml': fields.boolean('Assinar XML'),
+        'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
         'product_tax_definition_line': fields.one2many(
             'l10n_br_tax.definition.company.product',
             'company_id', 'Taxes Definitions'),
