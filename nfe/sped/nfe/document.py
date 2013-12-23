@@ -154,7 +154,7 @@ class NFe200(Document):
             nfe.infNFe.emit.enderEmit.cMun.valor = '%s%s' % (company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
             nfe.infNFe.emit.enderEmit.xMun.valor = company.l10n_br_city_id.name or ''
             nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
-            nfe.infNFe.emit.enderEmit.CEP.valor = company.zip or ''
+            nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', company.zip or '')
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
             nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
