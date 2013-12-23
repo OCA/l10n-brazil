@@ -19,6 +19,7 @@
 
 from openerp.osv import orm, fields
 from openerp import netsvc
+import datetime
 
 TYPE = [
     ('input', 'Entrada'),
@@ -30,6 +31,38 @@ PRODUCT_FISCAL_TYPE = [
 ]
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
+
+
+class L10n_brEletronicDocumentEvent(orm.Model):
+
+    _name = 'l10n_br_account.eletronic_document_event'
+
+    _columns = {
+        'name': fields.char(u'Descrição', size=64, required=True),
+        'company_id': fields.many2one(
+            'res.company', 'Empresa', readonly=True,
+            states={'draft': [('readonly', False)]}, required=True),
+        'file': fields.char('Caminho xml', readonly=True),
+        'create_date': fields.datetime('Data Criação', readonly=True),
+        'write_date': fields.datetime('Date Alteração', readonly=True),
+        'end_date': fields.datetime('Fim'),
+        'state': fields.selection([
+            ('draft','Rascunho'),
+            ('send','Enviado'),
+            ('wait','Aguardando Retorno'),
+            ('done','Recebido Retorno'),
+            ],'Status', select=True, readonly=True),
+    }
+
+    _defaults = {
+        'state': 'draft',
+    }
+
+    def set_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        self.write(cr, uid, ids, {'state':'done', 'end_date': datetime.datetime.now()}, context=context)
+        return True
 
 
 class L10n_brAccountFiscalCategory(orm.Model):
