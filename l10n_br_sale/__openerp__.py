@@ -38,7 +38,6 @@
     'test': [
     ],
     'demo': [
-        'test/sale_order_demo.yml' # put in demo rather than test for easier testing on Travis-CI
     ],
     'installable': True,
     'auto_install': True
