@@ -54,6 +54,7 @@
         'demo/account_tax_demo.xml',
         'demo/l10n_br_account_product_demo.xml',
         'demo/product_demo.xml',
+        'demo/l10n_br_data_account_product_demo.xml',
     ],
     'test': [],
     'installable': True,
