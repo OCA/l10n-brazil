@@ -105,6 +105,19 @@ class ResPartner(orm.Model):
 
         return True
 
+    def _validate_ie_param(self, uf, inscr_est):
+        try:
+            mod = __import__(
+            'tools.fiscal', globals(), locals(), 'fiscal')
+
+            validate = getattr(mod, 'validate_ie_%s' % uf)
+            if not validate(inscr_est):
+                return False
+        except AttributeError:
+            if not fiscal.validate_ie_param(uf, inscr_est):
+                return False
+        return True
+
     def _check_ie(self, cr, uid, ids):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -125,16 +138,9 @@ class ResPartner(orm.Model):
             uf = partner.state_id and \
             partner.state_id.code.lower() or ''
 
-            try:
-                mod = __import__(
-                'tools.fiscal', globals(), locals(), 'fiscal')
-
-                validate = getattr(mod, 'validate_ie_%s' % uf)
-                if not validate(partner.inscr_est):
-                    return False
-            except AttributeError:
-                if not fiscal.validate_ie_param(uf, partner.inscr_est):
-                    return False
+            res = self._validate_ie_param(uf, partner.inscr_est)
+            if not res:
+                return False
 
         return True
 
