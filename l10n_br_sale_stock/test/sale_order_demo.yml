@@ -14,7 +14,7 @@
 -
   I verify that the onchange was correctly triggered
 -
-  !assert {model: sale.order, id: l10n_br_sale.sale_order_test1, string: The onchange function of product was not correctly triggered}:
+  !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test1, string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
     - order_line[0].product_id.id == ref('product.product_product_7')
@@ -34,7 +34,7 @@
 -
   I verify that the onchange was correctly triggered
 -
-  !assert {model: sale.order, id: l10n_br_sale.sale_order_test2, string: The onchange function of product was not correctly triggered}:
+  !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test2, string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
     - order_line[0].product_id.id == ref('product.product_product_7')
