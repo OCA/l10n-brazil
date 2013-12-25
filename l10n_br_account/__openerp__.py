@@ -30,6 +30,7 @@
         'l10n_br_base',
         'l10n_br_product',
         'account_fiscal_position_rule',
+        'web_context_tunnel',
     ],
     'data': [
         'l10n_br_account_workflow.xml',
