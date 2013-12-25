@@ -42,6 +42,7 @@ class L10n_brDocumentEvent(orm.Model):
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
             states={'draft': [('readonly', False)]}),
+        'origin': fields.char('Documento de Origem', size=64, help="Reference of the document that produced event.", readonly=True, states={'draft':[('readonly',False)]}),
         'file': fields.char('Caminho do arquivo', readonly=True),
         'create_date': fields.datetime('Data Criação', readonly=True),
         'write_date': fields.datetime('Date Alteração', readonly=True),
@@ -52,6 +53,8 @@ class L10n_brDocumentEvent(orm.Model):
             ('wait','Aguardando Retorno'),
             ('done','Recebido Retorno'),
             ],'Status', select=True, readonly=True),
+        'document_event_ids': fields.many2one(
+            'account.invoice', 'Documentos', ondelete='cascade')
     }
 
     _defaults = {
