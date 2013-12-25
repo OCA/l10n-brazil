@@ -25,8 +25,11 @@
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
 				</field>
 				<xpath expr="//field[@name='product_id']" position="attributes">
-					<attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)</attribute>
+                                        <attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'shop_id': parent.shop_id, 'parent_fiscal_position': False, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
 				</xpath>
+                                <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                                        <attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'shop_id': parent.shop_id, 'parent_fiscal_position': False, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
+                                </xpath>
 				<xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
 					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" required="1" />
@@ -43,17 +46,16 @@
 			<field name="priority">26</field>
 			<field name="arch" type="xml">
 				<field name="shop_id" position="attributes">
-					<attribute name="on_change">onchange_shop_id(shop_id, context, partner_id, partner_invoice_id, partner_shipping_id, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field name="partner_invoice_id" position="attributes">
-					<attribute name="on_change">onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field name="partner_shipping_id" position="attributes">
-					<attribute name="on_change">onchange_address_id(partner_invoice_id, partner_shipping_id, partner_id, shop_id, context, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_id(partner_id, context)</attribute>
-					<attribute name="context">{'shop_id': shop_id, 'fiscal_category_id': fiscal_category_id}</attribute>
+					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 			</field>
 		</record>
