@@ -19,6 +19,7 @@
 
 from openerp.osv import orm, fields
 from openerp import netsvc
+import datetime
 
 TYPE = [
     ('input', 'Entrada'),
@@ -30,6 +31,41 @@ PRODUCT_FISCAL_TYPE = [
 ]
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
+
+
+class L10n_brDocumentEvent(orm.Model):
+
+    _name = 'l10n_br_account.document_event'
+
+    _columns = {
+        'name': fields.char(u'Descrição', size=64, readonly=True),
+        'company_id': fields.many2one(
+            'res.company', 'Empresa', readonly=True,
+            states={'draft': [('readonly', False)]}),
+        'origin': fields.char('Documento de Origem', size=64, help="Reference of the document that produced event.", readonly=True, states={'draft':[('readonly',False)]}),
+        'file': fields.char('Caminho do arquivo', readonly=True),
+        'create_date': fields.datetime('Data Criação', readonly=True),
+        'write_date': fields.datetime('Date Alteração', readonly=True),
+        'end_date': fields.datetime('Data Finalização', readonly=True),
+        'state': fields.selection([
+            ('draft','Rascunho'),
+            ('send','Enviado'),
+            ('wait','Aguardando Retorno'),
+            ('done','Recebido Retorno'),
+            ],'Status', select=True, readonly=True),
+        'document_event_ids': fields.many2one(
+            'account.invoice', 'Documentos', ondelete='cascade')
+    }
+
+    _defaults = {
+        'state': 'draft',
+    }
+
+    def set_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        self.write(cr, uid, ids, {'state':'done', 'end_date': datetime.datetime.now()}, context=context)
+        return True
 
 
 class L10n_brAccountFiscalCategory(orm.Model):
@@ -229,6 +265,9 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
         'justificative': fields.char('Justificativa', size=255,
             readonly=True, states={'draft': [('readonly', False)]},
             required=True),
+        'invalid_number_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids',
+            u'Eventos'),
     }
     _defaults = {
         'state': 'draft',
