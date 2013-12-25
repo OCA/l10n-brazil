@@ -32,6 +32,42 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
+class L10n_brAccountInvoiceCancel(orm.Model):
+    _name = 'l10n_br_account.invoice.cancel'
+    _description = u'Cancelar Documento Eletrônico no Sefaz'
+
+    _columns = {
+        'invoice_id': fields.many2one('account.invoice',
+                                        'Fatura'),
+        'justificative': fields.char('Justificativa', size=255,
+            readonly=True, states={'draft': [('readonly', False)]},
+            required=True),
+        'cancel_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids',
+            u'Eventos'),
+        'state': fields.selection(
+            [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
+            ('done', u'Concluído')], 'Status', required=True),
+    }
+
+    _defaults = {
+        'state': 'draft',
+    }
+
+    def _check_justificative(self, cr, uid, ids):
+        for invalid in self.browse(cr, uid, ids):
+            if len(invalid.justificative) < 15:
+                return False
+        return True
+
+    _constraints = [
+        (_check_justificative,'Justificativa deve ter tamanho minimo de 15 caracteres.', ['justificative'])
+    ]
+
+    def action_draft_done(self, cr, uid, ids, *args):
+        self.write(cr, uid, ids, {'state': 'done'})
+        return True
+
 
 class L10n_brDocumentEvent(orm.Model):
 
