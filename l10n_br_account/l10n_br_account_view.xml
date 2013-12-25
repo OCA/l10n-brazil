@@ -229,6 +229,7 @@
 						<field name="justificative"/>
 						<field name="justificative"/>
 					</group>
+					<field name="invalid_number_document_event_ids"/>	
 				</form>
 			</field>
 		</record>
