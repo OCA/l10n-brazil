@@ -7,6 +7,35 @@
 		<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="99"/>
 		<menuitem id="menu_l10n_br_account_configuration_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
 
+		<record id="l10n_br_account_invoice_cancel_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.cancel.form</field>
+			<field name="model">l10n_br_account.invoice.cancel</field>
+			<field name="arch" type="xml">
+				<form string="Cancelar Documento Eletrônico" version="7.0">
+					<header>
+						<button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<group>
+						<field name="invoice_id"/>
+						<field name="justificative"/>
+					</group>
+					<field name="cancel_document_event_ids"/>	
+				</form>
+			</field>
+		</record>
+	
+		<record id="l10n_br_account_invoice_cancel_tree" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.cancel.tree</field>
+			<field name="model">l10n_br_account.invoice.cancel</field>
+			<field name="arch" type="xml">
+				<tree string="Cancelar Documento Eletrônico">
+					<field name="invoice_id"/>
+					<field name="justificative"/>
+				</tree>
+			</field>
+		</record>
+
 		<record id="view_l10n_br_account_fiscal_document_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.fiscal.document</field>
 			<field name="model">l10n_br_account.fiscal.document</field>
@@ -448,6 +477,15 @@
 			<field name="view_id" ref="view_l10n_br_account_service_type_structure"/>
 		</record>
 
+		<record id="action_l10n_br_account_invoice_cancel" model="ir.actions.act_window">
+			<field name="name">Cancelar Documento Eletrônico</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br_account.invoice.cancel</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
+		</record>
+
 		<menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
 
 		<menuitem id="menu_action_cnae_form" name="CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_form" sequence="30" />
@@ -469,6 +507,8 @@
 		<menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
 		
 		<menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
+
+		<menuitem id="menu_l10n_br_account_invoice_cancel" name="Cancelar Documento Eletrônico" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_cancel"/>
 
 	</data>
 
