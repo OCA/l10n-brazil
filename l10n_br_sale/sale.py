@@ -87,8 +87,10 @@ class SaleOrder(orm.Model):
 
     def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
                             partner_shipping_id, partner_id,
-                            shop_id=None, context=None,
-                            fiscal_category_id=None, **kwargs):
+                            shop_id=None, context=None, **kwargs):
+        if not context:
+            context = {}
+        fiscal_category_id=context.get('fiscal_category_id')
         return super(SaleOrder, self).onchange_address_id(
             cr, uid, ids, partner_invoice_id, partner_shipping_id,
             partner_id, shop_id, context,
@@ -96,8 +98,10 @@ class SaleOrder(orm.Model):
 
     def onchange_shop_id(self, cr, uid, ids, shop_id=None, context=None,
                          partner_id=None, partner_invoice_id=None,
-                         partner_shipping_id=None,
-                         fiscal_category_id=None, **kwargs):
+                         partner_shipping_id=None, **kwargs):
+        if not context:
+            context = {}
+        fiscal_category_id=context.get('fiscal_category_id')
         return super(SaleOrder, self).onchange_shop_id(
             cr, uid, ids, shop_id, context, partner_id, partner_invoice_id,
             partner_shipping_id, fiscal_category_id=fiscal_category_id)
@@ -272,10 +276,13 @@ class SaleOrderLine(orm.Model):
                           uom=False, qty_uos=0, uos=False, name='',
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
-                          fiscal_position=False, flag=False, context=None,
-                          parent_fiscal_category_id=False, shop_id=False,
-                          parent_fiscal_position=False,
-                          partner_invoice_id=False, **kwargs):
+                          fiscal_position=False, flag=False, context=None):
+        if not context:
+            context = {}
+        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+        shop_id = context.get('shop_id')
+        parent_fiscal_position = context.get('parent_fiscal_position')
+        partner_invoice_id = context.get('partner_invoice_id')
 
         result = super(SaleOrderLine, self).product_id_change(
             cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
