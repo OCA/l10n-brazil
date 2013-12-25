@@ -265,6 +265,9 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
         'justificative': fields.char('Justificativa', size=255,
             readonly=True, states={'draft': [('readonly', False)]},
             required=True),
+        'invalid_number_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids',
+            u'Eventos'),
     }
     _defaults = {
         'state': 'draft',
