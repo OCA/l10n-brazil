@@ -182,10 +182,12 @@
 					<group>
 						<field name="name"/>
 						<field name="company_id"/>
+						<field name="origin"/>
 						<field name="file"/>
 						<field name="create_date"/>
 						<field name="write_date"/>						
 						<field name="end_date"/>	
+						<field name="document_event_ids"/>	
 					</group>
 				</form>
 			</field>
@@ -198,11 +200,13 @@
 				<tree string="Eventos Eletronicos">
 						<field name="name"/>
 						<field name="company_id"/>
+						<field name="origin"/>
 						<field name="file"/>
 						<field name="create_date"/>
 						<field name="write_date"/>						
 						<field name="end_date"/>	
 						<field name="state"/>	
+						<field name="document_event_ids"/>
 				</tree>
 			</field>
 		</record>
@@ -222,6 +226,7 @@
 						<field name="document_serie_id"/>
 						<field name="number_start"/>
 						<field name="number_end"/>
+						<field name="justificative"/>
 						<field name="justificative"/>
 					</group>
 				</form>
@@ -397,7 +402,6 @@
 			<field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
 		</record>
 		
-
 
 		<record id="action_l10n_br_account_partner_fiscal_type_form" model="ir.actions.act_window">
 			<field name="name">Tipo Fiscal de Parceiro</field>
