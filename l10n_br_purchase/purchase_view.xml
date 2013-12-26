@@ -13,13 +13,13 @@
 					<field domain="[('fiscal_category_id', '=', fiscal_category_id)]" name="fiscal_position" />
 				</field>
 				<field name="partner_id" position="attributes" >
-					<attribute name="on_change">onchange_partner_id(partner_id, company_id, context, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field name="dest_address_id" position="attributes" >
-					<attribute name="on_change">onchange_dest_address_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field name="company_id" position="attributes" >
-					<attribute name="on_change">onchange_company_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<xpath expr="//tree[@string='Purchase Order Lines']" position="attributes">
 					<attribute name="editable"></attribute>
@@ -41,7 +41,7 @@
 					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.dest_address_id, product_id, fiscal_position, fiscal_category_id, parent.company_id, context)" required="1" />
 				</field>
 				<field name="product_id" position="attributes" >
-					<attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_qty, product_uom, parent.partner_id, parent.date_order, fiscal_position, date_planned, name, price_unit, context, parent.company_id, parent.fiscal_position, parent.fiscal_category_id)</attribute>
+                                        <attribute name="context_br">{'fiscal_category_id': fiscal_category_id, 'company_id': parent.company_id, 'parent_fiscal_position_id': parent.fiscal_position, 'parent_fiscal_category_id': parent.fiscal_category_id}</attribute>
 				</field>
 			</field>
 		</record>
