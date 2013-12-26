@@ -23,14 +23,29 @@
     'category': 'Generic Modules',
     'description': """Implementa a exportação de notas fiscais através de
 arquivos XML""",
-    'author': 'Akretion',
+    'author': 'Akretion, Danimar Ribeiro, Luis Felipe Miléo',
     'license': 'AGPL-3',
     'website': 'http://www.openerpbrasil.org',
+    'description': """
+      Este módulo é complementar para enviar para a receita a nfe, inutilização e cancelamento de notas.
+      Dependencias: pysped, geraldo, pyxmlsec
+      Instalando pyxmlsec 
+        sudo pip install pyxmlsec
+        Dependencias ->
+        sudo apt-get install libxmlsec1-dev
+        sudo apt-get install libxml2-dev
+      Instalando geraldo
+        sudo pip install geraldo
+    """,
     'depends': [
         'l10n_br_account_product',
         'l10n_br_delivery',
     ],
-    'data': [],
+    'data': [
+            'account_invoice_workflow.xml',
+            'account_invoice_view.xml',
+            'l10n_br_nfe_view.xml',
+            ],
     'demo': [],
     'test': [],
     'installable': True,
