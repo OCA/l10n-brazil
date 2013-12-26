@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="view_l10n_br_envio_account_invoice_form">
+			<field name="name">l10n_br_envio_account.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="priority">32</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<button name="invoice_open" position="replace">
+					<button name="invoice_open" attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}" string="Validate" class="oe_highlight"/>
+					<button name="invoice_trysend" attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}" confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"  groups="base.group_user"/>
+					<button name="invoice_print" string="Pré-Visualizar DANFE" states="sefaz_export" groups="base.group_user"/>
+					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio" class="oe_highlight"  groups="base.group_user"/>
+				</button>
+				<xpath expr="//button[@name='invoice_cancel']" position="replace">
+                    <button name="invoice_cancel" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="draft,proforma2,sale,open,sefaz_export,sefaz_exception" string="Cancel Invoice" groups="account.group_account_invoice"/>
+                </xpath>
+				<field name="account_id" position="after">
+					<field name="send_nfe_invoice_id" mode="form" attrs="{'readonly':True}"/>
+				</field>                
+           </field>
+        </record>        
+    </data>
+</openerp>
