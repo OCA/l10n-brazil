@@ -18,6 +18,6 @@
 ###############################################################################
 
 import sped
-import l10n_br_nfe
-import send_nfe
+#from l10n_br_nfe import *
+#import send_nfe
 #import wizard
