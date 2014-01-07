@@ -95,7 +95,7 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
         if len(set(company_ids)) > 1:
             err_msg += u'Não é permitido exportar Documentos \
             Fiscais de mais de uma empresa, por favor selecione Documentos \
-            Fiscais da mesma empresa.'
+            Fiscais da mesma empresa.\n'
 
         if export_inv_ids:
             if len(export_inv_numbers) > 1:
@@ -135,10 +135,15 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
 
             save_dir = inv.company_id.nfe_export_folder
             if (data['export_folder']) & (save_dir != ''):
-                f = open(save_dir + name, "w")
-                f.write(nfe_file)
-                f.close()
-
+                try:
+                    f = open(save_dir + name, 'w')
+                except IOError:
+                    err_msg += u'Não é foi possivel salvar o arquivo em disco, verifique as permissões de escrita e \
+                    o caminho da pasta nas configurações da empresa\n'
+                else:
+                    f.write(nfe_file)
+                    f.close()
+                            
             self.write(
                 cr, uid, ids, {'file': base64.b64encode(nfe_file),
                 'state': 'done', 'name': name}, context=context)
