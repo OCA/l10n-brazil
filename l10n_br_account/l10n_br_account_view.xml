@@ -503,10 +503,10 @@
 		<menuitem id="menu_action_l10n_br_account_fiscal_document_form" name="Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
 
 		<menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
-
-		<menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
 		
 		<menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
+
+		<menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
 
 		<menuitem id="menu_l10n_br_account_invoice_cancel" name="Cancelar Documento Eletrônico" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_cancel"/>
 
