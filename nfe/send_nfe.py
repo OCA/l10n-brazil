@@ -58,7 +58,7 @@ class SendNFe(object):
         p.contingencia_SCAN   = False
         p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)
         
-        nfe = self._serializer(cr, uid, ids, nfe_environment, context)
+        nfe = self._serializer(cr, uid, ids, nfe_environment, context) #FIXME
         result = []
         
         for processo in p.processar_notas(nfe):   
@@ -83,10 +83,10 @@ class SendNFe(object):
                 type_xml = 'Recibo NF-e'                        
                 
             if processo.resposta.status == 200:
-                
+
                 resultado = {'name':name,'name_result':name_result, 'message':message, 'xml_type':type_xml, 
                     'status_code':status,'xml_sent': file_sent.encode('utf8'),'xml_result': file_result.encode('utf8'), 'status':'success'}
-                            
+
                 if processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:                
                     resultado["status"] = "error"
                     for prot in processo.resposta.protNFe:
@@ -96,23 +96,23 @@ class SendNFe(object):
                         if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
                             nfe_xml = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].xml
                             danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
-                        
+
                             danfe_nfe = {'name':'danfe.pdf','name_result':'nfe_protocolada.xml', 
                                 'message':prot.infProt.xMotivo.valor, 'xml_type':'Danfe/NF-e', 
                                 'status_code':prot.infProt.cStat.valor,'xml_sent': danfe_pdf,
                                 'xml_result': nfe_xml.encode('utf8') , 'status':'success'}
-                            
+
                             resultado["status"] = "success"
                             result.append(danfe_nfe)
-                            
+
             else:
                 resultado = {'name':name,'name_result':name_result, 'message':processo.resposta.original, 'xml_type':type_xml, 
                     'status_code':processo.resposta.status,'xml_sent': file_sent.encode('utf8'),'xml_result': file_result.encode('utf8'), 'status':'error'}
-                
+
             result.append(resultado)
-            
+
         return result
-    
+
     def _serializer(self, cr, uid, ids, nfe_environment, context=None):
         """"""
         try:
@@ -120,20 +120,20 @@ class SendNFe(object):
         except ImportError:
             raise orm.except_orm(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
-
+ 
         pool = pooler.get_pool(cr.dbname)
         nfes = []
-
+ 
         if not context:
             context = {'lang': 'pt_BR'}
-
+ 
         for inv in pool.get('account.invoice').browse(cr, uid, ids, context):
-
+ 
             company = pool.get('res.partner').browse(
                 cr, uid, inv.company_id.partner_id.id, context)
-
+ 
             nfe = NFe_200()
-
+ 
             #
             # Identificação da NF-e
             #
@@ -153,12 +153,12 @@ class SendNFe(object):
             nfe.infNFe.ide.finNFe.valor = inv.nfe_purpose
             nfe.infNFe.ide.procEmi.valor = 0
             nfe.infNFe.ide.verProc.valor = 'OpenERP Brasil v7'
-
+ 
             if inv.cfop_ids[0].type in ("input"):
                 nfe.infNFe.ide.tpNF.valor = '0'
             else:
                 nfe.infNFe.ide.tpNF.valor = '1'
-
+ 
             #
             # Endereço de Entrega ou Retirada
             #
@@ -182,14 +182,14 @@ class SendNFe(object):
                         nfe.infNFe.entrega.cMun.valor = '%s%s' % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code)
                         nfe.infNFe.entrega.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
                         nfe.infNFe.entrega.UF.valor = inv.address_invoice_id.state_id.code or ''
-
+ 
             #
             # Documentos referenciadas
             #
             for inv_related in inv.fiscal_document_related_ids:
-
+ 
                 nfref = NFRef_200()
-
+ 
                 if inv_related.document_type == 'nf':
                     nfref.refNF.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNF.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
@@ -216,7 +216,7 @@ class SendNFe(object):
                     nfref.refECF.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refECF.nECF.valor = inv_related.internal_number
                     nfref.refECF.nCOO.valor = inv_related.serie
-
+ 
             #
             # Emitente
             #
@@ -240,7 +240,7 @@ class SendNFe(object):
             nfe.infNFe.emit.CRT.valor = inv.company_id.fiscal_type or ''
             if inv.company_id.partner_id.inscr_mun:
                 nfe.infNFe.emit.CNAE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main_id.code or '')
-
+ 
             #
             # Destinatário
             #
@@ -250,7 +250,7 @@ class SendNFe(object):
             partner_cep = ''
             if inv.partner_id.country_id.bc_code:
                 partner_bc_code = inv.partner_id.country_id.bc_code[1:]
-
+ 
             if inv.partner_id.country_id.id != company.country_id.id:
                 address_invoice_state_code = 'EX'
                 address_invoice_city = 'Exterior'
@@ -259,19 +259,19 @@ class SendNFe(object):
                 address_invoice_state_code = inv.partner_id.state_id.code
                 address_invoice_city = inv.partner_id.l10n_br_city_id.name or ''
                 partner_cep = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.zip or '').replace(' ',''))
-
+ 
             # Se o ambiente for de teste deve ser
             # escrito na razão do destinatário
             if nfe_environment == '2':
                 nfe.infNFe.dest.xNome.valor = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
             else:
                 nfe.infNFe.dest.xNome.valor = inv.partner_id.legal_name or ''
-
+ 
             if inv.partner_id.is_company:
                 nfe.infNFe.dest.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
             else:
                 nfe.infNFe.dest.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
-
+ 
             nfe.infNFe.dest.enderDest.xLgr.valor = inv.partner_id.street or ''
             nfe.infNFe.dest.enderDest.nro.valor = inv.partner_id.number or ''
             nfe.infNFe.dest.enderDest.xCpl.valor = inv.partner_id.street2 or ''
@@ -285,7 +285,7 @@ class SendNFe(object):
             nfe.infNFe.dest.enderDest.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.phone or '').replace(' ',''))
             nfe.infNFe.dest.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
             nfe.infNFe.dest.email.valor = inv.partner_id.email or ''
-
+ 
             #
             # Detalhe
             #
@@ -293,7 +293,7 @@ class SendNFe(object):
             for inv_line in inv.invoice_line:
                 i +=1
                 det = Det_200()
-
+ 
                 det.nItem.valor = i
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
@@ -317,7 +317,7 @@ class SendNFe(object):
                 # Produto entra no total da NF-e
                 #
                 det.prod.indTot.valor = 1
-
+ 
                 if inv_line.product_type == 'product':
                     #
                     # Impostos
@@ -325,7 +325,7 @@ class SendNFe(object):
                     # ICMS
                     if inv_line.icms_cst_id.code < 100:
                         det.imposto.ICMS.CST.valor = inv_line.icms_cst_id.code
-                        
+                         
                     else:
                         det.imposto.ICMS.CSOSN.valor = inv_line.icms_cst_id.code
                         det.imposto.ICMS.pCredSN.valor = str("%.2f" % inv_line.icms_percent)
@@ -352,56 +352,56 @@ class SendNFe(object):
                     det.imposto.ISSQN.cMunFG.valor = ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
                     det.imposto.ISSQN.cListServ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.service_type_id.code or '')
                     det.imposto.ISSQN.cSitTrib.valor = inv_line.issqn_type
-
+ 
                 # PIS
                 det.imposto.PIS.CST.valor = inv_line.pis_cst_id.code
                 det.imposto.PIS.vBC.valor = str("%.2f" % inv_line.pis_base)
                 det.imposto.PIS.pPIS.valor = str("%.2f" % inv_line.pis_percent)
                 det.imposto.PIS.vPIS.valor = str("%.2f" % inv_line.pis_value)
-
+ 
                 # PISST
                 det.imposto.PISST.vBC.valor = str("%.2f" % inv_line.pis_st_base)
                 det.imposto.PISST.pPIS.valor = str("%.2f" % inv_line.pis_st_percent)
                 det.imposto.PISST.qBCProd.valor = ''
                 det.imposto.PISST.vAliqProd.valor = ''
                 det.imposto.PISST.vPIS.valor = str("%.2f" % inv_line.pis_st_value)
-
+ 
                 # COFINS
                 det.imposto.COFINS.CST.valor = inv_line.cofins_cst_id.code
                 det.imposto.COFINS.vBC.valor = str("%.2f" % inv_line.cofins_base)
                 det.imposto.COFINS.pCOFINS.valor = str("%.2f" % inv_line.cofins_percent)
                 det.imposto.COFINS.vCOFINS.valor = str("%.2f" % inv_line.cofins_value)
-
+ 
                 # COFINSST
                 det.imposto.COFINSST.vBC.valor = str("%.2f" % inv_line.cofins_st_base)
                 det.imposto.COFINSST.pCOFINS.valor = str("%.2f" % inv_line.cofins_st_percent)
                 det.imposto.COFINSST.qBCProd.valor = ''
                 det.imposto.COFINSST.vAliqProd.valor = ''
                 det.imposto.COFINSST.vCOFINS.valor = str("%.2f" % inv_line.cofins_st_value)
-
+ 
                 nfe.infNFe.det.append(det)
-
+ 
             #
             # Dados de Cobrança
             #
             if inv.journal_id.revenue_expense:
-
+ 
                 for line in inv.move_line_receivable_id:
-
+ 
                     dup = Dup_200()
                     dup.nDup.valor = line.name
                     dup.dVenc.valor = line.date_maturity or inv.date_due or inv.date_invoice
                     dup.vDup.valor = str("%.2f" % line.debit)
                     nfe.infNFe.cobr.dup.append(dup)
-
+ 
             #
             # Dados da Transportadora e veiculo
             #
             try:
                 if inv.carrier_id:
-
+ 
                     nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
-
+ 
                     if inv.carrier_id.partner_id.is_company:
                         nfe.infNFe.transp.transporta.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
                     else:
@@ -411,21 +411,21 @@ class SendNFe(object):
                     nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
                     nfe.infNFe.transp.transporta.xMun.valor = inv.carrier_id.partner_id.l10n_br_city_id.name or ''
                     nfe.infNFe.transp.transporta.UF.valor = inv.carrier_id.partner_id.state_id.code or ''
-
+ 
                 if inv.vehicle_id:
                     nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''
                     nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.plate.state_id.code or ''
                     nfe.infNFe.transp.veicTransp.RNTC.valor = inv.vehicle_id.rntc_code or ''
-
+ 
             except AttributeError:
                 pass
-
+ 
             #
             # Informações adicionais
             #
             nfe.infNFe.infAdic.infAdFisco.valor = ''
             nfe.infNFe.infAdic.infCpl.valor = inv.comment or ''
-
+ 
             #
             # Totais
             #
@@ -435,9 +435,9 @@ class SendNFe(object):
             else:
                 icms_base = inv.icms_base
                 icms_value = inv.icms_value
-
+ 
             print "ICMS BASE", icms_base
-
+ 
             nfe.infNFe.total.ICMSTot.vBC.valor     = str("%.2f" % icms_base)
             nfe.infNFe.total.ICMSTot.vICMS.valor   = str("%.2f" % icms_value)
             nfe.infNFe.total.ICMSTot.vBCST.valor   = str("%.2f" % inv.icms_st_base)
@@ -452,10 +452,10 @@ class SendNFe(object):
             nfe.infNFe.total.ICMSTot.vCOFINS.valor = str("%.2f" % inv.cofins_value)
             nfe.infNFe.total.ICMSTot.vOutro.valor  = str("%.2f" % inv.amount_costs)
             nfe.infNFe.total.ICMSTot.vNF.valor     = str("%.2f" % inv.amount_total)
-
+ 
             # Gera Chave da NFe
             nfe.gera_nova_chave()
-
+ 
             nfes.append(nfe)
-
+ 
         return nfes
