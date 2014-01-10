@@ -69,6 +69,7 @@ class stock_picking(orm.Model):
                  'name': tax[0],
                  'account_id': tax[1].id,
                  'amount': tax[2],
+                 'base': tax[2],
                  'manual': 1,
                  'company_id': company.id,
                 }, context=context)
