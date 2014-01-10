@@ -43,19 +43,50 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
             'NFe Export Result'),
         'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
     }
+
+    def _default_file_type(self, cr, uid, context):
+        file_type = False
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+        file_type = company.file_type
+        return file_type
+
+    def _default_nfe_environment(self, cr, uid, context):
+        nfe_environment = False
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+        nfe_environment = company.nfe_environment
+        return nfe_environment
+
+    def _default_sign_xml(self, cr, uid, context):
+        sign_xml = False
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+        sign_xml = company.sign_xml
+        return sign_xml
+
+    def _default_export_folder(self, cr, uid, context):
+        export_folder = False
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+        export_folder = company.export_folder
+        return export_folder
+
     _defaults = {
         'state': 'init',
-        'file_type': 'txt',
-        'nfe_environment': '1',
-        'sign_xml': False,
-        'export_folder': False,
+        'file_type': _default_file_type,
+        'nfe_environment': _default_nfe_environment,
+        'sign_xml': _default_sign_xml,
+        'export_folder': _default_export_folder,
     }
 
     def _get_invoice_ids(self, cr, uid, data, context=None):
-
         if not context:
             context = {}
-
         return context.get('active_ids', [])
 
     def nfe_export(self, cr, uid, ids, context=None):
