@@ -5,17 +5,15 @@
         <record model="ir.ui.view" id="view_l10n_br_delivery_company_form">
 		<field name="name">l10n_br_account.company</field>
 		<field name="model">res.company</field>
-		<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form" />
+		<field name="inherit_id" ref="base.view_company_form" />
 			<field name="arch" type="xml">
-				<page position="after" string="NFse">
-					<page string="Entrega">
-						<group string="Configurações das entregas">
+				<group position="after" name="account_grp" string="Accounting">
+					<group string="Entrega">
 						    <field name="account_freight_id" />
 						    <field name="account_insurance_id"/>
 						    <field name="account_other_costs"/>
-						</group>
-					</page>
-				</page>
+					</group>
+				</group>
 			</field>
 		</record>
     </data>
