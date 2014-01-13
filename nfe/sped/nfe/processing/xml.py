@@ -121,3 +121,35 @@ def send(self, cr, uid, ids, nfe_environment, context=None):
         result.append(resultado)
 
     return result
+
+def send_request_to_sefaz(self, cr, uid, ids, *args):    
+    record = self.browse(cr, uid, ids[0])
+    company_pool = self.pool.get('res.company')        
+    company = company_pool.browse(cr, uid, record.company_id.id)
+    
+    validate_nfe_configuration(company)
+    validate_nfe_invalidate_number(company, record)
+    
+    p = pysped.nfe.ProcessadorNFe()        
+    p.versao = '2.00' if (company.nfe_version == '200') else '1.10'
+    p.estado = company.partner_id.l10n_br_city_id.state_id.code
+
+    file_content_decoded = base64.decodestring(company.nfe_a1_file)        
+    p.certificado.stream_certificado = file_content_decoded
+    p.certificado.senha = company.nfe_a1_password
+
+    p.salva_arquivos      = True
+    p.contingencia_SCAN   = False
+    p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)            
+            
+    cnpj_partner = re.sub('[^0-9]','', company.partner_id.cnpj_cpf)
+    serie = record.document_serie_id.code
+
+    processo = p.inutilizar_nota(
+        cnpj=cnpj_partner,
+        serie=serie,
+        numero_inicial=record.number_start,
+        numero_final=record.number_end,
+        justificativa=record.justificative)
+               
+    return processo

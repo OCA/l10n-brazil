@@ -25,7 +25,6 @@ import datetime
 import netsvc
 from openerp.osv import osv, fields, orm
 from openerp.tools.translate import _
-from send_nfe import SendNFe
 from os.path import expanduser
 from sped.nfe.config_check import *
 
