@@ -20,5 +20,3 @@
 import sped
 import account_invoice
 import l10n_br_account
-import send_nfe
-#import wizard
