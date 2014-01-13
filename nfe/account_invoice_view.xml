@@ -15,10 +15,7 @@
 				</button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
                     <button name="invoice_cancel" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="draft,proforma2,sale,open,sefaz_export,sefaz_exception" string="Cancel Invoice" groups="account.group_account_invoice"/>
-                </xpath>
-				<field name="account_id" position="after">
-					<field name="send_nfe_invoice_id" mode="form" attrs="{'readonly':True}"/>
-				</field>                
+                </xpath>             
            </field>
         </record>        
     </data>

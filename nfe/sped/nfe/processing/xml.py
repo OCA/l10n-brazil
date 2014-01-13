@@ -122,6 +122,7 @@ def send(self, cr, uid, ids, nfe_environment, context=None):
 
     return result
 
+#inutilização de numeração
 def send_request_to_sefaz(self, cr, uid, ids, *args):    
     record = self.browse(cr, uid, ids[0])
     company_pool = self.pool.get('res.company')        

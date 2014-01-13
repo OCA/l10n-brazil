@@ -43,7 +43,7 @@ arquivos XML""",
     ],
     'data': [
             'account_invoice_workflow.xml',
-             'l10n_br_nfe_view.xml',
+             'l10n_br_account_view.xml',
              'account_invoice_view.xml',
             ],
     'demo': [],
