@@ -28,57 +28,57 @@ from openerp.tools.translate import _
 from os.path import expanduser
 from sped.nfe.config_check import *
 
-class l10n_br_nfe_send_sefaz(osv.Model):
-    """ Classe para salvar o retorno dos metodos de envio de cancelamento, inutilização e recepção de nota """
-    _name = 'l10n_br_nfe.send_sefaz'
-    _description = 'Envia os dados para o SEFAZ NFe'
-    _columns = {                
-        'name': fields.char('Nome', size=255),
-        'file': fields.binary('Xml processado', readonly=True),        
-        'state': fields.selection(
-            [('init', 'init'), ('done', 'done')], 'state', readonly=True),
-        'start_date': fields.datetime('Inicio'),
-        'end_date': fields.datetime('Fim'),
-        'nfe_environment': fields.selection(
-            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),        
-        'nfe_export_result': fields.one2many(
-            'l10n_br_nfe.send_sefaz_result', 'send_sefaz_id',
-            'NFe Export Result'),        
-    }
-    _defaults = {
-        'state': 'init',        
-        'nfe_environment': '2',        
-    }
+# class l10n_br_nfe_send_sefaz(osv.Model):
+#     """ Classe para salvar o retorno dos metodos de envio de cancelamento, inutilização e recepção de nota """
+#     _name = 'l10n_br_nfe.send_sefaz'
+#     _description = 'Envia os dados para o SEFAZ NFe'
+#     _columns = {                
+#         'name': fields.char('Nome', size=255),
+#         'file': fields.binary('Xml processado', readonly=True),        
+#         'state': fields.selection(
+#             [('init', 'init'), ('done', 'done')], 'state', readonly=True),
+#         'start_date': fields.datetime('Inicio'),
+#         'end_date': fields.datetime('Fim'),
+#         'nfe_environment': fields.selection(
+#             [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),        
+#         'nfe_export_result': fields.one2many(
+#             'l10n_br_nfe.send_sefaz_result', 'send_sefaz_id',
+#             'NFe Export Result'),        
+#     }
+#     _defaults = {
+#         'state': 'init',        
+#         'nfe_environment': '2',        
+#     }
 
 
-class l10n_br_nfe_send_sefaz_result(osv.Model):
-    _name = 'l10n_br_nfe.send_sefaz_result'
-    _columns = {
-        'send_sefaz_id': fields.many2one(
-            'l10n_br_nfe.send_sefaz', 'Envio SEFAZ',
-            ondelete='cascade', select=True),
-        'xml_type': fields.char('Tipo', size=255),
-        'name':fields.char('Nome envio', size=255),                
-        'file': fields.binary('Xml envio', readonly=True),
-        'name_result':fields.char('Nome retorno', size=255),        
-        'file_result': fields.binary('Xml retorno', readonly=True),        
-        'status': fields.selection(
-            [('success', 'Sucesso'), ('error', 'Erro')], 'Status'),
-        'status_code':fields.char('Código',size=5),
-        'message': fields.char('Mensagem', size=255),
-    }
+# class l10n_br_nfe_send_sefaz_result(osv.Model):
+#     _name = 'l10n_br_nfe.send_sefaz_result'
+#     _columns = {
+#         'send_sefaz_id': fields.many2one(
+#             'l10n_br_nfe.send_sefaz', 'Envio SEFAZ',
+#             ondelete='cascade', select=True),
+#         'xml_type': fields.char('Tipo', size=255),
+#         'name':fields.char('Nome envio', size=255),                
+#         'file': fields.binary('Xml envio', readonly=True),
+#         'name_result':fields.char('Nome retorno', size=255),        
+#         'file_result': fields.binary('Xml retorno', readonly=True),        
+#         'status': fields.selection(
+#             [('success', 'Sucesso'), ('error', 'Erro')], 'Status'),
+#         'status_code':fields.char('Código',size=5),
+#         'message': fields.char('Mensagem', size=255),
+#     }
     
-class res_company(osv.Model):
-    _inherit = 'res.company'
-    _columns = {
-        'save_xml_folder': fields.boolean('Salvar Xml na Pasta?'),
-    }
+# class res_company(osv.Model):
+#     _inherit = 'res.company'
+#     _columns = {
+#         'save_xml_folder': fields.boolean('Salvar Xml na Pasta?'),
+#     }
 
 
 class l10n_br_account_invoice_invalid_number(osv.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'    
     _columns = {
-        'invalidate_number_nfe_invoice_id': fields.many2one('l10n_br_nfe.send_sefaz', 'Inutilização numeração NFe'),            
+        # 'invalidate_number_nfe_invoice_id': fields.many2one('l10n_br_nfe.send_sefaz', 'Inutilização numeração NFe'),            
         'state': fields.selection(
             [('draft', 'Rascunho'), ('not_authorized', 'Não autorizado'),('done', u'Autorizado Sefaz')], 'Status', required=True),        
         'status':fields.char('Status', size=10),
