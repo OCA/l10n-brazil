@@ -259,6 +259,7 @@ class AccountInvoice(orm.Model):
             'nfe_status': False,
             'nfe_date': False,
             'nfe_export_date': False,
+            'account_document_event_ids': False,
         })
         return super(AccountInvoice, self).copy(cr, uid, id, default, context)
 
