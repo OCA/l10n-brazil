@@ -16,12 +16,12 @@
                 	<field name="id" invisible="1"/>                    
                     <field name="status" attrs="{'invisible':[('state','==','draft')]}"/>
                     <field name="message" attrs="{'invisible':[('state','==','draft')]}"/>
-                    <field name="invalidate_number_nfe_invoice_id" attrs="{'invisible':[('state','==','draft')]}"/>                    
+            <!--        <field name="invalidate_number_nfe_invoice_id" attrs="{'invisible':[('state','==','draft')]}"/>                    -->
                 </field>                
             </field>
         </record>
         
-		<record id="l10n_br_nfe_send_invoice" model="ir.ui.view">
+	<!--	<record id="l10n_br_nfe_send_invoice" model="ir.ui.view">
 			<field name="name">Enviar Nota Fiscal</field>
 			<field name="model">l10n_br_nfe.send_sefaz</field>
 			<field name="arch" type="xml">
@@ -54,5 +54,7 @@
 				</form>
 			</field>
 		</record>
+
+	-->
     </data>
 </openerp>

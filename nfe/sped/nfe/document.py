@@ -24,18 +24,10 @@ from datetime import datetime
 from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
-from openerp.addons.l10n_br_account.sped.nfe import document
+from openerp.addons.l10n_br_account.sped.document import FiscalDocument
 
 
-def search():
-    pass
-
-
-def create():
-    pass
-
-
-class NFe200(Document):
+class NFe200(FiscalDocument):
 
     def _serializer(self, cr, uid, ids, nfe_environment, context=None):
         """"""
@@ -128,7 +120,7 @@ class NFe200(Document):
                     nfref.refNFP.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNFP.serie.valor = inv_related.serie or ''
                     nfref.refNFP.nNF.valor = inv_related.internal_number or ''
-                    if inv_related.cpfcpnj_type == 'cnpj':
+                    if inv_related.cpfcnpj_type == 'cnpj':
                         nfref.refNFP.CNPJ.valor = inv_related.cnpj_cpf or ''
                     else:
                         nfref.refNFP.CPF.valor = inv_related.cnpj_cpf or ''
@@ -154,7 +146,7 @@ class NFe200(Document):
             nfe.infNFe.emit.enderEmit.cMun.valor = '%s%s' % (company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
             nfe.infNFe.emit.enderEmit.xMun.valor = company.l10n_br_city_id.name or ''
             nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
-            nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', company.zip or '')
+            nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.zip or '').replace(' ','')) 
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
             nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
@@ -222,24 +214,7 @@ class NFe200(Document):
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
-
-                #FIXME - Houve mudança ao ler campos do tipo property?
-                property_obj = pool.get('ir.property')
-                fclass_obj = pool.get('account.product.fiscal.classification')
-                f_class_property_id = property_obj.search(cr, uid,
-                    [('name', '=', 'property_fiscal_classification'),
-                        ('res_id', '=', 'product.template,' +
-                        str(inv_line.product_id.product_tmpl_id.id) + ''),
-                        ('company_id', '=', inv.company_id.id)])
-
-                f_class_property_data = property_obj.read(
-                    cr, uid, f_class_property_id,
-                    ['name', 'value_reference', 'res_id'])
-
-                f_class_id = f_class_property_data and f_class_property_data[0].get('value_reference', False) and int(f_class_property_data[0]['value_reference'].split(',')[1]) or False
-                fclassificaion = fclass_obj.browse(cr, uid, f_class_id, context)
-
-                det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', fclassificaion.name or '')
+                det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.fiscal_classification_id.name or '')
                 det.prod.EXTIPI.valor = ''
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
@@ -385,11 +360,7 @@ class NFe200(Document):
     # TODO
     def _deserializer():
         """"""
-        try:
-            from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200
-        except ImportError:
-            raise orm.except_orm(
-                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        pass
 
     def get_xml(self, cr, uid, ids, nfe_environment, context=None):
         """"""

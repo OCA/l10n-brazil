@@ -20,15 +20,13 @@
 from openerp.osv import orm
 from openerp.tools.translate import _
 
-
 def validation(nfe_xml):
     try:
         from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200
         nfe = NFe_200()
-        nfe.get_xml(nfe_xml)
+        nfe.set_xml(nfe_xml)
     except ImportError:
         raise orm.except_orm(
             _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
-
-   return nfe.validar()
+    return nfe.validar()
 

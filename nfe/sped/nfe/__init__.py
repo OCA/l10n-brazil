@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+	# -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -16,8 +16,6 @@
 #You should have received a copy of the GNU Affero General Public License     #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
-import config_check
-#import document
-#import serializer
-#import processing
-#import validator
+import document
+import processing
+import validator

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+        <record id="act_router" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">router</field>
+            <field name="action">action_date_assign()
+action_internal_number()
+action_move_create()
+action_number()
+nfe_check()</field>
+            <field name="kind">function</field>
+        </record>
+
+
         <record id="act_sefaz_transmit" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">sefaz_transmit</field>

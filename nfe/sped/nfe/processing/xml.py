@@ -31,12 +31,17 @@ from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 
-def sign():
-
-    try:
+def monta_caminho_nfe(ambiente, chave_nfe):
+    try:            
         from pysped.nfe import ProcessadorNFe
-    pass
+    except ImportError as e:
+        raise orm.except_orm(
+            _(u'Erro!'), _(u"Biblioteca PySPED não instalada! " + str(e)))
+    p = ProcessadorNFe()
+    return p.monta_caminho_nfe(ambiente,chave_nfe)
 
+def sign():
+    pass
 
 def cancel():
     pass
