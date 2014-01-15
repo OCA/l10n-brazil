@@ -30,6 +30,7 @@ from .sped.nfe.document import NFe200
 from .sped.nfe.validator.xml import validation
 from .sped.nfe.validator.config_check import validate_nfe_configuration
 from .sped.nfe.processing.xml import monta_caminho_nfe
+from .sped.nfe.processing.xml import envio
 
 
 class AccountInvoice(osv.Model):
@@ -57,7 +58,6 @@ class AccountInvoice(osv.Model):
         #result = super(AccountInvoice, self).nfe_check(
         #     cr, uid, ids, context)
 
-        result = True
         if result:
             for inv in self.browse(cr, uid, ids):
 
@@ -106,12 +106,8 @@ class AccountInvoice(osv.Model):
         return result
 
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
-        pass
+                 
 
-        # nfe_send_pool = self.pool.get('l10n_br_nfe.send_sefaz')
-        # nfe_send_id = nfe_send_pool.create(cr, uid, { 'name': 'Envio NFe', 'start_date': datetime.datetime.now()}, context)
-
-        # self.write(cr, uid, ids, {'send_nfe_invoice_id': nfe_send_id})
 
         # erros = False   
         # chave_nfe = ''

@@ -46,7 +46,7 @@ def sign():
 def cancel():
     pass
     
-def send(self, cr, uid, ids, nfe_environment, context=None):
+def send(cr, uid, ids, nfe_environment, context=None):
     try:            
         from pysped.nfe import ProcessadorNFe
         from pysped.nfe import webservices_flags

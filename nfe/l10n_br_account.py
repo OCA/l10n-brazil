@@ -101,6 +101,24 @@ class l10n_br_account_invoice_invalid_number(osv.Model):
             raise orm.except_orm(_('Error !'), e.message)       
         return True
 
+class L10n_brAccountInvoiceCancel(orm.Model):
+
+    _inherit = 'l10n_br_account.invoice.cancel'
+
+    def action_draft_done(self, cr, uid, ids, *args):
+        self.write(cr, uid, ids, {'state': 'done'})
+        return True
+
+class L10n_brDocumentEvent(orm.Model):
+
+    _inherit = 'l10n_br_account.document_event'
+
+    def set_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        self.write(cr, uid, ids, {'state':'done', 'end_date': datetime.datetime.now()}, context=context)
+        return True
+        
 #--- Validation methods used before send any data to SEFAZ
 
 
