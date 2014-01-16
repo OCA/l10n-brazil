@@ -69,7 +69,7 @@ class PurchaseOrder(orm.Model):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="""[('type', '=', 'input'), ('state', '=', 'approved')
+            domain="""[('type', '=', 'input'), ('state', '=', 'approved'),
                 ('journal_type', '=', 'purchase')]"""),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
