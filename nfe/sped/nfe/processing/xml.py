@@ -31,12 +31,10 @@ from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 
+from pysped.nfe import ProcessadorNFe
+from pysped.nfe import webservices_flags
+
 def monta_caminho_nfe(ambiente, chave_nfe):
-    try:            
-        from pysped.nfe import ProcessadorNFe
-    except ImportError as e:
-        raise orm.except_orm(
-            _(u'Erro!'), _(u"Biblioteca PySPED não instalada! " + str(e)))
     p = ProcessadorNFe()
     return p.monta_caminho_nfe(ambiente,chave_nfe)
 
@@ -46,47 +44,33 @@ def sign():
 def cancel():
     pass
     
-def send(cr, uid, ids, nfe_environment, context=None):
-    try:            
-        from pysped.nfe import ProcessadorNFe
-        from pysped.nfe import webservices_flags
-    except ImportError as e:
-        raise orm.except_orm(
-            _(u'Erro!'), _(u"Biblioteca PySPED não instalada! " + str(e)))
-                         
-    pool = pooler.get_pool(cr.dbname)
-    invoice = pool.get('account.invoice').browse(cr, uid, ids[0], context)
-    
-    company_pool = pool.get('res.company')        
-    company = company_pool.browse(cr, uid, invoice.company_id.id)
-            
+def send(company, nfe):
+                        
     p = ProcessadorNFe()
+
     p.versao = '2.00' if (company.nfe_version == '200') else '1.10'
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
-    
-    file_content_decoded = base64.decodestring(company.nfe_a1_file)        
-    p.certificado.stream_certificado = file_content_decoded
+    p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
     p.certificado.senha = company.nfe_a1_password
-
     p.salva_arquivos      = True
     p.contingencia_SCAN   = False
     p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)
-    
-    nfe = self._serializer(cr, uid, ids, nfe_environment, context) #FIXME
+
     result = []
-    
+
     for processo in p.processar_notas(nfe):   
         #result.append({'status':'success', 'message':'Recebido com sucesso.', 'key': nfe[0].infNFe.Id.valor, 'nfe': processo.envio.xml})
         #result.append({'status':'success', 'message':'Recebido com sucesso.','key': nfe[0].infNFe.Id.valor, 'nfe': processo.resposta.xml})
-                                                    
-        status = processo.resposta.cStat.valor
-        message = processo.resposta.xMotivo.valor
+        
         name = 'xml_enviado.xml'
         name_result = 'xml_retorno.xml'
+        type_xml = ''
+
+        status = processo.resposta.cStat.valor
+        message = processo.resposta.xMotivo.valor
         file_sent = processo.envio.xml
         file_result = processo.resposta.xml
-        
-        type_xml = ''
+
         if processo.webservice == webservices_flags.WS_NFE_CONSULTA:
             type_xml = 'Situação NF-e'
         elif processo.webservice == webservices_flags.WS_NFE_SITUACAO:                
@@ -98,33 +82,53 @@ def send(cr, uid, ids, nfe_environment, context=None):
             
         if processo.resposta.status == 200:
 
-            resultado = {'name':name,'name_result':name_result, 'message':message, 'xml_type':type_xml, 
-                'status_code':status,'xml_sent': file_sent.encode('utf8'),'xml_result': file_result.encode('utf8'), 'status':'success'}
+            resultado = {
+                'name':name,
+                'name_result':name_result,
+                'message':message,
+                'xml_type':type_xml,
+                'status_code':status,
+                'xml_sent': file_sent.encode('utf8'),
+                'xml_result': file_result.encode('utf8'),
+                'status':'success'
+                }
 
             if processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:                
                 resultado["status"] = "error"
+                
                 for prot in processo.resposta.protNFe:
+                    
                     resultado["status_code"] = prot.infProt.cStat.valor
                     resultado["message"] = prot.infProt.xMotivo.valor
                     resultado["nfe_key"] = prot.infProt.chNFe.valor
+
                     if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
                         nfe_xml = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].xml
-                        danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
-
-                        danfe_nfe = {'name':'danfe.pdf','name_result':'nfe_protocolada.xml', 
-                            'message':prot.infProt.xMotivo.valor, 'xml_type':'Danfe/NF-e', 
-                            'status_code':prot.infProt.cStat.valor,'xml_sent': danfe_pdf,
-                            'xml_result': nfe_xml.encode('utf8') , 'status':'success'}
+                        #danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
+                        danfe_nfe = {
+                            'name':'danfe.pdf',
+                            'name_result':'nfe_protocolada.xml', 
+                            'message':prot.infProt.xMotivo.valor, 
+                            'xml_type':'Danfe/NF-e', 
+                            'status_code':prot.infProt.cStat.valor,
+                            'xml_sent': 'danfe_pdf',
+                            'xml_result': nfe_xml.encode('utf8') , 
+                            'status':'success'}
 
                         resultado["status"] = "success"
                         result.append(danfe_nfe)
-
         else:
-            resultado = {'name':name,'name_result':name_result, 'message':processo.resposta.original, 'xml_type':type_xml, 
-                'status_code':processo.resposta.status,'xml_sent': file_sent.encode('utf8'),'xml_result': file_result.encode('utf8'), 'status':'error'}
-
+            resultado = {
+                'name':name,
+                'name_result':name_result, 
+                'message':processo.resposta.original, 
+                'xml_type':type_xml, 
+                'status_code':processo.resposta.status,
+                'xml_sent': file_sent.encode('utf8'),
+                'xml_result': file_result.encode('utf8'), 
+                'status':'error'
+                }
         result.append(resultado)
-
     return result
 
 #inutilização de numeração

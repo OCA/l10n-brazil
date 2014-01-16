@@ -26,7 +26,7 @@ import netsvc
 from openerp.osv import osv, fields, orm
 from openerp.tools.translate import _
 from os.path import expanduser
-from sped.nfe.config_check import *
+from sped.nfe.validator.config_check import *
 
 # class l10n_br_nfe_send_sefaz(osv.Model):
 #     """ Classe para salvar o retorno dos metodos de envio de cancelamento, inutilização e recepção de nota """

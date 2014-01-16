@@ -30,7 +30,7 @@ from .sped.nfe.document import NFe200
 from .sped.nfe.validator.xml import validation
 from .sped.nfe.validator.config_check import validate_nfe_configuration
 from .sped.nfe.processing.xml import monta_caminho_nfe
-from .sped.nfe.processing.xml import envio
+from .sped.nfe.processing.xml import send
 
 
 class AccountInvoice(osv.Model):
@@ -54,94 +54,99 @@ class AccountInvoice(osv.Model):
 
 
     def nfe_check(self, cr, uid, ids, context=None):
-        #poderia ficar em uma ação separada, para manter o workflow original
-        #result = super(AccountInvoice, self).nfe_check(
-        #     cr, uid, ids, context)
 
-        if result:
-            for inv in self.browse(cr, uid, ids):
+        for inv in self.browse(cr, uid, ids):
 
-                company_pool = self.pool.get('res.company')
-                company = company_pool.browse(cr, uid, inv.company_id.id)
+            company_pool = self.pool.get('res.company')
+            company = company_pool.browse(cr, uid, inv.company_id.id)
 
-                validate_nfe_configuration(company)
+            validate_nfe_configuration(company)
 
-                nfe_obj = NFe200()
-                nfes = nfe_obj.get_xml(cr, uid, ids, company.nfe_environment )
-                for nfe in nfes:
-                    erro = validation(nfe['nfe'])
-                    nfe_key = nfe['key'][3:]
-                    if erro:
-                        raise orm.except_orm( _(u'Erro na validação da NFe!'), erro)
+            nfe_obj = NFe200()
+            nfes = nfe_obj.get_xml(cr, uid, ids, company.nfe_environment )
+            for nfe in nfes:
+                erro = validation(nfe['nfe'])
+                nfe_key = nfe['key'][3:]
+                if erro:
+                    raise orm.except_orm( _(u'Erro na validação da NFe!'), erro)
 
-                    self.write(cr, uid, inv.id, {'nfe_access_key': nfe_key })
+                self.write(cr, uid, inv.id, {'nfe_access_key': nfe_key })
 
-                    save_dir =  company.nfe_export_folder + monta_caminho_nfe( company.nfe_environment , nfe_key) + 'tmp/'
+                save_dir =  company.nfe_export_folder + monta_caminho_nfe( company.nfe_environment , nfe_key) + 'tmp/'
 
-                    nfe_file = nfe['nfe'].encode('utf8')
-                    
-                    file_path = save_dir + nfe_key + '-nfe.xml'
-                    try:
-                        if not os.path.exists(save_dir):
-                            os.makedirs(save_dir)
-                        f = open(file_path, 'w')
-                    except IOError:
-                        raise orm.except_orm(_(u'Erro!'), 
-                            _(u'Não é foi possivel salvar o arquivo em disco, verifique as permissões de escrita e \
-                        o caminho da pasta'))
-                    else:
-                        f.write(nfe_file)
-                        f.close()
+                nfe_file = nfe['nfe'].encode('utf8')
+                
+                file_path = save_dir + nfe_key + '-nfe.xml'
+                try:
+                    if not os.path.exists(save_dir):
+                        os.makedirs(save_dir)
+                    f = open(file_path, 'w')
+                except IOError:
+                    raise orm.except_orm(_(u'Erro!'), 
+                        _(u'Não é foi possivel salvar o arquivo em disco, verifique as permissões de escrita e \
+                    o caminho da pasta'))
+                else:
+                    f.write(nfe_file)
+                    f.close()
 
-                    event_obj = self.pool.get('l10n_br_account.document_event')
-                    nfe_send_id = event_obj.create(cr, uid, { 
-                        'name': 'Assinatura e Validação', 
-                        'company_id': company.id,
-                        'origin': '[NF-E]',
-                        'file': file_path,
-                        'create_date': datetime.datetime.now(),
-                        'state': 'draft',
-                        'document_event_ids': inv.id
-                        }, context)
-        return result
+                event_obj = self.pool.get('l10n_br_account.document_event')
+                nfe_send_id = event_obj.create(cr, uid, { 
+                    'name': 'Assinatura e Validação', 
+                    'company_id': company.id,
+                    'origin': '[NF-E]',
+                    'file': file_path,
+                    'create_date': datetime.datetime.now(),
+                    'state': 'draft',
+                    'document_event_ids': inv.id
+                    }, context)
 
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
-                 
 
+        for inv in self.browse(cr, uid, ids):
+            company_pool = self.pool.get('res.company')
+            company = company_pool.browse(cr, uid, inv.company_id.id)
 
-        # erros = False   
-        # chave_nfe = ''
-        # status_sefaz = ''                     
-        # try:
-        #     envio = SendNFe()
-        #     resultados =  envio.send_nfe(cr, uid, ids, '2', context)
+            event_obj = self.pool.get('l10n_br_account.document_event')
+            #TODO: Buscar xml do disco, usando o caminho.-
+            arquivo =  inv.account_document_event_ids[0].file
+            nfe_obj = NFe200()
+            
+            nfe = []
 
-        #     nfe_send_pool.write(cr, uid, nfe_send_id,{ 'end_date': datetime.datetime.now(),'state':'done' }, context)
-        #     result_pool =  self.pool.get('l10n_br_nfe.send_sefaz_result')
-        #     for result in resultados:
-        #         if result['status'] != 'success':
-        #             erros = True
-        #         if result['xml_type'] == 'Recibo NF-e':
-        #             status_sefaz = result['status_code'] + ' - ' + result['message']
-        #             chave_nfe = result["nfe_key"] or ''
+            erros = False   
+            chave_nfe = ''
+            status_sefaz = '' 
 
-        #         result_pool.create(cr, uid, {'send_sefaz_id': nfe_send_id , 'xml_type': result['xml_type'], 
-        #                     'name':result['name'], 'file':base64.b64encode(result['xml_sent']), 
-        #                     'name_result':result['name_result'], 'file_result':base64.b64encode(result['xml_result']),
-        #                     'status':result['status'], 'status_code':result['status_code'], 
-        #                     'message':result['message']}, context)
-        # except Exception as e:
-        #     status_sefaz = e.message
-        #     erros = True
+            try:
+                nfe.append(nfe_obj.set_xml(arquivo))
+                result = send(company, nfe)
 
-        # data_envio = datetime.datetime.now()  
-        # if erros:            
-        #     chave_nfe = ''   
-        #     self.write(cr, uid, ids, {'state':'sefaz_exception'}, context)                                 
-        # else:            
-        #     self.write(cr, uid, ids, {'state':'open'}, context)          
+                event_obj.write(cr, uid, inv.account_document_event_ids[0].id ,{ 'end_date': datetime.datetime.now(),'state':'done' }, context)
 
-        # self.write(cr, uid, ids, { 'nfe_access_key': chave_nfe, 'nfe_status':status_sefaz, 'nfe_date':data_envio }, context)        
+                for result in resultados:
+                    if result['status'] != 'success':
+                        erros = True
+                    if result['xml_type'] == 'Recibo NF-e':
+                        status_sefaz = result['status_code'] + ' - ' + result['message']
+                        chave_nfe = result["nfe_key"] or ''
+
+                    # result_pool.create(cr, uid, {'send_sefaz_id': nfe_send_id , 'xml_type': result['xml_type'], 
+                    #             'name':result['name'], 'file':base64.b64encode(result['xml_sent']), 
+                    #             'name_result':result['name_result'], 'file_result':base64.b64encode(result['xml_result']),
+                    #             'status':result['status'], 'status_code':result['status_code'], 
+                    #             'message':result['message']}, context)
+            except Exception as e:
+                status_sefaz = e.message
+                erros = True
+
+            data_envio = datetime.datetime.now()
+            if erros:            
+                chave_nfe = ''   
+                self.write(cr, uid, ids, {'state':'sefaz_exception'}, context)                                 
+            else:            
+                self.write(cr, uid, ids, {'state':'open'}, context)          
+
+            self.write(cr, uid, ids, { 'nfe_access_key': chave_nfe, 'nfe_status':status_sefaz, 'nfe_date':data_envio }, context)        
 
     #--- Class methods
     def cancel_invoice_online(self, cr, uid, ids,context=None):        
