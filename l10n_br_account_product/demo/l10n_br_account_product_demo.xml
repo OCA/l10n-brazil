@@ -15,9 +15,25 @@
 			<field eval="1" name="revenue_expense"/>
 		</record>
 
+		<record id="aj_b7aafa9c3056c3f020ceae63d7312504" model="account.journal">
+			<field name="name">Compras para Ind</field>
+			<field name="code">CMPI</field>
+			<field name="type">purchase</field>
+			<field name="update_posted" eval="1" />
+			<field name="group_invoice_lines" eval="0" />
+			<!-- <field name="default_credit_account_id" ref="account_demo_602"/>
+			<field name="default_debit_account_id" ref="account_demo_602"/>  -->
+			<field name="user_id" ref="base.user_root"/>
+			<field name="company_id" ref="base.main_company"/>
+		</record>
+
 		<!-- l10n_br_account.fiscal.category -->
 		<record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
 			<field name="property_journal" ref="account.sales_journal" />
+		</record>
+		
+		<record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_account.fiscal.category">
+			<field name="property_journal" ref="aj_b7aafa9c3056c3f020ceae63d7312504" />
 		</record>
 
 		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
@@ -56,6 +72,71 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+		</record>
+
+		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
+		<record id="fp_c333f0a13695741d07c872b54016c093_internal_demo" model="account.fiscal.position">
+			<field name="name">Bonificação Dentro do Estado</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_5910" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo" model="account.fiscal.position">
+			<field name="name">Bonificação Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6910" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo" model="account.fiscal.position">
+			<field name="name">Bonificação Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_6910" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+		
+		<!-- Compras para Industrialização -->
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo" model="account.fiscal.position">
+			<field name="name">Compras para Ind Interna</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_1101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo" model="account.fiscal.position">
+			<field name="name">Compras para Ind ICMS 7%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo" model="account.fiscal.position">
+			<field name="name">Compras para Ind ICMS 12%</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_2101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
+		</record>
+
+		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_exportation_demo" model="account.fiscal.position">
+			<field name="name">Compras para Ind Ex</field>
+			<field name="cfop_id" ref="l10n_br_account_product.cfop_3101" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">purchase</field>
 		</record>
 
 		<!-- account.product.fiscal.classification -->
