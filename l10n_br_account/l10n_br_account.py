@@ -74,12 +74,28 @@ class L10n_brDocumentEvent(orm.Model):
     _name = 'l10n_br_account.document_event'
 
     _columns = {
-        'name': fields.char(u'Descrição', size=64, readonly=True),
+        'type': fields.selection(
+            [('0', u'Envio Lote'), 
+            ('1', u'Consulta Recibo'),
+            ('2', u'Cancelamento'), 
+            ('3', u'Inutilização'), 
+            ('4', u'Consulta NFE'), 
+            ('5', u'Consulta Situação'), 
+            ('6', u'Consulta Cadastro'), 
+            ('7', u'DPEC Recepção'), 
+            ('8', u'DPEC Consulta'), 
+            ('9', u'Recepção Evento'), 
+            ('10', u'Download'), 
+            ('11', u'Consulta Destinadas'), ], 'Serviço'),
+        'response': fields.char(u'Descrição', size=64, readonly=True),
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
             states={'draft': [('readonly', False)]}),
         'origin': fields.char('Documento de Origem', size=64, help="Reference of the document that produced event.", readonly=True, states={'draft':[('readonly',False)]}),
-        'file': fields.char('Caminho do arquivo', readonly=True),
+        'file_sent': fields.char('Envio', readonly=True),
+        'file_returned': fields.char('Retorno', readonly=True),
+        'status': fields.char('Codigo', readonly=True),
+        'message': fields.char('Mensagem', readonly=True),
         'create_date': fields.datetime('Data Criação', readonly=True),
         'write_date': fields.datetime('Date Alteração', readonly=True),
         'end_date': fields.datetime('Data Finalização', readonly=True),
