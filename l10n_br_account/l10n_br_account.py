@@ -75,7 +75,8 @@ class L10n_brDocumentEvent(orm.Model):
 
     _columns = {
         'type': fields.selection(
-            [('0', u'Envio Lote'), 
+            [('-1', u'Exception'),
+            ('0', u'Envio Lote'), 
             ('1', u'Consulta Recibo'),
             ('2', u'Cancelamento'), 
             ('3', u'Inutilização'), 
