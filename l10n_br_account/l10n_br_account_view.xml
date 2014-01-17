@@ -209,14 +209,18 @@
 						<field name="state" widget="statusbar" statusbar_visible="draft,send,wait,done"/>
 					</header>
 					<group>
-						<field name="name"/>
+						<field name="type"/>
 						<field name="company_id"/>
+						<field name="response"/>
 						<field name="origin"/>
-						<field name="file"/>
-						<field name="create_date"/>
-						<field name="write_date"/>						
-						<field name="end_date"/>	
-						<field name="document_event_ids"/>	
+						<field name="write_date"/>				
+						<field name="file_sent"/>
+						<field name="end_date"/>
+						<field name="file_returned"/>
+						<field name="status"/>
+						<field name="message"/>
+						<field name="state"/>
+						<field name="document_event_ids"/>
 					</group>
 				</form>
 			</field>
@@ -227,14 +231,15 @@
 			<field name="model">l10n_br_account.document_event</field>
 			<field name="arch" type="xml">
 				<tree string="Eventos Eletronicos">
-						<field name="name"/>
+						<field name="type"/>
 						<field name="company_id"/>
+						<field name="response"/>
 						<field name="origin"/>
-						<field name="file"/>
-						<field name="create_date"/>
-						<field name="write_date"/>						
-						<field name="end_date"/>	
-						<field name="state"/>	
+						<field name="write_date"/>				
+						<field name="end_date"/>
+						<field name="status"/>
+						<field name="message"/>
+						<field name="state"/>
 						<field name="document_event_ids"/>
 				</tree>
 			</field>
