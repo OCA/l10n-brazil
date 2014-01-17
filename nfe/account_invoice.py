@@ -94,7 +94,7 @@ class AccountInvoice(osv.Model):
                 nfe_send_id = event_obj.create(cr, uid, { 
                     'type': '0',
                     'company_id': company.id,
-                    'origin': '[NF-E]',
+                    'origin': '[NF-E]'+ inv.internal_number,
                     'file_sent': file_path,
                     'create_date': datetime.datetime.now(),
                     'state': 'draft',
@@ -103,89 +103,70 @@ class AccountInvoice(osv.Model):
 
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
 
-        print "\n\n Inicio Envio"
-
         for inv in self.browse(cr, uid, ids):
             company_pool = self.pool.get('res.company')
             company = company_pool.browse(cr, uid, inv.company_id.id)
 
             event_obj = self.pool.get('l10n_br_account.document_event')
-            #TODO: Buscar xml do disco, usando o caminho.-
+
             arquivo =  inv.account_document_event_ids[0].file_sent
 
-            print arquivo
-
             nfe_obj = NFe200()
-            
             nfe = []
-
-            erros = False   
-            chave_nfe = ''
-            status_sefaz = '' 
+            results = []
+            protNFe= {}
+            protNFe["state"] = 'exception'
 
             try:
                 nfe.append(nfe_obj.set_xml(arquivo))
 
-                event_obj.write(cr, uid, inv.account_document_event_ids[0].id ,{ 'end_date': datetime.datetime.now(),'state':'send' }, context)
-
                 for processo in send(company, nfe):
-                        print type(processo.webservice)
-                        print event_obj.create(cr, uid,{ 
+
+                    vals = {
                             'type': str(processo.webservice),
                             'status': processo.resposta.cStat.valor, 
-                            'response': 'response',
+                            'response': '',
                             'company_id': company.id,
-                            'origin': '[NF-E]',
+                            'origin': '[NF-E]' + inv.internal_number,
                             'file_sent': processo.arquivos[0]['arquivo'],
                             'file_returned': processo.arquivos[1]['arquivo'],
                             'message': processo.resposta.xMotivo.valor,
                             'state': 'done',
-                            'create_date': datetime.datetime.now(),
-                            'document_event_ids': inv.id,
-                         }, context)
+                            'document_event_ids': inv.id }
+                    results.append(vals)
 
+                    if processo.webservice == 1:
+                        for prot in processo.resposta.protNFe:
+                            protNFe["status_code"] = prot.infProt.cStat.valor
+                            protNFe["message"] = prot.infProt.xMotivo.valor
+                            if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):        
+                                protNFe["state"] = 'open'
             except Exception as e:
-                status_sefaz = e.message
-                erros = True
-                print "EROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!"
-                print status_sefaz          
-            #     for result in resultados:
+                vals = {
+                        'type': '-1',
+                        'status': '000', 
+                        'response': 'response',
+                        'company_id': company.id,
+                        'origin': '[NF-E]'+ inv.internal_number,
+                        'file_sent': 'False',
+                        'file_returned': 'False',
+                        'message': 'Erro desconhecido ' + e.message,
+                        'state': 'done',
+                        'document_event_ids': inv.id
+                        }
+                results.append(vals)
+            finally:
+                for result in results:
+                    if result['type'] == '0':
+                        event_obj.write(cr, uid, inv.account_document_event_ids[0].id , result, context)
+                    else:
+                        event_obj.create(cr, uid, result, context)
 
-            #         print "\n\n result", result
-
-            #         nfe_send_id = event_obj.create(cr, uid, { 
-            #             'name': result['xml_type'], 
-            #             'company_id': company.id,
-            #             'origin': '[NF-E]',
-            #             'file': result['file_send'] or ,
-            #             'create_date': datetime.datetime.now(),
-            #             'state': 'draft',
-            #             'document_event_ids': inv.id
-            #             }, context)
-
-            #         if result['status'] != 'success':
-            #             erros = True
-            #         if result['xml_type'] == 'Recibo NF-e':
-            #             status_sefaz = result['status_code'] + ' - ' + result['message']
-            #             chave_nfe = result["nfe_key"] or ''
-
-            #         # result_pool.create(cr, uid, {'send_sefaz_id': nfe_send_id , 'xml_type': result['xml_type'], 
-            #         #             'name':result['name'], 'file':base64.b64encode(result['xml_sent']), 
-            #         #             'name_result':result['name_result'], 'file_result':base64.b64encode(result['xml_result']),
-            #         #             'status':result['status'], 'status_code':result['status_code'], 
-            #         #             'message':result['message']}, context)
-            # except Exception as e:
-            #     status_sefaz = e.message
-            #     erros = True
-
-            # data_envio = datetime.datetime.now()
-            # if erros:            
-            #     chave_nfe = ''
-            #     self.write(cr, uid, ids, {'state':'sefaz_exception'}, context)                                 
-            # else:            
-            #     self.write(cr, uid, ids, {'state':'open'}, context)          
-
-            # self.write(cr, uid, ids, { 'nfe_access_key': chave_nfe, 'nfe_status':status_sefaz, 'nfe_date':data_envio }, context)        
+                self.write(cr, uid, inv.id, { 
+                     'nfe_status': protNFe["status_code"] + ' - ' + protNFe["message"], 
+                     'nfe_date': datetime.datetime.now(),
+                     'state':  protNFe["state"]
+                     }, context)     
 
     #--- Class methods
     # def cancel_invoice_online(self, cr, uid, ids,context=None):        
