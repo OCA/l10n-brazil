@@ -56,82 +56,82 @@ def send(company, nfe):
     p.contingencia_SCAN   = False
     p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)
 
-    result = []
-
-    for processo in p.processar_notas(nfe):   
+    return p.processar_notas(nfe)
         #result.append({'status':'success', 'message':'Recebido com sucesso.', 'key': nfe[0].infNFe.Id.valor, 'nfe': processo.envio.xml})
         #result.append({'status':'success', 'message':'Recebido com sucesso.','key': nfe[0].infNFe.Id.valor, 'nfe': processo.resposta.xml})
-        
-        name = 'xml_enviado.xml'
-        name_result = 'xml_retorno.xml'
-        type_xml = ''
 
-        status = processo.resposta.cStat.valor
-        message = processo.resposta.xMotivo.valor
-        file_sent = processo.envio.xml
-        file_result = processo.resposta.xml
 
-        if processo.webservice == webservices_flags.WS_NFE_CONSULTA:
-            type_xml = 'Situação NF-e'
-        elif processo.webservice == webservices_flags.WS_NFE_SITUACAO:                
-            type_xml = 'Status'
-        elif processo.webservice == webservices_flags.WS_NFE_ENVIO_LOTE:
-            type_xml = 'Envio NF-e'
-        elif processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:
-            type_xml = 'Recibo NF-e'                        
+        # print dir(processo)
+        # print "\n Arquivos" , processo.arquivos[0]['arquivo']
+        # print "\n Arquivos" , processo.arquivos[1]['arquivo']
+
+        # print "\n Envio" ,  dir(processo.envio)
+        # print "\n Resposta" ,  dir(processo.resposta)
+        # print "\n WebService" ,  dir(processo.webservice)
+
+
+        # type_xml = ''
+
+        # status = 
+        # message = 
+        # file_sent =
+        # file_result =
+
+                       
             
-        if processo.resposta.status == 200:
+        # if processo.resposta.status == 200:
 
-            resultado = {
-                'name':name,
-                'name_result':name_result,
-                'message':message,
-                'xml_type':type_xml,
-                'status_code':status,
-                'xml_sent': file_sent.encode('utf8'),
-                'xml_result': file_result.encode('utf8'),
-                'status':'success'
-                }
+        #     resultado = {
+        #         'name':name,
+        #         'name_result':name_result,
+        #         'message':message,
+        #         'xml_type':type_xml,
+        #         'status_code':status,
+        #         'xml_sent': file_sent,
+        #         'xml_result': file_result,
+        #         'status':'success'
+        #         }
 
-            if processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:                
-                resultado["status"] = "error"
+        #     if processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:                
+        #         resultado["status"] = "error"
                 
-                for prot in processo.resposta.protNFe:
+        #         for prot in processo.resposta.protNFe:
                     
-                    resultado["status_code"] = prot.infProt.cStat.valor
-                    resultado["message"] = prot.infProt.xMotivo.valor
-                    resultado["nfe_key"] = prot.infProt.chNFe.valor
+        #             resultado["status_code"] = prot.infProt.cStat.valor
+        #             resultado["message"] = prot.infProt.xMotivo.valor
+        #             resultado["nfe_key"] = prot.infProt.chNFe.valor
 
-                    if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
-                        nfe_xml = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].xml
-                        #danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
-                        danfe_nfe = {
-                            'name':'danfe.pdf',
-                            'name_result':'nfe_protocolada.xml', 
-                            'message':prot.infProt.xMotivo.valor, 
-                            'xml_type':'Danfe/NF-e', 
-                            'status_code':prot.infProt.cStat.valor,
-                            'xml_sent': 'danfe_pdf',
-                            'xml_result': nfe_xml.encode('utf8') , 
-                            'status':'success'}
+        #             if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
+        #                 nfe_xml = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].xml
+        #                 #danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
+        #                 danfe_nfe = {
+        #                     'name':'danfe.pdf',
+        #                     'name_result':'nfe_protocolada.xml', 
+        #                     'message':prot.infProt.xMotivo.valor, 
+        #                     'xml_type':'Danfe/NF-e', 
+        #                     'status_code':prot.infProt.cStat.valor,
+        #                     'xml_sent': 'danfe_pdf',
+        #                     'xml_result': nfe_xml.encode('utf8') , 
+        #                     'status':'success'}
 
-                        resultado["status"] = "success"
-                        result.append(danfe_nfe)
-        else:
-            resultado = {
-                'name':name,
-                'name_result':name_result, 
-                'message':processo.resposta.original, 
-                'xml_type':type_xml, 
-                'status_code':processo.resposta.status,
-                'xml_sent': file_sent.encode('utf8'),
-                'xml_result': file_result.encode('utf8'), 
-                'status':'error'
-                }
-        result.append(resultado)
-    return result
+        #                 resultado["status"] = "success"
+        #                 result.append(danfe_nfe)
+        # else:
+        #     resultado = {
+        #         'name':name,
+        #         'name_result':name_result, 
+        #         'message':processo.resposta.original, 
+        #         'xml_type':type_xml, 
+        #         'status_code':processo.resposta.status,
+        #         'xml_sent': file_sent,
+        #         'xml_result': file_result, 
+        #         'status':'error'
+        #         }
+        # result.append(resultado)
+    # return result
 
 #inutilização de numeração
+
 def send_request_to_sefaz(self, cr, uid, ids, *args):    
     record = self.browse(cr, uid, ids[0])
     company_pool = self.pool.get('res.company')        
