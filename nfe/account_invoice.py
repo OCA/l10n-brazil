@@ -137,8 +137,8 @@ class AccountInvoice(osv.Model):
 
                     if processo.webservice == 1:
                         for prot in processo.resposta.protNFe:
-                            protNFe["status_code"] = prot.infProt.cStat.valor
-                            protNFe["message"] = prot.infProt.xMotivo.valor
+                            protNFe["status_code"] = prot.infProt.cStat.valor or ''
+                            protNFe["message"] = prot.infProt.xMotivo.valor or ''
                             if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):        
                                 protNFe["state"] = 'open'
             except Exception as e:
