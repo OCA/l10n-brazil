@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <record id="act_router" model="workflow.activity">
+        <record id="l10n_br_account_product.act_router" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">router</field>
             <field name="action">action_date_assign()
@@ -11,7 +11,6 @@ action_number()
 nfe_check()</field>
             <field name="kind">function</field>
         </record>
-
 
         <record id="act_sefaz_transmit" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
