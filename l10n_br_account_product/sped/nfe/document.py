@@ -219,15 +219,15 @@ class NFe200(FiscalDocument):
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
                 det.prod.qCom.valor = str("%.4f" % inv_line.quantity)
-                det.prod.vUnCom.valor = str("%.7f" % (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0)))
-                det.prod.vProd.valor = str("%.2f" % inv_line.price_total)
+                det.prod.vUnCom.valor = str("%.7f" % (inv_line.price_unit))
+                det.prod.vProd.valor = str("%.2f" % inv_line.price_gross)
                 det.prod.cEANTrib.valor = inv_line.product_id.ean13 or ''
                 det.prod.uTrib.valor = det.prod.uCom.valor
                 det.prod.qTrib.valor = det.prod.qCom.valor
                 det.prod.vUnTrib.valor = det.prod.vUnCom.valor
                 det.prod.vFrete.valor = str("%.2f" % inv_line.freight_value)
                 det.prod.vSeg.valor = str("%.2f" % inv_line.insurance_value)
-                det.prod.vDesc.valor = '0.00'
+                det.prod.vDesc.valor = str("%.2f" % inv_line.discount_value)
                 det.prod.vOutro.valor = str("%.2f" % inv_line.other_costs_value)
                 #
                 # Produto entra no total da NF-e
@@ -339,10 +339,10 @@ class NFe200(FiscalDocument):
             nfe.infNFe.total.ICMSTot.vICMS.valor   = str("%.2f" % inv.icms_value)
             nfe.infNFe.total.ICMSTot.vBCST.valor   = str("%.2f" % inv.icms_st_base)
             nfe.infNFe.total.ICMSTot.vST.valor     = str("%.2f" % inv.icms_st_value)
-            nfe.infNFe.total.ICMSTot.vProd.valor   = str("%.2f" % inv.amount_untaxed)
+            nfe.infNFe.total.ICMSTot.vProd.valor   = str("%.2f" % inv.amount_gross)
             nfe.infNFe.total.ICMSTot.vFrete.valor  = str("%.2f" % inv.amount_freight)
             nfe.infNFe.total.ICMSTot.vSeg.valor    = str("%.2f" % inv.amount_insurance)
-            nfe.infNFe.total.ICMSTot.vDesc.valor   = '0.00'
+            nfe.infNFe.total.ICMSTot.vDesc.valor   = str("%.2f" % inv.amount_discount)
             nfe.infNFe.total.ICMSTot.vII.valor     = str("%.2f" % inv.ii_value)
             nfe.infNFe.total.ICMSTot.vIPI.valor    = str("%.2f" % inv.ipi_value)
             nfe.infNFe.total.ICMSTot.vPIS.valor    = str("%.2f" % inv.pis_value)
