@@ -103,6 +103,8 @@ class AccountInvoice(osv.Model):
 
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
 
+        result = {}
+
         for inv in self.browse(cr, uid, ids):
             company_pool = self.pool.get('res.company')
             company = company_pool.browse(cr, uid, inv.company_id.id)
@@ -169,6 +171,8 @@ class AccountInvoice(osv.Model):
                      'nfe_date': datetime.datetime.now(),
                      'state':  protNFe["state"]
                      }, context)     
+
+        return result
 
     #--- Class methods
     # def cancel_invoice_online(self, cr, uid, ids,context=None):        
