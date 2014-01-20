@@ -30,6 +30,7 @@
         'delivery',
     ],
     'data': [
+        'res_company_view.xml',
         'account_invoice_view.xml',
         'delivery_view.xml',
         'sale_view.xml',
