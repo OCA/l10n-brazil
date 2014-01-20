@@ -34,19 +34,19 @@ class SaleShop(orm.Model):
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
-    def _amount_products_all(self, cr, uid, ids, field_name, arg, context=None):
-        cur_obj = self.pool.get('res.currency')
-        res = {}
-        for order in self.browse(cr, uid, ids, context=context):
-            res[order.id] = {
-                'amount_product': 0.0,
-            }
-            val = 0.0
-            cur = order.pricelist_id.currency_id
-            for line in order.order_line:
-                val += line.price_gross
-            res[order.id]['amount_product'] = cur_obj.round(cr, uid, cur, val)
-        return res
+    # def _amount_products_all(self, cr, uid, ids, field_name, arg, context=None):
+    #     cur_obj = self.pool.get('res.currency')
+    #     res = {}
+    #     for order in self.browse(cr, uid, ids, context=context):
+    #         res[order.id] = {
+    #             'amount_product': 0.0,
+    #         }
+    #         val = 0.0
+    #         cur = order.pricelist_id.currency_id
+    #         for line in order.order_line:
+    #             val += line.price_gross
+    #         res[order.id]['amount_product'] = cur_obj.round(cr, uid, cur, val)
+    #     return res
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
         cur_obj = self.pool.get('res.currency')
@@ -80,6 +80,7 @@ class SaleOrder(orm.Model):
         result = {}
         for line in self.pool.get('sale.order.line').browse(cr, uid, ids, context=context):
             result[line.order_id.id] = True
+        return result.keys()
 
     def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
         result = {}
