@@ -49,7 +49,8 @@ class StockPicking(orm.Model):
 
 
     def _invoice_hook(self, cr, uid, picking, invoice_id):
-        """Call after the creation of the invoice."""        context = {}
+        """Call after the creation of the invoice."""        
+	context = {}
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company = self.pool.get('res.company').browse(
