@@ -32,6 +32,7 @@
     'data': [
         'sale_view.xml',
         'security/ir.model.access.csv',
+        'security/l10n_br_sale_security.xml',
         'l10n_br_sale_data.xml',
         'report/sale_report_view.xml',
     ],
