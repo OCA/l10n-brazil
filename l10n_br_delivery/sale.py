@@ -17,8 +17,8 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+import time
 from openerp.osv import orm, osv
-import time 
 from openerp.tools.translate import _
 
 def  calc_price_ratio(price_gross, amount_calc, amount_total):
@@ -151,12 +151,12 @@ class SaleOrder(orm.Model):
         return result
 
 
-class sale_order_line(orm.Model):
+class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
-        result = super(sale_order_line, self)._prepare_order_line_invoice_line(
+        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             cr, uid, line, account_id, context)
 
         result['insurance_value'] = line.insurance_value
