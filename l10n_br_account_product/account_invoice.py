@@ -75,8 +75,8 @@ class AccountInvoice(orm.Model):
                 result[invoice.id]['amount_insurance'] += line.insurance_value
                 result[invoice.id]['amount_freight'] += line.freight_value
                 result[invoice.id]['amount_costs'] += line.other_costs_value
-                res[invoice.id]['amount_gross'] += line.price_gross
-                res[invoice.id]['amount_discount'] += line.discount_value
+                result[invoice.id]['amount_gross'] += line.price_gross
+                result[invoice.id]['amount_discount'] += line.discount_value
 
             for invoice_tax in invoice.tax_line:
                 if not invoice_tax.tax_code_id.tax_discount:
