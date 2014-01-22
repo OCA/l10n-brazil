@@ -20,6 +20,7 @@
 
 import time
 import base64
+import re, string
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
@@ -94,7 +95,7 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
         if len(set(company_ids)) > 1:
             err_msg += u'Não é permitido exportar Documentos \
             Fiscais de mais de uma empresa, por favor selecione Documentos \
-            Fiscais da mesma empresa.'
+            Fiscais da mesma empresa.\n'
 
         if export_inv_ids:
             if len(export_inv_numbers) > 1:
@@ -103,7 +104,11 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
                     self.pool.get('ir.sequence').get(cr, uid, 'nfe.export'),
                     data['file_type'])
             else:
-                name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
+                name = '{numero}_{cnpj}_{serie:0>3}_{dia}_{mes}_{ano}-nfe.{file_type}'.format(numero=export_inv_numbers[0],
+                    cnpj=(re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or '')),
+                    serie=int(inv.document_serie_id.code),dia=time.strftime('%d'),
+                    mes=time.strftime('%m'),ano=time.strftime('%Y'),
+                    file_type=data['file_type'])
 
             mod_serializer = __import__(
                 'l10n_br_account.sped.nfe.serializer.' + data['file_type'],
@@ -128,6 +133,17 @@ class l10n_br_account_nfe_export_invoice(orm.TransientModel):
 
                 nfe_file = nfe['nfe'].encode('utf8')
 
+            save_dir = inv.company_id.nfe_export_folder
+            if (data['export_folder']) & (save_dir != ''):
+                try:
+                    f = open(save_dir + name, 'w')
+                except IOError:
+                    err_msg += u'Não é foi possivel salvar o arquivo em disco, verifique as permissões de escrita e \
+                    o caminho da pasta nas configurações da empresa\n'
+                else:
+                    f.write(nfe_file)
+                    f.close()
+                            
             self.write(
                 cr, uid, ids, {'file': base64.b64encode(nfe_file),
                 'state': 'done', 'name': name}, context=context)
