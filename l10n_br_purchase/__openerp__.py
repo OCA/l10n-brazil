@@ -36,7 +36,9 @@
         'security/ir.model.access.csv',
         'security/l10n_br_purchase_security.xml',
     ],
-    'demo': [],
+    'demo': [
+        'test/purchase_order_demo.yml'
+            ],
     'installable': True,
     'auto_install': False,
 }
