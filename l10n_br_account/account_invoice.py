@@ -96,6 +96,9 @@ class AccountInvoice(orm.Model):
             'account.fiscal.position', 'Fiscal Position', readonly=True,
             states={'draft': [('readonly', False)]},
             domain="[('fiscal_category_id','=',fiscal_category_id)]"),
+        'account_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids',
+            u'Eventos'),
     }
 
     def _default_fiscal_document(self, cr, uid, context):
@@ -256,6 +259,7 @@ class AccountInvoice(orm.Model):
             'nfe_status': False,
             'nfe_date': False,
             'nfe_export_date': False,
+            'account_document_event_ids': False,
         })
         return super(AccountInvoice, self).copy(cr, uid, id, default, context)
 
