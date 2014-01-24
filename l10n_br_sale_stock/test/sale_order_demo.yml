@@ -71,10 +71,11 @@
   !python {model: stock.invoice.onshipping}: |
     sale = self.pool.get('sale.order')
     sale_order = sale.browse(cr, uid, ref("sale_order_test2"))
-    ship_ids = [x.id for x in sale_order.picking_ids]
-    wiz_id = self.create(cr, uid, {'journal_id': ref('account.sales_journal')},
-      {'active_ids': ship_ids, 'active_model': 'stock.picking'})
-    self.create_invoice(cr, uid, [wiz_id], {"active_ids": ship_ids, "active_id": ship_ids[0]})
+    ship_ids = [picking.id for picking in sale_order.picking_ids if picking.invoice_state == '2binvoiced']
+    if ship_ids:
+      wiz_id = self.create(cr, uid, {'journal_id': ref('account.sales_journal')},
+        {'active_ids': ship_ids, 'active_model': 'stock.picking'})
+      self.create_invoice(cr, uid, [wiz_id], {"active_ids": ship_ids, "active_id": ship_ids[0]})
 -
   I check the invoice details after dispatched delivery.
 -
