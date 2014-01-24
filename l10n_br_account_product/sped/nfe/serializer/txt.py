@@ -335,7 +335,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'VUnTrib': str("%.7f" % inv_line.price_unit),
                    'VFrete': freight_value,
                    'VSeg': insurance_value,
-                   'VDesc': str("%.2f" % inv_line.discount_value),
+                   'VDesc': inv_line.discount_value and str("%.2f" % inv_line.discount_value) or '',
                    'vOutro': other_costs_value,
                    'indTot': '1',
                    'xPed': '',
@@ -344,10 +344,6 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             StrRegI['NCM'] = re.sub('[%s]' % re.escape(string.punctuation),
                 '', inv_line.fiscal_classification_id.name or '')
-
-            #No OpenERP já traz o valor unitário como desconto
-            #if inv_line.discount > 0:
-            #    StrRegI['VDesc'] = str("%.2f" % (inv_line.quantity * (inv_line.price_unit * (1-(inv_line.discount or 0.0)/100.0))))
 
             StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
                                                                                       StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI['UCom'], StrRegI['QCom'],
