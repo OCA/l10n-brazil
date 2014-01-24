@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-		<record id="l10n_br_account_product_nfe_status_sefaz_form" model="ir.ui.view">
+		<record id="l10n_br_account_product_document_status_sefaz_form" model="ir.ui.view">
 			<field name="name">Verificar Status Sefaz</field>
-			<field name="model">l10n_br_account_product.nfe_status_sefaz</field>
+			<field name="model">l10n_br_account_product.document_status_sefaz</field>
 			<field name="arch" type="xml">
 				<form string="Consultar chave de acesso" version="7.0">
 					<field invisible="1" name="state"/>
@@ -12,8 +12,8 @@
 							<field name="chNFe" />
 						</group>
 						<group states="done" string="Resultado da Consulta">
-							<field name="versao" />
-							<field name="tpAmbiente" attrs="{'readonly': True}"/>
+							<field name="version" />
+							<field name="nfe_environment" attrs="{'readonly': True}"/>
 							<field name="xMotivo" />
 							<field name="cUF" />
 							<field name="chNFe" attrs="{'readonly': True}" />
@@ -23,8 +23,8 @@
 						</group>
 					</group>
 					<footer states="init">
-							<button name="nfe_status_sefaz" string="Consultar" type="object" class="oe_highlight" /> ou
-							<button special="cancel" string="Cancel" type="object" class="oe_link"/>
+						<button name="nfe_status_sefaz" string="Consultar" type="object" class="oe_highlight" /> ou
+						<button special="cancel" string="Cancel" type="object" class="oe_link"/>
 					</footer>
 					<footer states="done">
 						<button special="cancel" string="Close" type="object"/>
@@ -32,13 +32,15 @@
 				</form>	
 			</field>
 		</record>
-		<record id="action_l10n_br_account_product_nfe_status_sefaz" model="ir.actions.act_window">
+
+		<record id="l10n_br_account_product_document_status_sefaz_action" model="ir.actions.act_window">
 			<field name="name">Consultar Status Sefaz</field>
-			<field name="res_model">l10n_br_account_product.nfe_status_sefaz</field>
+			<field name="res_model">l10n_br_account_product.document_status_sefaz</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>
 			<field name="target">new</field>
 		</record>
-		<menuitem id="menu_l10n_br_account_invoice_cancel" name="Consultar chave" parent="l10n_br_account.menu_l10n_br_account_fiscal" action="action_l10n_br_account_product_nfe_status_sefaz"/>
+
+		<menuitem id="menu_l10n_br_account_invoice_cancel" name="Consultar chave" parent="l10n_br_account.menu_l10n_br_account_fiscal" action="l10n_br_account_product_document_status_sefaz_action"/>
 	</data>
 </openerp>
