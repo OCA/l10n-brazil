@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013 Luis Felipe Miléo - luisfelipe@mileo.co                  #
+# Copyright (C) 2014 Renato Lima - Akretion                                   #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,29 +19,27 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 
 
-class L10n_brAccountNfeStatusSefaz(orm.TransientModel):
-    """ Check fiscal eletronic key"""
-    _name = 'l10n_br_account_product.nfe_status_sefaz'
-    _description = 'Check eletronic invoice key on sefaz'
+class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
+    """ Check fiscal document key"""
+    _name = 'l10n_br_account_product.document_status_sefaz'
+    _description = 'Check fiscal document key on sefaz'
     _columns = {
-        'state':fields.selection([
-            ('init','Init'),
-            ('error','Error'),
-            ('done','Done'),
-        ],'State', select=True, readonly=True),
-        'versao': fields.text(u'Versão', readonly=True),
-        'tpAmbiente': fields.selection(
+        'state': fields.selection(
+            [('init', 'Init'),
+            ('error', 'Error'),
+            ('done', 'Done')], 'State', select=True, readonly=True),
+        'version': fields.text(u'Versão', readonly=True),
+        'nfe_environment': fields.selection(
             [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
         'xMotivo': fields.text('Motivo', readonly=True),
-        'cUF': fields.integer('Codigo Estado',readonly=True),#FIXME
-        'chNFe': fields.char(
-            'Chave de Acesso NFE', size=44),
-        'protNFe': fields.text('Protocolo NFE',readonly=True),
-        'retCancNFe': fields.text('Cancelamento NFE',readonly=True),
-        'procEventoNFe': fields.text('Processamento Evento NFE',readonly=True),
+        #FIXME
+        'cUF': fields.integer('Codigo Estado', readonly=True),
+        'chNFe': fields.char('Chave de Acesso NFE', size=44),
+        'protNFe': fields.text('Protocolo NFE', readonly=True),
+        'retCancNFe': fields.text('Cancelamento NFE', readonly=True),
+        'procEventoNFe': fields.text('Processamento Evento NFE', readonly=True),
     }
     _defaults = {
         'state': 'init',
@@ -53,16 +52,15 @@ class L10n_brAccountNfeStatusSefaz(orm.TransientModel):
 
         return context.get('active_ids', [])
 
-    def nfe_status_sefaz(self, cr, uid, ids, context=None):
+    def document_status_sefaz(self, cr, uid, ids, context=None):
 
         #Call some method from l10n_br_account to check chNFE
-
         call_result = {
-            'versao': '2.01',
-            'tpAmbiente': '2',
+            'version': '2.01',
+            'nfe_environment': '2',
             'xMotivo': '101',
             'cUF': 27,
-            'chNFe': '123412341234123412341234123412341234',
+            'nfe_environment': '123412341234123412341234123412341234',
             'protNFe': '123',
             'retCancNFe': '',
             'procEventoNFe': '',
@@ -71,25 +69,10 @@ class L10n_brAccountNfeStatusSefaz(orm.TransientModel):
         self.write(cr, uid, ids, call_result)
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
-        result = mod_obj.get_object_reference(cr, uid, 'l10n_br_account_product', 'action_l10n_br_account_product_nfe_status_sefaz')
-        id = result and result[1] or False
-        result = act_obj.read(cr, uid, id, context=context)
+        result = mod_obj.get_object_reference(
+            cr, uid, 'l10n_br_account_product',
+            'l10n_br_account_product_document_status_sefaz_action')
+        res_id = result and result[1] or False
+        result = act_obj.read(cr, uid, res_id, context=context)
         result['res_id'] = ids[0]
         return result
-
-
-
-
-
-# 
-# class L10n_brAccountNfeStatusSefazResult(orm.TransientModel):
-#     _name = 'l10n_br_account_product.nfe_status_sefaz_result'
-#     _columns = {
-#         'wizard_id': fields.many2one(
-#             'l10n_br_account_product.nfe_status_sefaz', 'Wizard ID',
-#             ondelete='cascade', select=True),
-#         'document': fields.char('Documento', size=255),
-#         'status': fields.selection(
-#             [('success', 'Sucesso'), ('error', 'Erro')], 'Status'),
-#         'message': fields.char('Mensagem', size=255),
-#     }
