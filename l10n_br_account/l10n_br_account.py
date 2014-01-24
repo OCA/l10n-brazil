@@ -32,24 +32,21 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
+
 class L10n_brAccountInvoiceCancel(orm.Model):
     _name = 'l10n_br_account.invoice.cancel'
     _description = u'Cancelar Documento Eletrônico no Sefaz'
-
     _columns = {
-        'invoice_id': fields.many2one('account.invoice',
-                                        'Fatura'),
-        'justificative': fields.char('Justificativa', size=255,
-            readonly=True, states={'draft': [('readonly', False)]},
-            required=True),
+        'invoice_id': fields.many2one(
+            'account.invoice', 'Fatura'),
+        'justificative': fields.char('Justificativa', size=255, readonly=True,
+            states={'draft': [('readonly', False)]}, required=True),
         'cancel_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos'),
+            'l10n_br_account.document_event', 'document_event_ids', u'Eventos'),
         'state': fields.selection(
             [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
             ('done', u'Concluído')], 'Status', required=True),
     }
-
     _defaults = {
         'state': 'draft',
     }
@@ -60,9 +57,10 @@ class L10n_brAccountInvoiceCancel(orm.Model):
                 return False
         return True
 
-    _constraints = [
-        (_check_justificative,'Justificativa deve ter tamanho minimo de 15 caracteres.', ['justificative'])
-    ]
+    _constraints = [(
+        _check_justificative,
+        'Justificativa deve ter tamanho minimo de 15 caracteres.',
+        ['justificative'])]
 
     def action_draft_done(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state': 'done'})
@@ -70,29 +68,29 @@ class L10n_brAccountInvoiceCancel(orm.Model):
 
 
 class L10n_brDocumentEvent(orm.Model):
-
     _name = 'l10n_br_account.document_event'
-
     _columns = {
         'type': fields.selection(
             [('-1', u'Exception'),
-            ('0', u'Envio Lote'), 
+            ('0', u'Envio Lote'),
             ('1', u'Consulta Recibo'),
-            ('2', u'Cancelamento'), 
-            ('3', u'Inutilização'), 
-            ('4', u'Consulta NFE'), 
-            ('5', u'Consulta Situação'), 
-            ('6', u'Consulta Cadastro'), 
-            ('7', u'DPEC Recepção'), 
-            ('8', u'DPEC Consulta'), 
-            ('9', u'Recepção Evento'), 
-            ('10', u'Download'), 
+            ('2', u'Cancelamento'),
+            ('3', u'Inutilização'),
+            ('4', u'Consulta NFE'),
+            ('5', u'Consulta Situação'),
+            ('6', u'Consulta Cadastro'),
+            ('7', u'DPEC Recepção'),
+            ('8', u'DPEC Consulta'),
+            ('9', u'Recepção Evento'),
+            ('10', u'Download'),
             ('11', u'Consulta Destinadas'), ], 'Serviço'),
         'response': fields.char(u'Descrição', size=64, readonly=True),
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
             states={'draft': [('readonly', False)]}),
-        'origin': fields.char('Documento de Origem', size=64, help="Reference of the document that produced event.", readonly=True, states={'draft':[('readonly',False)]}),
+        'origin': fields.char('Documento de Origem', size=64,
+            readonly=True, states={'draft': [('readonly', False)]},
+            help="Reference of the document that produced event."),
         'file_sent': fields.char('Envio', readonly=True),
         'file_returned': fields.char('Retorno', readonly=True),
         'status': fields.char('Codigo', readonly=True),
@@ -100,16 +98,13 @@ class L10n_brDocumentEvent(orm.Model):
         'create_date': fields.datetime('Data Criação', readonly=True),
         'write_date': fields.datetime('Date Alteração', readonly=True),
         'end_date': fields.datetime('Data Finalização', readonly=True),
-        'state': fields.selection([
-            ('draft','Rascunho'),
-            ('send','Enviado'),
-            ('wait','Aguardando Retorno'),
-            ('done','Recebido Retorno'),
-            ],'Status', select=True, readonly=True),
+        'state': fields.selection(
+            [('draft', 'Rascunho'), ('send', 'Enviado'),
+            ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
+            'Status', select=True, readonly=True),
         'document_event_ids': fields.many2one(
             'account.invoice', 'Documentos', ondelete='cascade')
     }
-
     _defaults = {
         'state': 'draft',
     }
@@ -117,7 +112,9 @@ class L10n_brDocumentEvent(orm.Model):
     def set_done(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        self.write(cr, uid, ids, {'state':'done', 'end_date': datetime.datetime.now()}, context=context)
+        self.write(cr, uid, ids,
+            {'state': 'done', 'end_date': datetime.datetime.now()},
+            context=context)
         return True
 
 
