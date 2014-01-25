@@ -23,13 +23,14 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '0.6',
+    'version': '7.0',
     'depends': [
         'l10n_br_stock',
         'l10n_br_sale',
         'delivery',
     ],
     'data': [
+        'res_company_view.xml',
         'account_invoice_view.xml',
         'delivery_view.xml',
         'sale_view.xml',
@@ -39,6 +40,6 @@
     ],
     'demo': [],
     'category': 'Localisation',
-    'active': False,
+    'active': True,
     'installable': True
 }

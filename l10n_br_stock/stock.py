@@ -19,10 +19,9 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 
 
-class stock_incoterms(orm.Model):
+class StockIncoterms(orm.Model):
     _inherit = 'stock.incoterms'
     _columns = {
         'freight_responsibility': fields.selection(
@@ -37,7 +36,7 @@ class stock_incoterms(orm.Model):
     }
 
 
-class stock_picking(orm.Model):
+class StockPicking(orm.Model):
     _inherit = 'stock.picking'
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -49,7 +48,8 @@ class stock_picking(orm.Model):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            readonly=True, states={'draft': [('readonly', False)]}),
+            readonly=True, domain="[('state', '=', 'approved')]",
+            states={'draft': [('readonly', False)]}),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]",
@@ -65,7 +65,7 @@ class stock_picking(orm.Model):
         if not context:
             context = {}
 
-        return super(stock_picking, self).onchange_partner_in(
+        return super(StockPicking, self).onchange_partner_in(
             cr, uid, ids, partner_id=partner_id, company_id=company_id,
             context=context, fiscal_category_id=fiscal_category_id)
 
@@ -123,7 +123,7 @@ class stock_picking(orm.Model):
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
-        result = super(stock_picking, self)._prepare_invoice_line(
+        result = super(StockPicking, self)._prepare_invoice_line(
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
 
@@ -144,7 +144,7 @@ class stock_picking(orm.Model):
 
     def _prepare_invoice(self, cr, uid, picking, partner,
                         inv_type, journal_id, context=None):
-        result = super(stock_picking, self)._prepare_invoice(
+        result = super(StockPicking, self)._prepare_invoice(
             cr, uid, picking, partner, inv_type, journal_id, context)
 
         comment = ''
@@ -162,7 +162,7 @@ class stock_picking(orm.Model):
         return result
 
 
-class stock_picking_in(stock_picking):
+class StockPickingIn(StockPicking):
     _inherit = 'stock.picking.in'
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -174,8 +174,9 @@ class stock_picking_in(stock_picking):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="[('journal_type', 'in', ('sale_refund', 'purchase')), "
-            "('fiscal_type', '=', 'product'), ('type', '=', 'input')]"),
+            domain="""[('journal_type', 'in', ('sale_refund', 'purchase')),
+            "('fiscal_type', '=', 'product'), ('type', '=', 'input'),
+            ('state', '=', 'approved')]"""),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
@@ -194,7 +195,7 @@ class stock_picking_in(stock_picking):
                             company_id=None, context=None,
                             fiscal_category_id=None):
 
-        result = super(stock_picking, self).onchange_partner_in(
+        result = super(StockPicking, self).onchange_partner_in(
             cr, uid, partner_id, context)
 
         if not result:
@@ -219,7 +220,7 @@ class stock_picking_in(stock_picking):
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
 
-class stock_picking_out(stock_picking):
+class StockPickingOut(StockPicking):
     _inherit = 'stock.picking.out'
 
     def _default_fiscal_category(self, cr, uid, context=None):
@@ -231,8 +232,9 @@ class stock_picking_out(stock_picking):
     _columns = {
         'fiscal_category_id': fields.many2one(
             'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="[('journal_type', 'in', ('purchase_refund', 'sale')), "
-            "('fiscal_type', '=', 'product'), ('type', '=', 'output')]"),
+            domain="""[('journal_type', 'in', ('purchase_refund', 'sale')),
+            "('fiscal_type', '=', 'product'), ('type', '=', 'output'),
+            ('state', '=', 'approved')]"""),
         'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]")
@@ -251,7 +253,7 @@ class stock_picking_out(stock_picking):
                             company_id=None, context=None,
                             fiscal_category_id=None):
 
-        result = super(stock_picking, self).onchange_partner_in(
+        result = super(StockPicking, self).onchange_partner_in(
             cr, uid, partner_id, context)
 
         if not result:

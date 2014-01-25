@@ -25,14 +25,14 @@ from openerp.osv import orm, fields
 from .tools import fiscal
 
 
-class res_partner(orm.Model):
+class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
     def _display_address(self, cr, uid, address, without_company=False,
                         context=None):
         if address.country_id and address.country_id.code != 'BR':
             #this ensure other localizations could do what they want
-            return super(res_partner, self)._display_address(
+            return super(ResPartner, self)._display_address(
                 cr, uid, address, without_company=False, context=None)
         else:
             address_format = address.country_id and \
@@ -91,6 +91,19 @@ class res_partner(orm.Model):
 
         return True
 
+    def _validate_ie_param(self, uf, inscr_est):
+        try:
+            mod = __import__(
+            'tools.fiscal', globals(), locals(), 'fiscal')
+
+            validate = getattr(mod, 'validate_ie_%s' % uf)
+            if not validate(inscr_est):
+                return False
+        except AttributeError:
+            if not fiscal.validate_ie_param(uf, inscr_est):
+                return False
+        return True
+
     def _check_ie(self, cr, uid, ids):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -111,16 +124,9 @@ class res_partner(orm.Model):
             uf = partner.state_id and \
             partner.state_id.code.lower() or ''
 
-            try:
-                mod = __import__(
-                'tools.fiscal', globals(), locals(), 'fiscal')
-
-                validate = getattr(mod, 'validate_ie_%s' % uf)
-                if not validate(partner.inscr_est):
-                    return False
-            except AttributeError:
-                if not fiscal.validate_ie_param(uf, partner.inscr_est):
-                    return False
+            res = self._validate_ie_param(uf, partner.inscr_est)
+            if not res:
+                return False
 
         return True
 
@@ -136,7 +142,7 @@ class res_partner(orm.Model):
     ]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
-        result = super(res_partner, self).onchange_type(
+        result = super(ResPartner, self).onchange_type(
             cr, uid, ids, is_company)
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
@@ -193,7 +199,8 @@ class res_partner(orm.Model):
         """ Returns the list of address fields that are synced from the parent
         when the `use_parent_address` flag is set.
         Extenção para os novos campos do endereço """
-        address_fields = super(res_partner,self)._address_fields(cr, uid, context=context)
+        address_fields = super(ResPartner, self)._address_fields(
+            cr, uid, context=context)
         return list(address_fields+['l10n_br_city_id', 'number', 'district'])
 
 

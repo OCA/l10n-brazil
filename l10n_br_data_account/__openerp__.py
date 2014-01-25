@@ -22,21 +22,18 @@
     'description': 'Brazilian Localisation Data Extension for Account',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
-    'version': '0.1',
+    'website': 'http://openerpbrasil.org',
+    'version': '7.0',
     'depends': [
         'l10n_br_account',
     ],
     'data': [
-        'account.product.fiscal.classification.template.csv',
         'l10n_br_account.cnae.csv',
         'l10n_br_account.service.type.csv',
-        'l10n_br_data_account_data.xml',
-        'account_fiscal_position_rule_data.xml',
     ],
-    'demo': [
-        'l10n_br_data_account_demo.xml',
-    ],
+    'demo': [],
     'category': 'Localisation',
-    'active': False,
-    'installable': True
+    'active': True,
+    'installable': True,
+    'auto_install': True,
 }

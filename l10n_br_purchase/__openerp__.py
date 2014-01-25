@@ -24,9 +24,9 @@
     'category': 'Localisation',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '0.6',
+    'version': '7.0',
     'depends': [
-        'l10n_br_account',
+        'l10n_br_stock',
         'account_fiscal_position_rule_purchase',
     ],
     'data': [
@@ -36,7 +36,9 @@
         'security/ir.model.access.csv',
         'security/l10n_br_purchase_security.xml',
     ],
-    'demo': [],
+    'demo': [
+        'test/purchase_order_demo.yml'
+            ],
     'installable': True,
-    'auto_install': True
+    'auto_install': False,
 }

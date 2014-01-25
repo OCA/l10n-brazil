@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '0.6',
+    'version': '7.0',
     'depends': [
         'l10n_br_account',
         'account_fiscal_position_rule_sale',
@@ -32,10 +32,14 @@
     'data': [
         'sale_view.xml',
         'security/ir.model.access.csv',
+        'security/l10n_br_sale_security.xml',
         'l10n_br_sale_data.xml',
         'report/sale_report_view.xml',
     ],
-    'demo': [],
+    'test': [
+    ],
+    'demo': [
+    ],
     'installable': True,
     'auto_install': True
 }
