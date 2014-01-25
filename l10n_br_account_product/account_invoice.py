@@ -186,7 +186,7 @@ class AccountInvoice(orm.Model):
                     _get_invoice_line, ['price_unit',
                                         'invoice_line_tax_id',
                                         'quantity', 'discount'], 20),
-            }, multi='all'),     
+            }, multi='all'),
         'amount_untaxed': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Untaxed',
@@ -738,7 +738,10 @@ class AccountInvoiceLine(orm.Model):
         'ii_base': 0.0,
         'ii_value': 0.0,
         'ii_iof': 0.0,
-        'ii_customhouse_charges': 0.0
+        'ii_customhouse_charges': 0.0,
+        'insurance_value': 0.0,
+        'other_costs_value': 0.0,
+        'freight_value': 0.0,
     }
 
     def _amount_tax_icms(self, cr, uid, tax=None):
