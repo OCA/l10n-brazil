@@ -138,8 +138,8 @@ class AccountTax(orm.Model):
             total_base = result['total'] + insurance_value + \
             freight_value + other_costs_value
 
-        result_icms = self._compute_tax(cr, uid, specific_icms, total_base,
-                                        product, quantity, precision)
+        result_icms = self._compute_tax(
+            cr, uid, specific_icms, total_base, product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
