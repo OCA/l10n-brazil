@@ -21,8 +21,10 @@ import time
 from openerp.osv import orm, osv
 from openerp.tools.translate import _
 
+
 def  calc_price_ratio(price_gross, amount_calc, amount_total):
     return price_gross * amount_calc / amount_total
+
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
@@ -50,11 +52,11 @@ class SaleOrder(orm.Model):
 
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=None, date_invoice = False, context=None):
         invoice_id = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_invoice, context)
-        
+
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company = self.pool.get('res.company').browse(
             cr, uid, user.company_id.id, context=context)
-        
+
         inv = self.pool.get("account.invoice").browse(cr,uid,invoice_id)
         vals = [
             ('Frete', company.account_freight_id, inv.amount_freight),
@@ -115,7 +117,7 @@ class SaleOrder(orm.Model):
         result = {}
         if (amount_freight is False) or not ids:
             return {'value': {'amount_freight': 0.00}}
-        
+
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
