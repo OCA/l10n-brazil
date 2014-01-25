@@ -162,6 +162,10 @@
 				<field position="after" name="partner_id">
 					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
 				</field>
+				<button name="invoice_open" position="replace">
+					<button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight" />
+					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" class="oe_highlight" />
+				</button>
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
