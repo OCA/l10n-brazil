@@ -25,8 +25,7 @@
     'website': 'http://openerpbrasil.org',
     'version': '7.0',
     'depends': [
-        'l10n_br_stock',
-        'l10n_br_sale',
+        'l10n_br_sale_stock',
         'delivery',
     ],
     'data': [

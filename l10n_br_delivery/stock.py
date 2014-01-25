@@ -31,9 +31,10 @@ class StockPicking(orm.Model):
         "implies its a series of sales terms which are used in the "
         "commercial transaction.")}
 
-    def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context=None):
+    def _prepare_shipping_invoice_line(self, cr, uid, picking,
+                                    invoice, context=None):
         #TODO: Calcular o valor correto em caso de alteração da quantidade
-        return None
+        return False
 
     def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
                               invoice_id, invoice_vals, context=None):
@@ -41,42 +42,42 @@ class StockPicking(orm.Model):
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
         #TODO: Calcular o valor correto em caso de alteração da quantidade
-        result['insurance_value'] = move_line.sale_line_id.insurance_value
-        result['other_costs_value'] = move_line.sale_line_id.other_costs_value
-        result['freight_value'] = move_line.sale_line_id.freight_value
+        if move_line.sale_line_id:
+            result['insurance_value'] = move_line.sale_line_id.insurance_value
+            result['other_costs_value'] = move_line.sale_line_id.other_costs_value
+            result['freight_value'] = move_line.sale_line_id.freight_value
         return result
 
-
-
     def _invoice_hook(self, cr, uid, picking, invoice_id):
-        """Call after the creation of the invoice."""        
-	context = {}
+        """Call after the creation of the invoice."""
+        context = {}
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company = self.pool.get('res.company').browse(
             cr, uid, user.company_id.id, context=context)
-        inv = self.pool.get("account.invoice").browse(cr,uid,invoice_id)
-        vals = [
+        inv = self.pool.get("account.invoice").browse(
+            cr, uid, invoice_id, context=context)
+        costs = [
             ('Frete', company.account_freight_id, inv.amount_freight),
             ('Seguro', company.account_insurance_id, inv.amount_insurance),
-            ('Outros Custos',company.account_other_costs, inv.amount_costs)
-            ]
+            ('Outros Custos', company.account_other_costs, inv.amount_costs)
+        ]
 
         ait_obj = self.pool.get('account.invoice.tax')
-        for tax in vals:
-            if tax[2] > 0:
-                ait_obj.create(cr, uid,
-                {
-                 'invoice_id': invoice_id,
-                 'name': tax[0],
-                 'account_id': tax[1].id,
-                 'amount': tax[2],
-                 'base': tax[2],
-                 'manual': 1,
-                 'company_id': company.id,
-                }, context=context)
+        for cost in costs:
+            if cost[2] > 0:
+                values = {
+                    'invoice_id': invoice_id,
+                    'name': cost[0],
+                    'account_id': cost[1].id,
+                    'amount': cost[2],
+                    'base': cost[2],
+                    'manual': True,
+                    'company_id': company.id,
+                }
 
-        
+                ait_obj.create(cr, uid, values, context=context)
+
         self.pool.get('account.invoice').write(
             cr, uid, invoice_id, {
                 'partner_shipping_id': picking.partner_id.id,
