@@ -51,7 +51,7 @@ class SaleOrder(orm.Model):
         return result
 
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=None, date_invoice = False, context=None):
-        invoice_id = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_invoice, context)
+        invoice_id = super(SaleOrder, self).action_invoice_create(cr, uid, ids, grouped, states, date_invoice, context)
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company = self.pool.get('res.company').browse(
