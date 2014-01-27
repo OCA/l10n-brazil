@@ -146,7 +146,8 @@ class NFe200(FiscalDocument):
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
             nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
-            nfe.infNFe.emit.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or '')
+	    if inv.partner_id.is_company:
+            	nfe.infNFe.emit.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or '')
             nfe.infNFe.emit.IEST.valor = ''
             nfe.infNFe.emit.IM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or '')
             nfe.infNFe.emit.CRT.valor = inv.company_id.fiscal_type or ''
