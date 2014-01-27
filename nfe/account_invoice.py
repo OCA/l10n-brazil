@@ -64,7 +64,7 @@ class AccountInvoice(osv.Model):
             validate_nfe_configuration(company)
 
             nfe_obj = NFe200()
-            nfes = nfe_obj.get_xml(cr, uid, ids, company.nfe_environment )
+            nfes = nfe_obj.get_xml(cr, uid, ids, int(company.nfe_environment) )
             for nfe in nfes:
                 erro = validation(nfe['nfe'])
                 nfe_key = nfe['key'][3:]
@@ -72,9 +72,7 @@ class AccountInvoice(osv.Model):
                     raise orm.except_orm( _(u'Erro na validação da NFe!'), erro)
 
                 self.write(cr, uid, inv.id, {'nfe_access_key': nfe_key })
-
-                save_dir =  company.nfe_export_folder + monta_caminho_nfe( company.nfe_environment , nfe_key) + 'tmp/'
-
+                save_dir =  company.nfe_export_folder + monta_caminho_nfe( int(company.nfe_environment) , chave_nfe=nfe_key) + 'tmp/'
                 nfe_file = nfe['nfe'].encode('utf8')
                 
                 file_path = save_dir + nfe_key + '-nfe.xml'

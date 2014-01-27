@@ -203,10 +203,10 @@ class NFe200(FiscalDocument):
             #
             i = 0
             for inv_line in inv.invoice_line:
-                i += 1
+                i +=1
                 det = Det_200()
 
-                det.nItem.valor = 1
+                det.nItem.valor = i
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
@@ -235,6 +235,10 @@ class NFe200(FiscalDocument):
                     # Impostos
                     #
                     # ICMS
+                    if inv_line.icms_cst_id.code > 100:
+                        det.imposto.ICMS.CSOSN.valor = inv_line.icms_cst_id.code
+                        det.imposto.ICMS.pCredSN.valor = str("%.2f" % inv_line.icms_percent)
+                        det.imposto.ICMS.vCredICMSSN.valor = str("%.2f" % inv_line.icms_value)
                     det.imposto.ICMS.CST.valor = inv_line.icms_cst_id.code
                     det.imposto.ICMS.modBC.valor = inv_line.icms_base_type
                     det.imposto.ICMS.vBC.valor = str("%.2f" % inv_line.icms_base)
@@ -331,8 +335,15 @@ class NFe200(FiscalDocument):
             #
             # Totais
             #
-            nfe.infNFe.total.ICMSTot.vBC.valor     = str("%.2f" % inv.icms_base)
-            nfe.infNFe.total.ICMSTot.vICMS.valor   = str("%.2f" % inv.icms_value)
+            if inv.company_id.fiscal_type in ('1'):#FIXME
+                icms_base = 0.00
+                icms_value = 0.00
+            else:
+                icms_base = inv.icms_base
+                icms_value = inv.icms_value
+
+            nfe.infNFe.total.ICMSTot.vBC.valor = str("%.2f" % icms_base)
+            nfe.infNFe.total.ICMSTot.vICMS.valor = str("%.2f" % icms_value)
             nfe.infNFe.total.ICMSTot.vBCST.valor   = str("%.2f" % inv.icms_st_base)
             nfe.infNFe.total.ICMSTot.vST.valor     = str("%.2f" % inv.icms_st_value)
             nfe.infNFe.total.ICMSTot.vProd.valor   = str("%.2f" % inv.amount_gross)
