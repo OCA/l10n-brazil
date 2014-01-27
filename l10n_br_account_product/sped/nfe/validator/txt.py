@@ -98,8 +98,9 @@ def validate(cr, uid, ids, context=None):
         if inv.partner_id.is_company and not inv.partner_id.legal_name:
             strErro += u'Destinatário - Razão Social\n'
 
-        if not inv.partner_id.cnpj_cpf:
-            strErro += u'Destinatário - CNPJ/CPF\n'
+        if inv.partner_id.country_id.id == inv.company_id.partner_id.country_id.id:
+            if not inv.partner_id.cnpj_cpf:
+                strErro += u'Destinatário - CNPJ/CPF\n'
 
         if not inv.partner_id.street:
             strErro += u'Destinatário / Endereço - Logradouro\n'
