@@ -210,12 +210,14 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         if inv.partner_id.country_id.id != company_addr_default.country_id.id:
             address_invoice_state_code = 'EX'
             address_invoice_city = 'Exterior'
+            address_invoice_city_code = ''
             UFEmbarq = company_addr_default.state_id.code
             XLocEmbarq = company_addr_default.city
             partner_cep = ''
         else:
             address_invoice_state_code = inv.partner_id.state_id.code
             address_invoice_city = normalize('NFKD',unicode(inv.partner_id.l10n_br_city_id.name or '')).encode('ASCII','ignore')
+            address_invoice_city_code = ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
             partner_cep = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.zip or '').replace(' ',''))
 
         # Se o ambiente for de teste deve ser escrito na razão do destinatário
@@ -247,7 +249,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'nro': normalize('NFKD',unicode(inv.partner_id.number or '')).encode('ASCII','ignore'),
                    'xCpl': re.sub('[%s]' % re.escape(string.punctuation), '', normalize('NFKD',unicode(inv.partner_id.street2 or '' )).encode('ASCII','ignore')),
                    'xBairro': normalize('NFKD',unicode(inv.partner_id.district or 'Sem Bairro')).encode('ASCII','ignore'),
-                   'cMun': ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code),
+                   'cMun': address_invoice_city_code,
                    'xMun': address_invoice_city,
                    'UF': address_invoice_state_code,
                    'CEP': partner_cep,
@@ -937,10 +939,16 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrFile += StrY
 
             for line in inv.move_line_receivable_id:
+
+                if inv.type in ('out_invoice', 'in_refund'):
+                    value = line.debit
+                else:
+                    value = line.credit
+
                 StrRegY07 = {
                    'NDup': line.name,
                    'DVenc': line.date_maturity or inv.date_due or inv.date_invoice,
-                   'VDup': str("%.2f" % line.debit),
+                   'VDup': str("%.2f" % value),
                    }
 
                 StrY07 = 'Y07|%s|%s|%s|\n' % (StrRegY07['NDup'], StrRegY07['DVenc'], StrRegY07['VDup'])
