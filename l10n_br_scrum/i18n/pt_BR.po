@@ -1,0 +1,407 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* mono_project_scrum
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20121227-173430\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-14 20:29+0000\n"
+"PO-Revision-Date: 2013-08-14 20:29+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_scrum_sprint
+#: model:ir.ui.menu,name:mono_project_scrum.menu_scrum_sprint
+#: view:scrum.release.backlog:0
+#: field:scrum.release.backlog,sprints:0
+msgid "Sprints"
+msgstr "Sprints"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_scrum_product_backlog_item
+msgid "Backlog Item"
+msgstr "Backlog Item"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog.item:0
+msgid "Item Name"
+msgstr "Nome do Item"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Template"
+msgstr "Modelo"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_scrum_sprint
+msgid "Scrum Sprint"
+msgstr "Scrum Sprint"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_scrum_release_backlog
+#: model:ir.ui.menu,name:mono_project_scrum.menu_scrum_release_backlog
+#: field:project.task,release_backlog_id:0
+#: field:scrum.product.backlog.item,release_backlog_id:0
+#: view:scrum.release.backlog:0
+#: field:scrum.sprint,release_backlog_id:0
+msgid "Release Backlog"
+msgstr "Release Backlog"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_scrum_product_backlog
+msgid "Scrum Product Backlog"
+msgstr "Scrum Product Backlog"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Projects in which I am a manager"
+msgstr "Projetos nos quais eu sou gerente"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Member"
+msgstr "Membro"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Group By..."
+msgstr "Agrupar Por..."
+
+#. module: mono_project_scrum
+#: selection:scrum.product.backlog.item,priority:0
+msgid "Very Low"
+msgstr "Muito Baixa"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Open Projects"
+msgstr "Projetos Abertos"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Projects in which I am a member."
+msgstr "Projetos dos quais eu sou um membro."
+
+#. module: mono_project_scrum
+#: selection:scrum.product.backlog.item,priority:0
+msgid "Low"
+msgstr "Baixa"
+
+#. module: mono_project_scrum
+#: field:scrum.sprint,days:0
+msgid "Days Duration"
+msgstr "Duração de Dias"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Pending Projects"
+msgstr "Projetos Pendentes"
+
+#. module: mono_project_scrum
+#: help:scrum.meeting,next_work:0
+msgid "What do you plan to hold the next meeting?"
+msgstr "O que você planeja realizar até a próxima reunião?"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_scrum_meeting
+#: view:scrum.meeting:0
+msgid "Meeting"
+msgstr "Reunião"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Project Manager"
+msgstr "Gerente do Projetos"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Pending"
+msgstr "Pendente"
+
+#. module: mono_project_scrum
+#: field:scrum.product.backlog,scrum_master:0
+#: field:scrum.sprint,scrum_master:0
+msgid "Scrum Master"
+msgstr "Scrum Master"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_project_scrum
+#: model:ir.ui.menu,name:mono_project_scrum.menu_project_scrum
+#: view:project.project:0
+msgid "Scrum Projects"
+msgstr "Projetos Scrum"
+
+#. module: mono_project_scrum
+#: selection:scrum.product.backlog.item,priority:0
+msgid "Medium"
+msgstr "Médio"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_scrum_meeting
+msgid "Scrum Meeting"
+msgstr "Reunião de Scrum"
+
+#. module: mono_project_scrum
+#: field:scrum.product.backlog.item,description:0
+msgid "Description"
+msgstr "Descrição"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Parent"
+msgstr "Superior"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Project Name"
+msgstr "Nome do Projeto"
+
+#. module: mono_project_scrum
+#: field:scrum.product.backlog,product_owner:0
+#: field:scrum.sprint,product_owner:0
+msgid "Product Owner"
+msgstr "Product Owner"
+
+#. module: mono_project_scrum
+#: model:ir.ui.menu,name:mono_project_scrum.menu_project_scrum_dad
+#: view:project.project:0
+#: view:project.task:0
+msgid "Scrum"
+msgstr "Scrum"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_scrum_release_backlog
+msgid "Scrum Release Backlog"
+msgstr "Release Backlog"
+
+#. module: mono_project_scrum
+#: selection:scrum.product.backlog.item,priority:0
+msgid "Important"
+msgstr "Importante"
+
+#. module: mono_project_scrum
+#: view:scrum.sprint:0
+msgid "Sprint Name"
+msgstr "Nome da Sprint"
+
+#. module: mono_project_scrum
+#: field:scrum.meeting,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: mono_project_scrum
+#: model:ir.ui.menu,name:mono_project_scrum.menu_scrum_product_backlog_item
+msgid "Item Backlog"
+msgstr "Item do Backlog"
+
+#. module: mono_project_scrum
+#: field:scrum.meeting,blocking:0
+msgid "Blocking"
+msgstr "Bloqueios"
+
+#. module: mono_project_scrum
+#: field:scrum.sprint,end_date:0
+msgid "End Date"
+msgstr "Data Final"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_project_task
+#: field:scrum.product.backlog.item,task:0
+msgid "Task"
+msgstr "Tarefa"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog:0
+#: field:scrum.product.backlog,name:0
+#: view:scrum.product.backlog.item:0
+#: field:scrum.product.backlog.item,name:0
+#: view:scrum.release.backlog:0
+#: field:scrum.release.backlog,name:0
+#: view:scrum.sprint:0
+#: field:scrum.sprint,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_scrum_product_backlog_item
+#: view:scrum.product.backlog.item:0
+msgid "Product Backlog Item"
+msgstr "Product Backlog Item"
+
+#. module: mono_project_scrum
+#: help:scrum.meeting,last_work:0
+msgid "What you performed since the last meeting?"
+msgstr "O que você executou desde a última reunião??"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog:0
+#: field:scrum.product.backlog,items:0
+#: view:scrum.product.backlog.item:0
+#: view:scrum.release.backlog:0
+#: field:scrum.release.backlog,items:0
+#: view:scrum.sprint:0
+#: field:scrum.sprint,items:0
+msgid "Items"
+msgstr "Itens"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,name:mono_project_scrum.open_view_scrum_product_backlog
+#: model:ir.ui.menu,name:mono_project_scrum.menu_scrum_product_backlog
+#: view:project.project:0
+#: field:project.project,product_backlog_id:0
+#: view:scrum.product.backlog:0
+#: field:scrum.product.backlog.item,product_backlog_id:0
+#: field:scrum.release.backlog,product_backlog_id:0
+#: field:scrum.sprint,product_backlog_id:0
+msgid "Product Backlog"
+msgstr "Product Backlog"
+
+#. module: mono_project_scrum
+#: model:ir.model,name:mono_project_scrum.model_project_project
+msgid "Project"
+msgstr "Projeto"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog.item:0
+msgid "Item"
+msgstr "Item"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Contact"
+msgstr "Contato"
+
+#. module: mono_project_scrum
+#: view:scrum.release.backlog:0
+msgid "Release Backlog Name"
+msgstr "Nome do Release Backlog"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Templates of Projects"
+msgstr "Modelos de Projetos"
+
+#. module: mono_project_scrum
+#: field:scrum.sprint,start_date:0
+msgid "Start Date"
+msgstr "Data de Início"
+
+#. module: mono_project_scrum
+#: field:scrum.product.backlog.item,priority:0
+msgid "Priority"
+msgstr "Prioridade"
+
+#. module: mono_project_scrum
+#: field:project.project,scrum_project:0
+msgid "Scrum Project"
+msgstr "Projeto Scrum"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog:0
+#: field:scrum.product.backlog,releases:0
+msgid "Releases"
+msgstr "Releases"
+
+#. module: mono_project_scrum
+#: field:scrum.meeting,next_work:0
+msgid "Next Works"
+msgstr "Próximas Tarefas"
+
+#. module: mono_project_scrum
+#: model:ir.actions.act_window,help:mono_project_scrum.open_view_project_scrum
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                  Click to start a new project.\n"
+"                </p><p>\n"
+"                  Projects are used to organize your activities; plan\n"
+"                  tasks, track issues, invoice timesheets. You can define\n"
+"                  internal projects (R&amp;D, Improve Sales Process),\n"
+"                  private projects (My Todos) or customer ones.\n"
+"                </p><p>\n"
+"                  You will be able collaborate with internal users on\n"
+"                  projects or invite customers to share your activities.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                  Clique para iniciar um novo projeto.\n"
+"                </p><p>\n"
+"                  Projetos são utilizados para organizar suas atividades; planejar\n"
+"                  tarefas, monitorar incidentes, faturar horas trabalhadas. Você pode definir\n"
+"                  projetos internos (R&amp;D, Melhoria no Processo de Vendas),\n"
+"                  projetos pessoais (Meus A Fazer) ou para clientes.\n"
+"                </p><p>\n"
+"                  Você poderá colaborar com os projetos de usuários internos\n"
+"                  ou convidar clientes para compartilhar suas atividades.\n"
+"                </p>\n"
+"            "
+
+#. module: mono_project_scrum
+#: field:scrum.product.backlog.item,sequence:0
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: mono_project_scrum
+#: selection:scrum.product.backlog.item,priority:0
+msgid "Very important"
+msgstr "Muito Importante"
+
+#. module: mono_project_scrum
+#: help:scrum.meeting,blocking:0
+msgid "There is something blocking you?"
+msgstr "Existe alguma coisa bloqueando você?"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Unread Messages"
+msgstr "Mensagens Não Lidas"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: mono_project_scrum
+#: field:scrum.meeting,last_work:0
+msgid "Last Works"
+msgstr "Últimas Tarefas"
+
+#. module: mono_project_scrum
+#: view:scrum.product.backlog:0
+msgid "Product Backlog Name"
+msgstr "Nome do Product Backlog"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Search Project"
+msgstr "Pesquisar Projeto"
+
+#. module: mono_project_scrum
+#: field:project.task,sprint_id:0
+#: field:scrum.meeting,sprint_id:0
+#: field:scrum.product.backlog.item,sprint_id:0
+#: view:scrum.sprint:0
+msgid "Sprint"
+msgstr "Sprint"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Open"
+msgstr "Aberto"
+
+#. module: mono_project_scrum
+#: model:ir.ui.menu,name:mono_project_scrum.menu_scrum_meeting
+#: view:scrum.sprint:0
+#: field:scrum.sprint,meetings:0
+msgid "Meetings"
+msgstr "Reuniões"
+
+#. module: mono_project_scrum
+#: view:project.project:0
+msgid "Project(s) Manager"
+msgstr "Gerente do(s) Projeto(s)"
+
