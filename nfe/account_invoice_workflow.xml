@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-		<record id="l10n_br_account_product.act_router" model="workflow.activity">
-			<field name="wkf_id" ref="account.wkf"/>
-			<field name="name">router</field>
-			<field name="action">action_date_assign()
-action_internal_number()
-action_move_create()
-action_number()
-nfe_check()</field>
-			<field name="kind">function</field>
-		</record>
+
+        <record id="l10n_br_account_product.act_sefaz_export" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">sefaz_export</field>
+            <field name="action">nfe_export()</field>
+            <field name="kind">function</field>
+        </record>
 
 		<record id="act_sefaz_transmit" model="workflow.activity">
 			<field name="wkf_id" ref="account.wkf"/>
@@ -19,11 +16,19 @@ nfe_check()</field>
 			<field name="kind">function</field>
 		</record>
 
+		<record id="l10n_br_account_product.act_sefaz_exception" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">sefaz_exception</field>
+            <field name="kind">dummy</field>
+            <field name="action"></field>
+        </record>
+
+
 		<record id="tras_sefaz_transmit_exception" model="workflow.transition">
 			<field name="act_from" ref="act_sefaz_transmit"/>
 			<field name="act_to" ref="l10n_br_account_product.act_sefaz_exception"/>
-			<field name="condition">True</field>
-			<field name="signal">invoice_sefaz_exception</field>
+			<field name="condition">(state=='sefaz_exception')</field>
+			<field name="signal" eval="False"/>
 		</record>
 
 		<record id="tras_sefaz_transmit_authorized" model="workflow.transition">

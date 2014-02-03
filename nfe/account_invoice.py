@@ -32,7 +32,7 @@ class AccountInvoice(orm.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
 
-    def nfe_check(self, cr, uid, ids, context=None):
+    def nfe_export(self, cr, uid, ids, context=None):
 
         for inv in self.browse(cr, uid, ids):
 
@@ -69,20 +69,22 @@ class AccountInvoice(orm.Model):
                     f.write(nfe_file)
                     f.close()
 
-                event_obj = self.pool.get('l10n_br_account.document_event')
-                nfe_send_id = event_obj.create(cr, uid, {
-                    'type': '0',
-                    'company_id': company.id,
-                    'origin': '[NF-E]' + inv.internal_number,
-                    'file_sent': file_path,
-                    'create_date': datetime.datetime.now(),
-                    'state': 'draft',
-                    'document_event_ids': inv.id
-                    }, context)
+
+                    event_obj = self.pool.get('l10n_br_account.document_event')
+                    nfe_send_id = event_obj.create(cr, uid, {
+                        'type': '0',
+                        'company_id': company.id,
+                        'origin': '[NF-E]' + inv.internal_number,
+                        'file_sent': file_path,
+                        'create_date': datetime.datetime.now(),
+                        'state': 'draft',
+                        'document_event_ids': inv.id
+                        }, context)
+                    self.write(cr, uid, ids, {'state':'sefaz_export'}, context=context)
+
+
 
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
-
-        result = {}
 
         for inv in self.browse(cr, uid, ids):
             company_pool = self.pool.get('res.company')
@@ -152,5 +154,4 @@ class AccountInvoice(orm.Model):
                      'nfe_date': datetime.datetime.now(),
                      'state': protNFe["state"]
                      }, context)
-
-        return result
+        return True
