@@ -48,8 +48,7 @@ class SaleOrder(orm.Model):
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
             if inv_line.product_id.fiscal_type == 'service':
                 lines_service.append(inv_line.id)
-
-            if inv_line.product_id.fiscal_type == 'product':
+            elif inv_line.product_id.fiscal_type == 'product':
                 lines_product.append(inv_line.id)
 
         if lines_product:
@@ -67,7 +66,6 @@ class SaleOrder(orm.Model):
         return inv_id_product or inv_id_service
 
     def _fiscal_comment(self, cr, uid, order, context=None):
-
         fp_comment = []
         fc_comment = []
         fp_ids = []
