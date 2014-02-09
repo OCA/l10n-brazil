@@ -24,9 +24,8 @@ from openerp.osv import orm
 class AccountFiscalPosition(orm.Model):
     _inherit = 'account.fiscal.position'
 
-        def map_tax_code(self, cr, uid, product_id, fiscal_position,
+    def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
-
         if not context:
             context = {}
 
@@ -45,7 +44,6 @@ class AccountFiscalPosition(orm.Model):
                         if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
                                 result.update({tax_def.tax_id.domain:
                                                tax_def.tax_code_id.id})
-
         return result
 
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
