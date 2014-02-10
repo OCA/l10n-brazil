@@ -40,7 +40,7 @@ class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     _columns = {
         'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,
-            'Tipo Fiscal', requeried=True),
+            'Tipo Fiscal', required=True),
         'origin': fields.selection(PRODUCT_ORIGIN, 'Origem'),
         'ncm_id': fields.many2one(
             'account.product.fiscal.classification', u'NCM'),
