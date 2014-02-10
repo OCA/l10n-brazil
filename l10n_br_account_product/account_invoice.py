@@ -134,7 +134,7 @@ class AccountInvoice(orm.Model):
             \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
             \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
             \n* The \'Cancelled\' state is used when user cancel invoice.'),
-        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True),
+        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
         'partner_shipping_id': fields.many2one(
             'res.partner', 'Endereço de Entrega', readonly=True,
             states={'draft': [('readonly', False)]},

@@ -69,7 +69,7 @@ class AccountInvoice(orm.Model):
             help="""Unique number of the invoice, computed
                 automatically when the invoice is created."""),
         'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True),
+            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
         'vendor_serie': fields.char(
             'Série NF Entrada', size=12, readonly=True,
             states={'draft': [('readonly', False)]},

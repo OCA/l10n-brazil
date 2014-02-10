@@ -30,7 +30,7 @@ class ProductTemplate(orm.Model):
         'service_type_id': fields.many2one(
             'l10n_br_account.service.type', u'Tipo de Serviço'),
         'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True),
+            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
     }
     _defaults = {
         'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT
