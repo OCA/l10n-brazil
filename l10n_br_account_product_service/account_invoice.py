@@ -32,7 +32,7 @@ class AccountInvoice(orm.Model):
 
     _columns = {
         'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True),
+            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
     }
 
     def _default_fiscal_category(self, cr, uid, context=None):
