@@ -56,19 +56,6 @@ class SaleOrder(orm.Model):
         company = self.pool.get('res.company').browse(
             cr, uid, order.shop_id.company_id.id)
 
-        if (hasattr(company, 'service_invoice_id') and not
-            company.service_invoice_id):
-            raise orm.except_orm(
-                _('No fiscal document serie found !'),
-                _("No fiscal document serie found for selected company %s") % (
-                    order.company_id.name))
-
-        if not company.product_invoice_id:
-            raise orm.except_orm(
-                _('No fiscal document serie found !'),
-                _("No fiscal document serie found for selected company %s") % (
-                    order.company_id.name))
-
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
             if inv_line.product_id.fiscal_type == 'service':
                 lines_service.append(inv_line.id)
@@ -324,13 +311,13 @@ class SaleOrder(orm.Model):
         result = super(SaleOrder, self)._prepare_invoice(
             cr, uid, order, lines, context)
 
-        obj_inv_lines = self.pool.get('account.invoice.line').read(
+        inv_lines = self.pool.get('account.invoice.line').read(
             cr, uid, lines, ['fiscal_category_id', 'fiscal_position'])
 
-        if context.get('fiscal_type') == 'service':
-            if obj_inv_lines:
-                fiscal_category_id = obj_inv_lines[0]['fiscal_category_id'][0]
-                result['fiscal_position'] = obj_inv_lines[0]['fiscal_position'][0]
+        if (context.get('fiscal_type') == 'service' and
+            inv_lines and inv_lines[0]['fiscal_category_id']):
+                fiscal_category_id = inv_lines[0]['fiscal_category_id'][0]
+                result['fiscal_position'] = inv_lines[0]['fiscal_position'][0]
         else:
             fiscal_category_id = order.fiscal_category_id.id
 
