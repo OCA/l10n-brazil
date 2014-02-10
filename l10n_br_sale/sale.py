@@ -34,6 +34,61 @@ class SaleShop(orm.Model):
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
+    def _make_invoice(self, cr, uid, order, lines, context=None):
+        if context is None:
+            context = {}
+        obj_invoice_line = self.pool.get('account.invoice.line')
+        lines_service = []
+        lines_product = []
+        inv_product_ids = []
+        inv_service_ids = []
+        inv_id_product = False
+        inv_id_service = False
+
+        if (order.fiscal_category_id and not
+            order.fiscal_category_id.property_journal):
+            raise orm.except_orm(
+                    _('Error !'),
+                    _("""There is no journal defined for this company in Fiscal
+                    Category: %s Company: %s""") % (
+                        order.fiscal_category_id.name, order.company_id.name))
+
+        company = self.pool.get('res.company').browse(
+            cr, uid, order.shop_id.company_id.id)
+
+        if (hasattr(company, 'service_invoice_id') and not
+            company.service_invoice_id):
+            raise orm.except_orm(
+                _('No fiscal document serie found !'),
+                _("No fiscal document serie found for selected company %s") % (
+                    order.company_id.name))
+
+        if not company.product_invoice_id:
+            raise orm.except_orm(
+                _('No fiscal document serie found !'),
+                _("No fiscal document serie found for selected company %s") % (
+                    order.company_id.name))
+
+        for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
+            if inv_line.product_id.fiscal_type == 'service':
+                lines_service.append(inv_line.id)
+            elif inv_line.product_id.fiscal_type == 'product':
+                lines_product.append(inv_line.id)
+
+        if lines_product:
+            context['fiscal_type'] = 'product'
+            inv_id_product = super(SaleOrder, self)._make_invoice(
+                cr, uid, order, lines_product, context=context)
+            inv_product_ids.append(inv_id_product)
+
+        if lines_service:
+            context['fiscal_type'] = 'service'
+            inv_id_service = super(SaleOrder, self)._make_invoice(
+                cr, uid, order, lines_service, context=context)
+            inv_service_ids.append(inv_id_service)
+
+        return inv_id_product or inv_id_service
+
     # def _amount_products_all(self, cr, uid, ids, field_name, arg, context=None):
     #     cur_obj = self.pool.get('res.currency')
     #     res = {}
@@ -197,7 +252,6 @@ class SaleOrder(orm.Model):
                 line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
         return res
 
-
     def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
                             partner_shipping_id, partner_id,
                             shop_id=None, context=None, **kwargs):
@@ -241,33 +295,7 @@ class SaleOrder(orm.Model):
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
-    def _make_invoice(self, cr, uid, order, lines, context=None):
-        if not context:
-            context = {}
-
-        obj_company = self.pool.get('res.company').browse(
-            cr, uid, order.shop_id.company_id.id)
-
-        #FIXME - criar um módulo l10n_br_sale_service
-        #if not obj_company.service_invoice_id:
-        #    raise orm.except_orm(
-        #        _('No fiscal document serie found !'),
-        #        _("No fiscal document serie found for selected company %s") % (
-        #            order.company_id.name))
-
-        if order.fiscal_category_id:
-            if not order.fiscal_category_id.property_journal:
-                raise orm.except_orm(
-                    _('Error !'),
-                    _("""There is no journal defined for this company in Fiscal
-                    Category: %s Company: %s""") % (
-                        order.fiscal_category_id.name, order.company_id.name))
-
-        return super(SaleOrder, self)._make_invoice(
-            cr, uid, order, lines, context=context)
-
     def _fiscal_comment(self, cr, uid, order, context=None):
-
         fp_comment = []
         fc_comment = []
         fp_ids = []
@@ -399,8 +427,6 @@ class SaleOrderLine(orm.Model):
         'freight_value': fields.float('Freight',
              digits_compute=dp.get_precision('Account')),
                  }
-
-
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
 
