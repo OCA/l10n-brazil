@@ -12,14 +12,6 @@
 			<field name="fiscal_type">service</field>
 		</record>
 
-		<!-- res.company -->
-		<record id="base.main_company" model="res.company">
-			<field name="service_invoice_id" ref="fiscal_document_service"/>
-			<field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
-			<field name="currency_id" ref="base.BRL"/>
-			<field name="fiscal_type">3</field>
-		</record>
-
 		<!-- l10n_br_account.partner.fiscal.type -->
 		<record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
 			<field name="code">Contribuinte</field>
@@ -53,8 +45,21 @@
 			<field name="icms" eval="False"/>
 		</record>
 		
+                <!-- l10n_br_account.fiscal.category -->
+                <record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+                        <field name="code">Venda</field>
+                        <field name="name">Venda</field>
+                        <field name="type">output</field>
+                        <field name="journal_type">sale</field>
+                        <field name="state">approved</field>
+                </record>
+
 		<!-- res.company -->
 		<record id="base.main_company" model="res.company">
+                        <field name="service_invoice_id" ref="fiscal_document_service"/>
+                        <field name="document_serie_service_id" ref="l10n_br_document_serie_1_service" />
+                        <field name="currency_id" ref="base.BRL"/>
+                        <field name="fiscal_type">3</field>
 			<field name="currency_id" ref="base.BRL"/>
 			<field name="fiscal_type">3</field>
 		</record>
