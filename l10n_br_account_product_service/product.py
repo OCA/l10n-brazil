@@ -28,7 +28,7 @@ class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     _columns = {
         'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True),
+            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
     }
     _defaults = {
         'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
