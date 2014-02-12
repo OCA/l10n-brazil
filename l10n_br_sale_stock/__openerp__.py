@@ -33,6 +33,7 @@
         'l10n_br_account_product',
     ],
     'data': [
+        'l10n_br_sale_stock_data.xml',
         'sale_stock_view.xml',
     ],
     'demo': [
