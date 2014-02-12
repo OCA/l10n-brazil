@@ -28,7 +28,7 @@
 		</record>
 
 		<!-- l10n_br_account.fiscal.category -->
-		<record id="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+		<record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
 			<field name="property_journal" ref="account.sales_journal" />
 		</record>
 		
@@ -41,7 +41,7 @@
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo" model="account.fiscal.position">
 			<field name="name">Venda para Dentro do Estado</field>
 			<field name="cfop_id" ref="cfop_5101" />
-			<field name="fiscal_category_id" ref="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
@@ -50,7 +50,7 @@
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo" model="account.fiscal.position">
 			<field name="name">Venda Fora do Estado ICMS 7%</field>
 			<field name="cfop_id" ref="cfop_6101" />
-			<field name="fiscal_category_id" ref="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
@@ -59,7 +59,7 @@
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo" model="account.fiscal.position">
 			<field name="name">Venda Fora do Estado ICMS 12%</field>
 			<field name="cfop_id" ref="cfop_6101" />
-			<field name="fiscal_category_id" ref="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
@@ -68,7 +68,7 @@
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_exportation_demo" model="account.fiscal.position">
 			<field name="name">Venda Fora do Estado Ex</field>
 			<field name="cfop_id" ref="cfop_7101" />
-			<field name="fiscal_category_id" ref="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>

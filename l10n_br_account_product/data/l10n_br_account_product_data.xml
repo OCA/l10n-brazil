@@ -27,8 +27,13 @@
 		</record>
 
 		<!-- l10n_br_account.fiscal.category -->
-		<record id="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+		<record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+			<field name="code">Venda</field>
+			<field name="name">Venda</field>
+			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
+			<field name="state">approved</field>
 		</record>
 
 		<record id="fc_c333f0a13695741d07c872b54016c093" model="l10n_br_account.fiscal.category">
@@ -95,7 +100,7 @@
 
 		<record id="base.main_company" model="res.company">
 			<field name="in_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504" />
-			<field name="out_invoice_fiscal_category_id" ref="l10n_br_account.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="out_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="in_refund_fiscal_category_id" ref="l10n_br_account_product.fc_f20c37a9e1e1c870af37efe62a786fbf" />
 			<field name="out_refund_fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
 			<field name="product_invoice_id" ref="l10n_br_account_product.fiscal_document_55"/>
