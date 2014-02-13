@@ -149,41 +149,41 @@
 		<record id="8473-30-41_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-41_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8473-30-41_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-41_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8473-30-41_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-41_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8473-30-41_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-41_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboad"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_hd" model="account.product.fiscal.classification">
@@ -196,41 +196,41 @@
 		<record id="8471-70-12_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
 			<field name="tax_id" ref="demo_tax_out_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-70-12_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8471-70-12_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-70-12_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8471-70-12_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
 			<field name="tax_id" ref="demo_tax_in_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-70-12_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8471-70-12_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-70-12_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_memory" model="account.product.fiscal.classification">
@@ -243,41 +243,41 @@
 		<record id="8473-30-42_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-42_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8473-30-42_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-42_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8473-30-42_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-42_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8473-30-42_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-42_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_processor" model="account.product.fiscal.classification">
@@ -293,37 +293,35 @@
 
 		<record id="8542-32-10_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8542-32-10_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8542-32-10_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8542-32-10_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
 			<field name="tax_id" ref="demo_tax_in_ipi2"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8542-32-10_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8542-32-10_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8542-32-10_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_pc" model="account.product.fiscal.classification">
@@ -335,41 +333,41 @@
 		<record id="8471-30-12_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-30-12_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8471-30-12_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-30-12_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8471-30-12_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-30-12_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8471-30-12_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-30-12_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_fan" model="account.product.fiscal.classification">
@@ -381,42 +379,42 @@
 		<record id="8414-59-10_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
 			<field name="tax_id" ref="demo_tax_out_ipi5"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8414-59-10_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8414-59-10_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8414-59-10_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8414-59-10_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
 			<field name="tax_id" ref="demo_tax_in_ipi5"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
-                <record id="8414-59-10_purchase2" model="l10n_br_tax.definition.purchase">
-                        <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
-                        <field name="tax_id" ref="demo_tax_in_icms_interno"/>
-                </record>
+		<record id="8414-59-10_purchase2" model="l10n_br_tax.definition.purchase">
+			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
+		</record>
 
-                <record id="8414-59-10_purchase3" model="l10n_br_tax.definition.purchase">
-                        <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
-                        <field name="tax_id" ref="demo_tax_in_icms_externo"/>
-                </record>
-
-                <record id="8414-59-10_purchase4" model="l10n_br_tax.definition.purchase">
-                        <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
-                        <field name="tax_id" ref="demo_tax_in_icms_subist"/>
-                </record>
+		<record id="8414-59-10_purchase4" model="l10n_br_tax.definition.purchase">
+			<field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
+		</record>
 
 		<record id="demo_fiscal_classification_keyboard" model="account.product.fiscal.classification">
 			<field name="name">8471.60.52</field>
@@ -427,41 +425,41 @@
 		<record id="8471-60-52_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-60-52_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
-
-		<record id="8471-60-52_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
-			</record>
 
 		<record id="8471-60-52_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8471-60-52_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-60-52_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8471-60-52_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-60-52_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_mouse" model="account.product.fiscal.classification">
@@ -473,41 +471,41 @@
 		<record id="8471-60-53_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-60-53_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8471-60-53_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-60-53_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8471-60-53_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8471-60-53_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8471-60-53_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8471-60-53_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_power" model="account.product.fiscal.classification">
@@ -519,41 +517,41 @@
 		<record id="8504-40-30_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
 			<field name="tax_id" ref="demo_tax_out_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8504-40-30_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8504-40-30_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8504-40-30_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8504-40-30_purchase1" model="l10n_br_tax.definition.purchase">
-		<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
 			<field name="tax_id" ref="demo_tax_in_ipi15"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8504-40-30_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8504-40-30_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8504-40-30_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_cabinet" model="account.product.fiscal.classification">
@@ -565,41 +563,41 @@
 		<record id="8473-30-19_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
 			<field name="tax_id" ref="demo_tax_out_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-19_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8473-30-19_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-19_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8473-30-19_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
 			<field name="tax_id" ref="demo_tax_in_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8473-30-19_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8473-30-19_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8473-30-19_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_shelf" model="account.product.fiscal.classification">
@@ -611,41 +609,41 @@
 		<record id="7326-90-90_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
 			<field name="tax_id" ref="demo_tax_out_ipi5"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="7326-90-90_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="7326-90-90_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="7326-90-90_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="7326-90-90_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
 			<field name="tax_id" ref="demo_tax_in_ipi5"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="7326-90-90_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="7326-90-90_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="7326-90-90_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_wood" model="account.product.fiscal.classification">
@@ -658,41 +656,41 @@
 		<record id="4403-10-00_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
 			<field name="tax_id" ref="demo_tax_out_ipi"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_51"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="4403-10-00_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="4403-10-00_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="4403-10-00_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="4403-10-00_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
 			<field name="tax_id" ref="demo_tax_in_ipi"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_01"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="4403-10-00_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="4403-10-00_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="4403-10-00_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="demo_fiscal_classification_cleats" model="account.product.fiscal.classification">
@@ -704,41 +702,41 @@
 		<record id="8305-20-00_sale1" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
 			<field name="tax_id" ref="demo_tax_out_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8305-20-00_sale2" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
-			<field name="tax_id" ref="demo_tax_out_icms_interno"/>
-		</record>
-
-		<record id="8305-20-00_sale3" model="l10n_br_tax.definition.sale">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
-			<field name="tax_id" ref="demo_tax_out_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8305-20-00_sale4" model="l10n_br_tax.definition.sale">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
 			<field name="tax_id" ref="demo_tax_out_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 		<record id="8305-20-00_purchase1" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
 			<field name="tax_id" ref="demo_tax_in_ipi10"/>
+			<field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+			<field name="tax_domain">ipi</field>
 		</record>
 
 		<record id="8305-20-00_purchase2" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
-			<field name="tax_id" ref="demo_tax_in_icms_interno"/>
-		</record>
-
-		<record id="8305-20-00_purchase3" model="l10n_br_tax.definition.purchase">
-			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
-			<field name="tax_id" ref="demo_tax_in_icms_externo"/>
+			<field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+			<field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+			<field name="tax_domain">icms</field>
 		</record>
 
 		<record id="8305-20-00_purchase4" model="l10n_br_tax.definition.purchase">
 			<field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
 			<field name="tax_id" ref="demo_tax_in_icms_subist"/>
+			<field name="tax_domain">icmsst</field>
 		</record>
 
 	</data>
