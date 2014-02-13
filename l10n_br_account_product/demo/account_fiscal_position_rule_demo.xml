@@ -25,7 +25,7 @@
 			<field name="description">Vendas para Fora do Estado</field>
 			<field name="company_id" ref="base.main_company" />
 			<field name="from_country" ref="base.br" />
-			<field name="from_state" ref="l10n_br_base.br_rj" />
+			<field name="from_state" ref="l10n_br_base.br_sp" />
 			<field name="to_invoice_country" ref="base.br" />
 			<field name="to_invoice_state" ref="l10n_br_base.br_al" />
 			<field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo" />
@@ -866,7 +866,7 @@
 			<field name="description">Compras para Ind</field>
 			<field name="company_id" ref="base.main_company" />
 			<field name="from_country" ref="base.br" />
-			<field name="from_state" ref="l10n_br_base.br_rj" />
+			<field name="from_state" ref="l10n_br_base.br_sp" />
 			<field name="to_invoice_country" ref="base.br" />
 			<field name="to_invoice_state" ref="l10n_br_base.br_al" />
 			<field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo" />
