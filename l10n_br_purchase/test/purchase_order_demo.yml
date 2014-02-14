@@ -15,7 +15,7 @@
     - order_line[0].product_id.id == ref('product.product_product_8')
     - order_line[0].fiscal_category_id.id == ref('l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504')
     - order_line[0].fiscal_position.id == ref('l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo')
-    - len(order_line[0].taxes_id) == 6
+    - len(order_line[0].taxes_id) == 3
     - order_line[0].product_qty == 8
 
 -
@@ -35,7 +35,7 @@
     - order_line[0].product_id.id == ref('product.product_product_8')
     - order_line[0].fiscal_category_id.id == ref('l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504')
     - order_line[0].fiscal_position.id == ref('l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo')
-    - len(order_line[0].taxes_id) == 6
+    - len(order_line[0].taxes_id) == 3
     - order_line[0].product_qty == 8
 
 -
