@@ -66,7 +66,7 @@
 		</record>
 		
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_exportation_demo" model="account.fiscal.position">
-			<field name="name">Venda Fora do Estado Ex</field>
+			<field name="name">Venda Ex</field>
 			<field name="cfop_id" ref="cfop_7101" />
 			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
