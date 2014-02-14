@@ -56,6 +56,7 @@
         'demo/l10n_br_account_product_demo.xml',
         'demo/account_fiscal_position_rule_demo.xml',
         'demo/product_demo.xml',
+        'demo/base_demo.xml',
         'demo/product_taxes.yml',
     ],
     'test': [],
