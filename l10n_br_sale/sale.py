@@ -342,7 +342,7 @@ class SaleOrder(orm.Model):
             cr, uid, line.tax_id,
             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
             line.product_uom_qty, line.order_id.partner_invoice_id.id,
-            line.product_id, line.order_id.partner_id,            
+            line.product_id, line.order_id.partner_id,
             fiscal_position=line.fiscal_position,
             insurance_value=line.insurance_value,
             freight_value=line.freight_value,
@@ -372,7 +372,7 @@ class SaleOrderLine(orm.Model):
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             taxes = tax_obj.compute_all(cr, uid, line.tax_id, price,
                 line.product_uom_qty, line.order_id.partner_invoice_id.id,
-                line.product_id, line.order_id.partner_id,                
+                line.product_id, line.order_id.partner_id,
                 fiscal_position=line.fiscal_position,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
@@ -380,7 +380,7 @@ class SaleOrderLine(orm.Model):
             cur = line.order_id.pricelist_id.currency_id
             res[line.id]['price_subtotal'] = cur_obj.round(cr, uid, cur, taxes['total'])
             res[line.id]['price_gross'] = line.price_unit * line.product_uom_qty
-            res[line.id]['discount_value'] = res[line.id]['price_gross']-(price * line.product_uom_qty) 
+            res[line.id]['discount_value'] = res[line.id]['price_gross']-(price * line.product_uom_qty)
         return res
 
     _columns = {
@@ -401,7 +401,7 @@ class SaleOrderLine(orm.Model):
             _amount_line, string='Vlr. Bruto',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
         'price_subtotal': fields.function(
-            _amount_line, string='Subtotal',            
+            _amount_line, string='Subtotal',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
         'insurance_value': fields.float('Insurance',
              digits_compute=dp.get_precision('Account')),
@@ -430,7 +430,6 @@ class SaleOrderLine(orm.Model):
                           parent_fiscal_category_id=False, shop_id=False,
                           parent_fiscal_position=False,
                           partner_invoice_id=False, **kwargs):
-        uom=False
         result = super(SaleOrderLine, self).product_id_change(
             cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
             partner_id, lang, update_tax, date_order, packaging,
