@@ -83,6 +83,7 @@ class AccountFiscalPositionRule(orm.Model):
         from_country = company.partner_id.country_id.id
         from_state = company.partner_id.state_id.id
         fiscal_rule_parent_id = company.fiscal_rule_parent_id.id
+        partner_fiscal_type_id = partner.partner_fiscal_type_id.id
 
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
         use_domain = context.get('use_domain', ('use_sale', '=', True))
@@ -91,7 +92,7 @@ class AccountFiscalPositionRule(orm.Model):
             '&', ('company_id', '=', company.id), use_domain,
             ('fiscal_type', '=', company.fiscal_type),
             ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
-            '|', ('partner_fiscal_type_id', '=', kwargs.get('partner_fiscal_type_id')),
+            '|', ('partner_fiscal_type_id', '=', partner_fiscal_type_id),
             ('partner_fiscal_type_id', '=', False),
             '|', ('from_country', '=', from_country),
             ('from_country', '=', False),
