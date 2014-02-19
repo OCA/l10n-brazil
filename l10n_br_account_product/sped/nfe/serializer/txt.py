@@ -308,6 +308,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             else:
                 other_costs_value = ''
 
+            if inv_line.discount_value:
+                discount_value = str("%.2f" % inv_line.discount_value)
+            else:
+                discount_value = ''
+
             StrH = 'H|%s||\n' % (i)
 
             StrFile += StrH
@@ -337,7 +342,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'VUnTrib': str("%.7f" % inv_line.price_unit),
                    'VFrete': freight_value,
                    'VSeg': insurance_value,
-                   'VDesc': inv_line.discount_value and str("%.2f" % inv_line.discount_value) or '',
+                   'VDesc': discount_value,
                    'vOutro': other_costs_value,
                    'indTot': '1',
                    'xPed': '',
