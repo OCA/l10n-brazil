@@ -17,11 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+from openerp.osv import orm
+from openerp.tools.translate import _
+
 
 def validate_nfe_invalidate_number(company, record):
-    error = u'As seguintes configurações estão faltando:\n'    
+    error = u'As seguintes configurações estão faltando:\n'
     if not company.partner_id or not company.partner_id.l10n_br_city_id \
-        or not company.partner_id.l10n_br_city_id.state_id  or not company.partner_id.l10n_br_city_id.state_id.code:        
+        or not company.partner_id.l10n_br_city_id.state_id  or not company.partner_id.l10n_br_city_id.state_id.code:
         error += u'Código do estado no endereço da empresa\n'
     if not company.nfe_version:
         error += u'Versão da NFe na configuração da empresa\n'
@@ -34,8 +37,9 @@ def validate_nfe_invalidate_number(company, record):
     if not record.number_end:
         error += u'Número final no registro de inutilização\n'
     if error != u'As seguintes configurações estão faltando:\n':
-        raise orm.except_orm(_('Validação !'), _(error)) 
-    
+        raise orm.except_orm(_('Validação !'), _(error))
+
+
 def validate_invoice_cancel(invoice):
     error = u'Verifique os problemas com o cancelamento:\n'
     if not invoice.nfe_access_key:
@@ -45,6 +49,7 @@ def validate_invoice_cancel(invoice):
     if error != u'Verifique os problemas com o cancelamento:\n':
         raise orm.except_orm(_('Validação !'), _(error))
 
+
 def validate_nfe_configuration(company):
     error = u'As seguintes configurações estão faltando:\n'
     if not company.nfe_version:
@@ -53,7 +58,7 @@ def validate_nfe_configuration(company):
         error += u'Empresa - Arquivo NF-e A1\n'
     if not company.nfe_a1_password:
         error += u'Empresa - Senha NF-e A1\n'
-    if not company.nfe_export_folder and company.save_xml_folder:
+    if not company.nfe_export_folder:
         error += u'Empresa - Pasta de exportação\n'
     if error != u'As seguintes configurações estão faltando:\n':
         raise orm.except_orm(_('Validação !'), _(error))
