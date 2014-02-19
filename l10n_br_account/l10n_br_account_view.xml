@@ -92,8 +92,8 @@
 								<field required="1" name="property_journal" domain="[('type', '=', journal_type)]"/>
 							</group>
 							<group colspan="4" string="Posições Fiscais">
-								<field name="fiscal_position_ids">
-									<tree string="Posições Fiscais" nolabel="1">
+								<field name="fiscal_position_ids" nolabel="1">
+									<tree string="Posições Fiscais">
 										<field name="name"/>
 										<field name="company_id"/>
 										<field state="state"/>
