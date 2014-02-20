@@ -146,7 +146,8 @@ class NFe200(FiscalDocument):
             nfe.infNFe.emit.enderEmit.cMun.valor = '%s%s' % (company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
             nfe.infNFe.emit.enderEmit.xMun.valor = company.l10n_br_city_id.name or ''
             nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
-            nfe.infNFe.emit.enderEmit.CEP.valor = company.zip or ''
+            nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.zip or '').replace(' ',''))
+            nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
             nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
@@ -239,11 +240,24 @@ class NFe200(FiscalDocument):
                     # Impostos
                     #
                     # ICMS
+                    if inv_line.icms_cst_id.code > 100:
+                        det.imposto.ICMS.CSOSN.valor = inv_line.icms_cst_id.code
+                        det.imposto.ICMS.pCredSN.valor = str("%.2f" % inv_line.icms_percent)
+                        det.imposto.ICMS.vCredICMSSN.valor = str("%.2f" % inv_line.icms_value)
                     det.imposto.ICMS.CST.valor = inv_line.icms_cst_id.code
                     det.imposto.ICMS.modBC.valor = inv_line.icms_base_type
                     det.imposto.ICMS.vBC.valor = str("%.2f" % inv_line.icms_base)
+                    det.imposto.ICMS.pRedBC.valor = str("%.2f" % inv_line.icms_percent_reduction)
                     det.imposto.ICMS.pICMS.valor = str("%.2f" % inv_line.icms_percent)
                     det.imposto.ICMS.vICMS.valor = str("%.2f" % inv_line.icms_value)
+
+                    # ICMS ST
+                    det.imposto.ICMS.modBCST.valor = inv_line.icms_st_base_type
+                    det.imposto.ICMS.pMVAST.valor = str("%.2f" % inv_line.icms_st_mva)
+                    det.imposto.ICMS.pRedBCST.valor = str("%.2f" % inv_line.icms_st_percent_reduction)
+                    det.imposto.ICMS.vBCST.valor = str("%.2f" % inv_line.icms_st_value)
+                    det.imposto.ICMS.pICMSST.valor = str("%.2f" % inv_line.icms_st_percent)
+                    det.imposto.ICMS.vICMSST.valor = str("%.2f" % inv_line.icms_value)
 
                     # IPI
                     det.imposto.IPI.CST.valor = inv_line.ipi_cst_id.code
@@ -352,7 +366,6 @@ class NFe200(FiscalDocument):
 
             # Gera Chave da NFe
             nfe.gera_nova_chave()
-
             nfes.append(nfe)
 
         return nfes
