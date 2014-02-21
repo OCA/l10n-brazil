@@ -82,8 +82,6 @@ class AccountInvoice(orm.Model):
                         }, context)
                     self.write(cr, uid, ids, {'state':'sefaz_export'}, context=context)
 
-
-
     def action_invoice_send_nfe(self, cr, uid, ids, context=None):
 
         for inv in self.browse(cr, uid, ids):
@@ -92,7 +90,11 @@ class AccountInvoice(orm.Model):
 
             event_obj = self.pool.get('l10n_br_account.document_event')
 
-            arquivo = inv.account_document_event_ids[0].file_sent
+            event  = max(event_obj.search(cr, uid, [('document_event_ids','=',inv.id),('type','=','0')], context=context))
+
+            send_event  = event_obj.browse(cr, uid, [event])[0]
+
+            arquivo = send_event.file_sent
 
             nfe_obj = NFe200()
             nfe = []
