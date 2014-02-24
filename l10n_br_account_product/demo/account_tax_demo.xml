@@ -218,7 +218,7 @@
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
-			<field name="domain">icms</field>
+			<field name="domain">icmsst</field>
 			<field ref="tax_code_demo_icms" name="base_code_id" />
 			<field ref="tax_code_demo_icms" name="tax_code_id" />
 			<field ref="tax_code_demo_icms" name="ref_base_code_id" />
@@ -498,8 +498,8 @@
 		</record>
 
 		<record id="demo_tax_in_icms_subist" model="account.tax">
-			<field name="description">ICMS Subist</field>
-			<field name="name">ICMS Subist</field>
+			<field name="description">ICMS Subist Entrada</field>
+			<field name="name">ICMS Subist Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
 			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
@@ -507,7 +507,7 @@
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
-			<field name="domain">icms</field>
+			<field name="domain">icmsst</field>
 			<field ref="tax_code_demo_icms" name="base_code_id" />
 			<field ref="tax_code_demo_icms" name="tax_code_id" />
 			<field ref="tax_code_demo_icms" name="ref_base_code_id" />
