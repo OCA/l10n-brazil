@@ -383,9 +383,16 @@ class NFe200(FiscalDocument):
         return result
 
     # TODO
-    def set_xml(self):
+    def set_xml(self, arquivo):
         """"""
-        pass
+        try:
+            from pysped.nfe.leiaute import NFe_200
+        except ImportError:
+            raise orm.except_orm(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        nfe = NFe_200()
+        nfe.set_xml(arquivo)
+        return nfe
 
     # TODO
     def get_txt(self):
