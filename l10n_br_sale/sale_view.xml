@@ -25,28 +25,28 @@
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
 				</field>
 				<xpath expr="//field[@name='product_id']" position="attributes">
-					<attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, False, parent.partner_invoice_id)</attribute>
+					<attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos,name, parent.partner_id, False, True, parent.date_order, False, fiscal_position, False, context, parent.fiscal_category_id, parent.shop_id, parent.fiscal_position, parent.partner_invoice_id)</attribute>
 				</xpath>
 				<xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
 					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.shop_id, product_id, fiscal_position, fiscal_category_id)" required="1" />
 				</xpath>
-        		<xpath expr="//group[@name='sale_total']" position="after">
-                  <group style="width: 65%%" groups="l10n_br_sale.group_total_discount"> 
-             		<label for="discount_rate" />
-                      <div>
-                            <field name="discount_rate" on_change="onchange_discount_rate(discount_rate)" class="oe_inline"  /> %%
-                        </div>
-                    </group>
-                </xpath>     
-                <xpath expr="//tree[@string='Sales Order Lines']/field[@name='price_unit']" position="after">
-                   <field name="price_gross" />
-                   <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
-                </xpath> 
-       			   <field name="amount_untaxed" position="before">
-                   <field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                   <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-        </field>
+				<xpath expr="//group[@name='sale_total']" position="after">
+					<group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+						<label for="discount_rate" />
+						<div>
+							<field name="discount_rate" on_change="onchange_discount_rate(discount_rate)" class="oe_inline"  /> %%
+						</div>
+					</group>
+				</xpath>
+				<xpath expr="//tree[@string='Sales Order Lines']/field[@name='price_unit']" position="after">
+					<field name="price_gross" />
+					<field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+				</xpath>
+				<field name="amount_untaxed" position="before">
+					<field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+					<field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+				</field>
 			</field>
 		</record>
 
