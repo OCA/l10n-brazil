@@ -513,7 +513,8 @@ class SaleOrderLine(orm.Model):
         fp_id = line.fiscal_position or line.order_id.fiscal_position or False
         if fp_id:
             result['fiscal_position'] = fp_id.id
-
+            if line.product_id.fiscal_type == 'product':
+                result['cfop_id'] = fp_id.cfop_id.id
         result['partner_id'] = line.order_id.partner_id.id
         result['company_id'] = line.order_id.company_id.id
         return result
