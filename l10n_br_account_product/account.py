@@ -166,8 +166,6 @@ class AccountTax(orm.Model):
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes += result_icmsst['taxes']
 
-        print "CALCULO ICMS ST", result_icmsst['taxes']
-
         return {
             'total': result['total'],
             'total_included': result['total_included'],
