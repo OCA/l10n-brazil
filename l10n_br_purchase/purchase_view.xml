@@ -30,7 +30,7 @@
 				</xpath>
 			</field>
 		</record>
-		
+
 		<record id="l10n_br_purchase_order_line_form" model="ir.ui.view">
 			<field name="name">l10n_br_purchase.order.line.form</field>
 			<field name="model">purchase.order.line</field>
