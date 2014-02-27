@@ -247,17 +247,17 @@ class PurchaseOrderLine(orm.Model):
 
         return result_rule
 
-    def product_id_change(self, cr, uid, ids, pricelist_id, product_id, qty,
-                          uom_id, partner_id, date_order=False,
-                          fiscal_position_id=False, date_planned=False,
-                          name=False, price_unit=False, context=None,
-                          company_id=False, parent_fiscal_position_id=False,
-                          parent_fiscal_category_id=False, **kwargs):
+    def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id,
+                            qty, uom_id, partner_id, date_order=False,
+                            fiscal_position_id=False, date_planned=False,
+                            name=False, price_unit=False, context=None,
+                            company_id=False, parent_fiscal_position_id=False,
+                            parent_fiscal_category_id=False, **kwargs):
 
         if context is None:
             context = {}
 
-        result = super(PurchaseOrderLine, self).product_id_change(
+        result = super(PurchaseOrderLine, self).onchange_product_id(
             cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
             context)
