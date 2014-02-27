@@ -268,7 +268,7 @@ class PurchaseOrderLine(orm.Model):
         parent_fiscal_position_id = context.get('parent_fiscal_position_id')
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
 
-        result = super(PurchaseOrderLine, self).product_id_change(
+        result = super(PurchaseOrderLine, self).onchange_product_id(
             cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
             context)
