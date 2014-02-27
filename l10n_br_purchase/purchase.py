@@ -268,32 +268,41 @@ class PurchaseOrderLine(orm.Model):
         parent_fiscal_position_id = context.get('parent_fiscal_position_id')
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
 
-        result = super(PurchaseOrderLine, self).onchange_product_id(
+        result = {'value': {}}
+
+        if product_id and parent_fiscal_category_id:
+            obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+            product_fc_id = obj_fp_rule.product_fiscal_category_map(
+                cr, uid, product_id, parent_fiscal_category_id)
+
+            if product_fc_id:
+                parent_fiscal_category_id = product_fc_id
+
+            result['value']['fiscal_category_id'] = parent_fiscal_category_id
+
+            kwargs.update({
+                'company_id': company_id,
+                'product_id': product_id,
+                'partner_id': partner_id,
+                'partner_invoice_id': partner_id,
+                'fiscal_category_id': parent_fiscal_category_id,
+                'context': context,
+            })
+            result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+            if result['value'].get('fiscal_position'):
+                fiscal_position_id = result['value'].get('fiscal_position')
+
+            obj_product = self.pool.get('product.product').browse(
+                cr, uid, product_id)
+            context.update({'fiscal_type': obj_product.fiscal_type,
+                'type_tax_use': 'purchase'})
+
+        result_super = super(PurchaseOrderLine, self).onchange_product_id(
             cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
             context)
-
-        if not product_id or not parent_fiscal_category_id:
-            return result
-
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-        product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
-            cr, uid, product_id, parent_fiscal_category_id)
-
-        if product_fiscal_category_id:
-            parent_fiscal_category_id = product_fiscal_category_id
-
-        result['value']['fiscal_category_id'] = parent_fiscal_category_id
-
-        kwargs.update({
-            'company_id': company_id,
-            'product_id': product_id,
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_id,
-            'fiscal_category_id': parent_fiscal_category_id,
-            'context': context,
-        })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        result_super['value'].update(result['value'])
+        return result_super
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     dest_address_id=False,
