@@ -329,7 +329,7 @@ class PurchaseOrderLine(orm.Model):
                                  fiscal_position=False,
                                  fiscal_category_id=False, company_id=False,
                                  context=None, **kwargs):
-        result = {'value': {}}
+        result = {'value': {'taxes_id': False}}
         if not company_id or not partner_id or not fiscal_position:
             return result
 
@@ -341,4 +341,23 @@ class PurchaseOrderLine(orm.Model):
             'fiscal_category_id': fiscal_category_id,
             'context': context,
         })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+
+        result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+        fiscal_position = result['value'].get('fiscal_position')
+
+        if product_id and fiscal_position:
+            obj_fposition = self.pool.get('account.fiscal.position').browse(
+                cr, uid, fiscal_position)
+            obj_product = self.pool.get('product.product').browse(
+                cr, uid, product_id)
+            context = {'fiscal_type': obj_product.fiscal_type,
+                       'type_tax_use': 'purchase'}
+            taxes = obj_product.supplier_taxes_id or False
+            taxes_ids = self.pool.get('account.fiscal.position').map_tax(
+                cr, uid, obj_fposition, taxes, context)
+
+            result['value']['taxes_id'] = taxes_ids
+
+        return result
+
+        return
