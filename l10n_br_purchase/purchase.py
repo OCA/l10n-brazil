@@ -330,7 +330,7 @@ class PurchaseOrderLine(orm.Model):
                                  fiscal_category_id=False, company_id=False,
                                  context=None, **kwargs):
         result = {'value': {'taxes_id': False}}
-        if not company_id or not partner_id or not fiscal_position:
+        if not company_id or not partner_id:
             return result
 
         kwargs.update({
