@@ -70,6 +70,7 @@
 			<field name="type">input</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">purchase</field>
+			<field name="state">approved</field>
 		</record>
 
 		<record id="fc_86d8c770fc2fb9d9fa242a3bdddd507a" model="l10n_br_account.fiscal.category">
@@ -87,6 +88,7 @@
 			<field name="type">input</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">sale_refund</field>
+			<field name="state">approved</field>
 		</record>
 
 		<record id="fc_f20c37a9e1e1c870af37efe62a786fbf" model="l10n_br_account.fiscal.category">
