@@ -110,7 +110,7 @@ class account_tax(orm.Model):
         precision = obj_precision.precision_get(cr, uid, 'Account')
         result = super(account_tax, self).compute_all(cr, uid, taxes,
             price_unit, quantity, product, partner, force_excluded)
-        totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
+        totaldc = icms_base = icms_value = icms_percent = icms_percent_reduction = ipi_value = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
