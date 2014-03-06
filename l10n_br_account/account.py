@@ -59,11 +59,13 @@ class account_tax(orm.Model):
                 product_read = self.pool.get('product.product').read(cr, uid, product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get('weight_net', 0.0)) * tax['percent'], precision)
 
-            if tax.get('type') == 'quantity':
+            elif tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
-            tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+            # in case of percent and other cases
+            else:
+                tax['amount'] = round(total_line * tax['percent'], precision)
+                tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
 
             if tax.get('tax_discount', False):
                 result['tax_discount'] += tax['amount']
