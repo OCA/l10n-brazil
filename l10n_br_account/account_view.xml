@@ -55,9 +55,9 @@
             <field name="model">account.tax</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
             <field name="arch" type="xml">
-                <field name="amount" position="after">
-                    <field name="base_reduction"/>
-                    <field name="amount_mva"/>
+                <field name="price_include" position="before">
+                    <field name="base_reduction" attrs="{'invisible':[('type','in',('none', 'code', 'balance'))]}"/>
+                    <field name="amount_mva" attrs="{'invisible':[('type','in',('none', 'code', 'balance'))]}"/>
                 </field>
             </field>
         </record>
