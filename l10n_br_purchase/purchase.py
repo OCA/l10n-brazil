@@ -92,22 +92,35 @@ class PurchaseOrder(orm.Model):
         'fiscal_category_id': _default_fiscal_category}
 
     def onchange_partner_id(self, cr, uid, ids, partner_id=False,
-                            company_id=False, context=None,
-                            fiscal_category_id=False, **kwargs):
+                            company_id=False, context=None, **kwargs):
+        if not context:
+            context = {}
+        # TODO try to upstream web_context_tunnel in fiscal-rules
+        # to avoid having to change this signature
+        fiscal_category_id = context.get('fiscal_category_id')
+        if not company_id:
+            company_id = self.pool['res.users'].browse(
+                cr, uid, uid, context).company_id.id
         return super(PurchaseOrder, self).onchange_partner_id(
-            cr, uid, ids, partner_id, company_id, context=None,
+            cr, uid, ids, partner_id, company_id, context,
             fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_dest_address_id(self, cr, uid, ids, partner_id,
                                  dest_address_id, company_id, context,
-                                 fiscal_category_id, **kwargs):
+                                 **kwargs):
+        if not context:
+            context = {}
+        fiscal_category_id = context.get('fiscal_category_id')
         return super(PurchaseOrder, self).onchange_dest_address_id(
             cr, uid, ids, partner_id, dest_address_id, company_id, context,
             fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_company_id(self, cr, uid, ids, partner_id,
                                  dest_address_id, company_id, context=None,
-                                 fiscal_category_id=False, **kwargs):
+                                 **kwargs):
+        if not context:
+            context = {}
+        fiscal_category_id = context.get('fiscal_category_id')
         return super(PurchaseOrder, self).onchange_company_id(
             cr, uid, ids, partner_id, dest_address_id, company_id, context,
             fiscal_category_id=fiscal_category_id, **kwargs)
@@ -250,11 +263,12 @@ class PurchaseOrderLine(orm.Model):
     def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id,
                             qty, uom_id, partner_id, date_order=False,
                             fiscal_position_id=False, date_planned=False,
-                            name=False, price_unit=False, context=None,
-                            company_id=False, parent_fiscal_position_id=False,
-                            parent_fiscal_category_id=False, **kwargs):
+                            name=False, price_unit=False, context=None):
         if context is None:
             context = {}
+        company_id = context.get('company_id')
+        parent_fiscal_position_id = context.get('parent_fiscal_position_id')
+        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
 
         result = {'value': {}}
 
@@ -268,14 +282,14 @@ class PurchaseOrderLine(orm.Model):
 
             result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
-            kwargs.update({
+            kwargs = {
                 'company_id': company_id,
                 'product_id': product_id,
                 'partner_id': partner_id,
                 'partner_invoice_id': partner_id,
                 'fiscal_category_id': parent_fiscal_category_id,
                 'context': context,
-            })
+            }
             result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
             if result['value'].get('fiscal_position'):
                 fiscal_position_id = result['value'].get('fiscal_position')
@@ -347,5 +361,3 @@ class PurchaseOrderLine(orm.Model):
             result['value']['taxes_id'] = taxes_ids
 
         return result
-
-        return
