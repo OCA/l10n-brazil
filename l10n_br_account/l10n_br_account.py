@@ -120,7 +120,7 @@ class L10n_brDocumentEvent(orm.Model):
 
 class L10n_brAccountFiscalCategory(orm.Model):
     _name = 'l10n_br_account.fiscal.category'
-    _description = 'Categoria Fiscail'
+    _description = 'Categoria Fiscal'
     _columns = {
         'code': fields.char(u'Código', size=254, required=True),
         'name': fields.char(u'Descrição', size=254),
