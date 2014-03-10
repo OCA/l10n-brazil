@@ -148,7 +148,6 @@ class NFe200(FiscalDocument):
             nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
             nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.zip or '').replace(' ',''))
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
-            nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
             nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
             nfe.infNFe.emit.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or '')
@@ -186,6 +185,7 @@ class NFe200(FiscalDocument):
 
             if inv.partner_id.is_company:
                 nfe.infNFe.dest.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
+                nfe.infNFe.dest.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
             else:
                 nfe.infNFe.dest.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
 
@@ -200,7 +200,6 @@ class NFe200(FiscalDocument):
             nfe.infNFe.dest.enderDest.cPais.valor = partner_bc_code
             nfe.infNFe.dest.enderDest.xPais.valor = inv.partner_id.country_id.name or ''
             nfe.infNFe.dest.enderDest.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.phone or '').replace(' ',''))
-            nfe.infNFe.dest.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
             nfe.infNFe.dest.email.valor = inv.partner_id.email or ''
 
             #
@@ -211,7 +210,7 @@ class NFe200(FiscalDocument):
                 i += 1
                 det = Det_200()
 
-                det.nItem.valor = 1
+                det.nItem.valor = i
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
