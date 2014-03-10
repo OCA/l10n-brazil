@@ -348,6 +348,12 @@ class NFe200(FiscalDocument):
             #
             # Totais
             #
+            if inv.company_id.fiscal_type in ('1'):#FIXME
+                icms_base = 0.00
+                icms_value = 0.00
+            else:
+                icms_base = inv.icms_base
+                icms_value = inv.icms_value
             nfe.infNFe.total.ICMSTot.vBC.valor     = str("%.2f" % inv.icms_base)
             nfe.infNFe.total.ICMSTot.vICMS.valor   = str("%.2f" % inv.icms_value)
             nfe.infNFe.total.ICMSTot.vBCST.valor   = str("%.2f" % inv.icms_st_base)
