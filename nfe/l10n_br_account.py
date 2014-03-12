@@ -31,8 +31,11 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
             ('draft', 'Rascunho'),
             ('not_authorized', 'Não autorizado'),
             ('done', u'Autorizado Sefaz')], 'Status', required=True),
-        'status': fields.char('Status', size=10),
-        'message': fields.char('Mensagem', size=200),
+        'status': fields.char('Status', size=10, readonly=True),
+        'message': fields.char('Mensagem', size=200, readonly=True),
+        'invalid_number_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids',
+            u'Eventos', states={'done':[('readonly',True)]}),
     }
 
     def action_draft_done(self, cr, uid, ids, context=None, *args):

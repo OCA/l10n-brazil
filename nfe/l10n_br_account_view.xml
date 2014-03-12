@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="l10n_br_account.l10n_br_account_invoice_invalid_number_form"/>
 			<field name="arch" type="xml">
 				<header position="replace">
-					<button name="action_draft_done"  colspan="2" string="Enviar SEFAZ" type="object" icon="gtk-convert"  attrs="{'invisible':['|',('id','==', False),('status','==','done')]}"/>
+					<button name="action_draft_done"  colspan="2" string="Enviar SEFAZ" type="object" icon="gtk-convert"  attrs="{'invisible':['|',('id','=', False),('state','=','done')]}"/>
 					<field name="state" widget="statusbar" statusbar_visible="draft,not_authorized,done"/>
 				</header>
 				<field name="number_end" position="after">
