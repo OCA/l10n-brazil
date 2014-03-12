@@ -95,9 +95,9 @@ class L10n_brDocumentEvent(orm.Model):
         'file_returned': fields.char('Retorno', readonly=True),
         'status': fields.char('Codigo', readonly=True),
         'message': fields.char('Mensagem', readonly=True),
-        'create_date': fields.datetime('Data Criação', readonly=True),
-        'write_date': fields.datetime('Date Alteração', readonly=True),
-        'end_date': fields.datetime('Data Finalização', readonly=True),
+        'create_date': fields.datetime(u'Data Criação', readonly=True),
+        'write_date': fields.datetime(u'Data Alteração', readonly=True),
+        'end_date': fields.datetime(u'Data Finalização', readonly=True),
         'state': fields.selection(
             [('draft', 'Rascunho'), ('send', 'Enviado'),
             ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
