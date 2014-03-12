@@ -19,7 +19,7 @@
 
 {
     'name': 'Brazilian Localization Account Product',
-    'description': """Brazilian Localization Account Product""",
+    'description': "Brazilian Localization Account Product",
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
