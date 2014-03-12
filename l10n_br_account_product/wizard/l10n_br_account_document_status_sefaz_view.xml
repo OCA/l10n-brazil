@@ -8,7 +8,7 @@
 				<form string="Consultar chave de acesso" version="7.0">
 					<field invisible="1" name="state"/>
 					<group>
-						<group states="init" string="Entre com a chave Click em consultar...">
+						<group states="init" string="Entre com a chave e clique em consultar...">
 							<field name="chNFe" />
 						</group>
 						<group states="done" string="Resultado da Consulta">
