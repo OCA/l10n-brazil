@@ -19,8 +19,7 @@
 
 {
     'name': 'Brazilian Localization CRM Zip',
-    'description': """ZIP Search Integration for Brazilian Localization
-    of CRM module""",
+    'description': "ZIP Search Integration for Brazilian Localization of CRM module",
     'category': 'Localization',
     'license': 'AGPL-3',
     'author': 'Fabio Negrini - OpenERP Brasil',

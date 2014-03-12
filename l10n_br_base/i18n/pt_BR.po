@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_base
+msgid "Brazilian Localization Base"
+msgstr "Localização Brasileira - Módulo Base"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_base
+msgid "Brazilian Localization Base"
+msgstr "Localização Brasileira - Estrutura básica para a localização brasileira"
