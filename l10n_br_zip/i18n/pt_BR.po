@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_zip
+msgid "Brazilian Localisation ZIP Codes"
+msgstr "Localização Brasileira - CEP"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_zip
+msgid "Brazilian Localisation ZIP Codes"
+msgstr "Localização Brasileira - Este módulo permite a inserção de Cep's e a \npesquisa dos mesmos no cadastros de clientes e empresas."
