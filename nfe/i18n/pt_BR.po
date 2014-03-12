@@ -1,0 +1,4 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_nfe
+msgid "NFE"
+msgstr "Nota Fiscal Eletronica"

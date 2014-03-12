@@ -21,6 +21,7 @@ import datetime
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from sped.nfe.validator.config_check import *
+from .sped.nfe.processing.xml import invalidate
 
 
 class L10n_brAccountInvoiceInvalidNumber(orm.Model):
@@ -55,6 +56,51 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
         except Exception, e:
             raise orm.except_orm(_('Error !'), e.message)
         return True
+
+    def send_request_to_sefaz(self, cr, uid, ids, *args):
+        for item in self.browse(cr, uid, ids):
+            company_pool = self.pool.get('res.company')
+            company = company_pool.browse(cr, uid, item.company_id.id)
+            
+            event_obj = self.pool.get('l10n_br_account.document_event')
+            
+            validate_nfe_configuration(company)
+            validate_nfe_invalidate_number(company, item)
+                
+            results = []   
+            try:                
+                processo = invalidate(company, item) 
+                vals = {
+                            'type': str(processo.webservice),
+                            'status': processo.resposta.infInut.cStat.valor,
+                            'response': '',
+                            'company_id': company.id,
+                            'origin': '[INU] {0} - {1}'.format(str(item.number_start), str(item.number_end)),
+                            'file_sent': processo.arquivos[0]['arquivo'],
+                            'file_returned': processo.arquivos[1]['arquivo'],
+                            'message': processo.resposta.infInut.xMotivo.valor,
+                            'state': 'done',
+                            'document_event_ids': item.id}
+                results.append(vals)
+                           
+            except Exception as e:
+                vals = {
+                        'type': '-1',
+                        'status': '000',
+                        'response': 'response',
+                        'company_id': company.id,
+                        'origin': '[INU] {0} - {1}'.format(str(item.number_start), str(item.number_end)),
+                        'file_sent': 'False',
+                        'file_returned': 'False',
+                        'message': 'Erro desconhecido ' + e.message,
+                        'state': 'done',
+                        'document_event_ids': item.id
+                        }
+                results.append(vals)
+            finally:
+                for result in results:
+                    event_obj.create(cr, uid, result)                
+            return processo
 
 
 class L10n_brAccountInvoiceCancel(orm.Model):
