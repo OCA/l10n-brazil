@@ -38,6 +38,20 @@ def monta_caminho_nfe(ambiente, chave_nfe):
     p = ProcessadorNFe()
     return p.monta_caminho_nfe(ambiente,chave_nfe)
 
+def check(company, chave_nfe, nfe=False):
+    
+    p = ProcessadorNFe()
+    p.ambiente = ambiente = int(company.nfe_environment)
+    p.versao = '2.00' if (company.nfe_version == '200') else '1.10'
+    p.estado = company.partner_id.l10n_br_city_id.state_id.code
+    p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
+    p.certificado.senha = company.nfe_a1_password
+    p.salva_arquivos      = True
+    p.contingencia_SCAN   = False
+    p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)
+
+    return  p.consultar_nota(ambiente,chave_nfe,nfe)
+
 def sign():
     pass
 
