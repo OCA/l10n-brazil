@@ -45,22 +45,16 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
         'state': 'init',
     }
 
-    def _get_invoice_ids(self, cr, uid, data, context=None):
-
-        if not context:
-            context = {}
-
-        return context.get('active_ids', [])
-
-    def document_status_sefaz(self, cr, uid, ids, context=None):
-
+    def get_document_status(self, cr, uid, ids, context=None):
+        data = self.read(cr, uid, ids, [], context=context)[0]
         #Call some method from l10n_br_account to check chNFE
         call_result = {
             'version': '2.01',
             'nfe_environment': '2',
             'xMotivo': '101',
             'cUF': 27,
-            'nfe_environment': '123412341234123412341234123412341234',
+            'chNFe': data['chNFe'],
+            'nfe_environment': '2',
             'protNFe': '123',
             'retCancNFe': '',
             'procEventoNFe': '',
@@ -71,7 +65,7 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
         act_obj = self.pool.get('ir.actions.act_window')
         result = mod_obj.get_object_reference(
             cr, uid, 'l10n_br_account_product',
-            'l10n_br_account_product_document_status_sefaz_action')
+            'action_l10n_br_account_product_document_status_sefaz')
         res_id = result and result[1] or False
         result = act_obj.read(cr, uid, res_id, context=context)
         result['res_id'] = ids[0]
