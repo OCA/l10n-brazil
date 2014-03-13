@@ -18,6 +18,7 @@
 ###############################################################################
 
 import datetime
+from openerp import netsvc
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from sped.nfe.validator.config_check import *
@@ -110,7 +111,15 @@ class L10n_brAccountInvoiceCancel(orm.Model):
     _inherit = 'l10n_br_account.invoice.cancel'
 
     def action_draft_done(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'done'})
+        if len(ids) == 1:
+            record = self.browse(cr, uid, ids[0])             
+            wf_service = netsvc.LocalService('workflow')            
+            wf_service.trg_validate(uid, 'account.invoice', \
+                        record.invoice_id.id, 'invoice_cancel', cr)
+            
+            self.write(cr, uid, ids, {'state': 'done'})
+        else:
+            raise orm.except_orm(_('Error !'), u'Você pode cancelar apenas uma fatura por vez.')
         return True
 
 
