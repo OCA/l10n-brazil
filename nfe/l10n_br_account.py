@@ -109,7 +109,7 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
 
 class L10n_brAccountInvoiceCancel(orm.Model):
     _inherit = 'l10n_br_account.invoice.cancel'
-
+    
     def action_draft_done(self, cr, uid, ids, *args):
         if len(ids) == 1:
             record = self.browse(cr, uid, ids[0])             

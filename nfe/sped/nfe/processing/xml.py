@@ -68,92 +68,27 @@ def check_partner(company,cnpj_cpf, estado=None, ie=None):
     
     return  p.consultar_cadastro(estado, ie, cnpj_cpf)
 
+def __configure(company):
+    p = processo(company)
+    return p
 def sign():
     pass
 
-def cancel():
-    pass
+def cancel(company, invoice, justificative):
+    p = __configure(company)
+    
+    processo = p.cancelar_nota_evento(
+        chave_nfe = invoice.nfe_access_key,
+        numero_protocolo=invoice.nfe_status,
+        justificativa=justificative
+    )
+    return processo
     
 def send(company, nfe):
-                        
-    p = processo(company)
+    p = __configure(company)
+
     return p.processar_notas(nfe)
-
-        #result.append({'status':'success', 'message':'Recebido com sucesso.', 'key': nfe[0].infNFe.Id.valor, 'nfe': processo.envio.xml})
-        #result.append({'status':'success', 'message':'Recebido com sucesso.','key': nfe[0].infNFe.Id.valor, 'nfe': processo.resposta.xml})
-
-
-        # print dir(processo)
-        # print "\n Arquivos" , processo.arquivos[0]['arquivo']
-        # print "\n Arquivos" , processo.arquivos[1]['arquivo']
-
-        # print "\n Envio" ,  dir(processo.envio)
-        # print "\n Resposta" ,  dir(processo.resposta)
-        # print "\n WebService" ,  dir(processo.webservice)
-
-
-        # type_xml = ''
-
-        # status = 
-        # message = 
-        # file_sent =
-        # file_result =
-
-                       
-            
-        # if processo.resposta.status == 200:
-
-        #     resultado = {
-        #         'name':name,
-        #         'name_result':name_result,
-        #         'message':message,
-        #         'xml_type':type_xml,
-        #         'status_code':status,
-        #         'xml_sent': file_sent,
-        #         'xml_result': file_result,
-        #         'status':'success'
-        #         }
-
-        #     if processo.webservice == webservices_flags.WS_NFE_CONSULTA_RECIBO:                
-        #         resultado["status"] = "error"
-                
-        #         for prot in processo.resposta.protNFe:
-                    
-        #             resultado["status_code"] = prot.infProt.cStat.valor
-        #             resultado["message"] = prot.infProt.xMotivo.valor
-        #             resultado["nfe_key"] = prot.infProt.chNFe.valor
-
-        #             if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
-        #                 nfe_xml = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].xml
-        #                 #danfe_pdf = processo.resposta.dic_procNFe[prot.infProt.chNFe.valor].danfe_pdf
-        #                 danfe_nfe = {
-        #                     'name':'danfe.pdf',
-        #                     'name_result':'nfe_protocolada.xml', 
-        #                     'message':prot.infProt.xMotivo.valor, 
-        #                     'xml_type':'Danfe/NF-e', 
-        #                     'status_code':prot.infProt.cStat.valor,
-        #                     'xml_sent': 'danfe_pdf',
-        #                     'xml_result': nfe_xml.encode('utf8') , 
-        #                     'status':'success'}
-
-        #                 resultado["status"] = "success"
-        #                 result.append(danfe_nfe)
-        # else:
-        #     resultado = {
-        #         'name':name,
-        #         'name_result':name_result, 
-        #         'message':processo.resposta.original, 
-        #         'xml_type':type_xml, 
-        #         'status_code':processo.resposta.status,
-        #         'xml_sent': file_sent,
-        #         'xml_result': file_result, 
-        #         'status':'error'
-        #         }
-        # result.append(resultado)
-    # return result
-
-#inutilização de numeração
-
+       
 def invalidate(company, invalidate_number):
                         
     p = processo(company)
