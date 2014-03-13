@@ -17,4 +17,40 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import l10n_br_account_document_status_sefaz
+from .sped.nfe.processing.xml import check_partner
+from openerp.osv import orm
+
+class ResPartner(orm.Model):
+    _inherit = 'res.partner'
+
+    def sefaz_check(self, cr, uid, ids, context=False):
+               
+        if context.get('company_id', False):
+            company = context['company_id']
+        else:
+            company = self.pool.get('res.users').browse(cr, uid, uid,
+                context=context).company_id
+        
+        #for partner in self.browse(cr, uid, ids, context):
+            
+         #   processo = check_partner(company, partner.state_id.code, partner.inscr_est ,partner.cnpj_cpf )      
+            #processar xml
+        return
+    
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
+        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
+            cr, uid, ids, is_company, cnpj_cpf)
+        
+        context = {}
+        
+        if cnpj_cpf:
+            
+            if context.get('company_id', False):
+                company = context['company_id']
+            else:
+                company = self.pool.get('res.users').browse(cr, uid, uid,
+                    context=context).company_id
+           
+        #    processo = check_partner(company, company.partner_id.state_id.code, None , cnpj_cpf )      
+        return result
+

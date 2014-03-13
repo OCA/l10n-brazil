@@ -18,7 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm
-from ..sped.nfe.processing.xml import check
+from ..sped.nfe.processing.xml import check_key_nfe
 
 class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
 
@@ -37,7 +37,7 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
         print type(chave_nfe)
         print chave_nfe
         try:
-            processo = check(company, chave_nfe)
+            processo = check_key_nfe(company, chave_nfe)
             
             print(processo.envio.xml)
             print()

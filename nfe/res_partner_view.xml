@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record id="nfe_res_partner_view_buttons" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                	<button name="sefaz_check" type="object" icon="terp-stock_zoom" class="oe_highlight" string="Consultar cadastro SEFAZ"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
