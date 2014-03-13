@@ -29,9 +29,10 @@
 			<field name="name">l10n_br_account.invoice.cancel.tree</field>
 			<field name="model">l10n_br_account.invoice.cancel</field>
 			<field name="arch" type="xml">
-				<tree string="Cancelar Documento Eletrônico">
+				<tree string="Cancelar Documento Eletrônico">										
 					<field name="invoice_id"/>
 					<field name="justificative"/>
+					<field name="state">
 				</tree>
 			</field>
 		</record>
