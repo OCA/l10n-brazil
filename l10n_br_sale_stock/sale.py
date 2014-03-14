@@ -24,29 +24,6 @@ from openerp.tools.translate import _
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
-    def _fiscal_comment(self, cr, uid, order, context=None):
-        fp_comment = []
-        fc_comment = []
-        fp_ids = []
-        fc_ids = []
-
-        for line in order.order_line:
-            if line.fiscal_position and \
-            line.fiscal_position.inv_copy_note and \
-            line.fiscal_position.note:
-                if not line.fiscal_position.id in fp_ids:
-                    fp_comment.append(line.fiscal_position.note)
-                    fp_ids.append(line.fiscal_position.id)
-
-            if line.product_id.ncm_id:
-                fc = line.product_id.ncm_id
-                if fc.inv_copy_note and fc.note:
-                    if not fc.id in fc_ids:
-                        fc_comment.append(fc.note)
-                        fc_ids.append(fc.id)
-
-        return fp_comment + fc_comment
-
     def _prepare_order_picking(self, cr, uid, order, context=None):
         result = super(SaleOrder, self)._prepare_order_picking(cr, uid,
             order, context)
