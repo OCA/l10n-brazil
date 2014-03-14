@@ -19,12 +19,16 @@
 
 from .sped.nfe.processing.xml import check_partner
 import xml.etree.ElementTree as ET
-from openerp.osv import orm
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 class ResPartner(orm.Model):
     _inherit = 'res.partner'
-
+    
+    _columns = {
+            'habilitado_sintegra' : fields.boolean('Habilitado no Sintegra', readonly=True),
+               }
+    
     def sefaz_check(self, cr, uid, ids, context=False):
                
         if context.get('company_id', False):
@@ -57,8 +61,6 @@ class ResPartner(orm.Model):
                             for end in infCad:
                                 info[end.tag[36:]] = end.text
                 
-                print info
-                
                 if info['cStat'] not in  ('111', '112'):
                     raise orm.except_orm(
                                         _("Erro ao se comunicar com o SEFAZ"),
@@ -80,7 +82,8 @@ class ResPartner(orm.Model):
                     'cnpj_cpf': info.get('CNPJ',''), 
                     'number' : info.get('nro',''),
                     'l10n_br_city_id' : city_id,
-                    'state_id' : state_id
+                    'state_id' : state_id,
+                    'habilitado_sintegra' : info['cSit'],
                 }
                 self.write(cr, uid, [partner.id], result, context)
         return

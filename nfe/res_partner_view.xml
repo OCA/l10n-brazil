@@ -10,6 +10,9 @@
                 <xpath expr="//div[@name='buttons']" position="inside">
                 	<button name="sefaz_check" type="object" icon="terp-stock_zoom" class="oe_highlight" string="Consultar cadastro SEFAZ"/>
                 </xpath>
+                <field name="partner_fiscal_type_id" position="after">
+					<field name="habilitado_sintegra" />
+				</field>
             </field>
         </record>      
     </data>
