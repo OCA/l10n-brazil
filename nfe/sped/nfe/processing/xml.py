@@ -60,9 +60,14 @@ def check_key_nfe(company, chave_nfe, nfe=False):
     return  p.consultar_nota(p.ambiente,chave_nfe,nfe)
 
 
-def check_partner(company, estado,ie,cnpj_cpf):
-
+def check_partner(company,cnpj_cpf, estado=None, ie=None):
+    
+    if not estado:
+        estado = company.partner_id.state_id.code
+    cnpj_cpf = (re.sub('[%s]' % re.escape(string.punctuation), '', cnpj_cpf or ''))
+        
     p = processo(company)
+    
     return  p.consultar_cadastro(estado, ie, cnpj_cpf)
 
 def sign():

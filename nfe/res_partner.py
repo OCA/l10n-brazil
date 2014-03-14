@@ -18,7 +18,9 @@
 ###############################################################################
 
 from .sped.nfe.processing.xml import check_partner
+import xml.etree.ElementTree as ET
 from openerp.osv import orm
+from openerp.tools.translate import _
 
 class ResPartner(orm.Model):
     _inherit = 'res.partner'
@@ -31,26 +33,54 @@ class ResPartner(orm.Model):
             company = self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id
         
-        #for partner in self.browse(cr, uid, ids, context):
-            
-         #   processo = check_partner(company, partner.state_id.code, partner.inscr_est ,partner.cnpj_cpf )      
-            #processar xml
-        return
+        for partner in self.browse(cr, uid, ids, context):    
+            if partner.cnpj_cpf:
+                cnpj_cpf = partner.cnpj_cpf
+                
+                estato = partner.state_id.code or None
+                ie = partner.inscr_est or None
+                
+                processo = check_partner(company, cnpj_cpf, estato, ie)
+                
+                (company, partner.state_id.code, partner.inscr_est , )
+                xml = processo.resposta.xml.encode('utf-8')
     
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
-        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
-            cr, uid, ids, is_company, cnpj_cpf)
-        
-        context = {}
-        
-        if cnpj_cpf:
-            
-            if context.get('company_id', False):
-                company = context['company_id']
-            else:
-                company = self.pool.get('res.users').browse(cr, uid, uid,
-                    context=context).company_id
-           
-        #    processo = check_partner(company, company.partner_id.state_id.code, None , cnpj_cpf )      
-        return result
-
+                tree = ET.fromstring(xml)
+                info = {}
+                
+                for child in tree:
+                    info[child.tag[36:]] = child.text
+                    for infCons in child:
+                        info[infCons.tag[36:]] =infCons.text
+                        for infCad in infCons:
+                            info[infCad.tag[36:]] =infCad.text
+                            for end in infCad:
+                                info[end.tag[36:]] = end.text
+                
+                print info
+                
+                if info['cStat'] not in  ('111', '112'):
+                    raise orm.except_orm(
+                                        _("Erro ao se comunicar com o SEFAZ"),
+                                        _("%s - %s") % (info.get('cStat',''), info.get('xMotivo','')))  
+                if info['cSit'] not in ('1',):
+                    raise orm.except_orm(
+                                         _("Situação Cadastral Vigente:"),
+                                         _("NÃO HABILITADO"))
+                
+                city_id = self.pool.get('l10n_br_base.city').search(cr, uid, [('ibge_code', '=', info['cMun'][2:])])[0]
+                state_id = self.pool.get('res.country.state').search(cr, uid, [('ibge_code', '=', info['cMun'][:2])])[0]
+                
+                result = {
+                    'district': info.get('xBairro',''),
+                    'street': info.get('xLgr',''),
+                    'zip': info.get('CEP',''),
+                    'street2': info.get('xCpl',''),
+                    'legal_name' : info.get('xNome',''),
+                    'cnpj_cpf': info.get('CNPJ',''), 
+                    'number' : info.get('nro',''),
+                    'l10n_br_city_id' : city_id,
+                    'state_id' : state_id
+                }
+                self.write(cr, uid, [partner.id], result, context)
+        return

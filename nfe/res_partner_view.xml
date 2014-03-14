@@ -11,6 +11,6 @@
                 	<button name="sefaz_check" type="object" icon="terp-stock_zoom" class="oe_highlight" string="Consultar cadastro SEFAZ"/>
                 </xpath>
             </field>
-        </record>
+        </record>      
     </data>
 </openerp>
