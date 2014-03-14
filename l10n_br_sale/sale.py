@@ -76,25 +76,11 @@ class SaleOrder(orm.Model):
 
         return inv_id_product or inv_id_service
 
-    # def _amount_products_all(self, cr, uid, ids, field_name, arg, context=None):
-    #     cur_obj = self.pool.get('res.currency')
-    #     res = {}
-    #     for order in self.browse(cr, uid, ids, context=context):
-    #         res[order.id] = {
-    #             'amount_product': 0.0,
-    #         }
-    #         val = 0.0
-    #         cur = order.pricelist_id.currency_id
-    #         for line in order.order_line:
-    #             val += line.price_gross
-    #         res[order.id]['amount_product'] = cur_obj.round(cr, uid, cur, val)
-    #     return res
-
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
         cur_obj = self.pool.get('res.currency')
-        res = {}
+        result = {}
         for order in self.browse(cr, uid, ids, context=context):
-            res[order.id] = {
+            result[order.id] = {
                 'amount_untaxed': 0.0,
                 'amount_tax': 0.0,
                 'amount_total': 0.0,
@@ -110,13 +96,13 @@ class SaleOrder(orm.Model):
                 val2 += (line.insurance_value + line.freight_value + line.other_costs_value)
                 val3 += line.discount_value
                 val4 += line.price_gross
-            res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-            res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
-            res[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
-            res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax'] + res[order.id]['amount_extra']
-            res[order.id]['amount_discount'] = cur_obj.round(cr, uid, cur, val3)
-            res[order.id]['amount_gross'] = cur_obj.round(cr, uid, cur, val4)
-        return res
+            result[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
+            result[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
+            result[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
+            result[order.id]['amount_total'] = result[order.id]['amount_untaxed'] + result[order.id]['amount_tax'] + result[order.id]['amount_extra']
+            result[order.id]['amount_discount'] = cur_obj.round(cr, uid, cur, val3)
+            result[order.id]['amount_gross'] = cur_obj.round(cr, uid, cur, val4)
+        return result
 
     def _get_order(self, cr, uid, ids, context=None):
         result = {}
@@ -200,15 +186,6 @@ class SaleOrder(orm.Model):
                     'insurance_value', 'other_costs_value'], 10),
             },
               multi='sums', help="The discount amount."),
-        'amount_freight': fields.float('Frete',
-             digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
-        'amount_costs': fields.float('Outros Custos',
-            digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
-        'amount_insurance': fields.float('Seguro',
-            digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
         'discount_rate': fields.float('Desconto', readonly=True,
                                states={'draft': [('readonly', False)]}),
     }
@@ -226,9 +203,6 @@ class SaleOrder(orm.Model):
 
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
-        'amount_freight': 0.00,
-        'amount_costs': 0.00,
-        'amount_insurance': 0.00,
     }
 
     def onchange_discount_rate(self, cr, uid, ids, discount_rate):
@@ -286,6 +260,9 @@ class SaleOrder(orm.Model):
         fp_comment = []
         fc_comment = []
         fp_ids = []
+
+        fp_comment = super(SaleOrder, self)._fiscal_comment(
+            cr, uid, order, context)
 
         for line in order.order_line:
             if line.fiscal_position and \
@@ -407,13 +384,7 @@ class SaleOrderLine(orm.Model):
         'price_subtotal': fields.function(
             _amount_line, string='Subtotal',
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'insurance_value': fields.float('Insurance',
-             digits_compute=dp.get_precision('Account')),
-        'other_costs_value': fields.float('Other costs',
-             digits_compute=dp.get_precision('Account')),
-        'freight_value': fields.float('Freight',
-             digits_compute=dp.get_precision('Account')),
-                 }
+    }
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
 
