@@ -28,9 +28,8 @@
     'version': '7.0',
     'depends': [
         'sale_stock',
-        'l10n_br_sale',
+        'l10n_br_sale_product',
         'l10n_br_stock',
-        'l10n_br_account_product',
     ],
     'data': [
         'l10n_br_sale_stock_data.xml',
