@@ -84,9 +84,9 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
 					<field name="price_gross" />
 				</xpath>
-        		<xpath expr="//field[@name='invoice_line']/tree/field[@name='discount']" position="after">
-        			<field name="discount_value"/>
-        		</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='discount']" position="after">
+					<field name="discount_value"/>
+				</xpath>
 				<field position="after" name="partner_id">
 					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
 				</field>
