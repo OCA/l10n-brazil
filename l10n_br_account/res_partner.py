@@ -354,7 +354,6 @@ class ResPartner(orm.Model):
 
         parnter_fiscal_type = self.pool.get('res.company').read(
             cr, uid, ft_ids, ['id'], context=context)
-        print "ONCHANGE DEFAULT", parnter_fiscal_type
         return parnter_fiscal_type[0]['id'] or False
 
     _defaults = {
@@ -365,11 +364,8 @@ class ResPartner(orm.Model):
                             cnpj_cpf, context=None):
         result = super(ResPartner, self).onchange_mask_cnpj_cpf(
             cr, uid, ids, is_company, cnpj_cpf, context)
-        print "passou aqui!"
         ft_id = self._default_partner_fiscal_type_id(
             cr, uid, is_company, context)
-
-        print "ONCHANGE", ft_id
 
         if ft_id:
             result['value']['partner_fiscal_type_id'] = ft_id
