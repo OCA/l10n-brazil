@@ -155,7 +155,8 @@ class ResPartner(orm.Model):
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
+                            cnpj_cpf, context=None):
         result = super(ResPartner, self).onchange_type(
             cr, uid, ids, is_company)
         if cnpj_cpf:
