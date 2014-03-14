@@ -389,8 +389,12 @@ class L10n_brAccountPartnerFiscalType(orm.Model):
         'code': fields.char(u'Código', size=16, required=True),
         'name': fields.char(u'Descrição', size=64),
         'is_company': fields.boolean('Pessoa Juridica?'),
+        'default': fields.boolean(u'Tipo Fiscal Padrão'),
         'icms': fields.boolean('Recupera ICMS'),
         'ipi': fields.boolean('Recupera IPI')
+    }
+    _defaults = {
+        'default': True,
     }
 
 

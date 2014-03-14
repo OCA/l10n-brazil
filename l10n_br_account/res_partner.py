@@ -342,3 +342,35 @@ class ResPartner(orm.Model):
             'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
             domain="[('is_company', '=', is_company)]")
     }
+
+    def _default_partner_fiscal_type_id(self, cr, uid, is_company=False,
+                                        context=None):
+        """Define o valor padão para o campo tipo fiscal, por padrão pega
+        o tipo fiscal para não contribuinte já que quando é criado um novo
+        parceiro o valor do campo is_company é false"""
+        ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
+            cr, uid, [('default', '=', 'True'),
+                ('is_company', '=', is_company)], context=context)
+
+        parnter_fiscal_type = self.pool.get('res.company').read(
+            cr, uid, ft_ids, ['id'], context=context)
+        print "ONCHANGE DEFAULT", parnter_fiscal_type
+        return parnter_fiscal_type[0]['id'] or False
+
+    _defaults = {
+        'partner_fiscal_type_id': _default_partner_fiscal_type_id,
+    }
+
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
+                            cnpj_cpf, context=None):
+        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
+            cr, uid, ids, is_company, cnpj_cpf, context)
+        print "passou aqui!"
+        ft_id = self._default_partner_fiscal_type_id(
+            cr, uid, is_company, context)
+
+        print "ONCHANGE", ft_id
+
+        if ft_id:
+            result['value']['partner_fiscal_type_id'] = ft_id
+        return result
