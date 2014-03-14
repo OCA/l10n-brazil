@@ -348,13 +348,16 @@ class ResPartner(orm.Model):
         """Define o valor padão para o campo tipo fiscal, por padrão pega
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
+        result = False
         ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
             cr, uid, [('default', '=', 'True'),
                 ('is_company', '=', is_company)], context=context)
 
         parnter_fiscal_type = self.pool.get('res.company').read(
             cr, uid, ft_ids, ['id'], context=context)
-        return parnter_fiscal_type[0]['id'] or False
+        if parnter_fiscal_type:
+            result = parnter_fiscal_type[0]['id']
+        return result
 
     _defaults = {
         'partner_fiscal_type_id': _default_partner_fiscal_type_id,
