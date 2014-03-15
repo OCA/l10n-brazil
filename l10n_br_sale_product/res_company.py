@@ -20,10 +20,13 @@
 from openerp.osv import orm, fields
 
 
-class res_company(orm.Model):
+class ResCompany(orm.Model):
     _inherit = 'res.company'
     _columns = {
-        'account_freight_id': fields.many2one('account.account', 'Freight Sale Tax Account'),
-        'account_insurance_id': fields.many2one('account.account', 'Insurance Sale Tax Account'),
-        'account_other_costs': fields.many2one('account.account', 'Other Costs Sale Tax Account'),
+        'account_freight_id': fields.many2one(
+            'account.account', 'Freight Sale Tax Account'),
+        'account_insurance_id': fields.many2one(
+            'account.account', 'Insurance Sale Tax Account'),
+        'account_other_costs': fields.many2one(
+            'account.account', 'Other Costs Sale Tax Account'),
     }
