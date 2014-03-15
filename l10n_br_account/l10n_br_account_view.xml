@@ -32,7 +32,7 @@
 				<tree string="Cancelar Documento Eletrônico">										
 					<field name="invoice_id"/>
 					<field name="justificative"/>
-					<field name="state">
+					<field name="state"/>
 				</tree>
 			</field>
 		</record>
