@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Raphaël Valyi - Akretion                                #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,7 +19,6 @@
 ###############################################################################
 
 from openerp.osv import orm
-from openerp.tools.translate import _
 
 
 class SaleOrder(orm.Model):
@@ -31,41 +31,4 @@ class SaleOrder(orm.Model):
         order.fiscal_category_id.id
         result['fiscal_position'] = order.fiscal_position and \
         order.fiscal_position.id
-        return result
-
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
-
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(
-            cr, uid, order, lines, context)
-        #TODO - Testar se só sobrescrevendo o metodo _fiscal_comment nao precisa fazer isso
-
-        comment = []
-        fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
-        result['comment'] = " - ".join(comment + fiscal_comment)
-        return result
-
-
-class SaleOrderLine(orm.Model):
-    _inherit = 'sale.order.line'
-
-    def _prepare_order_line_invoice_line(self, cr, uid, line,
-                                         account_id=False, context=None):
-        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            cr, uid, line, account_id, context)
-
-        if line.product_id.fiscal_type == 'product':
-            cfop = self.pool.get("account.fiscal.position").read(
-                cr, uid, [result['fiscal_position']], ['cfop_id'],
-                context=context)
-            if cfop[0]['cfop_id']:
-                result['cfop_id'] = cfop[0]['cfop_id'][0]
         return result
