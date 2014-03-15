@@ -18,8 +18,8 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Localization Sale Product',
-    'description': 'Brazilian Localization Sale Product',
+    'name': 'Brazilian Localization Sale Service',
+    'description': 'Brazilian Localization Sale Service',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
@@ -29,10 +29,7 @@
         'l10n_br_sale',
         'l10n_br_account_service',
     ],
-    'data': [
-        'sale_view.xml',
-        'res_company_view.xml',
-    ],
+    'data': [],
     'test': [],
     'demo': [],
     'installable': True,
