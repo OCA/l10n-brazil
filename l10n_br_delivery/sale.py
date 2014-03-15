@@ -155,17 +155,3 @@ class SaleOrder(orm.Model):
           calc_price_ratio(line.price_gross, amount_costs,
                 order.amount_gross)}, context=None)
         return result
-
-
-class SaleOrderLine(orm.Model):
-    _inherit = 'sale.order.line'
-
-    def _prepare_order_line_invoice_line(self, cr, uid, line,
-                                         account_id=False, context=None):
-        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            cr, uid, line, account_id, context)
-
-        result['insurance_value'] = line.insurance_value
-        result['other_costs_value'] = line.other_costs_value
-        result['freight_value'] = line.freight_value
-        return result
