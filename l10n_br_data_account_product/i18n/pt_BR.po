@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_data_account_product
+msgid "Brazilian Localisation Data Extension for Product"
+msgstr "Localização Brasileira - Dados do módulo de produtos"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_data_account_product
+msgid "Brazilian Localisation Data Extension for Product"
+msgstr "Localização Brasileira - Provê dados de configuração para o módulo de produtos"

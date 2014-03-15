@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_data_base
+msgid "Brazilian Localisation Data Extension for Base"
+msgstr "Localização Brasileira - Dados do módulo Base"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_data_base
+msgid "Brazilian Localisation Data Extension for Base"
+msgstr "Localização Brasileira - Dados de configuração para o módulo Base"
