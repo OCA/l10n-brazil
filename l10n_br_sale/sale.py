@@ -53,9 +53,6 @@ class SaleOrder(orm.Model):
                     Category: %s Company: %s""") % (
                         order.fiscal_category_id.name, order.company_id.name))
 
-        company = self.pool.get('res.company').browse(
-            cr, uid, order.shop_id.company_id.id)
-
         for inv_line in obj_invoice_line.browse(cr, uid, lines, context=context):
             if inv_line.product_id.fiscal_type == 'service':
                 lines_service.append(inv_line.id)
@@ -258,11 +255,7 @@ class SaleOrder(orm.Model):
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
-        fc_comment = []
         fp_ids = []
-
-        fp_comment = super(SaleOrder, self)._fiscal_comment(
-            cr, uid, order, context)
 
         for line in order.order_line:
             if line.fiscal_position and \
@@ -272,7 +265,7 @@ class SaleOrder(orm.Model):
                     fp_comment.append(line.fiscal_position.note)
                     fp_ids.append(line.fiscal_position.id)
 
-        return fp_comment + fc_comment
+        return fp_comment
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
@@ -406,7 +399,6 @@ class SaleOrderLine(orm.Model):
             context = {}
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         shop_id = context.get('shop_id')
-        parent_fiscal_position = context.get('parent_fiscal_position')
         partner_invoice_id = context.get('partner_invoice_id')
 
         result = super(SaleOrderLine, self).product_id_change(
