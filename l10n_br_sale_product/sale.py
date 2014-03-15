@@ -184,6 +184,10 @@ class SaleOrderLine(orm.Model):
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             cr, uid, line, account_id, context)
 
+        result['insurance_value'] = line.insurance_value
+        result['other_costs_value'] = line.other_costs_value
+        result['freight_value'] = line.freight_value
+
         if line.product_id.fiscal_type == 'product':
             cfop = self.pool.get("account.fiscal.position").read(
                 cr, uid, [result['fiscal_position']], ['cfop_id'],
