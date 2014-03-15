@@ -30,9 +30,10 @@
     ],
     'data': [
         'sale_view.xml',
+        'res_company_view.xml',
     ],
     'test': [],
     'demo': [],
     'installable': True,
-    'auto_install': True
+    'auto_install': True,
 }
