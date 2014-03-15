@@ -22,6 +22,10 @@ from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 
+def  calc_price_ratio(price_gross, amount_calc, amount_total):
+    return price_gross * amount_calc / amount_total
+
+
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
@@ -160,6 +164,77 @@ class SaleOrder(orm.Model):
         comment = []
         fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
         result['comment'] = " - ".join(comment + fiscal_comment)
+        return result
+
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
+                            date_invoice=False, context=None):
+        invoice_id = super(SaleOrder, self).action_invoice_create(
+            cr, uid, ids, grouped, states, date_invoice, context)
+
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        company = self.pool.get('res.company').browse(
+            cr, uid, user.company_id.id, context=context)
+
+        inv = self.pool.get("account.invoice").browse(
+            cr, uid, invoice_id, context=context)
+        vals = [
+            ('Frete', company.account_freight_id, inv.amount_freight),
+            ('Seguro', company.account_insurance_id, inv.amount_insurance),
+            ('Outros Custos', company.account_other_costs, inv.amount_costs)
+        ]
+
+        ait_obj = self.pool.get('account.invoice.tax')
+        for tax in vals:
+            if tax[2] > 0:
+                ait_obj.create(cr, uid,
+                {
+                 'invoice_id': invoice_id,
+                 'name': tax[0],
+                 'account_id': tax[1].id,
+                 'amount': tax[2],
+                 'base': tax[2],
+                 'manual': 1,
+                 'company_id': company.id,
+                }, context=context)
+        return invoice_id
+
+    def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
+        result = {}
+        if (amount_freight is False) or not ids:
+            return {'value': {'amount_freight': 0.00}}
+
+        line_obj = self.pool.get('sale.order.line')
+        for order in self.browse(cr, uid, ids, context=None):
+            for line in order.order_line:
+                line_obj.write(cr, uid, [line.id], {'freight_value':
+            calc_price_ratio(line.price_gross, amount_freight,
+                order.amount_gross)}, context=None)
+        return result
+
+    def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
+        result = {}
+        if (amount_insurance is False) or not ids:
+            return {'value': {'amount_insurance': 0.00}}
+
+        line_obj = self.pool.get('sale.order.line')
+        for order in self.browse(cr, uid, ids, context=None):
+            for line in order.order_line:
+                line_obj.write(cr, uid, [line.id], {'insurance_value':
+          calc_price_ratio(line.price_gross, amount_insurance,
+                order.amount_gross)}, context=None)
+        return result
+
+    def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
+        result = {}
+        if (amount_costs is False) or not ids:
+            return {'value': {'amount_costs': 0.00}}
+
+        line_obj = self.pool.get('sale.order.line')
+        for order in self.browse(cr, uid, ids, context=None):
+            for line in order.order_line:
+                line_obj.write(cr, uid, [line.id], {'other_costs_value':
+          calc_price_ratio(line.price_gross, amount_costs,
+                order.amount_gross)}, context=None)
         return result
 
 
