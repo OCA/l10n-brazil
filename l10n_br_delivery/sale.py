@@ -50,19 +50,22 @@ class SaleOrder(orm.Model):
             result['incoterm'] = order.incoterm.id
         return result
 
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=None, date_invoice = False, context=None):
-        invoice_id = super(SaleOrder, self).action_invoice_create(cr, uid, ids, grouped, states, date_invoice, context)
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
+                            date_invoice=False, context=None):
+        invoice_id = super(SaleOrder, self).action_invoice_create(
+            cr, uid, ids, grouped, states, date_invoice, context)
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company = self.pool.get('res.company').browse(
             cr, uid, user.company_id.id, context=context)
 
-        inv = self.pool.get("account.invoice").browse(cr,uid,invoice_id)
+        inv = self.pool.get("account.invoice").browse(
+            cr, uid, invoice_id, context=context)
         vals = [
             ('Frete', company.account_freight_id, inv.amount_freight),
             ('Seguro', company.account_insurance_id, inv.amount_insurance),
-            ('Outros Custos',company.account_other_costs, inv.amount_costs)
-            ]
+            ('Outros Custos', company.account_other_costs, inv.amount_costs)
+        ]
 
         ait_obj = self.pool.get('account.invoice.tax')
         for tax in vals:
@@ -88,6 +91,7 @@ class SaleOrder(orm.Model):
         # Esse campo já deveria ser copiado pelo módulo nativo delivery
         result['incoterm'] = order.incoterm and order.incoterm.id or False
         return result
+
     def delivery_set(self, cr, uid, ids, context=None):
         #Copia do modulo delivery
         #Exceto pelo final que adiciona ao campo total do frete.
