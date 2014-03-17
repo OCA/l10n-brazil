@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<record id="sale.sale_shop_1" model="sale.shop">
+			<field name="default_fc_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+		</record>
+
+	</data>
+</openerp>
