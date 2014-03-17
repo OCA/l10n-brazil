@@ -17,10 +17,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+from lxml import etree
+
 from openerp.osv import orm
+from openerp.addons.l10n_br_account.account_invoice import OPERATION_TYPE
 
 
-class account_invoice(orm.Model):
+class AccountInvoice(orm.Model):
     _inherit = 'account.invoice'
 
     def _default_fiscal_category(self, cr, uid, context=None):
