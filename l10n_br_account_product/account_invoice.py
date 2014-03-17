@@ -460,37 +460,6 @@ class AccountInvoice(orm.Model):
 class AccountInvoiceLine(orm.Model):
     _inherit = 'account.invoice.line'
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-
-        result = super(AccountInvoiceLine, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        if context is None:
-            context = {}
-
-        if view_type == 'form':
-            eview = etree.fromstring(result['arch'])
-
-            if 'type' in context.keys():
-                cfops = eview.xpath("//field[@name='cfop_id']")
-                for cfop_id in cfops:
-                    cfop_id.set('domain', "[('type','=','%s')]" % (
-                        OPERATION_TYPE[context['type']],))
-                    cfop_id.set('required', '1')
-
-            if context.get('fiscal_type', False) == 'service':
-
-                cfops = eview.xpath("//field[@name='cfop_id']")
-                for cfop_id in cfops:
-                    cfop_id.set('invisible', '1')
-                    cfop_id.set('required', '0')
-
-            result['arch'] = etree.tostring(eview)
-
-        return result
-
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
         res = {}
         tax_obj = self.pool.get('account.tax')
