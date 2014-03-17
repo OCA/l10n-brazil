@@ -19,7 +19,6 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 
@@ -110,43 +109,57 @@ class SaleOrder(orm.Model):
             readonly=True, states={'draft': [('readonly', False)]}),
         'invoiced_rate': fields.function(
             _invoiced_rate, method=True, string='Invoiced', type='float'),
-        'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Untaxed Amount',
+        'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
+                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
+                    'discount', 'product_uom_qty'], 10),
             },
-            multi='sums', help="The amount without tax.", track_visibility='always'),
-        'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Taxes',
+            multi='sums', help="The amount without tax.",
+            track_visibility='always'),
+        'amount_tax': fields.function(_amount_all, string='Taxes',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty'], 10),
             },
             multi='sums', help="The tax amount."),
-        'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
+        'amount_total': fields.function(_amount_all, string='Total',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty'], 10),
             },
               multi='sums', help="The total amount."),
-        'amount_extra': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Extra',
+        'amount_extra': fields.function(_amount_all, string='Extra',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty'], 10),
             },
               multi='sums', help="The total amount."),
-        'amount_discount': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Desconto (-)',
+        'amount_discount': fields.function(_amount_all, string='Desconto (-)',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty'], 10),
             },
               multi='sums', help="The discount amount."),
-        'amount_gross': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Vlr. Bruto',
+        'amount_gross': fields.function(_amount_all, string='Vlr. Bruto',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty'], 10),
             }, multi='sums', help="The discount amount."),
