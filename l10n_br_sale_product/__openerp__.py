@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
 # Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
@@ -18,36 +17,25 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
-
-
-class SaleOrder(orm.Model):
-    _inherit = 'sale.order'
-
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
-
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(
-            cr, uid, order, lines, context)
-
-        if order.incoterm:
-            result['incoterm'] = order.incoterm.id
-
-        return result
-
-    def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(SaleOrder, self)._prepare_order_picking(cr, uid,
-            order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and \
-        order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and \
-        order.fiscal_position.id
-        return result
+{
+    'name': 'Brazilian Localization Sale Product',
+    'description': 'Brazilian Localization Sale Product',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '7.0',
+    'depends': [
+        'l10n_br_sale',
+        'l10n_br_account_product',
+    ],
+    'data': [
+        'sale_view.xml',
+        'res_company_view.xml',
+        'l10n_br_sale_product_data.xml',
+    ],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': True,
+}

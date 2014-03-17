@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2010  Renato Lima - Akretion                                  #
+# Copyright (C) 2013  Luis Felipe Miléo - luisfelipe@mileo.co                 #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,26 +17,16 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Delivery',
-    'description': 'Extend delivery module for Brazilian Localization',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_sale_stock',
-        'delivery',
-    ],
-    'data': [
-        'account_invoice_view.xml',
-        'delivery_view.xml',
-        'stock_view.xml',
-        'l10n_br_delivery_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo': [],
-    'category': 'Localisation',
-    'active': True,
-    'installable': True
-}
+from openerp.osv import orm, fields
+
+
+class ResCompany(orm.Model):
+    _inherit = 'res.company'
+    _columns = {
+        'account_freight_id': fields.many2one(
+            'account.account', 'Freight Sale Tax Account'),
+        'account_insurance_id': fields.many2one(
+            'account.account', 'Insurance Sale Tax Account'),
+        'account_other_costs': fields.many2one(
+            'account.account', 'Other Costs Sale Tax Account'),
+    }
