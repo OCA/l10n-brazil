@@ -18,7 +18,6 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 
@@ -57,6 +56,22 @@ class SaleOrder(orm.Model):
             result[order.id]['amount_gross'] = cur_obj.round(cr, uid, cur, val4)
         return result
 
+    def _amount_line_tax(self, cr, uid, line, context=None):
+        val = 0.0
+        for c in self.pool.get('account.tax').compute_all(
+            cr, uid, line.tax_id,
+            line.price_unit * (1 - (line.discount or 0.0) / 100.0),
+            line.product_uom_qty, line.order_id.partner_invoice_id.id,
+            line.product_id, line.order_id.partner_id,
+            fiscal_position=line.fiscal_position,
+            insurance_value=line.insurance_value,
+            freight_value=line.freight_value,
+            other_costs_value=line.other_costs_value)['taxes']:
+            tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
+            if not tax.tax_code_id.tax_discount:
+                val += c.get('amount', 0.0)
+        return val
+
     def _get_order(self, cr, uid, ids, context=None):
         result = {}
         for line in self.pool.get('sale.order.line').browse(
@@ -65,47 +80,61 @@ class SaleOrder(orm.Model):
         return result.keys()
 
     _columns = {
-        'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Untaxed Amount',
+        'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
+                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
+                    'discount', 'product_uom_qty'], 10),
             },
-            multi='sums', help="The amount without tax.", track_visibility='always'),
-        'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Taxes',
+            multi='sums', help="The amount without tax.",
+            track_visibility='always'),
+        'amount_tax': fields.function(_amount_all, string='Taxes',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty', 'freight_value',
                     'insurance_value', 'other_costs_value'], 10),
             },
             multi='sums', help="The tax amount."),
-        'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
+        'amount_total': fields.function(_amount_all, string='Total',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty', 'freight_value',
                     'insurance_value', 'other_costs_value'], 10),
             },
               multi='sums', help="The total amount."),
-        'amount_extra': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Extra',
+        'amount_extra': fields.function(_amount_all, string='Extra',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty', 'freight_value',
                     'insurance_value', 'other_costs_value'], 10),
             },
               multi='sums', help="The total amount."),
-        'amount_discount': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Desconto (-)',
+        'amount_discount': fields.function(_amount_all, string='Desconto (-)',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty', 'freight_value',
                     'insurance_value', 'other_costs_value'], 10),
             },
               multi='sums', help="The discount amount."),
-        'amount_gross': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Vlr. Bruto',
+        'amount_gross': fields.function(_amount_all, string='Vlr. Bruto',
+            digits_compute=dp.get_precision('Account'),
             store={
-                'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
+                'sale.order': (lambda self, cr, uid, ids,
+                    c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id',
                     'discount', 'product_uom_qty', 'freight_value',
                     'insurance_value', 'other_costs_value'], 10),
@@ -160,7 +189,7 @@ class SaleOrder(orm.Model):
         """
         result = super(SaleOrder, self)._prepare_invoice(
             cr, uid, order, lines, context)
-        #TODO - Testar se só sobrescrevendo o metodo _fiscal_comment nao precisa fazer isso
+
         comment = []
         fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
         result['comment'] = " - ".join(comment + fiscal_comment)
@@ -240,6 +269,34 @@ class SaleOrder(orm.Model):
 
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
+
+    def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        res = {}
+
+        if context is None:
+            context = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            res[line.id] = {
+                'price_subtotal': 0.0,
+                'price_gross': 0.0,
+                'discount_value': 0.0,
+            }
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_obj.compute_all(cr, uid, line.tax_id, price,
+                line.product_uom_qty, line.order_id.partner_invoice_id.id,
+                line.product_id, line.order_id.partner_id,
+                fiscal_position=line.fiscal_position,
+                insurance_value=line.insurance_value,
+                freight_value=line.freight_value,
+                other_costs_value=line.other_costs_value)
+            cur = line.order_id.pricelist_id.currency_id
+            res[line.id]['price_subtotal'] = cur_obj.round(cr, uid, cur, taxes['total'])
+            res[line.id]['price_gross'] = line.price_unit * line.product_uom_qty
+            res[line.id]['discount_value'] = res[line.id]['price_gross']-(price * line.product_uom_qty)
+        return res
+
     _columns = {
         'insurance_value': fields.float('Insurance',
              digits_compute=dp.get_precision('Account')),
@@ -247,6 +304,15 @@ class SaleOrderLine(orm.Model):
              digits_compute=dp.get_precision('Account')),
         'freight_value': fields.float('Freight',
              digits_compute=dp.get_precision('Account')),
+         'discount_value': fields.function(
+             _amount_line, string='Vlr. Desc. (-)',
+             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
+        'price_gross': fields.function(
+            _amount_line, string='Vlr. Bruto',
+            digits_compute=dp.get_precision('Sale Price'), multi='sums'),
+        'price_subtotal': fields.function(
+            _amount_line, string='Subtotal',
+            digits_compute=dp.get_precision('Sale Price'), multi='sums'),
     }
     _defaults = {
         'insurance_value': 0.00,
@@ -263,9 +329,16 @@ class SaleOrderLine(orm.Model):
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
 
+        #FIXME
+        # Necessário informar estes campos pois são related do
+        # objeto account.invoice e quando o método create do
+        # account.invoice.line é invocado os valores são None
+        result['company_id'] = line.order_id.company_id.id
+        result['partner_id'] = line.order_id.partner_id.id
+
         if line.product_id.fiscal_type == 'product':
             cfop = self.pool.get("account.fiscal.position").read(
-                cr, uid, [result['fiscal_position']], ['cfop_id'],
+                cr, uid, [line.fiscal_position.id], ['cfop_id'],
                 context=context)
             if cfop[0]['cfop_id']:
                 result['cfop_id'] = cfop[0]['cfop_id'][0]
