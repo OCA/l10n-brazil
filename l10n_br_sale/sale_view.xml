@@ -20,6 +20,14 @@
 			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="priority">36</field>
 			<field name="arch" type="xml">
+				<group name="sale_total" position="after">
+					<group>
+						<label for="copy_note"/>
+						<div>
+							<field name="copy_note"/>
+						</div>
+					</group>
+				</group>
 				<field name="fiscal_position" position="replace">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, shop_id, fiscal_category_id, context)" required="1" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
