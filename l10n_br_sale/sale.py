@@ -109,6 +109,8 @@ class SaleOrder(orm.Model):
             readonly=True, states={'draft': [('readonly', False)]}),
         'invoiced_rate': fields.function(
             _invoiced_rate, method=True, string='Invoiced', type='float'),
+        'copy_note': fields.boolean(
+            u'Copiar Observação no documentos fiscal'),
         'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
             digits_compute=dp.get_precision('Account'),
             store={
@@ -282,11 +284,12 @@ class SaleOrder(orm.Model):
         order.partner_shipping_id.id or False
 
         comment = []
-        if order.note:
+        if order.note and order.copy_note:
             comment.append(order.note)
 
         fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
-        result['comment'] = " - ".join(comment + fiscal_comment)
+        result['comment'] = " - ".join(comment)
+        result['fiscal_comment'] = " - ".join(fiscal_comment)
         result['fiscal_category_id'] = fiscal_category_id
         return result
 
