@@ -99,6 +99,7 @@ class AccountInvoice(orm.Model):
         'account_document_event_ids': fields.one2many(
             'l10n_br_account.document_event', 'document_event_ids',
             u'Eventos'),
+        'fiscal_comment': fields.text('Observação Fiscal'),
     }
 
     def _default_fiscal_document(self, cr, uid, context):
