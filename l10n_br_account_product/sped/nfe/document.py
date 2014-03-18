@@ -342,7 +342,7 @@ class NFe200(FiscalDocument):
             #
             # Informações adicionais
             #
-            nfe.infNFe.infAdic.infAdFisco.valor = ''
+            nfe.infNFe.infAdic.infAdFisco.valor = inv.fiscal_comment or ''
             nfe.infNFe.infAdic.infCpl.valor = inv.comment or ''
 
             #

@@ -961,19 +961,19 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrFile += StrY07
 
         StrRegZ = {
-                   'InfAdFisco': '',
-                   'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
-                   }
+            'InfAdFisco': normalize('NFKD',unicode(inv.fiscal_comment or '')).encode('ASCII','ignore'),
+            'InfCpl': normalize('NFKD',unicode(inv.comment or '')).encode('ASCII','ignore'),
+        }
 
         StrZ = 'Z|%s|%s|\n' % (StrRegZ['InfAdFisco'], StrRegZ['InfCpl'])
 
         StrFile += StrZ
 
-        if UFEmbarq!='' or XLocEmbarq!='':
+        if UFEmbarq != '' or XLocEmbarq != '':
             StrRegZA = {
-                        'UFEmbarq': UFEmbarq,
-                        'XLocEmbarq': XLocEmbarq,
-                        }
+                'UFEmbarq': UFEmbarq,
+                'XLocEmbarq': XLocEmbarq,
+            }
             StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
             StrFile += StrZA
 
