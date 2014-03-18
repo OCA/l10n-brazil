@@ -176,25 +176,6 @@ class SaleOrder(orm.Model):
 
         return fp_comment + fc_comment
 
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
-
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(
-            cr, uid, order, lines, context)
-
-        comment = []
-        fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
-        result['comment'] = " - ".join(comment + fiscal_comment)
-        return result
-
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
                             date_invoice=False, context=None):
         invoice_id = super(SaleOrder, self).action_invoice_create(
