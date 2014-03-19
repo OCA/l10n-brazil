@@ -318,9 +318,10 @@ class SaleOrderLine(orm.Model):
         result['partner_id'] = line.order_id.partner_id.id
 
         if line.product_id.fiscal_type == 'product':
-            cfop = self.pool.get("account.fiscal.position").read(
-                cr, uid, [line.fiscal_position.id], ['cfop_id'],
-                context=context)
-            if cfop[0]['cfop_id']:
-                result['cfop_id'] = cfop[0]['cfop_id'][0]
+            if line.fiscal_position:
+                cfop = self.pool.get("account.fiscal.position").read(
+                    cr, uid, [line.fiscal_position.id], ['cfop_id'],
+                    context=context)
+                if cfop[0]['cfop_id']:
+                    result['cfop_id'] = cfop[0]['cfop_id'][0]
         return result
