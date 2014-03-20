@@ -18,6 +18,7 @@
 ###############################################################################
 
 from .sped.nfe.processing.xml import check_partner
+from .sped.nfe.validator.config_check import validate_nfe_configuration
 import xml.etree.ElementTree as ET
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
@@ -36,6 +37,8 @@ class ResPartner(orm.Model):
         else:
             company = self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id
+        
+        validate_nfe_configuration(company)
         
         for partner in self.browse(cr, uid, ids, context):    
             if partner.cnpj_cpf:

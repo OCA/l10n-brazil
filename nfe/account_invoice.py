@@ -139,7 +139,7 @@ class AccountInvoice(orm.Model):
                         'origin': '[NF-E]' + inv.internal_number,
                         'file_sent': 'False',
                         'file_returned': 'False',
-                        'message': 'Erro desconhecido ' + e.message,
+                        'message': 'Erro desconhecido ' + str(e),
                         'state': 'done',
                         'document_event_ids': inv.id
                         }
