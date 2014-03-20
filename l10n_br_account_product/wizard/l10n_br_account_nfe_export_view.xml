@@ -22,7 +22,9 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem id="menu_l10n_br_account_nfe_export_form" name="Exportar Nota Fiscal" action="l10n_br_account_product_nfe_export_action" parent="account.menu_finance_periodical_processing" sequence="2" />
+		<menuitem id="menu_l10n_br_account_nfe" name="NFe" parent="account.menu_finance_periodical_processing" sequence="1" />
+		<menuitem id="menu_l10n_br_account_nfe_export_form" name="Exportar NFe" action="l10n_br_account_product_nfe_export_action" parent="menu_l10n_br_account_nfe" sequence="20" />
+
 
 	</data>
 </openerp>
