@@ -216,7 +216,7 @@ class ResPartner(orm.Model):
         Extenção para os novos campos do endereço """
         address_fields = super(ResPartner, self)._address_fields(
             cr, uid, context=context)
-        return list(address_fields+['l10n_br_city_id', 'number', 'district'])
+        return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
 class res_partner_bank(orm.Model):
