@@ -81,7 +81,7 @@ class NFe200(FiscalDocument):
             if inv.partner_shipping_id:
                 if inv.partner_id.id != inv.partner_shipping_id.id:
                     if nfe.infNFe.ide.tpNF.valor == '0':
-                        nfe.infNFe.retirada.CNPJ.valor = inv.partner_shipping_id.cnpj_cpf or ''
+                        nfe.infNFe.retirada.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_shipping_id.cnpj_cpf or '')
                         nfe.infNFe.retirada.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.retirada.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.retirada.xCpl.valor = inv.partner_shipping_id.street2 or ''
@@ -90,7 +90,7 @@ class NFe200(FiscalDocument):
                         nfe.infNFe.retirada.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
                         nfe.infNFe.retirada.UF.valor = inv.address_invoice_id.state_id.code or ''
                     else:
-                        nfe.infNFe.entrega.CNPJ.valor = inv.partner_shipping_id.cnpj_cpf or ''
+                        nfe.infNFe.entrega.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_shipping_id.cnpj_cpf or '')
                         nfe.infNFe.entrega.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.entrega.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.entrega.xCpl.valor = inv.partner_shipping_id.street2 or ''
