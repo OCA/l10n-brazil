@@ -109,21 +109,21 @@ class NFe200(FiscalDocument):
                 if inv_related.document_type == 'nf':
                     nfref.refNF.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNF.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
-                    nfref.refNF.CNPJ.valor = inv_related.cnpj_cpf or ''
-                    nfref.refNF.Mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
+                    nfref.refNF.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
+                    nfref.refNF.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNF.serie.valor = inv_related.serie or ''
                     nfref.refNF.nNF.valor = inv_related.internal_number or ''
                 elif inv_related.document_type == 'nfrural':
                     nfref.refNFP.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNFP.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
-                    nfref.refNFP.IE.valor = inv_related.inscr_est or ''
+                    nfref.refNFP.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.inscr_est or '')
                     nfref.refNFP.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNFP.serie.valor = inv_related.serie or ''
                     nfref.refNFP.nNF.valor = inv_related.internal_number or ''
                     if inv_related.cpfcnpj_type == 'cnpj':
-                        nfref.refNFP.CNPJ.valor = inv_related.cnpj_cpf or ''
+                        nfref.refNFP.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
                     else:
-                        nfref.refNFP.CPF.valor = inv_related.cnpj_cpf or ''
+                        nfref.refNFP.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
                 elif inv_related.document_type == 'nfe':
                     nfref.refNFe.valor = inv_related.access_key or ''
                 elif inv_related.document_type == 'cte':
@@ -132,6 +132,8 @@ class NFe200(FiscalDocument):
                     nfref.refECF.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refECF.nECF.valor = inv_related.internal_number
                     nfref.refECF.nCOO.valor = inv_related.serie
+
+                nfe.infNFe.ide.NFref.append(nfref)
 
             #
             # Emitente
@@ -369,11 +371,6 @@ class NFe200(FiscalDocument):
 
         return nfes
 
-    # TODO
-    def _deserializer():
-        """"""
-        pass
-
     def get_xml(self, cr, uid, ids, nfe_environment, context=None):
         """"""
         result = []
@@ -381,8 +378,7 @@ class NFe200(FiscalDocument):
             result.append({'key': nfe.infNFe.Id.valor, 'nfe': nfe.get_xml()})
         return result
 
-    # TODO
-    def set_xml(self, arquivo):
+    def set_xml(self, nfe_string, context=None):
         """"""
         try:
             from pysped.nfe.leiaute import NFe_200
@@ -390,15 +386,5 @@ class NFe200(FiscalDocument):
             raise orm.except_orm(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         nfe = NFe_200()
-        nfe.set_xml(arquivo)
+        nfe.set_xml(nfe_string)
         return nfe
-
-    # TODO
-    def get_txt(self):
-        """"""
-        pass
-
-    # TODO
-    def set_txt(self):
-        """"""
-        pass
