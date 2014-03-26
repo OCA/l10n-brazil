@@ -116,14 +116,14 @@ class NFe200(FiscalDocument):
                 elif inv_related.document_type == 'nfrural':
                     nfref.refNFP.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNFP.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
-                    nfref.refNFP.IE.valor = inv_related.inscr_est or ''
+                    nfref.refNFP.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.inscr_est or '')
                     nfref.refNFP.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNFP.serie.valor = inv_related.serie or ''
                     nfref.refNFP.nNF.valor = inv_related.internal_number or ''
                     if inv_related.cpfcnpj_type == 'cnpj':
-                        nfref.refNFP.CNPJ.valor = inv_related.cnpj_cpf or ''
+                        nfref.refNFP.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
                     else:
-                        nfref.refNFP.CPF.valor = inv_related.cnpj_cpf or ''
+                        nfref.refNFP.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
                 elif inv_related.document_type == 'nfe':
                     nfref.refNFe.valor = inv_related.access_key or ''
                 elif inv_related.document_type == 'cte':
@@ -132,6 +132,8 @@ class NFe200(FiscalDocument):
                     nfref.refECF.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refECF.nECF.valor = inv_related.internal_number
                     nfref.refECF.nCOO.valor = inv_related.serie
+
+                nfe.infNFe.ide.NFref.append(nfref)
 
             #
             # Emitente
