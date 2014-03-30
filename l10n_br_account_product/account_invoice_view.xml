@@ -100,7 +100,7 @@
 					<field name="discount_value"/>
 				</xpath>
 				<field position="after" name="partner_id">
-					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
+					<field name="partner_shipping_id" domain="[('parent_id', '=', partner_id)]" context="{'default_type':'delivery'}"/>
 				</field>
 				<button name="invoice_cancel" position="attributes">
 					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
