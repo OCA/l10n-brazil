@@ -65,7 +65,7 @@
 					<field name="fiscal_type" invisible="1"/>
 				</field>
 				<field position="after" name="partner_id">
-					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
+					<field name="partner_shipping_id" domain="[('parent_id', '=', partner_id)]" context="{'default_type':'delivery'}"/>
 				</field>
 				<field name="partner_id" position="attributes">
 					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
