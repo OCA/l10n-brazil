@@ -79,7 +79,7 @@ class AccountInvoice(orm.Model):
             relation='account.move.line', string='Entry Lines'),
         'document_serie_id': fields.many2one(
             'l10n_br_account.document.serie', u'Série',
-            domain="[('fiscal_document_id','=',fiscal_document_id),\
+            domain="[('fiscal_document_id', '=', fiscal_document_id),\
             ('company_id','=',company_id)]", readonly=True,
             states={'draft': [('readonly', False)]}),
         'fiscal_document_id': fields.many2one(
