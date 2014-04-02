@@ -73,9 +73,11 @@ class StockPicking(orm.Model):
             move_line.sale_line_id.order_id.fiscal_position
             fiscal_category_id = move_line.sale_line_id.fiscal_category_id or \
             move_line.sale_line_id.order_id.fiscal_category_id
-        else:
-            fiscal_position = move_line.picking_id.fiscal_position
-            fiscal_category_id = move_line.picking_id.fiscal_category_id
+        else:          
+            fiscal_position = move_line.fiscal_position or \
+                move_line.picking_id.fiscal_position or False
+            fiscal_category_id = move_line.fiscal_category_id or \
+                move_line.picking_id.fiscal_category_id or False
 
         result['cfop_id'] = fiscal_position and \
         fiscal_position.cfop_id and fiscal_position.cfop_id.id
