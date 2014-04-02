@@ -85,6 +85,32 @@
 				</field>
 			</field>
 		</record>
-
+		
+	    <record id="l10n_br_view_move_picking_tree" model="ir.ui.view">
+            <field name="name">l10n_br_stock.move.form</field>
+            <field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_form"/>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                 <field name="product_id" position="after">
+					<field name="fiscal_category_id"/>
+					<field name="fiscal_position"/>
+                 </field>
+            </field>
+        </record>
+<!--
+	    <record id="l10n_br_stock_move_form" model="ir.ui.view">
+            <field name="name">l10n_br_stock.move.form</field>
+            <field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_form"/>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                 <field name="partner_id" position="after">
+					<field name="fiscal_category_id"/>
+					<field name="fiscal_position"/>
+                 </field>
+            </field>
+        </record>
+-->
 	</data>
 </openerp>
