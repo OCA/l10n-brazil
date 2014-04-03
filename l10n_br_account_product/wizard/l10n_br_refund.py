@@ -83,6 +83,8 @@ class account_invoice_refund(orm.TransientModel):
                     line_onchange = line_obj.onchange_fiscal_category_id(cr, uid, ids, invoice.partner_id.id,
                                      invoice.company_id.id, send_line.product_id.id, line_fiscal_category_id,
                                      send_line.account_id.id, context)
+                    line_onchange['value']['fiscal_category_id'] = line_fiscal_category_id
+
                     line_obj.write(cr, uid, line_ids[idx],line_onchange['value'],context)
                 inv_obj.write(cr, uid, [invoice.id], onchange['value'], context=context)
             return res
