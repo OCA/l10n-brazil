@@ -256,9 +256,9 @@ class NFe200(FiscalDocument):
                     det.imposto.ICMS.modBCST.valor = inv_line.icms_st_base_type
                     det.imposto.ICMS.pMVAST.valor = str("%.2f" % inv_line.icms_st_mva)
                     det.imposto.ICMS.pRedBCST.valor = str("%.2f" % inv_line.icms_st_percent_reduction)
-                    det.imposto.ICMS.vBCST.valor = str("%.2f" % inv_line.icms_st_value)
+                    det.imposto.ICMS.vBCST.valor = str("%.2f" % inv_line.icms_st_base)
                     det.imposto.ICMS.pICMSST.valor = str("%.2f" % inv_line.icms_st_percent)
-                    det.imposto.ICMS.vICMSST.valor = str("%.2f" % inv_line.icms_value)
+                    det.imposto.ICMS.vICMSST.valor = str("%.2f" % inv_line.icms_st_value)
 
                     # IPI
                     det.imposto.IPI.CST.valor = inv_line.ipi_cst_id.code
