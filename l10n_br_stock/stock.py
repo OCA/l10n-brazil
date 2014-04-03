@@ -3,6 +3,7 @@
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 # Copyright (C) 2012  Raphaël Valyi - Akretion                                #
+# Copyright (C) 2014  Luis Felipe Miléo - KMEE - www.kmee.com.br              #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -127,9 +128,11 @@ class StockPicking(orm.Model):
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
 
-        fiscal_position = move_line.picking_id.fiscal_position
-        fiscal_category_id = move_line.picking_id.fiscal_category_id
-
+        fiscal_position = move_line.fiscal_position or \
+            move_line.picking_id.fiscal_position or False
+        fiscal_category_id = move_line.fiscal_category_id or \
+            move_line.picking_id.fiscal_category_id or False
+              
         result['cfop_id'] = fiscal_position and \
         fiscal_position.cfop_id and fiscal_position.cfop_id.id
         result['fiscal_category_id'] = fiscal_category_id and \
@@ -276,3 +279,20 @@ class StockPickingOut(StockPicking):
            'context': context
         }
         return self._fiscal_position_map(cr, uid, result, **kwargs)
+    
+class StockMove(orm.Model):
+
+    _inherit = "stock.move"
+    
+    _columns = {
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+            domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Fiscal Position',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]",
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+                }
