@@ -100,7 +100,8 @@ class AccountTax(orm.Model):
         precision = obj_precision.precision_get(cr, uid, 'Account')
         result = super(AccountTax, self).compute_all(cr, uid, taxes,
             price_unit, quantity, product, partner, force_excluded)
-        totaldc = icms_base = icms_value = icms_percent = ipi_value = 0.0
+        totaldc = icms_base = icms_value = icms_percent = 0.0
+        icms_percent_reduction = ipi_value = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
@@ -153,9 +154,9 @@ class AccountTax(orm.Model):
         result_icmsst = self._compute_tax(cr, uid, specific_icmsst, result['total'], product, quantity, precision)
         totaldc += result_icmsst['tax_discount']
         if result_icmsst['taxes']:
-            icms_st_percent = result_icmsst['taxes'][0]['percent'] or icms_percent
-            icms_st_percent_reduction = result_icmsst['taxes'][0]['base_reduction'] or icms_percent_reduction
-            icms_st_base = round(((icms_base + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision)
+            icms_st_percent = result_icmsst['taxes'][0]['percent']
+            icms_st_percent_reduction = result_icmsst['taxes'][0]['base_reduction']
+            icms_st_base = round((((result['total'] + ipi_value) * (1 - icms_st_percent_reduction)) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision)
             icms_st_base_other = round(((result['total'] + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision) - icms_st_base
             result_icmsst['taxes'][0]['total_base'] = icms_st_base
             result_icmsst['taxes'][0]['amount'] = round((icms_st_base  * icms_st_percent) - icms_value, precision)
