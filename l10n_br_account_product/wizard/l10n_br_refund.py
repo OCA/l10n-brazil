@@ -45,28 +45,47 @@ class account_invoice_refund(orm.TransientModel):
 
 
     def compute_refund(self, cr, uid, ids, mode='refund', context=None):
+        print context.get('active_ids')
+
         inv_obj = self.pool.get('account.invoice')
+        line_obj = self.pool.get('account.invoice.line')
         if not context:
             context = {}
-        res = super(account_invoice_refund, self).compute_refund(cr, uid, ids, mode, context)
-        domain = res['domain']
-        ids_domain = [x for x in domain if x[0] == 'id'][0]
-        invoice_ids = ids_domain[2]
-        for wizard in self.browse(cr, uid, ids):
-            fiscal_category_id = wizard.fiscal_category_id.id
-        for invoice in inv_obj.browse(cr, uid, invoice_ids, context=context):
-            if invoice.payment_term:
-                payment_term = invoice.payment_term.id
-            else:
-                payment_term = False
-            if invoice.partner_bank_id:
-                bank = invoice.partner_bank_id.id
-            else:
-                bank = False
-            onchange = inv_obj.onchange_partner_id(cr, uid, [invoice.id], 'out_refund', invoice.partner_id.id, invoice.date_invoice, payment_term, bank, invoice.company_id.id, fiscal_category_id)
-            onchange['value']['fiscal_category_id'] = fiscal_category_id
-            inv_obj.write(cr, uid, [invoice.id], onchange['value'], context=context)
-        return res
+
+        for send_invoice in inv_obj.browse(cr, uid, context.get('active_ids'), context):
+
+            fiscal_category_id = send_invoice.fiscal_category_id.refund_fiscal_category_id.id
+
+            res = super(account_invoice_refund, self).compute_refund(cr, uid, ids, mode, context)
+            domain = res['domain']
+
+            ids_domain = [x for x in domain if x[0] == 'id'][0]
+            invoice_ids = ids_domain[2]
+
+            for invoice in inv_obj.browse(cr, uid, invoice_ids, context=context):
+                
+                line_ids = line_obj.search(cr, uid, [('invoice_id', '=', invoice.id)])
+
+                if invoice.payment_term:
+                    payment_term = invoice.payment_term.id
+                else:
+                    payment_term = False
+                if invoice.partner_bank_id:
+                    bank = invoice.partner_bank_id.id
+                else:
+                    bank = False
+                onchange = inv_obj.onchange_partner_id(cr, uid, [invoice.id], 'out_refund', invoice.partner_id.id, invoice.date_invoice, payment_term, bank, invoice.company_id.id, fiscal_category_id)
+                onchange['value']['fiscal_category_id'] = fiscal_category_id
+
+                for idx, send_line in enumerate(send_invoice.invoice_line):
+
+                    line_fiscal_category_id = send_line.fiscal_category_id.refund_fiscal_category_id.id
+                    line_onchange = line_obj.onchange_fiscal_category_id(cr, uid, ids, invoice.partner_id.id,
+                                     invoice.company_id.id, send_line.product_id.id, line_fiscal_category_id,
+                                     send_line.account_id.id, context)
+                    line_obj.write(cr, uid, line_ids[idx],line_onchange['value'],context)
+                inv_obj.write(cr, uid, [invoice.id], onchange['value'], context=context)
+            return res
 
 
 
