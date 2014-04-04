@@ -59,8 +59,9 @@ class AccountInvoice(orm.Model):
             }
             for line in invoice.invoice_line:
                 result[invoice.id]['amount_untaxed'] += line.price_total
-                result[invoice.id]['icms_base'] += line.icms_base
-                result[invoice.id]['icms_value'] += line.icms_value
+                if line.icms_cst_id.code not in ('101','102','201','202','300','500'):
+                    result[invoice.id]['icms_base'] += line.icms_base
+                    result[invoice.id]['icms_value'] += line.icms_value
                 result[invoice.id]['icms_st_base'] += line.icms_st_base
                 result[invoice.id]['icms_st_value'] += line.icms_st_value
                 result[invoice.id]['ipi_base'] += line.ipi_base
