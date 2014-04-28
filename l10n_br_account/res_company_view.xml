@@ -31,7 +31,7 @@
 									<field name="nfe_a1_password" password="True"/>
 								</group>
 							</page>
-							<page string="Regine Normal" attrs="{'invisible': [('fiscal_type', '!=', '3')]}">
+							<page string="Regime Normal" attrs="{'invisible': [('fiscal_type', '!=', '3')]}">
 							</page>
 							<page string="Simples Nacional" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
 								<separator colspan="4" string="Faturamento dos ultimos 12 meses" />
