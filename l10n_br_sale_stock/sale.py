@@ -51,3 +51,13 @@ class SaleOrder(orm.Model):
         result['fiscal_position'] = order.fiscal_position and \
         order.fiscal_position.id
         return result
+
+
+    def _prepare_order_line_move(self, cr, uid, order, line, picking_id, date_planned, context=None):
+        result = super(SaleOrder, self)._prepare_order_line_move( cr, uid,
+               order, line, picking_id, date_planned, context)
+        result['fiscal_category_id'] = line.fiscal_category_id and \
+        line.fiscal_category_id.id
+        result['fiscal_position'] = line.fiscal_position and \
+        line.fiscal_position.id
+        return result
