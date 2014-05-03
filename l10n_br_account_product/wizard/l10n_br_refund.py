@@ -45,7 +45,6 @@ class account_invoice_refund(orm.TransientModel):
 
 
     def compute_refund(self, cr, uid, ids, mode='refund', context=None):
-        print context.get('active_ids')
 
         inv_obj = self.pool.get('account.invoice')
         line_obj = self.pool.get('account.invoice.line')
@@ -103,9 +102,4 @@ class account_invoice_refund(orm.TransientModel):
         for field in fiscal_categ:
             field.set('domain', "[('journal_type', '=', '%s'),('fiscal_type', '=', 'product'), ('type', '=', '%s')]" % (journal_type, type,))
         res['arch'] = etree.tostring(eview)
-        print res['arch']
         return res
-
-
-
-
