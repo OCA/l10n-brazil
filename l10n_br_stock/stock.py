@@ -296,3 +296,50 @@ class StockMove(orm.Model):
             readonly=True, states={'draft': [('readonly', False)],
                 'sent': [('readonly', False)]}),
                 }
+   
+    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+        kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
+        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+
+    def onchange_product_id(self, cr, uid, ids, product_id, location_id,
+                            location_dest_id, partner_id, context=False, **kwargs ):
+        
+        if not context:
+            context = {}
+        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+        picking_type = context.get('picking_type')
+        company_id = context.get('company_id')
+        result = {'value': {}}
+        if parent_fiscal_category_id and product_id and picking_type:
+            
+            obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+            product_fc_id = obj_fp_rule.product_fiscal_category_map(
+                cr, uid, product_id, parent_fiscal_category_id)
+
+            if product_fc_id:
+                parent_fiscal_category_id = product_fc_id
+
+            result['value']['fiscal_category_id'] = parent_fiscal_category_id
+
+            partner_invoice_id = self.pool.get('res.partner').address_get(
+                    cr, uid, [partner_id], ['invoice'])['invoice']
+            partner_shipping_id = self.pool.get('res.partner').address_get(
+                    cr, uid, [partner_id], ['delivery'])['delivery']
+
+            kwargs = {
+               'partner_id': partner_id,
+               'partner_invoice_id': partner_invoice_id,
+               'partner_shipping_id': partner_shipping_id,
+               'fiscal_category_id': parent_fiscal_category_id,
+               'company_id': company_id,
+               'context': context
+            }
+                        
+            result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+        
+        result_super  = super(StockMove, self).onchange_product_id(cr, uid, 
+                ids, product_id, location_id, location_dest_id, partner_id)
+            
+        result_super['value'].update(result['value'])
+        return result_super
