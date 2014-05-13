@@ -211,17 +211,23 @@ class PurchaseOrder(orm.Model):
                      'journal_id': journal_id})
         return inv_id
 
-    def action_picking_create(self, cr, uid, ids, *args):
-        picking_id = False
-        for order in self.browse(cr, uid, ids):
-            picking_id = super(PurchaseOrder, self).action_picking_create(
-                cr, uid, ids, *args)
-            self.pool.get('stock.picking').write(
-                cr, uid, picking_id,
-                {'fiscal_category_id': order.fiscal_category_id.id,
-                 'fiscal_position': order.fiscal_position.id})
-        return picking_id
+    def _prepare_order_picking(self, cr, uid, order, context=None):
+        result = super(PurchaseOrder, self)._prepare_order_picking(cr, uid,
+            order, context)
+        result['fiscal_category_id'] = order.fiscal_category_id and \
+        order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position and \
+        order.fiscal_position.id
+        return result
 
+    def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id, context=None):
+        result = super(PurchaseOrder, self)._prepare_order_line_move( cr, uid,
+               order, order_line, picking_id, context)
+        result['fiscal_category_id'] = order_line.fiscal_category_id and \
+        order_line.fiscal_category_id.id
+        result['fiscal_position'] = order_line.fiscal_position and \
+        order_line.fiscal_position.id
+        return result
 
 class PurchaseOrderLine(orm.Model):
     _inherit = 'purchase.order.line'
