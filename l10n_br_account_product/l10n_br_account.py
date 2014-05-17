@@ -50,7 +50,7 @@ class L10n_brAccountPartnerFiscalType(orm.Model):
     _inherit = 'l10n_br_account.partner.fiscal.type'
     _columns = {
         'icms': fields.boolean('Recupera ICMS'),
-        'ipi': fields.boolean('RecuperaPRODUCT_FISCAL_TYPE_DEFAULT IPI')
+        'ipi': fields.boolean('Recupera IPI')
     }
     defaults = {
         'icms': True,
