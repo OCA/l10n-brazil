@@ -247,6 +247,13 @@ class SaleOrder(orm.Model):
                 order.amount_gross)}, context=None)
         return result
 
+    def button_dummy(self, cr, uid, ids, context=None):
+        for order in self.browse(cr, uid, ids, context=None):
+            self.onchange_amount_costs(cr, uid, ids, order.amount_costs)
+            self.onchange_amount_freight(cr, uid, ids, order.amount_freight)
+            self.onchange_amount_insurance(cr, uid, ids, order.amount_insurance)
+        return super(SaleOrder, self).button_dummy(cr, uid, ids, context)
+
 
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
