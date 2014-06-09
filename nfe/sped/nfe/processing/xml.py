@@ -44,15 +44,13 @@ def processo(company):
     p.certificado.senha = company.nfe_a1_password
     p.salva_arquivos      = True
     p.contingencia_SCAN   = False
-    p.caminho = company.nfe_export_folder or os.path.join(expanduser("~"), company.name)
-    
+    p.caminho = company.nfe_export_folder
     return p
 
 
-def monta_caminho_nfe(ambiente, chave_nfe):
-    
-    p = ProcessadorNFe()
-    return p.monta_caminho_nfe(ambiente,chave_nfe)
+def monta_caminho_nfe(company, chave_nfe):
+    p = processo(company)
+    return p.monta_caminho_nfe(p.ambiente,chave_nfe)
 
 def check_key_nfe(company, chave_nfe, nfe=False):
     

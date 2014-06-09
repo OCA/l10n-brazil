@@ -51,7 +51,7 @@ class AccountInvoice(orm.Model):
                          _(u'Erro na validação da NFe!'), erro)
 
                 self.write(cr, uid, inv.id, {'nfe_access_key': nfe_key})
-                save_dir = os.path.join(company.nfe_export_folder, monta_caminho_nfe(int(company.nfe_environment), chave_nfe=nfe_key) + 'tmp/')
+                save_dir = os.path.join(monta_caminho_nfe(company, chave_nfe=nfe_key) + 'tmp/')
                 nfe_file = nfe['nfe'].encode('utf8')
 
                 file_path = save_dir + nfe_key + '-nfe.xml'
