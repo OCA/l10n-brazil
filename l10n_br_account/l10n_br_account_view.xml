@@ -24,7 +24,22 @@
 				</form>
 			</field>
 		</record>
-	
+
+		<record id="l10n_br_account_cce_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_cce.form</field>
+			<field name="model">l10n_br_account_cce</field>
+			<field name="arch" type="xml">
+				<form string="Carta de Correção" version="7.0" edit="false" create="false">
+					<group>
+						<field name="invoice_id"/>
+						<field name="motivo"/>
+						<field name="sequencia"/>						
+					</group>
+					<field name="cce_document_event_ids"/>	
+				</form>
+			</field>
+		</record>		
+			
 		<record id="l10n_br_account_invoice_cancel_tree" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.cancel.tree</field>
 			<field name="model">l10n_br_account.invoice.cancel</field>
@@ -37,6 +52,18 @@
 			</field>
 		</record>
 
+		<record id="l10n_br_account_cce_tree" model="ir.ui.view">
+			<field name="name">l10n_br_account_cce.tree</field>
+			<field name="model">l10n_br_account_cce</field>
+			<field name="arch" type="xml">
+				<tree string="Carta de Correção" edit="false" create="false">										
+					<field name="invoice_id"/>
+					<field name="motivo"/>
+					<field name="sequencia"/>					
+				</tree>
+			</field>
+		</record>		
+		
 		<record id="view_l10n_br_account_fiscal_document_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.fiscal.document</field>
 			<field name="model">l10n_br_account.fiscal.document</field>
@@ -492,6 +519,15 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
 		</record>
+		
+		<record id="action_l10n_br_account_cce" model="ir.actions.act_window">
+			<field name="name">Carta de Correção</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br_account_cce</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="l10n_br_account_cce_tree"/>
+		</record>
 
 		<menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
 
@@ -516,6 +552,8 @@
 		<menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
 
 		<menuitem id="menu_l10n_br_account_invoice_cancel" name="Cancelar Documento Eletrônico" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_cancel"/>
+		
+		<menuitem id="menu_l10n_br_account_cce" name="Carta de Correção" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_cce"/>		
 
 	</data>
 
