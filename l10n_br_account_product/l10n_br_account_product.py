@@ -21,7 +21,7 @@ import re
 
 from openerp.osv import orm, fields
 
-from l10n_br_base.tools import fiscal
+from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.addons.l10n_br_account.l10n_br_account import TYPE
 
 PRODUCT_FISCAL_TYPE = [
