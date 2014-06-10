@@ -3,6 +3,7 @@
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 # Copyright (C) 2012  Raphaël Valyi - Akretion                                #
+# Copyright (C) 2014  Luis Felipe Miléo - KMEE - www.kmee.com.br              #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -127,9 +128,11 @@ class StockPicking(orm.Model):
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
 
-        fiscal_position = move_line.picking_id.fiscal_position
-        fiscal_category_id = move_line.picking_id.fiscal_category_id
-
+        fiscal_position = move_line.fiscal_position or \
+            move_line.picking_id.fiscal_position or False
+        fiscal_category_id = move_line.fiscal_category_id or \
+            move_line.picking_id.fiscal_category_id or False
+              
         result['cfop_id'] = fiscal_position and \
         fiscal_position.cfop_id and fiscal_position.cfop_id.id
         result['fiscal_category_id'] = fiscal_category_id and \
@@ -276,3 +279,74 @@ class StockPickingOut(StockPicking):
            'context': context
         }
         return self._fiscal_position_map(cr, uid, result, **kwargs)
+    
+class StockMove(orm.Model):
+
+    _inherit = "stock.move"
+    
+    _columns = {
+        'fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+            domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+        'fiscal_position': fields.many2one(
+            'account.fiscal.position', 'Fiscal Position',
+            domain="[('fiscal_category_id','=',fiscal_category_id)]",
+            readonly=True, states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]}),
+                }
+   
+    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+        kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
+        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
+        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+
+    def onchange_product_id(self, cr, uid, ids, product_id, location_id,
+                            location_dest_id, partner_id, context=False, **kwargs ):
+        
+        if not context:
+            context = {}
+            
+        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+        picking_type = context.get('picking_type')
+        if context.get('company_id', False):
+            company_id = context['company_id']
+        else:
+            company_id = self.pool.get('res.users').browse(cr, uid, uid,
+            context=context).company_id.id    
+        
+        result = {'value': {}}
+        
+        if parent_fiscal_category_id and product_id and picking_type:
+            
+            obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+            product_fc_id = obj_fp_rule.product_fiscal_category_map(
+                cr, uid, product_id, parent_fiscal_category_id)
+
+            if product_fc_id:
+                parent_fiscal_category_id = product_fc_id
+
+            result['value']['fiscal_category_id'] = parent_fiscal_category_id
+
+            partner_invoice_id = self.pool.get('res.partner').address_get(
+                    cr, uid, [partner_id], ['invoice'])['invoice']
+            partner_shipping_id = self.pool.get('res.partner').address_get(
+                    cr, uid, [partner_id], ['delivery'])['delivery']
+
+            kwargs = {
+               'partner_id': partner_id,
+               'partner_invoice_id': partner_invoice_id,
+               'partner_shipping_id': partner_shipping_id,
+               'fiscal_category_id': parent_fiscal_category_id,
+               'company_id': company_id,
+               'context': context
+            }
+                        
+            result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+        
+        result_super  = super(StockMove, self).onchange_product_id(cr, uid, 
+                ids, product_id, location_id, location_dest_id, partner_id)
+            
+        result_super['value'].update(result['value'])
+        return result_super
