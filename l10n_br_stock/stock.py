@@ -307,10 +307,17 @@ class StockMove(orm.Model):
         
         if not context:
             context = {}
+            
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         picking_type = context.get('picking_type')
-        company_id = context.get('company_id')
+        if context.get('company_id', False):
+            company_id = context['company_id']
+        else:
+            company_id = self.pool.get('res.users').browse(cr, uid, uid,
+            context=context).company_id.id    
+        
         result = {'value': {}}
+        
         if parent_fiscal_category_id and product_id and picking_type:
             
             obj_fp_rule = self.pool.get('account.fiscal.position.rule')
