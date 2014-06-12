@@ -48,6 +48,7 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
+                                                                        <field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
