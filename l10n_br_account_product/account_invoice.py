@@ -147,7 +147,7 @@ class AccountInvoice(orm.Model):
             'Chave de Acesso NFE', size=44,
             readonly=True, states={'draft': [('readonly', False)]}),
         'nfe_protocol_number': fields.char(
-            'Protocolo', size=44,
+            'Protocolo', size=15,
             readonly=True, states={'draft': [('readonly', False)]}),        
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
