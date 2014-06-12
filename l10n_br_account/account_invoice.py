@@ -258,6 +258,7 @@ class AccountInvoice(orm.Model):
             'internal_number': False,
             'nfe_access_key': False,
             'nfe_status': False,
+            'nfe_protocol_number': False,
             'nfe_date': False,
             'nfe_export_date': False,
             'account_document_event_ids': False,
