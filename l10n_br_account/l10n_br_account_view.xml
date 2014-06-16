@@ -26,8 +26,8 @@
 		</record>
 
 		<record id="l10n_br_account_cce_form" model="ir.ui.view">
-			<field name="name">l10n_br_account_cce.form</field>
-			<field name="model">l10n_br_account_cce</field>
+			<field name="name">l10n_br_account.invoice.cce.form</field>
+			<field name="model">l10n_br_account.invoice.cce</field>
 			<field name="arch" type="xml">
 				<form string="Carta de Correção" version="7.0" edit="false" create="false">
 					<group>
@@ -53,8 +53,8 @@
 		</record>
 
 		<record id="l10n_br_account_cce_tree" model="ir.ui.view">
-			<field name="name">l10n_br_account_cce.tree</field>
-			<field name="model">l10n_br_account_cce</field>
+			<field name="name">l10n_br_account.invoice.cce.tree</field>
+			<field name="model">l10n_br_account.invoice.cce</field>
 			<field name="arch" type="xml">
 				<tree string="Carta de Correção" edit="false" create="false">										
 					<field name="invoice_id"/>
@@ -523,7 +523,7 @@
 		<record id="action_l10n_br_account_cce" model="ir.actions.act_window">
 			<field name="name">Carta de Correção</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br_account_cce</field>
+			<field name="res_model">l10n_br_account.invoice.cce</field>
 			<field name="view_mode">tree,form</field>
 			<field name="view_type">form</field>
 			<field name="view_id" ref="l10n_br_account_cce_tree"/>
