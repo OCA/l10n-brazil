@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  KMEE - www.kmee.com.br                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -33,23 +34,18 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-
-class L10n_brAccountcce(orm.Model):
-    _name = 'l10n_br_account_cce'
+class L10n_brAccountCce(orm.Model):
+    _name = 'l10n_br_account.invoice.cce'
     _description = u'Cartão de Correção no Sefaz'
     _columns = {
         'invoice_id': fields.many2one(
             'account.invoice', 'Fatura'),
         'motivo': fields.text('Motivo', readonly=True
             , required=True),
-        'sequencia': fields.char('Sequencia', help="Indica a sequencia da carta de correcao"),
+        'sequencia': fields.char('Sequencia', help="Indica a sequencia da carta de correcão"),
         'cce_document_event_ids': fields.one2many(
             'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
     }
-
-
-
-
 
 class L10n_brAccountInvoiceCancel(orm.Model):
     _name = 'l10n_br_account.invoice.cancel'
