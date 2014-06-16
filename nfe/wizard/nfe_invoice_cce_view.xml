@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="view_nfe_invoice_cce">
+            <field name="name">nfe.invoice_cce.form</field>
+            <field name="model">nfe.invoice_cce</field>
+            <field name="arch" type="xml">
+            	<form string="Enviar carta de correção" version="7.0">  
+            		<group>
+            			<field name="mensagem"/>         			
+					</group>  
+					<footer> 
+						<button name="action_enviar_carta"  string="Enviar" type="object"/>
+						<button string="Cancelar" special="cancel"/>
+					</footer>         			
+            	</form> 
+            </field>
+        </record>
+          
+		<record model="ir.actions.act_window" id="action_nfe_invoice_cce_form">
+            <field name="name">Reportar</field>
+            <field name="res_model">nfe.invoice_cce</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_nfe_invoice_cce"/>
+            <field name="target">new</field>
+        </record>	
+	</data>
+</openerp>

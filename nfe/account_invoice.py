@@ -69,7 +69,7 @@ class AccountInvoice(orm.Model):
                     f.write(nfe_file)
                     f.close()
 
-
+                    
                     event_obj = self.pool.get('l10n_br_account.document_event')
                     nfe_send_id = event_obj.create(cr, uid, {
                         'type': '0',

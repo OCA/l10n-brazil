@@ -161,11 +161,14 @@ def invalidate(company, invalidate_number):
     cnpj_partner = re.sub('[^0-9]','', company.partner_id.cnpj_cpf)
     serie = invalidate_number.document_serie_id.code
 
-    processo = p.inutilizar_nota(
+    return p.inutilizar_nota(
         cnpj=cnpj_partner,
         serie=serie,
         numero_inicial=invalidate_number.number_start,
         numero_final=invalidate_number.number_end,
         justificativa=invalidate_number.justificative)
-               
-    return processo
+
+def send_correction_letter(company, chave_nfe, numero_sequencia ,correcao):
+    
+    p = processo(company)
+    return p.corrigir_nota_evento( p.ambiente, chave_nfe, numero_sequencia, correcao)
