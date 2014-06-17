@@ -122,6 +122,7 @@ class AccountInvoice(orm.Model):
             ('proforma2', 'Pro-forma'),
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', 'Erro de autorização da Receita'),
+            ('sefaz_cancelled', 'Cancelado no Sefaz'),
             ('open', 'Open'),
             ('paid', 'Paid'),
             ('cancel', 'Cancelled')
