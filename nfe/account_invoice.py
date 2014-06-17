@@ -69,7 +69,6 @@ class AccountInvoice(orm.Model):
                     f.write(nfe_file)
                     f.close()
 
-                    
                     event_obj = self.pool.get('l10n_br_account.document_event')
                     nfe_send_id = event_obj.create(cr, uid, {
                         'type': '0',
@@ -160,13 +159,10 @@ class AccountInvoice(orm.Model):
                      'state': protNFe["state"],
                      'nfe_protocol_number': protNFe["nfe_protocol_number"],
                      }, context)
-        return True
-    
-    def action_cancel(self, cr, uid, ids, justificative, context=None):        
-        self.cancel_invoice_online(cr, uid, ids, justificative, context)        
-        return super(AccountInvoice,self).action_cancel(cr, uid, ids, justificative, context) 
+        return True 
         
     def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
+        
         for inv in self.browse(cr, uid, ids, context):           
             if inv.document_serie_id and inv.document_serie_id.fiscal_document_id \
                and not inv.document_serie_id.fiscal_document_id.electronic:
@@ -188,7 +184,7 @@ class AccountInvoice(orm.Model):
                                 'type': str(processo.webservice),
                                 'status': processo.resposta.cStat.valor,
                                 'response': '',
-                                'company_id': company.id,
+                                'cresult = {}ompany_id': company.id,
                                 'origin': '[NF-E] {0}'.format(inv.internal_number),
                                 'file_sent': processo.arquivos[0]['arquivo'] if len(processo.arquivos) > 0 else '',
                                 'file_returned': processo.arquivos[1]['arquivo'] if len(processo.arquivos) > 0 else '',
@@ -199,9 +195,10 @@ class AccountInvoice(orm.Model):
                     for prot in processo.resposta.retEvento:                        
                         vals["status"] = prot.infEvento.cStat.valor
                         vals["message"] = prot.infEvento.xMotivo.valor
-                        if prot.infEvento.cStat.valor == '101':
-                            print 'Sucesso'
-                        
+                        if prot.infEvento.cStat.valor == '135':
+                            result = super(AccountInvoice,self).action_cancel(cr, uid, [inv.id], context)
+                            if result:
+                                self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled'})
                     results.append(vals)
                 except Exception as e:
                     os.environ['TZ'] = 'UTC'
@@ -211,7 +208,7 @@ class AccountInvoice(orm.Model):
                             'response': 'response',
                             'company_id': company.id,
                             'origin': '[NF-E] {0}'.format(inv.internal_number),
-                            'file_sent': 'False',
+                            'file_sent': 'OpenFalse',
                             'file_returned': 'False',
                             'message': 'Erro desconhecido ' + e.message,
                             'state': 'done',
@@ -224,4 +221,5 @@ class AccountInvoice(orm.Model):
              
             elif inv.state in ('sefaz_export','sefaz_exception'):
                 pass
+        return
                 #Ver o que fazer aqui.
