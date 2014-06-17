@@ -103,7 +103,7 @@ class AccountInvoice(orm.Model):
             protNFe["state"] = 'sefaz_exception'
             protNFe["status_code"] = ''
             protNFe["message"] = ''
-
+            protNFe["nfe_protocol_number"] = ''
             try:
                 nfe.append(nfe_obj.set_xml(arquivo))
 
@@ -125,6 +125,7 @@ class AccountInvoice(orm.Model):
                     if processo.webservice == 1:
                         for prot in processo.resposta.protNFe:
                             protNFe["status_code"] = prot.infProt.cStat.valor
+                            protNFe["nfe_protocol_number"] = prot.infProt.nProt.valor
                             protNFe["message"] = prot.infProt.xMotivo.valor
                             vals["status"] = prot.infProt.cStat.valor
                             vals["message"] = prot.infProt.xMotivo.valor
@@ -156,21 +157,21 @@ class AccountInvoice(orm.Model):
                 self.write(cr, uid, inv.id, {
                      'nfe_status': protNFe["status_code"] + ' - ' + protNFe["message"],
                      'nfe_date': datetime.datetime.now(),
-                     'state': protNFe["state"]
+                     'state': protNFe["state"],
+                     'nfe_protocol_number': protNFe["nfe_protocol_number"],
                      }, context)
         return True
     
-    def action_cancel(self, cr, uid, ids, context=None):        
-        self.cancel_invoice_online(cr, uid, ids, context)        
-        return super(AccountInvoice,self).action_cancel(cr, uid, ids, context)
+    def action_cancel(self, cr, uid, ids, justificative, context=None):        
+        self.cancel_invoice_online(cr, uid, ids, justificative, context)        
+        return super(AccountInvoice,self).action_cancel(cr, uid, ids, justificative, context) 
         
-    def cancel_invoice_online(self, cr, uid, ids,context=None):
+    def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
         for inv in self.browse(cr, uid, ids, context):           
-            if inv.document_serie_id:
-                if inv.document_serie_id.fiscal_document_id:
-                    if not inv.document_serie_id.fiscal_document_id.electronic:
+            if inv.document_serie_id and inv.document_serie_id.fiscal_document_id \
+               and not inv.document_serie_id.fiscal_document_id.electronic:
                         return
-                
+                      
             event_obj = self.pool.get('l10n_br_account.document_event')
             if inv.state in ('open','paid'):
                 company_pool = self.pool.get('res.company')
@@ -178,12 +179,11 @@ class AccountInvoice(orm.Model):
                 
                 validate_nfe_configuration(company)
                 validate_invoice_cancel(inv)
-                
-                #TODO Buscar a justificativa do objeto invoice_cancel
-                
+            
                 results = []   
-                try:                
-                    processo = cancel(company, inv, "Foi cancelado a fatura pois o cliente desistiu.") 
+                try:
+                    os.environ['TZ'] = 'America/Sao_Paulo' #FIXME: context.get('tz') ou Colocar o campo tz no cadastro da empresa.                
+                    processo = cancel(company, inv.nfe_access_key, inv.nfe_protocol_number, justificative) 
                     vals = {
                                 'type': str(processo.webservice),
                                 'status': processo.resposta.cStat.valor,
@@ -204,6 +204,7 @@ class AccountInvoice(orm.Model):
                         
                     results.append(vals)
                 except Exception as e:
+                    os.environ['TZ'] = 'UTC'
                     vals = {
                             'type': '-1',
                             'status': '000',
@@ -224,6 +225,3 @@ class AccountInvoice(orm.Model):
             elif inv.state in ('sefaz_export','sefaz_exception'):
                 pass
                 #Ver o que fazer aqui.
-                
-                
-    

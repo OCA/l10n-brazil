@@ -43,6 +43,7 @@ arquivos XML""",
     ],
     'data': [
              'wizard/nfe_invoice_cce_view.xml',
+            'wizard/nfe_invoice_cancel_view.xml',
              'account_invoice_workflow.xml',
              'l10n_br_account_view.xml',
              'account_invoice_view.xml',

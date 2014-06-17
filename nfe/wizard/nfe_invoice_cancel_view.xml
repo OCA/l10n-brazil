@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="view_nfe_invoice_cancel">
+            <field name="name">nfe.invoice_cancel.form</field>
+            <field name="model">nfe.invoice_cancel</field>
+            <field name="arch" type="xml">
+            	<form string="Cancelamento de Fatura" version="7.0">  
+            		<group>
+            			<field name="justificativa"/>     			
+					</group>  
+					<footer> 
+						<button name="action_enviar_cancelamento"  string="Enviar Cancelamento" type="object"/>
+						<button string="Cancelar" special="cancel"/>
+					</footer>         			
+            	</form> 
+            </field>
+        </record>        
+		<record model="ir.actions.act_window" id="action_nfe_invoice_cancel_form">
+            <field name="name">Reportar</field>
+            <field name="res_model">nfe.invoice_cancel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_nfe_invoice_cancel"/>
+            <field name="target">new</field>
+        </record>	
+	</data>
+</openerp>
