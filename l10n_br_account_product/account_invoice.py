@@ -122,6 +122,7 @@ class AccountInvoice(orm.Model):
             ('proforma2', 'Pro-forma'),
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', 'Erro de autorização da Receita'),
+            ('sefaz_cancelled', 'Cancelado no Sefaz'),
             ('open', 'Open'),
             ('paid', 'Paid'),
             ('cancel', 'Cancelled')
@@ -146,6 +147,9 @@ class AccountInvoice(orm.Model):
         'nfe_access_key': fields.char(
             'Chave de Acesso NFE', size=44,
             readonly=True, states={'draft': [('readonly', False)]}),
+        'nfe_protocol_number': fields.char(
+            'Protocolo', size=15,
+            readonly=True, states={'draft': [('readonly', False)]}),        
         'nfe_status': fields.char('Status na Sefaz', size=44, readonly=True),
         'nfe_date': fields.datetime('Data do Status NFE', readonly=True),
         'nfe_export_date': fields.datetime('Exportação NFE', readonly=True),
