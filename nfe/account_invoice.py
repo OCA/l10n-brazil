@@ -166,7 +166,7 @@ class AccountInvoice(orm.Model):
         for inv in self.browse(cr, uid, ids, context):           
             if inv.document_serie_id and inv.document_serie_id.fiscal_document_id \
                and not inv.document_serie_id.fiscal_document_id.electronic:
-                        return
+                        return False
                       
             event_obj = self.pool.get('l10n_br_account.document_event')
             if inv.state in ('open','paid'):

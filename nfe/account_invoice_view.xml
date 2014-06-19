@@ -16,9 +16,8 @@
 					<button name="%(action_nfe_invoice_cce_form)d"  attrs="{'invisible':[('state','!=','open')]}" string="Enviar Carta de correção" type="action"/>				
 				</button>
 	<!--			<field position="attributes" name="invoice_cancel">
-					<attribute name="state"></attribute>
+					<button name="%(action_nfe_invoice_cancel_form)d"  type="action" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="open" string="Cancelar no Sefaz" groups="account.group_account_invoice"/>
 				</field>				
-				
 			</field>
 		</record>
 	</data>

@@ -3,6 +3,7 @@
 #                                                                             #
 # Copyright (C) 2013  Danimar Ribeiro 22/08/2013                              #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  Luis Felipe Mileo - KMEE - www.kmee.com.br              #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -37,7 +38,7 @@ from pysped.nfe import webservices_flags
 def processo(company):
     
     p = ProcessadorNFe()
-    p.ambiente = ambiente = int(company.nfe_environment)
+    p.ambiente = int(company.nfe_environment)
     p.versao = '2.00' if (company.nfe_version == '200') else '1.10'
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
     p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
@@ -47,7 +48,6 @@ def processo(company):
     p.caminho = company.nfe_export_folder
     return p
 
-
 def monta_caminho_nfe(company, chave_nfe):
     p = processo(company)
     return p.monta_caminho_nfe(p.ambiente,chave_nfe)
@@ -56,7 +56,6 @@ def check_key_nfe(company, chave_nfe, nfe=False):
     
     p = processo(company)
     return  p.consultar_nota(p.ambiente,chave_nfe,nfe)
-
 
 def check_partner(company,cnpj_cpf, estado=None, ie=None):
     
@@ -68,14 +67,12 @@ def check_partner(company,cnpj_cpf, estado=None, ie=None):
     
     return  p.consultar_cadastro(estado, ie, cnpj_cpf)
 
-def __configure(company):
-    p = processo(company)
-    return p
+
 def sign():
     pass
 
 def cancel(company, nfe_access_key, nfe_protocol_number, justificative):
-    p = __configure(company)
+    p = processo(company)
     
     processo = p.cancelar_nota_evento(
         chave_nfe = nfe_access_key,
@@ -85,7 +82,7 @@ def cancel(company, nfe_access_key, nfe_protocol_number, justificative):
     return processo
     
 def send(company, nfe):
-    p = __configure(company)
+    p = processo(company)
 
     return p.processar_notas(nfe)
        
@@ -107,3 +104,4 @@ def send_correction_letter(company, chave_nfe, numero_sequencia ,correcao):
     
     p = processo(company)
     return p.corrigir_nota_evento( p.ambiente, chave_nfe, numero_sequencia, correcao)
+
