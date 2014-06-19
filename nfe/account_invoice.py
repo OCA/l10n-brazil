@@ -199,6 +199,11 @@ class AccountInvoice(orm.Model):
                             result = super(AccountInvoice,self).action_cancel(cr, uid, [inv.id], context)
                             if result:
                                 self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled'})
+                                obj_cancel = self.pool.get('l10n_br_account.invoice.cancel')
+                                obj_cancel.create(cr,uid, 
+                                   {'invoice_id': inv.id,
+                                    'justificative': justificative,
+                                    })                                                   
                     results.append(vals)
                 except Exception as e:
                     os.environ['TZ'] = 'UTC'
