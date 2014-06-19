@@ -184,7 +184,7 @@ class AccountInvoice(orm.Model):
                                 'type': str(processo.webservice),
                                 'status': processo.resposta.cStat.valor,
                                 'response': '',
-                                'cresult = {}ompany_id': company.id,
+                                'company_id': company.id,
                                 'origin': '[NF-E] {0}'.format(inv.internal_number),
                                 'file_sent': processo.arquivos[0]['arquivo'] if len(processo.arquivos) > 0 else '',
                                 'file_returned': processo.arquivos[1]['arquivo'] if len(processo.arquivos) > 0 else '',
@@ -194,11 +194,13 @@ class AccountInvoice(orm.Model):
                      
                     for prot in processo.resposta.retEvento:                        
                         vals["status"] = prot.infEvento.cStat.valor
-                        vals["message"] = prot.infEvento.xMotivo.valor
-                        if prot.infEvento.cStat.valor == '135':
+                        vals["message"] = prot.infEvento.xEvento.valor
+                        if vals["status"] == '135':
                             result = super(AccountInvoice,self).action_cancel(cr, uid, [inv.id], context)
                             if result:
-                                self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled'})
+                                self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled',
+                                                               'nfe_status': vals["status"]+ ' - ' +vals["message"]
+                                                               })
                                 obj_cancel = self.pool.get('l10n_br_account.invoice.cancel')
                                 obj_cancel.create(cr,uid, 
                                    {'invoice_id': inv.id,

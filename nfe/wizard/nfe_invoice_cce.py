@@ -74,7 +74,7 @@ class NfeInvoiceCce(osv.osv_memory):
                             'origin': '[CC-E] ' + str(invoice.internal_number),
 #                             'file_sent': processo.arquivos[0]['arquivo'], #TODO não implementado no PySPED
 #                             'file_returned': processo.arquivos[1]['arquivo'],
-                            'message': processo.resposta.retEvento[0].infEvento.xMotivo.valor,
+                            'message': processo.resposta.retEvento[0].infEvento.xEvento.valor,
                             'state': 'done',
                             'document_event_ids': invoice.id}
                 results.append(vals)
