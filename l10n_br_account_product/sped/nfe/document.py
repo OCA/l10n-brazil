@@ -231,6 +231,7 @@ class NFe200(FiscalDocument):
                 det.prod.vSeg.valor = str("%.2f" % inv_line.insurance_value)
                 det.prod.vDesc.valor = str("%.2f" % inv_line.discount_value)
                 det.prod.vOutro.valor = str("%.2f" % inv_line.other_costs_value)
+                det.prod.xPed.valor = inv.name or ''
                 #
                 # Produto entra no total da NF-e
                 #
