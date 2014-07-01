@@ -42,7 +42,7 @@ class stock_return_picking(orm.TransientModel):
 
         picking_obj = self.pool.get('stock.picking')
         move_obj = self.pool.get('stock.move')
-        picking_type = context.get('default_type')        
+        picking_type = context.get('default_type')
     
         if not context:
             context = {}
@@ -65,10 +65,18 @@ class stock_return_picking(orm.TransientModel):
                     and send_picking.fiscal_category_id.refund_fiscal_category_id.id
         
                 if not fiscal_category_id:
-                    raise orm.except_orm(
-                        _('Error!'),
-                        _("""This Fiscal Operation does not has Fiscal Operation
-                        for Returns!"""))
+                    user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+                    if context.get('default_type') in ('out'):
+                        fiscal_category_id = user.company_id.out_refund_fiscal_category_id and \
+                            user.company_id.out_refund_fiscal_category_id.id or False
+                    elif context.get('default_type') in ('in'):
+                        fiscal_category_id = user.company_id.in_refund_fiscal_category_id and \
+                            user.company_id.in_refund_fiscal_category_id.id or False
+                    else:
+                        raise orm.except_orm(
+                            _('Error!'),
+                            _("""This Fiscal Operation does not has Fiscal Operation
+                            for Returns!"""))
      
                 values = {
                     'fiscal_category_id': fiscal_category_id,
@@ -92,15 +100,18 @@ class stock_return_picking(orm.TransientModel):
                 picking_obj.write(cr, uid, [picking.id], values)
                                
                 for idx, send_move in enumerate(send_picking.move_lines):
-                     line_fiscal_category_id = send_move.fiscal_category_id.refund_fiscal_category_id.id                     
-                     context.update({'parent_fiscal_category_id':line_fiscal_category_id,
+                    line_fiscal_category_id = send_move.fiscal_category_id.refund_fiscal_category_id and \
+                         send_move.fiscal_category_id.refund_fiscal_category_id.id or fiscal_category_id
+
+                    context.update({'parent_fiscal_category_id':line_fiscal_category_id,
                                      'picking_type' : picking_type,                                    
                                     })
+                    fiscal_position = move_obj.onchange_product_id(cr, uid, ids, send_move.product_id.id, send_move.location_id.id,
+                             send_move.location_dest_id.id, picking.partner_id.id, context)['value'].get('fiscal_position') or False
+                    fiscal_category_id = line_fiscal_category_id or False
                      
-                     line_onchange = move_obj.onchange_product_id(cr, uid, ids, send_move.product_id.id, send_move.location_id.id,
-                             send_move.location_dest_id.id, picking.partner_id.id, context)
-                     
-                     line_onchange['value']['fiscal_category_id'] = line_fiscal_category_id
-                     move_obj.write(cr, uid, move_ids[idx],line_onchange['value'],context)
+                    move_obj.write(cr, uid, move_ids[idx],{'fiscal_position': fiscal_position,
+                                                            'fiscal_category_id': fiscal_category_id,
+                                                            },context)
                      
             return result
