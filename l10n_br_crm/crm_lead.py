@@ -19,7 +19,7 @@
 
 import re
 from openerp.osv import fields, orm
-# from l10n_br_base.tools import fiscal
+from l10n_br_base.tools import fiscalaaa
 
 
 class CrmLead(orm.Model):
