@@ -35,7 +35,11 @@ from openerp.tools.translate import _
 from pysped.nfe import ProcessadorNFe
 from pysped.nfe import webservices_flags
 
-def processo(company):
+from pysped.nfe.danfe import DANFE
+from PIL import Image
+from StringIO import StringIO
+
+def __processo(company):
     
     p = ProcessadorNFe()
     p.ambiente = int(company.nfe_environment)
@@ -49,50 +53,52 @@ def processo(company):
     return p
 
 def monta_caminho_nfe(company, chave_nfe):
-    p = processo(company)
+    p = __processo(company)
     return p.monta_caminho_nfe(p.ambiente,chave_nfe)
 
 def check_key_nfe(company, chave_nfe, nfe=False):
     
-    p = processo(company)
+    p = __processo(company)
     return  p.consultar_nota(p.ambiente,chave_nfe,nfe)
 
 def check_partner(company,cnpj_cpf, estado=None, ie=None):
     
+    p = __processo(company)    
     if not estado:
         estado = company.partner_id.state_id.code
     cnpj_cpf = (re.sub('[%s]' % re.escape(string.punctuation), '', cnpj_cpf or ''))
-        
-    p = processo(company)
-    
     return  p.consultar_cadastro(estado, ie, cnpj_cpf)
-
 
 def sign():
     pass
+    
+def send(company, nfe):
+                        
+    p = __processo(company)
+    logo = company.logo
+    logo_image = Image.open(StringIO(logo.decode('base64')))
+    logo_image.save(company.nfe_export_folder + "/company_logo.png")
+    p.danfe.logo = company.nfe_export_folder + '/company_logo.png'
+    p.danfe.nome_sistema = company.nfe_email
+    
+    
+    return p.processar_notas(nfe)
 
 def cancel(company, nfe_access_key, nfe_protocol_number, justificative):
     p = processo(company)
     
-    processo = p.cancelar_nota_evento(
+    p = __processo(company)
+    return p.cancelar_nota_evento(
         chave_nfe = nfe_access_key,
         numero_protocolo=nfe_protocol_number,
         justificativa=justificative
     )
-    return processo
-    
-def send(company, nfe):
-    p = processo(company)
-
-    return p.processar_notas(nfe)
        
 def invalidate(company, invalidate_number):
                         
-    p = processo(company)
-    
+    p = __processo(company)
     cnpj_partner = re.sub('[^0-9]','', company.partner_id.cnpj_cpf)
     serie = invalidate_number.document_serie_id.code
-
     return p.inutilizar_nota(
         cnpj=cnpj_partner,
         serie=serie,
@@ -102,6 +108,6 @@ def invalidate(company, invalidate_number):
 
 def send_correction_letter(company, chave_nfe, numero_sequencia ,correcao):
     
-    p = processo(company)
+    p = __processo(company)
     return p.corrigir_nota_evento( p.ambiente, chave_nfe, numero_sequencia, correcao)
 
