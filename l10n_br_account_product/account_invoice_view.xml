@@ -73,10 +73,13 @@
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
 								</group>
-								<group>
+								<group name="package_info">
 									<field name="weight"/>
 									<field name="weight_net"/>
 									<field name="number_of_packages"/>
+									<field name="kind_of_packages"/>
+									<field name="brand_of_packages"/>
+									<field name="notation_of_packages"/>
 								</group>
 							</page>
 						</notebook>
@@ -163,10 +166,13 @@
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
 								</group>
-								<group>
+								<group name="package_info">
 									<field name="weight"/>
 									<field name="weight_net"/>
 									<field name="number_of_packages"/>
+									<field name="kind_of_packages"/>
+									<field name="brand_of_packages"/>
+									<field name="notation_of_packages"/>
 								</group>
 							</page>
 						</notebook>
