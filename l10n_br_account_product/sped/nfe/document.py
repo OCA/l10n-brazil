@@ -348,9 +348,9 @@ class NFe200(FiscalDocument):
             
             vol = Vol_200()
             vol.qVol.valor = inv.number_of_packages
-            vol.esp.valor = inv.kind_of_packages 
-            vol.marca.valor = inv.brand_of_packages
-            vol.nVol.valor = inv.notation_of_packages
+            vol.esp.valor = inv.kind_of_packages or ''
+            vol.marca.valor = inv.brand_of_packages or ''
+            vol.nVol.valor = inv.notation_of_packages or ''
             vol.pesoL.valor = str("%.2f" % inv.weight)
             vol.pesoB.valor = str("%.2f" % inv.weight_net)
             nfe.infNFe.transp.vol.append(vol)
