@@ -366,7 +366,13 @@ class AccountInvoice(orm.Model):
                                     readonly=True,
                                     states={'draft': [('readonly', False)]}),
         'number_of_packages': fields.integer(
-            'Volume', readonly=True, states={'draft': [('readonly', False)]}),
+            'Quantidade de Volumes',  readonly=True, states={'draft': [('readonly', False)]}),
+        'kind_of_packages': fields.char(
+            'Espécie', size=60, readonly=True, states={'draft': [('readonly', False)]}),
+        'brand_of_packages': fields.char(
+            'Brand',  size=60, readonly=True, states={'draft': [('readonly', False)]}),
+        'notation_of_packages': fields.char(
+            'Numeração', size=60, readonly=True, states={'draft': [('readonly', False)]}),
         'amount_insurance': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'),
