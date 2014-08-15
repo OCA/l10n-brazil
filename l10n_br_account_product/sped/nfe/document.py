@@ -336,7 +336,7 @@ class NFe200(FiscalDocument):
 
                 if inv.vehicle_id:
                     nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''
-                    nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.plate.state_id.code or ''
+                    nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.state_id.code or ''
                     nfe.infNFe.transp.veicTransp.RNTC.valor = inv.vehicle_id.rntc_code or ''
 
             except AttributeError:
