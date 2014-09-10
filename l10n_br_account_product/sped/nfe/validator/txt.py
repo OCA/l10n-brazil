@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+/# -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2012  Renato Lima - Akretion                                  #
@@ -182,47 +182,47 @@ def validate(cr, uid, ids, context=None):
                 if not inv_line.product_id.default_code:
                     strErro += u'Produtos e Serviços: %s, Qtde: %s - Referência/Código do produto\n' % (inv_line.product_id.name, inv_line.quantity)
                 if not inv_line.product_id.name:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Nome do produto\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.cfop_id:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - CFOP\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CFOP\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
                 else:
                     if not inv_line.cfop_id.code:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Código do CFOP\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.uos_id:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Unidade de medida\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.quantity:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Quantidade\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 #Se for Documento Fiscal de Produto
                 if inv.fiscal_type == 'product':
                     if not inv_line.fiscal_classification_id:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Classificação Fiscal(NCM)\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Classificação Fiscal(NCM)\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.price_unit:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Preco unitario\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if inv_line.product_type == 'product':
                     if not inv_line.icms_cst_id:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CST do ICMS\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                     if not inv_line.ipi_cst_id:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CST do IPI\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if inv_line.product_type == 'service':
                     if not inv_line.issqn_type:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Tipo do ISSQN\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Tipo do ISSQN\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                     if not inv_line.service_type_id:
-                        strErro += u'Produtos e Serviços: %s, Qtde: %s - Tipo do Serviço\n' % (inv_line.product_id.name, inv_line.quantity)
+                        strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - Tipo do Serviço\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.pis_cst_id:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CST do PIS\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
                 if not inv_line.cofins_cst_id:
-                    strErro += u'Produtos e Serviços: %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.name, inv_line.quantity)
+                    strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CST do COFINS\n' % (inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
     if strErro:
         raise orm.except_orm(
