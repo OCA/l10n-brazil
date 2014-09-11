@@ -2,6 +2,7 @@
 <openerp>
 	<data>
 
+<!--
 		<record id="l10n_br_delivery_stock_picking_out_form" model="ir.ui.view">
 			<field name="name">l10n_br_delivery.stock.picking.out.form</field>
 			<field name="model">stock.picking.out</field>
@@ -14,6 +15,6 @@
 				</field>
 			</field>
 		</record>
-
+-->
 	</data>
 </openerp>

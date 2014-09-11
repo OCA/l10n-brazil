@@ -16,8 +16,9 @@
 #You should have received a copy of the GNU Affero General Public License     #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
-
+from openerp import api, models
 from openerp.osv import orm, fields
+from lxml.html.builder import INS
 
 
 class AccountPaymentTerm(orm.Model):
@@ -32,7 +33,7 @@ class AccountPaymentTerm(orm.Model):
     }
 
 
-class AccountTax(orm.Model):
+class AccountTax(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax'
 
@@ -43,18 +44,19 @@ class AccountTax(orm.Model):
         for tax in taxes:
             if tax.get('type') == 'weight' and product:
                 product_read = self.pool.get('product.product').read(
-                    cr, uid, product, ['weight_net'])
+                     cr, uid, product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get(
                     'weight_net', 0.0)) * tax['percent'], precision)
 
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
+            
+            tax['amount'] = round(total_line * tax['percent'], precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
 
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
-
-            tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+            
             if tax['percent']:
                 tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
                 tax['total_base_other'] = round(total_line - tax['total_base'], precision)
@@ -65,9 +67,48 @@ class AccountTax(orm.Model):
         result['taxes'] = taxes
         return result
 
+    def _compute_costs(self, cr, uid, insurance_value, freight_value, other_costs_value, context=False):
+        result = []
+        total_included = 0.0
+
+        company = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0].company_id
+
+        costs = {
+            company.insurance_tax_id : insurance_value,
+            company.freight_tax_id : freight_value,
+            company.other_costs_tax_id : other_costs_value,
+        }
+
+        for tax in costs:
+            if costs[tax]:
+                result.append({
+                    'domain': tax.domain,
+                    'ref_tax_code_id': tax.ref_tax_code_id, # and ((tax.ref_tax_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.ref_tax_code_id.id]) or False,
+                    'sequence': tax.sequence,
+                    'total_base': costs[tax],
+                    'account_paid_id': tax.account_paid_id.id,
+                    'base_sign': tax.base_sign,
+                    'id': tax.id,
+                    'ref_base_code_id': tax.ref_base_code_id.id, # and ((tax.ref_base_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.ref_base_code_id.id]) or False,
+                    'account_analytic_collected_id': tax.account_analytic_collected_id.id,
+                    'tax_code_id': tax.tax_code_id.id, # and ((tax.tax_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.tax_code_id.id]) or False,
+                    'ref_tax_sign': tax.ref_tax_sign,
+                    'type': tax.type,
+                    'ref_base_sign': tax.ref_base_sign,
+                    'base_code_id': tax.base_code_id.id, # and ((tax.base_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.base_code_id.id]) or False,
+                    'account_analytic_paid_id': tax.account_analytic_paid_id.id,
+                    'name': tax.name,
+                    'account_collected_id': tax.account_collected_id.id,
+                    'amount': costs[tax],
+                    'tax_sign':tax.tax_sign,
+                })
+                total_included += costs[tax]
+        return result, total_included
+
     #TODO
     #Refatorar este método, para ficar mais simples e não repetir
     #o que esta sendo feito no método l10n_br_account_product
+    @api.v7
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
@@ -84,9 +125,7 @@ class AccountTax(orm.Model):
             'total_base': Total Base by tax,
         }
 
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user.
+        :Parameters:            
             - 'taxes': List with all taxes id.
             - 'price_unit': Product price unit.
             - 'quantity': Product quantity.
@@ -139,8 +178,8 @@ class AccountTax(orm.Model):
             total_base = result['total'] + insurance_value + \
             freight_value + other_costs_value
 
-        result_icms = self._compute_tax(
-            cr, uid, specific_icms, total_base, product, quantity, precision)
+        result_icms = self._compute_tax(cr, uid, 
+            specific_icms, total_base, product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -167,9 +206,26 @@ class AccountTax(orm.Model):
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes += result_icmsst['taxes']
 
+        costs, costs_values = self._compute_costs(cr, uid, insurance_value, freight_value, other_costs_value)
+        calculed_taxes += costs
+        result['total_included'] += costs_values
+
         return {
             'total': result['total'],
             'total_included': result['total_included'],
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes
         }
+        
+    @api.v8
+    def compute_all(self, price_unit, quantity,
+                    product=None, partner=None, force_excluded=False,
+                    fiscal_position=False, insurance_value=0.0,
+                    freight_value=0.0, other_costs_value=0.0):
+        return self._model.compute_all(
+            self._cr, self._uid, self, price_unit, quantity,
+            product=product, partner=partner, force_excluded=force_excluded,
+            fiscal_position=fiscal_position, insurance_value=insurance_value,
+            freight_value=freight_value, other_costs_value=other_costs_value)
+
+        

@@ -17,27 +17,25 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import api, models, fields
 
-
-class AccountJournal(orm.Model):
+class AccountJournal(models.Model):
     _inherit = 'account.journal'
-    _columns = {
-        'revenue_expense': fields.boolean('Gera Financeiro')
-    }
+
+    revenue_expense = fields.Boolean(string='Gera Financeiro',
+         help=u"Marque esta caixa para diários de faturas que gerem contas a pagar e a receber")
 
 
-class AccountTaxComputation(orm.Model):
+class AccountTaxComputation(models.Model):
     _name = 'account.tax.computation'
-    _columns = {
-        'name': fields.char('Name', size=64)
-    }
+
+    name = fields.Char(string='Name', size=64)
 
 
-class AccountTax(orm.Model):
+class AccountTax(models.Model):
     _inherit = 'account.tax'
 
-    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
+    def _compute_tax(self,cr, uid, taxes, total_line, product, product_qty,
                      precision):
         result = {'tax_discount': 0.0, 'taxes': []}
 
@@ -50,11 +48,12 @@ class AccountTax(orm.Model):
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
+            tax['amount'] = round(total_line * tax['percent'], precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
 
-            tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
             if tax['percent']:
                 tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
                 tax['total_base_other'] = round(total_line - tax['total_base'], precision)
@@ -65,7 +64,8 @@ class AccountTax(orm.Model):
         result['taxes'] = taxes
         return result
 
-    def compute_all(self, cr, uid, taxes, price_unit, quantity,
+    @api.v7
+    def compute_all(self,cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
                     freight_value=0.0, other_costs_value=0.0):
@@ -81,9 +81,7 @@ class AccountTax(orm.Model):
             'total_base': Total Base by tax,
         }
 
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user.
+        :Parameters:            
             - 'taxes': List with all taxes id.
             - 'price_unit': Product price unit.
             - 'quantity': Product quantity.
@@ -124,8 +122,19 @@ class AccountTax(orm.Model):
             'taxes': calculed_taxes
         }
 
+    @api.v8
+    def compute_all(self, price_unit, quantity,
+                    product=None, partner=None, force_excluded=False,
+                    fiscal_position=False, insurance_value=0.0,
+                    freight_value=0.0, other_costs_value=0.0):
+        return self._model.compute_all(
+            self._cr, self._uid, self, price_unit, quantity,
+            product=product, partner=partner, force_excluded=force_excluded,
+            fiscal_position=fiscal_position, insurance_value=insurance_value,
+            freight_value=freight_value, other_costs_value=other_costs_value)
 
-class WizardMultiChartsAccounts(orm.TransientModel):
+
+class WizardMultiChartsAccounts(models.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
     def execute(self, cr, uid, ids, context=None):
@@ -170,7 +179,7 @@ class WizardMultiChartsAccounts(orm.TransientModel):
         return result
 
 
-class AccountAccount(orm.Model):
+class AccountAccount(models.Model):
     _inherit = 'account.account'
 
     def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):

@@ -18,7 +18,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import sale_stock
 import stock
 import sale
 import report
+import wizard

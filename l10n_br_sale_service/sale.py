@@ -26,8 +26,8 @@ class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
     def _make_invoice(self, cr, uid, order, lines, context=None):
-        if context is None:
-            context = {}
+        context = dict(context or {})
+        
         obj_invoice_line = self.pool.get('account.invoice.line')
         lines_service = []
         lines_product = []

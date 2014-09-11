@@ -10,6 +10,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_template" model="account.fiscal.position.template">
@@ -19,6 +20,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_template" model="account.fiscal.position.template">
@@ -28,6 +30,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 		
 		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_internal_template" model="account.fiscal.position.template">
@@ -37,6 +40,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_external_icms7_template" model="account.fiscal.position.template">
@@ -46,6 +50,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_f8f20f4fc3420ac4fc03a8e409e54914_external12_template" model="account.fiscal.position.template">
@@ -55,6 +60,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_9ca6c34b77a2c78171252551db171ff7_internal_template" model="account.fiscal.position.template">
@@ -64,6 +70,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 		
 		<record id="fp_9ca6c34b77a2c78171252551db171ff7_external_icms7_template" model="account.fiscal.position.template">
@@ -73,6 +80,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_9ca6c34b77a2c78171252551db171ff7_external_icms12_template" model="account.fiscal.position.template">
@@ -82,6 +90,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_7817d015cb9832d137d7939a224a79a5_internal_template" model="account.fiscal.position.template">
@@ -91,6 +100,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms7_template" model="account.fiscal.position.template">
@@ -100,6 +110,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms12_template" model="account.fiscal.position.template">
@@ -109,6 +120,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_template" model="account.fiscal.position.template">
@@ -118,6 +130,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_template" model="account.fiscal.position.template">
@@ -127,6 +140,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_template" model="account.fiscal.position.template">
@@ -136,6 +150,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_internal_template" model="account.fiscal.position.template">
@@ -145,6 +160,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_template" model="account.fiscal.position.template">
@@ -154,6 +170,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_template" model="account.fiscal.position.template">
@@ -163,6 +180,7 @@
 			<field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="template_fp_vendadeservico1" model="account.fiscal.position.template">

@@ -1,10 +1,9 @@
-l10n_br_core
-============
+ * [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=7.0)](https://travis-ci.org/odoobrasil/l10n-brazil) 7.0 
+ * [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=8.0)](https://travis-ci.org/odoobrasil/l10n-brazil) 8.0 
+ * [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=develop)](https://travis-ci.org/odoobrasil/l10n-brazil) develop
 
-[![Build Status](https://travis-ci.org/openerpbrasil/l10n_br_core.png?branch=7.0)](https://travis-ci.org/openerpbrasil/l10n_br_core)
-
-Goal
-----
+Localização Brasileira - Odoo - l10n-brazil
+============================================
 
 Este projeto contêm os principais módulos da localização brasileira do OpenERP, estes módulos são a base dos recursos:
 
@@ -17,31 +16,10 @@ Sobre
 
 Este projeto é open source sob licença AGPL v3 http://www.gnu.org/licenses/agpl-3.0.html
 
-Esse projeto [segue se aperfeiçoando desde o início de 2009](https://github.com/openerpbrasil/l10n_br_core/network). O código era [inicialmente desenvolvido no Launchpad](https://code.launchpad.net/openerp.pt-br-localiz), mas segue agora no Github (ainda que [com espelho Launchpad](https://code.launchpad.net/~openerp-brazil-core-team/openerp.pt-br-localiz/l10n_br_core-7.0)). Trata-se de um projeto aberto, meritocrático, sob a liderança da [Akretion](http://www.akretion.com/) (gold partner OpenERP; >90% dos commits do projeto, membro co-fundador da organização OpenERP Community Assotiation - OCA http://openerp-community-association.org), e com a ajuda de vários outros queridos contribuidores listados aqui https://github.com/openerpbrasil/l10n_br_core/graphs/contributors
-
-Além de desenvolver as funcionalidades, os profissionais por trás desse projeto interagem com o core do projeto OpenERP para propor melhorias para que a localização se integre da forma mais suave possível, mesmo que o OpenERP não tenha sido inicialmente projetado para o mercado brasileiro pela editora Belga OpenERP SA. Assim, graças a esse projeto, dezenas de “merge proposals” já foram feitas e integradas no core do OpenERP, melhorando sua modularidade em geral.
-
-Non goal
---------
-
-* extender ou modificar as funcionalidades do OpenERP não vinculadas à localização brasileira. Outros módulos em outros projetos são perfeitos para isso.
-* de uma forma geral, reimplementar aqui o que ferramentas terceiras já fazem bem.
-* quando há uma quantidade razoável de soluções técnicas para resolver um problema, o projeto do core da localização não quer impor uma dependência importante. Outros módulos e projetos são bem-vindos nesse caso.
-* implementar o PAF-ECF no PDV web do OpenERP. Se trata de um trabalho muito burocrático que iria requerer modificar muito o PDV do OpenERP, enquanto se conectar com PDV’s do mercado é uma alternativa razoável.
-* manter dados para a folha de pagamento legal no Brasil.
-* ter a responsabilidade de manter dados fiscais em geral. Em geral esse tipo de serviço requer uma responsabilidade jurídica que se negocia caso a caso.
-
-Aviso - “As proezas deste filme são realizadas por profissionais”
------------------------------------------------------------------
-
-Apesar do OpenERP ser relativamente fácil de baixar para brincar, implementar um ERP (e não apenas um software de banca de jornal) já não é fácil. Mas aqui se trata então de um ERP de código aberto que apesar de ter um bom framework para um ERP não é um produto pronto assim como um ERP proprietário com milhões de investimento ou décadas de mercado, ainda menos aqui no Brasil. Além de metodologia de implementação de ERP, é preciso bastante conhecimento contábil e fiscal, e ainda alta capacitação técnica como programador (“eu já fiz um site em PHP” não basta).
-
-Ou seja, os autores desse projeto, investem diariamente para democratizar o OpenERP melhorando-o, mas não apóiam a demagogia de deixar pensar que pessoas que não estejam extremamente bem preparadas vão se dar bem implementando o OpenERP em casa por conta própria. Seria um pouco como se você quisesse reescrever o driver Linux da sua placa wifi ou construir um carro no seu quintal a partir de planos que você baixou da Internet. Algumas pessoas tem disposição para esse tipo de desafio, mas é melhor ser bem lúcido e criterioso na escolha.
-
 Instalação
 ----------
 
-Instalar o OpenERP para produção foge um pouco do escopo desse projeto, pois é algo complexo, em evolução, e que varia muito dependendo se você quer apenas testar, desenvolver, usar em produção ou ainda hospedar.
+Instalar o Odoo para produção foge um pouco do escopo desse projeto, pois é algo complexo, em evolução, e que varia muito dependendo se você quer apenas testar, desenvolver, usar em produção ou ainda hospedar.
 
 Vamos então dar aqui os procedimentos simples para testar apenas o core da localização brasileira do OpenERP numa máquina Ubuntu. Mas deixamos claro que essa forma de instalar certamente não é adequada para produção em termo de segurança, desempenho e mantenabilidade.
 
