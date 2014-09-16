@@ -155,6 +155,10 @@ class AccountInvoice(orm.Model):
                             vals["message"] = prot.infProt.xMotivo.valor
                             if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
                                 protNFe["state"] = 'open'
+
+                self.attach_file_event(cr, uid, [inv.id], None, 'nfe', 'xml', context)
+                self.attach_file_event(cr, uid, [inv.id], None, None, 'pdf', context)
+
             except Exception as e:
                 vals = {
                         'type': '-1',
@@ -216,12 +220,13 @@ class AccountInvoice(orm.Model):
                                 'message': processo.resposta.xMotivo.valor,
                                 'state': 'done',
                                 'document_event_ids': inv.id}
-                     
+
+                    self.attach_file_event(cr, uid, [inv.id], None, 'can', 'xml', context)
                     for prot in processo.resposta.retEvento:                        
                         vals["status"] = prot.infEvento.cStat.valor
                         vals["message"] = prot.infEvento.xEvento.valor
                         if vals["status"] == '135':
-                            result = super(AccountInvoice,self).action_cancel(cr, uid, [inv.id], context)
+                            result = super(AccountInvoice, self).action_cancel(cr, uid, [inv.id], context)
                             if result:
                                 self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled',
                                                                'nfe_status': vals["status"]+ ' - ' +vals["message"]

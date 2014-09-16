@@ -21,6 +21,7 @@
 
 from openerp.osv import osv, fields, orm
 from openerp.tools.translate import _
+from openerp.addons.nfe_attach.account_invoice import AccountInvoice
 from nfe.sped.nfe.processing.xml import send_correction_letter
 from datetime import datetime
 import os
@@ -49,7 +50,7 @@ class NfeInvoiceCce(osv.osv_memory):
             context = {}
             
         correcao = self.browse(cr, uid, ids)[0].mensagem
-         
+
         obj_invoice = self.pool.get('account.invoice')
         obj_cce = self.pool.get('l10n_br_account.invoice.cce')
         invoice_ids = context and context.get('active_ids') or []
@@ -62,7 +63,7 @@ class NfeInvoiceCce(osv.osv_memory):
             event_obj = self.pool.get('l10n_br_account.document_event')
             domain = [('invoice_id', '=', invoice.id)] 
             sequencia = len(obj_cce.search(cr, uid, domain ))+1
-            results = []   
+            results = []
             try:
                 os.environ['TZ'] = 'America/Sao_Paulo' #FIXME: context.get('tz') ou Colocar o campo tz no cadastro da empresa.
                 processo = send_correction_letter(company, chave_nfe, sequencia, correcao) 
@@ -78,7 +79,8 @@ class NfeInvoiceCce(osv.osv_memory):
                             'state': 'done',
                             'document_event_ids': invoice.id}
                 results.append(vals)
-                            
+                obj_invoice.attach_file_event(cr, uid, invoice_ids, sequencia, 'cce', 'xml', context)
+
             except Exception as e:
                 vals = {
                         'type': '-1',
