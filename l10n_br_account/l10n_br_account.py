@@ -23,7 +23,7 @@ from openerp import netsvc
 import datetime
 
 TYPE = [
-    ('input', 'Entrada'),
+    ('input', u'Entrada'),
     ('output', u'Saída'),
 ]
 
@@ -42,7 +42,7 @@ class L10n_brAccountCce(orm.Model):
             'account.invoice', 'Fatura'),
         'motivo': fields.text('Motivo', readonly=True
             , required=True),
-        'sequencia': fields.char('Sequencia', help="Indica a sequencia da carta de correcão"),
+        'sequencia': fields.char('Sequencia', help=u"Indica a sequencia da carta de correcão"),
         'cce_document_event_ids': fields.one2many(
             'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
     }
