@@ -50,7 +50,7 @@ class AccountProductFiscalClassificationTemplate(orm.Model):
     _columns = {
         'type': fields.selection([('view', u'Visão'),
                                   ('normal', 'Normal'),
-                                  ('extension', 'Extensão')], 'Tipo'),
+                                  ('extension', u'Extensão')], 'Tipo'),
         'parent_id': fields.many2one(
             'account.product.fiscal.classification.template',
             'Parent Fiscal Classification',

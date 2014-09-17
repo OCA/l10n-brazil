@@ -32,9 +32,9 @@ FISCAL_POSITION_COLUMNS = {
     'type_tax_use': fields.selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application'),
-    'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
-    'asset_operation': fields.boolean('Operação de Aquisição de Ativo',
-        help="""Caso seja marcada essa opção, será incluido o IPI na base de
+    'inv_copy_note': fields.boolean(u'Copiar Observação na Nota Fiscal'),
+    'asset_operation': fields.boolean(u'Operação de Aquisição de Ativo',
+        help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
             calculo do ICMS."""),
     'state': fields.selection([('draft', u'Rascunho'),
             ('review', u'Revisão'), ('approved', u'Aprovada'),
