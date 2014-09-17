@@ -32,7 +32,7 @@ class NFe200(FiscalDocument):
     def _serializer(self, cr, uid, ids, nfe_environment, context=None):
         """"""
         try:
-            from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200
+            from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200, Vol_200
         except ImportError:
             raise orm.except_orm(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
@@ -335,11 +335,24 @@ class NFe200(FiscalDocument):
 
                 if inv.vehicle_id:
                     nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''
-                    nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.plate.state_id.code or ''
+                    nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.state_id.code or ''
                     nfe.infNFe.transp.veicTransp.RNTC.valor = inv.vehicle_id.rntc_code or ''
 
             except AttributeError:
                 pass
+            
+            #
+            # Campos do Transporte da NF-e Bloco 381
+            #
+            
+            vol = Vol_200()
+            vol.qVol.valor = inv.number_of_packages
+            vol.esp.valor = inv.kind_of_packages or ''
+            vol.marca.valor = inv.brand_of_packages or ''
+            vol.nVol.valor = inv.notation_of_packages or ''
+            vol.pesoL.valor = str("%.2f" % inv.weight)
+            vol.pesoB.valor = str("%.2f" % inv.weight_net)
+            nfe.infNFe.transp.vol.append(vol)
 
             #
             # Informações adicionais
