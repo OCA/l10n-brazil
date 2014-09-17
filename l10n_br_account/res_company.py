@@ -47,14 +47,14 @@ class ResCompany(orm.Model):
         'annual_revenue': fields.float(
             'Faturamento Anual', required=True,
             digits_compute=dp.get_precision('Account'),
-            help="Faturamento Bruto dos últimos 12 meses"),
+            help=u"Faturamento Bruto dos últimos 12 meses"),
         'fiscal_type': fields.selection(COMPANY_FISCAL_TYPE,
-            'Regime Tributário', required=True),
+            u'Regime Tributário', required=True),
         'cnae_main_id': fields.many2one(
-            'l10n_br_account.cnae', 'CNAE Primário'),
+            'l10n_br_account.cnae', u'CNAE Primário'),
         'cnae_secondary_ids': fields.many2many(
             'l10n_br_account.cnae', 'res_company_l10n_br_account_cnae',
-            'company_id', 'cnae_id', 'CNAE Segundários'),
+            'company_id', 'cnae_id', u'CNAE Segundários'),
         'ecnpj_a1_file': fields.binary('Arquivo e-CNPJ A1'),
         'ecnpj_a1_password': fields.char('Senha e-CNPJ A1', size=64),
         'fiscal_rule_parent_id': fields.many2one(
