@@ -438,8 +438,6 @@ class SaleOrderLine(orm.Model):
 
         return result
 
-    # TODO: Implementar um metodo semelhante em l10n_br_sale_product, para adicionar
-    # os campos extras no dict do meu metodo no modulo kmee_sale_invoice_percentage
     def l10n_br_sale_prepare_order_line_invoice_line(self, cr, uid, line, result,
                                          account_id=False, context=None):
 
