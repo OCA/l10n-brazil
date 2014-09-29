@@ -156,8 +156,8 @@ class AccountInvoice(orm.Model):
                             if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
                                 protNFe["state"] = 'open'
 
-                self.attach_file_event(cr, uid, [inv.id], None, 'nfe', 'xml', context)
-                self.attach_file_event(cr, uid, [inv.id], None, None, 'pdf', context)
+                        self.attach_file_event(cr, uid, [inv.id], None, 'nfe', 'xml', context)
+                        self.attach_file_event(cr, uid, [inv.id], None, None, 'pdf', context)
 
             except Exception as e:
                 vals = {
