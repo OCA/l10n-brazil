@@ -26,7 +26,7 @@ from unicodedata import normalize
 from openerp.osv import osv
 from openerp.tools.translate import _
 from openerp import netsvc
-import pooler
+import openerp.pooler
 
 
 def nfe_export(cr, uid, ids, nfe_environment='1',
