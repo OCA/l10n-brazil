@@ -2,18 +2,6 @@
 <openerp>
 	<data>
 
-		<record id="l10n_br_sale_view_shop_form" model="ir.ui.view">
-			<field name="name">l10n_br_sale.sale.shop.form</field>
-			<field name="model">sale.shop</field>
-			<field name="inherit_id" ref="sale.view_shop_form" />
-			<field name="priority">36</field>
-			<field name="arch" type="xml">
-				<field name="project_id" position="after">
-					<field name="default_fc_id" required="1" />
-				</field>
-			</field>
-		</record>
-
 		<record id="l10n_br_sale_order_form" model="ir.ui.view">
 			<field name="name">l10n_br_sale.order.form</field>
 			<field name="model">sale.order</field>
@@ -69,9 +57,6 @@
 				ref="account_fiscal_position_rule_sale.view_order_form1" />
 			<field name="priority">26</field>
 			<field name="arch" type="xml">
-				<field name="shop_id" position="attributes">
-					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
-				</field>
 				<field name="partner_invoice_id" position="attributes">
 					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>

@@ -22,12 +22,12 @@ from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
 
 
-class SaleShop(orm.Model):
-    _inherit = 'sale.shop'
-    _columns = {
-        'default_fc_id': fields.many2one(
-            'l10n_br_account.fiscal.category', u'Categoria Fiscal Padrão')
-    }
+#class SaleShop(orm.Model):
+#    _inherit = 'sale.shop'
+#    _columns = {
+#        'default_fc_id': fields.many2one(
+#            'l10n_br_account.fiscal.category', u'Categoria Fiscal Padrão')
+#    }
 
 
 class SaleOrder(orm.Model):
