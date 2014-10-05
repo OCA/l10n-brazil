@@ -122,6 +122,7 @@ class L10n_brDocumentEvent(orm.Model):
     _defaults = {
         'state': 'draft',
     }
+    _order = "write_date desc"
 
     def set_done(self, cr, uid, ids, context=None):
         if context is None:
