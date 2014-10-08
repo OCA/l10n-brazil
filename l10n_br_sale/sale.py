@@ -454,15 +454,27 @@ class SaleOrderLine(orm.Model):
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
+
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             cr, uid, line, account_id, context)
 
+        result = self.l10n_br_sale_prepare_order_line_invoice_line(
+            cr, uid, line, result, account_id, context)
+
+        return result
+
+    def l10n_br_sale_prepare_order_line_invoice_line(self, cr, uid, line, result,
+                                         account_id=False, context=None):
+
         fc_id = line.fiscal_category_id or \
-        line.order_id.fiscal_category_id or False
+                line.order_id.fiscal_category_id or False
+
         if fc_id:
             result['fiscal_category_id'] = fc_id.id
 
         fp_id = line.fiscal_position or line.order_id.fiscal_position or False
+
         if fp_id:
             result['fiscal_position'] = fp_id.id
+
         return result
