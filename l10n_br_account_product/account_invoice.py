@@ -46,6 +46,7 @@ class AccountInvoice(orm.Model):
                 'icms_st_base': 0.0,
                 'icms_st_value': 0.0,
                 'ipi_base': 0.0,
+                'ipi_base_other': 0.0,
                 'ipi_value': 0.0,
                 'pis_base': 0.0,
                 'pis_value': 0.0,
@@ -67,6 +68,7 @@ class AccountInvoice(orm.Model):
                 result[invoice.id]['icms_st_base'] += line.icms_st_base
                 result[invoice.id]['icms_st_value'] += line.icms_st_value
                 result[invoice.id]['ipi_base'] += line.ipi_base
+                result[invoice.id]['ipi_base_other'] += line.ipi_base_other
                 result[invoice.id]['ipi_value'] += line.ipi_value
                 result[invoice.id]['pis_base'] += line.pis_base
                 result[invoice.id]['pis_value'] += line.pis_value
@@ -297,6 +299,19 @@ class AccountInvoice(orm.Model):
         'ipi_base': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Base IPI',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line,
+                                         ['price_unit',
+                                          'invoice_line_tax_id',
+                                          'quantity', 'discount'], 20),
+            }, multi='all'),
+        'ipi_base_other': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'),
+            string='Base IPI Outras',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
