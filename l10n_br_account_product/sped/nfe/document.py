@@ -61,7 +61,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.ide.serie.valor = inv.document_serie_id.code or ''
             nfe.infNFe.ide.nNF.valor = inv.internal_number or ''
             nfe.infNFe.ide.dEmi.valor = inv.date_invoice or ''
-            nfe.infNFe.ide.dSaiEnt.valor = inv.date_invoice or ''
+            nfe.infNFe.ide.dSaiEnt.valor = inv.date_in_out or ''
             nfe.infNFe.ide.cMunFG.valor = ('%s%s') % (company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
             nfe.infNFe.ide.tpImp.valor = 1  # (1 - Retrato; 2 - Paisagem)
             nfe.infNFe.ide.tpEmis.valor = 1
