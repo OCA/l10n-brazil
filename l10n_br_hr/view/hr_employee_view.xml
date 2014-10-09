@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    	<record model="ir.ui.view" id="view_l10n_br_hr_employee_form">
+	        <field name="name">l10n_br_hr_employee.form</field>
+	        <field name="model">hr.employee</field>
+	        <field name="inherit_id" ref="hr.view_employee_form" />
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+                <xpath expr="//field[@name='address_home_id']" position="attributes">
+					<attribute name="on_change">onchange_address_home_id(address_home_id)</attribute>
+				</xpath>
+                <xpath expr="//field[@name='identification_id']" position="replace">
+                    <field name="check_cpf" invisible="1"/>
+                    <field name="cpf"/>
+				</xpath>
+	        	<xpath expr="//page[@string='HR Settings']" position="after">
+	        		<page string="Documents">
+	        			<form string="Documents" version="7.0">	
+	        				<group> 						
+		        				<group string="CTPS">
+		    						<field name="ctps" string="Number"/>
+		    						<field name="ctps_series" />
+		    						<field name="ctps_date"/>   						
+		    					</group>
+		        				<group string="RG">
+		    						<field name="rg" string="Number"/>
+		    						<field name="organ_exp"/>
+		    						<field name="rg_emission"/>  						
+		    					</group>
+		        				<group string="Reservist">
+		    						<field name="creservist" string="Number"/>
+		    						<field name="crresv_categ"/>   						
+		    					</group>
+		        				<group string="Voter Registration">
+		    						<field name="title_voter" string="Number"/>
+		    						<field name="zone_voter"/>
+		    						<field name="session_voter"/>  						
+		    					</group>	
+		        				<group string="Driver License">
+		    						<field name="driver_license" string="Number"/>
+		    						<field name="driver_categ"/>
+		    						<field name="ginstru"/>  						
+		    					</group>		    						    					
+	    						<group string="PIS/PASEP">
+									<field name="pis_pasep" placeholder="XXX.XXXXX.XX-X" />
+								</group>
+								<group string="Parents names">
+									<field name="father_name"/>
+									<field name="mother_name"/>
+								</group>								
+							</group>		
+						</form>								
+	        		</page>
+	        		<page string="Spouse and Dependents">
+	        			<form string="Spouse and Dependents" version="7.0">
+		        			<group colspan="4" col="4">
+	        					<field name="have_dependent"/>				       						        					
+	        				</group>
+	        				<field name="dependent_ids"  widget="one2many_list" nolabel="1" attrs="{'invisible':[('have_dependent', '!=', True)]}">
+	        					<tree>
+							        <field name="dependent_name" />
+							        <field name="dependent_age"/>
+									<field name="dependent_type"/>							        
+							        <field name="pension_benefits"/>
+							        <field name="health_verification"/>
+							        <field name="dependent_verification"/>	                               
+							    </tree>
+							    <form>
+							        <field name="dependent_name" />
+							        <field name="dependent_age"/>
+									<field name="dependent_type"/>							        
+									<field name="pension_benefits"/>
+									<field name="health_verification"/>
+									<field name="dependent_verification"/>								        
+							    </form>
+	        				</field>      			
+		        		</form>
+	        		</page>
+	        	</xpath>    	
+	        </field>
+	    </record>
+    </data>
+</openerp>
+
+
+

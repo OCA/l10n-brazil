@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>        
+    	<record id="incoterm_EXW" model="hr.employee">
+            <field name="code">EXW</field>
+            <field name="name">EX WORKS</field>
+        </record>
+        <record id="incoterm_FCA" model="stock.incoterms">
+            <field name="code">FCA</field>
+            <field name="name">FREE CARRIER</field>
+        </record>
+        <record id="incoterm_FAS" model="stock.incoterms">
+            <field name="code">FAS</field>
+            <field name="name">FREE ALONGSIDE SHIP</field>
+        </record>
+        <record id="incoterm_FOB" model="stock.incoterms">
+            <field name="code">FOB</field>
+            <field name="name">FREE ON BOARD</field>
+        </record>
+        
+    </data>
+</openerp>
+        
