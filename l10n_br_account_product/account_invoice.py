@@ -41,6 +41,7 @@ class AccountInvoice(orm.Model):
                 'amount_tax_discount': 0.0,
                 'amount_total': 0.0,
                 'icms_base': 0.0,
+                'icms_base_other': 0.0,
                 'icms_value': 0.0,
                 'icms_st_base': 0.0,
                 'icms_st_value': 0.0,
@@ -61,6 +62,7 @@ class AccountInvoice(orm.Model):
                 result[invoice.id]['amount_untaxed'] += line.price_total
                 if line.icms_cst_id.code not in ('101','102','201','202','300','500'):
                     result[invoice.id]['icms_base'] += line.icms_base
+                    result[invoice.id]['icms_base_other'] += line.icms_base_other
                     result[invoice.id]['icms_value'] += line.icms_value
                 result[invoice.id]['icms_st_base'] += line.icms_st_base
                 result[invoice.id]['icms_st_value'] += line.icms_st_value
@@ -233,6 +235,19 @@ class AccountInvoice(orm.Model):
         'icms_base': fields.function(
             _amount_all, method=True,
             digits_compute=dp.get_precision('Account'), string='Base ICMS',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
+                                    ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line,
+                                         ['price_unit',
+                                          'invoice_line_tax_id',
+                                          'quantity', 'discount'], 20),
+            }, multi='all'),
+        'icms_base_other': fields.function(
+            _amount_all, method=True,
+            digits_compute=dp.get_precision('Account'),
+            string='Base ICMS Outras',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
