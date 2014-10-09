@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+<<<<<<< HEAD
         <record id="view_l10n_br_hr_cbo_tree" model="ir.ui.view">
+=======
+         <record id="view_l10n_br_hr_cbo_tree" model="ir.ui.view">
+>>>>>>> [NEW] Modulo de localicazão dos recursos humanos
             <field name="name">l10n_br_hr.cbo.tree</field>
             <field name="model">l10n_br_hr.cbo</field>
             <field name="arch" type="xml">
@@ -17,8 +21,14 @@
             <field name="model">l10n_br_hr.cbo</field>
             <field name="arch" type="xml">
                 <search string="Ocupação">
+<<<<<<< HEAD
                     <field name="code" string="Código"/>
                     <field name="name" string="Ocupação"/>
+=======
+                	<field name="code" string="Código"/>    
+                    <field name="name" string="Ocupação"/>
+                
+>>>>>>> [NEW] Modulo de localicazão dos recursos humanos
                 </search>
             </field>
         </record>
@@ -44,7 +54,11 @@
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_l10n_br_hr_cbo_filter"/>
         </record>
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> [NEW] Modulo de localicazão dos recursos humanos
         <menuitem action="action_l10n_br_hr_cbo" id="menu_view_post_cbo_form" parent="hr.menu_hr_configuration" name="CBO" sequence="1"/>
 
     </data>
