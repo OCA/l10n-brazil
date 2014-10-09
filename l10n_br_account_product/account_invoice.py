@@ -111,6 +111,10 @@ class AccountInvoice(orm.Model):
         return list(result.keys())
 
     _columns = {
+        'date_in_out': fields.date(
+            u'Data de Entrada/Saida', readonly=True,
+            states={'draft': [('readonly', False)]},
+            select=True, help="Deixe em branco para usar a data atual"),
         'partner_shipping_id': fields.many2one(
             'res.partner', 'Delivery Address',
             readonly=True, required=True,
@@ -463,6 +467,15 @@ class AccountInvoice(orm.Model):
     def nfe_check(self, cr, uid, ids, context=None):
 
         result = txt.validate(cr, uid, ids, context)
+        return result
+
+    def action_move_create(self, cr, uid, ids, *args):
+        result = super(AccountInvoice, self).action_move_create(
+            cr, uid, ids, *args)
+        for invoice in self.browse(cr, uid, ids):
+            if not invoice.date_in_out:
+                date_in_out = invoice.date_invoice or time.strftime('%Y-%m-%d')
+                self.write(cr, uid, [invoice.id], {'date_in_out': date_in_out})
         return result
 
 
