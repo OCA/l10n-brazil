@@ -17,14 +17,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-import string
 from datetime import datetime
 
 from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.addons.l10n_br_account.sped.document import FiscalDocument
+from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 class NFe200(FiscalDocument):
@@ -83,7 +82,7 @@ class NFe200(FiscalDocument):
             if inv.partner_shipping_id:
                 if inv.partner_id.id != inv.partner_shipping_id.id:
                     if nfe.infNFe.ide.tpNF.valor == '0':
-                        nfe.infNFe.retirada.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_shipping_id.cnpj_cpf or '')
+                        nfe.infNFe.retirada.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf)
                         nfe.infNFe.retirada.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.retirada.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.retirada.xCpl.valor = inv.partner_shipping_id.street2 or ''
@@ -92,7 +91,7 @@ class NFe200(FiscalDocument):
                         nfe.infNFe.retirada.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
                         nfe.infNFe.retirada.UF.valor = inv.address_invoice_id.state_id.code or ''
                     else:
-                        nfe.infNFe.entrega.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_shipping_id.cnpj_cpf or '')
+                        nfe.infNFe.entrega.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf)
                         nfe.infNFe.entrega.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.entrega.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.entrega.xCpl.valor = inv.partner_shipping_id.street2 or ''
@@ -111,21 +110,21 @@ class NFe200(FiscalDocument):
                 if inv_related.document_type == 'nf':
                     nfref.refNF.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNF.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
-                    nfref.refNF.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
+                    nfref.refNF.CNPJ.valor = punctuation_rm(inv_related.cnpj_cpf)
                     nfref.refNF.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNF.serie.valor = inv_related.serie or ''
                     nfref.refNF.nNF.valor = inv_related.internal_number or ''
                 elif inv_related.document_type == 'nfrural':
                     nfref.refNFP.cUF.valor = inv_related.state_id and inv_related.state_id.ibge_code or '',
                     nfref.refNFP.AAMM.valor = datetime.strptime(inv_related.date, '%Y-%m-%d').strftime('%y%m') or ''
-                    nfref.refNFP.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.inscr_est or '')
+                    nfref.refNFP.IE.valor = punctuation_rm(inv_related.inscr_est)
                     nfref.refNFP.mod.valor = inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or ''
                     nfref.refNFP.serie.valor = inv_related.serie or ''
                     nfref.refNFP.nNF.valor = inv_related.internal_number or ''
                     if inv_related.cpfcnpj_type == 'cnpj':
-                        nfref.refNFP.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
+                        nfref.refNFP.CNPJ.valor = punctuation_rm(inv_related.cnpj_cpf)
                     else:
-                        nfref.refNFP.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_related.cnpj_cpf or '')
+                        nfref.refNFP.CPF.valor = punctuation_rm(inv_related.cnpj_cpf)
                 elif inv_related.document_type == 'nfe':
                     nfref.refNFe.valor = inv_related.access_key or ''
                 elif inv_related.document_type == 'cte':
@@ -140,7 +139,7 @@ class NFe200(FiscalDocument):
             #
             # Emitente
             #
-            nfe.infNFe.emit.CNPJ.valor  = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or '')
+            nfe.infNFe.emit.CNPJ.valor  = punctuation_rm(inv.company_id.partner_id.cnpj_cpf)
             nfe.infNFe.emit.xNome.valor = inv.company_id.partner_id.legal_name
             nfe.infNFe.emit.xFant.valor = inv.company_id.partner_id.name
             nfe.infNFe.emit.enderEmit.xLgr.valor = company.street or ''
@@ -150,16 +149,16 @@ class NFe200(FiscalDocument):
             nfe.infNFe.emit.enderEmit.cMun.valor = '%s%s' % (company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
             nfe.infNFe.emit.enderEmit.xMun.valor = company.l10n_br_city_id.name or ''
             nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
-            nfe.infNFe.emit.enderEmit.CEP.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.zip or '').replace(' ',''))
+            nfe.infNFe.emit.enderEmit.CEP.valor = punctuation_rm(company.zip)
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
-            nfe.infNFe.emit.enderEmit.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(company.phone or '').replace(' ',''))
-            nfe.infNFe.emit.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_est or '')
+            nfe.infNFe.emit.enderEmit.fone.valor = punctuation_rm(company.phone)
+            nfe.infNFe.emit.IE.valor = punctuation_rm(inv.company_id.partner_id.inscr_est)
             nfe.infNFe.emit.IEST.valor = ''
-            nfe.infNFe.emit.IM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.inscr_mun or '')
+            nfe.infNFe.emit.IM.valor = punctuation_rm(inv.company_id.partner_id.inscr_mun)
             nfe.infNFe.emit.CRT.valor = inv.company_id.fiscal_type or ''
             if inv.company_id.partner_id.inscr_mun:
-                nfe.infNFe.emit.CNAE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.cnae_main_id.code or '')
+                nfe.infNFe.emit.CNAE.valor = punctuation_rm(inv.company_id.cnae_main_id.code)
 
             #
             # Destinatário
@@ -178,7 +177,7 @@ class NFe200(FiscalDocument):
             else:
                 address_invoice_state_code = inv.partner_id.state_id.code
                 address_invoice_city = inv.partner_id.l10n_br_city_id.name or ''
-                partner_cep = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.zip or '').replace(' ',''))
+                partner_cep = punctuation_rm(inv.partner_id.zip)
 
             # Se o ambiente for de teste deve ser
             # escrito na razão do destinatário
@@ -188,10 +187,10 @@ class NFe200(FiscalDocument):
                 nfe.infNFe.dest.xNome.valor = inv.partner_id.legal_name or ''
 
             if inv.partner_id.is_company:
-                nfe.infNFe.dest.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
-                nfe.infNFe.dest.IE.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.inscr_est or '')
+                nfe.infNFe.dest.CNPJ.valor = punctuation_rm(inv.partner_id.cnpj_cpf)
+                nfe.infNFe.dest.IE.valor = punctuation_rm(inv.partner_id.inscr_est)
             else:
-                nfe.infNFe.dest.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
+                nfe.infNFe.dest.CPF.valor = punctuation_rm(inv.partner_id.cnpj_cpf)
 
             nfe.infNFe.dest.enderDest.xLgr.valor = inv.partner_id.street or ''
             nfe.infNFe.dest.enderDest.nro.valor = inv.partner_id.number or ''
@@ -203,7 +202,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.dest.enderDest.CEP.valor = partner_cep
             nfe.infNFe.dest.enderDest.cPais.valor = partner_bc_code
             nfe.infNFe.dest.enderDest.xPais.valor = inv.partner_id.country_id.name or ''
-            nfe.infNFe.dest.enderDest.fone.valor = re.sub('[%s]' % re.escape(string.punctuation), '', str(inv.partner_id.phone or '').replace(' ',''))
+            nfe.infNFe.dest.enderDest.fone.valor = punctuation_rm(inv.partner_id.phone)
             nfe.infNFe.dest.email.valor = inv.partner_id.email or ''
 
             #
@@ -218,7 +217,7 @@ class NFe200(FiscalDocument):
                 det.prod.cProd.valor = inv_line.product_id.code or ''
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
-                det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.fiscal_classification_id.name or '')
+                det.prod.NCM.valor = punctuation_rm(inv_line.fiscal_classification_id.name)
                 det.prod.EXTIPI.valor = ''
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
@@ -274,7 +273,7 @@ class NFe200(FiscalDocument):
                     det.imposto.ISSQN.vAliq.valor = str("%.2f" % inv_line.issqn_percent)
                     det.imposto.ISSQN.vISSQN.valor = str("%.2f" % inv_line.issqn_value)
                     det.imposto.ISSQN.cMunFG.valor = ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
-                    det.imposto.ISSQN.cListServ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.service_type_id.code or '')
+                    det.imposto.ISSQN.cListServ.valor = punctuation_rm(inv_line.service_type_id.code)
                     det.imposto.ISSQN.cSitTrib.valor = inv_line.issqn_type
 
                 # PIS
@@ -351,9 +350,9 @@ class NFe200(FiscalDocument):
                     nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
 
                     if inv.carrier_id.partner_id.is_company:
-                        nfe.infNFe.transp.transporta.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
+                        nfe.infNFe.transp.transporta.CNPJ.valor = punctuation_rm(inv.carrier_id.partner_id.cnpj_cpf)
                     else:
-                        nfe.infNFe.transp.transporta.CPF.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
+                        nfe.infNFe.transp.transporta.CPF.valor = punctuation_rm(inv.carrier_id.partner_id.cnpj_cpf)
                     nfe.infNFe.transp.transporta.xNome.valor = inv.carrier_id.partner_id.legal_name or ''
                     nfe.infNFe.transp.transporta.IE.valor = inv.carrier_id.partner_id.inscr_est or ''
                     nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
