@@ -303,6 +303,7 @@ class SaleOrderLine(orm.Model):
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
+
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             cr, uid, line, account_id, context)
 
@@ -317,6 +318,14 @@ class SaleOrderLine(orm.Model):
         result['company_id'] = line.order_id.company_id.id
         result['partner_id'] = line.order_id.partner_id.id
 
+        result = self.l10n_br_sale_product_prepare_order_line_invoice_line(
+            cr, uid, line, result, account_id, context)
+
+        return result
+
+    def l10n_br_sale_product_prepare_order_line_invoice_line(self, cr, uid, line,
+                                                              result, account_id=False, context=None):
+
         if line.product_id.fiscal_type == 'product':
             if line.fiscal_position:
                 cfop = self.pool.get("account.fiscal.position").read(
@@ -324,4 +333,5 @@ class SaleOrderLine(orm.Model):
                     context=context)
                 if cfop[0]['cfop_id']:
                     result['cfop_id'] = cfop[0]['cfop_id'][0]
+
         return result
