@@ -555,6 +555,9 @@ class AccountInvoiceLine(orm.Model):
         'fiscal_position': fields.many2one(
             'account.fiscal.position', u'Posição Fiscal',
             domain="[('fiscal_category_id','=',fiscal_category_id)]"),
+        'import_declaration_ids': fields.one2many(
+            'l10n_br_account_product.import.declaration',
+            'invoice_line_id', u'Declaração de Importação'),
         'cfop_id': fields.many2one('l10n_br_account_product.cfop', 'CFOP'),
         'fiscal_classification_id': fields.many2one(
             'account.product.fiscal.classification', u'Classficação Fiscal'),
