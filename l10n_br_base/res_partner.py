@@ -219,14 +219,56 @@ class ResPartner(orm.Model):
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
-class res_partner_bank(orm.Model):
+class ResPartnerBank(orm.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
     bancárias no Brasil."""
     _inherit = 'res.partner.bank'
     _columns = {
+        'number': fields.char(u'Número', size=10),
+        'street2': fields.char('Street2', size=128),
+        'district': fields.char('Bairro', size=32),
+        'l10n_br_city_id': fields.many2one(
+            'l10n_br_base.city', 'Municipio',
+            domain="[('state_id','=',state_id)]"),
         'acc_number': fields.char("Account Number", size=64, required=False),
         'bank': fields.many2one('res.bank', 'Bank', required=False),
         'acc_number_dig': fields.char('Digito Conta', size=8),
         'bra_number': fields.char(u'Agência', size=8),
         'bra_number_dig': fields.char(u'Dígito Agência', size=8)
     }
+
+    def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
+        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
+        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
+        do município para o campo city que é o campo nativo do módulo base
+        para manter a compatibilidade entre os demais módulos que usam o
+        campo city.
+
+        param int l10n_br_city_id: id do l10n_br_city_id digitado.
+
+        return: dicionário com o nome e id do município.
+        """
+        result = {'value': {'city': False, 'l10n_br_city_id': False}}
+
+        if not l10n_br_city_id:
+            return result
+
+        obj_city = self.pool.get('l10n_br_base.city').read(
+            cr, uid, l10n_br_city_id, ['name', 'id'])
+
+        if obj_city:
+            result['value']['city'] = obj_city['name']
+            result['value']['l10n_br_city_id'] = obj_city['id']
+
+        return result
+
+    def onchange_partner_id(self, cr, uid, id, partner_id, context=None):
+        result = super(ResPartnerBank, self).onchange_partner_id(
+            cr, uid, id, partner_id, context)
+        if partner_id:
+            partner = self.pool.get('res.partner').browse(
+                cr, uid, partner_id, context=context)
+            result['value']['number'] = partner.number
+            result['value']['district'] = partner.district
+            result['value']['l10n_br_city_id'] = partner.l10n_br_city_id.id
+        return result
