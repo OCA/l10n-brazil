@@ -111,11 +111,23 @@
 			<field name="inherit_id" ref="base.view_partner_bank_form" />
 			<field name="arch" type="xml">
 				<field name="acc_number" position="replace">
+					<newline />
 					<field name="acc_number" select="1" />
 					<field name="acc_number_dig" select="1" />
 					<newline />
 					<field name="bra_number" select="1" />
 					<field name="bra_number_dig" select="1" />
+				</field>
+				<field name="street" position="after">
+					<field name="number" placeholder="Número..."/>
+					<field name="street2" placeholder="Complemento..."/>
+					<field name="district" placeholder="Bairro..."/>
+				</field>
+				<field name="state_id" position="after">
+					<field name="l10n_br_city_id" placeholder="Cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)"/>
+				</field>
+				<field name="city" position="attributes">
+					<attribute name="invisible">1</attribute>
 				</field>
 			</field>
 		</record>
