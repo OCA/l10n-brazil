@@ -22,6 +22,7 @@ import re
 from openerp.osv import orm, fields
 
 from l10n_br_base.tools import fiscal
+from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_account.l10n_br_account import TYPE
 
 PRODUCT_FISCAL_TYPE = [
@@ -244,3 +245,41 @@ class L10n_brAccountDocumentRelated(orm.Model):
                 % (val[0:3], val[3:6], val[6:9], val[9:11])
             result['value'].update({'cnpj_cpf': cnpj_cpf})
         return result
+
+
+class ImportDeclaration(orm.Model):
+    _name = 'l10n_br_account_product.import.declaration'
+    _columns = {
+        'invoice_line_id': fields.many2one(
+            'account.invoice.line', u'Linha de Documento Fiscal',
+            ondelete='cascade', select=True),
+        'name': fields.char(u'Número da DI', size=10, required=True),
+        'date_registration': fields.date(u'Data de Registro', required=True),
+        'exporting_code': fields.char(u'Código do Exportador', size=60),
+        'state_id': fields.many2one(
+        'res.country.state', u'Estado',
+            domain="[('country_id.code', '=', 'BR')]"),
+        'location': fields.char(u'Local', size=60),
+        'date_release': fields.date(u'Data de Liberação'),
+        'line_ids': fields.one2many(
+            'l10n_br_account_product.import.declaration.line',
+            'import_declaration_id', 'Linhas da DI'),
+    }
+
+
+class ImportDeclarationLine(orm.Model):
+    _name = 'l10n_br_account_product.import.declaration.line'
+    _columns = {
+        'import_declaration_id': fields.many2one(
+            'l10n_br_account_product.import.declaration', u'DI',
+            ondelete='cascade', select=True),
+        'sequence': fields.integer(u'Sequência'),
+        'name': fields.char(u'Adição', size=3, required=True),
+        'manufacturer_code': fields.char(
+            u'Código do Fabricante', size=3, required=True),
+        'value': fields.float(u'Valor',
+            digits_compute=dp.get_precision('Account')),
+    }
+    _defaults = {
+        'value': 0.00,
+    }
