@@ -145,6 +145,37 @@
 				<field name="comment" position="replace">
 				</field>
 				<notebook>
+					<page string="Documentos Relacionados">
+						<field colspan="4" nolabel="1" name="fiscal_document_related_ids">
+							<tree>
+								<field name="document_type"/>
+								<field name="access_key"/>
+								<field name="serie"/>
+								<field name="internal_number"/>
+							</tree>
+							<form string="Documentos Fiscais" version="7.0">
+								<group col="4">
+									<field name="invoice_related_id" on_change="onchange_invoice_related_id(invoice_related_id, context)"/>
+								</group>
+								<group col="4">
+									<field name="document_type"/>
+								</group>
+								<group col="4" string="NF-e/CT-e" attrs="{'invisible': [('document_type','in', ('nf', 'nfrural', 'cf', False))]}">
+									<field name="access_key"/>
+								</group>
+								<group col="4" string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
+									<field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+									<field name="internal_number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+									<field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+									<field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+									<field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+									<field name="cpfcnpj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+									<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cpfcnpj_type, cnpj_cpf, context)" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+									<field name="inscr_est" attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
+								</group>
+							</form>
+						</field>
+					</page>
 					<page string="Dados Adicionais">
 						<notebook>
 							<page string="Documento Fiscal">
