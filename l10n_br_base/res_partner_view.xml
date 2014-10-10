@@ -50,11 +50,11 @@
 				</field>
 				<field name="street" position="replace">
 					<field name="street" />
-					<field name="number" placeholder="numero" />
-					<field name="district" placeholder="bairro" />
+					<field name="number" placeholder="Número" />
+					<field name="district" placeholder="Bairro" />
 				</field>
 				<field name="street2" position="replace">
-					<field name="street2" placeholder="complemento" />
+					<field name="street2" placeholder="Complemento" />
 				</field>
 				<field name="state_id" position="attributes">
 					<attribute name="domain">[('country_id','=',country_id)]</attribute>
@@ -86,6 +86,21 @@
 						</group>
 					</page>
 				</notebook>
+				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street']" position="after">
+					<field name="number" placeholder="Número"/>
+				</xpath>
+				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street2']" position="attributes">
+					<attribute name="placeholder">Complemento</attribute>
+				</xpath>
+				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street2']" position="after">
+					<field name="district" placeholder="Bairro"/>
+				</xpath>
+				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='state_id']" position="after">
+					<field name="l10n_br_city_id" placeholder="Cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" style="width: 40%%"/>
+				</xpath>
+				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='city']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
 			</field>
 		</record>
 
