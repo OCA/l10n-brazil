@@ -137,6 +137,10 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+				<label for="comment" position="replace">
+				</label>
+				<field name="comment" position="replace">
+				</field>
 				<notebook>
 					<page string="Dados Adicionais">
 						<notebook>
@@ -176,6 +180,14 @@
 								</group>
 							</page>
 						</notebook>
+					</page>
+					<page string="Observações">
+						<group string="Observações">
+							<field name="comment" nolabel="1"/>
+						</group>
+						<group string="Observações Fiscais">
+							<field name="fiscal_comment" nolabel="1"/>
+						</group>
 					</page>
 				</notebook>
 				<field position="after" name="partner_id">
