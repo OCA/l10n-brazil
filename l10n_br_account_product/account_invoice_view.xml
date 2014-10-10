@@ -363,6 +363,52 @@
 									</page>
 								</notebook>
 							</page>
+							<page string="Delcaração de Importação">
+								<group>
+									<field name="import_declaration_ids" colspan="4" nolabel="1">
+										<tree>
+											<field name="name"/>
+											<field name="date_registration"/>
+											<field name="exporting_code"/>
+											<field name="state_id"/>
+											<field name="location"/>
+											<field name="date_release"/>
+										</tree>
+										<form string="Declaração de Importação">
+											<group>
+												<group>
+													<field name="name"/>
+													<field name="date_registration"/>
+													<field name="exporting_code"/>
+												</group>
+												<group>
+													<field name="state_id"/>
+													<field name="location"/>
+													<field name="date_release"/>
+												</group>
+												<group string="Adições" colspan="4">
+													<field name="line_ids" nolabel="1">
+														<tree>
+															<field name="sequence"/>
+															<field name="name"/>
+															<field name="manufacturer_code"/>
+															<field name="value"/>
+														</tree>
+														<form string="Adições">
+															<group>
+																<field name="sequence"/>
+																<field name="name"/>
+																<field name="manufacturer_code"/>
+																<field name="value"/>
+															</group>
+														</form>
+													</field>
+												</group>
+											</group>
+										</form>
+									</field>
+								</group>
+							</page>
 						</notebook>
 					</form>
 				</form>
