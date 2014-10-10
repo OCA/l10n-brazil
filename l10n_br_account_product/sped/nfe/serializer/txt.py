@@ -361,6 +361,46 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             StrFile += StrI
 
+            for inv_di in inv_line.import_declaration_ids:
+
+                StrRegI18 = {
+                    'NDI': inv_di.name,
+                    'DDI': inv_di.date_registration or '',
+                    'XLocDesemb': inv_di.location,
+                    'UFDesemb': inv_di.state_id.code or '',
+                    'DDesemb': inv_di.date_release or '',
+                    'CExportador': inv_di.exporting_code,
+                }
+
+                StrI18 = 'I18|%s|%s|%s|%s|%s|%s|\n' % (
+                    StrRegI18['NDI'],
+                    StrRegI18['DDI'],
+                    StrRegI18['XLocDesemb'],
+                    StrRegI18['UFDesemb'],
+                    StrRegI18['DDesemb'],
+                    StrRegI18['CExportador'],
+                )
+
+                StrFile += StrI18
+
+                for inv_di_line in inv_di.line_ids:
+
+                    StrRegI25 = {
+                        'NAdicao': inv_di_line.name,
+                        'NSeqAdic': inv_di_line.sequence,
+                        'CFabricante': inv_di_line.manufacturer_code,
+                        'VDescDI': str("%.2f" % inv_di_line.value),
+                    }
+
+                    StrI25 = 'I25|%s|%s|%s|%s|\n' % (
+                        StrRegI25['NAdicao'],
+                        StrRegI25['NSeqAdic'],
+                        StrRegI25['CFabricante'],
+                        StrRegI25['VDescDI'],
+                    )
+
+                    StrFile += StrI25
+
             icms_cst = inv_line.icms_cst_id and inv_line.icms_cst_id.code or ''
             ipi_cst = inv_line.ipi_cst_id and inv_line.ipi_cst_id.code or ''
             pis_cst = inv_line.pis_cst_id and inv_line.pis_cst_id.code or ''
