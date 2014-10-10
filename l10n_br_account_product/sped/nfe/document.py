@@ -32,7 +32,9 @@ class NFe200(FiscalDocument):
     def _serializer(self, cr, uid, ids, nfe_environment, context=None):
         """"""
         try:
-            from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200, Vol_200
+            from pysped.nfe.leiaute import (
+                NFe_200, Det_200, NFRef_200,
+                Dup_200, Vol_200, DI_200, Adi_200)
         except ImportError:
             raise orm.except_orm(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
@@ -300,6 +302,30 @@ class NFe200(FiscalDocument):
                 det.imposto.COFINSST.qBCProd.valor = ''
                 det.imposto.COFINSST.vAliqProd.valor = ''
                 det.imposto.COFINSST.vCOFINS.valor = str("%.2f" % inv_line.cofins_st_value)
+
+                # Declaração de importação
+                for inv_di in inv_line.import_declaration_ids:
+                    di = DI_200()
+
+                    di.nDI = inv_di.name
+                    di.dDI = inv_di.date_registration or ''
+                    di.xLocDesemb = inv_di.location
+                    di.UFDesemb = inv_di.state_id.code or ''
+                    di.dDesemb = inv_di.date_release or ''
+                    di.cExportador = inv_di.exporting_code
+
+                    for inv_di_line in inv_di.line_ids:
+
+                        di_line = Adi_200()
+
+                        di_line.nAdicao = inv_di_line.name
+                        di_line.nSeqAdic = inv_di_line.sequence
+                        di_line.cFabricante = inv_di_line.manufacturer_code
+                        di_line.vDescDI = str("%.2f" % inv_di_line.value)
+
+                        di.adi.append(di_line)
+
+                    det.prod.di.append(di)
 
                 nfe.infNFe.det.append(det)
 
