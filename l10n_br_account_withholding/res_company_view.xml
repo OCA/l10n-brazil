@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_l10n_br_account_company_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_product.res.company.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
+			<field name="arch" type="xml">
+				<page position="after" string="Certificados">
+                    <page string="Retenções">
+                        <group col="2" string="Forma de retenção:">
+                            <field name="wh_type"/>
+                            <field name="wh_on_nfe_limit"/>
+                        </group>
+                        <group>
+                            <group col="2" string="Retenção Impostos sobre serviços:">
+                                <group>
+                                    <field name="irrf_wh_percent"/>
+                                    <field name="irrf_wh_value"/>
+                                    <field name="cofins_wh_value"/>
+                                    <field name="pis_wh_value"/>
+                                    <field name="csll_wh_value"/>
+                                </group>
+                                <group>
+                                    <field name="issqn_wh"/>
+                                    <field name="inss_wh"/>
+                                    <field name="pis_wh"/>
+                                    <field name="cofins_wh"/>
+                                    <field name="csll_wh"/>
+                                </group>
+                            </group>
+                            <group col="2" string="Retenção Impostos sobre produtos:">
+                                <!-- #TODO -->
+                            </group>
+                        </group>
+                    </page>
+				</page>
+			</field>
+		</record>
+	</data>
+</openerp>
