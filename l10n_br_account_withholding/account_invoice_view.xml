@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-
+        <record id="l10n_br_account_product_invoice_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_product.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<notebook position="inside">
+                    <page string="Retenções">
+                            <group string="Retenção Impostos sobre serviços:" >
+                                <group>
+                                    <field name="issqn_wh"/>
+                                    <field name="pis_wh"/>
+                                    <field name="cofins_wh"/>
+                                    <field name="csll_wh"/>
+                                    <field name="irrf_wh"/>
+                                    <field name="inss_wh"/>
+                                </group>
+                                <group>
+                                    <field name="issqn_value_wh"/>
+                                    <field name="pis_value_wh"/>
+                                    <field name="cofins_value_wh"/>
+                                    <field name="csll_value_wh"/>
+                                    <field name="irrf_base"/>
+                                    <field name="irrf_value_wh"/>
+                                    <field name="inss_base"/>
+                                    <field name="inss_value_wh"/>
+                                </group>
+                           </group>
+                    </page>
+                </notebook>
+			</field>
+		</record>
 	</data>
-
 </openerp>
