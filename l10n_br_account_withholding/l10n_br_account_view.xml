@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+		<record id="view_l10n_br_account_partner_fiscal_type_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.partner.fiscal.type</field>
+			<field name="model">l10n_br_account.partner.fiscal.type</field>
+			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_partner_fiscal_type_form"/>
+			<field name="arch" type="xml">
+                <field name="ipi" position="after">
+                    <separator string="Retenção Impostos sobre serviços:" colspan="4"/>
+                    <field name="issqn_wh"/>
+                    <field name="inss_wh"/>
+                    <field name="pis_wh"/>
+                    <field name="irrf_wh"/>
+                    <field name="cofins_wh"/>
+                    <field name="csll_wh"/>
+                    <separator string="Retenção Impostos sobre produtos:" colspan="4"/>
+                        <!-- TODO: -->
+				</field>
+			</field>
+		</record>
 
 	</data>
 
