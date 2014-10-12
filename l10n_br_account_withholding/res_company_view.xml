@@ -23,6 +23,7 @@
                                 </group>
                                 <group>
                                     <field name="issqn_wh"/>
+                                    <field name="irrf_wh"/>
                                     <field name="inss_wh"/>
                                     <field name="pis_wh"/>
                                     <field name="cofins_wh"/>

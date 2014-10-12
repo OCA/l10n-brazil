@@ -52,6 +52,8 @@ class ResCompany(orm.Model):
         'csll_wh_value': fields.float(
             u'Valor mínimo CSLL',
             digits_compute=dp.get_precision('Account')),
+        'irrf_wh': fields.boolean(
+            u'Retém IRRF'),
         'issqn_wh': fields.boolean(
             u'Retém ISSQN'),
         'inss_wh': fields.boolean(

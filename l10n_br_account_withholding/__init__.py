@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-#import account_invoice
+import account_invoice
 import l10n_br_account
 import res_company
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
