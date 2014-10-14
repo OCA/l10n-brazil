@@ -152,7 +152,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.emit.enderEmit.CEP.valor = punctuation_rm(company.zip)
             nfe.infNFe.emit.enderEmit.cPais.valor = company.country_id.bc_code[1:]
             nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
-            nfe.infNFe.emit.enderEmit.fone.valor = punctuation_rm(company.phone)
+            nfe.infNFe.emit.enderEmit.fone.valor = punctuation_rm(company.phone or '').replace(' ', '')
             nfe.infNFe.emit.IE.valor = punctuation_rm(inv.company_id.partner_id.inscr_est)
             nfe.infNFe.emit.IEST.valor = ''
             nfe.infNFe.emit.IM.valor = punctuation_rm(inv.company_id.partner_id.inscr_mun)
@@ -202,7 +202,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.dest.enderDest.CEP.valor = partner_cep
             nfe.infNFe.dest.enderDest.cPais.valor = partner_bc_code
             nfe.infNFe.dest.enderDest.xPais.valor = inv.partner_id.country_id.name or ''
-            nfe.infNFe.dest.enderDest.fone.valor = punctuation_rm(inv.partner_id.phone)
+            nfe.infNFe.dest.enderDest.fone.valor = punctuation_rm(inv.partner_id.phone or '').replace(' ', '')
             nfe.infNFe.dest.email.valor = inv.partner_id.email or ''
 
             #
