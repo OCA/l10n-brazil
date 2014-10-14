@@ -189,7 +189,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'CEP': punctuation_rm(company_addr_default.zip),
                    'cPais': address_company_bc_code or '',
                    'xPais': normalize('NFKD',unicode(company_addr_default.country_id.name or '')).encode('ASCII','ignore'),
-                   'fone': punctuation_rm(company_addr_default.phone),
+                   'fone': punctuation_rm(company_addr_default.phone or '').replace(' ', ''),
                    }
 
         StrC05 = 'C05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC05['XLgr'], StrRegC05['Nro'], StrRegC05['Cpl'], StrRegC05['Bairro'],
@@ -255,7 +255,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'CEP': partner_cep,
                    'cPais': partner_bc_code,
                    'xPais': normalize('NFKD',unicode(inv.partner_id.country_id.name or '')).encode('ASCII','ignore'),
-                   'fone': punctuation_rm(inv.partner_id.phone),
+                   'fone': punctuation_rm(inv.partner_id.phone or '').replace(' ', ''),
                    }
 
         StrE05 = 'E05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegE05['xLgr'], StrRegE05['nro'], StrRegE05['xCpl'], StrRegE05['xBairro'],
