@@ -29,7 +29,7 @@
     'website': 'http://www.kmee.com.br',
     'version': '7.0',
     'depends': [
-        'l10n_br_account',
+        'l10n_br_account_product',
     ],
     'data': [
         'account_invoice_view.xml',

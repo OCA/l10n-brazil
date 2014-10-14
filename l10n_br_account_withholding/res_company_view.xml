@@ -17,9 +17,7 @@
                                 <group>
                                     <field name="irrf_wh_percent"/>
                                     <field name="irrf_wh_value"/>
-                                    <field name="cofins_wh_value"/>
-                                    <field name="pis_wh_value"/>
-                                    <field name="csll_wh_value"/>
+                                    <field name="cofins_csll_pis_wh_base"/>
                                 </group>
                                 <group>
                                     <field name="issqn_wh"/>
