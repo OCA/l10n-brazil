@@ -43,14 +43,8 @@ class ResCompany(orm.Model):
         'irrf_wh_value': fields.float(
             u'Valor mínimo IRRF',
             digits_compute=dp.get_precision('Account')),
-        'cofins_wh_value': fields.float(
-            u'Valor mínimo COFINS',
-            digits_compute=dp.get_precision('Account')),
-        'pis_wh_value': fields.float(
-            u'Valor mínimo PIS',
-            digits_compute=dp.get_precision('Account')),
-        'csll_wh_value': fields.float(
-            u'Valor mínimo CSLL',
+        'cofins_csll_pis_wh_base': fields.float(
+            u'Valor múnimo base de cálculo COFINS / CSLL / PIS',
             digits_compute=dp.get_precision('Account')),
         'irrf_wh': fields.boolean(
             u'Retém IRRF'),
