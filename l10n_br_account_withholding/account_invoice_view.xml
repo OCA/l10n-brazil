@@ -22,9 +22,9 @@
                                     <field name="pis_value_wh"/>
                                     <field name="cofins_value_wh"/>
                                     <field name="csll_value_wh"/>
-                                    <field name="irrf_base"/>
+                                    <field name="irrf_base_wh"/>
                                     <field name="irrf_value_wh"/>
-                                    <field name="inss_base"/>
+                                    <field name="inss_base_wh"/>
                                     <field name="inss_value_wh"/>
                                 </group>
                            </group>

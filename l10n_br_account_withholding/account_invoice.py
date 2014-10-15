@@ -42,12 +42,12 @@ class AccountInvoice(orm.Model):
         'csll_value_wh': fields.float('Valor da retenção de CSLL',
                                       digits_compute=dp.get_precision('Account')),
         'irrf_wh': fields.boolean(u'Retém IRRF'),
-        'irrf_base': fields.float('Base de calculo retenção do IRRF',
+        'irrf_base_wh': fields.float('Base de calculo retenção do IRRF',
                                   digits_compute=dp.get_precision('Account')),
         'irrf_value_wh': fields.float('Valor da retenção de IRRF',
                                       digits_compute=dp.get_precision('Account')),
         'inss_wh': fields.boolean(u'Retém INSS'),
-        'inss_base': fields.float('Base de Cálculo da Retenção da Previdência Social',
+        'inss_base_wh': fields.float('Base de Cálculo da Retenção da Previdência Social',
                                   digits_compute=dp.get_precision('Account')),
         'inss_value_wh': fields.float('Valor da Retenção da Previdência Social ',
                                       digits_compute=dp.get_precision('Account')),
@@ -177,7 +177,7 @@ class AccountInvoice(orm.Model):
 
                 values_wh['pis_value_wh'] =  invoice_wh['pis'] + previous_wh['pis'] - previous_wh['pis_value_wh']
                 values_wh['cofins_value_wh'] = invoice_wh['cofins'] + previous_wh['cofins'] - previous_wh['cofins_value_wh']
-                values_wh['csll_value_wh'] = invoice_wh['csll'] + previous_wh['csll'] - previous_wh['csll_value_wh']
+                values_wh[' csll_value_wh'] = invoice_wh['csll'] + previous_wh['csll'] - previous_wh['csll_value_wh']
 
             irrf_wh_percent = invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
             irrf_base = invoice_wh['ir'] + previous_wh['ir']
