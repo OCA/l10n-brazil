@@ -11,9 +11,11 @@
                     <field name="issqn_wh"/>
                     <field name="inss_wh"/>
                     <field name="pis_wh"/>
-                    <field name="irrf_wh"/>
                     <field name="cofins_wh"/>
                     <field name="csll_wh"/>
+                    <field name="irrf_wh"/>
+                    <field name="irrf_wh_percent"/>
+
                     <separator string="Retenção Impostos sobre produtos:" colspan="4"/>
                         <!-- TODO: -->
 				</field>

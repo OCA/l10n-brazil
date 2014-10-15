@@ -37,14 +37,11 @@ class ResCompany(orm.Model):
               ultrapasse os limites"),
         'wh_on_nfe_limit': fields.boolean(
             u'Retenção sempre que ultrapassar o valor da NF?'),
-        'irrf_wh_percent': fields.float(
-            u'Alícota de IRRF (%)',
-            digits_compute=dp.get_precision('Account')),
-        'irrf_wh_value': fields.float(
-            u'Valor mínimo IRRF',
-            digits_compute=dp.get_precision('Account')),
         'cofins_csll_pis_wh_base': fields.float(
-            u'Valor múnimo base de cálculo COFINS / CSLL / PIS',
+            u'Valor mínimo COFINS/CSLL/PIS',
+            digits_compute=dp.get_precision('Account')),
+        'irrf_wh_base': fields.float(
+            u'Valor mínimo IRRF',
             digits_compute=dp.get_precision('Account')),
         'irrf_wh': fields.boolean(
             u'Retém IRRF'),
@@ -58,6 +55,11 @@ class ResCompany(orm.Model):
             u'Retém COFINS'),
         'csll_wh': fields.boolean(
             u'Retém CSLL'),
+    }
+
+    _defaults = {
+        'irrf_wh_base' : 0.00,
+        'cofins_csll_pis_wh_base': 0.00,
     }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

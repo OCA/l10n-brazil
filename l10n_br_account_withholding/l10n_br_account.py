@@ -19,17 +19,20 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
+from openerp.addons import decimal_precision as dp
 
 class L10n_brAccountPartnerFiscalType(orm.Model):
     _inherit = 'l10n_br_account.partner.fiscal.type'
 
     _columns = {
         'issqn_wh': fields.boolean(u'Retém ISSQN'),
+        'inss_wh': fields.boolean(u'Retém INSS'),
         'pis_wh': fields.boolean(u'Retém PIS'),
         'cofins_wh': fields.boolean(u'Retém COFINS'),
-        'irrf_wh': fields.boolean(u'Retém IRRF'),
         'csll_wh': fields.boolean(u'Retém CSLL'),
-        'inss_wh': fields.boolean(u'Retém INSS'),
+        'irrf_wh': fields.boolean(u'Retém IRRF'),
+        'irrf_wh_percent': fields.float(u'Retenção de IRRF (%)',
+               digits_compute=dp.get_precision('Discount')),
     }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
