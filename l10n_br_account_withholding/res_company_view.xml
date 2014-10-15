@@ -15,8 +15,7 @@
                         <group>
                             <group col="2" string="Retenção Impostos sobre serviços:">
                                 <group>
-                                    <field name="irrf_wh_percent"/>
-                                    <field name="irrf_wh_value"/>
+                                    <field name="irrf_wh_base"/>
                                     <field name="cofins_csll_pis_wh_base"/>
                                 </group>
                                 <group>

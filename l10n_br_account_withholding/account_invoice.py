@@ -21,7 +21,7 @@
 
 import time
 
-from openerp.osv import orm, fields, except_osv
+from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
 
 
@@ -30,7 +30,7 @@ class AccountInvoice(orm.Model):
 
     _columns = {
         'issqn_wh': fields.boolean(u'Retém ISSQN'),
-        'issqn_value_wh': fields.float('Valor da retenção do PIS',
+        'issqn_value_wh': fields.float('Valor da retenção do ISSQN',
                                        digits_compute=dp.get_precision('Account')),
         'pis_wh': fields.boolean(u'Retém PIS'),
         'pis_value_wh': fields.float('Valor da retenção do PIS',
@@ -92,6 +92,9 @@ class AccountInvoice(orm.Model):
 
     def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(cr, uid, invoice_browse, move_lines)
+
+        #veriricar se o cliente x empresa retem o imposto e chamar o metodo correspondente
+
         self._compute_wh(cr, uid, invoice_browse)
         return move_lines
 
@@ -99,10 +102,10 @@ class AccountInvoice(orm.Model):
         period_obj = self.pool.get('account.period')
         line_obj = self.pool.get('account.invoice.line')
 
-        if invoice_browse.company_id.wh_type == 1:
-            raise except_osv('Regime de Caixa Não implementado')
+        if invoice_browse.company_id.wh_type == '1':
+            raise osv.except_osv('Regime de Caixa Não implementado')
 
-        elif invoice_browse.company_id.wh_type == 2:
+        elif invoice_browse.company_id.wh_type == '2':
 
             date_invoice = invoice_browse.date_invoice
             if not date_invoice:
@@ -123,43 +126,67 @@ class AccountInvoice(orm.Model):
                 'pis_value_wh': 0.00,
                 'cofins_value_wh': 0.00,
                 'csll_value_wh': 0.00,
+                'irrf_value_wh': 0.00,
                 'pis': 0.00,
                 'cofins': 0.00,
                 'csll': 0.00,
+                'ir': 0.00,
             }
             invoice_wh = {
                 'pis': 0.00,
                 'cofins': 0.00,
                 'csll': 0.00,
+                'ir': 0.00,
             }
+
+            values_wh = {
+                'pis_value_wh': 0.00,
+                'cofins_value_wh': 0.00,
+                'csll_value_wh': 0.00,
+                'irrf_value_wh': 0.00,
+                'issqn_value_wh': 0.00,
+                }
 
             for inv in self.browse(cr, uid, invoice_ids):
                 previous_wh['amount_services'] += inv.amount_services
                 previous_wh['pis_value_wh'] += inv.pis_value_wh
                 previous_wh['cofins_value_wh'] += inv.cofins_value_wh
                 previous_wh['csll_value_wh'] += inv.csll_value_wh
-                for line in inv.line:
+                previous_wh['irrf_value_wh'] += inv.irrf_value_wh
+                for line in inv.invoice_line:
                     if not line.product_type == 'service':
                         continue
-                    previous_wh['pis'] += inv.pis_value
-                    previous_wh['cofins'] += inv.cofins_value
+                    previous_wh['pis'] += inv.service_pis_value
+                    previous_wh['cofins'] += inv.service_cofins_value
                     previous_wh['csll'] += inv.csll_value
+                    previous_wh['ir'] += inv.ir_value
 
-            for line in invoice_browse.line:
+            for line in invoice_browse.invoice_line:
                 if not line.product_type == 'service':
                     continue
-                invoice_wh['pis'] += inv.pis_value
-                invoice_wh['cofins'] += inv.cofins_value
-                invoice_wh['csll'] += inv.csll_value
+                invoice_wh['pis'] += invoice_browse.service_pis_value
+                invoice_wh['cofins'] += invoice_browse.service_cofins_value
+                invoice_wh['csll'] += invoice_browse.csll_value
+                invoice_wh['ir'] += invoice_browse.ir_value
+
+                if line.issqn_cst_id.code in ('R'):
+                    values_wh['issqn_value_wh'] += invoice_browse.issqn_value
 
             if (previous_wh['amount_services'] +
                     invoice_browse.amount_services) > invoice_browse.company_id.cofins_csll_pis_wh_base:
-                values_wh = {
-                    'pis_value_wh': invoice_wh['pis'] + previous_wh['pis'] - previous_wh['pis_value_wh'],
-                    'cofins_value_wh': invoice_wh['cofins'] + previous_wh['cofins'] - previous_wh['cofins_value_wh'],
-                    'csll_value_wh': invoice_wh['csll'] + previous_wh['csll'] - previous_wh['csll_value_wh'],
-                }
-                self.write(cr, uid, [invoice_browse.id], values_wh)
+
+                values_wh['pis_value_wh'] =  invoice_wh['pis'] + previous_wh['pis'] - previous_wh['pis_value_wh']
+                values_wh['cofins_value_wh'] = invoice_wh['cofins'] + previous_wh['cofins'] - previous_wh['cofins_value_wh']
+                values_wh['csll_value_wh'] = invoice_wh['csll'] + previous_wh['csll'] - previous_wh['csll_value_wh']
+
+            irrf_wh_percent = invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
+            irrf_base = invoice_wh['ir'] + previous_wh['ir']
+            amount_ir = (irrf_base) * irrf_wh_percent
+            if (amount_ir - previous_wh['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
+                values_wh['irrf_value_wh'] = amount_ir - previous_wh['irrf_value_wh']
+                values_wh['irrf_base'] = irrf_base
+
+            self.write(cr, uid, [invoice_browse.id], values_wh)
 
     def compute_invoice_totals(self, cr, uid, inv, company_currency, ref, invoice_move_lines, context=None):
         total, total_currency, invoice_move_lines = super(AccountInvoice, self).compute_invoice_totals(cr, uid, inv,
@@ -208,4 +235,4 @@ class AccountInvoiceTax(orm.Model):
         return res
 
 
-        # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
