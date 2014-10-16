@@ -104,7 +104,6 @@ class AccountInvoice(orm.Model):
 
         if invoice_browse.company_id.wh_type == '1':
             raise osv.except_osv('Regime de Caixa Não implementado')
-
         elif invoice_browse.company_id.wh_type == '2':
 
             date_invoice = invoice_browse.date_invoice
@@ -120,26 +119,8 @@ class AccountInvoice(orm.Model):
                                                 ('period_id', '=', period_result[0]['id']),
                                                 ('state', 'in', inv_state),
                                                 ('type', 'in', inv_type),
-            ])
-            previous_wh = {
-                'amount_services': 0.00,
-                'pis_value_wh': 0.00,
-                'cofins_value_wh': 0.00,
-                'csll_value_wh': 0.00,
-                'irrf_value_wh': 0.00,
-                'pis': 0.00,
-                'cofins': 0.00,
-                'csll': 0.00,
-                'ir': 0.00,
-            }
-            invoice_wh = {
-                'pis': 0.00,
-                'cofins': 0.00,
-                'csll': 0.00,
-                'ir': 0.00,
-            }
-
-            values_wh = {
+                                                ])
+            result = witholded =  {
                 'pis_value_wh': 0.00,
                 'cofins_value_wh': 0.00,
                 'csll_value_wh': 0.00,
@@ -147,92 +128,110 @@ class AccountInvoice(orm.Model):
                 'issqn_value_wh': 0.00,
                 }
 
+            invoice = previous = {
+                'pis': 0.00,
+                'cofins': 0.00,
+                'csll': 0.00,
+                'ir': 0.00,
+                }
+
+            amount_previous = 0.00
+
             for inv in self.browse(cr, uid, invoice_ids):
-                previous_wh['amount_services'] += inv.amount_services
-                previous_wh['pis_value_wh'] += inv.pis_value_wh
-                previous_wh['cofins_value_wh'] += inv.cofins_value_wh
-                previous_wh['csll_value_wh'] += inv.csll_value_wh
-                previous_wh['irrf_value_wh'] += inv.irrf_value_wh
+                amount_previous += inv.amount_services
+                witholded['pis_value_wh'] += inv.pis_value_wh
+                witholded['cofins_value_wh'] += inv.cofins_value_wh
+                witholded['csll_value_wh'] += inv.csll_value_wh
+                witholded['irrf_value_wh'] += inv.irrf_value_wh
+
                 for line in inv.invoice_line:
                     if not line.product_type == 'service':
                         continue
-                    previous_wh['pis'] += inv.service_pis_value
-                    previous_wh['cofins'] += inv.service_cofins_value
-                    previous_wh['csll'] += inv.csll_value
-                    previous_wh['ir'] += inv.ir_value
+                    previous['pis'] += inv.service_pis_value
+                    previous['cofins'] += inv.service_cofins_value
+                    previous['csll'] += inv.csll_value
+                    previous['ir'] += inv.ir_value
 
             for line in invoice_browse.invoice_line:
-                if not line.product_type == 'service':
-                    continue
-                invoice_wh['pis'] += invoice_browse.service_pis_value
-                invoice_wh['cofins'] += invoice_browse.service_cofins_value
-                invoice_wh['csll'] += invoice_browse.csll_value
-                invoice_wh['ir'] += invoice_browse.ir_value
+                if line.product_type == 'service':
+                    invoice['pis'] += invoice_browse.service_pis_value
+                    invoice['cofins'] += invoice_browse.service_cofins_value
+                    invoice['csll'] += invoice_browse.csll_value
+                    invoice['ir'] += invoice_browse.ir_value
+                    #ISSQN
+                    if line.issqn_cst_id.code in ('R') and invoice_browse.issqn_wh:
+                        result['issqn_value_wh'] += invoice_browse.issqn_value
 
-                if line.issqn_cst_id.code in ('R'):
-                    values_wh['issqn_value_wh'] += invoice_browse.issqn_value
+           # PIS / COFINS / CSLL
+            if (amount_previous + invoice_browse.amount_services) > invoice_browse.company_id.cofins_csll_pis_wh_base:
+                if invoice_browse.pis_wh:
+                    result['pis_value_wh'] =  invoice['pis'] + previous['pis'] - witholded['pis_value_wh']
+                if invoice_browse.cofins_wh:
+                    result['cofins_value_wh'] = invoice['cofins'] + previous['cofins'] - witholded['cofins_value_wh']
+                if invoice_browse.csll_wh:
+                    result['csll_value_wh'] = invoice['csll'] + previous['csll'] - witholded['csll_value_wh']
 
-            if (previous_wh['amount_services'] +
-                    invoice_browse.amount_services) > invoice_browse.company_id.cofins_csll_pis_wh_base:
+            #IR: Existem divergencias entre as normativas verificar melhor a legislação
+            #Pode ser que o total deva acumular para os proximos meses.
+            if invoice_browse.irrf_wh:
+                irrf_wh_percent = invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
+                irrf_base = amount_previous + invoice_browse.amount_services
 
-                values_wh['pis_value_wh'] =  invoice_wh['pis'] + previous_wh['pis'] - previous_wh['pis_value_wh']
-                values_wh['cofins_value_wh'] = invoice_wh['cofins'] + previous_wh['cofins'] - previous_wh['cofins_value_wh']
-                values_wh[' csll_value_wh'] = invoice_wh['csll'] + previous_wh['csll'] - previous_wh['csll_value_wh']
+                if (amount_previous + invoice_browse.amount_services) * irrf_wh_percent > invoice_browse.company_id.irrf_wh_base:
+                    amount_ir = irrf_base * irrf_wh_percent
+                    if (amount_ir - witholded['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
+                        result['irrf_value_wh'] = amount_ir - witholded['irrf_value_wh']
+                        result['irrf_base'] = irrf_base
 
-            irrf_wh_percent = invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
-            irrf_base = invoice_wh['ir'] + previous_wh['ir']
-            amount_ir = (irrf_base) * irrf_wh_percent
-            if (amount_ir - previous_wh['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
-                values_wh['irrf_value_wh'] = amount_ir - previous_wh['irrf_value_wh']
-                values_wh['irrf_base'] = irrf_base
+            #INSS
+            if invoice_browse.inss_wh:
+                pass
+                #TODO
 
-            self.write(cr, uid, [invoice_browse.id], values_wh)
+            self.write(cr, uid, [invoice_browse.id], result)
 
-    def compute_invoice_totals(self, cr, uid, inv, company_currency, ref, invoice_move_lines, context=None):
-        total, total_currency, invoice_move_lines = super(AccountInvoice, self).compute_invoice_totals(cr, uid, inv,
-                                                                                                       company_currency,
-                                                                                                       ref,
-                                                                                                       invoice_move_lines,
-                                                                                                       context=None)
-        return total, total_currency, invoice_move_lines
-
-
-class AccountInvoiceLine(orm.Model):
-    _inherit = 'account.invoice.line'
-
-    # _columns = {
-    # TODO: Implmentar o calculo de retenção de ISS que varia por item.
-    # }
-
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoiceLine, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        return result
-
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, context=None, company_id=False,
-                          parent_fiscal_category_id=False,
-                          parent_fposition_id=False):
-        result = super(AccountInvoiceLine, self).product_id_change(
-            cr, uid, ids, product, uom, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, context, company_id,
-            parent_fiscal_category_id, parent_fposition_id)
-
-        return result
+    # def compute_invoice_totals(self, cr, uid, inv, company_currency, ref, invoice_move_lines, context=None):
+    #     total, total_currency, invoice_move_lines = super(AccountInvoice, self).compute_invoice_totals(cr, uid, inv,
+    #                                                                                                    company_currency,
+    #                                                                                                    ref,
+    #                                                                                                    invoice_move_lines,
+    #                                                                                                    context=None)
+    #     return total, total_currency, invoice_move_lines
 
 
-class AccountInvoiceTax(orm.Model):
-    _inherit = 'account.invoice.tax'
-
-    def move_line_get(self, cr, uid, invoice_id):
-        res = super(AccountInvoiceTax, self).move_line_get(cr, uid, invoice_id)
-
-        return res
-
-
+# class AccountInvoiceLine(orm.Model):
+#     _inherit = 'account.invoice.line'
+#
+#     # _columns = {
+#     # TODO: Implmentar o calculo de retenção de ISS que varia por item.
+#     # }
+#
+#     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+#                         context=None, toolbar=False, submenu=False):
+#         result = super(AccountInvoiceLine, self).fields_view_get(
+#             cr, uid, view_id=view_id, view_type=view_type, context=context,
+#             toolbar=toolbar, submenu=submenu)
+#
+#         return result
+#
+#     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
+#                           type='out_invoice', partner_id=False,
+#                           fposition_id=False, price_unit=False,
+#                           currency_id=False, context=None, company_id=False,
+#                           parent_fiscal_category_id=False,
+#                           parent_fposition_id=False):
+#         result = super(AccountInvoiceLine, self).product_id_change(
+#             cr, uid, ids, product, uom, qty, name, type, partner_id,
+#             fposition_id, price_unit, currency_id, context, company_id,
+#             parent_fiscal_category_id, parent_fposition_id)
+#
+#         return result
+#
+#
+# class AccountInvoiceTax(orm.Model):
+#     _inherit = 'account.invoice.tax'
+#
+#     def move_line_get(self, cr, uid, invoice_id):
+#         res = super(AccountInvoiceTax, self).move_line_get(cr, uid, invoice_id)
+#         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
