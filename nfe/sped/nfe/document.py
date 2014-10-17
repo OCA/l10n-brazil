@@ -17,19 +17,40 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-import string
-from datetime import datetime
-
-from openerp import pooler
-from openerp.osv import orm
-from openerp.tools.translate import _
 from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe200
-
-from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200
+from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe310
+from openerp.osv import orm
 
 
 class NFe200(NFe200):
 
     def __init__(self):
         super(NFe200, self).__init__()
+
+    def validation(self, nfe_xml):
+        try:
+            from pysped.nfe.leiaute import NFe_200
+            nfe = NFe_200()
+            nfe.set_xml(nfe_xml)
+        except ImportError:
+            raise orm.except_orm(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return nfe.validar()
+
+
+class NFe310(NFe310):
+
+    def __init__(self):
+        super(NFe310, self).__init__()
+
+
+    def validation(self, nfe_xml):
+        try:
+            from pysped.nfe.leiaute import NFe_310
+            nfe = NFe_310()
+            nfe.set_xml(nfe_xml)
+        except ImportError:
+            raise orm.except_orm(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+
+        return nfe.validar()

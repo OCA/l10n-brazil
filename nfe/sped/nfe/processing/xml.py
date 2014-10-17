@@ -43,7 +43,7 @@ def __processo(company):
     
     p = ProcessadorNFe()
     p.ambiente = int(company.nfe_environment)
-    p.versao = '2.00' if (company.nfe_version == '200') else '1.10'
+    p.versao = company.nfe_version
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
     p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
     p.certificado.senha = company.nfe_a1_password
