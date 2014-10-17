@@ -120,21 +120,32 @@ class AccountInvoice(orm.Model):
                                                 ('state', 'in', inv_state),
                                                 ('type', 'in', inv_type),
                                                 ])
-            result = witholded =  {
+            result =  {
                 'pis_value_wh': 0.00,
                 'cofins_value_wh': 0.00,
                 'csll_value_wh': 0.00,
                 'irrf_value_wh': 0.00,
                 'issqn_value_wh': 0.00,
                 }
-
-            invoice = previous = {
+            witholded =  {
+                'pis_value_wh': 0.00,
+                'cofins_value_wh': 0.00,
+                'csll_value_wh': 0.00,
+                'irrf_value_wh': 0.00,
+                'issqn_value_wh': 0.00,
+                }
+            invoice = {
                 'pis': 0.00,
                 'cofins': 0.00,
                 'csll': 0.00,
                 'ir': 0.00,
                 }
-
+            previous = {
+                'pis': 0.00,
+                'cofins': 0.00,
+                'csll': 0.00,
+                'ir': 0.00,
+                }
             amount_previous = 0.00
 
             for inv in self.browse(cr, uid, invoice_ids):
@@ -147,20 +158,20 @@ class AccountInvoice(orm.Model):
                 for line in inv.invoice_line:
                     if not line.product_type == 'service':
                         continue
-                    previous['pis'] += inv.service_pis_value
-                    previous['cofins'] += inv.service_cofins_value
-                    previous['csll'] += inv.csll_value
-                    previous['ir'] += inv.ir_value
+                    previous['pis'] += line.pis_value
+                    previous['cofins'] += line.cofins_value
+                    previous['csll'] += line.csll_value
+                    previous['ir'] += line.ir_value
 
-            for line in invoice_browse.invoice_line:
-                if line.product_type == 'service':
-                    invoice['pis'] += invoice_browse.service_pis_value
-                    invoice['cofins'] += invoice_browse.service_cofins_value
-                    invoice['csll'] += invoice_browse.csll_value
-                    invoice['ir'] += invoice_browse.ir_value
+            for current_line in invoice_browse.invoice_line:
+                if current_line.product_type == 'service':
+                    invoice['pis'] += current_line.pis_value
+                    invoice['cofins'] += current_line.cofins_value
+                    invoice['csll'] += current_line.csll_value
+                    invoice['ir'] += current_line.ir_value
                     #ISSQN
-                    if line.issqn_cst_id.code in ('R') and invoice_browse.issqn_wh:
-                        result['issqn_value_wh'] += invoice_browse.issqn_value
+                    if current_line.issqn_cst_id.code in ('R') and invoice_browse.issqn_wh: #TODO invoice_browse.issqn_wh ERROOOOOOO !!! só entra quando
+                        result['issqn_value_wh'] += current_line.issqn_value
 
            # PIS / COFINS / CSLL
             if (amount_previous + invoice_browse.amount_services) > invoice_browse.company_id.cofins_csll_pis_wh_base:
@@ -174,7 +185,11 @@ class AccountInvoice(orm.Model):
             #IR: Existem divergencias entre as normativas verificar melhor a legislação
             #Pode ser que o total deva acumular para os proximos meses.
             if invoice_browse.irrf_wh:
-                irrf_wh_percent = invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
+
+
+                ir_tax = (invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100) /
+
+
                 irrf_base = amount_previous + invoice_browse.amount_services
 
                 if (amount_previous + invoice_browse.amount_services) * irrf_wh_percent > invoice_browse.company_id.irrf_wh_base:
