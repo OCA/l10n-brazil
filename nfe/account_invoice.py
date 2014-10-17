@@ -103,10 +103,10 @@ class AccountInvoice(orm.Model):
 
             arquivo = send_event.file_sent
 
-            if company.nfe_version == u'3.10':
+            if company.nfe_version == '3.10':
                 nfe_obj = NFe310()
 
-            elif company.nfe_version == u'2.00':
+            elif company.nfe_version == '2.00':
                 nfe_obj = NFe200()
 
             #TODO: altear versão
