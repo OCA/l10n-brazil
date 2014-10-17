@@ -185,18 +185,14 @@ class AccountInvoice(orm.Model):
             #IR: Existem divergencias entre as normativas verificar melhor a legislação
             #Pode ser que o total deva acumular para os proximos meses.
             if invoice_browse.irrf_wh:
-
-
-                ir_tax = (invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100) /
-
-
-                irrf_base = amount_previous + invoice_browse.amount_services
-
-                if (amount_previous + invoice_browse.amount_services) * irrf_wh_percent > invoice_browse.company_id.irrf_wh_base:
-                    amount_ir = irrf_base * irrf_wh_percent
-                    if (amount_ir - witholded['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
-                        result['irrf_value_wh'] = amount_ir - witholded['irrf_value_wh']
-                        result['irrf_base'] = irrf_base
+                pass
+                # ir_tax = (invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100)
+                # irrf_base = amount_previous + invoice_browse.amount_services
+                # if (amount_previous + invoice_browse.amount_services) * irrf_wh_percent > invoice_browse.company_id.irrf_wh_base:
+                #     amount_ir = irrf_base * irrf_wh_percent
+                #     if (amount_ir - witholded['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
+                #         result['irrf_value_wh'] = amount_ir - witholded['irrf_value_wh']
+                #         result['irrf_base'] = irrf_base
 
             #INSS
             if invoice_browse.inss_wh:
