@@ -403,7 +403,7 @@
 									</page>
 								</notebook>
 							</page>
-							<page string="Delcaração de Importação">
+							<page string="Declaração de Importação">
 								<group>
 									<field name="import_declaration_ids" colspan="4" nolabel="1">
 										<tree>
