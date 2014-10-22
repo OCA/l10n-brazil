@@ -30,17 +30,13 @@ Brazilian Localization HR with informations refered to the national context of H
     'website' : 'http://www.kmee.com.br',
     'version' : '0.1',
     'depends' : ['hr','l10n_br_base'],
-    'init_xml': [
-            'data/l10n_br_hr.cbo.csv',
-                ],
     'data': [
+             'data/l10n_br_hr.cbo.csv',
              'security/ir.model.access.csv',
              'view/l10n_br_hr_cbo_view.xml',
              'view/hr_employee_view.xml',
              'view/hr_job_view.xml',
              ],
-    'update_xml' : [
-    ],
     'test': [],
     'installable': True,
     'images': [],
