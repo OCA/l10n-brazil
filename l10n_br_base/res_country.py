@@ -17,35 +17,20 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Base',
-    'description': 'Brazilian Localization Base',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'base',
-    ],
-    'data': [
-        'res.country.state.csv',
-        'l10n_br_base.city.csv',
-        'l10n_br_base_data.xml',
-        'l10n_br_base_view.xml',
-        'res_country_view.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_base_security.xml',
-    ],
-    'demo': [
-        'l10n_br_base_demo.xml',
-    ],
-    'test': [
-        'test/base_inscr_est_valid.yml',
-        'test/base_inscr_est_invalid.yml',
-    ],
-    'installable': True,
-    'auto_install': False,
-}
+from openerp.osv import orm, fields
+
+
+class ResCountry(orm.Model):
+    _inherit = 'res.country'
+    _columns = {
+        'bc_code': fields.char('Codigo BC', size=5),
+        'ibge_code': fields.char('Codigo IBGE', size=5),
+        'siscomex_code': fields.char('Codigo Siscomex', size=4)
+    }
+
+
+class ResCountryState(orm.Model):
+    _inherit = 'res.country.state'
+    _columns = {
+        'ibge_code': fields.char('Cód. IBGE', size=2)
+    }
