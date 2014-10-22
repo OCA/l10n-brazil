@@ -46,6 +46,6 @@
         'test/base_inscr_est_valid.yml',
         'test/base_inscr_est_invalid.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
