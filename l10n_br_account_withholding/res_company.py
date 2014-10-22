@@ -43,6 +43,8 @@ class ResCompany(orm.Model):
         'irrf_wh_base': fields.float(
             u'Valor mínimo IRRF',
             digits_compute=dp.get_precision('Account')),
+        'irrf_wh_percent': fields.float(u'Taxa de IR(%)',
+               digits_compute=dp.get_precision('Discount')),
         'irrf_wh': fields.boolean(
             u'Retém IRRF'),
         'issqn_wh': fields.boolean(
