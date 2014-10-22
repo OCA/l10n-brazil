@@ -30,14 +30,10 @@ Brazilian Localization HT Payroll""",
     'website' : 'http://www.kmee.com.br',
     'version' : '0.1',
     'depends' : ['hr_payroll', 'hr_contract', 'l10n_br_hr'],
-    'init_xml': [
-            'data/l10n_br_hr_payroll_data.xml',
-                ],
     'data': [
+             'data/l10n_br_hr_payroll_data.xml',
              'view/hr_contract_view.xml',
              ],
-    'update_xml' : [
-    ],
     'test': [],
     'installable': True,
     'images': [],
