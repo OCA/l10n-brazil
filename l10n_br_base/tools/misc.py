@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,5 +17,11 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import fiscal
-import misc
+import re
+import string
+
+
+def punctuation_rm(string_value):
+    tmp_value = (re.sub('[%s]' % re.escape(string.punctuation), '',
+            string_value or ''))
+    return tmp_value
