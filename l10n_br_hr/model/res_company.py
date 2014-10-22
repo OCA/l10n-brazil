@@ -20,9 +20,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields,osv
+from openerp.osv import orm, fields
 
-class ResCompany(osv.osv):
+class ResCompany(orm.Model):
     _inherit = 'res.company'
   
     _columns = {
