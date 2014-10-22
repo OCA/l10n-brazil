@@ -3,18 +3,18 @@
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
+#This program is free software: you can redistribute it and/or modify         #
+#it under the terms of the GNU Affero General Public License as published by  #
+#the Free Software Foundation, either version 3 of the License, or            #
+#(at your option) any later version.                                          #
 #                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU Affero General Public License for more details.                         #
+#This program is distributed in the hope that it will be useful,              #
+#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
+#GNU Affero General Public License for more details.                          #
 #                                                                             #
-# You should have received a copy of the GNU Affero General Public License    #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
+#You should have received a copy of the GNU Affero General Public License     #
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
 import re
@@ -45,7 +45,7 @@ PARAMETERS = {
 
 def validate_ie_param(uf, inscr_est):
 
-    if uf not in PARAMETERS:
+    if not uf in PARAMETERS:
         return True
 
     tam = PARAMETERS[uf].get('tam', 0)
@@ -73,15 +73,15 @@ def validate_ie_param(uf, inscr_est):
     prod = prod[-val_tam:]
 
     while len(nova_ie) < tam:
-        r = sum([x * y for (x, y) in zip(nova_ie, prod)])\
-            % PARAMETERS[uf].get('div', 11)
+        r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf]\
+        .get('div', 11)
 
         if r > 1:
             f = 11 - r
         else:
             f = 0
 
-        if uf not in 'rr':
+        if not uf in 'rr':
             nova_ie.append(f)
         else:
             nova_ie.append(r)
@@ -391,7 +391,7 @@ def validate_ie_sp(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_to(inscr_est):
+#def validate_ie_to(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
