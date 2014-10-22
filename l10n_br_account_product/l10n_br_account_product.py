@@ -277,9 +277,9 @@ class ImportDeclarationLine(orm.Model):
         'name': fields.char(u'Adição', size=3, required=True),
         'manufacturer_code': fields.char(
             u'Código do Fabricante', size=3, required=True),
-        'value': fields.float(u'Valor',
+        'amount_discount': fields.float(u'Valor de Desconto',
             digits_compute=dp.get_precision('Account')),
     }
     _defaults = {
-        'value': 0.00,
+        'amount_discount': 0.00,
     }
