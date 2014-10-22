@@ -1,8 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"l10n_br_account_product_cfop","l10n_br_account_product.cfop","l10n_br_account_product.model_l10n_br_account_product_cfop","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_sale_template_salesman","l10n_br_tax.definition.sale.template","l10n_br_account_product.model_l10n_br_tax_definition_sale_template","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_purchase_template_salesman","l10n_br_tax.definition.purchase.template","l10n_br_account_product.model_l10n_br_tax_definition_purchase_template","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_sale_salesman","l10n_br_tax.definition.sale","l10n_br_account_product.model_l10n_br_tax_definition_sale","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_purchase_salesman","l10n_br_tax.definition.purchase","l10n_br_account_product.model_l10n_br_tax_definition_purchase","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_company_product_salesman","l10n_br_tax.definition.company.product","l10n_br_account_product.model_l10n_br_tax_definition_company_product","base.group_sale_salesman",1,0,0,0
-"l10n_br_tax_definition_company_service_salesman","l10n_br_tax.definition.company.service","l10n_br_account_service.model_l10n_br_tax_definition_company_service","base.group_sale_salesman",1,0,0,0

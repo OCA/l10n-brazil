@@ -1,9 +1,0 @@
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization Sales and Warehouse"
-msgstr "Localização Brasileira - Módulo de Vendas e Estoque"
-
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization for sale_stock_module"
-msgstr "Localização Brasileira - Integra os módulos de venda e estoque"
