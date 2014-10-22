@@ -432,14 +432,14 @@
 															<field name="sequence"/>
 															<field name="name"/>
 															<field name="manufacturer_code"/>
-															<field name="value"/>
+															<field name="amount_discount"/>
 														</tree>
 														<form string="Adições">
 															<group>
 																<field name="sequence"/>
 																<field name="name"/>
 																<field name="manufacturer_code"/>
-																<field name="value"/>
+																<field name="amount_discount"/>
 															</group>
 														</form>
 													</field>
