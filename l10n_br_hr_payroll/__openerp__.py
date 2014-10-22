@@ -3,8 +3,7 @@
 #
 #    Brazillian Human Resources Payroll module for OpenERP
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
-#    @author Rafael da Silva Lima <rafael.lima@kmee.com.br>
-#            
+#    @author Luis Felipe Mileo <mileo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,11 +19,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
 
-class ResCompany(orm.Model):
-    _inherit = 'res.company'
-  
-    _columns = {
-        'check_benefits': fields.boolean('Valley Food and Meal Valley simultaneous', required=False),
-       }
+{
+    'name' : 'Brazilian Localization HR Payroll',
+    'description' : """
+Brazilian Localization HT Payroll""",
+    'category' : 'Localization',
+    'author' : 'KMEE',
+    'maintainer': 'KMEE',
+    'website' : 'http://www.kmee.com.br',
+    'version' : '0.1',
+    'depends' : ['hr_payroll', 'hr_contract', 'l10n_br_hr'],
+    'data': [
+             'data/l10n_br_hr_payroll_data.xml',
+             'view/hr_contract_view.xml',
+             ],
+    'test': [],
+    'installable': True,
+    'images': [],
+    'auto_install': False,
+    'license': 'AGPL-3',
+}
