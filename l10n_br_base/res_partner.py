@@ -63,20 +63,6 @@ class ResPartner(orm.Model):
             return address_format % args
 
     _columns = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                'tipo_pessoa': fields.selection([('F', 'Física'), ('J', 'Jurídica')], 'Tipo de pessoa', required=True),
-                'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-                'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-                'inscr_mun': fields.char('Inscr. Municipal', size=18),
-                'suframa': fields.char('Suframa', size=18),
-                'legal_name' : fields.char('Razão Social', size=128, help="nome utilizado em documentos fiscais"),
-                'addr_fs_code': fields.function(_address_default_fs, method=True, 
-                                                string='Address Federal State Code', 
-                                                type="char", size=2, multi='all',
-                                                store={'res.partner.address': (_get_partner_address, ['country_id', 'state_id'], 20),}),
-
-                }
         'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
         'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
         'inscr_mun': fields.char('Inscr. Municipal', size=18),
