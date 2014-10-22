@@ -389,7 +389,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'NAdicao': inv_di_line.name,
                         'NSeqAdic': inv_di_line.sequence,
                         'CFabricante': inv_di_line.manufacturer_code,
-                        'VDescDI': str("%.2f" % inv_di_line.value),
+                        'VDescDI': str("%.2f" % inv_di_line.amount_discount),
                     }
 
                     StrI25 = 'I25|%s|%s|%s|%s|\n' % (
