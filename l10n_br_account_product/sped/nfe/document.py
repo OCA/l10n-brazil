@@ -320,7 +320,7 @@ class NFe200(FiscalDocument):
                         di_line.nAdicao = inv_di_line.name
                         di_line.nSeqAdic = inv_di_line.sequence
                         di_line.cFabricante = inv_di_line.manufacturer_code
-                        di_line.vDescDI = str("%.2f" % inv_di_line.value)
+                        di_line.vDescDI = str("%.2f" % inv_di_line.amount_discount)
 
                         di.adi.append(di_line)
 
