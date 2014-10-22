@@ -306,25 +306,25 @@ class NFe200(FiscalDocument):
                 for inv_di in inv_line.import_declaration_ids:
                     di = DI_200()
 
-                    di.nDI = inv_di.name
-                    di.dDI = inv_di.date_registration or ''
-                    di.xLocDesemb = inv_di.location
-                    di.UFDesemb = inv_di.state_id.code or ''
-                    di.dDesemb = inv_di.date_release or ''
-                    di.cExportador = inv_di.exporting_code
+                    di.nDI.valor = inv_di.name
+                    di.dDI.valor = inv_di.date_registration or ''
+                    di.xLocDesemb.valor = inv_di.location
+                    di.UFDesemb.valor = inv_di.state_id.code or ''
+                    di.dDesemb.valor = inv_di.date_release or ''
+                    di.cExportador.valor = inv_di.exporting_code
 
                     for inv_di_line in inv_di.line_ids:
 
                         di_line = Adi_200()
 
-                        di_line.nAdicao = inv_di_line.name
-                        di_line.nSeqAdic = inv_di_line.sequence
-                        di_line.cFabricante = inv_di_line.manufacturer_code
-                        di_line.vDescDI = str("%.2f" % inv_di_line.amount_discount)
+                        di_line.nAdicao.valor = inv_di_line.name
+                        di_line.nSeqAdic.valor = inv_di_line.sequence
+                        di_line.cFabricante.valor = inv_di_line.manufacturer_code
+                        di_line.vDescDI.valor = str("%.2f" % inv_di_line.amount_discount)
 
                         di.adi.append(di_line)
 
-                    det.prod.di.append(di)
+                    det.prod.DI.append(di)
 
                 nfe.infNFe.det.append(det)
 
