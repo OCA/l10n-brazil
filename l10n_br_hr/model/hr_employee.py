@@ -21,13 +21,13 @@
 #
 ##############################################################################
 
-from osv import fields,osv
+from openerp.osv import orm, fields
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 import openerp.addons.decimal_precision as dp
 
 
-class HrEmployee(osv.osv):   
+class HrEmployee(orm.Model):
     
     def _get_dependents(self, cr, uid, ids, fields, arg, context=None):   
         res = {}
@@ -152,7 +152,7 @@ class HrEmployee(osv.osv):
         res['value'].update({'address_home_id': partner.id, 'cpf': partner.cnpj_cpf})
         return res
 
-class HrEmployeeDependent(osv.osv):
+class HrEmployeeDependent(orm.Model):
     _name = 'hr.employee.dependent'
     _description='Employee\'s Dependents'
     
