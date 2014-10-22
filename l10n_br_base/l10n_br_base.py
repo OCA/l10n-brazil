@@ -17,35 +17,19 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Base',
-    'description': 'Brazilian Localization Base',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'base',
-    ],
-    'data': [
-        'res.country.state.csv',
-        'l10n_br_base.city.csv',
-        'l10n_br_base_data.xml',
-        'l10n_br_base_view.xml',
-        'res_country_view.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_base_security.xml',
-    ],
-    'demo': [
-        'l10n_br_base_demo.xml',
-    ],
-    'test': [
-        'test/base_inscr_est_valid.yml',
-        'test/base_inscr_est_invalid.yml',
-    ],
-    'installable': True,
-    'auto_install': False,
-}
+from openerp.osv import orm, fields
+
+
+class L10n_brBaseCity(orm.Model):
+    """ Este objeto persite todos os municípios relacionado a um estado.
+    No Brasil é necesário em alguns documentos fiscais informar o código
+    do IBGE dos município envolvidos da transação.
+    """
+    _name = 'l10n_br_base.city'
+    _description = u'Municipio'
+    _columns = {
+        'name': fields.char('Nome', size=64, required=True),
+        'state_id': fields.many2one('res.country.state', 'Estado',
+                                    required=True),
+        'ibge_code': fields.char('Codigo IBGE', size=7)
+    }
