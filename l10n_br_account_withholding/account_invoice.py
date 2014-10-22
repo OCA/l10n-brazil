@@ -133,6 +133,7 @@ class AccountInvoice(orm.Model):
                 'csll_value_wh': 0.00,
                 'irrf_value_wh': 0.00,
                 'issqn_value_wh': 0.00,
+                'irrf_base_wh': 0.00,
                 }
             invoice = {
                 'pis': 0.00,
@@ -154,6 +155,7 @@ class AccountInvoice(orm.Model):
                 witholded['cofins_value_wh'] += inv.cofins_value_wh
                 witholded['csll_value_wh'] += inv.csll_value_wh
                 witholded['irrf_value_wh'] += inv.irrf_value_wh
+                witholded['irrf_base_wh'] += inv.irrf_base_wh
 
                 for line in inv.invoice_line:
                     if not line.product_type == 'service':
@@ -185,14 +187,11 @@ class AccountInvoice(orm.Model):
             #IR: Existem divergencias entre as normativas verificar melhor a legislação
             #Pode ser que o total deva acumular para os proximos meses.
             if invoice_browse.irrf_wh:
-                pass
-                # ir_tax = (invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100)
-                # irrf_base = amount_previous + invoice_browse.amount_services
-                # if (amount_previous + invoice_browse.amount_services) * irrf_wh_percent > invoice_browse.company_id.irrf_wh_base:
-                #     amount_ir = irrf_base * irrf_wh_percent
-                #     if (amount_ir - witholded['irrf_value_wh'])  > invoice_browse.company_id.irrf_wh_base:
-                #         result['irrf_value_wh'] = amount_ir - witholded['irrf_value_wh']
-                #         result['irrf_base'] = irrf_base
+                irrf_base = amount_previous + invoice_browse.amount_services - witholded['irrf_base_wh']
+                irrf_value_wh = irrf_base * invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / 100
+                if irrf_value_wh > invoice_browse.company_id.irrf_wh_base:
+                    result['irrf_value_wh'] = irrf_value_wh
+                    result['irrf_base_wh'] = irrf_base
 
             #INSS
             if invoice_browse.inss_wh:
