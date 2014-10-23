@@ -21,11 +21,11 @@
 
 import re
 
-from openerp.osv import orm, fields
-from .tools import fiscal
+from openerp import models, fields, api
+from openerp.addons.l10n_br_base.tools import fiscal
 
 
-class ResPartner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     def _display_address(self, cr, uid, address, without_company=False,
@@ -62,24 +62,21 @@ class ResPartner(orm.Model):
                 address_format = '%(company_name)s\n' + address_format
             return address_format % args
 
-    _columns = {
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-        'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-        'inscr_mun': fields.char('Inscr. Municipal', size=18),
-        'suframa': fields.char('Suframa', size=18),
-        'legal_name': fields.char(u'Razão Social', size=128,
-                                   help="nome utilizado em "
-                                   "documentos fiscais"),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Municipio',
-            domain="[('state_id','=',state_id)]"),
-        'district': fields.char('Bairro', size=32),
-        'number': fields.char(u'Número', size=10)
-    }
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+    inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+    inscr_mun = fields.Char('Inscr. Municipal', size=18)
+    suframa = fields.Char('Suframa', size=18)
+    legal_name = fields.Char(u'Razão Social', size=128,
+        help="nome utilizado em documentos fiscais")
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]")
+    district = fields.Char('Bairro', size=32)
+    number = fields.Char(u'Número', size=10)
 
-    def _check_cnpj_cpf(self, cr, uid, ids):
+    @api.multi
+    def _check_cnpj_cpf(self):
 
-        for partner in self.browse(cr, uid, ids):
+        for partner in self:
             if not partner.cnpj_cpf:
                 continue
 
