@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_crm
+msgid "Brazilian Localization CRM"
+msgstr "Localização Brasileira - Módulo de CRM"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_crm
+msgid "Brazilian Localization for CRM module"
+msgstr "Localização Brasileira - Implementa o CRM"
