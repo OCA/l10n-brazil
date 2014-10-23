@@ -21,8 +21,8 @@
     'name': 'Brazilian Localisation Data Extension for Base',
     'description': 'Brazilian Localisation Data Extension for Base',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'version': '8.0',
     'depends': [
         'l10n_br_base',
     ],
