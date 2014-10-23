@@ -22,9 +22,9 @@
     'description': 'Brazilian Localization Base',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'base',
     ],
