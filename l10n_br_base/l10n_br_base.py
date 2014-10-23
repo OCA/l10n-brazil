@@ -17,19 +17,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class L10n_brBaseCity(orm.Model):
+class L10n_brBaseCity(models.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos da transação.
     """
     _name = 'l10n_br_base.city'
     _description = u'Municipio'
-    _columns = {
-        'name': fields.char('Nome', size=64, required=True),
-        'state_id': fields.many2one('res.country.state', 'Estado',
-                                    required=True),
-        'ibge_code': fields.char('Codigo IBGE', size=7)
-    }
+
+    name = fields.Char('Nome', size=64, required=True)
+    state_id = fields.Many2one('res.country.state', 'Estado', required=True)
+    ibge_code = fields.Char('Codigo IBGE', size=7)
