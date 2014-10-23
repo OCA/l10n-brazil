@@ -127,23 +127,22 @@ class AccountFiscalPositionRule(models.Model):
         return result
 
 
-class WizardAccountFiscalPositionRule(orm.TransientModel):
+class WizardAccountFiscalPositionRule(models.TransientModel):
     _inherit = 'wizard.account.fiscal.position.rule'
 
-    def action_create(self, cr, uid, ids, context=None):
-        super(WizardAccountFiscalPositionRule, self).action_create(
-            cr, uid, ids, context)
+    @api.multi
+    def action_create(self):
+        super(WizardAccountFiscalPositionRule, self).action_create()
 
-        obj_wizard = self.browse(cr, uid, ids[0])
+        obj_wizard = self
 
-        obj_fp = self.pool.get('account.fiscal.position')
-        obj_fpr = self.pool.get('account.fiscal.position.rule')
-        obj_fpr_templ = self.pool.get('account.fiscal.position.rule.template')
+        obj_fpr = self.env['account.fiscal.position.rule']
+        obj_fpr_templ = self.env['account.fiscal.position.rule.template']
 
         company_id = obj_wizard.company_id.id
-        pfr_ids = obj_fpr_templ.search(cr, uid, [])
+        pfr_ids = obj_fpr_templ.search([])
 
-        for fpr_template in obj_fpr_templ.browse(cr, uid, pfr_ids):
+        for fpr_template in obj_fpr_templ.browse(pfr_ids):
 
             from_country = fpr_template.from_country.id or False
             from_state = fpr_template.from_state.id or False
@@ -153,16 +152,15 @@ class WizardAccountFiscalPositionRule(orm.TransientModel):
             fiscal_category_id = fpr_template.fiscal_category_id.id or False
 
             fiscal_position_id = False
-            fp_id = obj_fp.search(
-                cr, uid, [('name', '=', fpr_template.fiscal_position_id.name),
-                ('company_id', '=', company_id)],)
+            fp_id = self.env['account.fiscal.position'].search([
+                ('name', '=', fpr_template.fiscal_position_id.name),
+                ('company_id', '=', company_id)])
 
             if fp_id:
                 fiscal_position_id = fp_id[0]
 
-            fprt_id = obj_fpr.search(
-                cr, uid,
-                [('name', '=', fpr_template.name),
+            fprt_id = obj_fpr.search([
+                ('name', '=', fpr_template.name),
                 ('company_id', '=', company_id),
                 ('description', '=', fpr_template.description),
                 ('from_country', '=', from_country),
@@ -176,11 +174,10 @@ class WizardAccountFiscalPositionRule(orm.TransientModel):
                 ('fiscal_position_id', '=', fiscal_position_id)])
 
             if fprt_id:
-                obj_fpr.write(
-                    cr, uid, fprt_id, {
-                        'partner_fiscal_type_id': partner_ft_id,
-                        'fiscal_category_id': fiscal_category_id,
-                        'fiscal_type': fpr_template.fiscal_type,
-                        'revenue_start': fpr_template.revenue_start,
-                        'revenue_end': fpr_template.revenue_end})
+                obj_fpr.write(fprt_id, {
+                    'partner_fiscal_type_id': partner_ft_id,
+                    'fiscal_category_id': fiscal_category_id,
+                    'fiscal_type': fpr_template.fiscal_type,
+                    'revenue_start': fpr_template.revenue_start,
+                    'revenue_end': fpr_template.revenue_end})
         return {}
