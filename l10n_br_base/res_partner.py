@@ -202,24 +202,23 @@ class ResPartner(models.Model):
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
-class ResPartnerBank(orm.Model):
+class ResPartnerBank(models.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
     bancárias no Brasil."""
     _inherit = 'res.partner.bank'
-    _columns = {
-        'number': fields.char(u'Número', size=10),
-        'street2': fields.char('Street2', size=128),
-        'district': fields.char('Bairro', size=32),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Municipio',
-            domain="[('state_id','=',state_id)]"),
-        'acc_number': fields.char("Account Number", size=64, required=False),
-        'bank': fields.many2one('res.bank', 'Bank', required=False),
-        'acc_number_dig': fields.char('Digito Conta', size=8),
-        'bra_number': fields.char(u'Agência', size=8),
-        'bra_number_dig': fields.char(u'Dígito Agência', size=8)
-    }
 
+    number = fields.Char(u'Número', size=10)
+    street2 = fields.Char('Street2', size=128)
+    district = fields.Char('Bairro', size=32)
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]")
+    acc_number = fields.Char("Account Number", size=64, required=False)
+    bank = fields.Many2one('res.bank', 'Bank', required=False)
+    acc_number_dig = fields.Char('Digito Conta', size=8)
+    bra_number = fields.Char(u'Agência', size=8)
+    bra_number_dig = fields.Char(u'Dígito Agência', size=8)
+
+    # TODO
     def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
@@ -245,6 +244,7 @@ class ResPartnerBank(orm.Model):
 
         return result
 
+    # TODO
     def onchange_partner_id(self, cr, uid, id, partner_id, context=None):
         result = super(ResPartnerBank, self).onchange_partner_id(
             cr, uid, id, partner_id, context)
