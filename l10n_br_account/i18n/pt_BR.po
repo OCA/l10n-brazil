@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_account
+msgid "Brazilian Localization Account"
+msgstr "Localização Brasileira - Módulo base contabilidade"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_sale_stock
+msgid "Brazilian Localization Account"
+msgstr "Localização Brasileira - Módulo principal que define as funcionalidades contabeis brasileira"
