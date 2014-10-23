@@ -18,31 +18,30 @@
 ###############################################################################
 
 import re
-from osv import fields, orm
-from l10n_br_base.tools import fiscal
+from openerp import models, fields, api
+from openerp.addons.l10n_br_base.tools import fiscal
 
 
-class CrmLead(orm.Model):
+class CrmLead(models.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
-    _columns = {
-        'legal_name': fields.char(u'Razão Social', size=128,
-                                   help="nome utilizado em "
-                                   "documentos fiscais"),
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-        'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-        'inscr_mun': fields.char('Inscr. Municipal', size=18),
-        'suframa': fields.char('Suframa', size=18),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Municipio',
-            domain="[('state_id','=',state_id)]"),
-        'district': fields.char('Bairro', size=32),
-        'number': fields.char('Número', size=10)
-    }
 
-    def _check_cnpj_cpf(self, cr, uid, ids):
+    legal_name = fields.Char(u'Razão Social', size=128,
+        help="nome utilizado em documentos fiscais")
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+    inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+    inscr_mun = fields.Char('Inscr. Municipal', size=18)
+    suframa = fields.Char('Suframa', size=18)
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio',
+        domain="[('state_id','=',state_id)]")
+    district = fields.Char('Bairro', size=32)
+    number = fields.Char('Número', size=10)
 
-        for partner in self.browse(cr, uid, ids):
+    @api.multi
+    def _check_cnpj_cpf(self):
+
+        for partner in self:
             if not partner.cnpj_cpf:
                 continue
 
@@ -54,7 +53,8 @@ class CrmLead(orm.Model):
 
         return True
 
-    def _check_ie(self, cr, uid, ids):
+    @api.multi
+    def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
 
@@ -65,7 +65,7 @@ class CrmLead(orm.Model):
             - 'uid': Current user’s ID for security checks.
             - 'ids': List of partner objects IDs.
         """
-        for partner in self.browse(cr, uid, ids):
+        for partner in self:
             if not partner.inscr_est \
                 or partner.inscr_est == 'ISENTO' \
                 or not partner.partner_name:
@@ -92,7 +92,8 @@ class CrmLead(orm.Model):
         (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
     ]
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, partner_name, cnpj_cpf):
+    @api.multi
+    def onchange_mask_cnpj_cpf(self, partner_name, cnpj_cpf):
         result = {'value': {}}
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
@@ -105,7 +106,8 @@ class CrmLead(orm.Model):
             result['value'].update({'cnpj_cpf': cnpj_cpf})
         return result
 
-    def onchange_mask_zip(self, cr, uid, ids, code_zip):
+    @api.multi
+    def onchange_mask_zip(self, code_zip):
 
         result = {'value': {'zip': False}}
         if not code_zip:
@@ -117,13 +119,12 @@ class CrmLead(orm.Model):
             result['value']['zip'] = code_zip
         return result
 
-    def on_change_partner(self, cr, uid, ids, partner_id, context=None):
-        result = super(CrmLead, self).on_change_partner(
-            cr, uid, ids, partner_id, context)
+    @api.multi
+    def on_change_partner(self, partner_id):
+        result = super(CrmLead, self).on_change_partner(partner_id)
 
         if partner_id:
-            partner = self.pool.get('res.partner').browse(
-                cr, uid, partner_id, context=context)
+            partner = self.pool.get('res.partner').browse(partner_id)
             result['value']['legal_name'] = partner.legal_name
             result['value']['cnpj_cpf'] = partner.cnpj_cpf
             result['value']['inscr_est'] = partner.inscr_est
@@ -134,10 +135,10 @@ class CrmLead(orm.Model):
 
         return result
 
-    def _lead_create_contact(self, cr, uid, lead, name, is_company,
-                            parent_id=False, context=None):
+    @api.multi
+    def _lead_create_contact(self, lead, name, is_company, parent_id):
         result = super(CrmLead, self)._lead_create_contact(
-            cr, uid, lead, name, is_company, parent_id, context)
+            lead, name, is_company, parent_id)
 
         value = {
             'number': lead.number,
@@ -154,6 +155,5 @@ class CrmLead(orm.Model):
                 'suframa': lead.suframa,
             })
 
-        self.pool.get('res.partner').write(
-            cr, uid, [result], value, context=context)
+        self.env['res.partner'].write([result], value)
         return result
