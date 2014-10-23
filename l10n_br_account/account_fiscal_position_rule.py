@@ -45,25 +45,35 @@ class AccountFiscalPositionRuleTemplate(models.Model):
     child_ids = fields.One2many(
         'account.fiscal.position.rule.template', 'parent_id', 'Regras Filhas')
 
-class AccountFiscalPositionRule(orm.Model):
+
+class AccountFiscalPositionRule(models.Model):
     _inherit = 'account.fiscal.position.rule'
-    _columns = dict(
-        FISCAL_RULE_COLUMNS.items() +
-        OTHERS_FISCAL_RULE_COLUMNS.items())
-    _defaults = FISCAL_RULE_DEFAULTS
 
-    def _map_domain(self, cr, uid, partner, addrs, company,
-                    context=None, **kwargs):
-        if context is None:
-            context = {}
+    partner_fiscal_type_id = fields.Many2one(
+        'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro')
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria')
+    fiscal_type = fields.Selection(
+        COMPANY_FISCAL_TYPE, u'Regime Tributário', required=True,
+        default=COMPANY_FISCAL_TYPE_DEFAULT)
+    revenue_start = fields.Float(
+        'Faturamento Inicial', digits_compute=dp.get_precision('Account'),
+        default=0.00, help="Faixa inicial de faturamento bruto")
+    revenue_end = fields.Float(
+        'Faturamento Final', digits_compute=dp.get_precision('Account'),
+        default=0.00, help="Faixa inicial de faturamento bruto")
+    parent_id = fields.Many2one('account.fiscal.position.rule', 'Regra Pai')
+    child_ids = fields.One2many(
+        'account.fiscal.position.rule', 'parent_id', 'Regras Filhas')
 
+    def _map_domain(self, partner, addrs, company, **kwargs):
         from_country = company.partner_id.country_id.id
         from_state = company.partner_id.state_id.id
         fiscal_rule_parent_id = company.fiscal_rule_parent_id.id
         partner_fiscal_type_id = partner.partner_fiscal_type_id.id
 
-        document_date = context.get('date', time.strftime('%Y-%m-%d'))
-        use_domain = context.get('use_domain', ('use_sale', '=', True))
+        document_date = self.env.context.get('date', time.strftime('%Y-%m-%d'))
+        use_domain = self.env.context.get('use_domain', ('use_sale', '=', True))
 
         domain = [
             '&', ('company_id', '=', company.id), use_domain,
@@ -84,40 +94,36 @@ class AccountFiscalPositionRule(orm.Model):
             '|', ('revenue_start', '=', False),
             ('revenue_start', '<=', company.annual_revenue),
             '|', ('revenue_end', '=', False),
-            ('revenue_end', '>=', company.annual_revenue)
-        ]
+            ('revenue_end', '>=', company.annual_revenue)]
 
         for address_type, address in addrs.items():
             key_country = 'to_%s_country' % address_type
             key_state = 'to_%s_state' % address_type
             to_country = address.country_id.id or False
-            domain += ['|', (key_country, '=', to_country),
+            domain += [
+                '|', (key_country, '=', to_country),
                 (key_country, '=', False)]
             to_state = address.state_id.id or False
-            domain += ['|', (key_state, '=', to_state),
-                (key_state, '=', False)]
+            domain += [
+                '|', (key_state, '=', to_state), (key_state, '=', False)]
 
         return domain
 
-    def product_fiscal_category_map(self, cr, uid, product_id=False,
-                                    fiscal_category_id=False):
-        result = False
+    def product_fiscal_category_map(self, product_id, fiscal_category_id,
+                                    to_state_id=None):
+        result = None
 
         if not product_id or not fiscal_category_id:
             return result
-
-        product_tmpl_id = self.pool.get('product.product').read(
-            cr, uid, product_id, ['product_tmpl_id'])['product_tmpl_id'][0]
-        default_product_fiscal_category = self.pool.get(
-            'l10n_br_account.product.category').search(
-                cr, uid, [('product_tmpl_id', '=', product_tmpl_id),
-                ('fiscal_category_source_id', '=', fiscal_category_id)])
+        product_tmpl_id = self.env['product.product'].browse(product_id).id
+        default_product_fiscal_category = self.env[
+            'l10n_br_account.product.category'].search(
+                [('product_tmpl_id', '=', product_tmpl_id),
+                    ('fiscal_category_source_id', '=', fiscal_category_id),
+                    '|', ('to_state_id', '=', False),
+                    ('to_state_id', '=', to_state_id)])
         if default_product_fiscal_category:
-            fc_des_id = self.pool.get('l10n_br_account.product.category').read(
-                cr, uid, default_product_fiscal_category,
-                ['fiscal_category_destination_id']
-            )[0]['fiscal_category_destination_id'][0]
-            result = fc_des_id
+            result = default_product_fiscal_category[0].id
         return result
 
 
