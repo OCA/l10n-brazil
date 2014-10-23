@@ -29,6 +29,7 @@ import re
 from openerp.osv import fields, orm
 
 
+#TODO Migrar para nova API ainda não foi feito por causa da função reverse
 class ResCompany(orm.Model):
     _inherit = 'res.company'
 
