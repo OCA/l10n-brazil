@@ -17,33 +17,29 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
 
 
-class ProductTemplate(orm.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
-    _columns = {
-        'fiscal_category_default_ids': fields.one2many(
-            'l10n_br_account.product.category', 'product_tmpl_id',
-            u'Categoria de Operação Fiscal Padrões'),
-        'service_type_id': fields.many2one(
-            'l10n_br_account.service.type', u'Tipo de Serviço'),
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT
-    }
+
+    fiscal_category_default_ids = fields.One2many(
+        'l10n_br_account.product.category', 'product_tmpl_id',
+        u'Categoria de Operação Fiscal Padrões')
+    service_type_id = fields.Many2one(
+            'l10n_br_account.service.type', u'Tipo de Serviço')
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
-class L10n_brAccountProductFiscalCategory(orm.Model):
+class L10n_brAccountProductFiscalCategory(models.Model):
     _name = 'l10n_br_account.product.category'
-    _columns = {
-        'fiscal_category_source_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria de Origem'),
-        'fiscal_category_destination_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria de Destino'),
-        'product_tmpl_id': fields.many2one(
-            'product.template', 'Produto', ondelete='cascade')
-    }
+
+    fiscal_category_source_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria de Origem')
+    fiscal_category_destination_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria de Destino')
+    product_tmpl_id = fields.Many2one(
+        'product.template', 'Produto', ondelete='cascade')
