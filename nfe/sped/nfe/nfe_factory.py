@@ -29,10 +29,12 @@ class NfeFactory(object):
         :return: Objeto Nfe
         """
         if company.nfe_version == '3.10':
-            from document import NFe310
+            # from document import NFe310
+            from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe310
             nfe_obj = NFe310()
         else:
-            from document import NFe200
+            # from document import NFe200
+            from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe200
             nfe_obj = NFe200()
 
         return nfe_obj

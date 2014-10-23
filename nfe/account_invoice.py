@@ -28,6 +28,7 @@ from .sped.nfe.processing.xml import monta_caminho_nfe
 from .sped.nfe.processing.xml import send, cancel
 
 from .sped.nfe.nfe_factory import NfeFactory
+from .sped.nfe.validator.xml import XMLValidator
 
 
 class AccountInvoice(orm.Model):
@@ -53,13 +54,12 @@ class AccountInvoice(orm.Model):
 
             nfe_obj = self._get_nfe_factory(company)
 
-            #TODO: altear versão
             # nfe_obj = NFe310()
             nfes = nfe_obj.get_xml(cr, uid, ids, int(company.nfe_environment))
 
             for nfe in nfes:
-                # erro = NFe310().validation(nfe['nfe'])
-                erro = nfe_obj.validation(nfe['nfe'])
+                # erro = nfe_obj.validation(nfe['nfe'])
+                erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
                 nfe_key = nfe['key'][3:]
                 if erro:
                     raise orm.except_orm(

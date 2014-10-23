@@ -22,35 +22,35 @@ from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe310
 from openerp.osv import orm
 
 
-class NFe200(NFe200):
+# class NFe200(NFe200):
+#
+#     def __init__(self):
+#         super(NFe200, self).__init__()
 
-    def __init__(self):
-        super(NFe200, self).__init__()
-
-    def validation(self, nfe_xml):
-        try:
-            from pysped.nfe.leiaute import NFe_200
-            nfe = NFe_200()
-            nfe.set_xml(nfe_xml)
-        except ImportError:
-            raise orm.except_orm(
-                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
-        return nfe.validar()
-
-
-class NFe310(NFe310):
-
-    def __init__(self):
-        super(NFe310, self).__init__()
-
-
-    def validation(self, nfe_xml):
-        try:
-            from pysped.nfe.leiaute import NFe_310
-            nfe = NFe_310()
-            nfe.set_xml(nfe_xml)
-        except ImportError:
-            raise orm.except_orm(
-                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
-
-        return nfe.validar()
+#     def validation(self, nfe_xml):
+#         try:
+#             from pysped.nfe.leiaute import NFe_200
+#             nfe = NFe_200()
+#             nfe.set_xml(nfe_xml)
+#         except ImportError:
+#             raise orm.except_orm(
+#                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+#         return nfe.validar()
+#
+#
+# class NFe310(NFe310):
+#
+#     def __init__(self):
+#         super(NFe310, self).__init__()
+#
+#
+#     def validation(self, nfe_xml):
+#         try:
+#             from pysped.nfe.leiaute import NFe_310
+#             nfe = NFe_310()
+#             nfe.set_xml(nfe_xml)
+#         except ImportError:
+#             raise orm.except_orm(
+#                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+#
+#         return nfe.validar()
