@@ -33,6 +33,6 @@
     'demo': [],
     'category': 'Localisation',
     'active': False,
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }
