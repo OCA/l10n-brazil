@@ -1,80 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
+
 	<data>
 
-                <record id="base.main_partner" model="res.partner">
-                        <field name="state_id" ref="l10n_br_base.br_sp"/>
-                        <field name="country_id" ref="base.br"/>
-                        <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
-                </record>
-
-		<!-- Akretion -->
-		<record id="l10n_br_base.res_partner_akretion" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
-		</record>
-                <record id="l10n_br_base.res_partner_address_ak2" model="res.partner">
-                        <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
-                </record>
-
-		<!-- CHINEN BOX -->
-		<record id="l10n_br_base.res_partner_chinenbox0" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		<record id="base.main_partner" model="res.partner">
+			<field name="state_id" ref="l10n_br_base.br_sp"/>
+			<field name="country_id" ref="base.br"/>
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		</record>
 
-		<!-- CYBER CAFE -->
-		<record id="l10n_br_base.res_partner_cybercafe0" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
-		</record>
-
-		<!-- Axelor -->
-		<record id="base.res_partner_desertic_hispafuentes" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		<!-- ASUSTeK -->
+		<record id="base.res_partner_1" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
 		<!-- Agrolait -->
-		<record id="base.res_partner_agrolait" model="res.partner">
-			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		<record id="base.res_partner_2" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
 		<!-- China Export -->
 		<record id="base.res_partner_3" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
-		<!-- Distrib PC -->
+		<!-- Delta PC -->
 		<record id="base.res_partner_4" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
-		<!-- Maxtor -->
-		<record id="base.res_partner_maxtor" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
-		</record>
-
-		<!-- Ecole de Commerce de Liege -->
+		<!-- Epic Technologies -->
 		<record id="base.res_partner_5" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- OpenElec Applications -->
+		<record id="base.res_partner_6" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
 		<!-- Bank Wealthy and sons -->
-		<record id="base.res_partner_2" model="res.partner">
-		    	<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		<record id="base.res_partner_7" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Mediapole -->
+		<record id="base.res_partner_8" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Best Designers -->
+		<record id="base.res_partner_9" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- The Jackson Group -->
+		<record id="base.res_partner_10" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Luminous Technologie -->
+		<record id="base.res_partner_11" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Camptocamp -->
+		<record id="base.res_partner_12" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Axelor -->
+		<record id="base.res_partner_13" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Chamber Works -->
+		<record id="base.res_partner_14" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Millennium Industries -->
+		<record id="base.res_partner_15" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Spark Systems -->
+		<record id="base.res_partner_16" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Nebula Business -->
+		<record id="base.res_partner_17" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Think Big Systems -->
+		<record id="base.res_partner_18" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Seagate -->
+		<record id="base.res_partner_19" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Maxtor -->
+		<record id="base.res_partner_20" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Global Solutions -->
+		<record id="base.res_partner_21" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
 		</record>
 
 		<!-- Vicking Direct -->
-		<record id="base.res_partner_vickingdirect0" model="res.partner">
+		<record id="base.res_partner_22" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Vauxoo -->
+		<record id="base.res_partner_23" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- OpenCorp -->
+		<record id="base.res_partner_24" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Míng -->
+		<record id="base.res_partner_25" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Federal -->
+		<record id="base.res_partner_26" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+		</record>
+
+		<!-- Tang Tsui -->
+		<record id="base.res_partner_address_1" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Joseph Walters -->
+		<record id="base.res_partner_address_2" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Richard Ellis -->
+		<record id="base.res_partner_address_7" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Paul Williams -->
+		<record id="base.res_partner_address_8" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Brian Williams -->
+		<record id="base.res_partner_address_9" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- James Miller -->
+		<record id="base.res_partner_address_12" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Edward Foster -->
+		<record id="base.res_partner_address_31" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Arthur Gomez -->
+		<record id="base.res_partner_address_27" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Julia Rivero -->
+		<record id="base.res_partner_address_26" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Peter Mitchell -->
+		<record id="base.res_partner_address_35" model="res.partner">
+		    <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4"/>
+		</record>
+
+		<!-- Akretion -->
+		<record id="l10n_br_base.res_partner_akretion" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
+		<record id="l10n_br_base.res_partner_address_ak2" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
+		<!-- CHINEN BOX -->
+		<record id="l10n_br_base.res_partner_chinenbox0" model="res.partner">
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		</record>
 
-		<!-- Wood y Wood Pecker -->
-		<record id="base.res_partner_woodywoodpecker0" model="res.partner">
+		<!-- CYBER CAFE -->
+		<record id="l10n_br_base.res_partner_cybercafe0" model="res.partner">
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
 		</record>
 
-		<!-- ZeroOne Inc -->
-		<record id="base.res_partner_zerooneinc0" model="res.partner">
-			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
-		</record>
+		
 
 	</data>
 </openerp>
