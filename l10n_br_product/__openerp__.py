@@ -19,14 +19,14 @@
 
 {
     'name': 'Brazilian Localization Product',
-    'version': '7.0',
     'category': 'Generic Modules',
     'license': 'AGPL-3',
     'description': """
     Modulo de Produtos
     """,
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://www.openerpbrasil.org',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'product',
     ],
