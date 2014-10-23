@@ -34,7 +34,7 @@ class AccountInvoice(orm.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
 
-    def get_nfe_factory(self, company):
+    def _get_nfe_factory(self, company):
         return NfeFactory().get_nfe(company)
 
     def nfe_export(self, cr, uid, ids, context=None):
@@ -51,7 +51,7 @@ class AccountInvoice(orm.Model):
             # else:
             #     nfe_obj = NFe200()
 
-            nfe_obj = self.get_nfe_factory(company)
+            nfe_obj = self._get_nfe_factory(company)
 
             #TODO: altear versão
             # nfe_obj = NFe310()
@@ -117,7 +117,7 @@ class AccountInvoice(orm.Model):
             # elif company.nfe_version == '2.00':
             #     nfe_obj = NFe200()
 
-            nfe_obj = self.get_nfe_factory(company)
+            nfe_obj = self._get_nfe_factory(company)
 
             #TODO: altear versão
             # nfe_obj = NFe310()
