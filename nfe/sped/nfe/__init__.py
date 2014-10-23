@@ -19,3 +19,4 @@
 import document
 import processing
 import validator
+import nfe_factory
