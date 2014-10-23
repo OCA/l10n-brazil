@@ -40,6 +40,7 @@
         'security/l10n_br_base_security.xml',
     ],
     'demo': [
+        'base_demo.xml',
         'l10n_br_base_demo.xml',
     ],
     'test': [
