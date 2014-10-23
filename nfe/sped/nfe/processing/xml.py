@@ -79,7 +79,7 @@ def send(company, nfe):
     logo_image = Image.open(StringIO(logo.decode('base64')))
     logo_image.save(company.nfe_export_folder + "/company_logo.png")
     p.danfe.logo = company.nfe_export_folder + '/company_logo.png'
-    p.danfe.nome_sistema = company.nfe_email
+    p.danfe.nome_sistema = company.nfe_email or u"Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto - 100%% WEB - www.openerpbrasil.org"
     
     
     return p.processar_notas(nfe)

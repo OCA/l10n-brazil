@@ -39,7 +39,6 @@ arquivos XML""",
     """,
     'depends': [
         'l10n_br_account_product',
-        'l10n_br_delivery',
     ],
     'data': [
              'wizard/nfe_invoice_cce_view.xml',
@@ -48,6 +47,7 @@ arquivos XML""",
              'l10n_br_account_view.xml',
              'account_invoice_view.xml',
              'res_partner_view.xml',
+             'res_company_view.xml'
             ],
     'demo': [],
     'test': [],
