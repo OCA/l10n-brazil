@@ -2,80 +2,71 @@
 <openerp>
 	<data>
 
-                        <record id="product.product_template_8" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
-                        </record>
+		<!-- PC Assemble SC234 -->
+		<record id="product.product_product_3" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+		</record>
 
-                        <record id="product.product_template_9" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
-                        </record>
+		<!-- iMac -->
+		<record id="product.product_product_8" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+		</record>
 
-                        <record id="product.product_template_10" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
-                        </record>
+		<!-- Apple Wireless Keyboard -->
+		<record id="product.product_product_9" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
+		</record>
 
-                        <record id="product.product_template_11" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
-                        </record>
+		<!-- Mouse, Optical -->
+		<record id="product.product_product_10" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+		</record>
 
-                        <record id="product.product_template_12" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
-                        </record>
+		<!-- Mouse, Wireless -->
+		<record id="product.product_product_12" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+		</record>
 
-                        <record id="product.product_template_17" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
-                        </record>
+		<!-- RAM SR5 -->
+		<record id="product.product_product_13" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+		</record>
 
-                        <record id="product.product_template_18" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
-                        </record>
+		<!-- RAM SR2 -->
+		<record id="product.product_product_14" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+		</record>
 
-                        <record id="product.product_template_19" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
-                        </record>
+		<!-- RAM SR3 -->
+		<record id="product.product_product_15" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+		</record>
 
-                        <record id="product.product_template_20" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboad"/>
-                        </record>
+		<!-- HDD SH-1 -->
+		<record id="product.product_product_17" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+		</record>
 
-                        <record id="product.product_template_21" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboad"/>
-                        </record>
+		<!-- HDD SH-2 -->
+		<record id="product.product_product_18" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+		</record>
 
-                        <record id="product.product_template_22" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
-                        </record>
-
-                        <record id="product.product_template_23" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
-                        </record>
-
-                        <record id="product.product_template_25" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
-                        </record>
-
-                        <record id="product.product_template_26" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
-                        </record>
-
-                        <record id="product.product_template_27" model="product.template">
-                                <field name="fiscal_type">product</field>
-                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
-                        </record>
+		<!-- HDD on Demand -->
+		<record id="product.product_product_19" model="product.product">
+			<field name="fiscal_type">product</field>
+			<field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+		</record>
 
 	</data>
 </openerp>
