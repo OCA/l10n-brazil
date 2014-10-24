@@ -17,7 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 from openerp import SUPERUSER_ID
 
 from .l10n_br_account_product import (
@@ -36,29 +36,21 @@ PRODUCT_ORIGIN = [
 ]
 
 
-class ProductTemplate(orm.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
-    _columns = {
-        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,
-            'Tipo Fiscal', required=True),
-        'origin': fields.selection(PRODUCT_ORIGIN, 'Origem'),
-        'ncm_id': fields.many2one(
-            'account.product.fiscal.classification', u'NCM'),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-        'origin': '0'
-    }
 
-    def ncm_id_change(self, cr, uid, ids, ncm_id=False, sale_tax_ids=None,
-                    purchase_tax_ids=None, context=None):
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
+    ncm_id = fields.Many2one('account.product.fiscal.classification', u'NCM')
+
+    @api.multi
+    def ncm_id_change(self, ncm_id=False, sale_tax_ids=None,
+                      purchase_tax_ids=None):
         """We eventually keep the sale and purchase taxes because those
         are not company wise in OpenERP. So if we choose a different
         fiscal position for a different company, we don't want to override
         other's companies setting"""
-        if not context:
-            context = {}
-
         if not sale_tax_ids:
             sale_tax_ids = [[6, 0, []]]
 
@@ -67,23 +59,21 @@ class ProductTemplate(orm.Model):
 
         result = {'value': {}}
         if ncm_id:
-            fclass = self.pool.get('account.product.fiscal.classification')
-            fiscal_classification = fclass.browse(
-                cr, uid, ncm_id, context=context)
+            fclass = self.env['account.product.fiscal.classification']
+            fiscal_classification = fclass.browse(ncm_id)
 
-            current_company_id = self.pool.get('res.users').browse(
-                cr, uid, uid).company_id.id
-            to_keep_sale_tax_ids = self.pool.get('account.tax').search(
-                cr, SUPERUSER_ID, [('id', 'in', sale_tax_ids[0][2]),
-                    ('company_id', '!=', current_company_id)],
-                        context=context)
-            to_keep_purchase_tax_ids = self.pool.get('account.tax').search(
-                cr, SUPERUSER_ID, [('id', 'in', purchase_tax_ids[0][2]),
-                    ('company_id', '!=', current_company_id)],
-                        context=context)
+            current_company_id = self.env['res.company'].browse(
+                self.env.user.company_id.id)
+            to_keep_sale_tax_ids = self.env['account.tax'].search(
+                [('id', 'in', sale_tax_ids[0][2]),
+                 ('company_id', '!=', current_company_id.id)])
+            to_keep_purchase_tax_ids = self.env['account.tax'].search(
+                [('id', 'in', purchase_tax_ids[0][2]),
+                 ('company_id', '!=', current_company_id.id)])
 
-            result['value']['taxes_id'] = list(set(to_keep_sale_tax_ids + [x.id for x in fiscal_classification.sale_base_tax_ids]))
-            result['value']['supplier_taxes_id'] = list(set(to_keep_purchase_tax_ids + [x.id for x in fiscal_classification.purchase_base_tax_ids]))
+            result['value']['taxes_id'] = list(set(to_keep_sale_tax_ids.ids + [
+                x.id for x in fiscal_classification.sale_base_tax_ids]))
+            result['value']['supplier_taxes_id'] = list(set(to_keep_purchase_tax_ids.ids + [x.id for x in fiscal_classification.purchase_base_tax_ids]))
         return result
 
 
