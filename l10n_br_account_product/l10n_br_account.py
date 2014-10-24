@@ -39,13 +39,9 @@ class L10nBrAccountDocumentSerie(models.Model):
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
-class L10n_brAccountPartnerFiscalType(orm.Model):
+
+class L10nBrAccountPartnerFiscalType(models.Model):
     _inherit = 'l10n_br_account.partner.fiscal.type'
-    _columns = {
-        'icms': fields.boolean('Recupera ICMS'),
-        'ipi': fields.boolean('Recupera IPI')
-    }
-    defaults = {
-        'icms': True,
-        'ipi': True
-    }
+
+    icms = fields.Boolean('Recupera ICMS', default=True)
+    ipi = fields.Boolean('Recupera IPI', default=True)
