@@ -140,7 +140,7 @@ class AccountInvoice(models.Model):
             'Invoice Number must be unique per Company!'),
     ]
 
-    #TODO - Melhorar esse método!
+    #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(AccountInvoice, self).fields_view_get(
@@ -204,35 +204,32 @@ class AccountInvoice(models.Model):
             result['arch'] = etree.tostring(doc)
         return result
 
-    def action_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        #TODO: not correct fix but required a frech values before reading it.
-        self.write(cr, uid, ids, {})
+    @api.multi
+    def action_number(self):
+        #TODO: not correct fix but required a fresh values before reading it.
+        self.write({})
 
-        for obj_inv in self.browse(cr, uid, ids, context=context):
-            inv_id = obj_inv.id
-            move_id = obj_inv.move_id and obj_inv.move_id.id or False
-            ref = obj_inv.internal_number or obj_inv.reference or ''
+        for invoice in self:
+            if invoice.issuer == '0':
+                sequence_obj = self.env['ir.sequence']
+                sequence = sequence_obj.browse(
+                    invoice.document_serie_id.internal_sequence_id.id)
+                invalid_number = self.env[
+                    'l10n_br_account.invoice.invalid.number'].search([
+                        ('number_start', '<=', sequence.number_next),
+                        ('number_end', '>=', sequence.number_next),
+                        ('state', '=', 'done')])
 
-            cr.execute('UPDATE account_move SET ref=%s '
-                'WHERE id=%s AND (ref is null OR ref = \'\')',
-                    (ref, move_id))
-            cr.execute('UPDATE account_move_line SET ref=%s '
-                'WHERE move_id=%s AND (ref is null OR ref = \'\')',
-                (ref, move_id))
-            cr.execute('UPDATE account_analytic_line SET ref=%s '
-                'FROM account_move_line '
-                'WHERE account_move_line.move_id = %s '
-                'AND account_analytic_line.move_id = account_move_line.id',
-                (ref, move_id))
+                if invalid_number:
+                    raise except_orm(
+                        _(u'Número Inválido !'),
+                        _("O número: %s da série: %s, esta inutilizado") % (
+                            sequence.number_next,
+                            invoice.document_serie_id.name))
 
-            for inv_id, name in self.name_get(cr, uid, [inv_id]):
-                ctx = context.copy()
-                if obj_inv.type in ('out_invoice', 'out_refund'):
-                    ctx = self.get_log_context(cr, uid, context=ctx)
-                message = _('Invoice ') + " '" + name + "' " + _("is validated.")
-                self.log(cr, uid, inv_id, message, context=ctx)
+                seq_number = sequence_obj.get_id(
+                    invoice.document_serie_id.internal_sequence_id.id)
+                self.write({'internal_number': seq_number, 'number': seq_number})
         return True
 
     # TODO Talvez este metodo substitui o metodo action_move_create
