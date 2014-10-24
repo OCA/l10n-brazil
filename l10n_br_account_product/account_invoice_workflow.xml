@@ -8,9 +8,8 @@
             <field name="name">router</field>
             <field name="action">nfe_check()
 action_date_assign()
-action_internal_number()
-action_move_create()
-action_number()</field>
+action_number()
+action_move_create()</field>
             <field name="kind">function</field>
         </record>
 
