@@ -61,6 +61,6 @@
         'demo/product_taxes.yml',
     ],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
