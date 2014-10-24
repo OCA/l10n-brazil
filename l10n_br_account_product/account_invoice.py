@@ -813,47 +813,32 @@ class AccountInvoiceTax(models.Model):
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
-                line.quantity, line.product_id, inv.partner_id,
+                line.quantity, line.product_id, invoice.partner_id,
                 fiscal_position=line.fiscal_position,
-               insurance_value=line.insurance_value,
+                insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
-                other_costs_value=line.other_costs_value)['taxes']:
-                val = {}
-                val['invoice_id'] = inv.id
-                val['name'] = tax['name']
-                val['amount'] = tax['amount']
-                val['manual'] = False
-                val['sequence'] = tax['sequence']
-                val['base'] = tax.get('total_base', 0.0)
-
-                if inv.type in ('out_invoice', 'in_invoice'):
+                other_costs_value=line.other_costs_value)['taxes']
+            for tax in taxes:
+                val = {
+                    'invoice_id': invoice.id,
+                    'name': tax['name'],
+                    'amount': tax['amount'],
+                    'manual': False,
+                    'sequence': tax['sequence'],
+                    'base': currency.round(tax['price_unit'] * line['quantity']),
+                }
+                if invoice.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = cur_obj.compute(cr, uid,
-                        inv.currency_id.id, company_currency,
-                        val['base'] * tax['base_sign'],
-                        context={'date': inv.date_invoice or currenty_date},
-                        round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['amount'] * tax['tax_sign'],
-                        context={'date': inv.date_invoice or currenty_date},
-                        round=False)
+                    val['base_amount'] = currency.compute(val['base'] * tax['base_sign'], company_currency, round=False)
+                    val['tax_amount'] = currency.compute(val['amount'] * tax['tax_sign'], company_currency, round=False)
                     val['account_id'] = tax['account_collected_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_collected_id']
                 else:
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['base'] * tax['ref_base_sign'],
-                        context={'date': inv.date_invoice or currenty_date},
-                        round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id,
-                        company_currency, val['amount'] * tax['ref_tax_sign'],
-                        context={'date': inv.date_invoice or currenty_date},
-                        round=False)
+                    val['base_amount'] = currency.compute(val['base'] * tax['ref_base_sign'], company_currency, round=False)
+                    val['tax_amount'] = currency.compute(val['amount'] * tax['ref_tax_sign'], company_currency, round=False)
                     val['account_id'] = tax['account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_paid_id']
 
@@ -861,14 +846,13 @@ class AccountInvoiceTax(models.Model):
                 if not key in tax_grouped:
                     tax_grouped[key] = val
                 else:
-                    tax_grouped[key]['amount'] += val['amount']
                     tax_grouped[key]['base'] += val['base']
+                    tax_grouped[key]['amount'] += val['amount']
                     tax_grouped[key]['base_amount'] += val['base_amount']
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
 
         for t in tax_grouped.values():
-            t['base'] = cur_obj.round(cr, uid, cur, t['base'])
-            t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
-            t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
-            t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
-        return tax_grouped
+            t['base'] = currency.round(t['base'])
+            t['amount'] = currency.round(t['amount'])
+            t['base_amount'] = currency.round(t['base_amount'])
+            t['tax_amount'] = currency.round(t['tax_amount'])
