@@ -2,10 +2,10 @@
 <openerp>
 	<data>
 
-		<record id="l10n_br_account_product_normal_form" model="ir.ui.view">
-			<field name="name">l10n_br_account_product.normal.form</field>
-			<field name="model">product.product</field>
-			<field name="inherit_id" ref="l10n_br_account.l10n_br_account_product_normal_form_view"/>
+		<record id="l10n_br_account_product_template_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_product.product.template.form</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="l10n_br_account.l10n_br_account_product_template_form_view" />
 			<field name="arch" type="xml">
 				<field name="fiscal_type" position="replace">
 				</field>
@@ -18,7 +18,7 @@
 							<field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')]}" />
 						</group>
 						<group>
-							<field name="ncm_id" attrs="{'required': [('fiscal_type', '=', 'service')]}" on_change="ncm_id_change(ncm_id, taxes_id, supplier_taxes_id, context)" domain="[('type', '=', 'normal')]"/>
+							<field name="ncm_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" on_change="ncm_id_change(ncm_id, taxes_id, supplier_taxes_id, context)" domain="[('type', '=', 'normal')]"/>
 							<field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
 						</group>
 					</group>
