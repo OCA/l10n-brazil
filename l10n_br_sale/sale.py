@@ -18,66 +18,51 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 
 
-class SaleShop(orm.Model):
-    _inherit = 'sale.shop'
-    _columns = {
-        'default_fc_id': fields.many2one(
-            'l10n_br_account.fiscal.category', u'Categoria Fiscal Padrão')
-    }
-
-
-class SaleOrder(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
-        cur_obj = self.pool.get('res.currency')
-        result = {}
-        for order in self.browse(cr, uid, ids, context=context):
-            result[order.id] = {
-                'amount_untaxed': 0.0,
-                'amount_tax': 0.0,
-                'amount_total': 0.0,
-                'amount_extra': 0.0,
-                'amount_discount': 0.0,
-                'amount_gross': 0.0,
-            }
-            val = val1 = val2 = val3 = val4 = 0.0
-            cur = order.pricelist_id.currency_id
-            for line in order.order_line:
-                val1 += line.price_subtotal
-                val += self._amount_line_tax(cr, uid, line, context=context)
-                val3 += line.discount_value
-                val4 += line.price_gross
-            result[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-            result[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
-            result[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
-            result[order.id]['amount_total'] = result[order.id]['amount_untaxed'] + result[order.id]['amount_tax'] + result[order.id]['amount_extra']
-            result[order.id]['amount_discount'] = cur_obj.round(cr, uid, cur, val3)
-            result[order.id]['amount_gross'] = cur_obj.round(cr, uid, cur, val4)
-        return result
+    @api.one
+    @api.depends('order_line.price_unit', 'order_line.tax_id',
+                 'order_line.discount', 'order_line.product_uom_qty')
+    def _amount_all_l10n_br(self):
+        self.amount_untaxed = 0.0
+        self.amount_tax = 0.0
+        self.amount_total = 0.0
+        self.amount_extra = 0.0
+        self.amount_discount = 0.0
+        self.amount_gross = 0.0
 
-    def _amount_line_tax(self, cr, uid, line, context=None):
+        amount_tax = amount_untaxed = amount_extra = \
+            amount_discount = amount_gross = 0.0
+        for line in self.order_line:
+            amount_tax += self._amount_line_tax_l10n_br(line)
+            amount_untaxed += line.price_subtotal
+            amount_discount += line.discount_value
+            amount_gross += line.price_gross
+
+        self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
+        self.amount_untaxed = self.pricelist_id.currency_id.round(amount_untaxed)
+        self.amount_extra = self.pricelist_id.currency_id.round(amount_extra)
+        self.amount_total = self.amount_untaxed + self.amount_tax + self.amount_extra
+        self.amount_discount = self.pricelist_id.currency_id.round(amount_discount)
+        self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
+
+    @api.one
+    def _amount_line_tax_l10n_br(self, line):
         value = 0.0
-        for c in self.pool.get('account.tax').compute_all(
-            cr, uid, line.tax_id,
+        for computed in line.tax_id.compute_all(
             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
             line.product_uom_qty, line.order_id.partner_invoice_id.id,
             line.product_id, line.order_id.partner_id,
             fiscal_position=line.fiscal_position)['taxes']:
-            tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
+            tax = self.env['account.tax'].browse(computed['id'])
             if not tax.tax_code_id.tax_discount:
-                value += c.get('amount', 0.0)
+                value += computed.get('amount', 0.0)
         return value
-
-    def _get_order(self, cr, uid, ids, context=None):
-        result = {}
-        for line in self.pool.get('sale.order.line').browse(cr, uid, ids, context=context):
-            result[line.order_id.id] = True
-        return result.keys()
 
     def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
         result = {}
@@ -97,144 +82,88 @@ class SaleOrder(orm.Model):
                 result[sale.id] = 0.0
         return result
 
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="""[('type', '=', 'output'), ('journal_type', '=', 'sale'),
-            ('state', '=', 'approved')]""",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position',
-            domain="[('fiscal_category_id', '=', fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'invoiced_rate': fields.function(
-            _invoiced_rate, method=True, string='Invoiced', type='float'),
-        'copy_note': fields.boolean(
-            u'Copiar Observação no documentos fiscal'),
-        'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            },
-            multi='sums', help="The amount without tax.",
-            track_visibility='always'),
-        'amount_tax': fields.function(_amount_all, string='Taxes',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            },
-            multi='sums', help="The tax amount."),
-        'amount_total': fields.function(_amount_all, string='Total',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            },
-              multi='sums', help="The total amount."),
-        'amount_extra': fields.function(_amount_all, string='Extra',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            },
-              multi='sums', help="The total amount."),
-        'amount_discount': fields.function(_amount_all, string='Desconto (-)',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            },
-              multi='sums', help="The discount amount."),
-        'amount_gross': fields.function(_amount_all, string='Vlr. Bruto',
-            digits_compute=dp.get_precision('Account'),
-            store={
-                'sale.order': (lambda self, cr, uid, ids,
-                    c={}: ids, ['order_line'], 10),
-                'sale.order.line': (_get_order, ['price_unit', 'tax_id',
-                    'discount', 'product_uom_qty'], 10),
-            }, multi='sums', help="The discount amount."),
-            'discount_rate': fields.float('Desconto', readonly=True,
-            states={'draft': [('readonly', False)]}),
-    }
+    @api.model
+    @api.returns('l10n_br_account.fiscal_category')
+    def _default_fiscal_category(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.sale_fiscal_category_id
 
-    def _default_fiscal_category(self, cr, uid, context=None):
-        result = False
-        shop_id = context.get("shop_id", self.default_get(
-            cr, uid, ["shop_id"], context)["shop_id"])
-        if shop_id:
-            shop = self.pool.get("sale.shop").read(
-                cr, uid, [shop_id], ["default_fc_id"])
-            if shop[0]["default_fc_id"]:
-                result = shop[0]["default_fc_id"][0]
-        return result
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        domain="""[('type', '=', 'output'), ('journal_type', '=', 'sale'),
+        ('state', '=', 'approved')]""",
+        readonly=True, states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category)
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position', 'Fiscal Position',
+        domain="[('fiscal_category_id', '=', fiscal_category_id)]",
+        readonly=True, states={'draft': [('readonly', False)]})
+    invoiced_rate = fields.Float(function=_invoiced_rate, string='Invoiced')
+    copy_note = fields.Boolean(u'Copiar Observação no documentos fiscal')
+    amount_untaxed = fields.Float(
+        compute='_amount_all_l10n_br', string='Untaxed Amount',
+        digits=dp.get_precision('Account'), store=True,
+        help="The amount without tax.", track_visibility='always')
+    amount_tax = fields.Float(
+        compute='_amount_all_l10n_br', string='Taxes', store=True,
+        digits=dp.get_precision('Account'), help="The tax amount.")
+    amount_total = fields.Float(
+        compute='_amount_all_l10n_br', string='Total', store=True,
+        digits=dp.get_precision('Account'), help="The total amount.")
+    amount_extra = fields.Float(
+        compute='_amount_all_l10n_br', string='Extra',
+        digits=dp.get_precision('Account'),
+        store=True, help="The total amount.")
+    amount_discount = fields.Float(
+        compute='_amount_all_l10n_br', string='Desconto (-)',
+        digits=dp.get_precision('Account'), store=True,
+        help="The discount amount.")
+    amount_gross = fields.Float(
+        compute='_amount_all_l10n_br', string='Vlr. Bruto',
+        digits=dp.get_precision('Account'),
+        store=True, help="The discount amount.")
+    discount_rate = fields.Float(
+        'Desconto', readonly=True, states={'draft': [('readonly', False)]})
 
-    _defaults = {
-        'fiscal_category_id': _default_fiscal_category,
-    }
+    @api.multi
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self.env.context)
+        kwargs['fiscal_category_id'] = ctx.get(
+            'fiscal_category_id')
+        ctx.update({'use_domain': ('use_sale', '=', True)})
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
 
+    #TODO - migrate to new api
     def onchange_discount_rate(self, cr, uid, ids, discount_rate):
         res = {}
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
             for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
+                line_obj.write(
+                    cr, uid, [line.id], {'discount': discount_rate}, context=None)
         return res
 
-    def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
-                            partner_shipping_id, partner_id,
-                            shop_id=None, context=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
-        return super(SaleOrder, self).onchange_address_id(
-            cr, uid, ids, partner_invoice_id, partner_shipping_id,
-            partner_id, shop_id, context,
-            fiscal_category_id=fiscal_category_id)
-
-    def onchange_shop_id(self, cr, uid, ids, shop_id=None, context=None,
-                         partner_id=None, partner_invoice_id=None,
-                         partner_shipping_id=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
-        return super(SaleOrder, self).onchange_shop_id(
-            cr, uid, ids, shop_id, context, partner_id, partner_invoice_id,
-            partner_shipping_id, fiscal_category_id=fiscal_category_id)
-
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
-                                    partner_invoice_id=False, shop_id=False,
-                                    fiscal_category_id=False, context=None):
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id, partner_invoice_id,
+                                    company_id, fiscal_category_id):
 
         result = {'value': {'fiscal_position': False}}
 
-        if not shop_id or not partner_id or not fiscal_category_id:
+        if not company_id or not partner_id or not fiscal_category_id:
             return result
 
-        obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-        company_id = obj_shop.company_id.id
-        context.update({'use_domain': ('use_sale', '=', True)})
         kwargs = {
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
             'fiscal_category_id': fiscal_category_id,
             'company_id': company_id,
-            'context': context
+            'context': self.env.context
         }
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+        return self.env['account.fiscal.position.rule'].apply_fiscal_mapping(
+            result, **kwargs)
 
+    #TODO - migrate to new api
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
         fp_ids = []
@@ -249,6 +178,7 @@ class SaleOrder(orm.Model):
 
         return fp_comment
 
+    #TODO - migrate to new api
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom
