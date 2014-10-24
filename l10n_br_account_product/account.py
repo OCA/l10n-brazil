@@ -17,20 +17,15 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class AccountPaymentTerm(orm.Model):
+class AccountPaymentTerm(models.Model):
     _inherit = 'account.payment.term'
-    _columns = {
-        'indPag': fields.selection(
-            [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
-            ('2', 'Outros')], 'Indicador de Pagamento'),
-    }
-    _defaults = {
-        'indPag': '1',
-    }
 
+    indPag = fields.Selection(
+        [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
+        ('2', 'Outros')], 'Indicador de Pagamento', default='1')
 
 class AccountTax(orm.Model):
     """Implement computation method in taxes"""
