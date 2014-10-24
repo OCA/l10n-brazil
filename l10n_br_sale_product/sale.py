@@ -195,62 +195,42 @@ class SaleOrder(models.Model):
         return result
 
 
-class SaleOrderLine(orm.Model):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        res = {}
+    @api.one
+    @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
+    def _amount_line(self):
+        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+        taxes = self.tax_id.compute_all(price, self.product_uom_qty,
+            self.product_id, self.order_id.partner_invoice_id.id,
+            fiscal_position=self.fiscal_position,
+            insurance_value=self.insurance_value,
+            freight_value=self.freight_value,
+            other_costs_value=self.other_costs_value)
 
-        if context is None:
-            context = {}
-        for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = {
-                'price_subtotal': 0.0,
-                'price_gross': 0.0,
-                'discount_value': 0.0,
-            }
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.tax_id, price,
-                line.product_uom_qty, line.order_id.partner_invoice_id.id,
-                line.product_id, line.order_id.partner_id,
-                fiscal_position=line.fiscal_position,
-                insurance_value=line.insurance_value,
-                freight_value=line.freight_value,
-                other_costs_value=line.other_costs_value)
-            cur = line.order_id.pricelist_id.currency_id
-            res[line.id]['price_subtotal'] = cur_obj.round(cr, uid, cur, taxes['total'])
-            res[line.id]['price_gross'] = line.price_unit * line.product_uom_qty
-            res[line.id]['discount_value'] = res[line.id]['price_gross']-(price * line.product_uom_qty)
-        return res
+        self.price_subtotal = self.order_id.pricelist_id.currency_id.round(taxes['total'])
+        self.price_gross = self.price_unit * self.product_uom_qty
+        self.discount_value = self.order_id.pricelist_id.currency_id.round(self.price_gross - (price * self.product_uom_qty))
 
-    _columns = {
-        'insurance_value': fields.float('Insurance',
-             digits_compute=dp.get_precision('Account')),
-        'other_costs_value': fields.float('Other costs',
-             digits_compute=dp.get_precision('Account')),
-        'freight_value': fields.float('Freight',
-             digits_compute=dp.get_precision('Account')),
-         'discount_value': fields.function(
-             _amount_line, string='Vlr. Desc. (-)',
-             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'price_gross': fields.function(
-            _amount_line, string='Vlr. Bruto',
-            digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-        'price_subtotal': fields.function(
-            _amount_line, string='Subtotal',
-            digits_compute=dp.get_precision('Sale Price'), multi='sums'),
-    }
-    _defaults = {
-        'insurance_value': 0.00,
-        'other_costs_value': 0.00,
-        'freight_value': 0.00,
-    }
+    insurance_value = fields.Float('Insurance', default=0.0,
+        digits=dp.get_precision('Account'))
+    other_costs_value = fields.Float('Other costs', default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    freight_value = fields.Float('Freight', default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    discount_value = fields.Float(
+        compute='_amount_line', string='Vlr. Desc. (-)',
+        digits=dp.get_precision('Sale Price'))
+    price_gross = fields.Float(
+        compute='_amount_line', string='Vlr. Bruto',
+        digits=dp.get_precision('Sale Price'))
+    price_subtotal = fields.Float(
+        compute='_amount_line', string='Subtotal',
+        digits=dp.get_precision('Sale Price'))
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
-
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             cr, uid, line, account_id, context)
 
@@ -265,14 +245,6 @@ class SaleOrderLine(orm.Model):
         result['company_id'] = line.order_id.company_id.id
         result['partner_id'] = line.order_id.partner_id.id
 
-        result = self.l10n_br_sale_product_prepare_order_line_invoice_line(
-            cr, uid, line, result, account_id, context)
-
-        return result
-
-    def l10n_br_sale_product_prepare_order_line_invoice_line(self, cr, uid, line,
-                                                              result, account_id=False, context=None):
-
         if line.product_id.fiscal_type == 'product':
             if line.fiscal_position:
                 cfop = self.pool.get("account.fiscal.position").read(
@@ -280,5 +252,4 @@ class SaleOrderLine(orm.Model):
                     context=context)
                 if cfop[0]['cfop_id']:
                     result['cfop_id'] = cfop[0]['cfop_id'][0]
-
         return result
