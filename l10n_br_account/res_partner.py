@@ -124,125 +124,134 @@ class AccountFiscalPositionTemplate(models.Model):
         return True
 
 
-class AccountFiscalPositionTaxTemplate(orm.Model):
+class AccountFiscalPositionTaxTemplate(models.Model):
     _inherit = 'account.fiscal.position.tax.template'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax.template', 'Tax Source'),
-        'tax_code_src_id': fields.many2one('account.tax.code.template',
-                                            u'Código Taxa Origem'),
-        'tax_src_domain': fields.related('tax_src_id', 'domain',
-                                         type='char'),
-        'tax_code_dest_id': fields.many2one('account.tax.code.template',
-                                            'Replacement Tax Code')
-    }
 
-    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
-                    tax_code_src_id=False, context=None):
+    tax_src_id = fields.Many2one(
+        'account.tax.template', string='Tax Source', required=False)
+    tax_code_src_id = fields.Many2one(
+        'account.tax.code.template', string=u'Código Taxa Origem')
+    tax_src_domain = fields.Char(
+        related='tax_src_id.domain', string='Tax Domain')
+    tax_code_dest_id = fields.Many2one(
+        'account.tax.code.template', string='Replacement Tax Code')
 
-        tax_domain = False
+    def _tax_domain(self, tax_src_id=None, tax_code_src_id=None):
+
+        tax_domain = None
         if tax_src_id:
-            tax_domain = self.pool.get('account.tax.template').read(
-                cr, uid, tax_src_id, ['domain'], context=context)['domain']
-
+            tax_domain = self.env['account.tax'].browse(tax_src_id).domain
         if tax_code_src_id:
-            tax_domain = self.pool.get('account.tax.code.template').read(
-                cr, uid, tax_code_src_id, ['domain'],
-                context=context)['domain']
-
+            tax_domain = self.env['account.tax'].browse(
+                tax_code_src_id).domain
         return {'value': {'tax_src_domain': tax_domain}}
 
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
-                            tax_code_src_id=False, context=None):
+    @api.one
+    def onchange_tax_src_id(self, tax_src_id, tax_code_src_id):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
 
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
-                                 tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
+    @api.one
+    def onchange_tax_code_src_id(self, tax_src_id, tax_code_src_id,):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
 
 
-class AccountFiscalPosition(orm.Model):
+class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
-    _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
 
-    def onchange_type(self, cr, uid, ids, type=False, context=None):
+    name = fields.Char('Fiscal Position', size=128, required=True)
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal')
+    fiscal_category_fiscal_type = fields.Selection(TYPE,
+        related='fiscal_category_id.type', readonly=True,
+        store=True, string='Fiscal Type')
+    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
+        'Tipo')
+    type_tax_use = fields.Selection(
+        [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
+        'Tax Application')
+    inv_copy_note = fields.Boolean('Copiar Observação na Nota Fiscal')
+    asset_operation = fields.Boolean('Operação de Aquisição de Ativo',
+        help="""Caso seja marcada essa opção, será incluido o IPI na base de
+            calculo do ICMS.""")
+    state = fields.Selection([('draft', u'Rascunho'),
+        ('review', u'Revisão'), ('approved', u'Aprovada'),
+        ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
+        track_visibility='onchange', select=True, default='draft')
+
+    @api.multi
+    def onchange_type(self, type):
         type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
-                          'tax_ids': False}}
+            'tax_ids': False}}
 
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    fiscal_category_id=False, context=None):
+    @api.multi
+    def onchange_fiscal_category_id(self, fiscal_category_id=None):
+        result = {'value': {}}
         if fiscal_category_id:
-            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
-                cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
-                context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-
-    #TODO - Refatorar para trocar os impostos
-    def map_tax_code(self, cr, uid, product_id, fiscal_position,
-                     company_id=False, tax_ids=False, context=None):
-
-        if not context:
-            context = {}
-
-        result = {}
-        if tax_ids:
-
-            product = self.pool.get('product.product').browse(
-                cr, uid, product_id, context=context)
-
-            fclassificaion = product.ncm_id
-
-            if context.get('type_tax_use') == 'sale':
-
-                if fclassificaion:
-                    tax_sale_ids = fclassificaion.sale_tax_definition_line
-                    for tax_def in tax_sale_ids:
-                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
-                            result.update({tax_def.tax_id.domain:
-                                           tax_def.tax_code_id.id})
-
-                if company_id:
-                    company = self.pool.get('res.company').browse(
-                        cr, uid, company_id, context=context)
-
-                    if context.get('fiscal_type', 'product') == 'product':
-                        company_tax_def = company.product_tax_definition_line
-                    else:
-                        company_tax_def = company.service_tax_definition_line
-
-                    for tax_def in company_tax_def:
-                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
-                                result.update({tax_def.tax_id.domain:
-                                               tax_def.tax_code_id.id})
-
-            if context.get('type_tax_use') == 'purchase':
-
-                if fclassificaion:
-                    tax_purchase_ids = fclassificaion.purchase_tax_definition_line
-                    for tax_def in tax_purchase_ids:
-                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
-                            result.update({tax_def.tax_id.domain:
-                                           tax_def.tax_code_id.id})
-
-            if fiscal_position:
-                for fp_tax in fiscal_position.tax_ids:
-                    if fp_tax.tax_dest_id:
-                        if fp_tax.tax_dest_id.id in tax_ids and fp_tax.tax_code_dest_id:
-                            result.update({fp_tax.tax_dest_id.domain:
-                                           fp_tax.tax_code_dest_id.id})
-                    if not fp_tax.tax_dest_id and fp_tax.tax_code_src_id and \
-                    fp_tax.tax_code_dest_id:
-                        result.update({fp_tax.tax_code_src_id.domain:
-                                       fp_tax.tax_code_dest_id.id})
-
+            fiscal_category = self.env[
+                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
+            result['value'].update(
+                {'fiscal_category_fiscal_type': fiscal_category.fiscal_type})
         return result
 
+
+class AccountFiscalPositionTax(models.Model):
+    _inherit = 'account.fiscal.position.tax'
+
+    tax_src_id = fields.Many2one(
+        'account.tax', string='Tax Source', required=False)
+    tax_code_src_id = fields.Many2one(
+        'account.tax.code', u'Código Taxa Origem')
+    tax_src_domain = fields.Char(related='tax_src_id.domain')
+    tax_code_dest_id = fields.Many2one(
+        'account.tax.code', 'Replacement Tax Code')
+
+    def _tax_domain(self, tax_src_id=None, tax_code_src_id=None):
+
+        tax_domain = None
+        if tax_src_id:
+            tax_domain = self.env['account.tax'].browse(tax_src_id).domain
+        if tax_code_src_id:
+            tax_domain = self.env['account.tax'].browse(
+                tax_code_src_id).domain
+        return {'value': {'tax_src_domain': tax_domain}}
+
+    @api.one
+    def onchange_tax_src_id(self, tax_src_id, tax_code_src_id):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
+
+    @api.one
+    def onchange_tax_code_src_id(self, tax_src_id, tax_code_src_id,):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.model
+    def _default_partner_fiscal_type_id(self, is_company=False):
+        """Define o valor padão para o campo tipo fiscal, por padrão pega
+        o tipo fiscal para não contribuinte já que quando é criado um novo
+        parceiro o valor do campo is_company é false"""
+        ft_ids = self.env['l10n_br_account.partner.fiscal.type'].search(
+            [('default', '=', 'True'), ('is_company', '=', is_company)])
+        return ft_ids
+
+    partner_fiscal_type_id = fields.Many2one(
+        'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
+        domain="[('is_company', '=', is_company)]",
+        default=_default_partner_fiscal_type_id)
+
+    @api.multi
+    def onchange_mask_cnpj_cpf(self, is_company, cnpj_cpf):
+        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
+            is_company, cnpj_cpf)
+        ft_id = self._default_partner_fiscal_type_id(is_company)
+        if ft_id:
+            result['value']['partner_fiscal_type_id'] = ft_id
+        return result
+
+    @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
         if not context:
@@ -287,82 +296,25 @@ class AccountFiscalPosition(orm.Model):
 
         return list(set(result))
 
+    @api.v8
+    def map_tax(self, taxes):
+        result = self.env['account.tax'].browse()
+        if self.company_id and self.env.context.get('type_tax_use') in ('sale', 'all'):
+            if self.env.context.get('fiscal_type', 'product') == 'product':
+                company_taxes = self.company_id.product_tax_ids
+            else:
+                company_taxes = self.company_id.service_tax_ids
 
-class AccountFiscalPositionTax(orm.Model):
-    _inherit = 'account.fiscal.position.tax'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
-        'tax_code_src_id': fields.many2one(
-            'account.tax.code', u'Código Taxa Origem'),
-        'tax_src_domain': fields.related(
-            'tax_src_id', 'domain', type='char'),
-        'tax_code_dest_id': fields.many2one(
-            'account.tax.code', 'Replacement Tax Code')
-    }
+            if taxes:
+                taxes |= company_taxes
 
-    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
-                    tax_code_src_id=False, context=None):
-
-        tax_domain = False
-        if tax_src_id:
-            tax_domain = self.pool.get('account.tax').read(
-                cr, uid, tax_src_id, ['domain'], context=context)['domain']
-
-        if tax_code_src_id:
-            tax_domain = self.pool.get('account.tax.code').read(
-                cr, uid, tax_code_src_id, ['domain'],
-                context=context)['domain']
-
-        return {'value': {'tax_src_domain': tax_domain}}
-
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
-                            tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
-                                 tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-
-class ResPartner(orm.Model):
-    _inherit = 'res.partner'
-    _columns = {
-        'partner_fiscal_type_id': fields.many2one(
-            'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
-            domain="[('is_company', '=', is_company)]")
-    }
-
-    def _default_partner_fiscal_type_id(self, cr, uid, is_company=False,
-                                        context=None):
-        """Define o valor padão para o campo tipo fiscal, por padrão pega
-        o tipo fiscal para não contribuinte já que quando é criado um novo
-        parceiro o valor do campo is_company é false"""
-        result = False
-        ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
-            cr, uid, [('default', '=', 'True'),
-                ('is_company', '=', is_company)], context=context)
-
-        parnter_fiscal_type = self.pool.get('res.company').read(
-            cr, uid, ft_ids, ['id'], context=context)
-        if parnter_fiscal_type:
-            result = parnter_fiscal_type[0]['id']
+        for tax in taxes:
+            for t in self.tax_ids:
+                if t.tax_src_id == tax or t.tax_code_src_id == tax.tax_code_id:
+                    if t.tax_dest_id:
+                        result |= t.tax_dest_id
+                    break
+            else:
+                result |= tax
         return result
 
-    _defaults = {
-        'partner_fiscal_type_id': _default_partner_fiscal_type_id,
-    }
-
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
-                            cnpj_cpf, context=None):
-        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
-            cr, uid, ids, is_company, cnpj_cpf, context)
-        ft_id = self._default_partner_fiscal_type_id(
-            cr, uid, is_company, context)
-
-        if ft_id:
-            result['value']['partner_fiscal_type_id'] = ft_id
-        return result
