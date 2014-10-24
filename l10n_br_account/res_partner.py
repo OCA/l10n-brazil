@@ -17,54 +17,47 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
+from openerp.addons.l10n_br_account.l10n_br_account import TYPE
 
-FISCAL_POSITION_COLUMNS = {
-    'name': fields.char('Fiscal Position', size=128, required=True),
-    'fiscal_category_id': fields.many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
-    'fiscal_category_fiscal_type': fields.related(
-        'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
-        relation='l10n_br_account.fiscal.category', store=True,
-        string='Fiscal Type'),
-    'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
-                             'Tipo'),
-    'type_tax_use': fields.selection(
+class AccountFiscalPositionTemplate(models.Model):
+    _inherit = 'account.fiscal.position.template'
+
+    name = fields.Char('Fiscal Position', size=128, required=True)
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal')
+    fiscal_category_fiscal_type = fields.Selection(TYPE,
+        related='fiscal_category_id.type', readonly=True,
+        store=True, string='Fiscal Type')
+    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
+                             'Tipo')
+    type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
-        'Tax Application'),
-    'inv_copy_note': fields.boolean(u'Copiar Observação na Nota Fiscal'),
-    'asset_operation': fields.boolean(u'Operação de Aquisição de Ativo',
-        help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
-            calculo do ICMS."""),
-    'state': fields.selection([('draft', u'Rascunho'),
+        'Tax Application')
+    inv_copy_note = fields.Boolean('Copiar Observação na Nota Fiscal')
+    asset_operation = fields.Boolean('Operação de Aquisição de Ativo',
+        help="""Caso seja marcada essa opção, será incluido o IPI na base de
+            calculo do ICMS.""")
+    state = fields.Selection([('draft', u'Rascunho'),
             ('review', u'Revisão'), ('approved', u'Aprovada'),
             ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
-            track_visibility='onchange', select=True),
-}
+            track_visibility='onchange', select=True, default='draft')
 
-FISCAL_POSITION_DEFAULTS = {
-    'state': 'draft',
-}
-
-
-class AccountFiscalPositionTemplate(orm.Model):
-    _inherit = 'account.fiscal.position.template'
-    _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
-
-    def onchange_type(self, cr, uid, ids, type=False, context=None):
+    @api.multi
+    def onchange_type(self, type):
         type_tax = {'input': 'purhcase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
 
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    fiscal_category_id=False, context=None):
+    @api.multi
+    def onchange_fiscal_category_id(self, fiscal_category_id=None):
+        result = {'value': {}}
         if fiscal_category_id:
-            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
-                    cr, uid, fiscal_category_id,
-                    ['fiscal_type', 'journal_type'], context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            fiscal_category = self.env[
+                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
+            result['value'].update(
+                {'fiscal_category_fiscal_type': fiscal_category.fiscal_type})
+        return result
 
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
