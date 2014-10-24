@@ -27,7 +27,8 @@ class AccountPaymentTerm(models.Model):
         [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
         ('2', 'Outros')], 'Indicador de Pagamento', default='1')
 
-class AccountTax(orm.Model):
+
+class AccountTax(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax'
 
@@ -44,13 +45,13 @@ class AccountTax(orm.Model):
 
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
-            
+
             tax['amount'] = round(total_line * tax['percent'], precision)
             tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
 
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
-            
+
             if tax['percent']:
                 tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
                 tax['total_base_other'] = round(total_line - tax['total_base'], precision)
@@ -64,6 +65,7 @@ class AccountTax(orm.Model):
     #TODO
     #Refatorar este método, para ficar mais simples e não repetir
     #o que esta sendo feito no método l10n_br_account_product
+    @api.v7
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
@@ -155,7 +157,7 @@ class AccountTax(orm.Model):
             icms_st_base = round((((result['total'] + ipi_value) * (1 - icms_st_percent_reduction)) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision)
             icms_st_base_other = round(((result['total'] + ipi_value) * (1 + result_icmsst['taxes'][0]['amount_mva'])), precision) - icms_st_base
             result_icmsst['taxes'][0]['total_base'] = icms_st_base
-            result_icmsst['taxes'][0]['amount'] = round((icms_st_base  * icms_st_percent) - icms_value, precision)
+            result_icmsst['taxes'][0]['amount'] = round((icms_st_base * icms_st_percent) - icms_value, precision)
             result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
             result_icmsst['taxes'][0]['icms_st_percent_reduction'] = icms_st_percent_reduction
             result_icmsst['taxes'][0]['icms_st_base_other'] = icms_st_base_other
@@ -169,3 +171,14 @@ class AccountTax(orm.Model):
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes
         }
+
+    @api.v8
+    def compute_all(self, price_unit, quantity, product=None, partner=None,
+                    force_excluded=False, fiscal_position=False,
+                    insurance_value=0.0, freight_value=0.0,
+                    other_costs_value=0.0):
+        return self._model.compute_all(
+            self._cr, self._uid, self, price_unit, quantity,
+            product=product, partner=partner, force_excluded=force_excluded,
+            fiscal_position=fiscal_position, insurance_value=insurance_value,
+            freight_value=freight_value, other_costs_value=other_costs_value)
