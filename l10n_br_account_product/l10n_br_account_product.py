@@ -78,52 +78,49 @@ class L10nbrAccountCFOP(models.Model):
                  (x['name'] and ' - ' + x['name'] or '')) for x in reads]
 
 
-class L10n_brAccountDocumentRelated(orm.Model):
+class L10nbrAccountDocumentRelated(models.Model):
     _name = 'l10n_br_account_product.document.related'
-    _columns = {
-        'invoice_id': fields.many2one(
-            'account.invoice', 'Documento Fiscal',
-            ondelete='cascade', select=True),
-        'invoice_related_id': fields.many2one(
-            'account.invoice', 'Documento Fiscal',
-            ondelete='cascade', select=True),
-        'document_type': fields.selection(
-            [('nf', 'NF'), ('nfe', 'NF-e'), ('cte', 'CT-e'),
-                ('nfrural', 'NF Produtor'), ('cf', 'Cupom Fiscal')],
-            'Tipo Documento', required=True),
-        'access_key': fields.char('Chave de Acesso', size=44),
-        'serie': fields.char(u'Série', size=12),
-        'internal_number': fields.char(u'Número', size=32),
-        'state_id': fields.many2one(
-            'res.country.state', 'Estado',
-            domain="[('country_id.code', '=', 'BR')]"),
-        'cnpj_cpf': fields.char('CNPJ/CPF', size=18),
-        'cpfcnpj_type': fields.selection(
-            [('cpf', 'CPF'), ('cnpj', 'CNPJ')], 'Tipo Doc.'),
-        'inscr_est': fields.char('Inscr. Estadual/RG', size=16),
-        'date': fields.date('Data'),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document', 'Documento'),
-    }
-    _defaults = {
-        'cpfcnpj_type': 'cnpj',
-    }
 
-    def _check_cnpj_cpf(self, cr, uid, ids):
+    invoice_id = fields.Many2one('account.invoice', 'Documento Fiscal',
+        ondelete='cascade', select=True)
+    invoice_related_id = fields.Many2one('account.invoice',
+        'Documento Fiscal', ondelete='cascade', select=True)
+    document_type = fields.Selection(
+        [('nf', 'NF'), ('nfe', 'NF-e'), ('cte', 'CT-e'),
+            ('nfrural', 'NF Produtor'), ('cf', 'Cupom Fiscal')],
+        'Tipo Documento', required=True)
+    access_key = fields.Char('Chave de Acesso', size=44)
+    serie = fields.Char(u'Série', size=12)
+    internal_number = fields.Char(u'Número', size=32)
+    state_id = fields.Many2one('res.country.state', 'Estado',
+        domain="[('country_id.code', '=', 'BR')]")
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+    cpfcnpj_type = fields.Selection(
+        [('cpf', 'CPF'), ('cnpj', 'CNPJ')], 'Tipo Doc.',
+        default='cnpj')
+    inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+    date = fields.Date('Data')
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_account.fiscal.document', 'Documento')
 
-        for inv_related in self.browse(cr, uid, ids):
-            if not inv_related.cnpj_cpf:
-                continue
+    @api.one
+    @api.constrains('cnpj_cpf')
+    def _check_cnpj_cpf(self):
 
-            if inv_related.cpfcnpj_type == 'cnpj':
-                if not fiscal.validate_cnpj(inv_related.cnpj_cpf):
-                    return False
-            elif not fiscal.validate_cpf(inv_related.cnpj_cpf):
-                    return False
+        check_cnpj_cpf = True
 
-        return True
+        if not self.cnpj_cpf:
+            if self.cpfcnpj_type == 'cnpj':
+                if not fiscal.validate_cnpj(self.cnpj_cpf):
+                    check_cnpj_cpf = False
+            elif not fiscal.validate_cpf(self.cnpj_cpf):
+                check_cnpj_cpf = False
+        if not check_cnpj_cpf:
+            raise Warning(_(u'CNPJ/CPF do documento relacionado é invalido!'))
 
-    def _check_ie(self, cr, uid, ids):
+    @api.one
+    @api.constrains('inscr_est')
+    def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
 
@@ -134,43 +131,32 @@ class L10n_brAccountDocumentRelated(orm.Model):
             - 'uid': Current user’s ID for security checks.
             - 'ids': List of partner objects IDs.
         """
-        for inv_related in self.browse(cr, uid, ids):
-            if not inv_related.inscr_est \
-            or inv_related.inscr_est == 'ISENTO':
-                continue
+        check_ie = True
 
-            uf = inv_related.state_id and \
-            inv_related.state_id.code.lower() or ''
-
+        if not self.inscr_est or self.inscr_est == 'ISENTO':
+            uf = self.state_id and self.state_id.code.lower() or ''
             try:
-                mod = __import__(
-                'l10n_br_base.tools.fiscal', globals(), locals(), 'fiscal')
+                mod = __import__('openerp.addons.l10n_br_base.tools.fiscal',
+                globals(), locals(), 'fiscal')
 
                 validate = getattr(mod, 'validate_ie_%s' % uf)
-                if not validate(inv_related.inscr_est):
-                    return False
+                if not validate(self.inscr_est):
+                    check_ie = False
             except AttributeError:
-                if not fiscal.validate_ie_param(uf, inv_related.inscr_est):
-                    return False
+                if not fiscal.validate_ie_param(uf, self.inscr_est):
+                    check_ie = False
 
-        return True
+        if not check_ie:
+            raise Warning(_(u'Inscrição Estadual do documento fiscal inválida!'))
 
-    _constraints = [
-        (_check_cnpj_cpf, u'CNPJ/CPF do documento relacionado é invalido!',
-            ['cnpj_cpf']),
-        (_check_ie, u'Inscrição Estadual do documento fiscal inválida!',
-            ['inscr_est']),
-    ]
-
-    def onchange_invoice_related_id(self, cr, uid, ids,
-                                    invoice_related_id=False, context=None):
+    @api.multi
+    def onchange_invoice_related_id(self, invoice_related_id):
         result = {'value': {}}
 
         if not invoice_related_id:
             return result
 
-        inv_related = self.pool.get('account.invoice').browse(
-            cr, uid, invoice_related_id)
+        inv_related = self.env['account.invoice'].browse(invoice_related_id)
 
         if not inv_related.fiscal_document_id:
             return result
@@ -230,8 +216,8 @@ class L10n_brAccountDocumentRelated(orm.Model):
 
         return result
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, cpfcnpj_type, cnpj_cpf,
-                            context=None):
+    @api.multi
+    def onchange_mask_cnpj_cpf(self, cpfcnpj_type, cnpj_cpf):
         result = {'value': {}}
         if cnpj_cpf:
             val = re.sub('[^0-9]', '', cnpj_cpf)
