@@ -8,8 +8,8 @@
 			<field name="code">TSAJ</field>
 			<field name="type">sale</field>
 			<field name="sequence_id" ref="account.sequence_sale_journal"/>
-			<field model="account.account" name="default_credit_account_id" ref="account.a_sale"/>
-			<field model="account.account" name="defa ult_debit_account_id" ref="account.a_sale"/>
+			<field name="default_credit_account_id" ref="account.a_sale"/>
+			<field name="default_debit_account_id" ref="account.a_sale"/>
 			<field name="analytic_journal_id" ref="account.cose_journal_sale"/>
 			<field name="user_id" ref="base.user_root"/>
 			<field eval="1" name="revenue_expense"/>
@@ -40,8 +40,8 @@
 		<!-- venda -->
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo" model="account.fiscal.position">
 			<field name="name">Venda para Dentro do Estado</field>
-			<field name="cfop_id" ref="cfop_5101" />
-			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+			<field name="cfop_id" ref="cfop_5101"/>
+			<field name="fiscal_category_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12" />
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
