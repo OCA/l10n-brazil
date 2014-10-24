@@ -261,6 +261,12 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     number_of_packages = fields.Integer(
         'Volume', readonly=True, states={'draft': [('readonly', False)]})
+    kind_of_packages = fields.Char(
+        'Espécie', size=60, readonly=True, states={'draft': [('readonly', False)]})
+    brand_of_packages = fields.Char(
+        'Brand',  size=60, readonly=True, states={'draft': [('readonly', False)]})
+    notation_of_packages = fields.Char(
+        'Numeração', size=60, readonly=True, states={'draft': [('readonly', False)]})
     amount_insurance = fields.Float(
         string='Valor do Seguro', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
