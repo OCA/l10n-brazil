@@ -137,7 +137,7 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
 
             mod_serializer = __import__(
-                'l10n_br_account_product.sped.nfe.serializer.' +
+                'openerp.addons.l10n_br_account_product.sped.nfe.serializer.' +
                 data['file_type'], globals(), locals(), data['file_type'])
 
             func = getattr(mod_serializer, 'nfe_export')
