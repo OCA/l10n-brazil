@@ -17,84 +17,81 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
-from openerp.addons.l10n_br_account.res_company import SQL_CONSTRAINTS
+SQL_CONSTRAINTS = [
+    ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id, company_id)',
+        u'Imposto já existente nesta empresa!')
+]
 
 
-class ResCompany(orm.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    def _get_taxes(self, cr, uid, ids, name, arg, context=None):
-        result = {}
-        for company in self.browse(cr, uid, ids, context=context):
-            result[company.id] = {'product_tax_ids': []}
-            product_tax_ids = [tax.tax_id.id for tax in
-                               company.product_tax_definition_line]
-            product_tax_ids.sort()
-            result[company.id]['product_tax_ids'] = product_tax_ids
-        return result
+    @api.one
+    @api.depends('product_tax_definition_line.tax_id')
+    def _compute_taxes(self):
+        product_taxes = self.env['account.tax']
+        for tax in self.product_tax_definition_line:
+            product_taxes += tax.tax_id
+        self.product_tax_ids = product_taxes
 
-    _columns = {
-        'product_invoice_id': fields.many2one(
-            'l10n_br_account.fiscal.document',
-            'Documento Fiscal'),
-        'document_serie_product_ids': fields.many2many(
-            'l10n_br_account.document.serie',
-            'res_company_l10n_br_account_document_serie', 'company_id',
-            'document_serie_product_id', 'Série de Documentos Fiscais',
-            domain="[('company_id', '=', active_id),('active','=',True),"
-            "('fiscal_type','=','product')]"),
-        'nfe_version': fields.selection(
-            [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')], 'Versão NFe', required=True),
-        'nfe_import_folder': fields.char('Pasta de Importação', size=254),
-        'nfe_export_folder': fields.char('Pasta de Exportação', size=254),
-        'nfe_backup_folder': fields.char('Pasta de Backup', size=254),
-        'nfe_environment': fields.selection(
-            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente Padrão'),
-        'file_type': fields.selection(
-            [('xml', 'XML'), ('txt', ' TXT')], 'Tipo do Arquivo Padrão'),
-        'sign_xml': fields.boolean('Assinar XML'),
-        'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
-        'product_tax_definition_line': fields.one2many(
-            'l10n_br_tax.definition.company.product',
-            'company_id', 'Taxes Definitions'),
-        'product_tax_ids': fields.function(
-            _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Product Taxes', multi='all'),
-        'in_invoice_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category',
-            'Categoria Fiscal de Produto Padrão de Entrada',
-            domain="[('journal_type','=','purchase'),"
-            " ('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"),
-        'out_invoice_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category',
-            'Categoria Fiscal de Produto Padrão de Saida',
-            domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-            " ('fiscal_type','=','product'), ('type','=','output')]"),
-        'in_refund_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Devolução Entrada',
-            domain="[('journal_type','=','purchase_refund'),"
-            "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            "('type','=','output')]"),
-        'out_refund_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Devolução Saida',
-            domain="[('journal_type','=','sale_refund'),"
-            "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"),
-        'nfe_a1_file': fields.binary('Arquivo NFe A1'),
-        'nfe_a1_password': fields.char('Senha NFe A1', size=64)
-    }
-    _defaults = {
-        'nfe_version': '2.00',
-    }
+    product_invoice_id = fields.Many2one(
+        'l10n_br_account.fiscal.document', 'Documento Fiscal')
+    document_serie_product_ids = fields.Many2many(
+        'l10n_br_account.document.serie',
+        'res_company_l10n_br_account_document_serie', 'company_id',
+        'document_serie_product_id', 'Série de Documentos Fiscais',
+        domain="[('company_id', '=', active_id),('active','=',True),"
+        "('fiscal_type','=','product')]")
+    nfe_version = fields.Selection(
+        [('110', '1.10'), ('200', '2.00')], 'Versão NFe', required=True,
+        default='200')
+    nfe_root_folder = fields.Char('Pasta Raiz', size=254)
+    nfe_import_folder = fields.Char('Pasta de Importação', size=254)
+    nfe_export_folder = fields.Char('Pasta de Exportação', size=254)
+    nfe_backup_folder = fields.Char('Pasta de Backup', size=254)
+    nfe_environment = fields.Selection(
+        [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente Padrão')
+    file_type = fields.Selection(
+        [('xml', 'XML'), ('txt', ' TXT')], 'Tipo do Arquivo Padrão')
+    sign_xml = fields.Boolean('Assinar XML')
+    export_folder = fields.Boolean(u'Salvar na Pasta de Exportação')
+    product_tax_definition_line = fields.One2many(
+        'l10n_br_tax.definition.company.product',
+        'company_id', 'Taxes Definitions')
+    product_tax_ids = fields.Many2many(
+        'account.tax', string='Product Taxes', compute='_compute_taxes',
+        store=True)
+    in_invoice_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        'Categoria Fiscal de Produto Padrão de Entrada',
+        domain="[('journal_type','=','purchase'),"
+        " ('state', '=', 'approved'), ('fiscal_type','=','product'),"
+        " ('type','=','input')]")
+    out_invoice_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        'Categoria Fiscal de Produto Padrão de Saida',
+        domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
+        " ('fiscal_type','=','product'), ('type','=','output')]")
+    in_refund_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Devolução Entrada',
+        domain="[('journal_type','=','purchase_refund'),"
+        "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+        "('type','=','output')]")
+    out_refund_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Devolução Saida',
+        domain="[('journal_type','=','sale_refund'),"
+        "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+        " ('type','=','input')]")
+    nfe_a1_file = fields.Binary('Arquivo NFe A1')
+    nfe_a1_password = fields.Char('Senha NFe A1', size=64)
 
 
-class L10n_brTaxDefinitionCompanyProduct(orm.Model):
+class L10n_brTaxDefinitionCompanyProduct(models.Model):
     _name = 'l10n_br_tax.definition.company.product'
     _inherit = 'l10n_br_tax.definition'
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Empresa', select=True),
-    }
+
+    company_id = fields.Many2one('res.company', 'Empresa')
+
     _sql_constraints = SQL_CONSTRAINTS
