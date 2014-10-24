@@ -25,6 +25,7 @@ FC_SQL_CONSTRAINTS = [
     ]
 
 
+# TODO migrate to new api
 class AccountProductFiscalClassificationTemplate(orm.Model):
     _inherit = 'account.product.fiscal.classification.template'
 
