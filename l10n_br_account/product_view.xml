@@ -16,6 +16,7 @@
 							<tree string="Operações Padrões" editable="top">
 								<field name="fiscal_category_source_id" required="1" />
 								<field name="fiscal_category_destination_id" required="1" />
+								<field name="to_state_id" required="0" />
 							</tree>
 						</field>
 					</page>
