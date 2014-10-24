@@ -19,10 +19,9 @@
 
 from lxml import etree
 
-from openerp import netsvc
-from openerp.osv import orm, fields
+from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
-from openerp.tools.translate import _
+from openerp.exceptions import except_orm, Warning
 
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
 
@@ -41,130 +40,104 @@ JOURNAL_TYPE = {
 }
 
 
-class AccountInvoice(orm.Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def _get_receivable_lines(self, cr, uid, ids, name, arg, context=None):
-        res = {}
-        for invoice in self.browse(cr, uid, ids, context=context):
-            res[invoice.id] = []
-            if not invoice.move_id:
-                continue
-            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.journal_id.revenue_expense]
-            New_ids = []
-            for line in data_lines:
-                New_ids.append(line.id)
-                New_ids.sort()
-            res[invoice.id] = New_ids
-        return res
+    @api.one
+    @api.depends(
+        'move_id.line_id.reconcile_id.line_id',
+        'move_id.line_id.reconcile_partial_id.line_partial_ids',
+    )
+    def _compute_receivables(self):
+        lines = self.env['account.move.line']
+        for line in self.move_id.line_id:
+            if line.account_id.id == self.account_id.id and \
+                line.account_id.type in ('receivable', 'payable') and \
+                self.journal_id.revenue_expense:
+                lines |= line
+        self.move_line_receivable_id = (lines).sorted()
 
-    _columns = {
-        'issuer': fields.selection(
-            [('0', u'Emissão própria'),
-            ('1', 'Terceiros')], 'Emitente', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'internal_number': fields.char(
-            'Invoice Number', size=32, readonly=True,
-            states={'draft': [('readonly', False)]},
-            help="""Unique number of the invoice, computed
-                automatically when the invoice is created."""),
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-        'vendor_serie': fields.char(
-            u'Série NF Entrada', size=12, readonly=True,
-            states={'draft': [('readonly', False)]},
-            help=u"Série do número da Nota Fiscal do Fornecedor"),
-        'move_line_receivable_id': fields.function(
-            _get_receivable_lines, method=True, type='many2many',
-            relation='account.move.line', string='Entry Lines'),
-        'document_serie_id': fields.many2one(
-            'l10n_br_account.document.serie', u'Série',
-            domain="[('fiscal_document_id', '=', fiscal_document_id),\
-            ('company_id','=',company_id)]", readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document', 'Documento', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'fiscal_document_electronic': fields.related(
-            'fiscal_document_id', 'electronic', type='boolean', readonly=True,
-            relation='l10n_br_account.fiscal.document', store=True,
-            string='Electronic'),
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position', readonly=True,
-            states={'draft': [('readonly', False)]},
-            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
-        'account_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos'),
-        'fiscal_comment': fields.text(u'Observação Fiscal'),
-    }
+    @api.model
+    def _default_fiscal_document(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.service_invoice_id
 
-    def _default_fiscal_document(self, cr, uid, context):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        fiscal_document = self.pool.get('res.company').read(
-            cr, uid, user.company_id.id, ['service_invoice_id'],
-            context=context)['service_invoice_id']
+    @api.model
+    def _default_fiscal_document_serie(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.document_serie_service_id
 
-        return fiscal_document and fiscal_document[0] or False
+    issuer = fields.Selection(
+        [('0', u'Emissão própria'), ('1', 'Terceiros')], 'Emitente',
+        default='0', readonly=True, states={'draft': [('readonly', False)]})
+    internal_number = fields.Char(
+        'Invoice Number', size=32, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help="""Unique number of the invoice, computed
+            automatically when the invoice is created.""")
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    vendor_serie = fields.Char(
+        'Série NF Entrada', size=12, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u"Série do número da Nota Fiscal do Fornecedor")
+    move_line_receivable_id = fields.Many2many(
+        'account.move.line', string='Receivables',
+        compute='_compute_receivables')
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_account.fiscal.document', 'Documento', readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_document)
+    fiscal_document_electronic = fields.Boolean(
+        related='fiscal_document_id.electronic')
+    document_serie_id = fields.Many2one(
+        'l10n_br_account.document.serie', u'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id),\
+        ('company_id','=',company_id)]", readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_document_serie)
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        readonly=True, states={'draft': [('readonly', False)]})
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position', 'Fiscal Position', readonly=True,
+        states={'draft': [('readonly', False)]},
+        domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    account_document_event_ids = fields.One2many(
+        'l10n_br_account.document_event', 'document_event_ids',
+        u'Eventos')
+    fiscal_comment = fields.Text(u'Observação Fiscal')
 
-    def _default_fiscal_document_serie(self, cr, uid, context):
-        fiscal_document_serie = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-
-        fiscal_document_serie = company.document_serie_service_id and \
-            company.document_serie_service_id.id or False
-
-        return fiscal_document_serie
-
-    _defaults = {
-        'issuer': '0',
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-        'fiscal_document_id': _default_fiscal_document,
-        'document_serie_id': _default_fiscal_document_serie,
-    }
-
-    def _check_invoice_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        invoices = self.browse(cr, uid, ids, context=context)
+    @api.one
+    @api.constrains('number')
+    def _check_invoice_number(self):
         domain = []
-        for invoice in invoices:
-            if not invoice.number:
-                continue
-            fiscal_document = invoice.fiscal_document_id and \
-            invoice.fiscal_document_id.id or False
-            domain.extend([('internal_number', '=', invoice.number),
-                           ('fiscal_type', '=', invoice.fiscal_type),
+        if self.number:
+            fiscal_document = self.fiscal_document_id and self.fiscal_document_id.id or False
+            domain.extend([('internal_number', '=', self.number),
+                           ('fiscal_type', '=', self.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
                            ])
-            if invoice.issuer == '0':
-                domain.extend(
-                    [('company_id', '=', invoice.company_id.id),
-                    ('internal_number', '=', invoice.number),
-                    ('fiscal_document_id', '=', invoice.fiscal_document_id.id),
+            if self.issuer == '0':
+                domain.extend([
+                    ('company_id', '=', self.company_id.id),
+                    ('internal_number', '=', self.number),
+                    ('fiscal_document_id', '=', self.fiscal_document_id.id),
                     ('issuer', '=', '0')])
             else:
-                domain.extend(
-                    [('partner_id', '=', invoice.partner_id.id),
-                    ('vendor_serie', '=', invoice.vendor_serie),
+                domain.extend([
+                    ('partner_id', '=', self.partner_id.id),
+                    ('vendor_serie', '=', self.vendor_serie),
                     ('issuer', '=', '1')])
 
-            invoice_id = self.pool.get('account.invoice').search(
-                cr, uid, domain)
-            if len(invoice_id) > 1:
-                return False
-        return True
+            invoices = self.env['account.invoice'].search(domain)
+            if len(invoices) > 1:
+                raise Warning(u'Não é possível registrar documentos fiscais com números repetidos.')
 
-    _constraints = [
-        (_check_invoice_number,
-        u"Error!\nNão é possível registrar \
-        documentos fiscais com números repetidos.",
-        ['number']),
+    _sql_constraints = [
+        ('number_uniq', 'unique(number, company_id, journal_id, type, partner_id)',
+            'Invoice Number must be unique per Company!'),
     ]
 
     #TODO - Melhorar esse método!
@@ -231,68 +204,6 @@ class AccountInvoice(orm.Model):
             result['arch'] = etree.tostring(doc)
         return result
 
-    def init(self, cr):
-        # Remove a constraint na coluna número do documento fiscal,
-        # no caso dos documentos de entradas dos fornecedores pode existir
-        # documentos fiscais de fornecedores diferentes com a mesma numeração
-        cr.execute("ALTER TABLE %s DROP CONSTRAINT IF EXISTS %s" % (
-            'account_invoice', 'account_invoice_number_uniq'))
-
-    # go from canceled state to draft state
-    def action_cancel_draft(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {
-            'state': 'draft',
-            'internal_number': False,
-            'nfe_access_key': False,
-            'nfe_status': False,
-            'nfe_date': False,
-            'nfe_export_date': False})
-        wf_service = netsvc.LocalService("workflow")
-        for inv_id in ids:
-            wf_service.trg_delete(uid, 'account.invoice', inv_id, cr)
-            wf_service.trg_create(uid, 'account.invoice', inv_id, cr)
-        return True
-
-    def copy(self, cr, uid, id, default={}, context=None):
-        default.update({
-            'internal_number': False,
-            'nfe_access_key': False,
-            'nfe_status': False,
-            'nfe_protocol_number': False,
-            'nfe_date': False,
-            'nfe_export_date': False,
-            'account_document_event_ids': False,
-        })
-        return super(AccountInvoice, self).copy(cr, uid, id, default, context)
-
-    def action_internal_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-
-        for inv in self.browse(cr, uid, ids):
-            if inv.issuer == '0':
-                sequence = self.pool.get('ir.sequence')
-                sequence_read = sequence.read(
-                    cr, uid, inv.document_serie_id.internal_sequence_id.id,
-                    ['number_next'])
-                invalid_number = self.pool.get(
-                    'l10n_br_account.invoice.invalid.number').search(
-                        cr, uid, [
-                        ('number_start', '<=', sequence_read['number_next']),
-                        ('number_end', '>=', sequence_read['number_next']),
-                        ('state', '=', 'done')])
-
-                if invalid_number:
-                    raise orm.except_orm(
-                        _(u'Número Inválido !'),
-                        _(u"O número: %s da série: %s, esta inutilizado") % (
-                            sequence_read['number_next'],
-                            inv.document_serie_id.name))
-
-                seq_no = sequence.get_id(cr, uid, inv.document_serie_id.internal_sequence_id.id, context=context)
-                self.write(cr, uid, inv.id, {'ref': seq_no, 'internal_number': seq_no})
-        return True
-
     def action_number(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -324,97 +235,72 @@ class AccountInvoice(orm.Model):
                 self.log(cr, uid, inv_id, message, context=ctx)
         return True
 
-    def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
-        """finalize_invoice_move_lines(cr, uid, invoice, move_lines) -> move_lines
-        Hook method to be overridden in additional modules to verify and possibly alter the
-        move lines to be created by an invoice, for special cases.
-        :param invoice_browse: browsable record of the invoice that is generating the move lines
-        :param move_lines: list of dictionaries with the account.move.lines (as for create())
-        :return: the (possibly updated) final move_lines to create for this invoice
+    # TODO Talvez este metodo substitui o metodo action_move_create
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
+        """ finalize_invoice_move_lines(move_lines) -> move_lines
+
+            Hook method to be overridden in additional modules to verify and
+            possibly alter the move lines to be created by an invoice, for
+            special cases.
+            :param move_lines: list of dictionaries with the account.move.lines (as for create())
+            :return: the (possibly updated) final move_lines to create for this invoice
         """
-        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(cr, uid, invoice_browse, move_lines)
+        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
         cont=1
         result = []
         for move_line in move_lines:
             if (move_line[2]['debit'] or move_line[2]['credit']):
                 if (move_line[2]['account_id'] == invoice_browse.account_id.id):
-                    move_line[2]['name'] = '%s/%s' % ( invoice_browse.internal_number, cont)
+                    move_line[2]['name'] = '%s/%s' % (self.internal_number, cont)
                     cont +=1
                 result.append(move_line)
         return result
 
-    def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self._context)
+        ctx.update({'use_domain': ('use_invoice', '=', True)})
 
-        if not context:
-            context = {}
-        context.update({'use_domain': ('use_invoice', '=', True)})
-        kwargs.update({'context': context})
-
-        if not kwargs.get('fiscal_category_id', False):
+        if not ctx.get('fiscal_category_id'):
             return result
 
-        obj_company = self.pool.get('res.company').browse(
-            cr, uid, kwargs.get('company_id', False))
-        obj_fcategory = self.pool.get('l10n_br_account.fiscal.category')
+        kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
-        fcategory = obj_fcategory.browse(
-            cr, uid, kwargs.get('fiscal_category_id'))
-        result['value']['journal_id'] = fcategory.property_journal and \
-        fcategory.property_journal.id or False
+        company = self.env['res.company'].browse(kwargs.get('company_id'))
+
+        fcategory = self.env['l10n_br_account.fiscal.category'].browse(
+            kwargs.get('fiscal_category_id'))
+        result['value']['journal_id'] = fcategory.property_journal.id
         if not result['value'].get('journal_id', False):
-            raise orm.except_orm(
-                _(u'Nenhum Diário !'),
-                _(u"Categoria fiscal: '%s', não tem um diário contábil para a \
-                empresa %s") % (fcategory.name, obj_company.name))
+            raise except_orm(
+                _('Nenhum Diário !'),
+                _("Categoria fiscal: '%s', não tem um diário contábil para a \
+                empresa %s") % (fcategory.name, company.name))
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
 
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-        return obj_fp_rule.apply_fiscal_mapping(cr, uid, result, **kwargs)
-
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
-                            date_invoice=False, payment_term=False,
-                            partner_bank_id=False, company_id=False,
-                            fiscal_category_id=False):
-
-        result = super(AccountInvoice, self).onchange_partner_id(
-            cr, uid, ids, type, partner_id, date_invoice, payment_term,
-            partner_bank_id, company_id)
-
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_address_id,
+                                    partner_id, company_id,
+                                    fiscal_category_id):
+        #TODO Deixar em branco a posição fiscal se não achar a regra
+        result = {'value': {'fiscal_position': None}}
+        if fiscal_category_id:
+            fiscal_category = self.env[
+                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
+            #TODO CASO NAO TENHA DIARIO EXIBIR UMA MENSAGEM
+            if fiscal_category.property_journal:
+                result['value']['journal_id'] = fiscal_category.property_journal.id
         return self._fiscal_position_map(
-            cr, uid, result, False, partner_id=partner_id,
-            partner_invoice_id=partner_id, company_id=company_id,
+            result, partner_id=partner_id,
+            partner_invoice_id=partner_address_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
-    def onchange_company_id(self, cr, uid, ids, company_id, partner_id, type,
-                            invoice_line, currency_id,
-                            fiscal_category_id=False):
-
-        result = super(AccountInvoice, self).onchange_company_id(
-            cr, uid, ids, company_id, partner_id, type, invoice_line,
-            currency_id)
-
-        return self._fiscal_position_map(
-            cr, uid, result, False, partner_id=partner_id,
-            partner_invoice_id=partner_id, company_id=company_id,
-            fiscal_category_id=fiscal_category_id)
-
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    partner_address_id=False,
-                                    partner_id=False, company_id=False,
-                                    fiscal_category_id=False):
-        result = {'value': {}}
-        return self._fiscal_position_map(
-            cr, uid, result, False, partner_id=partner_id,
-            partner_invoice_id=partner_id, company_id=company_id,
-            fiscal_category_id=fiscal_category_id)
-
-    def onchange_fiscal_document_id(self, cr, uid, ids, fiscal_document_id,
-                                    company_id, issuer, fiscal_type,
-                                    context=None):
+    @api.multi
+    def onchange_fiscal_document_id(self, fiscal_document_id,
+                                    company_id, issuer, fiscal_type):
         result = {'value': {'document_serie_id': False}}
-        if not context:
-            context = {}
-        company = self.pool.get('res.company').browse(cr, uid, company_id,
-            context=context)
+        company = self.env['res.company'].browse(company_id)
 
         if issuer == '0':
             serie = company.document_serie_service_id and \
