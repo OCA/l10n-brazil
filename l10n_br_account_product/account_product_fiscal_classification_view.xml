@@ -79,12 +79,10 @@
 					<field name="type"/>
 					<field name="parent_id"/>
 				</field>
-				<button name="button_update_products" position="after">
-					<group colspan="2">
-						<field name="inv_copy_note"/>
-						<field name="note"/>
-					</group>
-				</button>
+				<field name="description" position="after">
+                    <field name="inv_copy_note"/>
+                    <field name="note"/>
+				</field>
 				<field name="sale_base_tax_ids"  position="replace">
 					<group colspan="2">
 						<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
