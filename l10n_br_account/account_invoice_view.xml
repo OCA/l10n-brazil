@@ -39,7 +39,7 @@
 					<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
 				</field>
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
+				    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field position="attributes" name="company_id">
 					<attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
@@ -117,7 +117,7 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
-				<page string="Payments" position="before">
+				<page string="Payments" position="after">
 					<page string="Vencimentos">
 						<field colspan="4" nolabel="1" name="move_line_receivable_id" />
 					</page>
@@ -126,7 +126,7 @@
 					<attribute name="on_change">onchange_journal_id(journal_id, context)</attribute>
 				</field>
 				<field name="partner_id" position="attributes">
-					<attribute name="on_change">onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, fiscal_category_id)</attribute>
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
 				<field position="replace" name="number">
 				</field>
