@@ -21,7 +21,7 @@ from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 
-
+# TODO migrate
 def validate(cr, uid, ids, context=None):
     strErro = u''
     pool = pooler.get_pool(cr.dbname)
