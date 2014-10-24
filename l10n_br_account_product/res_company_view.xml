@@ -42,10 +42,11 @@
 							<page string="NFe">
 								<group>
 									<field name="nfe_version" required="1" />
-									<field name="nfe_import_folder" />
-									<field name="nfe_export_folder" />
-									<field name="nfe_backup_folder" />
-									<field name="nfe_environment" />
+                                    <field name="nfe_root_folder"/>
+									<field name="nfe_import_folder"/>
+									<field name="nfe_export_folder"/>
+									<field name="nfe_backup_folder"/>
+									<field name="nfe_environment"/>
 									<field name="file_type"/>
 									<field name="sign_xml"/>
 									<field name="export_folder"/>
