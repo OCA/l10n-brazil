@@ -17,16 +17,15 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class ResCompany(orm.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
-    _columns = {
-        'account_freight_id': fields.many2one(
-            'account.account', 'Freight Sale Tax Account'),
-        'account_insurance_id': fields.many2one(
-            'account.account', 'Insurance Sale Tax Account'),
-        'account_other_costs': fields.many2one(
-            'account.account', 'Other Costs Sale Tax Account'),
-    }
+
+    account_freight_id = fields.Many2one(
+        'account.account', 'Freight Sale Tax Account')
+    account_insurance_id = fields.Many2one(
+        'account.account', 'Insurance Sale Tax Account')
+    account_other_costs = fields.Many2one(
+        'account.account', 'Other Costs Sale Tax Account')
