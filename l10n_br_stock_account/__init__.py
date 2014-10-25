@@ -18,4 +18,5 @@
 ###############################################################################
 
 import res_company
+import stock_account
 import wizard
