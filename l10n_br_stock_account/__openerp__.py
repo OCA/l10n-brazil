@@ -30,6 +30,7 @@
         'account_fiscal_position_rule_stock',
     ],
     'data': [
+        'l10n_br_stock_account_data.xml',
         'stock_account_view.xml',
         'res_company_view.xml',
         'wizard/stock_invoice_onshipping_view.xml',
