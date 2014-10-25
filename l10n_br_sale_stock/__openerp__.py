@@ -37,7 +37,7 @@
     ],
     'demo': [
         'l10n_br_sale_stock_demo.xml',
-        'test/sale_order_demo.yml'
+        #'test/sale_order_demo.yml'
     ],
     'test': [
     ],
