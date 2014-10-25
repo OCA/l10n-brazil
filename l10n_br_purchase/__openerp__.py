@@ -39,6 +39,6 @@
     'demo': [
         'test/purchase_order_demo.yml'
             ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
