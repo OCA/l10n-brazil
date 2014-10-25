@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2014  Renato Lima - Akretion                                  #
+# Copyright (C) 2011  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,24 +17,23 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization WMS Accounting',
-    'description': 'Brazilian Localization WMS Accounting',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0',
-    'depends': [
-        'l10n_br_account_product',
-        'account_fiscal_position_rule_stock',
-    ],
-    'data': [
-        'res_company_view.xml',
-        'wizard/stock_invoice_onshipping_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': True,
-}
+from openerp.osv import orm, fields
+
+
+class res_company(orm.Model):
+    _inherit = 'res.company'
+    _columns = {
+        'stock_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            u'Categoria Fiscal Padrão Estoque'),
+        'stock_in_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            u'Categoria Fiscal Padrão de Entrada',
+            domain="[('journal_type', 'in', ('sale_refund', 'purchase')), "
+            "('fiscal_type', '=', 'product'), ('type', '=', 'input')]"),
+        'stock_out_fiscal_category_id': fields.many2one(
+            'l10n_br_account.fiscal.category',
+            u'Categoria Fiscal Padrão Saída',
+            domain="[('journal_type', 'in', ('purchase_refund', 'sale')), "
+            "('fiscal_type', '=', 'product'), ('type', '=', 'output')]"),
+    }
