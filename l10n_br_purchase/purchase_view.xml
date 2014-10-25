@@ -8,9 +8,11 @@
 			<field name="inherit_id" ref="purchase.purchase_order_form"/>
 			<field name="priority">36</field>
 			<field name="arch" type="xml">
-				<field name="fiscal_position" position="replace" >
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, dest_address_id, company_id, context, fiscal_category_id)" required="1"/>
-					<field domain="[('fiscal_category_id', '=', fiscal_category_id)]" name="fiscal_position" />
+				<field name="fiscal_position" position="before" >
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(fiscal_category_id, partner_id, dest_address_id, company_id, context)" required="1"/>
+				</field>
+				<field name="fiscal_position" position="attributes" >
+					<attribute name="domain">[('fiscal_category_id', '=', fiscal_category_id)]</attribute>
 				</field>
 				<field name="partner_id" position="attributes" >
 					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
@@ -30,15 +32,15 @@
 				</xpath>
 			</field>
 		</record>
-		
+
 		<record id="l10n_br_purchase_order_line_form" model="ir.ui.view">
 			<field name="name">l10n_br_purchase.order.line.form</field>
 			<field name="model">purchase.order.line</field>
 			<field name="inherit_id" ref="purchase.purchase_order_line_form"/>
 			<field name="arch" type="xml">
 				<field name="taxes_id" position="before" >
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.dest_address_id, product_id, fiscal_category_id, parent.company_id, context)" required="1" />
-					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.dest_address_id, product_id, fiscal_position, fiscal_category_id, parent.company_id, context)" required="1" />
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(fiscal_category_id, parent.partner_id, parent.dest_address_id, product_id, parent.company_id, context)" required="1" />
+					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.dest_address_id, product_id, fiscal_category_id, parent.company_id, context)" required="1" />
 				</field>
 				<field name="product_id" position="attributes" >
 					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id, 'company_id': parent.company_id, 'parent_fiscal_position_id': parent.fiscal_position, 'parent_fiscal_category_id': parent.fiscal_category_id}</attribute>
