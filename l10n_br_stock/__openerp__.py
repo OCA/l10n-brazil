@@ -32,9 +32,6 @@
     'data': [
         'l10n_br_stock_data.xml',
         'stock_view.xml',
-        'res_company_view.xml',
-        'wizard/stock_invoice_onshipping_view.xml',
-        'security/ir.model.access.csv',
     ],
     'demo': [],
     'installable': True,
