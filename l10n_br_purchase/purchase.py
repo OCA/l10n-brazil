@@ -18,135 +18,90 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm
 from openerp.addons import decimal_precision as dp
 
 
-class PurchaseOrder(orm.Model):
+class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        cur_obj = self.pool.get('res.currency')
-        for order in self.browse(cr, uid, ids, context=context):
-            res[order.id] = {
-                'amount_untaxed': 0.0,
-                'amount_tax': 0.0,
-                'amount_total': 0.0,
-            }
-            val = val1 = 0.0
-            cur = order.pricelist_id.currency_id
-            for line in order.order_line:
-                val1 += line.price_subtotal
+    @api.one
+    @api.depends('order_line.price_unit', 'order_line.product_qty',
+                 'order_line.taxes_id')
+    def _compute_amount(self):
+        amount_untaxed = 0.0
+        amount_tax = 0.0
+        amount_total = 0.0
 
-                for c in self.pool.get('account.tax').compute_all(
-                    cr, uid, line.taxes_id, line.price_unit, line.product_qty,
-                    line.product_id.id, order.partner_id,
-                    fiscal_position=line.fiscal_position)['taxes']:
+        for line in self.order_line:
+            taxes = line.taxes_id.compute_all(line.price_unit, line.product_qty,
+            product=line.product_id, partner=self.partner_id,
+            fiscal_position=self.fiscal_position)
 
-                    tax_brw = self.pool.get('account.tax').browse(
-                        cr, uid, c['id'])
-                    if not tax_brw.tax_code_id.tax_discount:
-                        val += c.get('amount', 0.0)
-            res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-            res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
-            res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
-        return res
+            amount_untaxed += line.price_subtotal
 
-    def _get_order(self, cr, uid, ids, context=None):
-        result = {}
-        for line in self.pool.get('purchase.order.line').browse(
-            cr, uid, ids, context=context):
-            result[line.order_id.id] = True
-        return list(result.keys())
+            for tax in taxes['taxes']:
+                tax_brw = self.env['account.tax'].browse(tax['id'])
+                if not tax_brw.tax_code_id.tax_discount:
+                    amount_tax += tax.get('amount', 0.0)
 
-    def _default_fiscal_category(self, cr, uid, context=None):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        return user.company_id.purchase_fiscal_category_id and \
-        user.company_id.purchase_fiscal_category_id.id or False
+        self.amount_untaxed = self.pricelist_id.currency_id.round(amount_untaxed)
+        self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
+        self.amount_total = self.pricelist_id.currency_id.round(
+            amount_untaxed + amount_tax)
 
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="""[('type', '=', 'input'), ('state', '=', 'approved'),
-                ('journal_type', '=', 'purchase')]"""),
-        'amount_untaxed': fields.function(
-            _amount_all, method=True,
-            digits_compute=dp.get_precision('Purchase Price'),
-            string='Untaxed Amount',
-            store={'purchase.order.line': (_get_order, None, 10)},
-            multi="sums", help="The amount without tax"),
-        'amount_tax': fields.function(
-            _amount_all, method=True,
-            digits_compute=dp.get_precision('Purchase Price'), string='Taxes',
-            store={'purchase.order.line': (_get_order, None, 10)},
-            multi="sums", help="The tax amount"),
-        'amount_total': fields.function(
-            _amount_all, method=True,
-            digits_compute=dp.get_precision('Purchase Price'), string='Total',
-            store={'purchase.order.line': (_get_order, None, 10)},
-            multi="sums", help="The total amount")}
+    @api.model
+    @api.returns('l10n_br_account.fiscal_category')
+    def _default_fiscal_category(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.purchase_fiscal_category_id
 
-    _defaults = {
-        'fiscal_category_id': _default_fiscal_category}
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        default=_default_fiscal_category,
+        domain="""[('type', '=', 'input'), ('state', '=', 'approved'),
+            ('journal_type', '=', 'purchase')]""")
+    amount_untaxed = fields.Float(
+        compute='_compute_amount', digits=dp.get_precision('Purchase Price'),
+        string='Untaxed Amount', store=True, help="The amount without tax")
+    amount_tax = fields.Float(
+        compute='_compute_amount', digits=dp.get_precision('Purchase Price'),
+        string='Taxes', store=True, help="The tax amount")
+    amount_total = fields.Float(
+        compute='_compute_amount', digits=dp.get_precision('Purchase Price'),
+        string='Total', store=True, help="The total amount")
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id=False,
-                            company_id=False, context=None, **kwargs):
-        if not context:
-            context = {}
-        # TODO try to upstream web_context_tunnel in fiscal-rules
-        # to avoid having to change this signature
-        fiscal_category_id = context.get('fiscal_category_id')
-        if not company_id:
-            company_id = self.pool['res.users'].browse(
-                cr, uid, uid, context).company_id.id
-        return super(PurchaseOrder, self).onchange_partner_id(
-            cr, uid, ids, partner_id, company_id, context,
-            fiscal_category_id=fiscal_category_id, **kwargs)
+    @api.multi
+    def _fiscal_position_map(self, result, **kwargs):
+        """Método para chamar a definição de regras fiscais"""
+        ctx = dict(self._context)
+        kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
-    def onchange_dest_address_id(self, cr, uid, ids, partner_id,
-                                 dest_address_id, company_id, context,
-                                 **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id = context.get('fiscal_category_id')
-        return super(PurchaseOrder, self).onchange_dest_address_id(
-            cr, uid, ids, partner_id, dest_address_id, company_id, context,
-            fiscal_category_id=fiscal_category_id, **kwargs)
+        ctx.update({'use_domain': ('use_purchase', '=', True)})
+        return self.env[
+            'account.fiscal.position.rule'].with_context(
+                ctx).apply_fiscal_mapping(result, **kwargs)
 
-    def onchange_company_id(self, cr, uid, ids, partner_id,
-                                 dest_address_id, company_id, context=None,
-                                 **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id = context.get('fiscal_category_id')
-        return super(PurchaseOrder, self).onchange_company_id(
-            cr, uid, ids, partner_id, dest_address_id, company_id, context,
-            fiscal_category_id=fiscal_category_id, **kwargs)
-
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id=False,
-                                    dest_address_id=False, company_id=False,
-                                    context=None, fiscal_category_id=False,
-                                    **kwargs):
-        if not context:
-            context = {}
+    @api.multi
+    def onchange_fiscal_category_id(self, fiscal_category_id, partner_id,
+                                    dest_address_id, company_id):
 
         result = {'value': {'fiscal_position': False}}
 
         if not partner_id or not company_id:
             return result
 
-        kwargs.update({
+        kwargs = {
             'company_id': company_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
             'fiscal_category_id': fiscal_category_id,
             'partner_shipping_id': dest_address_id,
-            'context': context,
-        })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        }
+        return self._fiscal_position_map(result, **kwargs)
 
+    #TODO migrate to new API
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
 
         result = super(PurchaseOrder, self)._prepare_inv_line(
@@ -172,65 +127,52 @@ class PurchaseOrder(orm.Model):
 
         return result
 
-    # TODO ask OpenERP SA for a _prepare_invoice method!
-    def action_invoice_create(self, cr, uid, ids, *args):
-        inv_id = super(PurchaseOrder, self).action_invoice_create(cr, uid,
-                                                                   ids, *args)
-        for order in self.browse(cr, uid, ids):
-            # REMARK: super method is ugly as it assumes only one invoice
-            # for possibly several purchase orders.
-            if inv_id:
-                company_id = order.company_id
-                if not company_id.document_serie_product_ids:
-                    raise orm.except_orm(
-                        _('No fiscal document serie found!'),
-                        _("No fiscal document serie found for selected \
-                        company %s") % (order.company_id.name))
+    #TODO migrate to new API
+    def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
+        result = super(PurchaseOrder, self)._prepare_invoice(
+            cr, uid, order, line_ids, context)
 
-                journal_id = order.fiscal_category_id and \
-                order.fiscal_category_id.property_journal.id or False
+        company_id = order.company_id
+        if not company_id.document_serie_product_ids:
+            raise except_orm(
+                _('No fiscal document serie found!'),
+                _("No fiscal document serie found for selected \
+                company %s") % (order.company_id.name))
 
-                if not journal_id:
-                    raise orm.except_orm(
-                        _(u'Nenhuma Diário!'),
-                        _(u"Categoria de operação fisca: '%s', não tem um \
-                        diário contábil para a empresa %s") % (
-                            order.fiscal_category_id.name,
-                            order.company_id.name))
+        journal_id = order.fiscal_category_id.property_journal.id
+        if not journal_id:
+            raise except_orm(
+                _(u'Nenhuma Diário!'),
+                _(u"Categoria de operação fisca: '%s', não tem um \
+                diário contábil para a empresa %s") % (
+                order.fiscal_category_id.name,
+                order.company_id.name))
 
-                comment = ''
-                if order.fiscal_position.inv_copy_note:
-                    comment = order.fiscal_position.note or ''
-                if order.notes:
-                    comment += ' - ' + order.notes
+        #FIXME Se vazio deve ficar em branco
+        comment = ''
+        if order.fiscal_position.inv_copy_note and order.fiscal_position.note:
+            comment = order.fiscal_position.note
+        if order.notes:
+            comment += ' - ' + order.notes
 
-                self.pool.get('account.invoice').write(cr, uid, inv_id, {
-                     'fiscal_category_id': order.fiscal_category_id and
-                     order.fiscal_category_id.id,
-                     'fiscal_position': order.fiscal_position and
-                     order.fiscal_position.id,
-                     'issuer': '1',
-                     'comment': comment,
-                     'journal_id': journal_id})
-        return inv_id
+        result['issuer'] = '1'
+        result['comment'] = comment,
+        result['journal_id'] = journal_id
+        result['fiscal_category_id'] = order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position.id
 
-    def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(PurchaseOrder, self)._prepare_order_picking(cr, uid,
-            order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and \
-        order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and \
-        order.fiscal_position.id
         return result
 
-    def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id, context=None):
-        result = super(PurchaseOrder, self)._prepare_order_line_move( cr, uid,
-               order, order_line, picking_id, context)
-        result['fiscal_category_id'] = order_line.fiscal_category_id and \
-        order_line.fiscal_category_id.id
-        result['fiscal_position'] = order_line.fiscal_position and \
-        order_line.fiscal_position.id
+    #TODO migrate to new API
+    def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id,
+                                 group_id, context=None):
+        result = super(PurchaseOrder, self)._prepare_order_line_move(
+            cr, uid, order, order_line, picking_id, group_id, context)
+        for move in result:
+            move['fiscal_category_id'] = order_line.fiscal_category_id.id
+            move['fiscal_position'] = order_line.fiscal_position.id
         return result
+
 
 class PurchaseOrderLine(orm.Model):
     _inherit = 'purchase.order.line'
