@@ -17,14 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class ResCompany(orm.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
-    _columns = {
-        'purchase_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category',
-            u'Categoria Fiscal Padrão Compras',
-            domain="[('journal_type', '=', 'purchase')]"),
-    }
+
+    purchase_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        u'Categoria Fiscal Padrão Compras',
+        domain="[('journal_type', '=', 'purchase')]")
+
