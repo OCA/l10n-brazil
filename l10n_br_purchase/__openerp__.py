@@ -26,7 +26,7 @@
     'website': 'http://odoo-brasil.org',
     'version': '8.0',
     'depends': [
-        'l10n_br_stock',
+        'l10n_br_stock_account',
         'account_fiscal_position_rule_purchase',
     ],
     'data': [
