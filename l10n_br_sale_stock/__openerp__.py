@@ -23,9 +23,9 @@
     'description': 'Brazilian Localization for sale_stock_module',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERPBrasil.org',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Akretion, OdooBrasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'sale_stock',
         'l10n_br_sale_product',
