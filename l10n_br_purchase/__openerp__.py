@@ -22,9 +22,9 @@
     'description': 'Brazilian Localization for Purchase',
     'license': 'AGPL-3',
     'category': 'Localisation',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'l10n_br_stock',
         'account_fiscal_position_rule_purchase',
@@ -37,7 +37,8 @@
         'security/l10n_br_purchase_security.xml',
     ],
     'demo': [
-        'test/purchase_order_demo.yml'
+        #FIXME
+        #'test/purchase_order_demo.yml'
             ],
     'installable': True,
     'auto_install': False,
