@@ -174,56 +174,44 @@ class PurchaseOrder(models.Model):
         return result
 
 
-class PurchaseOrderLine(orm.Model):
+class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="[('type', '=', 'input'), \
-            ('journal_type', '=', 'purchase')]"),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', u'Posição Fiscal',
-            domain="[('fiscal_category_id', '=', fiscal_category_id)]")
-    }
 
-    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        domain="[('type', '=', 'input'), ('journal_type', '=', 'purchase')]")
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position', u'Posição Fiscal',
+        domain="[('fiscal_category_id', '=', fiscal_category_id)]")
 
-        kwargs['context'].update({'use_domain': ('use_purchase', '=', True)})
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        result_rule = fp_rule_obj.apply_fiscal_mapping(
-            cr, uid, result, **kwargs)
-        if kwargs.get('product_id', False) and \
-        result_rule.get('fiscal_position', False):
-            obj_fposition = self.pool.get('account.fiscal.position').browse(
-                cr, uid, result_rule['fiscal_position'])
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, kwargs.get('product_id', False))
-            kwargs['context'].update({'fiscal_type': obj_product.fiscal_type,
-                            'type_tax_use': 'purchase'})
-            taxes = obj_product.supplier_taxes_id or False
-            tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                cr, uid, obj_fposition, taxes, kwargs.get('context'))
-
-            result_rule['taxes_id'] = tax_ids
-
+    @api.multi
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self.env.context)
+        ctx.update({'use_domain': ('use_purchase', '=', True)})
+        result_rule = self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
         return result_rule
 
-    def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id,
-                            qty, uom_id, partner_id, date_order=False,
+    @api.multi
+    def onchange_product_id(self, pricelist_id, product_id, qty, uom_id,
+                            partner_id, date_order=False,
                             fiscal_position_id=False, date_planned=False,
-                            name=False, price_unit=False, context=None):
-        if context is None:
-            context = {}
-        company_id = context.get('company_id')
-        parent_fiscal_position_id = context.get('parent_fiscal_position_id')
-        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+                            name=False, price_unit=False, state='draft'):
+        """Método para implementar a inclusão dos campos categoria fiscal
+        e posição fiscal de acordo com valores padrões e regras de posicões
+        fiscais
+        """
+        ctx = dict(self.env.context)
+        company_id = ctx.get('company_id')
+        parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
 
         result = {'value': {}}
 
-        if product_id and parent_fiscal_category_id:
-            obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        if product_id and parent_fiscal_category_id and partner_id:
+            obj_fp_rule = self.env['account.fiscal.position.rule']
+            partner = self.env['res.partner'].browse(partner_id)
             product_fc_id = obj_fp_rule.product_fiscal_category_map(
-                cr, uid, product_id, parent_fiscal_category_id)
+                product_id, parent_fiscal_category_id, partner.state_id.id)
 
             if product_fc_id:
                 parent_fiscal_category_id = product_fc_id
@@ -236,76 +224,84 @@ class PurchaseOrderLine(orm.Model):
                 'partner_id': partner_id,
                 'partner_invoice_id': partner_id,
                 'fiscal_category_id': parent_fiscal_category_id,
-                'context': context,
+                'context': ctx,
             }
-            result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+            result.update(self._fiscal_position_map(result, **kwargs))
             if result['value'].get('fiscal_position'):
                 fiscal_position_id = result['value'].get('fiscal_position')
 
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, product_id)
-            context.update({'fiscal_type': obj_product.fiscal_type,
-                'type_tax_use': 'purchase'})
+            obj_product = self.env['product.product'].browse(product_id)
+            ctx.update({'fiscal_type': obj_product.fiscal_type,
+                        'type_tax_use': 'purchase'})
 
         result_super = super(PurchaseOrderLine, self).onchange_product_id(
-            cr, uid, ids, pricelist_id, product_id, qty, uom_id, partner_id,
+            pricelist_id, product_id, qty, uom_id, partner_id,
             date_order, fiscal_position_id, date_planned, name, price_unit,
-            context)
+            state)
         result_super['value'].update(result['value'])
         return result_super
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
-                                    dest_address_id=False,
-                                    product_id=False,
-                                    fiscal_category_id=False,
-                                    company_id=False, context=None,
-                                    **kwargs):
+    @api.multi
+    def onchange_product_uom(self, pricelist_id, product_id, qty, uom_id,
+                             partner_id, date_order=False,
+                             fiscal_position_id=False, date_planned=False,
+                             name=False, price_unit=False, state='draft'):
+        """Método adaptado para a nova API já que este mesmo chama o método
+        onchange_product_id
+        """
+        return super(PurchaseOrderLine, self).onchange_product_uom(
+            pricelist_id, product_id, qty, uom_id, partner_id, date_order,
+            fiscal_position_id, date_planned, name, price_unit, state)
+
+    #product_id_change = onchange_product_id
+    #product_uom_change = onchange_product_uom
+
+    @api.multi
+    def onchange_fiscal_category_id(self, fiscal_category_id, partner_id,
+                                    dest_address_id=False, product_id=False,
+                                    company_id=False):
         result = {'value': {}}
         if not company_id or not partner_id:
             return result
 
-        kwargs.update({
+        kwargs = {
             'company_id': company_id,
             'product_id': product_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
+            'partner_shipping_id': dest_address_id,
             'fiscal_category_id': fiscal_category_id,
-            'context': context,
-        })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        }
+        return self._fiscal_position_map(result, **kwargs)
 
-    def onchange_fiscal_position(self, cr, uid, ids, partner_id,
-                                 dest_address_id=False, product_id=False,
-                                 fiscal_position=False,
-                                 fiscal_category_id=False, company_id=False,
-                                 context=None, **kwargs):
+    @api.multi
+    def onchange_fiscal_position(self, partner_id, dest_address_id,
+                                 product_id, fiscal_category_id,
+                                 company_id):
         result = {'value': {'taxes_id': False}}
         if not company_id or not partner_id:
             return result
 
-        kwargs.update({
+        kwargs = {
             'company_id': company_id,
             'product_id': product_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
+            'partner_shipping_id': dest_address_id,
             'fiscal_category_id': fiscal_category_id,
-            'context': context,
-        })
-
-        result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+        }
+        result.update(self._fiscal_position_map(result, **kwargs))
         fiscal_position = result['value'].get('fiscal_position')
 
         if product_id and fiscal_position:
-            obj_fposition = self.pool.get('account.fiscal.position').browse(
-                cr, uid, fiscal_position)
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, product_id)
-            context = {'fiscal_type': obj_product.fiscal_type,
-                       'type_tax_use': 'purchase'}
-            taxes = obj_product.supplier_taxes_id or False
-            taxes_ids = self.pool.get('account.fiscal.position').map_tax(
-                cr, uid, obj_fposition, taxes, context)
-
+            obj_fposition = self.env['account.fiscal.position'].browse(
+                fiscal_position)
+            obj_product = self.env['product.product'].browse(product_id)
+            ctx = dict(self.env.context)
+            ctx.update({'fiscal_type': obj_product.fiscal_type,
+                        'type_tax_use': 'purchase'})
+            taxes = obj_product.supplier_taxes_id
+            taxes_ids = obj_fposition.with_context(ctx).map_tax(taxes)
             result['value']['taxes_id'] = taxes_ids
 
         return result
