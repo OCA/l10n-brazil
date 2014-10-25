@@ -19,4 +19,3 @@
 
 import res_company
 import stock
-import wizard
