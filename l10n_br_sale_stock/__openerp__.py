@@ -36,10 +36,6 @@
     ],
     'demo': [
         'l10n_br_sale_stock_demo.xml',
-<<<<<<< HEAD
-=======
-        #'test/sale_order_demo.yml'
->>>>>>> comment data file
     ],
     'test': [
         'test/sale_order_demo.yml'
