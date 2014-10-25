@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2012  Raphaël Valyi - Akretion                                #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,29 +18,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Sales and Warehouse',
-    'description': 'Brazilian Localization for sale_stock_module',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERPBrasil.org',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'sale_stock',
-        'l10n_br_sale_product',
-        'l10n_br_stock',
-    ],
-    'data': [
-        'l10n_br_sale_stock_data.xml',
-        'sale_stock_view.xml',
-    ],
-    'demo': [
-        'l10n_br_sale_stock_demo.xml',
-        'test/sale_order_demo.yml'
-    ],
-    'test': [
-    ],
-    'installable': True,
-    'auto_install': True,
-}
+from openerp.osv import orm
+
+
+class sale_order(orm.Model):
+    _inherit = 'sale.order'
+
+    def _prepare_order_picking(self, cr, uid, order, context=None):
+        result = super(sale_order, self)._prepare_order_picking(
+            cr, uid, order, context)
+        result['fiscal_category_id'] = order.fiscal_category_id and \
+        order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position and \
+        order.fiscal_position.id
+        return result
