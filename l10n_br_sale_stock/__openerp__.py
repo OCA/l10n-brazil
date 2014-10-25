@@ -29,7 +29,7 @@
     'depends': [
         'sale_stock',
         'l10n_br_sale_product',
-        'l10n_br_stock',
+        'l10n_br_stock_account',
     ],
     'data': [
         'l10n_br_sale_stock_data.xml',
