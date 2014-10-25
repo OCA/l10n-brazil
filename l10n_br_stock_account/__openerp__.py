@@ -30,6 +30,8 @@
         'account_fiscal_position_rule_stock',
     ],
     'data': [
+        'wizard/stock_invoice_onshipping_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'installable': True,
