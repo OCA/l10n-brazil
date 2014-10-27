@@ -20,9 +20,9 @@
 {
     'name': 'Brazilian Localization Delivery',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'l10n_br_sale_stock',
         'delivery',
@@ -36,5 +36,5 @@
     ],
     'demo': [],
     'category': 'Localisation',
-    'installable': False,
+    'installable': True,
 }
