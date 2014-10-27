@@ -17,37 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-
-FISCAL_POSITION_COLUMNS = {
-    'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
-        'Categoria Fiscal'),
-    'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
-        'Tipo'),
-    'type_tax_use': fields.selection([('sale', 'Sale'),
-                                      ('purchase', 'Purchase'),
-                                      ('all', 'All')], 'Tax Application'),
-    'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal')}
+from openerp import models, fields
 
 
-class AccountFiscalPositionTemplate(orm.Model):
+class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
-    _columns = FISCAL_POSITION_COLUMNS
 
-    def onchange_type(self, cr, uid, ids, type=False, context=None):
-        type_tax = {'input': 'purhcase', 'output': 'sale'}
-        return {'value': {'type_tax_use': type_tax.get(type, 'all'),
-                          'tax_ids': False}}
-
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    fiscal_category_id=False, context=None):
-        if fiscal_category_id:
-            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
-                    cr, uid, fiscal_category_id,
-                    ['fiscal_type', 'journal_type'], context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-
+    # TODO migrate to new API
+    @api.v7
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
                                  company_id, context=None):
@@ -108,102 +85,3 @@ class AccountFiscalPositionTemplate(orm.Model):
                     'position_id': new_fp
                 })
         return True
-
-
-class AccountFiscalPositionTaxTemplate(orm.Model):
-    _inherit = 'account.fiscal.position.tax.template'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax.template', 'Tax Source'),
-        'tax_code_src_id': fields.many2one('account.tax.code.template',
-                                            u'Código Taxa Origem'),
-        'tax_src_domain': fields.related('tax_src_id', 'domain',
-                                         type='char'),
-        'tax_code_dest_id': fields.many2one('account.tax.code.template',
-                                            'Replacement Tax Code')
-    }
-
-    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
-                    tax_code_src_id=False, context=None):
-
-        tax_domain = False
-        if tax_src_id:
-            tax_domain = self.pool.get('account.tax.template').read(
-                cr, uid, tax_src_id, ['domain'], context=context)['domain']
-
-        if tax_code_src_id:
-            tax_domain = self.pool.get('account.tax.code.template').read(
-                cr, uid, tax_code_src_id, ['domain'],
-                context=context)['domain']
-
-        return {'value': {'tax_src_domain': tax_domain}}
-
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
-                            tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
-                                 tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-
-class AccountFiscalPosition(orm.Model):
-    _inherit = 'account.fiscal.position'
-    _columns = FISCAL_POSITION_COLUMNS
-
-    def onchange_type(self, cr, uid, ids, type=False, context=None):
-        type_tax = {'input': 'purchase', 'output': 'sale'}
-        return {'value': {'type_tax_use': type_tax.get(type, 'all'),
-                          'tax_ids': False}}
-
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    fiscal_category_id=False, context=None):
-        if fiscal_category_id:
-            fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
-                cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
-                context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
-
-
-class AccountFiscalPositionTax(orm.Model):
-    _inherit = 'account.fiscal.position.tax'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
-        'tax_code_src_id': fields.many2one('account.tax.code',
-                                            u'Código Taxa Origem'),
-        'tax_src_domain': fields.related('tax_src_id', 'domain',
-                                         type='char'),
-        'tax_code_dest_id': fields.many2one('account.tax.code',
-                                            'Replacement Tax Code')
-    }
-
-    def _tax_domain(self, cr, uid, ids, tax_src_id=False,
-                    tax_code_src_id=False, context=None):
-
-        tax_domain = False
-        if tax_src_id:
-            tax_domain = self.pool.get('account.tax').read(
-                cr, uid, tax_src_id, ['domain'], context=context)['domain']
-
-        if tax_code_src_id:
-            tax_domain = self.pool.get('account.tax.code').read(
-                cr, uid, tax_code_src_id, ['domain'],
-                context=context)['domain']
-
-        return {'value': {'tax_src_domain': tax_domain}}
-
-    def onchange_tax_src_id(self, cr, uid, ids, tax_src_id=False,
-                            tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
-
-    def onchange_tax_code_src_id(self, cr, uid, ids, tax_src_id=False,
-                                 tax_code_src_id=False, context=None):
-
-        return self._tax_domain(cr, uid, ids, tax_src_id, tax_code_src_id,
-                                context=context)
