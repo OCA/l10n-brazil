@@ -30,7 +30,6 @@
         'l10n_br_account_service',
     ],
     'data': [
-        'res_company_view.xml',
     ],
     'demo': [
     ],
