@@ -17,12 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import time
-from openerp.osv import orm, osv
-from openerp.tools.translate import _
+from openerp import models, api
 
 
-class SaleOrder(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -44,6 +42,7 @@ class SaleOrder(orm.Model):
 
         return result
 
+    # TODO não existe mais este método pai
     def _prepare_order_picking(self, cr, uid, order, context=None):
         result = super(SaleOrder, self)._prepare_order_picking(
             cr, uid, order, context)
@@ -54,27 +53,12 @@ class SaleOrder(orm.Model):
         result['incoterm'] = order.incoterm and order.incoterm.id or False
         return result
 
-    def delivery_set(self, cr, uid, ids, context=None):
-        #Copia do modulo delivery
-        #Exceto pelo final que adiciona ao campo total do frete.
-        grid_obj = self.pool.get('delivery.grid')
-        carrier_obj = self.pool.get('delivery.carrier')
-
-        for order in self.browse(cr, uid, ids, context=context):
-            grid_id = carrier_obj.grid_get(cr, uid, [order.carrier_id.id],
-            order.partner_shipping_id.id)
-
-            if not grid_id:
-                raise osv.except_osv(_('No Grid Available!'),
-                     _('No grid matching for this carrier!'))
-
-            if not order.state in ('draft'):
-                raise osv.except_osv(_('Order not in Draft State!'),
-                    _('The order state have to be draft to add delivery lines.'))
-
-            grid = grid_obj.browse(cr, uid, grid_id, context=context)
-
-            amount_freight = grid_obj.get_price(cr, uid, grid.id, order,
-            time.strftime('%Y-%m-%d'), context)
-            self.onchange_amount_freight(cr, uid, ids, amount_freight)
-        return self.write(cr, uid, ids, {'amount_freight': amount_freight})
+    # TODO
+    def _prepare_order_line_move(self, cr, uid, order, line, picking_id, date_planned, context=None):
+        result = super(SaleOrder, self)._prepare_order_line_move( cr, uid,
+               order, line, picking_id, date_planned, context)
+        result['fiscal_category_id'] = line.fiscal_category_id and \
+        line.fiscal_category_id.id
+        result['fiscal_position'] = line.fiscal_position and \
+        line.fiscal_position.id
+        return result
