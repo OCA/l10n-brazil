@@ -39,5 +39,5 @@
     'demo': [
         'l10n_br_account_payment_demo.xml',
     ],
-    'installable': False,
+    'installable': True,
 }
