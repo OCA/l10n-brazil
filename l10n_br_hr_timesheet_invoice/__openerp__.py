@@ -21,7 +21,7 @@
 
 {
     'name': 'Brazilian Invoice on Timesheets',
-    'version': '1.0',
+    'version': '8.0',
     'category': 'Sales Management',
     'description': """
 Generate your Invoices from Expenses, Timesheet Entries.
@@ -35,9 +35,10 @@ You can define price lists in analytic account, make some theoretical revenue
 reports.""",
     'author': 'KMEE',
     'website': 'http://www.kmee.com.br',
-    'depends': ['l10n_br_account',
-                'hr_timesheet_invoice',
-                ],
+    'depends': [
+        'l10n_br_account',
+        'hr_timesheet_invoice',
+    ],
     'data': [
         'hr_timesheet_invoice_data.xml',
         'hr_timesheet_invoice_view.xml',
