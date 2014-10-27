@@ -22,6 +22,7 @@ from openerp.osv import orm, fields
 from openerp.addons.l10n_br_account.res_company import SQL_CONSTRAINTS
 
 
+# TODO migrate to new API
 class ResCompany(orm.Model):
     _inherit = 'res.company'
 

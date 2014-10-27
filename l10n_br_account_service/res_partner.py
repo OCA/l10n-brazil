@@ -21,6 +21,7 @@
 from openerp.osv import orm
 
 
+#TODO migrate to new API
 class AccountFiscalPosition(orm.Model):
     _inherit = 'account.fiscal.position'
 
