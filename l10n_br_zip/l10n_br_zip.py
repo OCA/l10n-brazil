@@ -19,30 +19,31 @@
 
 import re
 
-from openerp.osv import orm, fields
+from openerp import models, fields
+from openerp.exceptions import except_orm
 
 
-class L10n_brZip(orm.Model):
+class L10n_brZip(models.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
     _name = 'l10n_br.zip'
     _description = 'CEP'
     _rec_name = 'zip'
-    _columns = {
-        'zip': fields.char('CEP', size=8, required=True),
-        'street_type': fields.char('Tipo', size=26),
-        'street': fields.char('Logradouro', size=72),
-        'district': fields.char('Bairro', size=72),
-        'country_id': fields.many2one('res.country', 'Country'),
-        'state_id': fields.many2one(
-            'res.country.state', 'Estado',
-            domain="[('country_id','=',country_id)]"),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Cidade',
-            required=True, domain="[('state_id','=',state_id)]"),
-    }
 
+    zip = fields.Char('CEP', size=8, required=True)
+    street_type = fields.Char('Tipo', size=26)
+    street = fields.Char('Logradouro', size=72)
+    district = fields.Char('Bairro', size=72)
+    country_id = fields.Many2one('res.country', 'Country')
+    state_id = fields.Many2one(
+        'res.country.state', 'Estado',
+        domain="[('country_id','=',country_id)]")
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Cidade',
+        required=True, domain="[('state_id','=',state_id)]")
+
+    # TODO migrate to new API
     def set_domain(self, country_id=False, state_id=False,
                 l10n_br_city_id=False, district=False,
                 street=False, zip_code=False):
@@ -53,7 +54,7 @@ class L10n_brZip(orm.Model):
         else:
             if not state_id or not l10n_br_city_id or \
                 len(street or '') == 0:
-                raise orm.except_orm(
+                raise except_orm(
                     u'Parametros insuficientes',
                     u'Necessário informar Estado, município e logradouro')
 
@@ -87,6 +88,7 @@ class L10n_brZip(orm.Model):
             result = {}
         return result
 
+    # TODO migrate to new API
     def zip_search_multi(self, cr, uid, ids, context, country_id=False,
                         state_id=False, l10n_br_city_id=False,
                         district=False, street=False, zip_code=False):
@@ -115,6 +117,7 @@ class L10n_brZip(orm.Model):
         else:
             return False
 
+    # TODO migrate to new API
     def create_wizard(self, cr, uid, ids, context,
                     object_name, country_id=False,
                     state_id=False, l10n_br_city_id=False,
