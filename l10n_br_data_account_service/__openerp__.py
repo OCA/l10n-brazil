@@ -36,6 +36,6 @@
         'l10n_br_data_account_service_demo.xml'
     ],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }
