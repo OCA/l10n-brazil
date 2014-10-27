@@ -4,7 +4,7 @@
 
 		<record id="l10n_br_delivery_stock_picking_out_form" model="ir.ui.view">
 			<field name="name">l10n_br_delivery.stock.picking.out.form</field>
-			<field name="model">stock.picking.out</field>
+			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
 			<field name="priority">32</field>
 			<field name="arch" type="xml">
