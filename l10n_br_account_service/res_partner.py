@@ -18,13 +18,15 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 
 
 #TODO migrate to new API
-class AccountFiscalPosition(orm.Model):
+class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
+    # TODO create v8 method
+    @api.v7
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
         if not context:
@@ -47,6 +49,8 @@ class AccountFiscalPosition(orm.Model):
                                                tax_def.tax_code_id.id})
         return result
 
+    # TODO create v8 method
+    @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
         if not context:
