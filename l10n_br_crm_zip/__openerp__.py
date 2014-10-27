@@ -34,6 +34,6 @@
         'crm_opportunity_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }
