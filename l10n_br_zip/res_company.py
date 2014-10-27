@@ -25,6 +25,7 @@
 from openerp.osv import orm
 
 
+# TODO migrate to new API
 class res_company(orm.Model):
     _inherit = 'res.company'
 
