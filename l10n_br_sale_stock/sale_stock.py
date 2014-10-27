@@ -18,17 +18,16 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class sale_order(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # TODO migrate to new API
     def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(sale_order, self)._prepare_order_picking(
+        result = super(SaleOrder, self._model)._prepare_order_picking(
             cr, uid, order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and \
-        order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and \
-        order.fiscal_position.id
+        result['fiscal_category_id'] = order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position.id
         return result
