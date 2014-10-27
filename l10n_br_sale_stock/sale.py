@@ -18,10 +18,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 
 
-class SaleOrder(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
@@ -43,6 +43,7 @@ class SaleOrder(orm.Model):
 
         return result
 
+    # TODO não existe mais este método pai
     def _prepare_order_picking(self, cr, uid, order, context=None):
         result = super(SaleOrder, self)._prepare_order_picking(cr, uid,
             order, context)
@@ -53,7 +54,7 @@ class SaleOrder(orm.Model):
         result['ind_pres'] = order.ind_pres or False
         return result
 
-
+    # TODO
     def _prepare_order_line_move(self, cr, uid, order, line, picking_id, date_planned, context=None):
         result = super(SaleOrder, self)._prepare_order_line_move( cr, uid,
                order, line, picking_id, date_planned, context)
