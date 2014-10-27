@@ -22,9 +22,9 @@
     'description': "ZIP Search Integration for Brazilian Localization of CRM module",
     'category': 'Localization',
     'license': 'AGPL-3',
-    'author': 'Fabio Negrini - OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Fabio Negrini, Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'l10n_br_zip',
         'l10n_br_crm',
