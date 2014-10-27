@@ -18,12 +18,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class StockPicking(orm.Model):
+class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    # TODO migrate to new API
     def _prepare_invoice(self, cr, uid, picking, partner,
                         inv_type, journal_id, context=None):
         result = super(StockPicking, self)._prepare_invoice(
