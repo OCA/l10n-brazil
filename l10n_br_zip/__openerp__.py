@@ -35,5 +35,5 @@
     ],
     'demo': [],
     'category': 'Localization',
-    'installable': False,
+    'installable': True,
 }
