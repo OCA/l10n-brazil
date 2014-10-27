@@ -2,7 +2,7 @@
   I prepare tunneling extra args in the context
 -
   !python {model: sale.order}: |
-    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'shop_id': ref('sale.sale_shop_1'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'partner_invoice_id': ref('l10n_br_base.res_partner_akretion')})
+    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'company_id': ref('base.main_company'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'partner_invoice_id': ref('l10n_br_base.res_partner_akretion')})
 -
   In order to test fiscal parameters of Sale Order inside the same state, I create sale order
 -
@@ -27,7 +27,7 @@
   I prepare tunneling extra args in the context
 -
   !python {model: sale.order}: |
-    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'shop_id': ref('sale.sale_shop_1'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'partner_invoice_id': ref('l10n_br_base.res_partner_address_ak2')})
+    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'company_id': ref('base.main_company'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'partner_invoice_id': ref('l10n_br_base.res_partner_address_ak2')})
 -
   I create another sale order
 -
@@ -62,7 +62,6 @@
     assert sale_order.picking_ids, "Delivery order is not created."
     for picking in sale_order.picking_ids:
       assert picking.state == "auto" or "confirmed", "Delivery order should be in 'Waitting Availability' state."
-      assert picking.type == 'out',"Shipment should be Outgoing."
       assert picking.fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
       assert picking.fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
 -
