@@ -90,27 +90,3 @@ class StockPicking(orm.Model):
 
         return super(StockPicking, self)._invoice_hook(
             cr, uid, picking, invoice_id)
-
-
-class StockPickingIn(orm.Model):
-    _inherit = 'stock.picking.in'
-    _columns = {
-        'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', u'Veículo'),
-        'incoterm': fields.many2one(
-            'stock.incoterms', 'Tipo do Frete',
-        help="Incoterm which stands for 'International Commercial terms"
-        "implies its a series of sales terms which are used in the "
-        "commercial transaction.")}
-
-
-class StockPickingOut(orm.Model):
-    _inherit = 'stock.picking.out'
-    _columns = {
-        'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', u'Veículo'),
-        'incoterm': fields.many2one(
-            'stock.incoterms', 'Tipo do Frete',
-        help="Incoterm which stands for 'International Commercial terms"
-        "implies its a series of sales terms which are used in the "
-        "commercial transaction.")}
