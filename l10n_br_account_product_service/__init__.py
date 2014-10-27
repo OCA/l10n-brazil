@@ -19,6 +19,5 @@
 
 import l10n_br_account_product_service
 import product
-import res_company
 import res_partner
 import account_invoice
