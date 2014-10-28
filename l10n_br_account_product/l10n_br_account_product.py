@@ -260,5 +260,5 @@ class ImportDeclarationLine(models.Model):
     name = fields.Char(u'Adição', size=3, required=True)
     manufacturer_code = fields.Char(
         u'Código do Fabricante', size=3, required=True)
-    value = fields.Float(u'Valor',
+    amount_discount = fields.Float(u'Valor',
         digits=dp.get_precision('Account'), default=0.00)
