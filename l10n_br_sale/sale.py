@@ -476,5 +476,7 @@ class SaleOrderLine(orm.Model):
 
         if fp_id:
             result['fiscal_position'] = fp_id.id
+            if line.product_id.fiscal_type == 'product':
+                result['cfop_id'] = fp_id.cfop_id.id
 
         return result
