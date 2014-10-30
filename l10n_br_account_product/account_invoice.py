@@ -200,8 +200,9 @@ class AccountInvoice(models.Model):
     icms_base_other = fields.Float(string='Base ICMS Outras', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
         readonly=True)
-    icms_value = fields.Float(string='Valor ICMS',
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+    icms_value = fields.Float(
+        string='Valor ICMS', digits=dp.get_precision('Account'),
+        compute='_compute_amount', store=True)
     icms_st_base = fields.Float(string='Base ICMS ST', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     icms_st_value = fields.Float(string='Valor ICMS ST', store=True,
