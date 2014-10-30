@@ -19,3 +19,4 @@
 
 import res_company
 import purchase
+import procurement
