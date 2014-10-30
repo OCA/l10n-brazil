@@ -173,6 +173,18 @@ class PurchaseOrder(models.Model):
             move['fiscal_position'] = order_line.fiscal_position.id
         return result
 
+    @api.model
+    def _create_stock_moves(self, order, order_lines, picking_id=None):
+        result = super(PurchaseOrder, self)._create_stock_moves(
+            order, order_lines, picking_id)
+        if picking_id:
+            picking_values = {
+                'fiscal_category_id': order.fiscal_category_id.id,
+                'fiscal_position': order.fiscal_position.id,
+            }
+            picking = self.env['stock.picking'].browse(picking_id)
+            picking.write(picking_values)
+        return result
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
