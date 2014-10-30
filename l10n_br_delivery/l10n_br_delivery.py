@@ -17,48 +17,47 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class L10nBrDeliveryCarrierVehicle(orm.Model):
+class L10nBrDeliveryCarrierVehicle(models.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
     _description = 'Veiculos das transportadoras'
-    _columns = {
-        'name': fields.char('Nome', required=True, size=32),
-        'description': fields.char('Descrição', size=132),
-        'plate': fields.char('Placa', size=7),
-        'driver': fields.char('Condudor', size=64),
-        'rntc_code': fields.char('Codigo ANTT', size=32),
-        'country_id': fields.many2one('res.country', 'País'),
-        'state_id': fields.many2one(
-            'res.country.state', 'Estado',
-            domain="[('country_id', '=', country_id)]"),
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio',
-            domain="[('state_id','=',state_id)]"),
-        'active': fields.boolean('Ativo'),
-        'manufacture_year': fields.char('Ano de Fabricação', size=4),
-        'model_year': fields.char('Ano do Modelo', size=4),
-        'type': fields.selection([('bau', 'Caminhão Baú')], 'Ano do Modelo'),
-        'carrier_id': fields.many2one(
-            'delivery.carrier', 'Carrier', select=True,
-            required=True, ondelete='cascade'),
-    }
+
+    name = fields.Char('Nome', required=True, size=32)
+    description = fields.Char(u'Descrição', size=132)
+    plate = fields.Char('Placa', size=7)
+    driver = fields.Char('Condudor', size=64)
+    rntc_code = fields.Char('Codigo ANTT', size=32)
+    country_id = fields.Many2one('res.country', 'País')
+    state_id = fields.Many2one(
+        'res.country.state', 'Estado',
+        domain="[('country_id', '=', country_id)]")
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio',
+        domain="[('state_id','=',state_id)]")
+    active = fields.Boolean('Ativo')
+    manufacture_year = fields.Char(u'Ano de Fabricação', size=4)
+    model_year = fields.Char('Ano do Modelo', size=4)
+    type = fields.Selection([('bau', u'Caminhão Baú')], 'Ano do Modelo')
+    carrier_id = fields.Many2one(
+        'delivery.carrier', 'Carrier', select=True,
+        required=True, ondelete='cascade')
 
 
-class L10nBrDeliveryShipment(orm.Model):
+class L10nBrDeliveryShipment(models.Model):
     _name = 'l10n_br_delivery.shipment'
-    _columns = {
-        'code': fields.char('Nome', size=32),
-        'description': fields.char('Descrição', size=132),
-        'carrier_id': fields.many2one(
-            'delivery.carrier', 'Carrier', select=True, required=True),
-        'vehicle_id': fields.many2one(
-            'l10n_br_delivery.carrier.vehicle', 'Vehicle', select=True,
-            required=True),
-        'volume': fields.float('Volume'),
-        'carrier_tracking_ref': fields.char('Carrier Tracking Ref', size=32),
-        'number_of_packages': fields.integer('Number of Packages'),
-    }
+
+    code = fields.Char('Nome', size=32)
+    description = fields.Char('Descrição', size=132)
+    carrier_id = fields.Many2one(
+        'delivery.carrier', 'Carrier', select=True, required=True)
+    vehicle_id = fields.Many2one(
+        'l10n_br_delivery.carrier.vehicle', 'Vehicle',
+        select=True, required=True)
+    volume = fields.Float('Volume')
+    carrier_tracking_ref = fields.Char('Carrier Tracking Ref', size=32)
+    number_of_packages = fields.Integer('Number of Packages')
 
     def _cal_weight(self, cr, uid, ids, name, args, context=None):
         result = {}
