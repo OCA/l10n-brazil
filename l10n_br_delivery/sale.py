@@ -18,13 +18,15 @@
 ###############################################################################
 
 import time
-from openerp.osv import orm, osv
-from openerp.tools.translate import _
+
+from openerp import models, _
+from openerp.exceptions import except_orm
 
 
-class SaleOrder(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # TODO migrate to new API
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom
@@ -44,16 +46,18 @@ class SaleOrder(orm.Model):
 
         return result
 
-    def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(SaleOrder, self)._prepare_order_picking(
-            cr, uid, order, context)
+    #TODO Inplement this in object stock.move method _picking_assign
+    #def _prepare_order_picking(self, cr, uid, order, context=None):
+    #    result = super(SaleOrder, self)._prepare_order_picking(
+    #        cr, uid, order, context)
+    #
+    #    # FIXME - Confirmado bug do OpenERP
+    #    # https://bugs.launchpad.net/bugs/1161138
+    #    # Esse campo já deveria ser copiado pelo módulo nativo delivery
+    #    result['incoterm'] = order.incoterm and order.incoterm.id or False
+    #    return result
 
-        # FIXME - Confirmado bug do OpenERP
-        # https://bugs.launchpad.net/bugs/1161138
-        # Esse campo já deveria ser copiado pelo módulo nativo delivery
-        result['incoterm'] = order.incoterm and order.incoterm.id or False
-        return result
-
+    # TODO migrate to new API
     def delivery_set(self, cr, uid, ids, context=None):
         #Copia do modulo delivery
         #Exceto pelo final que adiciona ao campo total do frete.
@@ -65,11 +69,11 @@ class SaleOrder(orm.Model):
             order.partner_shipping_id.id)
 
             if not grid_id:
-                raise osv.except_osv(_('No Grid Available!'),
+                raise except_orm(_('No Grid Available!'),
                      _('No grid matching for this carrier!'))
 
             if not order.state in ('draft'):
-                raise osv.except_osv(_('Order not in Draft State!'),
+                raise except_orm(_('Order not in Draft State!'),
                     _('The order state have to be draft to add delivery lines.'))
 
             grid = grid_obj.browse(cr, uid, grid_id, context=context)
