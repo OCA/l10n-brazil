@@ -20,3 +20,4 @@
 
 import stock
 import sale
+import procurement
