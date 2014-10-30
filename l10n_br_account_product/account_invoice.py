@@ -610,7 +610,7 @@ class AccountInvoiceLine(models.Model):
         return result
 
     @api.multi
-    def _get_tax_codes(self, product_id, fiscal_position, taxes, company_id):
+    def _get_tax_codes(self, product_id, fiscal_position, taxes):
 
         result = {}
 
@@ -653,16 +653,15 @@ class AccountInvoiceLine(models.Model):
             'fiscal_classification_id': False
         }
 
-        if values.get('partner_id') and values.get('company_id'):
+        partner_id = None
+        if values.get('partner_id'):
             partner_id = values.get('partner_id')
-            company_id = values.get('company_id')
         else:
             if values.get('invoice_id'):
                 invoice = self.env['account.invoice'].browse(
                     values.get('invoice_id'))
 
                 partner_id = invoice.partner_id.id
-                company_id = invoice.company_id.id
 
         taxes = self.env['account.tax'].browse(
             values.get('invoice_line_tax_id', [[6, 0, []]])[0][2])
@@ -704,7 +703,7 @@ class AccountInvoiceLine(models.Model):
                 continue
 
         result.update(self._get_tax_codes(
-            values.get('product_id'), fiscal_position, taxes, company_id))
+            values.get('product_id'), fiscal_position, taxes))
         return result
 
     @api.multi
