@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,6 +17,18 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import stock
-import sale
-import procurement
+from openerp import models, api
+
+
+class ProcurementOrder(models.Model):
+    _inherit = "procurement.order"
+
+    @api.model
+    def _run_move_create(self, procurement):
+        result = super(ProcurementOrder, self)._run_move_create(procurement)
+        if procurement.sale_line_id:
+            result.update({
+                'fiscal_category_id': procurement.sale_line_id.fiscal_category_id.id,
+                'fiscal_position': procurement.sale_line_id.fiscal_position.id,
+            })
+        return result
