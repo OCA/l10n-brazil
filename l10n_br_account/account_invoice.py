@@ -244,13 +244,13 @@ class AccountInvoice(models.Model):
             :return: the (possibly updated) final move_lines to create for this invoice
         """
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
-        cont=1
+        count = 1
         result = []
         for move_line in move_lines:
-            if (move_line[2]['debit'] or move_line[2]['credit']):
-                if (move_line[2]['account_id'] == invoice_browse.account_id.id):
-                    move_line[2]['name'] = '%s/%s' % (self.internal_number, cont)
-                    cont +=1
+            if move_line[2]['debit'] or move_line[2]['credit']:
+                if move_line[2]['account_id'] == self.account_id.id:
+                    move_line[2]['name'] = '%s/%s' % (self.internal_number, count)
+                    count += 1
                 result.append(move_line)
         return result
 
