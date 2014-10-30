@@ -27,8 +27,13 @@ class SaleOrder(models.Model):
 
     @api.one
     @api.depends('order_line.price_unit', 'order_line.tax_id',
-                 'order_line.discount', 'order_line.product_uom_qty')
-    def _amount_all_l10n_br(self):
+                  'order_line.discount', 'order_line.product_uom_qty')
+    def _amount_all_wrapper(self):
+        """ Wrapper because of direct method passing as parameter for function fields """
+        return self._amount_all()
+
+    @api.one
+    def _amount_all(self):
         self.amount_untaxed = 0.0
         self.amount_tax = 0.0
         self.amount_total = 0.0
@@ -37,9 +42,9 @@ class SaleOrder(models.Model):
         self.amount_gross = 0.0
 
         amount_tax = amount_untaxed = amount_extra = \
-            amount_discount = amount_gross = 0.0
+             amount_discount = amount_gross = 0.0
         for line in self.order_line:
-            amount_tax += self._amount_line_tax_l10n_br(line)
+            amount_tax += sum(tax_value for tax_value in self._amount_line_tax(line))
             amount_untaxed += line.price_subtotal
             amount_discount += line.discount_value
             amount_gross += line.price_gross
@@ -52,7 +57,7 @@ class SaleOrder(models.Model):
         self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
 
     @api.one
-    def _amount_line_tax_l10n_br(self, line):
+    def _amount_line_tax(self, line):
         value = 0.0
         for computed in line.tax_id.compute_all(
             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
@@ -101,25 +106,25 @@ class SaleOrder(models.Model):
     invoiced_rate = fields.Float(function=_invoiced_rate, string='Invoiced')
     copy_note = fields.Boolean(u'Copiar Observação no documentos fiscal')
     amount_untaxed = fields.Float(
-        compute='_amount_all_l10n_br', string='Untaxed Amount',
+        compute='_amount_all_wrapper', string='Untaxed Amount',
         digits=dp.get_precision('Account'), store=True,
         help="The amount without tax.", track_visibility='always')
     amount_tax = fields.Float(
-        compute='_amount_all_l10n_br', string='Taxes', store=True,
+        compute='_amount_all_wrapper', string='Taxes', store=True,
         digits=dp.get_precision('Account'), help="The tax amount.")
     amount_total = fields.Float(
-        compute='_amount_all_l10n_br', string='Total', store=True,
+        compute='_amount_all_wrapper', string='Total', store=True,
         digits=dp.get_precision('Account'), help="The total amount.")
     amount_extra = fields.Float(
-        compute='_amount_all_l10n_br', string='Extra',
+        compute='_amount_all_wrapper', string='Extra',
         digits=dp.get_precision('Account'),
         store=True, help="The total amount.")
     amount_discount = fields.Float(
-        compute='_amount_all_l10n_br', string='Desconto (-)',
+        compute='_amount_all_wrapper', string='Desconto (-)',
         digits=dp.get_precision('Account'), store=True,
         help="The discount amount.")
     amount_gross = fields.Float(
-        compute='_amount_all_l10n_br', string='Vlr. Bruto',
+        compute='_amount_all_wrapper', string='Vlr. Bruto',
         digits=dp.get_precision('Account'),
         store=True, help="The discount amount.")
     discount_rate = fields.Float(
