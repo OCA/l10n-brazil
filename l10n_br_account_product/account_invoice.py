@@ -36,32 +36,30 @@ class AccountInvoice(models.Model):
     @api.one
     @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
     def _compute_amount(self):
-        self.amount_untaxed = 0.0
-        self.amount_tax = 0.0
-        self.amount_tax_discount = 0.0
-        self.amount_total = 0.0
         self.icms_base = 0.0
         self.icms_base_other = 0.0
         self.icms_value = 0.0
         self.icms_st_base = 0.0
         self.icms_st_value = 0.0
-        self.ipi_base = 0.0
-        self.ipi_base_other = 0.0
-        self.ipi_value = 0.0
-        self.pis_base = 0.0
-        self.pis_value = 0.0
-        self.cofins_base = 0.0
-        self.cofins_value = 0.0
-        self.ii_value = 0.0
-        self.amount_discount = 0.0
-        self.amount_insurance = 0.0
-        self.amount_costs = 0.0
-        self.amount_gross = 0.0
-        self.amount_discount = 0.0
-        self.amount_freight = 0.0
+        self.ipi_base = sum(line.ipi_base for line in self.invoice_line)
+        self.ipi_base_other = sum(line.ipi_base_other for line in self.invoice_line)
+        self.ipi_value = sum(line.ipi_value for line in self.invoice_line)
+        self.pis_base = sum(line.pis_base for line in self.invoice_line)
+        self.pis_value = sum(line.pis_value for line in self.invoice_line)
+        self.cofins_base = sum(line.cofins_base for line in self.invoice_line)
+        self.cofins_value = sum(line.cofins_value for line in self.invoice_line)
+        self.ii_value = sum(line.ii_value for line in self.invoice_line)
+        self.amount_discount = sum(line.discount_value for line in self.invoice_line)
+        self.amount_insurance = sum(line.insurance_value for line in self.invoice_line)
+        self.amount_costs = sum(line.other_costs_value for line in self.invoice_line)
+        self.amount_gross = sum(line.price_gross for line in self.invoice_line)
+        self.amount_freight = sum(line.freight_value for line in self.invoice_line)
+        self.amount_tax_discount = 0.0
+        self.amount_untaxed = sum(line.price_total for line in self.invoice_line)
+        self.amount_tax = sum(tax.amount for tax in self.tax_line if not tax.tax_code_id.tax_discount)
+        self.amount_total = self.amount_tax + self.amount_untaxed
 
         for line in self.invoice_line:
-            self.amount_untaxed += line.price_total
             if line.icms_cst_id.code not in ('101', '102', '201', '202', '300', '500'):
                 self.icms_base += line.icms_base
                 self.icms_base_other += line.icms_base_other
@@ -72,25 +70,6 @@ class AccountInvoice(models.Model):
                 self.icms_value += 0.00
             self.icms_st_base += line.icms_st_base
             self.icms_st_value += line.icms_st_value
-            self.ipi_base += line.ipi_base
-            self.ipi_base_other += line.ipi_base_other
-            self.ipi_value += line.ipi_value
-            self.pis_base += line.pis_base
-            self.pis_value += line.pis_value
-            self.cofins_base += line.cofins_base
-            self.cofins_value += line.cofins_value
-            self.ii_value += line.ii_value
-            self.amount_insurance += line.insurance_value
-            self.amount_freight += line.freight_value
-            self.amount_costs += line.other_costs_value
-            self.amount_gross += line.price_gross
-            self.amount_discount += line.discount_value
-
-            for invoice_tax in self.tax_line:
-                if not invoice_tax.tax_code_id.tax_discount:
-                    self.amount_tax += invoice_tax.amount
-
-            self.amount_total = self.amount_tax + self.amount_untaxed
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
