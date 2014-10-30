@@ -17,13 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class DeliveryCarrier(orm.Model):
+class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
-    _columns = {
-        'antt_code': fields.char('Codigo ANTT', size=32),
-        'vehicle_ids': fields.one2many(
-        'l10n_br_delivery.carrier.vehicle', 'carrier_id', u'Veículos'),
-    }
+
+    antt_code = fields.Char('Codigo ANTT', size=32)
+    vehicle_ids = fields.One2many(
+        'l10n_br_delivery.carrier.vehicle', 'carrier_id', u'Veículos')
