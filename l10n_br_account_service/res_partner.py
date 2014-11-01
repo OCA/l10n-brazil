@@ -24,8 +24,8 @@ from openerp.osv import orm
 class AccountFiscalPosition(orm.Model):
     _inherit = 'account.fiscal.position'
 
-        def map_tax_code(self, cr, uid, product_id, fiscal_position,
-                     company_id=False, tax_ids=False, context=None):
+    def map_tax_code(self, cr, uid, product_id, fiscal_position,
+                 company_id=False, tax_ids=False, context=None):
 
         if not context:
             context = {}
