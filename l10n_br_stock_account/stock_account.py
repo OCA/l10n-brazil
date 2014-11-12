@@ -85,11 +85,11 @@ class StockPicking(models.Model):
             self._cr, self._uid, [partner_id], ['delivery'])['delivery']
 
         kwargs = {
-           'partner_id': partner_id,
-           'partner_invoice_id': partner_invoice_id,
-           'partner_shipping_id': partner_shipping_id,
-           'company_id': company_id,
-           'context': self.env.context,
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_invoice_id,
+            'partner_shipping_id': partner_shipping_id,
+            'company_id': company_id,
+            'context': self.env.context,
         }
         return self._fiscal_position_map(result, **kwargs)
 
@@ -111,8 +111,8 @@ class StockPicking(models.Model):
         result['fiscal_position'] = picking.fiscal_position.id
 
         vals.update(result)
-        return super(
-            StockPicking, self)._create_invoice_from_picking(picking, vals)
+        return super(StockPicking, self)._create_invoice_from_picking(
+            picking, vals)
 
 
 class StockMove(models.Model):
