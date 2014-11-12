@@ -75,6 +75,7 @@
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
+                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
 								</group>
 								<group name="package_info">
 									<field name="weight"/>
@@ -206,6 +207,7 @@
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
+                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
 								</group>
 								<group name="package_info">
 									<field name="weight"/>
