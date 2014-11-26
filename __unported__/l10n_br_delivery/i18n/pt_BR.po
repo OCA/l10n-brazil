@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_delivery
+msgid "Brazilian Localization Delivery"
+msgstr "Localização Brasileira - Módulo de Entrega"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_delivery
+msgid "Extend delivery module for Brazilian Localization"
+msgstr "Localização Brasileira - Implementa funcionalidades do módulo de entrega"

@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_data_account
+msgid "Brazilian Localisation Data Extension for Account"
+msgstr "Localização Brasileira - Dados para o módulo de contabilidade"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_data_account
+msgid "Brazilian Localisation Data Extension for Account"
+msgstr "Localização Brasileira - Provê dados de configuração para o módulo de contabilidade"

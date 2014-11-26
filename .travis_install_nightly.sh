@@ -17,4 +17,5 @@ rm -rf ./src
 cd openerp
 python setup.py --quiet install
 cd ..
-bzr branch --stacked lp:openerp-fiscal-rules fiscal_rules -r 64
+bzr branch --stacked lp:openerp-fiscal-rules fiscal_rules
+bzr branch --stacked lp:~akretion-team/server-env-tools/web-context-tunnel server-env-tools
