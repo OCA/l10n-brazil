@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="action_insert_reports_print_danfe"
+                name="danfe_account_invoice"
+                model="account.invoice"
+                string="Danfe"/>
+    </data>
+</openerp>
