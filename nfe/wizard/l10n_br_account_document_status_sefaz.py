@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm
+from openerp.tools.translate import _
 from ..sped.nfe.processing.xml import check_key_nfe
 
 class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
@@ -34,28 +35,17 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
                 context=context).company_id
                 
         chave_nfe = str(data['chNFe'])
-        print type(chave_nfe)
-        print chave_nfe
+
         try:
             processo = check_key_nfe(company, chave_nfe)
-            
-            print(processo.envio.xml)
-            print()
-            print(processo.envio.original)
-            print()
-            print(processo.resposta.xml)
-            print()
-            print(processo.resposta.original)
-            print()
-            print(processo.resposta.reason)
-                
+                           
             call_result = {
                 'version': processo.resposta.versao.txt,
-                'xMotivo': processo.resposta.xMotivo.txt,
+                'xMotivo': processo.resposta.cStat.txt + ' - ' + processo.resposta.xMotivo.txt,
                 'cUF': processo.resposta.cUF.txt,
                 'chNFe': processo.resposta.chNFe.txt,
                 'nfe_environment': processo.resposta.tpAmb.txt,
-                'protNFe': processo.resposta.protNFe.infProt.nProt.txt,
+                'protNFe': '' if processo.resposta.protNFe is None else processo.resposta.protNFe.infProt.nProt.txt,
                 'retCancNFe': '',
                 'procEventoNFe': '',
                 'state': 'done',
