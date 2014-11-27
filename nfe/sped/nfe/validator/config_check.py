@@ -37,7 +37,7 @@ def validate_nfe_invalidate_number(company, record):
     if not record.number_end:
         error += u'Número final no registro de inutilização\n'
     if error != u'As seguintes configurações estão faltando:\n':
-        raise orm.except_orm(_('Validação !'), _(error))
+        raise orm.except_orm(_(u'Validação !'), _(error))
 
 
 def validate_invoice_cancel(invoice):
@@ -47,7 +47,7 @@ def validate_invoice_cancel(invoice):
     if not invoice.nfe_status:
         error += u'Empresa - Protocolo de autorização na Sefaz\n'
     if error != u'Verifique os problemas com o cancelamento:\n':
-        raise orm.except_orm(_('Validação !'), _(error))
+        raise orm.except_orm(_(u'Validação !'), _(error))
 
 
 def validate_nfe_configuration(company):
@@ -61,4 +61,4 @@ def validate_nfe_configuration(company):
     if not company.nfe_export_folder:
         error += u'Empresa - Pasta de exportação\n'
     if error != u'As seguintes configurações estão faltando:\n':
-        raise orm.except_orm(_('Validação !'), _(error))
+        raise orm.except_orm(_(u'Validação !'), _(error))
