@@ -141,7 +141,7 @@ class L10n_brAccountFiscalCategory(orm.Model):
         'type': fields.selection(TYPE, 'Tipo'),
         'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal'),
         'property_journal': fields.property(
-            'account.journal', type='many2one', relation='account.journal',
+            obj='account.journal', type='many2one',
             string=u"Diário Contábil", method=True, view_load=True,
             help=u"Diário utilizado para esta categoria de operação fiscal"),
         'journal_type': fields.selection(
