@@ -18,12 +18,16 @@
 ###############################################################################
 
 import datetime
+import logging
 from openerp import netsvc
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from sped.nfe.validator.config_check import *
-from .sped.nfe.processing.xml import invalidate
+from openerp.addons.nfe.sped.nfe.validator.config_check import *
+from openerp.addons.nfe.sped.nfe.processing.xml import invalidate
+from dbus.bus import _logger
+from sys import exc_info
 
+_logger = logging.getLogger(__name__)
 
 class L10n_brAccountInvoiceInvalidNumber(orm.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'
@@ -90,6 +94,7 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
                 results.append(vals)
                            
             except Exception as e:
+                _logger.error(e.message,exc_info=True)
                 vals = {
                         'type': '-1',
                         'status': '000',

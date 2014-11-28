@@ -19,17 +19,19 @@
 
 import os
 import datetime
+import logging
 from openerp.osv import orm
 from openerp.tools.translate import _
-from .sped.nfe.document import NFe200
-from .sped.nfe.document import NFe310
-from .sped.nfe.validator.config_check import validate_nfe_configuration, validate_invoice_cancel
-from .sped.nfe.processing.xml import monta_caminho_nfe
-from .sped.nfe.processing.xml import send, cancel
+from openerp.addons.nfe.sped.nfe.document import NFe200
+from openerp.addons.nfe.sped.nfe.document import NFe310
+from openerp.addons.nfe.sped.nfe.validator.config_check import validate_nfe_configuration, validate_invoice_cancel
+from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
+from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
 
 from .sped.nfe.nfe_factory import NfeFactory
 from .sped.nfe.validator.xml import XMLValidator
 
+_logger = logging.getLogger(__name__)
 
 class AccountInvoice(orm.Model):
     """account_invoice overwritten methods"""
@@ -145,8 +147,9 @@ class AccountInvoice(orm.Model):
                             'state': 'done',
                             'document_event_ids': inv.id}
                     results.append(vals)
-
-                    if processo.webservice == 1:
+                    
+                   
+                    if processo.webservice == 1:                         
                         for prot in processo.resposta.protNFe:
                             protNFe["status_code"] = prot.infProt.cStat.valor
                             protNFe["nfe_protocol_number"] = prot.infProt.nProt.valor
@@ -160,6 +163,7 @@ class AccountInvoice(orm.Model):
                         self.attach_file_event(cr, uid, [inv.id], None, None, 'pdf', context)
 
             except Exception as e:
+                _logger.error(e.message,exc_info=True)
                 vals = {
                         'type': '-1',
                         'status': '000',
@@ -238,6 +242,7 @@ class AccountInvoice(orm.Model):
                                     })                                                   
                     results.append(vals)
                 except Exception as e:
+                    _logger.error(e.message,exc_info=True)
                     os.environ['TZ'] = 'UTC'
                     vals = {
                             'type': '-1',
@@ -257,6 +262,7 @@ class AccountInvoice(orm.Model):
                         event_obj.create(cr, uid, result)    
              
             elif inv.state in ('sefaz_export','sefaz_exception'):
-                pass
+                _logger.error(_(u'Invoice in invalid state to cancel online'),exc_info=True)
+                #TODO
         return
                 #Ver o que fazer aqui.
