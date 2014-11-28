@@ -18,7 +18,7 @@
 ###############################################################################
 
 import re
-from osv import fields, orm
+from openerp.osv import fields, orm
 from l10n_br_base.tools import fiscal
 
 
