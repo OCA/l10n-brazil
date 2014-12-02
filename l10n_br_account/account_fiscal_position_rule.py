@@ -87,6 +87,8 @@ class AccountFiscalPositionRule(orm.Model):
 
         document_date = context.get('date', time.strftime('%Y-%m-%d'))
         use_domain = context.get('use_domain', ('use_sale', '=', True))
+        if not kwargs.get('fiscal_category_id'):
+            kwargs.update({'fiscal_category_id': 1})
 
         domain = [
             '&', ('company_id', '=', company.id), use_domain,

@@ -358,6 +358,8 @@ class NFe200(FiscalDocument):
                     nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
                     nfe.infNFe.transp.transporta.xMun.valor = inv.carrier_id.partner_id.l10n_br_city_id.name or ''
                     nfe.infNFe.transp.transporta.UF.valor = inv.carrier_id.partner_id.state_id.code or ''
+                else:
+                    nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
 
                 if inv.vehicle_id:
                     nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''

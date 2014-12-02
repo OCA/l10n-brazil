@@ -360,8 +360,14 @@ class SaleOrderLine(orm.Model):
         if not context:
             context = {}
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+        if not parent_fiscal_category_id:
+            parent_fiscal_category_id = 1
         shop_id = context.get('shop_id')
+        if not shop_id:
+            shop_id = 3
         partner_invoice_id = context.get('partner_invoice_id')
+        if not partner_invoice_id:
+            partner_invoice_id = partner_id
         result = {'value': {}}
         if parent_fiscal_category_id and product and partner_invoice_id \
         and shop_id:
@@ -476,5 +482,7 @@ class SaleOrderLine(orm.Model):
 
         if fp_id:
             result['fiscal_position'] = fp_id.id
+            if line.product_id.fiscal_type == 'product':
+                result['cfop_id'] = fp_id.cfop_id.id
 
         return result
