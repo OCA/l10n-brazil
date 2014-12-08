@@ -12,11 +12,9 @@
                         <field name="amount_insurance_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="amount_costs_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <footer class="oe_left">
-                            <button string="Recalcular" name="values_set" type="object"/>
+                            <button string="Recalcular" name="values_set" type="object" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel" type="object" class="oe_link"/>
                         </footer>
-                        <footer class="oe_right">
-						    <button special="cancel" string="Close" type="object"/>
-					    </footer>
                     </group>
                 </form>
             </field>
