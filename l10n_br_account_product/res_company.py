@@ -84,7 +84,13 @@ class ResCompany(orm.Model):
             "('state', '=', 'approved'), ('fiscal_type','=','product'),"
             " ('type','=','input')]"),
         'nfe_a1_file': fields.binary('Arquivo NFe A1'),
-        'nfe_a1_password': fields.char('Senha NFe A1', size=64)
+        'nfe_a1_password': fields.char('Senha NFe A1', size=64),
+        'freight_tax_id': fields.many2one(
+            'account.tax', 'Freight Sale Tax'),
+        'insurance_tax_id': fields.many2one(
+            'account.tax', 'Insurance Sale Tax'),
+        'other_costs_tax_id': fields.many2one(
+            'account.tax', 'Other Costs Sale Tax'),
     }
     _defaults = {
         'nfe_version': '200',

@@ -7,6 +7,13 @@
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
 			<field name="arch" type="xml">
+                <group position="after" name="account_grp" string="Accounting">
+                    <group string="Entrega">
+                        <field name="freight_tax_id" />
+                        <field name="insurance_tax_id"/>
+                        <field name="other_costs_tax_id"/>
+                    </group>
+                </group>
 				<page string="Certificados" position="inside">
 					<group col="2" string="NFe">
 						<field name="nfe_a1_file"/>
