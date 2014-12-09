@@ -19,14 +19,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import osv, fields, orm
+from openerp.osv import fields, orm
 from openerp.tools.translate import _
-from openerp.addons.nfe_attach.account_invoice import AccountInvoice
 from nfe.sped.nfe.processing.xml import send_correction_letter
-from datetime import datetime
-import os
 
-class NfeInvoiceCce(osv.osv_memory):
+class NfeInvoiceCce(orm.TransientModel):
+
     _name='nfe.invoice_cce'
     
     _columns = {
@@ -65,8 +63,7 @@ class NfeInvoiceCce(osv.osv_memory):
             sequencia = len(obj_cce.search(cr, uid, domain ))+1
             results = []
             try:
-                os.environ['TZ'] = 'America/Sao_Paulo' #FIXME: context.get('tz') ou Colocar o campo tz no cadastro da empresa.
-                processo = send_correction_letter(company, chave_nfe, sequencia, correcao) 
+                processo = send_correction_letter(company, chave_nfe, sequencia, correcao)
                 vals = {
                             'type': str(processo.webservice),
                             'status': processo.resposta.retEvento[0].infEvento.cStat.valor,
@@ -96,7 +93,6 @@ class NfeInvoiceCce(osv.osv_memory):
                     }
                 results.append(vals)
             finally:
-                os.environ['TZ'] = 'UTC'
                 for result in results:
                     event_obj.create(cr, uid, result)               
                     obj_cce.create(cr,uid, 

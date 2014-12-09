@@ -43,11 +43,11 @@ def __processo(company):
     
     p = ProcessadorNFe()
     p.ambiente = int(company.nfe_environment)
-    p.versao = company.nfe_version
+    #p.versao = company.nfe_version
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
     p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
     p.certificado.senha = company.nfe_a1_password
-    p.salva_arquivos      = True
+    p.salvar_arquivos      = True
     p.contingencia_SCAN   = False
     p.caminho = company.nfe_export_folder
     return p
@@ -75,13 +75,16 @@ def sign():
 def send(company, nfe):
                         
     p = __processo(company)
+    # Busca a versão da NF a ser emitida, não a do cadastro da empresa
+    p.versao = str(nfe[0].infNFe.versao.valor)
+
     logo = company.logo
     logo_image = Image.open(StringIO(logo.decode('base64')))
-    logo_image.save(company.nfe_export_folder + "/company_logo.png")
-    p.danfe.logo = company.nfe_export_folder + '/company_logo.png'
+    image_path = os.path.join(company.nfe_export_folder, 'company_logo.png')
+    logo_image.save(image_path)
+    p.danfe.logo = image_path
     p.danfe.nome_sistema = company.nfe_email or u"Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto - 100%% WEB - www.openerpbrasil.org"
-    
-    
+
     return p.processar_notas(nfe)
 
 def cancel(company, nfe_access_key, nfe_protocol_number, justificative):

@@ -38,6 +38,7 @@ arquivos XML""",
         sudo pip install geraldo
     """,
     'depends': [
+        'account_cancel',
         'l10n_br_account_product',
     ],
     'data': [
