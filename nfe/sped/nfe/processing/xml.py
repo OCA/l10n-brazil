@@ -56,6 +56,10 @@ def monta_caminho_nfe(company, chave_nfe):
     p = __processo(company)
     return p.monta_caminho_nfe(p.ambiente,chave_nfe)
 
+def monta_caminho_inutilizacao(company, data, serie, numero_inicial, numero_final):
+    p = __processo(company)
+    return p.monta_caminho_inutilizacao(p.ambiente, data, serie, numero_inicial, numero_final)
+
 def check_key_nfe(company, chave_nfe, nfe=False):
     
     p = __processo(company)

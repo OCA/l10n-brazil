@@ -68,7 +68,7 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
                 values['state'] = 'done'
                 values['status'] = '102'
                 self.write(cr, uid, ids, values, context=context)
-          #      context['caminho'] = processo.arquivos[0]['arquivo']
+                # context['caminho'] = processo.arquivos[0]['arquivo']
                 self.attach_file_event(cr, uid, ids, None, 'inu', 'xml', context)
             else:
                 values['state'] = 'not_authorized'
