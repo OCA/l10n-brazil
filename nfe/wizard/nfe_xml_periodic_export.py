@@ -7,8 +7,9 @@ import commands
 import base64
 from datetime import date
 
-class processamento_periodico(orm.TransientModel):
-    _name = 'nfe.processamento.periodico'
+class NfeXmlPeriodicExport(orm.TransientModel):
+
+    _name = 'nfe.xml.periodic.export'
     _description = 'Export NFes'
     _columns = {
         'name': fields.char('Nome', size=255),
