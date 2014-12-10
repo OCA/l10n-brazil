@@ -121,19 +121,16 @@ class AccountInvoice(orm.Model):
             [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')],
             u'Versão NFe', readonly=True,
             states={'draft': [('readonly', False)]}, required=True),
-
         'date_hour_invoice': fields.datetime(
             u'Data e hora de emissão', readonly=True,
             states={'draft': [('readonly', False)]},
             select=True, help="Deixe em branco para usar a data atual"),
-
         'ind_final': fields.selection([
             ('0', u'Não'),
             ('1', u'Consumidor final')
         ], u'Operação com Consumidor final', readonly=True,
             states={'draft': [('readonly', False)]}, required=False,
             help=u'Indica operação com Consumidor final.'),
-
         'ind_pres': fields.selection([
             ('0', u'Não se aplica'),
             ('1', u'Operação presencial'),
@@ -395,7 +392,7 @@ class AccountInvoice(orm.Model):
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids,
                                     ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'acc  ount.invoice.line': (_get_invoice_line,
+                'account.invoice.line': (_get_invoice_line,
                                          ['price_unit',
                                           'invoice_line_tax_id',
                                           'quantity', 'discount'], 20),
