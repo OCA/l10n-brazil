@@ -66,6 +66,44 @@ class AccountTax(orm.Model):
         result['taxes'] = taxes
         return result
 
+    def _compute_costs(self, cr, uid, insurance_value, freight_value, other_costs_value, context=False):
+        result = []
+        total_included = 0.0
+
+        company = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0].company_id
+
+        costs = {
+            company.insurance_tax_id : insurance_value,
+            company.freight_tax_id : freight_value,
+            company.other_costs_tax_id : other_costs_value,
+        }
+
+        for tax in costs:
+            if costs[tax]:
+                result.append({
+                    'domain': tax.domain,
+                    'ref_tax_code_id': tax.ref_tax_code_id, # and ((tax.ref_tax_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.ref_tax_code_id.id]) or False,
+                    'sequence': tax.sequence,
+                    'total_base': costs[tax],
+                    'account_paid_id': tax.account_paid_id.id,
+                    'base_sign': tax.base_sign,
+                    'id': tax.id,
+                    'ref_base_code_id': tax.ref_base_code_id.id, # and ((tax.ref_base_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.ref_base_code_id.id]) or False,
+                    'account_analytic_collected_id': tax.account_analytic_collected_id.id,
+                    'tax_code_id': tax.tax_code_id.id, # and ((tax.tax_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.tax_code_id.id]) or False,
+                    'ref_tax_sign': tax.ref_tax_sign,
+                    'type': tax.type,
+                    'ref_base_sign': tax.ref_base_sign,
+                    'base_code_id': tax.base_code_id.id, # and ((tax.base_code_id.id in tax_code_template_ref) and tax_code_template_ref[tax.base_code_id.id]) or False,
+                    'account_analytic_paid_id': tax.account_analytic_paid_id.id,
+                    'name': tax.name,
+                    'account_collected_id': tax.account_collected_id.id,
+                    'amount': costs[tax],
+                    'tax_sign':tax.tax_sign,
+                })
+                total_included += costs[tax]
+        return result, total_included
+
     #TODO
     #Refatorar este método, para ficar mais simples e não repetir
     #o que esta sendo feito no método l10n_br_account_product
@@ -167,6 +205,10 @@ class AccountTax(orm.Model):
 
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes += result_icmsst['taxes']
+
+        costs, costs_values = self._compute_costs(cr, uid, insurance_value, freight_value, other_costs_value)
+        calculed_taxes += costs
+        result['total_included'] += costs_values
 
         return {
             'total': result['total'],
