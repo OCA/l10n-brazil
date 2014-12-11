@@ -957,10 +957,14 @@ class AccountInvoiceLine(orm.Model):
                 or not values.get('quantity')
                 or not values.get('fiscal_position')):
             invoice_line_id = context.get('invoice_line_id', False)
-            if not invoice_line_id or len(invoice_line_id) != 1:
+            if not invoice_line_id:
+                return {}
+            elif isinstance(invoice_line_id, (list)) and not len(invoice_line_id) == 1:
                 return {}
             else:
-                old = self.read(cr, uid, invoice_line_id, [
+                if isinstance(invoice_line_id, (int)):
+                    invoice_line_id = [invoice_line_id]
+                old = self.read(cr, uid, invoice_line_id,[
                     'fiscal_position', 'product_id', 'price_unit',
                      'company_id', 'invoice_line_tax_id', 'partner_id',
                      'quantity'])[0]
