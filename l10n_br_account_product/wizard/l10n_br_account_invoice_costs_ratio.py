@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
 #    @author Daniel Sadamo <sadamo@kmee.com.br>
+#    @author Luis Felipe Mileo <mileo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,11 +23,8 @@
 from openerp.osv import orm, fields
 
 
-def calc_price_ratio(price_gross, amount_calc, amount_total):
-    return price_gross * amount_calc / amount_total
+class L10nBrAccountProductInvoiceCostsRatio(orm.TransientModel):
 
-
-class l10n_brAccountInvoiceCostsRatio(orm.TransientModel):
     _name = 'l10n_br_account_product.invoice.costs_ratio'
 
     _columns = {
@@ -37,36 +35,28 @@ class l10n_brAccountInvoiceCostsRatio(orm.TransientModel):
 
     def values_set(self, cr, uid, ids, context=None):
 
-        invoice_pool = self.pool.get('account.invoice')
-        invoice_line_pool = self.pool.get('account.invoice.line')
-        delivery = self.browse(cr, uid, ids[0], context)
+        if not (context.get('active_model')
+                in ('account.invoice')):
+            return False
 
-        if context.get('active_id', False):
-            invoice_data = invoice_pool.read(cr, uid, context.get('active_id'),
-                                             ['invoice_line', 'amount_gross'])
+        def calc_price_ratio(price_gross, amount_calc, amount_total):
+            return price_gross * amount_calc / amount_total
 
-        invoice_pool.write(cr, uid, invoice_data['id'], {
-            'amount_freight': delivery.amount_freight_value,
-            'amount_insurance': delivery.amount_insurance_value,
-            'amount_costs': delivery.amount_costs_value,
-        }, context=context)
-
-        for line_id in invoice_data['invoice_line']:
-            line = invoice_line_pool.browse(cr, uid, line_id, context)
-            invoice_line_pool.write(cr, uid, line_id,
-                                    {'freight_value': calc_price_ratio(
-                                        line.price_gross,
-                                        delivery.amount_freight_value,
-                                        invoice_data['amount_gross']),
-                                     'insurance_value': calc_price_ratio(
-                                         line.price_gross,
-                                         delivery.amount_insurance_value,
-                                         invoice_data['amount_gross']),
-                                     'other_costs_value': calc_price_ratio(
-                                         line.price_gross,
-                                         delivery.amount_costs_value,
-                                         invoice_data['amount_gross']),
-                                     },
-                                    context=context)
-
+        for delivery in self.browse(cr, uid, ids, context):
+            for invoice in self.pool.get('account.invoice').browse(
+                    cr, uid, context.get('active_ids', [])):
+                for line in invoice.invoice_line:
+                    vals = {
+                        'freight_value': calc_price_ratio(
+                            line.price_gross, delivery.amount_freight_value,
+                            invoice.amount_gross),
+                        'insurance_value': calc_price_ratio(
+                            line.price_gross, delivery.amount_insurance_value,
+                            invoice.amount_gross),
+                        'other_costs_value': calc_price_ratio(
+                            line.price_gross, delivery.amount_costs_value,
+                            invoice.amount_gross),
+                        }
+                    self.pool.get('account.invoice.line').write(
+                        cr, uid, ids, vals, context)
         return True
