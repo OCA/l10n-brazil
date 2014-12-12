@@ -29,6 +29,7 @@
         'l10n_br',
         'l10n_br_base',
         'l10n_br_product',
+        'account_payment_partner',
         'account_fiscal_position_rule',
         'web_context_tunnel',
     ],
