@@ -172,12 +172,12 @@ class NFe200(FiscalDocument):
             if inv.partner_id.country_id.bc_code:
                 partner_bc_code = inv.partner_id.country_id.bc_code[1:]
 
-            if inv.partner_id.country_id.id != company_addr_default.country_id.id:
+            if inv.partner_id.country_id.id != company.country_id.id:
                 address_invoice_state_code = 'EX'
                 address_invoice_city = 'Exterior'
                 address_invoice_city_code = '9999999'
-                UFEmbarq = company_addr_default.state_id.code
-                XLocEmbarq = company_addr_default.city
+                UFEmbarq = company.state_id.code
+                XLocEmbarq = company.city
             else:
                 address_invoice_state_code = inv.partner_id.state_id.code
                 address_invoice_city = inv.partner_id.l10n_br_city_id.name or ''
