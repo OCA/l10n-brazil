@@ -160,23 +160,28 @@ class NFe200(FiscalDocument):
             if inv.company_id.partner_id.inscr_mun:
                 nfe.infNFe.emit.CNAE.valor = punctuation_rm(inv.company_id.cnae_main_id.code)
 
-            #
+                        #
             # Destinatário
             #
             partner_bc_code = ''
             address_invoice_state_code = ''
             address_invoice_city = ''
+            UFEmbarq = ''
+            XLocEmbarq = ''
             partner_cep = ''
             if inv.partner_id.country_id.bc_code:
                 partner_bc_code = inv.partner_id.country_id.bc_code[1:]
 
-            if inv.partner_id.country_id.id != company.country_id.id:
+            if inv.partner_id.country_id.id != company_addr_default.country_id.id:
                 address_invoice_state_code = 'EX'
                 address_invoice_city = 'Exterior'
-                partner_cep = ''
+                address_invoice_city_code = '9999999'
+                UFEmbarq = company_addr_default.state_id.code
+                XLocEmbarq = company_addr_default.city
             else:
                 address_invoice_state_code = inv.partner_id.state_id.code
                 address_invoice_city = inv.partner_id.l10n_br_city_id.name or ''
+                address_invoice_city_code = ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
                 partner_cep = punctuation_rm(inv.partner_id.zip)
 
             # Se o ambiente for de teste deve ser
@@ -196,7 +201,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.dest.enderDest.nro.valor = inv.partner_id.number or ''
             nfe.infNFe.dest.enderDest.xCpl.valor = inv.partner_id.street2 or ''
             nfe.infNFe.dest.enderDest.xBairro.valor = inv.partner_id.district or 'Sem Bairro'
-            nfe.infNFe.dest.enderDest.cMun.valor = '%s%s' % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
+            nfe.infNFe.dest.enderDest.cMun.valor = address_invoice_city_code
             nfe.infNFe.dest.enderDest.xMun.valor = address_invoice_city
             nfe.infNFe.dest.enderDest.UF.valor = address_invoice_state_code
             nfe.infNFe.dest.enderDest.CEP.valor = partner_cep
