@@ -58,5 +58,5 @@ class L10nBrAccountProductInvoiceCostsRatio(orm.TransientModel):
                             invoice.amount_gross),
                         }
                     self.pool.get('account.invoice.line').write(
-                        cr, uid, ids, vals, context)
+                        cr, uid, [line.id], vals, context)
         return True
