@@ -343,7 +343,7 @@ class NFe200(FiscalDocument):
                     dup = Dup_200()
                     dup.nDup.valor = line.name
                     dup.dVenc.valor = line.date_maturity or inv.date_due or inv.date_invoice
-                    dup.vDup.valor = str("%.2f" % line.debit)
+                    dup.vDup.valor = str("%.2f" % line.debit or line.credit)
                     nfe.infNFe.cobr.dup.append(dup)
 
             #
