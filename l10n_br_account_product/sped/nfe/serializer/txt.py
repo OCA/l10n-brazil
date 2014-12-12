@@ -1011,8 +1011,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         if UFEmbarq != '' or XLocEmbarq != '':
             StrRegZA = {
-                'UFEmbarq': UFEmbarq,
-                'XLocEmbarq': XLocEmbarq,
+                'UFEmbarq': UFEmbarq or '',
+                'XLocEmbarq': XLocEmbarq or '',
             }
             StrZA = 'ZA|%s|%s|\n' % (StrRegZA['UFEmbarq'], StrRegZA['XLocEmbarq'])
             StrFile += StrZA
