@@ -17,12 +17,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class ResPartner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+	# TODO migrate to new API
     def zip_search(self, cr, uid, ids, context=None):
         obj_zip = self.pool.get('l10n_br.zip')
         for res_partner in self.browse(cr, uid, ids):
