@@ -34,7 +34,7 @@
 			<field name="code">Não Contribuinte</field>
 			<field name="name">Não Contribuinte</field>
 			<field name="is_company" eval="True"/>
-			<field name="default" eval="True"/>
+			<field name="default" eval="False"/>
 			<field name="ipi" eval="False"/>
 			<field name="icms" eval="False"/>
 		</record>
@@ -43,6 +43,7 @@
 			<field name="code">Simples Nacional</field>
 			<field name="name">Simples Nacional</field>
 			<field name="is_company" eval="True"/>
+			<field name="default" eval="False"/>
 			<field name="ipi" eval="False"/>
 			<field name="icms" eval="False"/>
 		</record>
@@ -51,6 +52,7 @@
 			<field name="code">Não Contribuinte</field>
 			<field name="name">Não Contribuinte</field>
 			<field name="is_company" eval="False"/>
+			<field name="default" eval="True"/>
 			<field name="ipi" eval="False"/>
 			<field name="icms" eval="False"/>
 		</record>
