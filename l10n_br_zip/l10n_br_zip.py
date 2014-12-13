@@ -19,7 +19,7 @@
 
 import re
 
-from openerp import models, fields
+from openerp import models, fields, api
 from openerp.exceptions import except_orm
 
 
@@ -71,16 +71,17 @@ class L10n_brZip(models.Model):
 
         return domain
 
-    def set_result(self, cr, uid, ids, context, zip_read=None):
+    @api.model
+    def set_result(self, zip_read=None):
         if zip_read:
             zip_code = zip_read['zip']
             if len(zip_code) == 8:
                 zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
             result = {
-                'country_id': zip_read['country_id'] and zip_read['country_id'][0] or False,
-                'state_id': zip_read['state_id'] and zip_read['state_id'][0] or False,
-                'l10n_br_city_id': zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][0] or False,
-                'district': (zip_read['district'] or ''),
+                'country_id': zip_read.get('country_id'),
+                'state_id': zip_read.get('state_id'),
+                'l10n_br_city_id': zip_read.get('l10n_br_city_id'),
+                'district': (zip_read.get('district', '')),
                 'street': ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or '')),
                 'zip': zip_code,
             }
@@ -117,13 +118,12 @@ class L10n_brZip(models.Model):
         else:
             return False
 
-    # TODO migrate to new API
-    def create_wizard(self, cr, uid, ids, context,
-                    object_name, country_id=False,
+    @api.model
+    def create_wizard(self, object_name, country_id=False,
                     state_id=False, l10n_br_city_id=False,
                     district=False, street=False, zip_code=False,
                     zip_ids=False):
-
+        context = dict(self.env.context)
         context.update({
             'zip': zip_code,
             'street': street,
