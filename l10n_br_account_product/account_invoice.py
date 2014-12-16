@@ -257,6 +257,70 @@ class AccountInvoice(models.Model):
         string='Outros Custos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
 
+    #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+                        context=None, toolbar=False, submenu=False):
+        result = super(AccountInvoice, self).fields_view_get(
+            cr, uid, view_id=view_id, view_type=view_type, context=context,
+            toolbar=toolbar, submenu=submenu)
+
+        if context is None:
+            context = {}
+
+        if not view_type:
+            view_id = self.pool.get('ir.ui.view').search(
+                cr, uid, [('name', '=', 'account.invoice.tree')])
+            view_type = 'tree'
+
+        if view_type == 'form':
+            eview = etree.fromstring(result['arch'])
+
+            if 'type' in context.keys():
+                fiscal_types = eview.xpath("//field[@name='invoice_line']")
+                for fiscal_type in fiscal_types:
+                    fiscal_type.set(
+                        'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
+                            context['type'],
+                            context.get('fiscal_type', 'product')))
+
+                fiscal_categories = eview.xpath(
+                    "//field[@name='fiscal_category_id']")
+                for fiscal_category_id in fiscal_categories:
+                    fiscal_category_id.set(
+                        'domain',
+                        """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
+                        ('state', '=', 'approved'),
+                        ('journal_type', '=', '%s')]"""
+                        % (context.get('fiscal_type', 'product'),
+                            OPERATION_TYPE[context['type']],
+                            JOURNAL_TYPE[context['type']]))
+                    fiscal_category_id.set('required', '1')
+
+                document_series = eview.xpath(
+                    "//field[@name='document_serie_id']")
+                for document_serie_id in document_series:
+                    document_serie_id.set(
+                        'domain', "[('fiscal_type', '=', '%s')]"
+                        % (context.get('fiscal_type', 'product')))
+
+            if context.get('fiscal_type', False):
+                delivery_infos = eview.xpath("//group[@name='delivery_info']")
+                for delivery_info in delivery_infos:
+                    delivery_info.set('invisible', '1')
+
+            result['arch'] = etree.tostring(eview)
+
+        if view_type == 'tree':
+            doc = etree.XML(result['arch'])
+            nodes = doc.xpath("//field[@name='partner_id']")
+            partner_string = _('Customer')
+            if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
+                partner_string = _('Supplier')
+            for node in nodes:
+                node.set('string', partner_string)
+            result['arch'] = etree.tostring(doc)
+        return result
+
     #TODO Imaginar em não apagar o internal number para nao ter a necessidade de voltar a numeracão
     @api.multi
     def action_cancel_draft(self):
