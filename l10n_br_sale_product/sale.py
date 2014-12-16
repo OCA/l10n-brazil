@@ -64,6 +64,7 @@ class SaleOrder(orm.Model):
                 val2 += (line.insurance_value + line.freight_value + line.other_costs_value)
                 val3 += line.discount_value
                 val4 += line.price_gross
+                val = val - val2
             result[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
             result[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
             result[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
