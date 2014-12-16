@@ -164,7 +164,7 @@ class AccountInvoice(models.Model):
                     fiscal_type.set(
                         'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
                             context['type'],
-                            context.get('fiscal_type', 'product')))
+                            context.get('fiscal_type', 'service')))
 
                 fiscal_categories = eview.xpath(
                     "//field[@name='fiscal_category_id']")
@@ -174,7 +174,7 @@ class AccountInvoice(models.Model):
                         """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
                         ('state', '=', 'approved'),
                         ('journal_type', '=', '%s')]"""
-                        % (context.get('fiscal_type', 'product'),
+                        % (context.get('fiscal_type', 'service'),
                             OPERATION_TYPE[context['type']],
                             JOURNAL_TYPE[context['type']]))
                     fiscal_category_id.set('required', '1')
@@ -184,7 +184,7 @@ class AccountInvoice(models.Model):
                 for document_serie_id in document_series:
                     document_serie_id.set(
                         'domain', "[('fiscal_type', '=', '%s')]"
-                        % (context.get('fiscal_type', 'product')))
+                        % (context.get('fiscal_type', 'service')))
 
             if context.get('fiscal_type', False):
                 delivery_infos = eview.xpath("//group[@name='delivery_info']")
