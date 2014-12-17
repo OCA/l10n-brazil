@@ -69,7 +69,7 @@ class SaleOrder(orm.Model):
             line.product_id, line.order_id.partner_id,
             fiscal_position=line.fiscal_position)['taxes']:
             tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
-            if not tax.tax_code_id.tax_discount:
+            if not tax.tax_discount:
                 value += c.get('amount', 0.0)
         return value
 
