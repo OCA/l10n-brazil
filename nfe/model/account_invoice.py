@@ -18,9 +18,11 @@
 ###############################################################################
 
 import pysped
+import os
 from StringIO import StringIO
 from openerp.osv import orm
 from report.pyPdf import PdfFileReader, PdfFileWriter
+from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
 
 
 class account_invoice(orm.Model):
@@ -33,18 +35,36 @@ class account_invoice(orm.Model):
 
         for inv in self.browse(cr, uid, ids):
 
+            company = self.pool.get('res.company').browse(
+                cr, uid, inv.company_id.id)
+            nfe_key = inv.nfe_access_key
             procnfe = pysped.nfe.manual_401.ProcNFe_200()
 
             try:
-                for inv_doc_event in inv.account_document_event_ids:
-                    if inv_doc_event.file_sent:
-                        file_xml = inv_doc_event.file_sent
-                        break
-                procnfe.xml = file_xml
+                if inv.state in ['open', 'paid', 'sefaz_cancelled']:
+                    file_xml = os.path.join(monta_caminho_nfe(
+                        company, chave_nfe=nfe_key))
+
+                else:
+                    file_xml = os.path.join(os.path.join(
+                        monta_caminho_nfe(company, chave_nfe=nfe_key), 'tmp/'))
+
+                procnfe.xml = os.path.join(file_xml, nfe_key + '-nfe.xml')
             except:
                 raise orm.except_orm(('Error !'),
                                      ('Não é possível gerar a Danfe '
                                       '- Confirme o Documento'))
+
+            # try:
+            #     for inv_doc_event in inv.account_document_event_ids:
+            #         if inv_doc_event.file_sent:
+            #             file_xml = inv_doc_event.file_sent
+            #             break
+            #     procnfe.xml = file_xml
+            # except:
+            #     raise orm.except_orm(('Error !'),
+            #                          ('Não é possível gerar a Danfe '
+            #                           '- Confirme o Documento'))
 
             danfe = pysped.nfe.processador_nfe.DANFE()
             danfe.NFe = procnfe.NFe
