@@ -223,7 +223,9 @@ class NFe200(FiscalDocument):
                 det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
                 det.prod.xProd.valor = inv_line.product_id.name or ''
                 det.prod.NCM.valor = punctuation_rm(inv_line.fiscal_classification_id.name)
+                # TODO - Pagar na classificação NCM:EX
                 det.prod.EXTIPI.valor = ''
+                det.prod.nFCI.valor = inv_line.fci
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
                 det.prod.qCom.valor = str("%.4f" % inv_line.quantity)
