@@ -44,6 +44,7 @@ class ProductTemplate(models.Model):
         'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
     origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
     ncm_id = fields.Many2one('account.product.fiscal.classification', u'NCM')
+    fci = fields.Char('FCI do Produto', size=36)
 
     @api.multi
     def ncm_id_change(self, ncm_id=False, sale_tax_ids=None,
