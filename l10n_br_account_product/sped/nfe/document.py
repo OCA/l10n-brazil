@@ -291,6 +291,7 @@ class NFe200(FiscalDocument):
         self.det.prod.xProd.valor = inv_line.product_id.name[:120] or ''
         self.det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.fiscal_classification_id.name or '')[:8]
         self.det.prod.EXTIPI.valor = ''
+        self.det.prod.nFCI.valor = inv_line.fci or ''
         self.det.prod.CFOP.valor = inv_line.cfop_id.code
         self.det.prod.uCom.valor = inv_line.uos_id.name or ''
         self.det.prod.qCom.valor = str("%.4f" % inv_line.quantity)
