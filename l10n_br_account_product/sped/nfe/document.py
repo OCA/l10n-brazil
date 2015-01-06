@@ -89,7 +89,7 @@ class NFe200(FiscalDocument):
                         nfe.infNFe.retirada.xBairro.valor = inv.partner_shipping_id.district or 'Sem Bairro'
                         nfe.infNFe.retirada.cMun.valor = '%s%s' % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code)
                         nfe.infNFe.retirada.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
-                        nfe.infNFe.retirada.UF.valor = inv.address_invoice_id.state_id.code or ''
+                        nfe.infNFe.retirada.UF.valor = inv.partner_shipping_id.state_id.code or ''
                     else:
                         nfe.infNFe.entrega.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf)
                         nfe.infNFe.entrega.xLgr.valor = inv.partner_shipping_id.street or ''
@@ -98,7 +98,7 @@ class NFe200(FiscalDocument):
                         nfe.infNFe.entrega.xBairro.valor = inv.partner_shipping_id.district or 'Sem Bairro'
                         nfe.infNFe.entrega.cMun.valor = '%s%s' % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code)
                         nfe.infNFe.entrega.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
-                        nfe.infNFe.entrega.UF.valor = inv.address_invoice_id.state_id.code or ''
+                        nfe.infNFe.entrega.UF.valor = inv.partner_shipping_id.state_id.code or ''
 
             #
             # Documentos referenciadas
