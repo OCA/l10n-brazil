@@ -326,6 +326,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 CProd = unicode(i).strip().rjust(4, u'0')
                 XProd = normalize('NFKD', unicode(inv_line.name or '')).encode('ASCII','ignore')
 
+            # TODO - Adicionar nFCI
             StrRegI = {
                    'CProd': CProd,
                    'CEAN': inv_line.product_id.ean13 or '',
