@@ -122,7 +122,7 @@ class L10n_brTaxEstimateTemplate(orm.Model):
         'fiscal_classification_id': fields.many2one(
             'account.product.fiscal.classification.template',
             'Fiscal Classification', select=True),
-        'state_id': fields.Many2one(
+        'state_id': fields.many2one(
             'res.country.state', 'Estado', required=True),
         'federal_taxes_national': fields.float(
             'Impostos Federais Nacional',
@@ -278,7 +278,7 @@ class L10n_brTaxEstimate(orm.Model):
         'fiscal_classification_id': fields.many2one(
             'account.product.fiscal.classification.template',
             'Fiscal Classification', select=True),
-        'state_id': fields.Many2one(
+        'state_id': fields.many2one(
             'res.country.state', 'Estado', required=True),
         'federal_taxes_national': fields.float(
             'Impostos Federais Nacional',
