@@ -18,6 +18,7 @@
 ###############################################################################
 
 import time
+from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
