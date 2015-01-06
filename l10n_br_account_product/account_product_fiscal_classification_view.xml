@@ -83,16 +83,36 @@
                     <field name="inv_copy_note"/>
                     <field name="note"/>
 				</field>
-				<field name="sale_base_tax_ids"  position="replace">
-					<group colspan="2">
-						<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-					</group>
-				</field>
-				<field name="purchase_base_tax_ids"  position="replace">
-					<group colspan="2">
-						<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-					</group>
-				</field>
+				<group name="taxes"  position="replace">
+                    <notebook>
+                        <page string="Impostos">
+                            <group name="taxes" colspan="4">
+							    <group string="Sale Taxes">
+								    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+							    </group>
+							    <group string="Purchase Taxes">
+								    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+							    </group>
+						    </group>
+                        </page>
+                        <page string="Impostos Estimados">
+                            <field name="tax_estimate_ids" nolabel="1">
+                                <tree>
+                                    <field name="state_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="key"/>
+                                    <field name="version"/>
+                                    <field name="origin"/>
+                                    <field name="federal_taxes_national"/>
+                                    <field name="federal_taxes_import"/>
+                                    <field name="state_taxes"/>
+                                    <field name="municipal_taxes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+				</group>
 			</field>
 		</record>
 

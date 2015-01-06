@@ -309,6 +309,8 @@ class NFe200(FiscalDocument):
                 det.imposto.COFINSST.vAliqProd.valor = ''
                 det.imposto.COFINSST.vCOFINS.valor = str("%.2f" % inv_line.cofins_st_value)
 
+                det.imposto.vTotTrib.valor = str("%.2f" % inv_line.total_taxes)
+
                 # Declaração de importação
                 for inv_di in inv_line.import_declaration_ids:
                     di = DI_200()
@@ -416,6 +418,8 @@ class NFe200(FiscalDocument):
             nfe.infNFe.total.ICMSTot.vCOFINS.valor = str("%.2f" % inv.cofins_value)
             nfe.infNFe.total.ICMSTot.vOutro.valor = str("%.2f" % inv.amount_costs)
             nfe.infNFe.total.ICMSTot.vNF.valor = str("%.2f" % inv.amount_total)
+            nfe.infNFe.total.ICMSTot.vTotTrib.valor = str("%.2f" % inv.amount_total_taxes)
+
 
             # Gera Chave da NFe
             nfe.gera_nova_chave()
