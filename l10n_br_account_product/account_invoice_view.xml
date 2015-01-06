@@ -80,6 +80,7 @@
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
+                                    <field name="amount_total_taxes"/>
 								</group>
 								<group name="package_info">
 									<field name="weight"/>
@@ -219,6 +220,7 @@
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
+                                    <field name="amount_total_taxes"/>
 								</group>
 								<group name="package_info">
 									<field name="weight"/>
@@ -309,6 +311,7 @@
 							<page position="inside" string="Impostos">
 								<notebook>
 									<page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">
+                                        <field name="total_taxes"/>
 										<group string="Detalhes do ICMS">
 											<group>
 												<field name="icms_manual" invisible="True"/>
