@@ -57,6 +57,7 @@ class AccountInvoice(models.Model):
         self.amount_discount = sum(line.discount_value for line in self.invoice_line)
         self.amount_insurance = sum(line.insurance_value for line in self.invoice_line)
         self.amount_costs = sum(line.other_costs_value for line in self.invoice_line)
+        self.amount_total_taxes = sum(line.total_taxes for line in self.invoice_line)
         self.amount_gross = sum(line.price_gross for line in self.invoice_line)
         self.amount_freight = sum(line.freight_value for line in self.invoice_line)
         self.amount_tax_discount = 0.0
@@ -178,7 +179,8 @@ class AccountInvoice(models.Model):
     nfe_date = fields.Datetime('Data do Status NFE', readonly=True,
         copy=False)
     nfe_export_date = fields.Datetime('Exportação NFE', readonly=True)
-    cfop_ids = fields.Many2many('l10n_br_account_product.cfop', string='CFOP',
+    cfop_ids = fields.Many2many(
+        'l10n_br_account_product.cfop', string='CFOP',
         copy=False, compute='_compute_cfops')
     fiscal_document_related_ids = fields.One2many(
         'l10n_br_account_product.document.related', 'invoice_id',
@@ -260,6 +262,8 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'), cfiscal_ompute='_compute_amount2')
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
+        digits=dp.get_precision('Account'), compute='_compute_amount')
+    amount_total_taxes = fields.Float(string='Total de Tributos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
 
     #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
@@ -432,6 +436,9 @@ class AccountInvoiceLine(models.Model):
         digits=dp.get_precision('Account'))
     price_total = fields.Float(
         string='Total', store=True, compute='_compute_price',
+        digits=dp.get_precision('Account'))
+    total_taxes = fields.Float(
+        string='Total de Tributos', requeried=True, default=0.00,
         digits=dp.get_precision('Account'))
     icms_manual = fields.Boolean('ICMS Manual?', default=False)
     icms_origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
