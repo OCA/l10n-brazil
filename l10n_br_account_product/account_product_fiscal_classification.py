@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
+import openerp.addons.decimal_precision as dp
 
 FC_SQL_CONSTRAINTS = [
         ('account_fiscal_classfication_code_uniq', 'unique (name)',
@@ -74,7 +75,10 @@ class AccountProductFiscalClassificationTemplate(orm.Model):
             'fiscal_classification_id', 'Taxes Definitions'),
         'purchase_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Purchase Taxes', multi='all')
+            relation='account.tax', string='Purchase Taxes', multi='all'),
+        'tax_estimate_ids': fields.one2many(
+            'l10n_br_tax.estimate.template', 'fiscal_classification_id',
+            'Impostos Estimados'),
     }
     _defaults = {
         'type': 'normal'}
@@ -109,6 +113,41 @@ class L10n_brTaxDefinitionPurchaseTemplate(orm.Model):
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')
     ]
+
+
+class L10n_brTaxEstimateTemplate(orm.Model):
+    _name = 'l10n_br_tax.estimate.template'
+    _columns = {
+        'active': fields.boolean('Ativo'),
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification.template',
+            'Fiscal Classification', select=True),
+        'state_id': fields.Many2one(
+            'res.country.state', 'Estado', required=True),
+        'federal_taxes_national': fields.float(
+            'Impostos Federais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'federal_taxes_import': fields.float(
+            'Impostos Federais Importado',
+            digits_compute=dp.get_precision('Account')),
+        'state_taxes': fields.float(
+            'Impostos Estaduais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'municipal_taxes': fields.float(
+            'Impostos Municipais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'date_start': fields.date('Data Inicial'),
+        'date_end': fields.date('Data Final'),
+        'key': fields.char('Chave', size=32),
+        'version': fields.char(u'Versão', size=32),
+        'origin': fields.char('Fonte', size=32),
+    }
+    _defaults = {
+        'federal_taxes_national': 0.00,
+        'federal_taxes_import': 0.00,
+        'state_taxes': 0.00,
+        'municipal_taxes': 0.00,
+    }
 
 
 class AccountProductFiscalClassification(orm.Model):
@@ -158,12 +197,16 @@ class AccountProductFiscalClassification(orm.Model):
             'fiscal_classification_id', 'Taxes Definitions'),
         'purchase_base_tax_ids': fields.function(
             _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Purchase Taxes', multi='all')
+            relation='account.tax', string='Purchase Taxes', multi='all'),
+        'tax_estimate_ids': fields.one2many(
+            'l10n_br_tax.estimate', 'fiscal_classification_id',
+            'Impostos Estimados'),
     }
     _defaults = {
         'type': 'normal'}
     _sql_constraints = FC_SQL_CONSTRAINTS
 
+    #FIXME
     def button_update_products(self, cr, uid, ids, context=None):
 
         result = True
@@ -226,6 +269,41 @@ class L10n_brTaxDefinitionPurchase(orm.Model):
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
         u'Imposto já existente nesta classificação fiscal!')]
+
+
+class L10n_brTaxEstimate(orm.Model):
+    _name = 'l10n_br_tax.estimate'
+    _columns = {
+        'active': fields.boolean('Ativo'),
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification.template',
+            'Fiscal Classification', select=True),
+        'state_id': fields.Many2one(
+            'res.country.state', 'Estado', required=True),
+        'federal_taxes_national': fields.float(
+            'Impostos Federais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'federal_taxes_import': fields.float(
+            'Impostos Federais Importado',
+            digits_compute=dp.get_precision('Account')),
+        'state_taxes': fields.float(
+            'Impostos Estaduais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'municipal_taxes': fields.float(
+            'Impostos Municipais Nacional',
+            digits_compute=dp.get_precision('Account')),
+        'date_start': fields.date('Data Inicial'),
+        'date_end': fields.date('Data Final'),
+        'key': fields.char('Chave', size=32),
+        'version': fields.char(u'Versão', size=32),
+        'origin': fields.char('Fonte', size=32),
+    }
+    _defaults = {
+        'federal_taxes_national': 0.00,
+        'federal_taxes_import': 0.00,
+        'state_taxes': 0.00,
+        'municipal_taxes': 0.00,
+    }
 
 
 class WizardAccountProductFiscalClassification(orm.TransientModel):
