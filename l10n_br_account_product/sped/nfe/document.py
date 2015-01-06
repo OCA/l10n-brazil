@@ -225,7 +225,7 @@ class NFe200(FiscalDocument):
                 det.prod.NCM.valor = punctuation_rm(inv_line.fiscal_classification_id.name)
                 # TODO - Pagar na classificação NCM:EX
                 det.prod.EXTIPI.valor = ''
-                det.prod.nFCI.valor = inv_line.fci
+                det.prod.nFCI.valor = inv_line.fci or ''
                 det.prod.CFOP.valor = inv_line.cfop_id.code
                 det.prod.uCom.valor = inv_line.uos_id.name or ''
                 det.prod.qCom.valor = str("%.4f" % inv_line.quantity)
@@ -418,7 +418,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.total.ICMSTot.vCOFINS.valor = str("%.2f" % inv.cofins_value)
             nfe.infNFe.total.ICMSTot.vOutro.valor = str("%.2f" % inv.amount_costs)
             nfe.infNFe.total.ICMSTot.vNF.valor = str("%.2f" % inv.amount_total)
-            nfe.infNFe.total.ICMSTot.vTotTrib.valor = str("%.2f" % inv.amount_total_taxes)
+            #nfe.infNFe.total.vTotTrib.valor = str("%.2f" % inv.amount_total_taxes)
 
 
             # Gera Chave da NFe
