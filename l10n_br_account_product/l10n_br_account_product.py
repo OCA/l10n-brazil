@@ -109,7 +109,7 @@ class L10nbrAccountDocumentRelated(models.Model):
 
         check_cnpj_cpf = True
 
-        if not self.cnpj_cpf:
+        if self.cnpj_cpf:
             if self.cpfcnpj_type == 'cnpj':
                 if not fiscal.validate_cnpj(self.cnpj_cpf):
                     check_cnpj_cpf = False
