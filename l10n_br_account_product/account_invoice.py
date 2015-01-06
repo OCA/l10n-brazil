@@ -406,6 +406,7 @@ class AccountInvoiceLine(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'Classificação Fiscal')
+    fci = fields.Char('FCI do Produto', size=36)
     import_declaration_ids = fields.One2many(
         'l10n_br_account_product.import.declaration',
         'invoice_line_id', u'Declaração de Importação')
@@ -713,8 +714,9 @@ class AccountInvoiceLine(models.Model):
 
         result = {
             'product_type': 'product',
-            'service_type_id': False,
-            'fiscal_classification_id': False
+            'service_type_id': None,
+            'fiscal_classification_id': None,
+            'fci': None,
         }
 
         partner_id = None
@@ -753,6 +755,9 @@ class AccountInvoiceLine(models.Model):
                 result['product_type'] = 'product'
             if obj_product.ncm_id:
                 result['fiscal_classification_id'] = obj_product.ncm_id.id
+
+            if obj_product.fci:
+                result['fci'] = obj_product.fci
 
             result['icms_origin'] = obj_product.origin
 
