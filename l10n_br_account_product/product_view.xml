@@ -22,6 +22,9 @@
 							<field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
 						</group>
 					</group>
+                    <group string="Dados Fiscais de Importação">
+                        <field name="fci"/>
+                    </group>
 				</field>
 			</field>
 		</record>
