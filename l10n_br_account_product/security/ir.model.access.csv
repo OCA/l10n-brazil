@@ -18,3 +18,7 @@
 "l10n_br_account_product_import_declaration_manager","l10n_br_account_product.import.declaration","model_l10n_br_account_product_import_declaration","account.group_account_manager",1,1,1,1
 "l10n_br_account_product_import_declaration_line_user","l10n_br_account_product.import.declaration.line","model_l10n_br_account_product_import_declaration_line","account.group_account_invoice",1,1,1,1
 "l10n_br_account_product_import_declaration_line_manager","l10n_br_account_product.import.declaration.line","model_l10n_br_account_product_import_declaration_line","account.group_account_manager",1,1,1,1
+"l10n_br_tax_estimate_template_user","l10n_br_tax.estimate.template","model_l10n_br_tax_estimate_template","account.group_account_invoice",1,0,0,0
+"l10n_br_tax_estimate_template_manager","l10n_br_tax.estimate.template","model_l10n_br_tax_estimate_template","account.group_account_manager",1,1,1,1
+"l10n_br_tax_estimate_user","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_invoice",1,0,0,0
+"l10n_br_tax_estimate_manager","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_manager",1,1,1,1
