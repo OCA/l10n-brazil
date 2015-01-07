@@ -309,9 +309,11 @@
 									<field name="name"/>
 							</page>
 							<page position="inside" string="Impostos">
+                                <group>
+                                    <field name="total_taxes"/>
+                                </group>
 								<notebook>
 									<page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">
-                                        <field name="total_taxes"/>
 										<group string="Detalhes do ICMS">
 											<group>
 												<field name="icms_manual" invisible="True"/>
