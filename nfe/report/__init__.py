@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
 #    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
 #    @author Rodolfo Leme Bertozo
 #

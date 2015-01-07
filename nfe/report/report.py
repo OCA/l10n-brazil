@@ -21,7 +21,6 @@ from __future__ import with_statement
 from openerp.report.render import render
 from openerp.report.interface import report_int
 from openerp import pooler
-from ..model.account_invoice import account_invoice
 
 
 class external_pdf(render):
