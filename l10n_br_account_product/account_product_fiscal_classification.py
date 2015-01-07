@@ -18,7 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
-import openerp.addons.decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 FC_SQL_CONSTRAINTS = [
         ('account_fiscal_classfication_code_uniq', 'unique (name)',
@@ -143,6 +143,7 @@ class L10n_brTaxEstimateTemplate(orm.Model):
         'origin': fields.char('Fonte', size=32),
     }
     _defaults = {
+        'active': True,
         'federal_taxes_national': 0.00,
         'federal_taxes_import': 0.00,
         'state_taxes': 0.00,
@@ -299,6 +300,7 @@ class L10n_brTaxEstimate(orm.Model):
         'origin': fields.char('Fonte', size=32),
     }
     _defaults = {
+        'active': True,
         'federal_taxes_national': 0.00,
         'federal_taxes_import': 0.00,
         'state_taxes': 0.00,
