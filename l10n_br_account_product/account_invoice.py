@@ -387,7 +387,7 @@ class AccountInvoiceLine(models.Model):
     def _compute_price(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
         taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
+            price, self.quantity, product=self.product_id.id,
             partner=self.invoice_id.partner_id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
@@ -880,7 +880,7 @@ class AccountInvoiceTax(models.Model):
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
-                line.quantity, line.product_id, invoice.partner_id,
+                line.quantity, line.product_id.id, invoice.partner_id,
                 fiscal_position=line.fiscal_position,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
