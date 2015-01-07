@@ -369,7 +369,7 @@ class NFe200(FiscalDocument):
                     else:
                         nfe.infNFe.transp.transporta.CPF.valor = punctuation_rm(inv.carrier_id.partner_id.cnpj_cpf)
                     nfe.infNFe.transp.transporta.xNome.valor = inv.carrier_id.partner_id.legal_name or ''
-                    nfe.infNFe.transp.transporta.IE.valor = inv.carrier_id.partner_id.inscr_est or ''
+                    nfe.infNFe.transp.transporta.IE.valor = punctuation_rm(inv.carrier_id.partner_id.inscr_est)
                     nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
                     nfe.infNFe.transp.transporta.xMun.valor = inv.carrier_id.partner_id.l10n_br_city_id.name or ''
                     nfe.infNFe.transp.transporta.UF.valor = inv.carrier_id.partner_id.state_id.code or ''
@@ -418,7 +418,7 @@ class NFe200(FiscalDocument):
             nfe.infNFe.total.ICMSTot.vCOFINS.valor = str("%.2f" % inv.cofins_value)
             nfe.infNFe.total.ICMSTot.vOutro.valor = str("%.2f" % inv.amount_costs)
             nfe.infNFe.total.ICMSTot.vNF.valor = str("%.2f" % inv.amount_total)
-            #nfe.infNFe.total.vTotTrib.valor = str("%.2f" % inv.amount_total_taxes)
+            nfe.infNFe.total.ICMSTot.vTotTrib.valor = str("%.2f" % inv.amount_total_taxes)
 
 
             # Gera Chave da NFe
