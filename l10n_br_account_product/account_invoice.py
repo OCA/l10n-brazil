@@ -772,6 +772,7 @@ class AccountInvoiceLine(models.Model):
                 result['fci'] = obj_product.fci
 
             result['icms_origin'] = obj_product.origin
+            result['total_taxes'] = taxes_calculed['total_taxes']
 
         for tax in taxes_calculed['taxes']:
             try:
