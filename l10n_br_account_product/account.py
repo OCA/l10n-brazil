@@ -195,6 +195,10 @@ class AccountTax(models.Model):
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes += result_icmsst['taxes']
 
+        result.update(self._compute_tax_estimate(
+            cr, uid, product, result['total'] - result['total_included'],
+            precision, fiscal_position))
+
         return {
             'total': result['total'],
             'total_included': result['total_included'],
