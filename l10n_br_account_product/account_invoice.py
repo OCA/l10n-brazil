@@ -132,7 +132,7 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]},
         default=_default_fiscal_category)
     date_in_out = fields.Date(u'Data de Entrada/Saida', readonly=True,
-        states={'draft': [('readonly', False)]}, select=True,
+        states={'draft': [('readonly', False)]}, select=True, copy=False,
         help="Deixe em branco para usar a data atual")
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Delivery Address',
@@ -173,7 +173,7 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     nfe_protocol_number = fields.Char(
         'Protocolo', size=15, readonly=True,
-        states={'draft': [('readonly', False)]})
+        copy=False, states={'draft': [('readonly', False)]})
     nfe_status = fields.Char('Status na Sefaz', size=44, readonly=True,
         copy=False)
     nfe_date = fields.Datetime('Data do Status NFE', readonly=True,
