@@ -27,6 +27,7 @@
     'version': '8.0',
     'depends': [
         'l10n_br_account_product',
+        'l10n_br_stock',
         'account_fiscal_position_rule_stock',
     ],
     'data': [
