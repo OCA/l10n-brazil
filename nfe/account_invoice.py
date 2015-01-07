@@ -18,16 +18,18 @@
 ###############################################################################
 
 import os
-import datetime
+import pysped
 import logging
+import datetime
 from openerp.osv import orm
+from StringIO import StringIO
 from openerp.tools.translate import _
-from openerp.addons.nfe.sped.nfe.validator.config_check import validate_nfe_configuration, validate_invoice_cancel
-from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
-from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
-
 from .sped.nfe.nfe_factory import NfeFactory
 from .sped.nfe.validator.xml import XMLValidator
+from openerp.report.pyPdf import PdfFileReader, PdfFileWriter
+from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
+from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
+from openerp.addons.nfe.sped.nfe.validator.config_check import validate_nfe_configuration, validate_invoice_cancel
 
 _logger = logging.getLogger(__name__)
 
@@ -259,4 +261,3 @@ class AccountInvoice(orm.Model):
                 _logger.error(_(u'Invoice in invalid state to cancel online'),exc_info=True)
                 #TODO
         return
-                #Ver o que fazer aqui.

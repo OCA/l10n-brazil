@@ -6,7 +6,7 @@
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form"/>
 			<field name="arch" type="xml">
-				<xpath expr="//field[@name='export_folder']" position="after">	
+				<xpath expr="//field[@name='export_folder']" position="after">
 					<field name="nfe_email"/>
 				</xpath>
 			</field>
