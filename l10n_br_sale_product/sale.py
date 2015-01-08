@@ -68,7 +68,7 @@ class SaleOrder(models.Model):
         for computed in line.tax_id.compute_all(
             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
             line.product_uom_qty, line.order_id.partner_invoice_id.id,
-            line.product_id, line.order_id.partner_id,
+            line.product_id.id, line.order_id.partner_id,
             fiscal_position=line.fiscal_position,
             insurance_value=line.insurance_value,
             freight_value=line.freight_value,
@@ -208,7 +208,7 @@ class SaleOrderLine(models.Model):
     def _amount_line(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
         taxes = self.tax_id.compute_all(price, self.product_uom_qty,
-            self.product_id, self.order_id.partner_invoice_id.id,
+            self.product_id.id, self.order_id.partner_invoice_id.id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
             freight_value=self.freight_value,
