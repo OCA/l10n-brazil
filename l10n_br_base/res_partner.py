@@ -141,7 +141,8 @@ class ResPartner(orm.Model):
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
+                            cnpj_cpf, context=None):
         result = super(ResPartner, self).onchange_type(
             cr, uid, ids, is_company)
         if cnpj_cpf:
@@ -201,7 +202,7 @@ class ResPartner(orm.Model):
         Extenção para os novos campos do endereço """
         address_fields = super(ResPartner, self)._address_fields(
             cr, uid, context=context)
-        return list(address_fields+['l10n_br_city_id', 'number', 'district'])
+        return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
 class res_partner_bank(orm.Model):

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Luis Felipe Miléo - luisfelipe@mileo.co                 #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,13 +17,23 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-
-
-class res_company(orm.Model):
-    _inherit = 'res.company'
-    _columns = {
-        'account_freight_id': fields.many2one('account.account', 'Freight Sale Tax Account'),
-        'account_insurance_id': fields.many2one('account.account', 'Insurance Sale Tax Account'),
-        'account_other_costs': fields.many2one('account.account', 'Other Costs Sale Tax Account'),
-    }
+{
+    'name': 'Brazilian Localization Sale Service',
+    'description': 'Brazilian Localization Sale Service',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, OpenERP Brasil',
+    'website': 'http://openerpbrasil.org',
+    'version': '7.0',
+    'depends': [
+        'l10n_br_sale',
+        'l10n_br_account_service',
+    ],
+    'data': [
+        'l10n_br_sale_service_data.xml',
+    ],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': True,
+}

@@ -7,6 +7,10 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
+				<label for="comment" position="replace">
+				</label>
+				<field name="comment" position="replace">
+				</field>
 				<notebook position="inside">
 					<page string="Documentos Relacionados">
 						<field colspan="4" nolabel="1" name="fiscal_document_related_ids">
@@ -44,6 +48,7 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
+                                                                        <field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
@@ -76,6 +81,14 @@
 							</page>
 						</notebook>
 					</page>
+					<page string="Observações">
+						<group string="Observações">
+							<field name="comment" nolabel="1"/>
+						</group>
+						<group string="Observações Fiscais">
+							<field name="fiscal_comment" nolabel="1"/>
+						</group>
+					</page>
 				</notebook>
 				<field name="amount_untaxed" position="before">
 					<field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
@@ -84,11 +97,11 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
 					<field name="price_gross" />
 				</xpath>
-        		<xpath expr="//field[@name='invoice_line']/tree/field[@name='discount']" position="after">
-        			<field name="discount_value"/>
-        		</xpath>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='discount']" position="after">
+					<field name="discount_value"/>
+				</xpath>
 				<field position="after" name="partner_id">
-					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
+					<field name="partner_shipping_id" domain="[('parent_id', '=', partner_id)]" context="{'default_type':'delivery'}"/>
 				</field>
 				<button name="invoice_cancel" position="attributes">
 					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>

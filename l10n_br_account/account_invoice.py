@@ -71,7 +71,7 @@ class AccountInvoice(orm.Model):
         'fiscal_type': fields.selection(
             PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
         'vendor_serie': fields.char(
-            'Série NF Entrada', size=12, readonly=True,
+            u'Série NF Entrada', size=12, readonly=True,
             states={'draft': [('readonly', False)]},
             help=u"Série do número da Nota Fiscal do Fornecedor"),
         'move_line_receivable_id': fields.function(
@@ -79,7 +79,7 @@ class AccountInvoice(orm.Model):
             relation='account.move.line', string='Entry Lines'),
         'document_serie_id': fields.many2one(
             'l10n_br_account.document.serie', u'Série',
-            domain="[('fiscal_document_id','=',fiscal_document_id),\
+            domain="[('fiscal_document_id', '=', fiscal_document_id),\
             ('company_id','=',company_id)]", readonly=True,
             states={'draft': [('readonly', False)]}),
         'fiscal_document_id': fields.many2one(
@@ -99,6 +99,7 @@ class AccountInvoice(orm.Model):
         'account_document_event_ids': fields.one2many(
             'l10n_br_account.document_event', 'document_event_ids',
             u'Eventos'),
+        'fiscal_comment': fields.text(u'Observação Fiscal'),
     }
 
     def _default_fiscal_document(self, cr, uid, context):
@@ -257,6 +258,7 @@ class AccountInvoice(orm.Model):
             'internal_number': False,
             'nfe_access_key': False,
             'nfe_status': False,
+            'nfe_protocol_number': False,
             'nfe_date': False,
             'nfe_export_date': False,
             'account_document_event_ids': False,
@@ -283,7 +285,7 @@ class AccountInvoice(orm.Model):
                 if invalid_number:
                     raise orm.except_orm(
                         _(u'Número Inválido !'),
-                        _("O número: %s da série: %s, esta inutilizado") % (
+                        _(u"O número: %s da série: %s, esta inutilizado") % (
                             sequence_read['number_next'],
                             inv.document_serie_id.name))
 
@@ -361,8 +363,8 @@ class AccountInvoice(orm.Model):
         fcategory.property_journal.id or False
         if not result['value'].get('journal_id', False):
             raise orm.except_orm(
-                _('Nenhum Diário !'),
-                _("Categoria fiscal: '%s', não tem um diário contábil para a \
+                _(u'Nenhum Diário !'),
+                _(u"Categoria fiscal: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, obj_company.name))
 
         obj_fp_rule = self.pool.get('account.fiscal.position.rule')

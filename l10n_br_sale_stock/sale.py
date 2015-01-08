@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Raphaël Valyi - Akretion                                #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,43 +19,10 @@
 ###############################################################################
 
 from openerp.osv import orm
-from openerp.tools.translate import _
 
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
-
-    def _fiscal_comment(self, cr, uid, order, context=None):
-        fp_comment = []
-        fc_comment = []
-        fp_ids = []
-        fc_ids = []
-
-        for line in order.order_line:
-            if line.fiscal_position and \
-            line.fiscal_position.inv_copy_note and \
-            line.fiscal_position.note:
-                if not line.fiscal_position.id in fp_ids:
-                    fp_comment.append(line.fiscal_position.note)
-                    fp_ids.append(line.fiscal_position.id)
-
-            if line.product_id.ncm_id:
-                fc = line.product_id.ncm_id
-                if fc.inv_copy_note and fc.note:
-                    if not fc.id in fc_ids:
-                        fc_comment.append(fc.note)
-                        fc_ids.append(fc.id)
-
-        return fp_comment + fc_comment
-
-    def _prepare_order_picking(self, cr, uid, order, context=None):
-        result = super(SaleOrder, self)._prepare_order_picking(cr, uid,
-            order, context)
-        result['fiscal_category_id'] = order.fiscal_category_id and \
-        order.fiscal_category_id.id
-        result['fiscal_position'] = order.fiscal_position and \
-        order.fiscal_position.id
-        return result
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         """Prepare the dict of values to create the new invoice for a
@@ -69,26 +37,27 @@ class SaleOrder(orm.Model):
         """
         result = super(SaleOrder, self)._prepare_invoice(
             cr, uid, order, lines, context)
-        #TODO - Testar se só sobrescrevendo o metodo _fiscal_comment nao precisa fazer isso
 
-        comment = []
-        fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
-        result['comment'] = " - ".join(comment + fiscal_comment)
+        if order.incoterm:
+            result['incoterm'] = order.incoterm.id
+
+        return result
+
+    def _prepare_order_picking(self, cr, uid, order, context=None):
+        result = super(SaleOrder, self)._prepare_order_picking(cr, uid,
+            order, context)
+        result['fiscal_category_id'] = order.fiscal_category_id and \
+        order.fiscal_category_id.id
+        result['fiscal_position'] = order.fiscal_position and \
+        order.fiscal_position.id
         return result
 
 
-class SaleOrderLine(orm.Model):
-    _inherit = 'sale.order.line'
-
-    def _prepare_order_line_invoice_line(self, cr, uid, line,
-                                         account_id=False, context=None):
-        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            cr, uid, line, account_id, context)
-
-        if line.product_id.fiscal_type == 'product':
-            cfop = self.pool.get("account.fiscal.position").read(
-                cr, uid, [result['fiscal_position']], ['cfop_id'],
-                context=context)
-            if cfop[0]['cfop_id']:
-                result['cfop_id'] = cfop[0]['cfop_id'][0]
+    def _prepare_order_line_move(self, cr, uid, order, line, picking_id, date_planned, context=None):
+        result = super(SaleOrder, self)._prepare_order_line_move( cr, uid,
+               order, line, picking_id, date_planned, context)
+        result['fiscal_category_id'] = line.fiscal_category_id and \
+        line.fiscal_category_id.id
+        result['fiscal_position'] = line.fiscal_position and \
+        line.fiscal_position.id
         return result

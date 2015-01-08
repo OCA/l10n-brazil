@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  KMEE - www.kmee.com.br                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -22,7 +23,7 @@ from openerp import netsvc
 import datetime
 
 TYPE = [
-    ('input', 'Entrada'),
+    ('input', u'Entrada'),
     ('output', u'Saída'),
 ]
 
@@ -32,6 +33,19 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
+
+class L10n_brAccountCce(orm.Model):
+    _name = 'l10n_br_account.invoice.cce'
+    _description = u'Cartão de Correção no Sefaz'
+    _columns = {
+        'invoice_id': fields.many2one(
+            'account.invoice', 'Fatura'),
+        'motivo': fields.text('Motivo', readonly=True
+            , required=True),
+        'sequencia': fields.char('Sequencia', help=u"Indica a sequencia da carta de correcão"),
+        'cce_document_event_ids': fields.one2many(
+            'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+    }
 
 class L10n_brAccountInvoiceCancel(orm.Model):
     _name = 'l10n_br_account.invoice.cancel'
@@ -108,6 +122,7 @@ class L10n_brDocumentEvent(orm.Model):
     _defaults = {
         'state': 'draft',
     }
+    _order = "write_date desc"
 
     def set_done(self, cr, uid, ids, context=None):
         if context is None:
@@ -388,8 +403,12 @@ class L10n_brAccountPartnerFiscalType(orm.Model):
         'code': fields.char(u'Código', size=16, required=True),
         'name': fields.char(u'Descrição', size=64),
         'is_company': fields.boolean('Pessoa Juridica?'),
+        'default': fields.boolean(u'Tipo Fiscal Padrão'),
         'icms': fields.boolean('Recupera ICMS'),
         'ipi': fields.boolean('Recupera IPI')
+    }
+    _defaults = {
+        'default': True,
     }
 
 

@@ -32,9 +32,9 @@ FISCAL_POSITION_COLUMNS = {
     'type_tax_use': fields.selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application'),
-    'inv_copy_note': fields.boolean('Copiar Observação na Nota Fiscal'),
-    'asset_operation': fields.boolean('Operação de Aquisição de Ativo',
-        help="""Caso seja marcada essa opção, será incluido o IPI na base de
+    'inv_copy_note': fields.boolean(u'Copiar Observação na Nota Fiscal'),
+    'asset_operation': fields.boolean(u'Operação de Aquisição de Ativo',
+        help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
             calculo do ICMS."""),
     'state': fields.selection([('draft', u'Rascunho'),
             ('review', u'Revisão'), ('approved', u'Aprovada'),
@@ -342,3 +342,34 @@ class ResPartner(orm.Model):
             'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
             domain="[('is_company', '=', is_company)]")
     }
+
+    def _default_partner_fiscal_type_id(self, cr, uid, is_company=False,
+                                        context=None):
+        """Define o valor padão para o campo tipo fiscal, por padrão pega
+        o tipo fiscal para não contribuinte já que quando é criado um novo
+        parceiro o valor do campo is_company é false"""
+        result = False
+        ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
+            cr, uid, [('default', '=', 'True'),
+                ('is_company', '=', is_company)], context=context)
+
+        parnter_fiscal_type = self.pool.get('res.company').read(
+            cr, uid, ft_ids, ['id'], context=context)
+        if parnter_fiscal_type:
+            result = parnter_fiscal_type[0]['id']
+        return result
+
+    _defaults = {
+        'partner_fiscal_type_id': _default_partner_fiscal_type_id,
+    }
+
+    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
+                            cnpj_cpf, context=None):
+        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
+            cr, uid, ids, is_company, cnpj_cpf, context)
+        ft_id = self._default_partner_fiscal_type_id(
+            cr, uid, is_company, context)
+
+        if ft_id:
+            result['value']['partner_fiscal_type_id'] = ft_id
+        return result

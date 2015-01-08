@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data noupdate="1">
+	<data>
 
-		<record id="sale.sale_shop_1" model="sale.shop">
-			<field name="default_fc_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+		<!-- REF Criar um ir.values como True para evitar futuras incompatibilidades -->
+		<record id="copy_note_value" model="ir.values">
+			<field name="name">copy_note</field>
+			<field name="model">sale.order</field>
+			<field name="key">default</field>
+			<field name="key2"></field>
+			<field name="value" eval="str('I01\n.')"/>
+			<field name="company_id" ref="base.main_company"/>
 		</record>
 
 	</data>
