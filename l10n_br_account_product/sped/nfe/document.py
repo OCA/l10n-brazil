@@ -254,6 +254,7 @@ class NFe200(FiscalDocument):
                         det.imposto.ICMS.CSOSN.valor = inv_line.icms_cst_id.code
                         det.imposto.ICMS.pCredSN.valor = str("%.2f" % inv_line.icms_percent)
                         det.imposto.ICMS.vCredICMSSN.valor = str("%.2f" % inv_line.icms_value)
+                    det.imposto.ICMS.orig.valor = inv_line.icms_origin or ''
                     det.imposto.ICMS.CST.valor = inv_line.icms_cst_id.code
                     det.imposto.ICMS.modBC.valor = inv_line.icms_base_type
                     det.imposto.ICMS.vBC.valor = str("%.2f" % inv_line.icms_base)
