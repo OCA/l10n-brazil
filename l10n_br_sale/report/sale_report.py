@@ -33,11 +33,9 @@ class sale_report(orm.Model):
 
     def _select(self):
         select_str = """
-             SELECT min(l.id) as id,
+            SELECT min(l.id) as id,
                     l.product_id as product_id,
                     t.uom_id as product_uom,
-                    l.fiscal_category_id as fiscal_category_id,
-                    l.fiscal_position as fiscal_position,
                     sum(l.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
                     sum(l.product_uom_qty * l.price_unit * (100.0-l.discount) / 100.0) as price_total,
                     count(*) as nbr,
@@ -50,15 +48,16 @@ class sale_report(orm.Model):
                     s.state,
                     t.categ_id as categ_id,
                     s.pricelist_id as pricelist_id,
-                    s.project_id as analytic_account_id
+                    s.project_id as analytic_account_id,
+                    s.section_id as section_id,
+                    l.fiscal_category_id as fiscal_category_id,
+                    l.fiscal_position as fiscal_position
         """
         return select_str
 
     def _group_by(self):
         group_by_str = """
             GROUP BY l.product_id,
-                    l.fiscal_category_id,
-                    l.fiscal_position,
                     l.order_id,
                     t.uom_id,
                     t.categ_id,
@@ -69,6 +68,9 @@ class sale_report(orm.Model):
                     s.company_id,
                     s.state,
                     s.pricelist_id,
-                    s.project_id
+                    s.project_id,
+                    s.section_id,
+                    l.fiscal_category_id,
+                    l.fiscal_position
         """
         return group_by_str
