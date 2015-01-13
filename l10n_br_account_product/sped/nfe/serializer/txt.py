@@ -348,17 +348,18 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                    'indTot': '1',
                    'xPed': '',
                    'nItemPed': '',
+                   'nFCI': inv_line.fci,
                    }
 
             StrRegI['NCM'] = punctuation_rm(
                 inv_line.fiscal_classification_id.name)
 
-            StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
+            StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegI['CProd'], StrRegI['CEAN'], StrRegI['XProd'], StrRegI['NCM'],
                                                                                       StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI['UCom'], StrRegI['QCom'],
                                                                                       StrRegI['VUnCom'], StrRegI['VProd'], StrRegI['CEANTrib'], StrRegI['UTrib'],
                                                                                       StrRegI['QTrib'], StrRegI['VUnTrib'], StrRegI['VFrete'], StrRegI['VSeg'],
                                                                                       StrRegI['VDesc'], StrRegI['vOutro'], StrRegI['indTot'], StrRegI['xPed'],
-                                                                                      StrRegI['nItemPed'])
+                                                                                      StrRegI['nItemPed'], StrRegI['nFCI'])
 
             StrFile += StrI
 
@@ -407,7 +408,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             pis_cst = inv_line.pis_cst_id and inv_line.pis_cst_id.code or ''
             cofins_cst = inv_line.cofins_cst_id and inv_line.cofins_cst_id.code or ''
 
-            StrM = 'M|\n'
+            StrRegStrM = {
+                'vTotTrib': str("%.2f" % inv_line.total_taxes),
+            }
+
+            StrM = 'M|%s|\n' % (StrRegStrM['vTotTrib'])
 
             StrFile += StrM
 
@@ -858,25 +863,26 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         StrFile += StrW
 
         StrRegW02 = {
-                     'vBC': str("%.2f" % inv.icms_base),
-                     'vICMS': str("%.2f" % inv.icms_value),
-                     'vBCST': str("%.2f" % inv.icms_st_base),
-                     'vST': str("%.2f" % inv.icms_st_value),
-                     'vProd': str("%.2f" % inv.amount_gross),
-                     'vFrete': str("%.2f" % inv.amount_freight),
-                     'vSeg': str("%.2f" % inv.amount_insurance),
-                     'vDesc': str("%.2f" % inv.amount_discount),
-                     'vII': str("%.2f" % inv.ii_value),
-                     'vIPI': str("%.2f" % inv.ipi_value),
-                     'vPIS': str("%.2f" % inv.pis_value),
-                     'vCOFINS': str("%.2f" % inv.cofins_value),
-                     'vOutro': str("%.2f" % inv.amount_costs),
-                     'vNF': str("%.2f" % inv.amount_total),
-                     }
+             'vBC': str("%.2f" % inv.icms_base),
+             'vICMS': str("%.2f" % inv.icms_value),
+             'vBCST': str("%.2f" % inv.icms_st_base),
+             'vST': str("%.2f" % inv.icms_st_value),
+             'vProd': str("%.2f" % inv.amount_gross),
+             'vFrete': str("%.2f" % inv.amount_freight),
+             'vSeg': str("%.2f" % inv.amount_insurance),
+             'vDesc': str("%.2f" % inv.amount_discount),
+             'vII': str("%.2f" % inv.ii_value),
+             'vIPI': str("%.2f" % inv.ipi_value),
+             'vPIS': str("%.2f" % inv.pis_value),
+             'vCOFINS': str("%.2f" % inv.cofins_value),
+             'vOutro': str("%.2f" % inv.amount_costs),
+             'vNF': str("%.2f" % inv.amount_total),
+             'vTotTrib': str("%.2f" % inv.amount_total_taxes),
+        }
 
-        StrW02 = 'W02|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegW02['vBC'], StrRegW02['vICMS'], StrRegW02['vBCST'], StrRegW02['vST'], StrRegW02['vProd'],
+        StrW02 = 'W02|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegW02['vBC'], StrRegW02['vICMS'], StrRegW02['vBCST'], StrRegW02['vST'], StrRegW02['vProd'],
                                                                      StrRegW02['vFrete'], StrRegW02['vSeg'], StrRegW02['vDesc'], StrRegW02['vII'], StrRegW02['vIPI'],
-                                                                     StrRegW02['vPIS'], StrRegW02['vCOFINS'], StrRegW02['vOutro'], StrRegW02['vNF'])
+                                                                     StrRegW02['vPIS'], StrRegW02['vCOFINS'], StrRegW02['vOutro'], StrRegW02['vNF'], StrRegW02['vTotTrib'])
 
         StrFile += StrW02
 
