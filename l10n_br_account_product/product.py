@@ -33,7 +33,7 @@ PRODUCT_ORIGIN = [
     ('5', u'5 - Nacional, mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40% (quarenta por cento)'),
     ('6', u'6 - Estrangeira - Importação direta, sem similar nacional, constante em lista de Resolução CAMEX'),
     ('7', u'7 - Estrangeira - Adquirida no mercado interno, sem similar nacional, constante em lista de Resolução CAMEX'),
-    ('8', u'Nacional, mercadoria ou bem com Conteúdo de Importação superior a 70%')
+    ('8', u'8 - Nacional, mercadoria ou bem com Conteúdo de Importação superior a 70%')
 ]
 
 
