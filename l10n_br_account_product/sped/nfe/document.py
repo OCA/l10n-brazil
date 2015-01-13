@@ -72,17 +72,16 @@ class NFe200(FiscalDocument):
             nfe.infNFe.ide.verProc.valor = 'OpenERP Brasil v7'
 
             if inv.cfop_ids[0].type in ("input"):
-                nfe.infNFe.ide.tpNF.valor = '0'
+                nfe.infNFe.ide.tpNF.valor = 0
             else:
-                nfe.infNFe.ide.tpNF.valor = '1'
-
+                nfe.infNFe.ide.tpNF.valor = 1
             #
             # Endereço de Entrega ou Retirada
             #
             if inv.partner_shipping_id:
                 if inv.partner_id.id != inv.partner_shipping_id.id:
-                    if nfe.infNFe.ide.tpNF.valor == '0':
-                        nfe.infNFe.retirada.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf)
+                    if nfe.infNFe.ide.tpNF.valor == 0:
+                        nfe.infNFe.retirada.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf or inv.partner_id.cnpj_cpf)
                         nfe.infNFe.retirada.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.retirada.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.retirada.xCpl.valor = inv.partner_shipping_id.street2 or ''
@@ -91,7 +90,7 @@ class NFe200(FiscalDocument):
                         nfe.infNFe.retirada.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
                         nfe.infNFe.retirada.UF.valor = inv.partner_shipping_id.state_id.code or ''
                     else:
-                        nfe.infNFe.entrega.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf)
+                        nfe.infNFe.entrega.CNPJ.valor = punctuation_rm(inv.partner_shipping_id.cnpj_cpf or inv.partner_id.cnpj_cpf)
                         nfe.infNFe.entrega.xLgr.valor = inv.partner_shipping_id.street or ''
                         nfe.infNFe.entrega.nro.valor = inv.partner_shipping_id.number or ''
                         nfe.infNFe.entrega.xCpl.valor = inv.partner_shipping_id.street2 or ''
@@ -160,7 +159,7 @@ class NFe200(FiscalDocument):
             if inv.company_id.partner_id.inscr_mun:
                 nfe.infNFe.emit.CNAE.valor = punctuation_rm(inv.company_id.cnae_main_id.code)
 
-                        #
+            #
             # Destinatário
             #
             partner_bc_code = ''
