@@ -30,4 +30,5 @@ class SaleOrder(models.Model):
             cr, uid, order, context)
         result['fiscal_category_id'] = order.fiscal_category_id.id
         result['fiscal_position'] = order.fiscal_position.id
+        result['incoterm'] = order.incoterm
         return result
