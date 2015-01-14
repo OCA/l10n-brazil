@@ -19,7 +19,7 @@
 
 import time
 
-from openerp import models, _
+from openerp import models, api, _
 from openerp.exceptions import except_orm
 
 
