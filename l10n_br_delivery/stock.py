@@ -51,21 +51,22 @@ class StockPicking(models.Model):
         }
 
         vals.update(invoice_vals)
-        result = super(StockPicking, self)._create_invoice_from_picking(
+        invoice_id = super(StockPicking, self)._create_invoice_from_picking(
             picking, vals)
 
+        invoice = self.env['account.invoice'].browse(invoice_id)
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         costs = [
-            ('Frete', company.account_freight_id, inv.amount_freight),
-            ('Seguro', company.account_insurance_id, inv.amount_insurance),
-            ('Outros Custos', company.account_other_costs, inv.amount_costs)
+            ('Frete', company.account_freight_id, invoice.amount_freight),
+            ('Seguro', company.account_insurance_id, invoice.amount_insurance),
+            ('Outros Custos', company.account_other_costs, invoice.amount_costs)
         ]
 
         ait_obj = self.env['account.invoice.tax']
         for cost in costs:
             if cost[2] > 0:
                 tax_values = {
-                    'invoice_id': result.invoice_id,
+                    'invoice_id': invoice.id,
                     'name': cost[0],
                     'account_id': cost[1].id,
                     'amount': cost[2],
@@ -75,6 +76,7 @@ class StockPicking(models.Model):
                 }
 
                 ait_obj.create(tax_values)
+        return invoice_id
 
 
 class StockMove(models.Model):
@@ -82,12 +84,13 @@ class StockMove(models.Model):
 
     @api.model
     def _get_invoice_line_vals(self, move, partner, inv_type):
+        import pudb; pudb.set_trace()
         result = super(StockMove, self)._get_invoice_line_vals(
             move, partner, inv_type)
 
-        if move.sale_line_id:
-            result['insurance_value'] = move.sale_line_id.insurance_value
-            result['other_costs_value'] = move.sale_line_id.other_costs_value
-            result['freight_value'] = move.sale_line_id.freight_value
+        if move.procurement_id.sale_line_id:
+            result['insurance_value'] = move.procurement_id.sale_line_id.insurance_value
+            result['other_costs_value'] = move.procurement_id.sale_line_id.other_costs_value
+            result['freight_value'] = move.procurement_id.sale_line_id.freight_value
 
         return result
