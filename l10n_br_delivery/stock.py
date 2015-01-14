@@ -54,7 +54,7 @@ class StockPicking(models.Model):
         result = super(StockPicking, self)._create_invoice_from_picking(
             picking, vals)
 
-        company = self.env['res.company'].browse(self.user.company_id.id)
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
         costs = [
             ('Frete', company.account_freight_id, inv.amount_freight),
             ('Seguro', company.account_insurance_id, inv.amount_insurance),
