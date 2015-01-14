@@ -84,7 +84,6 @@ class StockMove(models.Model):
 
     @api.model
     def _get_invoice_line_vals(self, move, partner, inv_type):
-        import pudb; pudb.set_trace()
         result = super(StockMove, self)._get_invoice_line_vals(
             move, partner, inv_type)
 
