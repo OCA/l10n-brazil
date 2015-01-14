@@ -349,6 +349,7 @@ class ResPartner(orm.Model):
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
         result = False
+        return result
         ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
             cr, uid, [('default', '=', 'True'),
                 ('is_company', '=', is_company)], context=context)
