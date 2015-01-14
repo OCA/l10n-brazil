@@ -37,40 +37,35 @@ class StockPicking(models.Model):
         #TODO: Calcular o valor correto em caso de alteração da quantidade
         return False
 
-    #TODO migrate to new API
-    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
-                              invoice_id, invoice_vals, context=None):
-        result = super(StockPicking, self)._prepare_invoice_line(
-            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
-            context)
-        #TODO: Calcular o valor correto em caso de alteração da quantidade
-        if move_line.sale_line_id:
-            result['insurance_value'] = move_line.sale_line_id.insurance_value
-            result['other_costs_value'] = move_line.sale_line_id.other_costs_value
-            result['freight_value'] = move_line.sale_line_id.freight_value
-        return result
+    @api.model
+    def _create_invoice_from_picking(self, picking, vals):
 
-    #TODO migrate
-    def _invoice_hook(self, cr, uid, picking, invoice_id):
-        """Call after the creation of the invoice."""
-        context = {}
+        invoice_vals = {
+            'partner_shipping_id': picking.partner_id.id,
+            'carrier_id': picking.carrier_id and picking.carrier_id.id,
+            'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
+            'incoterm': picking.incoterm.id,
+            'weight': picking.weight,
+            'weight_net': picking.weight_net,
+            'number_of_packages': picking.number_of_packages,
+        }
 
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-        inv = self.pool.get("account.invoice").browse(
-            cr, uid, invoice_id, context=context)
+        vals.update(invoice_vals)
+        result = super(StockPicking, self)._create_invoice_from_picking(
+            picking, vals)
+
+        company = self.env['res.company'].browse(self.user.company_id.id)
         costs = [
             ('Frete', company.account_freight_id, inv.amount_freight),
             ('Seguro', company.account_insurance_id, inv.amount_insurance),
             ('Outros Custos', company.account_other_costs, inv.amount_costs)
         ]
 
-        ait_obj = self.pool.get('account.invoice.tax')
+        ait_obj = self.env['account.invoice.tax']
         for cost in costs:
             if cost[2] > 0:
-                values = {
-                    'invoice_id': invoice_id,
+                tax_values = {
+                    'invoice_id': result.invoice_id,
                     'name': cost[0],
                     'account_id': cost[1].id,
                     'amount': cost[2],
@@ -79,17 +74,20 @@ class StockPicking(models.Model):
                     'company_id': company.id,
                 }
 
-                ait_obj.create(cr, uid, values, context=context)
+                ait_obj.create(tax_values)
 
-        self.pool.get('account.invoice').write(
-            cr, uid, invoice_id, {
-                'partner_shipping_id': picking.partner_id.id,
-                'carrier_id': picking.carrier_id and picking.carrier_id.id,
-                'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
-                'incoterm': picking.incoterm.id,
-                'weight': picking.weight,
-                'weight_net': picking.weight_net,
-                'number_of_packages': picking.number_of_packages})
 
-        return super(StockPicking, self)._invoice_hook(
-            cr, uid, picking, invoice_id)
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    @api.model
+    def _get_invoice_line_vals(self, move, partner, inv_type):
+        result = super(StockMove, self)._get_invoice_line_vals(
+            move, partner, inv_type)
+
+        if move.sale_line_id:
+            result['insurance_value'] = move.sale_line_id.insurance_value
+            result['other_costs_value'] = move.sale_line_id.other_costs_value
+            result['freight_value'] = move.sale_line_id.freight_value
+
+        return result
