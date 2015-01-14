@@ -968,19 +968,19 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             'Esp': '',
             'Marca': '',
             'NVol': '',
-            'PesoL': '',
             'PesoB': '',
+            'PesoL': '',
         }
 
         if inv.number_of_packages:
             StrRegX26['QVol'] = inv.number_of_packages
-            StrRegX26['Esp'] = 'Volume'  #TODO
-            StrRegX26['Marca']
-            StrRegX26['NVol']
-            StrRegX26['PesoL'] = str("%.3f" % inv.weight_net)
+            StrRegX26['Esp'] = inv.kind_of_packages
+            StrRegX26['Marca'] = ''
+            StrRegX26['NVol'] = ''
             StrRegX26['PesoB'] = str("%.3f" % inv.weight)
+            StrRegX26['PesoL'] = str("%.3f" % inv.weight_net)
 
-            StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoL'], StrRegX26['PesoB'])
+            StrX26 = 'X26|%s|%s|%s|%s|%s|%s|\n' % (StrRegX26['QVol'], StrRegX26['Esp'], StrRegX26['Marca'], StrRegX26['NVol'], StrRegX26['PesoB'], StrRegX26['PesoL'])
 
             StrFile += StrX26
 
