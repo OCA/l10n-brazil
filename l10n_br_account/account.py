@@ -17,6 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+from openerp import api, models
 from openerp.osv import orm, fields
 
 
@@ -34,10 +35,10 @@ class AccountTaxComputation(orm.Model):
     }
 
 
-class AccountTax(orm.Model):
+class AccountTax(models.Model):
     _inherit = 'account.tax'
 
-    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
+    def _compute_tax(self,cr, uid, taxes, total_line, product, product_qty,
                      precision):
         result = {'tax_discount': 0.0, 'taxes': []}
 
@@ -65,7 +66,8 @@ class AccountTax(orm.Model):
         result['taxes'] = taxes
         return result
 
-    def compute_all(self, cr, uid, taxes, price_unit, quantity,
+    @api.v7
+    def compute_all(self,cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
                     freight_value=0.0, other_costs_value=0.0):
@@ -81,9 +83,7 @@ class AccountTax(orm.Model):
             'total_base': Total Base by tax,
         }
 
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user.
+        :Parameters:            
             - 'taxes': List with all taxes id.
             - 'price_unit': Product price unit.
             - 'quantity': Product quantity.
@@ -123,6 +123,17 @@ class AccountTax(orm.Model):
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes
         }
+
+    @api.v8
+    def compute_all(self, price_unit, quantity,
+                    product=None, partner=None, force_excluded=False,
+                    fiscal_position=False, insurance_value=0.0,
+                    freight_value=0.0, other_costs_value=0.0):
+        return self._model.compute_all(
+            self._cr, self._uid, self, price_unit, quantity,
+            product=product, partner=partner, force_excluded=force_excluded,
+            fiscal_position=fiscal_position, insurance_value=insurance_value,
+            freight_value=freight_value, other_costs_value=other_costs_value)
 
 
 class WizardMultiChartsAccounts(orm.TransientModel):
