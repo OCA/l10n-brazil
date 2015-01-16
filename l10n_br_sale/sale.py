@@ -257,7 +257,8 @@ class SaleOrder(orm.Model):
             cr, uid, lines, ['fiscal_category_id', 'fiscal_position'])
 
         if (context.get('fiscal_type') == 'service' and
-            inv_lines and inv_lines[0]['fiscal_category_id']):
+            inv_lines and inv_lines[0]['fiscal_category_id']
+                        and inv_lines[0]['fiscal_position']):
                 fiscal_category_id = inv_lines[0]['fiscal_category_id'][0]
                 result['fiscal_position'] = inv_lines[0]['fiscal_position'][0]
         else:
@@ -334,7 +335,9 @@ class SaleOrderLine(orm.Model):
     }
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
-        kwargs['context'].update({'use_domain': ('use_sale', '=', True)})
+        context = dict(kwargs['context'] or {})
+        context.update({'use_domain': ('use_sale', '=', True)})
+        kwargs['context'] = context
                 
         obj_user = self.pool.get('res.users').browse(cr, uid, uid)
         company_id = obj_user.company_id.id
@@ -348,8 +351,8 @@ class SaleOrderLine(orm.Model):
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
                           fiscal_position=False, flag=False, context=None):
-        if not context:
-            context = {}
+        
+        context = dict(context or {})        
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         partner_invoice_id = context.get('partner_invoice_id')
         result = {'value': {}}
