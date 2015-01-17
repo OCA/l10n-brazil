@@ -109,6 +109,8 @@ class AccountInvoice(models.Model):
         u'Eventos')
     fiscal_comment = fields.Text(u'Observação Fiscal')
 
+    _order = 'internal_sequence desc'
+
     @api.one
     @api.constrains('number')
     def _check_invoice_number(self):
