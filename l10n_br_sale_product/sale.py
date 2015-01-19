@@ -78,6 +78,22 @@ class SaleOrder(models.Model):
                 value += computed.get('amount', 0.0)
         return value
 
+    @api.model
+    def _default_ind_pres(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.default_ind_pres
+
+    default_ind_pres = fields.Selection([
+        ('0', u'Não se aplica'),
+        ('1', u'Operação presencial'),
+        ('2', u'Operação não presencial, pela Internet'),
+        ('3', u'Operação não presencial, Teleatendimento'),
+        ('4', u'NFC-e em operação com entrega em domicílio'),
+        ('9', u'Operação não presencial, outros')], u'Tipo de operação',
+        readonly=True, states={'draft': [('readonly', False)]},
+        required=False, help=u'Indicador de presença do comprador no \
+            \nestabelecimento comercial no momento \
+            \nda operação.', default=_default_ind_pres)
     amount_untaxed = fields.Float(
         compute='_amount_all_wrapper', string='Untaxed Amount',
         digits=dp.get_precision('Account'), store=True,
