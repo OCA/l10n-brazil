@@ -953,9 +953,26 @@ class AccountInvoiceLine(orm.Model):
 
         tax_obj = self.pool.get('account.tax')
 
-        if not values.get('product_id') or not values.get('quantity') \
-        or not values.get('fiscal_position'):
-            return {}
+        if (not values.get('product_id')
+                or not values.get('quantity')
+                or not values.get('fiscal_position')):
+            invoice_line_id = context.get('invoice_line_id', False)
+            if not invoice_line_id:
+                return {}
+            elif isinstance(invoice_line_id, (list)) and not len(invoice_line_id) == 1:
+                return {}
+            else:
+                if isinstance(invoice_line_id, (int)):
+                    invoice_line_id = [invoice_line_id]
+                old = self.read(cr, uid, invoice_line_id,[
+                    'fiscal_position', 'product_id', 'price_unit',
+                     'company_id', 'invoice_line_tax_id', 'partner_id',
+                     'quantity'])[0]
+                for aux in old:
+                    if isinstance(old[aux], (tuple)):
+                        old[aux] = old[aux][0]
+                old['invoice_line_tax_id'] = [[6, 0, old['invoice_line_tax_id']]]
+                values = dict(old.items() + values.items())
 
         result = {
             'product_type': 'product',
@@ -1029,6 +1046,7 @@ class AccountInvoiceLine(orm.Model):
     def write(self, cr, uid, ids, vals, context=None):
         if not context:
             context = {}
+        context.update({'invoice_line_id': ids})
         vals.update(self._validate_taxes(cr, uid, vals, context))
         return super(AccountInvoiceLine, self).write(
             cr, uid, ids, vals, context=context)
