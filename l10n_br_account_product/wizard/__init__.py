@@ -22,3 +22,4 @@ import l10n_br_account_nfe_export_invoice
 import l10n_br_account_nfe_export
 import l10n_br_account_document_status_sefaz
 import l10n_br_refund
+import l10n_br_account_invoice_costs_ratio

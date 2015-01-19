@@ -38,6 +38,7 @@
         'l10n_br_account_view.xml',
         'l10n_br_account_product_view.xml',
         'account_view.xml',
+        'wizard/l10n_br_account_invoice_costs_ratio_view.xml',
         'account_invoice_view.xml',
         'account_invoice_workflow.xml',
         'res_partner_view.xml',

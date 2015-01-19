@@ -64,6 +64,7 @@ class SaleOrder(orm.Model):
                 val2 += (line.insurance_value + line.freight_value + line.other_costs_value)
                 val3 += line.discount_value
                 val4 += line.price_gross
+                val -= (line.insurance_value + line.freight_value + line.other_costs_value)
             result[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
             result[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
             result[order.id]['amount_extra'] = cur_obj.round(cr, uid, cur, val2)
@@ -235,38 +236,6 @@ class SaleOrder(orm.Model):
                         fc_ids.append(fc.id)
 
         return fp_comment + fc_comment
-
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
-                            date_invoice=False, context=None):
-        invoice_id = super(SaleOrder, self).action_invoice_create(
-            cr, uid, ids, grouped, states, date_invoice, context)
-
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-
-        inv = self.pool.get("account.invoice").browse(
-            cr, uid, invoice_id, context=context)
-        vals = [
-            ('Frete', company.account_freight_id, inv.amount_freight),
-            ('Seguro', company.account_insurance_id, inv.amount_insurance),
-            ('Outros Custos', company.account_other_costs, inv.amount_costs)
-        ]
-
-        ait_obj = self.pool.get('account.invoice.tax')
-        for tax in vals:
-            if tax[2] > 0:
-                ait_obj.create(cr, uid,
-                {
-                 'invoice_id': invoice_id,
-                 'name': tax[0],
-                 'account_id': tax[1].id,
-                 'amount': tax[2],
-                 'base': tax[2],
-                 'manual': 1,
-                 'company_id': company.id,
-                }, context=context)
-        return invoice_id
 
     def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
         result = {}
