@@ -29,6 +29,7 @@
 				<field name="fiscal_position" position="replace">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}" />
+                    <field name="ind_pres" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}"/>
 				</field>
 				<field name="partner_id" position="attributes">
 					<attribute name="on_change">onchange_partner_in(partner_id, company_id, context, fiscal_category_id)</attribute>
@@ -52,9 +53,8 @@
 				<field name="stock_journal_id" position="after">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}" />
+                    <field name="ind_pres" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}"/>
 				</field>
-
-				
 			</field>
 		</record>
 
@@ -73,6 +73,7 @@
 				<field name="stock_journal_id" position="after">
 					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, company_id, fiscal_category_id, context)" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required':[('invoice_state', '=', '2binvoiced')]}" />
 					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}" />
+                    <field name="ind_pres" attrs="{'invisible': [('invoice_state', '!=', '2binvoiced')], 'required': [('invoice_state', '=', '2binvoiced')]}"/>
 				</field>
 			</field>
 		</record>

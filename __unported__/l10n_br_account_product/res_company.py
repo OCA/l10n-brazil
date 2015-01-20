@@ -46,7 +46,7 @@ class ResCompany(orm.Model):
             domain="[('company_id', '=', active_id),('active','=',True),"
             "('fiscal_type','=','product')]"),
         'nfe_version': fields.selection(
-            [('110', '1.10'), ('200', '2.00')], 'Versão NFe', required=True),
+            [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')], 'Versão NFe', required=True),
         'nfe_import_folder': fields.char('Pasta de Importação', size=254),
         'nfe_export_folder': fields.char('Pasta de Exportação', size=254),
         'nfe_backup_folder': fields.char('Pasta de Backup', size=254),
@@ -87,7 +87,7 @@ class ResCompany(orm.Model):
         'nfe_a1_password': fields.char('Senha NFe A1', size=64)
     }
     _defaults = {
-        'nfe_version': '200',
+        'nfe_version': '2.00',
     }
 
 
