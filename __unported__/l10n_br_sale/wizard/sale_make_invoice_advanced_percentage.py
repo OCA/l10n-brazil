@@ -109,5 +109,4 @@ class SaleAdvancePaymentInvoice(orm.Model):
 
                 res[1]['invoice_line'] = list_invoice
                 res[1]['comment'] = invoice_dict['name']
-
         return result

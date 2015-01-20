@@ -11,8 +11,12 @@
 				</label>
 				<field name="comment" position="replace">
 				</field>
-				<field name="date_invoice" position="after">
-					<field name="date_in_out" string="Data Saida"/>
+                <field name="date_invoice" position="after">
+					<field name="date_hour_invoice" string="Data Emissão"/>
+                    <field name="date_in_out" string="Data de Entrada/Saida"/>
+				</field>
+                <field name="date_invoice" position="replace">
+					<field name="date_invoice" invisible="1"/>
 				</field>
 				<notebook position="inside">
 					<page string="Documentos Relacionados">
@@ -55,6 +59,7 @@
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
+                                    <field name="nfe_version"/>
 								</group>
 								<group>
 									<field name="nfe_purpose" required="1"/>
@@ -119,6 +124,10 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
+                <xpath expr="//field[@name='fiscal_position']" position="after">
+                    <field name="ind_final" string="Operação com Consumidor final" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                    <field name="ind_pres" string="Tipo de operação" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                </xpath>
 			</field>
 		</record>
 
@@ -144,8 +153,12 @@
 				</label>
 				<field name="comment" position="replace">
 				</field>
-				<field name="date_invoice" position="after">
-					<field name="date_in_out" string="Data Entrada"/>
+                <field name="date_invoice" position="after">
+					<field name="date_hour_invoice" string="Data Emissão"/>
+                    <field name="date_in_out" string="Data de Entrada"/>
+				</field>
+                <field name="date_invoice" position="attributes">
+					<field name="date_invoice" invisible="1"/>
 				</field>
 				<notebook>
 					<page string="Documentos Relacionados">
