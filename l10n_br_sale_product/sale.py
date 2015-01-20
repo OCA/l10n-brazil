@@ -24,23 +24,6 @@ from openerp.addons import decimal_precision as dp
 def  calc_price_ratio(price_gross, amount_calc, amount_total):
     return price_gross * amount_calc / amount_total
 
-class SaleShop(orm.Model):
-    _inherit = 'sale.shop'
-
-    _columns = {
-        'default_ind_pres': fields.selection([
-            ('0', u'Não se aplica'),
-            ('1', u'Operação presencial'),
-            ('2', u'Operação não presencial, pela Internet'),
-            ('3', u'Operação não presencial, Teleatendimento'),
-            ('4', u'NFC-e em operação com entrega em domicílio'),
-            ('9', u'Operação não presencial, outros'),
-        ], u'Tipo de operação',
-            help=u'Indicador de presença do comprador no \
-                \nestabelecimento comercial no momento \
-                \nda operação.'),
-    }
-
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
 
@@ -184,13 +167,13 @@ class SaleOrder(orm.Model):
 
     def _default_ind_pres(self, cr, uid, context=None):
         result = False
-        shop_id = context.get("shop_id", self.default_get(
-            cr, uid, ["shop_id"], context)["shop_id"])
-        if shop_id:
-            shop = self.pool.get("sale.shop").read(
-                cr, uid, [shop_id], ["default_ind_pres"])
-            if shop[0]["default_ind_pres"]:
-                result = shop[0]["default_ind_pres"][0]
+        #shop_id = context.get("shop_id", self.default_get(
+        #    cr, uid, ["shop_id"], context)["shop_id"])
+        #if shop_id:
+        #    shop = self.pool.get("sale.shop").read(
+        #        cr, uid, [shop_id], ["default_ind_pres"])
+        #    if shop[0]["default_ind_pres"]:
+        #        result = shop[0]["default_ind_pres"][0]
         return result
 
     _defaults = {
