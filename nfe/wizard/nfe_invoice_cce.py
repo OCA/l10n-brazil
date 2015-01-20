@@ -21,7 +21,7 @@
 
 from openerp.osv import fields, orm
 from openerp.tools.translate import _
-from nfe.sped.nfe.processing.xml import send_correction_letter
+#from sped.nfe.processing.xml import send_correction_letter
 
 class NfeInvoiceCce(orm.TransientModel):
 

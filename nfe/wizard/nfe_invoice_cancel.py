@@ -18,7 +18,7 @@
 ###############################################################################
 
 from openerp.osv import osv, fields
-from nfe.sped.nfe.processing.xml import cancel
+#from nfe.sped.nfe.processing.xml import cancel
 # TODO: Encontrar o método de cancelamento no processing
 
 class NfeInvoiceCancel(osv.osv_memory):

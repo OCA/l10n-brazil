@@ -53,8 +53,11 @@ class AccountInvoice(orm.Model):
         return NfeFactory().get_nfe(nfe_version)
 
     def nfe_export(self, cr, uid, ids, context=None):
-
-        for inv in self.browse(cr, uid, ids):
+        user_pool = self.pool.get('res.users')        
+        if not context:
+            context = user_pool.context_get(cr, uid, context)
+            
+        for inv in self.browse(cr, uid, ids, context):
 
             company_pool = self.pool.get('res.company')
             company = company_pool.browse(cr, uid, inv.company_id.id)
@@ -64,7 +67,7 @@ class AccountInvoice(orm.Model):
             nfe_obj = self._get_nfe_factory(inv.nfe_version)
 
             # nfe_obj = NFe310()
-            nfes = nfe_obj.get_xml(cr, uid, ids, int(company.nfe_environment))
+            nfes = nfe_obj.get_xml(cr, uid, ids, int(company.nfe_environment), context)
 
             for nfe in nfes:
                 # erro = nfe_obj.validation(nfe['nfe'])
