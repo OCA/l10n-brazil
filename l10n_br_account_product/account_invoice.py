@@ -1055,12 +1055,12 @@ class AccountInvoiceLine(orm.Model):
 class AccountInvoiceTax(orm.Model):
     _inherit = "account.invoice.tax"
 
-    def compute(self, cr, uid, invoice_id, context=None):
+    def compute(self, cr, uid, invoice, context=None):
         tax_grouped = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
         inv = self.pool.get('account.invoice').browse(
-            cr, uid, invoice_id, context=context)
+            cr, uid, invoice.id, context=context)
         cur = inv.currency_id
         currenty_date = time.strftime('%Y-%m-%d')
         company_currency = inv.company_id.currency_id.id

@@ -13,7 +13,9 @@
 					<attribute name="style">width: 50%%</attribute>
 				</field>
 				<field name="zip" position="after">
-					<button name="zip_search" type="object" icon="terp-stock_zoom" class="oe_edit_only"/>
+					<button name="zip_search" type="object" class="oe_inline">
+						<i class="fa fa-search"></i>
+					</button>
 				</field>
 			</field>
 		</record>

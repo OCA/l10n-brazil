@@ -122,6 +122,7 @@ class L10n_brDocumentEvent(orm.Model):
     _defaults = {
         'state': 'draft',
     }
+    _order = "write_date desc"
 
     def set_done(self, cr, uid, ids, context=None):
         if context is None:
@@ -140,8 +141,7 @@ class L10n_brAccountFiscalCategory(orm.Model):
         'name': fields.char(u'Descrição', size=254),
         'type': fields.selection(TYPE, 'Tipo'),
         'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal'),
-        'property_journal': fields.property(
-            'account.journal', type='many2one', relation='account.journal',
+        'property_journal': fields.property(type='many2one', relation='account.journal',
             string=u"Diário Contábil", method=True, view_load=True,
             help=u"Diário utilizado para esta categoria de operação fiscal"),
         'journal_type': fields.selection(

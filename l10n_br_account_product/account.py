@@ -16,8 +16,9 @@
 #You should have received a copy of the GNU Affero General Public License     #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
-
+from openerp import api, models
 from openerp.osv import orm, fields
+from lxml.html.builder import INS
 
 
 class AccountPaymentTerm(orm.Model):
@@ -32,7 +33,7 @@ class AccountPaymentTerm(orm.Model):
     }
 
 
-class AccountTax(orm.Model):
+class AccountTax(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax'
 
@@ -43,7 +44,7 @@ class AccountTax(orm.Model):
         for tax in taxes:
             if tax.get('type') == 'weight' and product:
                 product_read = self.pool.get('product.product').read(
-                    cr, uid, product, ['weight_net'])
+                     cr, uid, product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get(
                     'weight_net', 0.0)) * tax['percent'], precision)
 
@@ -107,6 +108,7 @@ class AccountTax(orm.Model):
     #TODO
     #Refatorar este método, para ficar mais simples e não repetir
     #o que esta sendo feito no método l10n_br_account_product
+    @api.v7
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
@@ -123,9 +125,7 @@ class AccountTax(orm.Model):
             'total_base': Total Base by tax,
         }
 
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user.
+        :Parameters:            
             - 'taxes': List with all taxes id.
             - 'price_unit': Product price unit.
             - 'quantity': Product quantity.
@@ -178,8 +178,8 @@ class AccountTax(orm.Model):
             total_base = result['total'] + insurance_value + \
             freight_value + other_costs_value
 
-        result_icms = self._compute_tax(
-            cr, uid, specific_icms, total_base, product, quantity, precision)
+        result_icms = self._compute_tax(cr, uid, 
+            specific_icms, total_base, product, quantity, precision)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -216,3 +216,16 @@ class AccountTax(orm.Model):
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes
         }
+        
+    @api.v8
+    def compute_all(self, price_unit, quantity,
+                    product=None, partner=None, force_excluded=False,
+                    fiscal_position=False, insurance_value=0.0,
+                    freight_value=0.0, other_costs_value=0.0):
+        return self._model.compute_all(
+            self._cr, self._uid, self, price_unit, quantity,
+            product=product, partner=partner, force_excluded=force_excluded,
+            fiscal_position=fiscal_position, insurance_value=insurance_value,
+            freight_value=freight_value, other_costs_value=other_costs_value)
+
+        

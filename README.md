@@ -1,7 +1,7 @@
 l10n_br_core
 ============
 
-[![Build Status](https://travis-ci.org/openerpbrasil/l10n_br_core.png?branch=7.0)](https://travis-ci.org/openerpbrasil/l10n_br_core)
+[![Build Status](https://travis-ci.org/odoobrasil-fiscal/l10n_br_core.png?branch=feature/migracao_8.0)](https://travis-ci.org/odoobrasil-fiscal/l10n_br_core)
 
 Goal
 ----
