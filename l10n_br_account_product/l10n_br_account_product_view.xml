@@ -6,16 +6,26 @@
 			<field name="name">l10n_br_account_product.cfop.name</field>
 			<field name="model">l10n_br_account_product.cfop</field>
 			<field name="arch" type="xml">
-				<form string="CFOP">
-					<field name="code" select="1" />
-					<field name="name" select="1" />
-					<field name="small_name" select="2" />
-					<field name="parent_id" select="2"/>
-					<field name="type" select="2" />
-					<field name="internal_type" select="2"/>
-					<newline/>
-					<separator string="Descrição do CFOP" colspan="4"/>
-					<field name="description" nolabel="1" colspan="4" select="2"/>
+				<form string="CFOP" version="7.0">
+					<sheet>
+						<group>							
+							<field name="code" class="oe_inline" select="1" />												
+							<field name="name" select="1" />
+							<field name="small_name" select="2" />
+							<field name="parent_id" select="2"/>
+						</group>
+						<group>
+							<group>
+								<field name="type" select="2" />
+							</group>
+							<group>
+								<field name="internal_type" select="2"/>
+							</group>						
+						</group>
+						<group string="Descrição do CFOP">
+							<field name="description" nolabel="1" colspan="4" select="2"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
