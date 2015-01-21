@@ -8,7 +8,9 @@
             <field name="priority" eval="20"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='buttons']" position="inside">
-                	<button name="sefaz_check" type="object" icon="terp-stock_zoom" class="oe_highlight" string="Consultar cadastro SEFAZ"/>
+                	<button name="sefaz_check" type="object" class="oe_inline oe_stat_button" 
+                		icon="fa-search" string="Consultar SEFAZ">
+                	</button>                	
                 </xpath>
                 <field name="partner_fiscal_type_id" position="after">
 					<field name="habilitado_sintegra" />
