@@ -124,15 +124,27 @@ class res_partner(orm.Model):
 
         return True
 
+    def _check_ie_duplicated(self, cr, uid, ids):
+        """ Check if the field inscr_est has duplicated value
+        """
+        for partner in self.browse(cr, uid, ids):
+            if not partner.inscr_est \
+                or partner.inscr_est == 'ISENTO':         
+                continue
+            
+            partner_ids = self.search(cr, uid, ['&', ('inscr_est', '=', partner.inscr_est), ('id', '!=', partner.id)])
+            if len(partner_ids)>0:
+                return False
+        return True
+
     _constraints = [
         (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-        (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
+        (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est']),
+        (_check_ie_duplicated, u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG!', ['inscr_est'])
     ]
     _sql_constraints = [
         ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
-         u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-        ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
-         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
+         u'Já existe um parceiro cadastrado com este CPF/CNPJ !')
     ]
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company, cnpj_cpf):
