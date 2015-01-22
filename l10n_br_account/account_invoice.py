@@ -19,6 +19,7 @@
 
 from lxml import etree
 
+from openerp import models, api
 from openerp import netsvc
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
@@ -41,7 +42,7 @@ JOURNAL_TYPE = {
 }
 
 
-class AccountInvoice(orm.Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     def _get_receivable_lines(self, cr, uid, ids, name, arg, context=None):
@@ -315,30 +316,32 @@ class AccountInvoice(orm.Model):
                 'WHERE account_move_line.move_id = %s '
                 'AND account_analytic_line.move_id = account_move_line.id',
                 (ref, move_id))
-
-            for inv_id, name in self.name_get(cr, uid, [inv_id]):
-                ctx = context.copy()
-                if obj_inv.type in ('out_invoice', 'out_refund'):
-                    ctx = self.get_log_context(cr, uid, context=ctx)
-                message = _('Invoice ') + " '" + name + "' " + _("is validated.")
-                self.log(cr, uid, inv_id, message, context=ctx)
+            
+            #TODO Usar OpenChatter para gerar um registro que a fatura foi validada.
+            #for inv_id, name in self.name_get(cr, uid, [inv_id]):
+            #    ctx = context.copy()
+            #    if obj_inv.type in ('out_invoice', 'out_refund'):
+            #        ctx = self.get_log_context(cr, uid, context=ctx)
+            #    message = _('Invoice ') + " '" + name + "' " + _("is validated.")
+            #    self.log(cr, uid, inv_id, message, context=ctx)
         return True
 
-    def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
         """finalize_invoice_move_lines(cr, uid, invoice, move_lines) -> move_lines
         Hook method to be overridden in additional modules to verify and possibly alter the
         move lines to be created by an invoice, for special cases.
         :param invoice_browse: browsable record of the invoice that is generating the move lines
         :param move_lines: list of dictionaries with the account.move.lines (as for create())
         :return: the (possibly updated) final move_lines to create for this invoice
-        """
-        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(cr, uid, invoice_browse, move_lines)
+        """        
+        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
         cont=1
         result = []
         for move_line in move_lines:
             if (move_line[2]['debit'] or move_line[2]['credit']):
-                if (move_line[2]['account_id'] == invoice_browse.account_id.id):
-                    move_line[2]['name'] = '%s/%s' % ( invoice_browse.internal_number, cont)
+                if (move_line[2]['account_id'] == self.account_id.id):
+                    move_line[2]['name'] = '%s/%s' % ( self.internal_number, cont)
                     cont +=1
                 result.append(move_line)
         return result
