@@ -46,6 +46,7 @@ class ResPartner(orm.Model):
                 
                 estato = partner.state_id.code or None
                 ie = partner.inscr_est or None
+                ie = ie if ie != 'ISENTO' else None
                 
                 processo = check_partner(company, cnpj_cpf, estato, ie)
                 
