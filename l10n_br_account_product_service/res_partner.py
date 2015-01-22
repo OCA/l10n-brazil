@@ -227,7 +227,9 @@ class AccountFiscalPosition(orm.Model):
 
         return result
 
-    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
+    #TODO Implementar método api.v7 e api.v8
+    def map_tax(self, cr, uid, id, taxes, context=None):
+        fposition_id = self.browse(cr, uid, id, context)
         result = []
         if not context:
             context = {}

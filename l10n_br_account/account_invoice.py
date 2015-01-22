@@ -543,8 +543,9 @@ class AccountInvoiceLine(orm.Model):
                           parent_fposition_id=False):
 
         result = super(AccountInvoiceLine, self).product_id_change(
-            cr, uid, ids, product, uom, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, context, company_id)
+            cr, uid, ids, product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
+            fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id,
+            company_id=company_id, context=context)
 
         fiscal_position = fposition_id or parent_fposition_id or False
 
