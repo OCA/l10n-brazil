@@ -504,8 +504,7 @@ class AccountInvoiceLine(orm.Model):
 
     def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
 
-        if not context:
-            context = {}
+        context = dict(context or {})         
         context.update({'use_domain': ('use_invoice', '=', True)})
         kwargs.update({'context': context})
         result['value']['cfop_id'] = False
@@ -621,8 +620,9 @@ class AccountInvoiceLine(orm.Model):
                     company_id=None, fiscal_category_id=False):
 
         result = super(AccountInvoiceLine, self).uos_id_change(
-            cr, uid, ids, product, uom, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, context, company_id)
+            cr, uid, ids, product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
+            fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id, 
+            context=context, company_id=company_id)
         return self._fiscal_position_map(
             cr, uid, result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,

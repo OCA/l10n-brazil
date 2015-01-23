@@ -923,9 +923,7 @@ class AccountInvoiceLine(orm.Model):
     def _get_tax_codes(self, cr, uid, product_id, fiscal_position,
                         taxes, company_id, context=None):
 
-        if not context:
-            context = {}
-
+        context = dict(context or {})
         result = {}
 
         if fiscal_position.fiscal_category_id.journal_type in ('sale', 'sale_refund'):

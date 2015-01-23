@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
+from openerp import api
 
 FISCAL_POSITION_COLUMNS = {
     'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
@@ -228,8 +229,8 @@ class AccountFiscalPosition(orm.Model):
         return result
 
     #TODO Implementar método api.v7 e api.v8
-    def map_tax(self, cr, uid, id, taxes, context=None):
-        fposition_id = self.browse(cr, uid, id, context)
+    @api.v7
+    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
         if not context:
             context = {}
@@ -272,6 +273,20 @@ class AccountFiscalPosition(orm.Model):
                 result.append(t.id)
 
         return list(set(result))
+
+    @api.v8 #TODO Ajeitar este código. Acho que todos os outros lugares que sobrescreve tem que fazer o mesmo.
+    def map_tax(self, taxes):
+        result = self.env['account.tax'].browse()
+        for tax in taxes:
+            tax_count = 0
+            for t in self.tax_ids:
+                if t.tax_src_id == tax:
+                    tax_count += 1
+                    if t.tax_dest_id:
+                        result |= t.tax_dest_id
+            if not tax_count:
+                result |= tax
+        return result
 
 
 class AccountFiscalPositionTax(orm.Model):
