@@ -223,13 +223,15 @@ class PurchaseOrder(orm.Model):
         order.fiscal_position.id
         return result
 
-    def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id, context=None):
+    #TODO Novo parametro group_id, ver para que server
+    def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id, group_id, context=None):
         result = super(PurchaseOrder, self)._prepare_order_line_move( cr, uid,
-               order, order_line, picking_id, context)
-        result['fiscal_category_id'] = order_line.fiscal_category_id and \
-        order_line.fiscal_category_id.id
-        result['fiscal_position'] = order_line.fiscal_position and \
-        order_line.fiscal_position.id
+               order, order_line, picking_id, group_id, context)
+        for res in result:
+            res['fiscal_category_id'] = order_line.fiscal_category_id and \
+                order_line.fiscal_category_id.id
+            res['fiscal_position'] = order_line.fiscal_position and \
+                order_line.fiscal_position.id
         return result
 
 class PurchaseOrderLine(orm.Model):
@@ -245,7 +247,8 @@ class PurchaseOrderLine(orm.Model):
     }
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
-
+        kwargs['context'] = dict(kwargs['context'] or {})
+        
         kwargs['context'].update({'use_domain': ('use_purchase', '=', True)})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         result_rule = fp_rule_obj.apply_fiscal_mapping(
@@ -269,9 +272,9 @@ class PurchaseOrderLine(orm.Model):
     def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id,
                             qty, uom_id, partner_id, date_order=False,
                             fiscal_position_id=False, date_planned=False,
-                            name=False, price_unit=False, context=None):
-        if context is None:
-            context = {}
+                            name=False, price_unit=False, state='draft', context=None):
+        context = dict(context or {})
+        
         company_id = context.get('company_id')
         parent_fiscal_position_id = context.get('parent_fiscal_position_id')
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
