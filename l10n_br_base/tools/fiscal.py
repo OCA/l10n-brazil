@@ -391,7 +391,7 @@ def validate_ie_sp(inscr_est):
     return nova_ie == inscr_est
 
 
-#def validate_ie_to(inscr_est):
+def validate_ie_to(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
