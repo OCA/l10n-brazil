@@ -21,21 +21,16 @@
 
 
 import os
-import time
 import base64
 import re
 import string
-from datetime import datetime
-from os.path import expanduser
 
 from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 
 from pysped.nfe import ProcessadorNFe
-from pysped.nfe import webservices_flags
 
-from pysped.nfe.danfe import DANFE
 from PIL import Image
 from StringIO import StringIO
 
@@ -70,6 +65,7 @@ def check_partner(company,cnpj_cpf, estado=None, ie=None):
     p = __processo(company)    
     if not estado:
         estado = company.partner_id.state_id.code
+    p.estado = estado
     cnpj_cpf = (re.sub('[%s]' % re.escape(string.punctuation), '', cnpj_cpf or ''))
     return  p.consultar_cadastro(estado, ie, cnpj_cpf)
 
