@@ -53,7 +53,7 @@ class AccountFiscalPositionTemplate(orm.Model):
     _defaults = FISCAL_POSITION_DEFAULTS
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
-        type_tax = {'input': 'purhcase', 'output': 'sale'}
+        type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
 
@@ -63,8 +63,8 @@ class AccountFiscalPositionTemplate(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                     cr, uid, fiscal_category_id,
                     ['fiscal_type', 'journal_type'], context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value':
+                {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
