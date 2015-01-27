@@ -18,4 +18,8 @@ cd openerp
 python setup.py --quiet install
 cd ..
 git clone https://github.com/odoobrasil-fiscal/account-fiscal-rule.git fiscal_rules
+cd fiscal_rules
+git checkout feature/migracao_8.0
+cd ..
 bzr branch --stacked lp:~akretion-team/server-env-tools/web-context-tunnel server-env-tools
+
