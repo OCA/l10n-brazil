@@ -53,7 +53,7 @@ class AccountFiscalPositionTemplate(orm.Model):
     _defaults = FISCAL_POSITION_DEFAULTS
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
-        type_tax = {'input': 'purhcase', 'output': 'sale'}
+        type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
 

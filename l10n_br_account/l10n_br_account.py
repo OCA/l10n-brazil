@@ -97,7 +97,8 @@ class L10n_brDocumentEvent(orm.Model):
             ('8', u'DPEC Consulta'),
             ('9', u'Recepção Evento'),
             ('10', u'Download'),
-            ('11', u'Consulta Destinadas'), ], 'Serviço'),
+            ('11', u'Consulta Destinadas'), 
+            ('12', u'Distribuição DFe')], 'Serviço'),
         'response': fields.char(u'Descrição', size=64, readonly=True),
         'company_id': fields.many2one(
             'res.company', 'Empresa', readonly=True,
