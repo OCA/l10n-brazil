@@ -165,8 +165,7 @@ class AccountFiscalPosition(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                 cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
                 context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value': {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
