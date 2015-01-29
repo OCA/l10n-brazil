@@ -412,10 +412,9 @@ class NFe200(FiscalDocument):
         #
         # Dados da Transportadora e veiculo
         #
+        self.nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
+
         if inv.carrier_id:
-
-            self.nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
-
             if inv.carrier_id.partner_id.is_company:
                 self.nfe.infNFe.transp.transporta.CNPJ.valor = \
                     re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')

@@ -16,11 +16,11 @@
 
     insc_est_ap_valids = ['030380340', '030317541', '030273455', '030131818', '030069381']
     for insc_est in insc_est_ap_valids:
-        assert self._validate_ie_ap(insc_est), 'Error on validate AP insc_est'
+        assert self._validate_ie_param('ap', insc_est), 'Error on validate AP insc_est'
 
     insc_est_ba_valids = ['41902653', '77893325', '51153771', '14621862', '09874624']
     for insc_est in insc_est_ba_valids:
-        assert self._validate_ie_ba(insc_est), 'Error on validate BA insc_est'
+        assert self._validate_ie_param('ba', insc_est), 'Error on validate BA insc_est'
 
     insc_est_ce_valids = ['063873770', '061876640', '062164252', '061970360', '061880990', '069108595']
     for insc_est in insc_est_ce_valids:
@@ -36,7 +36,7 @@
 
     insc_est_go_valids = ['103450599', '104197633', '104345195', '104455578', '104555270']
     for insc_est in insc_est_go_valids:
-        assert self._validate_ie_go(insc_est), 'Error on validate GO insc_est'
+        assert self._validate_ie_param('go', insc_est), 'Error on validate GO insc_est'
 
     insc_est_valids = ['121498298', '122045041', '123214289', '123110130', '123170524', '121530060']
     for insc_est in insc_est_valids:
@@ -44,7 +44,7 @@
 
     insc_est_mg_valids = ['2615950220092', '7000547460067', '3519900270005', '0621828520097', '5780297160005', '0620297160299']
     for insc_est in insc_est_mg_valids:
-        assert self._validate_ie_mg(insc_est), 'Error on validate MG insc_est'
+        assert self._validate_ie_param('mg', insc_est), 'Error on validate MG insc_est'
 
     insc_est_valids = ['283370645', '283238933', '283235560', '283167165', '283267089', '283352124']
     for insc_est in insc_est_valids:
@@ -68,7 +68,7 @@
 
     insc_est_valids = ['027693368', '18171203059328', '029748003', '18171001920081', '030374529']
     for insc_est in insc_est_valids:
-        assert self._validate_ie_pe(insc_est), 'Error on validate PE insc_est'
+        assert self._validate_ie_param('pe', insc_est), 'Error on validate PE insc_est'
 
     insc_est_valids = ['169609154', '194549992', '194661059', '194507688', '194010406']
     for insc_est in insc_est_valids:
@@ -88,7 +88,7 @@
 
     insc_est_valids = ['00000001656554', '00000001499394', '00000001727117', '00000002999277', '00000001765931']
     for insc_est in insc_est_valids:
-        assert self._validate_ie_ro(insc_est), 'Error on validate RO insc_est'
+        assert self._validate_ie_param('ro',insc_est), 'Error on validate RO insc_est'
 
     insc_est_valids = ['240151303', '240042104', '240128125', '240146373', '240018116', '240106210', '240003910']
     for insc_est in insc_est_valids:
@@ -100,7 +100,7 @@
 
     insc_est_valids = ['692015742119', '645274188118', '645169551117', '649005952111', '645098352117']
     for insc_est in insc_est_valids:
-        assert self._validate_ie_sp(insc_est), 'Error on validate SP insc_est'
+        assert self._validate_ie_param('sp', insc_est), 'Error on validate SP insc_est'
 
     insc_est_valids = ['271126973', '271233648', '271200634', '270622020', '271307986']
     for insc_est in insc_est_valids:
@@ -108,4 +108,4 @@
 
     insc_est_valids = ['56021275424', '62025717872', '27026857780', '35026423360'] 
     for insc_est in insc_est_valids:
-        assert self._validate_ie_to(insc_est), 'Error on validate TO insc_est'
+        assert self._validate_ie_param('to', insc_est), 'Error on validate TO valid insc_est'
