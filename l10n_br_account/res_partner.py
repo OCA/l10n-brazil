@@ -17,6 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+from openerp import api
 from openerp.osv import orm, fields
 
 FISCAL_POSITION_COLUMNS = {
@@ -250,12 +251,14 @@ class AccountFiscalPosition(orm.Model):
 
         return result
 
+    @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
         if not context:
             context = {}
         if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use') in ('sale', 'all'):
+                fposition_id.type_tax_use in ('sale', 'all'):
+            
             if context.get('fiscal_type', 'product') == 'product':
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
@@ -294,6 +297,11 @@ class AccountFiscalPosition(orm.Model):
 
         return list(set(result))
 
+    @api.v8 
+    def map_tax(self, taxes):
+        result = self._model.map_tax(self._cr, self._uid, self, taxes, self._context)
+        result = self.env['account.tax'].browse(result)
+        return result
 
 class AccountFiscalPositionTax(orm.Model):
     _inherit = 'account.fiscal.position.tax'

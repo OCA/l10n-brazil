@@ -226,66 +226,6 @@ class AccountFiscalPosition(orm.Model):
 
         return result
 
-    #TODO Implementar método api.v7 e api.v8
-    @api.v7
-    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
-        result = []
-        if not context:
-            context = {}
-        if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use') in ('sale', 'all'):
-            if context.get('fiscal_type', 'product') == 'product':
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
-                    context=context)['product_tax_ids']
-            else:
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
-                    context=context)['service_tax_ids']
-
-            company_taxes = self.pool.get('account.tax').browse(
-                    cr, uid, company_tax_ids, context=context)
-            if taxes:
-                all_taxes = taxes + company_taxes
-            else:
-                all_taxes = company_taxes
-            taxes = all_taxes
-
-        if not taxes:
-            return []
-        if not fposition_id:
-            return map(lambda x: x.id, taxes)
-        for t in taxes:
-            ok = False
-            tax_src = False
-            for tax in fposition_id.tax_ids:
-                tax_src = tax.tax_src_id and tax.tax_src_id.id == t.id
-                tax_code_src = tax.tax_code_src_id and \
-                    tax.tax_code_src_id.id == t.tax_code_id.id
-
-                if tax_src or tax_code_src:
-                    if tax.tax_dest_id:
-                        result.append(tax.tax_dest_id.id)
-                    ok = True
-            if not ok:
-                result.append(t.id)
-
-        return list(set(result))
-
-    @api.v8 #TODO Ajeitar este código. Acho que todos os outros lugares que sobrescreve tem que fazer o mesmo.
-    def map_tax(self, taxes):
-        result = self.env['account.tax'].browse()
-        for tax in taxes:
-            tax_count = 0
-            for t in self.tax_ids:
-                if t.tax_src_id == tax:
-                    tax_count += 1
-                    if t.tax_dest_id:
-                        result |= t.tax_dest_id
-            if not tax_count:
-                result |= tax
-        return result
-
 
 class AccountFiscalPositionTax(orm.Model):
     _inherit = 'account.fiscal.position.tax'
