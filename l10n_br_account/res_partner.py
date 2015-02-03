@@ -64,8 +64,7 @@ class AccountFiscalPositionTemplate(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                     cr, uid, fiscal_category_id,
                     ['fiscal_type', 'journal_type'], context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value': {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
@@ -188,8 +187,7 @@ class AccountFiscalPosition(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                 cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
                 context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value': {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     #TODO - Refatorar para trocar os impostos
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
