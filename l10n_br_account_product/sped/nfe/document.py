@@ -352,7 +352,7 @@ class NFe200(FiscalDocument):
             self.det.imposto.ISSQN.vAliq.valor = str("%.2f" % inv_line.issqn_percent)
             self.det.imposto.ISSQN.vISSQN.valor = str("%.2f" % inv_line.issqn_value)
             self.det.imposto.ISSQN.cMunFG.valor = ('%s%s') % (inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
-            self.det.imposto.ISSQN.cListServ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.service_type_id.code or '')
+            self.det.imposto.ISSQN.cListServ.valor = inv_line.service_type_id.code or ''
             self.det.imposto.ISSQN.cSitTrib.valor = inv_line.issqn_type
 
 

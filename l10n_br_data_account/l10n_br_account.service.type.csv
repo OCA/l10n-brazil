@@ -1,89 +1,89 @@
 id,code,name,internal_type,parent_id:id
 service_type_1,1,Serviços de informática e congêneres.,view,
-service_type_101,1.01,Análise e desenvolvimento de sistemas.,normal,service_type_1
-service_type_102,1.02,Programação.,normal,service_type_1
-service_type_103,1.03,Processamento de dados e congêneres.,normal,service_type_1
-service_type_104,1.04,"Elaboração de programas de computadores, inclusive de jogos eletrônicos.",normal,service_type_1
-service_type_105,1.05,Licenciamento ou cessão de direito de uso de programas de computação.,normal,service_type_1
-service_type_106,1.06,Assessoria e consultoria em informática.,normal,service_type_1
-service_type_107,1.07,"Suporte técnico em informática, inclusive instalação, configuração e manutenção de programas de computação e bancos de dados.",normal,service_type_1
-service_type_108,1.08,"Planejamento, confecção, manutenção e atualização de páginas eletrônicas.",normal,service_type_1
+service_type_101,01.01,Análise e desenvolvimento de sistemas.,normal,service_type_1
+service_type_102,01.02,Programação.,normal,service_type_1
+service_type_103,01.03,Processamento de dados e congêneres.,normal,service_type_1
+service_type_104,01.04,"Elaboração de programas de computadores, inclusive de jogos eletrônicos.",normal,service_type_1
+service_type_105,01.05,Licenciamento ou cessão de direito de uso de programas de computação.,normal,service_type_1
+service_type_106,01.06,Assessoria e consultoria em informática.,normal,service_type_1
+service_type_107,01.07,"Suporte técnico em informática, inclusive instalação, configuração e manutenção de programas de computação e bancos de dados.",normal,service_type_1
+service_type_108,01.08,"Planejamento, confecção, manutenção e atualização de páginas eletrônicas.",normal,service_type_1
 service_type_2,2,Serviços de pesquisas e desenvolvimento de qualquer natureza.,view,
-service_type_201,2.01,Serviços de pesquisas e desenvolvimento de qualquer natureza.,normal,service_type_2
+service_type_201,02.01,Serviços de pesquisas e desenvolvimento de qualquer natureza.,normal,service_type_2
 service_type_3,3,"Serviços prestados mediante locação, cessão de direito de uso e congêneres.",view,
-service_type_302,3.02,Cessão de direito de uso de marcas e de sinais de propaganda.,normal,service_type_3
-service_type_303,3.03,"Exploração de salões de festas, centro de convenções, escritórios virtuais, stands, quadras esportivas, estádios, ginásios, 
+service_type_302,03.02,Cessão de direito de uso de marcas e de sinais de propaganda.,normal,service_type_3
+service_type_303,03.03,"Exploração de salões de festas, centro de convenções, escritórios virtuais, stands, quadras esportivas, estádios, ginásios, 
 auditórios, casas de espetáculos, parques de diversões, canchas e congêneres, para realização de eventos ou negócios de qualquer natureza.",normal,service_type_3
-service_type_304,3.04,"Locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza.",normal,service_type_3
-service_type_305,3.05,"Cessão de andaimes, palcos, coberturas e outras estruturas de uso temporário.",normal,service_type_3
+service_type_304,03.04,"Locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza.",normal,service_type_3
+service_type_305,03.05,"Cessão de andaimes, palcos, coberturas e outras estruturas de uso temporário.",normal,service_type_3
 service_type_4,4,"Serviços de saúde, assistência médica e congêneres.",view,
-service_type_401,4.01,Medicina e biomedicina.,normal,service_type_4
-service_type_402,4.02,"Análises clínicas, patologia, eletricidade médica, radioterapia, quimioterapia, ultra-sonografia, ressonância magnética, radiologia, tomografia e congêneres.",normal,service_type_4
-service_type_403,4.03,"Hospitais, clínicas, laboratórios, sanatórios, manicômios, casas de saúde, prontos-socorros, ambulatórios e congêneres.",normal,service_type_4
-service_type_404,4.04,Instrumentação cirúrgica.,normal,service_type_4
-service_type_405,4.05,Acupuntura.,normal,service_type_4
-service_type_406,4.06,"Enfermagem, inclusive serviços auxiliares.",normal,service_type_4
-service_type_407,4.07,Serviços farmacêuticos.,normal,service_type_4
-service_type_408,4.08,"Terapia ocupacional, fisioterapia e fonoaudiologia.",normal,service_type_4
-service_type_409,4.09,"Terapias de qualquer espécie destinadas ao tratamento físico, orgânico e mental.",normal,service_type_4
-service_type_410,4.10,Nutrição.,normal,service_type_4
-service_type_411,4.11,Obstetrícia.,normal,service_type_4
-service_type_412,4.12,Odontologia.,normal,service_type_4
-service_type_413,4.13,Ortóptica.,normal,service_type_4
-service_type_414,4.14,Próteses sob encomenda.,normal,service_type_4
-service_type_415,4.15,Psicanálise.,normal,service_type_4
-service_type_416,4.16,Psicologia.,normal,service_type_4
-service_type_417,4.17,"Casas de repouso e de recuperação, creches, asilos e congêneres.",normal,service_type_4
-service_type_418,4.18,"Inseminação artificial, fertilização in vitro e congêneres.",normal,service_type_4
-service_type_419,4.19,"Bancos de sangue, leite, pele, olhos, óvulos, sêmen e congêneres.",normal,service_type_4
-service_type_420,4.20,"Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie.",normal,service_type_4
-service_type_421,4.21,"Unidade de atendimento, assistência ou tratamento móvel e congêneres.",normal,service_type_4
-service_type_422,4.22,"Planos de medicina de grupo ou individual e convênios para prestação de assistência médica, hospitalar, odontológica e congêneres.",normal,service_type_4
-service_type_423,4.23,"Outros planos de saúde que se cumpram através de serviços de terceiros contratados, credenciados, cooperados ou apenas pagos pelo operador do plano mediante indicação do beneficiário.",normal,service_type_4
+service_type_401,04.01,Medicina e biomedicina.,normal,service_type_4
+service_type_402,04.02,"Análises clínicas, patologia, eletricidade médica, radioterapia, quimioterapia, ultra-sonografia, ressonância magnética, radiologia, tomografia e congêneres.",normal,service_type_4
+service_type_403,04.03,"Hospitais, clínicas, laboratórios, sanatórios, manicômios, casas de saúde, prontos-socorros, ambulatórios e congêneres.",normal,service_type_4
+service_type_404,04.04,Instrumentação cirúrgica.,normal,service_type_4
+service_type_405,04.05,Acupuntura.,normal,service_type_4
+service_type_406,04.06,"Enfermagem, inclusive serviços auxiliares.",normal,service_type_4
+service_type_407,04.07,Serviços farmacêuticos.,normal,service_type_4
+service_type_408,04.08,"Terapia ocupacional, fisioterapia e fonoaudiologia.",normal,service_type_4
+service_type_409,04.09,"Terapias de qualquer espécie destinadas ao tratamento físico, orgânico e mental.",normal,service_type_4
+service_type_410,04.10,Nutrição.,normal,service_type_4
+service_type_411,04.11,Obstetrícia.,normal,service_type_4
+service_type_412,04.12,Odontologia.,normal,service_type_4
+service_type_413,04.13,Ortóptica.,normal,service_type_4
+service_type_414,04.14,Próteses sob encomenda.,normal,service_type_4
+service_type_415,04.15,Psicanálise.,normal,service_type_4
+service_type_416,04.16,Psicologia.,normal,service_type_4
+service_type_417,04.17,"Casas de repouso e de recuperação, creches, asilos e congêneres.",normal,service_type_4
+service_type_418,04.18,"Inseminação artificial, fertilização in vitro e congêneres.",normal,service_type_4
+service_type_419,04.19,"Bancos de sangue, leite, pele, olhos, óvulos, sêmen e congêneres.",normal,service_type_4
+service_type_420,04.20,"Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie.",normal,service_type_4
+service_type_421,04.21,"Unidade de atendimento, assistência ou tratamento móvel e congêneres.",normal,service_type_4
+service_type_422,04.22,"Planos de medicina de grupo ou individual e convênios para prestação de assistência médica, hospitalar, odontológica e congêneres.",normal,service_type_4
+service_type_423,04.23,"Outros planos de saúde que se cumpram através de serviços de terceiros contratados, credenciados, cooperados ou apenas pagos pelo operador do plano mediante indicação do beneficiário.",normal,service_type_4
 service_type_5,5,Serviços de medicina e assistência veterinária e congêneres.,view,
-service_type_501,5.01,Medicina veterinária e zootecnia.,normal,service_type_5
-service_type_502,5.02,"Hospitais, clínicas, ambulatórios, prontos-socorros e congêneres, na área veterinária.",normal,service_type_5
-service_type_503,5.03,Laboratórios de análise na área veterinária.,normal,service_type_5
-service_type_504,5.04,"Inseminação artificial, fertilização in vitro e congêneres.",normal,service_type_5
-service_type_505,5.05,Bancos de sangue e de órgãos e congêneres.,normal,service_type_5
-service_type_506,5.06,"Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie.",normal,service_type_5
-service_type_507,5.07,"Unidade de atendimento, assistência ou tratamento móvel e congêneres.",normal,service_type_5
-service_type_508,5.08,"Guarda, tratamento, amestramento, embelezamento, alojamento e congêneres.",normal,service_type_5
-service_type_509,5.09,Planos de atendimento e assistência médico-veterinária.,normal,service_type_5
+service_type_501,05.01,Medicina veterinária e zootecnia.,normal,service_type_5
+service_type_502,05.02,"Hospitais, clínicas, ambulatórios, prontos-socorros e congêneres, na área veterinária.",normal,service_type_5
+service_type_503,05.03,Laboratórios de análise na área veterinária.,normal,service_type_5
+service_type_504,05.04,"Inseminação artificial, fertilização in vitro e congêneres.",normal,service_type_5
+service_type_505,05.05,Bancos de sangue e de órgãos e congêneres.,normal,service_type_5
+service_type_506,05.06,"Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie.",normal,service_type_5
+service_type_507,05.07,"Unidade de atendimento, assistência ou tratamento móvel e congêneres.",normal,service_type_5
+service_type_508,05.08,"Guarda, tratamento, amestramento, embelezamento, alojamento e congêneres.",normal,service_type_5
+service_type_509,05.09,Planos de atendimento e assistência médico-veterinária.,normal,service_type_5
 service_type_6,6,"Serviços de cuidados pessoais, estética, atividades físicas e congêneres.",view,
-service_type_601,6.01,"Barbearia, cabeleireiros, manicuros, pedicuros e congêneres.",normal,service_type_6
-service_type_602,6.02,"Esteticistas, tratamento de pele, depilação e congêneres.",normal,service_type_6
-service_type_603,6.03,"Banhos, duchas, sauna, massagens e congêneres.",normal,service_type_6
-service_type_604,6.04,"Ginástica, dança, esportes, natação, artes marciais e demais atividades físicas.",normal,service_type_6
-service_type_605,6.05,"Centros de emagrecimento, spa e congêneres.",normal,service_type_6
+service_type_601,06.01,"Barbearia, cabeleireiros, manicuros, pedicuros e congêneres.",normal,service_type_6
+service_type_602,06.02,"Esteticistas, tratamento de pele, depilação e congêneres.",normal,service_type_6
+service_type_603,06.03,"Banhos, duchas, sauna, massagens e congêneres.",normal,service_type_6
+service_type_604,06.04,"Ginástica, dança, esportes, natação, artes marciais e demais atividades físicas.",normal,service_type_6
+service_type_605,06.05,"Centros de emagrecimento, spa e congêneres.",normal,service_type_6
 service_type_7,7,"Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil, manutenção, limpeza, meio ambiente, saneamento e congêneres.",view,
-service_type_701,7.01,"Engenharia, agronomia, agrimensura, arquitetura, geologia, urbanismo, paisagismo e congêneres.",normal,service_type_7
-service_type_702,7.02,"Execução, por administração, empreitada ou subempreitada, de obras de construção civil, hidráulica ou elétrica e de outras obras semelhantes, inclusive sondagem, perfuração de poços, escavação, drenagem e irrigação, terraplanagem, pavimentação, concretagem e a instalação e montagem de produtos, peças e equipamentos (exceto o fornecimento de mercadorias produzidas pelo prestador de serviços fora do local da prestação dos serviços, que fica sujeito ao ICMS).",normal,service_type_7
-service_type_703,7.03,"Elaboração de planos diretores, estudos de viabilidade, estudos organizacionais e outros, relacionados com obras e serviços de engenharia; elaboração de anteprojetos, projetos básicos e projetos executivos para trabalhos de engenharia.",normal,service_type_7
-service_type_704,7.04,Demolição.,normal,service_type_7
-service_type_705,7.05,"Reparação, conservação e reforma de edifícios, estradas, pontes, portos e congêneres (exceto o fornecimento de mercadorias produzidas pelo prestador dos serviços, fora do local da prestação dos serviços, que fica sujeito ao ICMS).",normal,service_type_7
-service_type_706,7.06,"Colocação e instalação de tapetes, carpetes, assoalhos, cortinas, revestimentos de parede, vidros, divisórias, placas de gesso e congêneres, com material fornecido pelo tomador do serviço.",normal,service_type_7
-service_type_707,7.07,"Recuperação, raspagem, polimento e lustração de pisos e congêneres.",normal,service_type_7
-service_type_708,7.08,Calafetação.,normal,service_type_7
-service_type_709,7.09,"Varrição, coleta, remoção, incineração, tratamento, reciclagem, separação e destinação final de lixo, rejeitos e outros resíduos quaisquer.",normal,service_type_7
-service_type_710,7.10,"Limpeza, manutenção e conservação de vias e logradouros públicos, imóveis, chaminés, piscinas, parques, jardins e congêneres.",normal,service_type_7
-service_type_711,7.11,"Decoração e jardinagem, inclusive corte e poda de árvores.",normal,service_type_7
-service_type_712,7.12,"Controle e tratamento de efluentes de qualquer natureza e de agentes físicos, químicos e biológicos.",normal,service_type_7
-service_type_713,7.13,"Dedetização, desinfecção, desinsetização, imunização, higienização, desratização, pulverização e congêneres.",normal,service_type_7
-service_type_716,7.16,"Florestamento, reflorestamento, semeadura, adubação e congêneres.",normal,service_type_7
-service_type_717,7.17,"Escoramento, contenção de encostas e serviços congêneres.",normal,service_type_7
-service_type_718,7.18,"Limpeza e dragagem de rios, portos, canais, baías, lagos, lagoas, represas, açudes e congêneres.",normal,service_type_7
-service_type_719,7.19,"Acompanhamento e fiscalização da execução de obras de engenharia, arquitetura e urbanismo.",normal,service_type_7
-service_type_720,7.20,"Aerofotogrametria (inclusive interpretação), cartografia, mapeamento, levantamentos topográficos, batimétricos, geográficos, geodésicos, geológicos, geofísicos e congêneres.",normal,service_type_7
-service_type_721,7.21,"Pesquisa, perfuração, cimentação, mergulho, perfilagem, concretação, testemunhagem, pescaria, estimulação e outros serviços relacionados com a exploração e explotação de petróleo, gás natural e de outros recursos minerais.",normal,service_type_7
-service_type_722,7.22,Nucleação e bombardeamento de nuvens e congêneres.,normal,service_type_7
+service_type_701,07.01,"Engenharia, agronomia, agrimensura, arquitetura, geologia, urbanismo, paisagismo e congêneres.",normal,service_type_7
+service_type_702,07.02,"Execução, por administração, empreitada ou subempreitada, de obras de construção civil, hidráulica ou elétrica e de outras obras semelhantes, inclusive sondagem, perfuração de poços, escavação, drenagem e irrigação, terraplanagem, pavimentação, concretagem e a instalação e montagem de produtos, peças e equipamentos (exceto o fornecimento de mercadorias produzidas pelo prestador de serviços fora do local da prestação dos serviços, que fica sujeito ao ICMS).",normal,service_type_7
+service_type_703,07.03,"Elaboração de planos diretores, estudos de viabilidade, estudos organizacionais e outros, relacionados com obras e serviços de engenharia; elaboração de anteprojetos, projetos básicos e projetos executivos para trabalhos de engenharia.",normal,service_type_7
+service_type_704,07.04,Demolição.,normal,service_type_7
+service_type_705,07.05,"Reparação, conservação e reforma de edifícios, estradas, pontes, portos e congêneres (exceto o fornecimento de mercadorias produzidas pelo prestador dos serviços, fora do local da prestação dos serviços, que fica sujeito ao ICMS).",normal,service_type_7
+service_type_706,07.06,"Colocação e instalação de tapetes, carpetes, assoalhos, cortinas, revestimentos de parede, vidros, divisórias, placas de gesso e congêneres, com material fornecido pelo tomador do serviço.",normal,service_type_7
+service_type_707,07.07,"Recuperação, raspagem, polimento e lustração de pisos e congêneres.",normal,service_type_7
+service_type_708,07.08,Calafetação.,normal,service_type_7
+service_type_709,07.09,"Varrição, coleta, remoção, incineração, tratamento, reciclagem, separação e destinação final de lixo, rejeitos e outros resíduos quaisquer.",normal,service_type_7
+service_type_710,07.10,"Limpeza, manutenção e conservação de vias e logradouros públicos, imóveis, chaminés, piscinas, parques, jardins e congêneres.",normal,service_type_7
+service_type_711,07.11,"Decoração e jardinagem, inclusive corte e poda de árvores.",normal,service_type_7
+service_type_712,07.12,"Controle e tratamento de efluentes de qualquer natureza e de agentes físicos, químicos e biológicos.",normal,service_type_7
+service_type_713,07.13,"Dedetização, desinfecção, desinsetização, imunização, higienização, desratização, pulverização e congêneres.",normal,service_type_7
+service_type_716,07.16,"Florestamento, reflorestamento, semeadura, adubação e congêneres.",normal,service_type_7
+service_type_717,07.17,"Escoramento, contenção de encostas e serviços congêneres.",normal,service_type_7
+service_type_718,07.18,"Limpeza e dragagem de rios, portos, canais, baías, lagos, lagoas, represas, açudes e congêneres.",normal,service_type_7
+service_type_719,07.19,"Acompanhamento e fiscalização da execução de obras de engenharia, arquitetura e urbanismo.",normal,service_type_7
+service_type_720,07.20,"Aerofotogrametria (inclusive interpretação), cartografia, mapeamento, levantamentos topográficos, batimétricos, geográficos, geodésicos, geológicos, geofísicos e congêneres.",normal,service_type_7
+service_type_721,07.21,"Pesquisa, perfuração, cimentação, mergulho, perfilagem, concretação, testemunhagem, pescaria, estimulação e outros serviços relacionados com a exploração e explotação de petróleo, gás natural e de outros recursos minerais.",normal,service_type_7
+service_type_722,07.22,Nucleação e bombardeamento de nuvens e congêneres.,normal,service_type_7
 service_type_8,8,"Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento e avaliação pessoal de qualquer grau ou natureza.",view,
-service_type_801,8.01,"Ensino regular pré-escolar, fundamental, médio e superior.",normal,service_type_8
-service_type_802,8.02,"Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza.",normal,service_type_8
+service_type_801,08.01,"Ensino regular pré-escolar, fundamental, médio e superior.",normal,service_type_8
+service_type_802,08.02,"Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza.",normal,service_type_8
 service_type_9,9,"Serviços relativos a hospedagem, turismo, viagens e congêneres.",view,
-service_type_901,9.01,"Hospedagem de qualquer natureza em hotéis, apart-service condominiais, flat, apart-hotéis, hotéis residência, residence-service, suite service, hotelaria marítima, motéis, pensões e congêneres; ocupação por temporada com fornecimento de serviço (o valor da alimentação e gorjeta, quando incluído no preço da diária, fica sujeito ao Imposto Sobre Serviços).",normal,service_type_9
-service_type_902,9.02,"Agenciamento, organização, promoção, intermediação e execução de programas de turismo, passeios, viagens, excursões, hospedagens e congêneres.",normal,service_type_9
-service_type_903,9.03,Guias de turismo.,normal,service_type_9
+service_type_901,09.01,"Hospedagem de qualquer natureza em hotéis, apart-service condominiais, flat, apart-hotéis, hotéis residência, residence-service, suite service, hotelaria marítima, motéis, pensões e congêneres; ocupação por temporada com fornecimento de serviço (o valor da alimentação e gorjeta, quando incluído no preço da diária, fica sujeito ao Imposto Sobre Serviços).",normal,service_type_9
+service_type_902,09.02,"Agenciamento, organização, promoção, intermediação e execução de programas de turismo, passeios, viagens, excursões, hospedagens e congêneres.",normal,service_type_9
+service_type_903,09.03,Guias de turismo.,normal,service_type_9
 service_type_10,10,Serviços de intermediação e congêneres.,view,
 service_type_1001,10.01,"Agenciamento, corretagem ou intermediação de câmbio, de seguros, de cartões de crédito, de planos de saúde e de planos de previdência privada.",normal,service_type_10
 service_type_1002,10.02,"Agenciamento, corretagem ou intermediação de títulos em geral, valores mobiliários e contratos quaisquer.",normal,service_type_10
