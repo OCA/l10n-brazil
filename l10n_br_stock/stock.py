@@ -33,7 +33,7 @@ class StockIncoterms(orm.Model):
             'Frete por Conta', required=True)
     }
     _defaults = {
-        'freight_responsibility': 0
+        'freight_responsibility': '0'
     }
 
 
