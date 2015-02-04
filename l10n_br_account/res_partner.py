@@ -37,6 +37,11 @@ FISCAL_POSITION_COLUMNS = {
     'asset_operation': fields.boolean(u'Operação de Aquisição de Ativo',
         help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
             calculo do ICMS."""),
+    'id_dest': fields.selection([('1', u'Operação interna'),
+                                ('2', u'Operação interestadual'),
+                                ('3', u'Operação com exterior')],
+                                u'Local de destino da operação',
+                                help=u'Identificador de local de destino da operação.'),
     'state': fields.selection([('draft', u'Rascunho'),
             ('review', u'Revisão'), ('approved', u'Aprovada'),
             ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
@@ -112,6 +117,7 @@ class AccountFiscalPositionTemplate(orm.Model):
                     'cfop_id': position.cfop_id and position.cfop_id.id or False,
                     'inv_copy_note': position.inv_copy_note,
                     'asset_operation': position.asset_operation,
+                    'id_dest': position.id_dest,
                     'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
             for tax in position.tax_ids:
                 obj_tax_fp.create(cr, uid, {
