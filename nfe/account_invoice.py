@@ -261,57 +261,6 @@ class AccountInvoice(orm.Model):
                 #TODO
         return
 
-    # def str_pdf_Danfes(self, cr, uid, ids, context=None):
-    #
-    #     str_pdf = ""
-    #     paths = []
-    #
-    #     for inv in self.browse(cr, uid, ids):
-    #         company = inv.company_id
-    #         nfe_key = inv.nfe_access_key
-    #         nfe_obj = self._get_nfe_factory(inv.nfe_version)
-    #
-    #         procnfe = pysped.nfe.manual_401.ProcNFe_200()
-    #
-    #         try:
-    #             if inv.state in ['open', 'paid', 'sefaz_cancelled']:
-    #                 file_xml = os.path.join(monta_caminho_nfe(
-    #                     company, chave_nfe=nfe_key))
-    #
-    #             else:
-    #                 file_xml = os.path.join(os.path.join(
-    #                     monta_caminho_nfe(company, chave_nfe=nfe_key), 'tmp/'))
-    #
-    #             procnfe.xml = os.path.join(file_xml, nfe_key + '-nfe.xml')
-    #         except:
-    #             raise orm.except_orm(('Error !'),
-    #                                  ('Não é possível gerar a Danfe '
-    #                                   '- Confirme o Documento'))
-    #
-    #         danfe = pysped.nfe.processador_nfe.DANFE()
-    #         danfe.NFe = procnfe.NFe
-    #         danfe.protNFe = procnfe.protNFe
-    #         danfe.caminho = "/tmp/"
-    #         danfe.gerar_danfe()
-    #         paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
-    #
-    #     output = PdfFileWriter()
-    #     s = StringIO()
-    #
-    #     # merge dos pdf criados
-    #     for path in paths:
-    #         pdf = PdfFileReader(file(path, "rb"))
-    #
-    #         for i in range(pdf.getNumPages()):
-    #             output.addPage(pdf.getPage(i))
-    #
-    #         output.write(s)
-    #
-    #     str_pdf = s.getvalue()
-    #     s.close()
-    #
-    #     return str_pdf
-
     def invoice_print(self, cr, uid, ids, context=None):
 
         for inv in self.browse(cr, uid, ids, context):

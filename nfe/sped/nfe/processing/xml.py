@@ -133,8 +133,8 @@ def print_danfe(inv):
 
     file_xml = monta_caminho_nfe( inv.company_id, inv.nfe_access_key)
     if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
-        procnfe.xml = os.path.join(file_xml, inv.nfe_access_key, 'tmp/')
-
+        file_xml = os.path.join(file_xml, 'tmp/')
+    procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
     danfe = DANFE()
     danfe.NFe = procnfe.NFe
     danfe.protNFe = procnfe.protNFe
