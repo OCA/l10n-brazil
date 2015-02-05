@@ -31,8 +31,10 @@ from openerp.tools.translate import _
 
 from pysped.nfe import ProcessadorNFe
 
+
 from PIL import Image
 from StringIO import StringIO
+from pyPdf import PdfFileReader, PdfFileWriter
 
 def __processo(company):
     
@@ -113,4 +115,47 @@ def send_correction_letter(company, chave_nfe, numero_sequencia ,correcao):
     
     p = __processo(company)
     return p.corrigir_nota_evento( p.ambiente, chave_nfe, numero_sequencia, correcao)
+
+
+def print_danfe(inv):
+    str_pdf = ""
+    paths = []
+
+    if inv.nfe_version == '1.10':
+        from pysped.nfe.leiaute import ProcNFe_110
+        procnfe = ProcNFe_110()
+    elif inv.nfe_version == '2.00':
+        from pysped.nfe.leiaute import ProcNFe_200
+        procnfe = ProcNFe_200()
+    elif inv.nfe_version == '3.10':
+        from pysped.nfe.leiaute import ProcNFe_310
+        procnfe = ProcNFe_310()
+
+    file_xml = monta_caminho_nfe( inv.company_id, inv.nfe_access_key)
+    if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
+        procnfe.xml = os.path.join(file_xml, inv.nfe_access_key, 'tmp/')
+
+    danfe = DANFE()
+    danfe.NFe = procnfe.NFe
+    danfe.protNFe = procnfe.protNFe
+    danfe.caminho = "/tmp/"
+    danfe.gerar_danfe()
+    paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
+
+    output = PdfFileWriter()
+    s = StringIO()
+
+    # merge dos pdf criados
+    for path in paths:
+        pdf = PdfFileReader(file(path, "rb"))
+
+        for i in range(pdf.getNumPages()):
+            output.addPage(pdf.getPage(i))
+
+        output.write(s)
+
+    str_pdf = s.getvalue()
+    s.close()
+
+    return str_pdf
 

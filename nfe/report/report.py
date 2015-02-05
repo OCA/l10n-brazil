@@ -21,6 +21,7 @@ from __future__ import with_statement
 from openerp.report.render import render
 from openerp.report.interface import report_int
 from openerp import pooler
+from openerp.addons.nfe.sped.nfe.processing.xml import print_danfe
 
 
 class external_pdf(render):
@@ -47,7 +48,7 @@ class report_custom(report_int):
         for account_invoice in ai_obj.browse(cr, uid, active_ids):
             list_account_invoice.append(account_invoice.id)
 
-        pdf_string = ai_obj.str_pdf_Danfes(cr, uid, list_account_invoice)
+        pdf_string = print_danfe(account_invoice)
 
         self.obj = external_pdf(pdf_string)
         self.obj.render()
