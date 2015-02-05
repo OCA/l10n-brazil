@@ -21,8 +21,7 @@
     'version': '1.0',
     'category': 'Commission',
     'description': '''
-        Módulo que permite alterar os estados da invoice em que as comissões
-        são pagas''',
+       Brazilian Localization Commission''',
     'author': 'KMEE',
     'website': 'www.kmee.com.br',
     'depends': ['sale_commission'],
