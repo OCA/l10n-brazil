@@ -52,11 +52,6 @@ class StockPicking(models.Model):
 
         return stock_fiscal_category and stock_fiscal_category_id or False
 
-        # user = self.pool.get('res.users').browse(
-        #     cr, uid, uid, context=context)
-        # return user.company_id.stock_fiscal_category_id and \
-        #        user.company_id.stock_fiscal_category_id.id or False
-
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string='Categoria Fiscal',
@@ -112,6 +107,10 @@ class StockPicking(models.Model):
     #     'fiscal_category_id': _default_fiscal_category
     # }
 
+    #TODO: [new api] depende de:
+    # parts/oca/account-fiscal-rule/account_fiscal_position_rule_stock/stock.py
+    # @api.model
+    @api.one
     def onchange_partner_in(self, cr, uid, ids, partner_id=None,
                             company_id=None, context=None,
                             fiscal_category_id=None):
@@ -122,8 +121,10 @@ class StockPicking(models.Model):
             cr, uid, ids, partner_id=partner_id, company_id=company_id,
             context=context, fiscal_category_id=fiscal_category_id)
 
-    def onchange_fiscal_category_id(self, cr, uid, ids,
-                                    partner_id, company_id=False,
+    @api.model
+    @api.returns
+    @api.onchange('fiscal_category_id')
+    def onchange_fiscal_category_id(self, partner_id, company_id=False,
                                     fiscal_category_id=False,
                                     context=None, **kwargs):
         if not context:
@@ -134,10 +135,10 @@ class StockPicking(models.Model):
         if not partner_id or not company_id:
             return result
 
-        partner_invoice_id = self.pool.get('res.partner').address_get(
-            cr, uid, [partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.pool.get('res.partner').address_get(
-            cr, uid, [partner_id], ['delivery'])['delivery']
+        partner_invoice_id = self.env['res.partner'].address_get(
+            [partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.env['res.partner'].address_get(
+            [partner_id], ['delivery'])['delivery']
 
         kwargs = {
             'partner_id': partner_id,
@@ -147,9 +148,12 @@ class StockPicking(models.Model):
             'context': context,
             'fiscal_category_id': fiscal_category_id
         }
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        return self._fiscal_position_map(result, **kwargs)
 
-    def onchange_company_id(self, cr, uid, ids, partner_id, company_id=False,
+    @api.model
+    @api.returns
+    @api.onchange('company_id')
+    def onchange_company_id(self, partner_id, company_id=False,
                             fiscal_category_id=False, context=None, **kwargs):
         if not context:
             context = {}
@@ -159,10 +163,10 @@ class StockPicking(models.Model):
         if not partner_id or not company_id:
             return result
 
-        partner_invoice_id = self.pool.get('res.partner').address_get(
-            cr, uid, [partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.pool.get('res.partner').address_get(
-            cr, uid, [partner_id], ['delivery'])['delivery']
+        partner_invoice_id = self.env['res.partner'].address_get(
+            [partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.env['res.partner'].address_get(
+            [partner_id], ['delivery'])['delivery']
 
         kwargs = {
             'partner_id': partner_id,
@@ -172,13 +176,15 @@ class StockPicking(models.Model):
             'context': context,
             'fiscal_category_id': fiscal_category_id
         }
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        return self._fiscal_position_map(result, **kwargs)
 
-    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
-                              invoice_id, invoice_vals, context=None):
-        result = super(StockPicking, self)._prepare_invoice_line(
-            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
-            context)
+    @api.model
+    @api.returns
+    def _prepare_invoice_line(self, group, picking, move_line,
+                              invoice_id, invoice_vals):
+        result = \
+            super(StockPicking, self)._prepare_invoice_line(
+                group, picking, move_line, invoice_id, invoice_vals)
 
         fiscal_position = move_line.fiscal_position or \
             move_line.picking_id.fiscal_position or False
@@ -196,10 +202,12 @@ class StockPicking(models.Model):
 
         return result
 
-    def _prepare_invoice(self, cr, uid, picking, partner,
-                        inv_type, journal_id, context=None):
+    @api.model
+    @api.returns
+    def _prepare_invoice(self, picking, partner, inv_type, journal_id):
         result = super(StockPicking, self)._prepare_invoice(
-            cr, uid, picking, partner, inv_type, journal_id, context)
+            self._cr, self._uid, picking, partner, inv_type, journal_id,
+            self._context)
 
         comment = ''
         if picking.fiscal_position.inv_copy_note:
@@ -209,10 +217,10 @@ class StockPicking(models.Model):
             comment += ' - ' + picking.note
 
         result['comment'] = comment
-        result['fiscal_category_id'] = picking.fiscal_category_id and \
-        picking.fiscal_category_id.id
-        result['fiscal_position'] = picking.fiscal_position and \
-        picking.fiscal_position.id
+        result['fiscal_category_id'] = \
+            picking.fiscal_category_id and picking.fiscal_category_id.id
+        result['fiscal_position'] = \
+            picking.fiscal_position and picking.fiscal_position.id
         result['ind_pres'] = picking.ind_pres
         return result
 
@@ -255,61 +263,7 @@ class StockMove(models.Model):
         fp_rule_obj = self.env['account.fiscal.position.rule']
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
-    # @api.onchange('product_id')
-    # @api.model
-    # @api.returns
-    # def onchange_product_id(self):
-    #
-    #     if not self._context:
-    #         self._context = {}
-    #
-    #     parent_fiscal_category_id = \
-    #         self._context.get('parent_fiscal_category_id')
-    #     picking_type = self._context.get('picking_type')
-    #
-    #     if self._context.get('company_id', False):
-    #         company_id = self._context['company_id']
-    #     else:
-    #         company_id = self.env['res.users'].browse([self._uid]).company_id.id
-    #
-    #     result = {'value': {}}
-    #
-    #     if parent_fiscal_category_id and self.product_id and picking_type:
-    #
-    #         obj_fp_rule = self.env['account.fiscal.position.rule']
-    #         product_fc_id = obj_fp_rule.product_fiscal_category_map(
-    #             self.product_id, parent_fiscal_category_id)
-    #
-    #         if product_fc_id:
-    #             parent_fiscal_category_id = product_fc_id
-    #
-    #         result['value']['fiscal_category_id'] = parent_fiscal_category_id
-    #
-    #         partner_invoice_id = \
-    #             self.env['res.partner'].address_get([self.partner_id],
-    #                                                 ['invoice'])['invoice']
-    #         partner_shipping_id = \
-    #             self.env['res.partner'].address_get([self.partner_id],
-    #                                                 ['delivery'])['delivery']
-    #
-    #         kwargs = {
-    #             'partner_id': self.partner_id,
-    #             'partner_invoice_id': partner_invoice_id,
-    #             'partner_shipping_id': partner_shipping_id,
-    #             'fiscal_category_id': parent_fiscal_category_id,
-    #             'company_id': company_id,
-    #             'context': self._context
-    #         }
-    #
-    #         result.update(self._fiscal_position_map(self._cr, self._uid,
-    #                                                 result, **kwargs))
-    #
-    #     result_super = super(StockMove, self).onchange_product_id()
-    #
-    #     result_super['value'].update(result['value'])
-    #     return result_super
-
-    @api.onchange('product_id')
+    # TODO: [new api] Depends of odoo/addons/stock.py
     def onchange_product_id(self, cr, uid, ids, product_id, location_id,
                             location_dest_id, partner_id, context=False, **kwargs):
 
@@ -356,5 +310,8 @@ class StockMove(models.Model):
         result_super = super(StockMove, self).onchange_product_id(
             cr, uid, ids, product_id, location_id, location_dest_id, partner_id)
 
-        result_super['value'].update(result['value'])
+        if 'value' in result_super:
+            result_super['value'].update(result['value'])
+
+        # result_super['value'].update(result['value'])
         return result_super
