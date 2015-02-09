@@ -4,6 +4,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 # Copyright (C) 2012  Raphaël Valyi - Akretion                                #
 # Copyright (C) 2014  Luis Felipe Miléo - KMEE - www.kmee.com.br              #
+# Copyright (C) 2015  Michell Stuttgart - KMEE                                #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -19,58 +20,97 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class StockIncoterms(orm.Model):
+class StockIncoterms(models.Model):
     _inherit = 'stock.incoterms'
-    _columns = {
-        'freight_responsibility': fields.selection(
-            [('0', 'Emitente'),
-            ('1', u'Destinatário'),
-            ('2', 'Terceiros'),
-            ('9', 'Sem Frete')],
-            'Frete por Conta', required=True)
-    }
-    _defaults = {
-        'freight_responsibility': '0'
-    }
+
+    freight_responsibility = fields.Selection(
+        selection=[('0', 'Emitente'),
+                   ('1', u'Destinatário'),
+                   ('2', 'Terceiros'),
+                   ('9', 'Sem Frete')],
+        string='Frete por Conta',
+        required=True,
+        default='0')
 
 
-class StockPicking(orm.Model):
+class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    def _default_fiscal_category(self, cr, uid, context=None):
-        user = self.pool.get('res.users').browse(
-            cr, uid, uid, context=context)
-        return user.company_id.stock_fiscal_category_id and \
-        user.company_id.stock_fiscal_category_id.id or False
+    @api.one
+    @api.model
+    @api.returns
+    def _default_fiscal_category(self):
 
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            readonly=True, domain="[('state', '=', 'approved')]",
-            states={'draft': [('readonly', False)]}),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', u'Posição Fiscal',
-            domain="[('fiscal_category_id','=',fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'ind_pres': fields.selection([
-                ('0', u'Não se aplica'),
-                ('1', u'Operação presencial'),
-                ('2', u'Operação não presencial, pela Internet'),
-                ('3', u'Operação não presencial, Teleatendimento'),
-                ('4', u'NFC-e em operação com entrega em domicílio'),
-                ('9', u'Operação não presencial, outros'),
-            ],u'Tipo de operação',
-            help=u'Indicador de presença do comprador no \
-                \nestabelecimento comercial no momento \
-                \nda operação.'),
-    }
-    _defaults = {
-        'ind_pres': '0',
-        'fiscal_category_id': _default_fiscal_category
-    }
+        user_model = self.env['res.users']
+
+        stock_fiscal_category = user_model.company_id.stock_fiscal_category_id
+        stock_fiscal_category_id = \
+            user_model.company_id.stock_fiscal_category_id.id
+
+        return stock_fiscal_category and stock_fiscal_category_id or False
+
+        # user = self.pool.get('res.users').browse(
+        #     cr, uid, uid, context=context)
+        # return user.company_id.stock_fiscal_category_id and \
+        #        user.company_id.stock_fiscal_category_id.id or False
+
+    fiscal_category_id = fields.Many2one(
+        comodel_name='l10n_br_account.fiscal.category',
+        string='Categoria Fiscal',
+        readonly=True,
+        domain="[('state', '=', 'approved')]",
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category
+    )
+
+    fiscal_position = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string=u'Posição Fiscal',
+        domain="[('fiscal_category_id','=',fiscal_category_id)]",
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
+
+    ind_pres = fields.Selection(
+        selection=[('0', u'Não se aplica'),
+                   ('1', u'Operação presencial'),
+                   ('2', u'Operação não presencial, pela Internet'),
+                   ('3', u'Operação não presencial, Teleatendimento'),
+                   ('4', u'NFC-e em operação com entrega em domicílio'),
+                   ('9', u'Operação não presencial, outros'),],
+        string=u'Tipo de operação',
+        default='0',
+        help=u'Indicador de presença do comprador no estabelecimento '
+             u'comercial no momento da operação.')
+
+    # _columns = {
+    #     'fiscal_category_id': fields.many2one(
+    #         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+    #         readonly=True, domain="[('state', '=', 'approved')]",
+    #         states={'draft': [('readonly', False)]}),
+    #     'fiscal_position': fields.many2one(
+    #         'account.fiscal.position', u'Posição Fiscal',
+    #         domain="[('fiscal_category_id','=',fiscal_category_id)]",
+    #         readonly=True, states={'draft': [('readonly', False)]}),
+    #     'ind_pres': fields.selection([
+    #             ('0', u'Não se aplica'),
+    #             ('1', u'Operação presencial'),
+    #             ('2', u'Operação não presencial, pela Internet'),
+    #             ('3', u'Operação não presencial, Teleatendimento'),
+    #             ('4', u'NFC-e em operação com entrega em domicílio'),
+    #             ('9', u'Operação não presencial, outros'),
+    #         ],u'Tipo de operação',
+    #         help=u'Indicador de presença do comprador no \
+    #             \nestabelecimento comercial no momento \
+    #             \nda operação.'),
+    # }
+    # _defaults = {
+    #     'ind_pres': '0',
+    #     'fiscal_category_id': _default_fiscal_category
+    # }
 
     def onchange_partner_in(self, cr, uid, ids, partner_id=None,
                             company_id=None, context=None,
@@ -100,12 +140,12 @@ class StockPicking(orm.Model):
             cr, uid, [partner_id], ['delivery'])['delivery']
 
         kwargs = {
-           'partner_id': partner_id,
-           'partner_invoice_id': partner_invoice_id,
-           'partner_shipping_id': partner_shipping_id,
-           'company_id': company_id,
-           'context': context,
-           'fiscal_category_id': fiscal_category_id
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_invoice_id,
+            'partner_shipping_id': partner_shipping_id,
+            'company_id': company_id,
+            'context': context,
+            'fiscal_category_id': fiscal_category_id
         }
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
@@ -125,12 +165,12 @@ class StockPicking(orm.Model):
             cr, uid, [partner_id], ['delivery'])['delivery']
 
         kwargs = {
-           'partner_id': partner_id,
-           'partner_invoice_id': partner_invoice_id,
-           'partner_shipping_id': partner_shipping_id,
-           'company_id': company_id,
-           'context': context,
-           'fiscal_category_id': fiscal_category_id
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_invoice_id,
+            'partner_shipping_id': partner_shipping_id,
+            'company_id': company_id,
+            'context': context,
+            'fiscal_category_id': fiscal_category_id
         }
         return self._fiscal_position_map(cr, uid, result, **kwargs)
 
@@ -145,12 +185,11 @@ class StockPicking(orm.Model):
         fiscal_category_id = move_line.fiscal_category_id or \
             move_line.picking_id.fiscal_category_id or False
               
-        result['cfop_id'] = fiscal_position and \
-        fiscal_position.cfop_id and fiscal_position.cfop_id.id
+        result['cfop_id'] = fiscal_position and fiscal_position.cfop_id and \
+                            fiscal_position.cfop_id.id
         result['fiscal_category_id'] = fiscal_category_id and \
-        fiscal_category_id.id
-        result['fiscal_position'] = fiscal_position and \
-        fiscal_position.id
+                                       fiscal_category_id.id
+        result['fiscal_position'] = fiscal_position and fiscal_position.id
 
         result['partner_id'] = picking.partner_id.id
         result['company_id'] = picking.company_id.id
@@ -176,47 +215,119 @@ class StockPicking(orm.Model):
         picking.fiscal_position.id
         result['ind_pres'] = picking.ind_pres
         return result
-    
-class StockMove(orm.Model):
+
+
+class StockMove(models.Model):
 
     _inherit = "stock.move"
-    
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-            readonly=True, states={'draft': [('readonly', False)],
-                'sent': [('readonly', False)]}),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position',
-            domain="[('fiscal_category_id','=',fiscal_category_id)]",
-            readonly=True, states={'draft': [('readonly', False)],
-                'sent': [('readonly', False)]}),
-                }
-   
+
+    fiscal_category_id = fields.Many2one(
+        comodel_name='l10n_br_account.fiscal.category',
+        string='Categoria Fiscal',
+        domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
+        readonly=True,
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+
+    fiscal_position = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string='Fiscal Position',
+        domain="[('fiscal_category_id','=',fiscal_category_id)]",
+        readonly=True,
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+
+    # _columns = {
+    #     'fiscal_category_id': fields.many2one(
+    #         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+    #         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
+    #         readonly=True, states={'draft': [('readonly', False)],
+    #             'sent': [('readonly', False)]}),
+    #     'fiscal_position': fields.many2one(
+    #         'account.fiscal.position', 'Fiscal Position',
+    #         domain="[('fiscal_category_id','=',fiscal_category_id)]",
+    #         readonly=True, states={'draft': [('readonly', False)],
+    #             'sent': [('readonly', False)]}),
+    #             }
+
+    @api.model
+    @api.returns
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
         kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
+        fp_rule_obj = self.env['account.fiscal.position.rule']
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
+    # @api.onchange('product_id')
+    # @api.model
+    # @api.returns
+    # def onchange_product_id(self):
+    #
+    #     if not self._context:
+    #         self._context = {}
+    #
+    #     parent_fiscal_category_id = \
+    #         self._context.get('parent_fiscal_category_id')
+    #     picking_type = self._context.get('picking_type')
+    #
+    #     if self._context.get('company_id', False):
+    #         company_id = self._context['company_id']
+    #     else:
+    #         company_id = self.env['res.users'].browse([self._uid]).company_id.id
+    #
+    #     result = {'value': {}}
+    #
+    #     if parent_fiscal_category_id and self.product_id and picking_type:
+    #
+    #         obj_fp_rule = self.env['account.fiscal.position.rule']
+    #         product_fc_id = obj_fp_rule.product_fiscal_category_map(
+    #             self.product_id, parent_fiscal_category_id)
+    #
+    #         if product_fc_id:
+    #             parent_fiscal_category_id = product_fc_id
+    #
+    #         result['value']['fiscal_category_id'] = parent_fiscal_category_id
+    #
+    #         partner_invoice_id = \
+    #             self.env['res.partner'].address_get([self.partner_id],
+    #                                                 ['invoice'])['invoice']
+    #         partner_shipping_id = \
+    #             self.env['res.partner'].address_get([self.partner_id],
+    #                                                 ['delivery'])['delivery']
+    #
+    #         kwargs = {
+    #             'partner_id': self.partner_id,
+    #             'partner_invoice_id': partner_invoice_id,
+    #             'partner_shipping_id': partner_shipping_id,
+    #             'fiscal_category_id': parent_fiscal_category_id,
+    #             'company_id': company_id,
+    #             'context': self._context
+    #         }
+    #
+    #         result.update(self._fiscal_position_map(self._cr, self._uid,
+    #                                                 result, **kwargs))
+    #
+    #     result_super = super(StockMove, self).onchange_product_id()
+    #
+    #     result_super['value'].update(result['value'])
+    #     return result_super
+
+    @api.onchange('product_id')
     def onchange_product_id(self, cr, uid, ids, product_id, location_id,
-                            location_dest_id, partner_id, context=False, **kwargs ):
-        
+                            location_dest_id, partner_id, context=False, **kwargs):
+
         if not context:
             context = {}
-            
+
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         picking_type = context.get('picking_type')
         if context.get('company_id', False):
             company_id = context['company_id']
         else:
-            company_id = self.pool.get('res.users').browse(cr, uid, uid,
-            context=context).company_id.id    
-        
+            company_id = self.pool.get('res.users').browse(
+                cr, uid, uid, context=context).company_id.id
+
         result = {'value': {}}
-        
+
         if parent_fiscal_category_id and product_id and picking_type:
-            
+
             obj_fp_rule = self.pool.get('account.fiscal.position.rule')
             product_fc_id = obj_fp_rule.product_fiscal_category_map(
                 cr, uid, product_id, parent_fiscal_category_id)
@@ -227,23 +338,23 @@ class StockMove(orm.Model):
             result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
             partner_invoice_id = self.pool.get('res.partner').address_get(
-                    cr, uid, [partner_id], ['invoice'])['invoice']
+                cr, uid, [partner_id], ['invoice'])['invoice']
             partner_shipping_id = self.pool.get('res.partner').address_get(
-                    cr, uid, [partner_id], ['delivery'])['delivery']
+                cr, uid, [partner_id], ['delivery'])['delivery']
 
             kwargs = {
-               'partner_id': partner_id,
-               'partner_invoice_id': partner_invoice_id,
-               'partner_shipping_id': partner_shipping_id,
-               'fiscal_category_id': parent_fiscal_category_id,
-               'company_id': company_id,
-               'context': context
+                'partner_id': partner_id,
+                'partner_invoice_id': partner_invoice_id,
+                'partner_shipping_id': partner_shipping_id,
+                'fiscal_category_id': parent_fiscal_category_id,
+                'company_id': company_id,
+                'context': context
             }
-                        
+
             result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
-        
-        result_super  = super(StockMove, self).onchange_product_id(cr, uid, 
-                ids, product_id, location_id, location_dest_id, partner_id)
-            
+
+        result_super = super(StockMove, self).onchange_product_id(
+            cr, uid, ids, product_id, location_id, location_dest_id, partner_id)
+
         result_super['value'].update(result['value'])
         return result_super

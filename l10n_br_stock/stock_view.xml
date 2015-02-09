@@ -97,7 +97,8 @@
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
             	<field name="product_id" position="attributes">
-                    <attribute name="on_change">onchange_product_id(product_id,location_id,location_dest_id, parent.partner_id, context)</attribute>
+                    <!--<attribute name="on_change">onchange_product_id(product_id,location_id,location_dest_id, parent.partner_id, context)</attribute>-->
+                    <attribute name="on_change">onchange_product_id()</attribute>
 					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'company_id': parent.company_id }</attribute>
                 </field>
             	 <field name="date_expected" position="after">
