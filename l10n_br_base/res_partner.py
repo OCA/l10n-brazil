@@ -23,6 +23,7 @@ import re
 
 from openerp import models, fields, api, _
 from .tools import fiscal
+from openerp.exceptions import Warning
 
 
 class ResPartner(models.Model):
@@ -85,10 +86,11 @@ class ResPartner(models.Model):
     @api.one
     @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
-        if self.is_company:
-            if not fiscal.validate_cnpj(self.cnpj_cpf):
-                raise Warning(_(u'CNPJ inválido!'))
-        elif not fiscal.validate_cpf(self.cnpj_cpf):
+        if self.cnpj_cpf:
+            if self.is_company:
+                if not fiscal.validate_cnpj(self.cnpj_cpf):
+                    raise Warning(_(u'CNPJ inválido!'))
+            elif not fiscal.validate_cpf(self.cnpj_cpf):
                 raise Warning(_(u'CPF inválido!'))
         return True
 
@@ -147,10 +149,13 @@ class ResPartner(models.Model):
             if len(val) == 14:
                 cnpj_cpf = "%s.%s.%s/%s-%s"\
                     % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+                self.cnpj_cpf = cnpj_cpf
             elif not self.is_company and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s"\
                     % (val[0:3], val[3:6], val[6:9], val[9:11])
-            self.cnpj_cpf = cnpj_cpf
+                self.cnpj_cpf = cnpj_cpf
+            else:
+                raise Warning(_(u'Verifique o CNPJ/CPF'))
 
     @api.onchange('l10n_br_city_id')
     def onchange_l10n_br_city_id(self):
