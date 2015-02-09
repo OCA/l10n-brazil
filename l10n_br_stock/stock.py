@@ -81,35 +81,8 @@ class StockPicking(models.Model):
         help=u'Indicador de presença do comprador no estabelecimento '
              u'comercial no momento da operação.')
 
-    # _columns = {
-    #     'fiscal_category_id': fields.many2one(
-    #         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-    #         readonly=True, domain="[('state', '=', 'approved')]",
-    #         states={'draft': [('readonly', False)]}),
-    #     'fiscal_position': fields.many2one(
-    #         'account.fiscal.position', u'Posição Fiscal',
-    #         domain="[('fiscal_category_id','=',fiscal_category_id)]",
-    #         readonly=True, states={'draft': [('readonly', False)]}),
-    #     'ind_pres': fields.selection([
-    #             ('0', u'Não se aplica'),
-    #             ('1', u'Operação presencial'),
-    #             ('2', u'Operação não presencial, pela Internet'),
-    #             ('3', u'Operação não presencial, Teleatendimento'),
-    #             ('4', u'NFC-e em operação com entrega em domicílio'),
-    #             ('9', u'Operação não presencial, outros'),
-    #         ],u'Tipo de operação',
-    #         help=u'Indicador de presença do comprador no \
-    #             \nestabelecimento comercial no momento \
-    #             \nda operação.'),
-    # }
-    # _defaults = {
-    #     'ind_pres': '0',
-    #     'fiscal_category_id': _default_fiscal_category
-    # }
-
     #TODO: [new api] depende de:
     # parts/oca/account-fiscal-rule/account_fiscal_position_rule_stock/stock.py
-    # @api.model
     @api.one
     def onchange_partner_in(self, cr, uid, ids, partner_id=None,
                             company_id=None, context=None,
@@ -122,69 +95,60 @@ class StockPicking(models.Model):
             context=context, fiscal_category_id=fiscal_category_id)
 
     @api.model
-    @api.returns
     @api.onchange('fiscal_category_id')
-    def onchange_fiscal_category_id(self, partner_id, company_id=False,
-                                    fiscal_category_id=False,
-                                    context=None, **kwargs):
-        if not context:
-            context = {}
+    def onchange_fiscal_category_id(self):
 
         result = {'value': {'fiscal_position': False}}
 
-        if not partner_id or not company_id:
+        if not self.partner_id or not self.company_id:
             return result
 
         partner_invoice_id = self.env['res.partner'].address_get(
-            [partner_id], ['invoice'])['invoice']
+            [self.partner_id], ['invoice'])['invoice']
         partner_shipping_id = self.env['res.partner'].address_get(
-            [partner_id], ['delivery'])['delivery']
+            [self.partner_id], ['delivery'])['delivery']
 
         kwargs = {
-            'partner_id': partner_id,
+            'partner_id': self.partner_id,
             'partner_invoice_id': partner_invoice_id,
             'partner_shipping_id': partner_shipping_id,
-            'company_id': company_id,
-            'context': context,
-            'fiscal_category_id': fiscal_category_id
+            'company_id': self.company_id,
+            'context': self._context,
+            'fiscal_category_id': self.fiscal_category_id
         }
         return self._fiscal_position_map(result, **kwargs)
 
     @api.model
-    @api.returns
     @api.onchange('company_id')
-    def onchange_company_id(self, partner_id, company_id=False,
-                            fiscal_category_id=False, context=None, **kwargs):
-        if not context:
-            context = {}
+    def onchange_company_id(self):
 
         result = {'value': {'fiscal_position': False}}
 
-        if not partner_id or not company_id:
+        if not self.partner_id or not self.company_id:
             return result
 
         partner_invoice_id = self.env['res.partner'].address_get(
-            [partner_id], ['invoice'])['invoice']
+            [self.partner_id], ['invoice'])['invoice']
         partner_shipping_id = self.env['res.partner'].address_get(
-            [partner_id], ['delivery'])['delivery']
+            [self.partner_id], ['delivery'])['delivery']
 
         kwargs = {
-            'partner_id': partner_id,
+            'partner_id': self.partner_id,
             'partner_invoice_id': partner_invoice_id,
             'partner_shipping_id': partner_shipping_id,
-            'company_id': company_id,
-            'context': context,
-            'fiscal_category_id': fiscal_category_id
+            'company_id': self.company_id,
+            'context': self._context,
+            'fiscal_category_id': self.fiscal_category_id
         }
         return self._fiscal_position_map(result, **kwargs)
+
 
     @api.model
     @api.returns
     def _prepare_invoice_line(self, group, picking, move_line,
                               invoice_id, invoice_vals):
-        result = \
-            super(StockPicking, self)._prepare_invoice_line(
-                group, picking, move_line, invoice_id, invoice_vals)
+        result = super(StockPicking, self)._prepare_invoice_line(
+            group, picking, move_line, invoice_id, invoice_vals)
 
         fiscal_position = move_line.fiscal_position or \
             move_line.picking_id.fiscal_position or False
@@ -243,19 +207,6 @@ class StockMove(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
 
-    # _columns = {
-    #     'fiscal_category_id': fields.many2one(
-    #         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-    #         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-    #         readonly=True, states={'draft': [('readonly', False)],
-    #             'sent': [('readonly', False)]}),
-    #     'fiscal_position': fields.many2one(
-    #         'account.fiscal.position', 'Fiscal Position',
-    #         domain="[('fiscal_category_id','=',fiscal_category_id)]",
-    #         readonly=True, states={'draft': [('readonly', False)],
-    #             'sent': [('readonly', False)]}),
-    #             }
-
     @api.model
     @api.returns
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
@@ -313,5 +264,4 @@ class StockMove(models.Model):
         if 'value' in result_super:
             result_super['value'].update(result['value'])
 
-        # result_super['value'].update(result['value'])
         return result_super
