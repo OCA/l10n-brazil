@@ -81,40 +81,39 @@ class StockPicking(models.Model):
              u'comercial no momento da operação.')
 
     #TODO: [new api] depende de:
-    # parts/oca/account-fiscal-rule/account_fiscal_position_rule_stock/stock.py
-    @api.v7
-    def onchange_partner_in(self, cr, uid, ids, partner_id=None,
-                            company_id=None, fiscal_category_id=None,
-                            context=None, **kwargs):
-        if not context:
-            context = {}
+    @api.model
+    @api.onchange('partner_id')
+    def onchange_partner_in(self):
 
-        result = {'value': {'fiscal_position': False}}
+        result = super(StockPicking, self).onchange_partner_id(
+            self._cr, self._uid, self._ids, self.partner_id, self.company_id)
 
         if not self.partner_id or not self.company_id:
             return result
 
-        partner_invoice_id = self.env['res.partner'].address_get(
-            [self.partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.env['res.partner'].address_get(
-            [self.partner_id], ['delivery'])['delivery']
+        result['value'].update({'fiscal_category_id': self.fiscal_category_id})
 
-        kwargs = {
-            'partner_id': self.partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'partner_shipping_id': partner_shipping_id,
-            'company_id': self.company_id,
-            'context': self._context,
-            'fiscal_category_id': self.fiscal_category_id
-        }
-        return self._fiscal_position_map(result, **kwargs)
+        return result
 
-        # # Esse metodo tambem e chamado na classe
-        # # account_fiscal_position_rule_stock. Porem a classe base nao possui
-        # # esse método
-        # return super(StockPicking, self).onchange_partner_in(
-        #     cr, uid, ids, partner_id=partner_id, company_id=company_id,
-        #     context=context, fiscal_category_id=fiscal_category_id, **kwargs)
+        # result = {'value': {'fiscal_position': False}}
+        #
+        # if not self.partner_id or not self.company_id:
+        #     return result
+        #
+        # partner_invoice_id = self.env['res.partner'].address_get(
+        #     [self.partner_id], ['invoice'])['invoice']
+        # partner_shipping_id = self.env['res.partner'].address_get(
+        #     [self.partner_id], ['delivery'])['delivery']
+        #
+        # kwargs = {
+        #     'partner_id': self.partner_id,
+        #     'partner_invoice_id': partner_invoice_id,
+        #     'partner_shipping_id': partner_shipping_id,
+        #     'company_id': self.company_id,
+        #     'context': self._context,
+        #     'fiscal_category_id': self.fiscal_category_id
+        # }
+        # return self._fiscal_position_map(result, **kwargs)
 
     @api.model
     @api.onchange('fiscal_category_id')
@@ -163,7 +162,6 @@ class StockPicking(models.Model):
             'fiscal_category_id': self.fiscal_category_id
         }
         return self._fiscal_position_map(result, **kwargs)
-
 
     @api.model
     @api.returns
@@ -231,10 +229,10 @@ class StockMove(models.Model):
 
     @api.model
     @api.returns
-    def _fiscal_position_map(self, cr, uid, result, **kwargs):
+    def _fiscal_position_map(self, result, **kwargs):
         kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
         fp_rule_obj = self.env['account.fiscal.position.rule']
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+        return fp_rule_obj.apply_fiscal_mapping(result, **kwargs)
 
     # TODO: [new api] Depends of odoo/addons/stock.py
     def onchange_product_id(self, cr, uid, ids, product_id, location_id,
