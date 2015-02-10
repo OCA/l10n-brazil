@@ -43,7 +43,6 @@ class StockPicking(models.Model):
     @api.model
     @api.returns
     def _default_fiscal_category(self):
-
         user_model = self.env['res.users']
 
         stock_fiscal_category = user_model.company_id.stock_fiscal_category_id
@@ -83,16 +82,39 @@ class StockPicking(models.Model):
 
     #TODO: [new api] depende de:
     # parts/oca/account-fiscal-rule/account_fiscal_position_rule_stock/stock.py
-    @api.one
+    @api.v7
     def onchange_partner_in(self, cr, uid, ids, partner_id=None,
-                            company_id=None, context=None,
-                            fiscal_category_id=None):
+                            company_id=None, fiscal_category_id=None,
+                            context=None, **kwargs):
         if not context:
             context = {}
 
-        return super(StockPicking, self).onchange_partner_in(
-            cr, uid, ids, partner_id=partner_id, company_id=company_id,
-            context=context, fiscal_category_id=fiscal_category_id)
+        result = {'value': {'fiscal_position': False}}
+
+        if not self.partner_id or not self.company_id:
+            return result
+
+        partner_invoice_id = self.env['res.partner'].address_get(
+            [self.partner_id], ['invoice'])['invoice']
+        partner_shipping_id = self.env['res.partner'].address_get(
+            [self.partner_id], ['delivery'])['delivery']
+
+        kwargs = {
+            'partner_id': self.partner_id,
+            'partner_invoice_id': partner_invoice_id,
+            'partner_shipping_id': partner_shipping_id,
+            'company_id': self.company_id,
+            'context': self._context,
+            'fiscal_category_id': self.fiscal_category_id
+        }
+        return self._fiscal_position_map(result, **kwargs)
+
+        # # Esse metodo tambem e chamado na classe
+        # # account_fiscal_position_rule_stock. Porem a classe base nao possui
+        # # esse método
+        # return super(StockPicking, self).onchange_partner_in(
+        #     cr, uid, ids, partner_id=partner_id, company_id=company_id,
+        #     context=context, fiscal_category_id=fiscal_category_id, **kwargs)
 
     @api.model
     @api.onchange('fiscal_category_id')
