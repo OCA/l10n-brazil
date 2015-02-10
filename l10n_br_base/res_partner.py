@@ -46,7 +46,7 @@ class ResPartner(models.Model):
          u'Já existe um parceiro cadastrado com este CPF/CNPJ!')
     ]
 
-    @api.returns
+    @api.model
     def _display_address(self, address, without_company=False):
 
         if address.country_id and address.country_id.code != 'BR':
