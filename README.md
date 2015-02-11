@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=8.0)](https://travis-ci.org/odoobrasil/l10n-brazil)
+
+7.0 [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=7.0)](https://travis-ci.org/odoobrasil/l10n-brazil)
+8.0 [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=8.0)](https://travis-ci.org/odoobrasil/l10n-brazil)
+develop [![Build Status](https://travis-ci.org/odoobrasil/l10n-brazil.png?branch=develop)](https://travis-ci.org/odoobrasil/l10n-brazil)
 
 Localização Brasileira - Odoo - l10n-brazil
 ============================================
