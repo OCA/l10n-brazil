@@ -80,7 +80,6 @@ class StockPicking(models.Model):
         help=u'Indicador de presença do comprador no estabelecimento '
              u'comercial no momento da operação.')
 
-    #TODO: [new api] depende de:
     @api.model
     @api.onchange('partner_id')
     def onchange_partner_in(self):
@@ -94,26 +93,6 @@ class StockPicking(models.Model):
         result['value'].update({'fiscal_category_id': self.fiscal_category_id})
 
         return result
-
-        # result = {'value': {'fiscal_position': False}}
-        #
-        # if not self.partner_id or not self.company_id:
-        #     return result
-        #
-        # partner_invoice_id = self.env['res.partner'].address_get(
-        #     [self.partner_id], ['invoice'])['invoice']
-        # partner_shipping_id = self.env['res.partner'].address_get(
-        #     [self.partner_id], ['delivery'])['delivery']
-        #
-        # kwargs = {
-        #     'partner_id': self.partner_id,
-        #     'partner_invoice_id': partner_invoice_id,
-        #     'partner_shipping_id': partner_shipping_id,
-        #     'company_id': self.company_id,
-        #     'context': self._context,
-        #     'fiscal_category_id': self.fiscal_category_id
-        # }
-        # return self._fiscal_position_map(result, **kwargs)
 
     @api.model
     @api.onchange('fiscal_category_id')
