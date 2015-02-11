@@ -996,10 +996,10 @@ class AccountInvoiceLine(orm.Model):
             cr, uid, values.get('fiscal_position'))
 
         price_unit = values.get('price_unit', 0.0)
-        price = price_unit * (1 - values.get('discount', 0.0) / 100.0)
+        price = float(price_unit) * (1 - values.get('discount', 0.0) / 100.0)
 
         taxes_calculed = tax_obj.compute_all(
-            cr, uid, taxes, price, values.get('quantity', 0.0),
+            cr, uid, taxes, price, float(values.get('quantity', 0.0)),
             values.get('product_id'), partner_id,
             fiscal_position=fiscal_position,
             insurance_value=values.get('insurance_value', 0.0),
