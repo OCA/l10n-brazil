@@ -17,10 +17,8 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-# from openerp.osv import orm
-# from openerp.tools.translate import _
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm
+from openerp import models
 
 
 class StockReturnPicking(models.TransientModel):
@@ -31,12 +29,6 @@ class StockReturnPicking(models.TransientModel):
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
 
-     # def _fiscal_position_map(self, result, **kwargs):
-     #    ctx = dict(self._context)
-     #    ctx.update({'use_domain': ('use_picking', '=', True)})
-     #    return self.env['account.fiscal.position.rule'].with_context(
-     #        ctx).apply_fiscal_mapping(result, **kwargs)
-     #
     def create_returns(self, cr, uid, ids, context=None):
         """
          Creates return picking.
