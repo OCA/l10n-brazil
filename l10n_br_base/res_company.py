@@ -34,6 +34,13 @@ class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
+    # BUG: O super cotinua sendo chamado.
+    @api.one
+    def _get_address_data(self):
+        self.l10n_br_city_id = self.partner_id.l10n_br_city_id
+        self.district = self.partner_id.district
+        self.number = self.partner_id.number
+
     @api.one
     def _get_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
@@ -68,6 +75,21 @@ class ResCompany(models.Model):
         """ Write the l10n_br specific functional fields. """
         self.partner_id.inscr_mun = self.inscr_mun
 
+    @api.one
+    def _set_l10n_br_number(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.number = self.number
+
+    @api.one
+    def _set_l10n_br_district(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.district = self.district
+
+    @api.one
+    def _set_l10n_br_city_id(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.l10n_br_city_id = self.l10n_br_city_id
+
     cnpj_cpf = fields.Char(
         compute=_get_l10n_br_data, inverse=_set_l10n_br_cnpj_cpf, size=18,
         string='CNPJ')
@@ -89,28 +111,16 @@ class ResCompany(models.Model):
         string=u'Razão Social')
 
     l10n_br_city_id = fields.Many2one(
-        compute='_get_address_data', inverse='_set_address_data',
+        compute=_get_address_data, inverse='_set_l10n_br_city_id',
         comodel_name='l10n_br_base.city', string="City", multi='address')
 
     district = fields.Char(
-        compute='_get_address_data', inverse='_set_address_data', size=32,
+        compute=_get_address_data, inverse='_set_l10n_br_district', size=32,
         string="Bairro", multi='address')
 
     number = fields.Char(
-        compute='_get_address_data', inverse='_set_address_data', size=10,
+        compute=_get_address_data, inverse='_set_l10n_br_number', size=10,
         string=u"Número", multi='address')
-
-    @api.one
-    @api.returns
-    def _get_address_data(self):
-        print ''
-        return super(ResCompany, self)._get_address_data()
-
-    @api.one
-    @api.returns
-    @api.depends('company_id', 'name')
-    def _set_address_data(self):
-        return super(ResCompany, self)._set_address_data()
 
     @api.onchange('cnpj_cpf')
     def onchange_mask_cnpj_cpf(self):
