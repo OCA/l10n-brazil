@@ -17,10 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-# from openerp.osv import orm, fields
+# from openerp.osv import orm
 # from openerp.tools.translate import _
 
+# from openerp.osv import orm
 from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
 class StockInvoiceOnShipping(models.TransientModel):
@@ -66,7 +68,7 @@ class StockInvoiceOnShipping(models.TransientModel):
 
     journal_id = fields.Selection(_get_journal_id, 'Destination Journal')
     fiscal_category_journal = fields.Boolean(
-        string="Diário da Categoria Fiscal", default=True)
+        string=u"Diário da Categoria Fiscal", default=True)
 
     # _columns = {
     #     'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),
@@ -79,7 +81,7 @@ class StockInvoiceOnShipping(models.TransientModel):
     def create_invoice(self, cr, uid, ids, context=None):
         onshipdata_obj = self.read(
             cr, uid, ids, ['journal_id', 'group', 'invoice_date',
-            'fiscal_category_journal'])
+                           'fiscal_category_journal'])
         res = super(StockInvoiceOnShipping, self).create_invoice(
             cr, uid, ids, context)
 
@@ -94,7 +96,7 @@ class StockInvoiceOnShipping(models.TransientModel):
             journal_id = inv.fiscal_category_id and \
             inv.fiscal_category_id.property_journal
             if not journal_id:
-                raise models.except_orm(
+                raise except_orm(
                     _('Invalid Journal!'),
                     _('There is not journal defined for this company: %s in \
                     fiscal operation: %s !') % (inv.company_id.name,

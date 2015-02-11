@@ -20,9 +20,10 @@
 # from openerp.osv import orm
 # from openerp.tools.translate import _
 from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
-class stock_return_picking(models.TransientModel):
+class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
@@ -72,7 +73,7 @@ class stock_return_picking(models.TransientModel):
                     and send_picking.fiscal_category_id.refund_fiscal_category_id.id
         
                 if not fiscal_category_id:
-                    raise orm.except_orm(
+                    raise except_orm(
                         _('Error!'),
                         _("""This Fiscal Operation does not has Fiscal Operation
                         for Returns!"""))
