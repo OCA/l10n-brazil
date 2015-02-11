@@ -52,7 +52,6 @@ class ResPartner(models.Model):
         if address.country_id and address.country_id.code != 'BR':
             # this ensure other localizations could do what they want
             return super(ResPartner, self)._display_address(
-                self,
                 address,
                 without_company=False)
         else:
