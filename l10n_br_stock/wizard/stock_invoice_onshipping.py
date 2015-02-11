@@ -17,11 +17,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+# from openerp.osv import orm, fields
+# from openerp.tools.translate import _
+
+from openerp import models, fields, api, _
 
 
-class stock_invoice_onshipping(orm.TransientModel):
+class StockInvoiceOnShipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     def _get_journal_id(self, cr, uid, context=None):
@@ -62,19 +64,23 @@ class stock_invoice_onshipping(orm.TransientModel):
                     vals.append(t1)
         return vals
 
-    _columns = {
-        'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),
-        'fiscal_category_journal': fields.boolean("Diário da Categoria Fiscal")
-    }
-    _defaults = {
-        'fiscal_category_journal': True
-    }
+    journal_id = fields.Selection(_get_journal_id, 'Destination Journal')
+    fiscal_category_journal = fields.Boolean(
+        string="Diário da Categoria Fiscal", default=True)
+
+    # _columns = {
+    #     'journal_id': fields.selection(_get_journal_id, 'Destination Journal'),
+    #     'fiscal_category_journal': fields.boolean("Diário da Categoria Fiscal")
+    # }
+    # _defaults = {
+    #     'fiscal_category_journal': True
+    # }
 
     def create_invoice(self, cr, uid, ids, context=None):
         onshipdata_obj = self.read(
             cr, uid, ids, ['journal_id', 'group', 'invoice_date',
             'fiscal_category_journal'])
-        res = super(stock_invoice_onshipping, self).create_invoice(
+        res = super(StockInvoiceOnShipping, self).create_invoice(
             cr, uid, ids, context)
 
         if not res or not onshipdata_obj[0]['fiscal_category_journal']:
@@ -88,7 +94,7 @@ class stock_invoice_onshipping(orm.TransientModel):
             journal_id = inv.fiscal_category_id and \
             inv.fiscal_category_id.property_journal
             if not journal_id:
-                raise orm.except_orm(
+                raise models.except_orm(
                     _('Invalid Journal!'),
                     _('There is not journal defined for this company: %s in \
                     fiscal operation: %s !') % (inv.company_id.name,
