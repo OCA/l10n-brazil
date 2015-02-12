@@ -47,7 +47,8 @@ class StockReturnPicking(models.TransientModel):
         if not context:
             context = {}
 
-        for send_picking in picking_obj.browse(cr, uid, context.get('active_ids'), context):        
+        for send_picking in picking_obj.browse(
+                cr, uid, context.get('active_ids'), context):
 
             result = super(StockReturnPicking, self).create_returns(
                 cr, uid, ids, context)
@@ -58,8 +59,7 @@ class StockReturnPicking(models.TransientModel):
             for picking in picking_obj.browse(cr, uid, picking_ids, context=context):
                 
                 move_ids = move_obj.search(cr, uid, [('picking_id', '=', picking.id)])
-                
-    
+
                 fiscal_category_id = send_picking.fiscal_category_id \
                     and send_picking.fiscal_category_id.refund_fiscal_category_id \
                     and send_picking.fiscal_category_id.refund_fiscal_category_id.id
@@ -78,12 +78,12 @@ class StockReturnPicking(models.TransientModel):
                     cr, uid, [picking.partner_id.id], ['invoice'])['invoice']
      
                 kwargs = {
-                   'partner_id': picking.partner_id.id,
-                   'partner_invoice_id': partner_invoice_id,
-                   'partner_shipping_id': picking.partner_id.id,
-                   'company_id': picking.company_id.id,
-                   'context': context,
-                   'fiscal_category_id': fiscal_category_id
+                    'partner_id': picking.partner_id.id,
+                    'partner_invoice_id': partner_invoice_id,
+                    'partner_shipping_id': picking.partner_id.id,
+                    'company_id': picking.company_id.id,
+                    'context': context,
+                    'fiscal_category_id': fiscal_category_id
                 }
                 
                 values.update(self._fiscal_position_map(
@@ -92,15 +92,23 @@ class StockReturnPicking(models.TransientModel):
                 picking_obj.write(cr, uid, [picking.id], values)
                                
                 for idx, send_move in enumerate(send_picking.move_lines):
-                     line_fiscal_category_id = send_move.fiscal_category_id.refund_fiscal_category_id.id                     
-                     context.update({'parent_fiscal_category_id':line_fiscal_category_id,
-                                     'picking_type' : picking_type,                                    
-                                    })
+                    line_fiscal_category_id =  \
+                        send_move.fiscal_category_id.refund_fiscal_category_id.id
+
+                    context.update({
+                        'parent_fiscal_category_id': line_fiscal_category_id,
+                        'picking_type': picking_type,
+                    })
                      
-                     line_onchange = move_obj.onchange_product_id(cr, uid, ids, send_move.product_id.id, send_move.location_id.id,
-                             send_move.location_dest_id.id, picking.partner_id.id, context)
+                    line_onchange = move_obj.onchange_product_id(
+                        cr, uid, ids, send_move.product_id.id,
+                        send_move.location_id.id,
+                        send_move.location_dest_id.id,
+                        picking.partner_id.id, context)
                      
-                     line_onchange['value']['fiscal_category_id'] = line_fiscal_category_id
-                     move_obj.write(cr, uid, move_ids[idx],line_onchange['value'],context)
+                    line_onchange['value']['fiscal_category_id'] = \
+                        line_fiscal_category_id
+                    move_obj.write(cr, uid, move_ids[idx],
+                                   line_onchange['value'],context)
                      
             return result

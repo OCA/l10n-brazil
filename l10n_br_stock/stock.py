@@ -142,7 +142,6 @@ class StockPicking(models.Model):
         }
         return self._fiscal_position_map(result, **kwargs)
 
-
     @api.model
     @api.returns
     def _prepare_invoice_line(self, group, picking, move_line,

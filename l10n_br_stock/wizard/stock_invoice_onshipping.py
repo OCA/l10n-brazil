@@ -70,6 +70,7 @@ class StockInvoiceOnShipping(models.TransientModel):
         onshipdata_obj = self.read(
             cr, uid, ids, ['journal_id', 'group', 'invoice_date',
                            'fiscal_category_journal'])
+
         res = super(StockInvoiceOnShipping, self).create_invoice(
             cr, uid, ids, context)
 
@@ -80,9 +81,11 @@ class StockInvoiceOnShipping(models.TransientModel):
             context = {}
 
         for inv in self.pool.get('account.invoice').browse(
-            cr, uid, res.values(), context=context):
+                cr, uid, res.values(), context=context):
+
             journal_id = inv.fiscal_category_id and \
             inv.fiscal_category_id.property_journal
+
             if not journal_id:
                 raise except_orm.except_orm(
                     _('Invalid Journal!'),
