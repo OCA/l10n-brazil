@@ -80,18 +80,19 @@ class StockPicking(models.Model):
         help=u'Indicador de presença do comprador no estabelecimento '
              u'comercial no momento da operação.')
 
-    @api.model
+    @api.one
     @api.onchange('partner_id')
-    def onchange_partner_in(self):
+    def onchange_partner_id(self, partner_id, company_id, context,
+                            fiscal_category_id):
 
         result = super(StockPicking, self).onchange_partner_id(
-            self._cr, self._uid, self._ids, self.partner_id, self.company_id)
+            self._cr, self._uid, self._ids, partner_id=partner_id,
+            company_id=company_id)
 
-        if not self.partner_id or not self.company_id:
+        if not partner_id or not company_id:
             return result
 
-        result['value'].update({'fiscal_category_id': self.fiscal_category_id})
-
+        result['value'].update({'fiscal_category_id': fiscal_category_id})
         return result
 
     @api.model
