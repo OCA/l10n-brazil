@@ -49,19 +49,6 @@ class StockPicking(models.Model):
 
         return stock_fiscal_category and stock_fiscal_category_id or False
 
-
-    # @api.one
-    # @api.model
-    # @api.returns
-    # def _default_fiscal_category(self):
-    #     user_model = self.env['res.users']
-    #
-    #     stock_fiscal_category = user_model.company_id.stock_fiscal_category_id
-    #     stock_fiscal_category_id = \
-    #         user_model.company_id.stock_fiscal_category_id.id
-    #
-    #     return stock_fiscal_category and stock_fiscal_category_id or False
-
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string='Categoria Fiscal',
@@ -92,7 +79,6 @@ class StockPicking(models.Model):
              u'comercial no momento da operação.')
 
     @api.multi
-    # @api.onchange('partner_id')
     def onchange_partner_id(self, partner_id, company_id, context=None):
 
         if context is None:
@@ -109,8 +95,6 @@ class StockPicking(models.Model):
         result['value'].update(context['fiscal_category_id'])
         return result
 
-    # @api.model
-    # @api.onchange('fiscal_category_id')
     @api.multi
     def onchange_fiscal_category_id(self, partner_id, company_id=False,
                                     fiscal_category_id=False,
@@ -139,8 +123,6 @@ class StockPicking(models.Model):
         }
         return self._fiscal_position_map(result, **kwargs)
 
-    # @api.model
-    # @api.onchange('company_id')
     @api.multi
     def onchange_company_id(self, partner_id, company_id=False,
                             fiscal_category_id=False, context=None, **kwargs):
@@ -167,28 +149,6 @@ class StockPicking(models.Model):
             'fiscal_category_id': fiscal_category_id
         }
         return self._fiscal_position_map(result, **kwargs)
-
-    # def onchange_company_id(self):
-    #
-    #     result = {'value': {'fiscal_position': False}}
-    #
-    #     if not self.partner_id or not self.company_id:
-    #         return result
-    #
-    #     partner_invoice_id = self.env['res.partner'].address_get(
-    #         [self.partner_id], ['invoice'])['invoice']
-    #     partner_shipping_id = self.env['res.partner'].address_get(
-    #         [self.partner_id], ['delivery'])['delivery']
-    #
-    #     kwargs = {
-    #         'partner_id': self.partner_id,
-    #         'partner_invoice_id': partner_invoice_id,
-    #         'partner_shipping_id': partner_shipping_id,
-    #         'company_id': self.company_id,
-    #         'context': self._context,
-    #         'fiscal_category_id': self.fiscal_category_id
-    #     }
-    #     return self._fiscal_position_map(result, **kwargs)
 
     @api.model
     @api.returns
