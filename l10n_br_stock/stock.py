@@ -250,9 +250,9 @@ class StockMove(models.Model):
         fp_rule_obj = self.env['account.fiscal.position.rule']
         return fp_rule_obj.apply_fiscal_mapping(result, **kwargs)
 
-    # TODO: [new api] Depends of odoo/addons/stock.py
-    def onchange_product_id(self, cr, uid, ids, product_id, location_id,
-                            location_dest_id, partner_id, context=False, **kwargs):
+    @api.multi
+    def onchange_product_id(self, product_id, location_id, location_dest_id,
+                            partner_id, context=False, **kwargs):
 
         if not context:
             context = {}
@@ -262,26 +262,27 @@ class StockMove(models.Model):
         if context.get('company_id', False):
             company_id = context['company_id']
         else:
-            company_id = self.pool.get('res.users').browse(
-                cr, uid, uid, context=context).company_id.id
+            company_id = self.env['res.users'].browse(
+                self._uid).with_context(context).company_id.id
 
         result = {'value': {}}
 
         if parent_fiscal_category_id and product_id and picking_type:
 
-            obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+            obj_fp_rule = self.env['account.fiscal.position.rule']
             product_fc_id = obj_fp_rule.product_fiscal_category_map(
-                cr, uid, product_id, parent_fiscal_category_id)
+                self._cr, self._uid, product_id, parent_fiscal_category_id)
 
             if product_fc_id:
                 parent_fiscal_category_id = product_fc_id
 
             result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
-            partner_invoice_id = self.pool.get('res.partner').address_get(
-                cr, uid, [partner_id], ['invoice'])['invoice']
-            partner_shipping_id = self.pool.get('res.partner').address_get(
-                cr, uid, [partner_id], ['delivery'])['delivery']
+            partner = self.env['res.partner'].browse(partner_id)
+            partner_address = partner.address_get(['invoice', 'delivery'])
+
+            partner_invoice_id = partner_address['invoice']
+            partner_shipping_id = partner_address['delivery']
 
             kwargs = {
                 'partner_id': partner_id,
@@ -292,10 +293,10 @@ class StockMove(models.Model):
                 'context': context
             }
 
-            result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+            result.update(self._fiscal_position_map(result, **kwargs))
 
         result_super = super(StockMove, self).onchange_product_id(
-            cr, uid, ids, product_id, location_id, location_dest_id, partner_id)
+            product_id, location_id, location_dest_id, partner_id)
 
         if 'value' in result_super:
             result_super['value'].update(result['value'])
