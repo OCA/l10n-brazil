@@ -3,18 +3,18 @@
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 #                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
+# This program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU Affero General Public License as published by #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
 #                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
+# This program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+# GNU Affero General Public License for more details.                         #
 #                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+# You should have received a copy of the GNU Affero General Public License    #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
 from openerp.exceptions import except_orm
@@ -24,15 +24,14 @@ from openerp import models, api, _
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
+    @api.multi
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self._context)
         ctx.update({'use_domain': ('use_picking', '=', True)})
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
-    @api.one
-    @api.model
-    # @api.returns
+    @api.multi
     def create_returns(self):
         """
          Creates return picking.
@@ -43,15 +42,15 @@ class StockReturnPicking(models.TransientModel):
 
         picking_obj = self.env['stock.picking']
         move_obj = self.env['stock.move']
-        picking_type = self.env.context.get('default_type')
+        picking_type = ctx.get('default_type')
 
-        for send_picking in picking_obj.browse(self.env.context.get(
-                'active_ids')):
+        for send_picking in picking_obj.browse(ctx.get('active_ids')):
 
             result = super(StockReturnPicking, self).create_returns()
 
             result_domain = eval(result['domain'])
-            picking_ids = result_domain and result_domain[0] and result_domain[0][2]            
+            picking_ids = \
+                result_domain and result_domain[0] and result_domain[0][2]
 
             for picking in picking_obj.browse(picking_ids):
                 
@@ -69,24 +68,28 @@ class StockReturnPicking(models.TransientModel):
      
                 values = {
                     'fiscal_category_id': fiscal_category_id,
-                    'fiscal_position': False}
-     
-                partner_invoice_id = self.env['res.partner'].address_get(
-                    [picking.partner_id.id], ['invoice'])['invoice']
+                    'fiscal_position': False
+                }
+
+                partner = \
+                    self.env['res.partner'].browse([picking.partner_id.id])
+
+                partner_invoice_id = \
+                    partner.address_get(['invoice'])['invoice']
      
                 kwargs = {
                     'partner_id': picking.partner_id.id,
                     'partner_invoice_id': partner_invoice_id,
                     'partner_shipping_id': picking.partner_id.id,
                     'company_id': picking.company_id.id,
-                    'context': self._context,
+                    'context': ctx,
                     'fiscal_category_id': fiscal_category_id
                 }
                 
                 values.update(self._fiscal_position_map(
                     {'value': {}}, **kwargs).get('value'))
 
-                picking_obj.write([picking.id], values)
+                picking.write(values)
                                
                 for idx, send_move in enumerate(send_picking.move_lines):
                     line_fiscal_category_id =  \
@@ -105,6 +108,8 @@ class StockReturnPicking(models.TransientModel):
                      
                     line_onchange['value']['fiscal_category_id'] = \
                         line_fiscal_category_id
-                    move_obj.write(move_ids[idx], line_onchange['value'])
+
+                    for m in move_obj.browse([move_ids[idx].id]):
+                        m.write(line_onchange['value'])
                      
             return result
