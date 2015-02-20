@@ -6,18 +6,18 @@
 # Copyright (C) 2014  Luis Felipe Miléo - KMEE - www.kmee.com.br              #
 # Copyright (C) 2015  Michell Stuttgart - KMEE                                #
 #                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
+# This program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU Affero General Public License as published by #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
 #                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
+# This program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+# GNU Affero General Public License for more details.                         #
 #                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+# You should have received a copy of the GNU Affero General Public License    #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
 from openerp import models, fields, api
@@ -39,17 +39,28 @@ class StockIncoterms(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.one
-    @api.model
-    @api.returns
+    @api.multi
     def _default_fiscal_category(self):
-        user_model = self.env['res.users']
+        user = self.env['res.users'].browse(self._uid).with_context(
+            dict(self._context))
 
-        stock_fiscal_category = user_model.company_id.stock_fiscal_category_id
-        stock_fiscal_category_id = \
-            user_model.company_id.stock_fiscal_category_id.id
+        stock_fiscal_category = user.company_id.stock_fiscal_category_id
+        stock_fiscal_category_id = user.company_id.stock_fiscal_category_id.id
 
         return stock_fiscal_category and stock_fiscal_category_id or False
+
+
+    # @api.one
+    # @api.model
+    # @api.returns
+    # def _default_fiscal_category(self):
+    #     user_model = self.env['res.users']
+    #
+    #     stock_fiscal_category = user_model.company_id.stock_fiscal_category_id
+    #     stock_fiscal_category_id = \
+    #         user_model.company_id.stock_fiscal_category_id.id
+    #
+    #     return stock_fiscal_category and stock_fiscal_category_id or False
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
