@@ -125,7 +125,7 @@ class StockPicking(models.Model):
 
     @api.multi
     def onchange_company_id(self, partner_id, company_id=False,
-                            fiscal_category_id=False, context=None, **kwargs):
+                            fiscal_category_id=False):
         if not context:
             context = {}
 
@@ -150,8 +150,9 @@ class StockPicking(models.Model):
         }
         return self._fiscal_position_map(result, **kwargs)
 
-    @api.model
-    @api.returns
+    # @api.model
+    # @api.returns
+    @api.multi
     def _prepare_invoice_line(self, group, picking, move_line,
                               invoice_id, invoice_vals):
         result = super(StockPicking, self)._prepare_invoice_line(
@@ -173,8 +174,9 @@ class StockPicking(models.Model):
 
         return result
 
-    @api.model
-    @api.returns
+    # @api.model
+    # @api.returns
+    @api.multi
     def _prepare_invoice(self, picking, partner, inv_type, journal_id):
         result = super(StockPicking, self)._prepare_invoice(
             self._cr, self._uid, picking, partner, inv_type, journal_id,

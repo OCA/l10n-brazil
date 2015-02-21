@@ -18,45 +18,53 @@
 ###############################################################################
 
 from openerp.exceptions import except_orm
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class StockInvoiceOnShipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
-    def _get_journal_id(self, cr, uid, context=None):
-        if context is None:
-            context = {}
+    @api.multi
+    def _get_journal_id(self):
 
-        model = context.get('active_model')
+        ctx = dict(self._context)
+        # if context is None:
+        #     context = {}
+
+        model = ctx.get('active_model')
         if not model or 'stock.picking' not in model:
             return []
 
-        model_pool = self.pool.get(model)
-        journal_obj = self.pool.get('account.journal')
-        res_ids = context and context.get('active_ids', [])
+        model_pool = self.env[model]
+        journal_obj = self.env['account.journal']
+        res_ids = ctx and ctx.get('active_ids', [])
         vals = []
-        browse_picking = model_pool.browse(cr, uid, res_ids, context=context)
+        browse_picking = model_pool.browse(res_ids)
 
         for pick in browse_picking:
             if not pick.move_lines:
                 continue
+
             src_usage = pick.move_lines[0].location_id.usage
             dest_usage = pick.move_lines[0].location_dest_id.usage
-            if pick.type == 'out' and dest_usage == 'supplier':
-                journal_type = 'purchase_refund'
-            elif pick.type == 'out' and dest_usage == 'customer':
-                journal_type = 'sale'
-            elif pick.type == 'in' and src_usage == 'supplier':
-                journal_type = 'purchase'
-            elif pick.type == 'in' and src_usage == 'customer':
-                journal_type = 'sale_refund'
-            else:
-                journal_type = 'sale'
 
-            value = journal_obj.search(
-                cr, uid, [('type', '=', journal_type)])
-            for jr_type in journal_obj.browse(cr, uid, value, context=context):
+            #TODO: StockPinkingOut e StockPickingIn foram removidas.
+            # como proceder neste trecho de código
+            # if pick.type == 'out' and dest_usage == 'supplier':
+            #     journal_type = 'purchase_refund'
+            # elif pick.type == 'out' and dest_usage == 'customer':
+            #     journal_type = 'sale'
+            # elif pick.type == 'in' and src_usage == 'supplier':
+            #     journal_type = 'purchase'
+            # elif pick.type == 'in' and src_usage == 'customer':
+            #     journal_type = 'sale_refund'
+            # else:
+            #     journal_type = 'sale'
+
+            journal_type = 'sale'
+            value = journal_obj.search([('type', '=', journal_type)])
+
+            for jr_type in journal_obj.browse(value.ids):
                 t1 = jr_type.id, jr_type.name
                 if t1 not in vals:
                     vals.append(t1)
@@ -66,22 +74,24 @@ class StockInvoiceOnShipping(models.TransientModel):
     fiscal_category_journal = fields.Boolean(
         string=u"Diário da Categoria Fiscal", default=True)
 
-    def create_invoice(self, cr, uid, ids, context=None):
-        onshipdata_obj = self.read(
-            cr, uid, ids, ['journal_id', 'group', 'invoice_date',
-                           'fiscal_category_journal'])
+    @api.multi
+    def create_invoice(self):
+        onshipdata_obj = self.read(['journal_id', 'group', 'invoice_date',
+                                    'fiscal_category_journal'])
 
-        res = super(StockInvoiceOnShipping, self).create_invoice(
-            cr, uid, ids, context)
+        res = super(StockInvoiceOnShipping, self).create_invoice(self._cr,
+                                                                 self._uid,
+                                                                 self._ids,
+                                                                 self._context)
 
         if not res or not onshipdata_obj[0]['fiscal_category_journal']:
             return res
 
-        if context is None:
-            context = {}
+        ctx = dict(self._context)
+        # if context is None:
+        #     context = {}
 
-        for inv in self.pool.get('account.invoice').browse(
-                cr, uid, res.values(), context=context):
+        for inv in self.env['account.invoice'].browse(res.values()):
 
             journal_id = inv.fiscal_category_id and \
             inv.fiscal_category_id.property_journal
@@ -93,7 +103,9 @@ class StockInvoiceOnShipping(models.TransientModel):
                     fiscal operation: %s !') % (inv.company_id.name,
                                                 inv.fiscal_category_id.name))
 
-            self.pool.get('account.invoice').write(
-                cr, uid, inv.id, {'journal_id': journal_id.id},
-                context=context)
+            # self.env['account.invoice'].write(
+            #     cr, uid, inv.id, {'journal_id': journal_id.id},
+            #     context=context)
+
+            inv.write({'journal_id': journal_id.id})
         return res
