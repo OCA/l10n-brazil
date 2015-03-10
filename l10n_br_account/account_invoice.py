@@ -19,11 +19,10 @@
 
 from lxml import etree
 
-from openerp import models, api
+from openerp import models, api, fields, _
 from openerp import netsvc
-from openerp.osv import orm, fields
-from openerp.addons import decimal_precision as dp
-from openerp.tools.translate import _
+from openerp.osv import orm
+import openerp.addons.decimal_precision as dp
 
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
 
@@ -59,50 +58,6 @@ class AccountInvoice(models.Model):
             res[invoice.id] = New_ids
         return res
 
-    _columns = {
-        'issuer': fields.selection(
-            [('0', u'Emissão própria'),
-            ('1', 'Terceiros')], 'Emitente', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'internal_number': fields.char(
-            'Invoice Number', size=32, readonly=True,
-            states={'draft': [('readonly', False)]},
-            help="""Unique number of the invoice, computed
-                automatically when the invoice is created."""),
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-        'vendor_serie': fields.char(
-            u'Série NF Entrada', size=12, readonly=True,
-            states={'draft': [('readonly', False)]},
-            help=u"Série do número da Nota Fiscal do Fornecedor"),
-        'move_line_receivable_id': fields.function(
-            _get_receivable_lines, method=True, type='many2many',
-            relation='account.move.line', string='Entry Lines'),
-        'document_serie_id': fields.many2one(
-            'l10n_br_account.document.serie', u'Série',
-            domain="[('fiscal_document_id', '=', fiscal_document_id),\
-            ('company_id','=',company_id)]", readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document', 'Documento', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'fiscal_document_electronic': fields.related(
-            'fiscal_document_id', 'electronic', type='boolean', readonly=True,
-            relation='l10n_br_account.fiscal.document', store=True,
-            string='Electronic'),
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position', readonly=True,
-            states={'draft': [('readonly', False)]},
-            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
-        'account_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos'),
-        'fiscal_comment': fields.text(u'Observação Fiscal'),
-    }
-
     def _default_fiscal_document(self, cr, uid, context):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         fiscal_document = self.pool.get('res.company').read(
@@ -122,12 +77,47 @@ class AccountInvoice(models.Model):
 
         return fiscal_document_serie
 
-    _defaults = {
-        'issuer': '0',
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-        'fiscal_document_id': _default_fiscal_document,
-        'document_serie_id': _default_fiscal_document_serie,
-    }
+    issuer = fields.Selection(
+        [('0', u'Emissão própria'),
+        ('1', 'Terceiros')], string='Emitente', readonly=True,
+        states={'draft': [('readonly', False)]}, default=0)
+    internal_number = fields.Char(
+        string='Invoice Number', size=32, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help="""Unique number of the invoice, computed
+            automatically when the invoice is created.""")
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, string='Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    vendor_serie = fields.Char(
+        string=u'Série NF Entrada', size=12, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u"Série do número da Nota Fiscal do Fornecedor")
+    move_line_receivable_id = fields.Many2many(
+        'account.move.line', compute=_get_receivable_lines,
+        method=True, string='Entry Lines')
+    document_serie_id = fields.Many2one(
+        'l10n_br_account.document.serie', string=u'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id),\
+        ('company_id','=',company_id)]", readonly=True,
+        states={'draft': [('readonly', False)]}, default=_default_fiscal_document_serie)
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_account.fiscal.document', string='Documento', readonly=True,
+        states={'draft': [('readonly', False)]}, default=_default_fiscal_document)
+    fiscal_document_electronic = fields.Boolean(
+        related='fiscal_document_id.electronic', type='boolean', readonly=True,
+        store=True, string='Electronic')
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', string='Categoria Fiscal',
+        readonly=True, states={'draft': [('readonly', False)]})
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position', string='Fiscal Position', readonly=True,
+        states={'draft': [('readonly', False)]},
+        domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    account_document_event_ids = fields.One2many(
+        'l10n_br_account.document_event', 'document_event_ids',
+        string=u'Eventos')
+    fiscal_comment = fields.Text(string=u'Observação Fiscal')
 
     def _check_invoice_number(self, cr, uid, ids, context=None):
         if context is None:
@@ -427,7 +417,7 @@ class AccountInvoice(models.Model):
         return result
 
 
-class AccountInvoiceLine(orm.Model):
+class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
@@ -458,17 +448,15 @@ class AccountInvoiceLine(orm.Model):
 
         return res
 
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Categoria'),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', u'Posição Fiscal',
-            domain="[('fiscal_category_id','=',fiscal_category_id)]"),
-        'price_total': fields.function(
-            _amount_line, method=True, string='Total', type="float",
-            digits_compute=dp.get_precision('Account'),
-            store=True, multi='all'),
-    }
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', string='Categoria')
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position', string=u'Posição Fiscal',
+        domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    price_total = fields.Float(
+        compute=_amount_line, method=True, string='Total',
+        digits_compute=dp.get_precision('Account'),
+        store=True, multi='all')
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
