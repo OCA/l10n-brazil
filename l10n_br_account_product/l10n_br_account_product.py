@@ -50,6 +50,12 @@ class L10nbrAccountCFOP(models.Model):
     internal_type = fields.Selection(
         [('view', u'Visualização'), ('normal', 'Normal')],
         'Tipo Interno', required=True, default='normal')
+    id_dest = fields.Selection(
+        [('1', u'Operação interna'),
+        ('2', u'Operação interestadual'),
+        ('3', u'Operação com exterior')],
+        u'Local de destino da operação',
+        help=u'Identificador de local de destino da operação.')
 
     _sql_constraints = [
         ('l10n_br_account_cfop_code_uniq', 'unique (code)',
@@ -239,12 +245,13 @@ class ImportDeclaration(models.Model):
         ondelete='cascade', select=True)
     name = fields.Char(u'Número da DI', size=10, required=True)
     date_registration = fields.Date(u'Data de Registro', required=True)
-    exporting_code = fields.Char(u'Código do Exportador', size=60)
+    exporting_code = fields.Char(
+        u'Código do Exportador', required=True, size=60)
     state_id = fields.Many2one(
         'res.country.state', u'Estado',
         domain="[('country_id.code', '=', 'BR')]")
-    location = fields.Char(u'Local', size=60)
-    date_release = fields.Date(u'Data de Liberação')
+    location = fields.Char(u'Local', required=True, size=60)
+    date_release = fields.Date(u'Data de Liberação', required=True)
     line_ids = fields.One2many(
         'l10n_br_account_product.import.declaration.line',
         'import_declaration_id', 'Linhas da DI')
@@ -256,7 +263,7 @@ class ImportDeclarationLine(models.Model):
     import_declaration_id = fields.Many2one(
         'l10n_br_account_product.import.declaration', u'DI',
         ondelete='cascade', select=True)
-    sequence = fields.Integer(u'Sequência')
+    sequence = fields.Integer(u'Sequência', default=1, required=True)
     name = fields.Char(u'Adição', size=3, required=True)
     manufacturer_code = fields.Char(
         u'Código do Fabricante', size=3, required=True)
