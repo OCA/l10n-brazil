@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -24,7 +24,7 @@ from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 
-from openerp.addons.l10n_br_account.account_invoice import (
+from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
     JOURNAL_TYPE)
 
@@ -32,7 +32,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
-from .sped.nfe.validator import txt
+from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
 class AccountInvoice(models.Model):
