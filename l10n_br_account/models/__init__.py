@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,31 +17,10 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import models, fields, api
-from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
-
-
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-    fiscal_category_default_ids = fields.One2many(
-        'l10n_br_account.product.category', 'product_tmpl_id',
-        u'Categoria de Operação Fiscal Padrões')
-    service_type_id = fields.Many2one(
-            'l10n_br_account.service.type', u'Tipo de Serviço')
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
-
-
-class L10n_brAccountProductFiscalCategory(models.Model):
-    _name = 'l10n_br_account.product.category'
-
-    fiscal_category_source_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria de Origem')
-    fiscal_category_destination_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria de Destino')
-    product_tmpl_id = fields.Many2one(
-        'product.template', 'Produto', ondelete='cascade')
-    to_state_id = fields.Many2one(
-        'res.country.state', 'Estado Destino')
+from . import l10n_br_account
+from . import account
+from . import account_invoice
+from . import product
+from . import res_company
+from . import res_partner
+from . import account_fiscal_position_rule
