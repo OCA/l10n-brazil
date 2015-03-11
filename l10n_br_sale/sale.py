@@ -135,7 +135,8 @@ class SaleOrder(models.Model):
         ctx = dict(self.env.context)
         kwargs['fiscal_category_id'] = ctx.get(
             'fiscal_category_id')
-        ctx.update({'use_domain': ('use_sale', '=', True)})
+        ctx.update({'use_domain': ('use_sale', '=', True), 'fiscal_category_id': ctx.get(
+            'fiscal_category_id')})
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
@@ -168,8 +169,8 @@ class SaleOrder(models.Model):
         return self.env['account.fiscal.position.rule'].apply_fiscal_mapping(
             result, **kwargs)
 
-    #TODO - migrate to new api
-    def _fiscal_comment(self, cr, uid, order, context=None):
+    @api.model
+    def _fiscal_comment(self, order):
         fp_comment = []
         fp_ids = []
 
@@ -183,8 +184,8 @@ class SaleOrder(models.Model):
 
         return fp_comment
 
-    #TODO - migrate to new api
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+    @api.model
+    def _prepare_invoice(self, order, lines):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom
            invoice generation (making sure to call super() to establish
@@ -195,34 +196,31 @@ class SaleOrder(models.Model):
                                   attached to the invoice
            :return: dict of value to create() the invoice
         """
-        result = super(SaleOrder, self)._prepare_invoice(
-            cr, uid, order, lines, context)
+        result = super(SaleOrder, self)._prepare_invoice(order, lines)
+        context = self.env.context
 
-        inv_lines = self.pool.get('account.invoice.line').read(
-            cr, uid, lines, ['fiscal_category_id', 'fiscal_position'])
+        inv_lines = self.env['account.invoice.line'].browse(lines)
 
         if (context.get('fiscal_type') == 'service' and
-            inv_lines and inv_lines[0]['fiscal_category_id']):
-                fiscal_category_id = inv_lines[0]['fiscal_category_id'][0]
-                result['fiscal_position'] = inv_lines[0]['fiscal_position'][0]
+            inv_lines and inv_lines[0].fiscal_category_id):
+                fiscal_category_id = inv_lines[0].fiscal_category_id.id
+                result['fiscal_position'] = inv_lines[0].fiscal_position.id
         else:
             fiscal_category_id = order.fiscal_category_id.id
 
         if fiscal_category_id:
-            journal = self.pool.get('l10n_br_account.fiscal.category').read(
-                cr, uid, fiscal_category_id,
-                ['property_journal'])['property_journal']
-            if journal:
-                result['journal_id'] = journal[0]
+            fiscal_category = self.env['l10n_br_account.fiscal.category'].browse(
+                fiscal_category_id)
+            if fiscal_category:
+                result['journal_id'] = fiscal_category[0].property_journal.id
 
-        result['partner_shipping_id'] = order.partner_shipping_id and \
-        order.partner_shipping_id.id or False
+        result['partner_shipping_id'] = order.partner_shipping_id.id
 
         comment = []
         if order.note and order.copy_note:
             comment.append(order.note)
 
-        fiscal_comment = self._fiscal_comment(cr, uid, order, context=context)
+        fiscal_comment = self._fiscal_comment(order)
         result['comment'] = " - ".join(comment)
         result['fiscal_comment'] = " - ".join(fiscal_comment)
         result['fiscal_category_id'] = fiscal_category_id
