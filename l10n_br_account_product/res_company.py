@@ -45,8 +45,8 @@ class ResCompany(models.Model):
         domain="[('company_id', '=', active_id),('active','=',True),"
         "('fiscal_type','=','product')]")
     nfe_version = fields.Selection(
-        [('110', '1.10'), ('200', '2.00')], 'Versão NFe', required=True,
-        default='200')
+        [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')], u'Versão NFe',
+        required=True, default='2.00')
     nfe_root_folder = fields.Char('Pasta Raiz', size=254)
     nfe_import_folder = fields.Char('Pasta de Importação', size=254)
     nfe_export_folder = fields.Char('Pasta de Exportação', size=254)
