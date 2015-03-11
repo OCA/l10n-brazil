@@ -72,6 +72,10 @@
 								</group>
 							</page>
 							<page string="Transporte">
+								<group name="shipping_info" string="Informações de Exportação">
+									<field name="shipping_state_id"/>
+									<field name="shipping_location"/>
+								</group>
 								<group name="delivery_info">
 									<field name="carrier_name"/>
 									<field name="vehicle_plate"/>
@@ -198,13 +202,16 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
+                                    <field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
+                                    <field name="nfe_version"/>
 								</group>
 								<group>
 									<field name="nfe_purpose" required="1"/>
 								</group>
+								<field name="account_document_event_ids"/>
 							</page>
 							<page string="CFOP">
 								<group string="CFOP">
