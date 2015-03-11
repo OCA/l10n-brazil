@@ -127,10 +127,9 @@ class PurchaseOrder(models.Model):
 
         return result
 
-    #TODO migrate to new API
-    def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
-        result = super(PurchaseOrder, self)._prepare_invoice(
-            cr, uid, order, line_ids, context)
+    @api.model
+    def _prepare_invoice(self, order, line_ids):
+        result = super(PurchaseOrder, self)._prepare_invoice(order, line_ids)
 
         company_id = order.company_id
         if not company_id.document_serie_product_ids:
@@ -148,15 +147,15 @@ class PurchaseOrder(models.Model):
                 order.fiscal_category_id.name,
                 order.company_id.name))
 
-        #FIXME Se vazio deve ficar em branco
-        comment = ''
+        comment = []
         if order.fiscal_position.inv_copy_note and order.fiscal_position.note:
-            comment = order.fiscal_position.note
+            comment.append(order.fiscal_position.note)
         if order.notes:
-            comment += ' - ' + order.notes
+            comment.append(order.notes)
 
         result['issuer'] = '1'
-        result['comment'] = comment,
+        # COPIAR OBS FISCAIS TBM???
+        result['comment'] = ' - '.join(comment)
         result['journal_id'] = journal_id
         result['fiscal_category_id'] = order.fiscal_category_id.id
         result['fiscal_position'] = order.fiscal_position.id
