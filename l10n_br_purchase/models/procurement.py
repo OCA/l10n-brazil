@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,14 +17,18 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import models, fields
+from openerp import models, api
 
 
-class ResCompany(models.Model):
-    _inherit = 'res.company'
+class ProcurementOrder(models.Model):
+    _inherit = "procurement.order"
 
-    purchase_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
-        u'Categoria Fiscal Padrão Compras',
-        domain="[('journal_type', '=', 'purchase')]")
-
+    @api.model
+    def _run_move_create(self, procurement):
+        result = super(ProcurementOrder, self)._run_move_create(procurement)
+        if procurement.purchase_line_id:
+            result.update({
+                'fiscal_category_id': procurement.purchase_line_id.fiscal_category_id.id,
+                'fiscal_position': procurement.purchase_line_id.fiscal_position.id,
+            })
+        return result
