@@ -109,7 +109,7 @@ class AccountInvoice(models.Model):
         u'Eventos')
     fiscal_comment = fields.Text(u'Observação Fiscal')
 
-    _order = 'internal_sequence desc'
+    _order = 'internal_number desc'
 
     @api.one
     @api.constrains('number')
