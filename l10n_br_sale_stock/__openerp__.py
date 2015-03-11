@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Raphaël Valyi - Akretion                                #
@@ -32,8 +32,8 @@
         'l10n_br_stock_account',
     ],
     'data': [
-        'l10n_br_sale_stock_data.xml',
-        'sale_stock_view.xml',
+        'data/l10n_br_sale_stock_data.xml',
+        'views/sale_stock_view.xml',
     ],
     'demo': [
         'l10n_br_sale_stock_demo.xml',
