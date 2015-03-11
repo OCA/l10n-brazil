@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -29,11 +29,11 @@
         'l10n_br_account_service',
     ],
     'data': [
-        'l10n_br_data_account_service_data.xml',
-        'account_fiscal_position_rule_data.xml',
+        'data/l10n_br_data_account_service_data.xml',
+        'data/account_fiscal_position_rule_data.xml',
     ],
     'demo': [
-        'l10n_br_data_account_service_demo.xml'
+        'demo/l10n_br_data_account_service_demo.xml'
     ],
     'test': [],
     'installable': True,
