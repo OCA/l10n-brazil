@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -30,16 +30,16 @@
         'account_fiscal_position_rule_purchase',
     ],
     'data': [
-        'l10n_br_purchase_data.xml',
-        'purchase_view.xml',
-        'res_company_view.xml',
+        'data/l10n_br_purchase_data.xml',
+        'views/purchase_view.xml',
+        'views/res_company_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_purchase_security.xml',
     ],
     'demo': [
         #FIXME
         #'test/purchase_order_demo.yml'
-            ],
+    ],
     'installable': True,
     'auto_install': False,
 }
