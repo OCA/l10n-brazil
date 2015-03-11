@@ -17,7 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 PRODUCT_FISCAL_TYPE = [
     ('service', u'Serviço'),
@@ -27,23 +27,17 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-class L10n_brAccountFiscalCategory(orm.Model):
+class L10n_brAccountFiscalCategory(models.Model):
     _inherit = 'l10n_br_account.fiscal.category'
-    _columns = {
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-    }
-    
-    
-class L10n_brAccountDocumentSerie(orm.Model):
+
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class L10n_brAccountDocumentSerie(models.Model):
     _inherit = 'l10n_br_account.document.serie'
-    _columns = {
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-    }
+
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
