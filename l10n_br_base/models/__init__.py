@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,17 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import models, fields
-
-
-class L10n_brBaseCity(models.Model):
-    """ Este objeto persite todos os municípios relacionado a um estado.
-    No Brasil é necesário em alguns documentos fiscais informar o código
-    do IBGE dos município envolvidos da transação.
-    """
-    _name = 'l10n_br_base.city'
-    _description = u'Municipio'
-
-    name = fields.Char('Nome', size=64, required=True)
-    state_id = fields.Many2one('res.country.state', 'Estado', required=True)
-    ibge_code = fields.Char('Codigo IBGE', size=7)
+from . import res_partner
+from . import res_country
+from . import res_company
+from . import l10n_br_base
