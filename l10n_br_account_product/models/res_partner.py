@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -18,8 +18,7 @@
 ###############################################################################
 
 from openerp import models, fields, api
-from openerp.addons.l10n_br_account_product.l10n_br_account_product import (
-    PRODUCT_FISCAL_TYPE)
+from .l10n_br_account_product import PRODUCT_FISCAL_TYPE
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -66,10 +65,6 @@ class AccountFiscalPosition(models.Model):
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
                     context=context)['product_tax_ids']
-            else:
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
-                    context=context)['service_tax_ids']
 
             company_taxes = self.pool.get('account.tax').browse(
                     cr, uid, company_tax_ids, context=context)
