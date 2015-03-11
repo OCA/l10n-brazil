@@ -98,6 +98,11 @@ class AccountInvoice(models.Model):
         return company.product_invoice_id
 
     @api.model
+    def _default_nfe_version(self):
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company.nfe_version
+
+    @api.model
     def _default_fiscal_document_serie(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         fiscal_document_series = [doc_serie for doc_serie in
@@ -117,6 +122,32 @@ class AccountInvoice(models.Model):
                 lines |= line.cfop_id
         self.cfop_ids = (lines).sorted()
 
+    nfe_version = fields.Selection(
+        [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')],
+        u'Versão NFe', readonly=True, default=_default_nfe_version,
+        states={'draft': [('readonly', False)]}, required=True)
+    date_hour_invoice = fields.datetime(
+        u'Data e hora de emissão', readonly=True,
+        states={'draft': [('readonly', False)]},
+        select=True, help="Deixe em branco para usar a data atual")
+    ind_final = fields.selection([
+        ('0', u'Não'),
+        ('1', u'Consumidor final')
+        ], u'Operação com Consumidor final', readonly=True,
+        states={'draft': [('readonly', False)]}, required=False,
+        help=u'Indica operação com Consumidor final.', default='0')
+    ind_pres = fields.selection([
+        ('0', u'Não se aplica'),
+        ('1', u'Operação presencial'),
+        ('2', u'Operação não presencial, pela Internet'),
+        ('3', u'Operação não presencial, Teleatendimento'),
+        ('4', u'NFC-e em operação com entrega em domicílio'),
+        ('9', u'Operação não presencial, outros'),
+        ], u'Tipo de operação', readonly=True,
+        states={'draft': [('readonly', False)]}, required=False,
+        help=u'Indicador de presença do comprador no \
+        \nestabelecimento comercial no momento \
+        \nda operação.', , default='0')
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', 'Documento', readonly=True,
         states={'draft': [('readonly', False)]},
@@ -350,9 +381,13 @@ class AccountInvoice(models.Model):
     def action_move_create(self):
         result = super(AccountInvoice, self).action_move_create()
         for invoice in self:
+            date_time_now = fields.datetime.now()
+
+            if not invoice.date_hour_invoice:
+                self.write(cr, uid, [invoice.id], {'date_hour_invoice': date_time_now})
+
             if not invoice.date_in_out:
-                date_in_out = invoice.date_invoice or time.strftime('%Y-%m-%d')
-                self.write({'date_in_out': date_in_out})
+                self.write({'date_in_out': date_time_now})
         return result
 
     @api.multi
@@ -374,6 +409,17 @@ class AccountInvoice(models.Model):
                 raise RedirectWarning(msg, action.id, _(u'Criar uma nova série'))
             result['value']['document_serie_id'] = series[0].id
         return result
+
+    @api.multi
+    def action_date_assign(self):
+        for inv in self:
+            if inv.date_hour_invoice:
+                aux = datetime.datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
+                inv.date_invoice = str(aux)
+            result = inv.onchange_payment_term_date_invoice(inv.payment_term.id, inv.date_invoice)
+            if res and result.get('value'):
+                inv.write(res['value'])
+        return True
 
 
 class AccountInvoiceLine(models.Model):
@@ -407,6 +453,9 @@ class AccountInvoiceLine(models.Model):
             self.discount_value = self.invoice_id.currency_id.round(
                 self.price_gross - taxes['total'])
 
+    date_invoice = fields.Date(
+        'Invoice Date', readonly=True, states={'draft':[('readonly',False)]},
+        select=True, help="Keep empty to use the current date")
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
     fiscal_position = fields.Many2one(
