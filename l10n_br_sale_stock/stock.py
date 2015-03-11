@@ -24,7 +24,7 @@ from openerp import models
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    # TODO migrate to new API
+    # TODO migrate to new API - Não existe mais este método 
     def _prepare_invoice(self, cr, uid, picking, partner,
                         inv_type, journal_id, context=None):
         result = super(StockPicking, self)._prepare_invoice(
@@ -62,4 +62,5 @@ class StockPicking(models.Model):
         picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position and \
         picking.fiscal_position.id
+        result['ind_final'] = picking.fiscal_position.ind_final
         return result
