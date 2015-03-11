@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Renato Lima - Akretion                                  #
@@ -17,6 +17,5 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import account_invoice
-import l10n_br_account_payment
-import wizard
+from . import models
+from . import wizard
