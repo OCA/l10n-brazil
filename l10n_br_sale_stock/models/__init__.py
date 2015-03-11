@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,29 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Sales and Warehouse',
-    'description': 'Brazilian Localization for sale_stock_module',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OdooBrasil',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0',
-    'depends': [
-        'sale_stock',
-        'l10n_br_sale_product',
-        'l10n_br_stock_account',
-    ],
-    'data': [
-        'data/l10n_br_sale_stock_data.xml',
-        'views/sale_stock_view.xml',
-    ],
-    'demo': [
-        'l10n_br_sale_stock_demo.xml',
-        #'test/sale_order_demo.yml'
-    ],
-    'test': [
-    ],
-    'installable': True,
-    'auto_install': True,
-}
+from . import procurement
+from . import sale
+from . import stock
