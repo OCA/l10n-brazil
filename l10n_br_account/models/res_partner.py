@@ -18,7 +18,9 @@
 ###############################################################################
 
 from openerp import models, fields, api
-from openerp.addons.l10n_br_account.l10n_br_account import TYPE
+
+from .l10n_br_account import TYPE
+
 
 class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
