@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,28 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Sale',
-    'description': 'Brazilian Localization for Sale',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0',
-    'depends': [
-        'l10n_br_account',
-        'account_fiscal_position_rule_sale',
-    ],
-    'data': [
-        'data/l10n_br_sale_data.xml',
-        'views/sale_view.xml',
-        'views/res_config_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_sale_security.xml',
-        'report/sale_report_view.xml',
-    ],
-    'test': [],
-    'demo': [],
-    'installable': True,
-    'auto_install': True,
-}
+from . import res_company
+from . import res_config
+from . import sale
