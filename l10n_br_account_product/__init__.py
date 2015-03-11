@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -17,13 +17,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import account
-import res_partner
-import res_company
-import account_product_fiscal_classification
-import l10n_br_account_product
-import l10n_br_account
-import product
-import account_invoice
-import sped
-import wizard
+from . import models
+from . import sped
+from . import wizard
