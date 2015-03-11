@@ -25,7 +25,7 @@
 								<group string="Configurações de Saida">
 									<field name="out_invoice_fiscal_category_id" />
 								</group>
-								<group string="Categoria Fiscal de Produto Padrão de Saída">
+								<group string="Categoria Fiscal de Produto Padrão">
 									<field name="out_refund_fiscal_category_id" />
 									<field name="in_refund_fiscal_category_id" />
 								</group>
