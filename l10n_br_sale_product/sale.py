@@ -83,7 +83,7 @@ class SaleOrder(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.default_ind_pres
 
-    default_ind_pres = fields.Selection([
+    ind_pres = fields.Selection([
         ('0', u'Não se aplica'),
         ('1', u'Operação presencial'),
         ('2', u'Operação não presencial, pela Internet'),
@@ -91,9 +91,7 @@ class SaleOrder(models.Model):
         ('4', u'NFC-e em operação com entrega em domicílio'),
         ('9', u'Operação não presencial, outros')], u'Tipo de operação',
         readonly=True, states={'draft': [('readonly', False)]},
-        required=False, help=u'Indicador de presença do comprador no \
-            \nestabelecimento comercial no momento \
-            \nda operação.', default=_default_ind_pres)
+        required=False, help=u'Indicador de presença do comprador no estabelecimento comercial no momento da operação.', default=_default_ind_pres)
     amount_untaxed = fields.Float(
         compute='_amount_all_wrapper', string='Untaxed Amount',
         digits=dp.get_precision('Account'), store=True,
@@ -273,4 +271,5 @@ class SaleOrderLine(models.Model):
                     context=context)
                 if cfop[0]['cfop_id']:
                     result['cfop_id'] = cfop[0]['cfop_id'][0]
+                result['ind_final'] = line.fiscal_position.ind_final
         return result
