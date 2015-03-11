@@ -7,14 +7,15 @@
 			<field name="model">l10n_br_account_product.cfop</field>
 			<field name="arch" type="xml">
 				<form string="CFOP">
-                    <sheet>
-                        <group>
+					<sheet>
+						<group>
 							<field name="code" select="1" />
 							<field name="name" select="1" />
 							<field name="small_name" select="2" />
 							<field name="type" select="2" />
 							<field name="internal_type" select="2"/>
-                            <field name="parent_id" select="2"/>
+							<field name="parent_id"/>
+							<field name="id_dest"/>
 						</group>
 						<group string="Descrição do CFOP" colspan="4">
 							<field name="description" nolabel="1" colspan="4" select="2"/>
