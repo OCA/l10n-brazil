@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -29,8 +29,8 @@
         'stock',
     ],
     'data': [
-        'l10n_br_stock_data.xml',
-        'stock_view.xml',
+        'data/l10n_br_stock_data.xml',
+        'views/stock_view.xml',
     ],
     'demo': [],
     'installable': True,
