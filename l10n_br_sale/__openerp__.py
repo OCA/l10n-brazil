@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -30,11 +30,11 @@
         'account_fiscal_position_rule_sale',
     ],
     'data': [
-        'sale_view.xml',
-        'res_config_view.xml',
+        'data/l10n_br_sale_data.xml',
+        'views/sale_view.xml',
+        'views/res_config_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_sale_security.xml',
-        'l10n_br_sale_data.xml',
         'report/sale_report_view.xml',
     ],
     'test': [],
