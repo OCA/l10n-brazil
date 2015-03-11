@@ -25,31 +25,6 @@ from openerp import models, api
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
-    # TODO create v8 method
-    @api.v7
-    def map_tax_code(self, cr, uid, product_id, fiscal_position,
-                     company_id=False, tax_ids=False, context=None):
-        if not context:
-            context = {}
-
-        result = {}
-        if tax_ids:
-
-            if context.get('type_tax_use') == 'sale':
-
-                if company_id:
-                    company = self.pool.get('res.company').browse(
-                        cr, uid, company_id, context=context)
-
-                    company_tax_def = company.service_tax_definition_line
-
-                    for tax_def in company_tax_def:
-                        if tax_def.tax_id.id in tax_ids and tax_def.tax_code_id:
-                                result.update({tax_def.tax_id.domain:
-                                               tax_def.tax_code_id.id})
-        return result
-
-    # TODO create v8 method
     @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
@@ -57,9 +32,10 @@ class AccountFiscalPosition(models.Model):
             context = {}
         if fposition_id and fposition_id.company_id and \
         context.get('type_tax_use') in ('sale', 'all'):
-            company_tax_ids = self.pool.get('res.company').read(
-                cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
-                context=context)['service_tax_ids']
+            if context.get('fiscal_type', 'product') == 'product':
+                company_tax_ids = self.pool.get('res.company').read(
+                    cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
+                    context=context)['service_tax_ids']
 
             company_taxes = self.pool.get('account.tax').browse(
                     cr, uid, company_tax_ids, context=context)
@@ -89,3 +65,58 @@ class AccountFiscalPosition(models.Model):
                 result.append(t.id)
 
         return list(set(result))
+
+    @api.multi
+    def _map_tax(self, product_id, taxes):
+        result = {}
+        product = self.env['product.product'].browse(product_id)
+        if self.company_id and self.env.context.get('type_tax_use') in ('sale', 'all'):
+            if self.env.context.get('fiscal_type', 'product') == 'product':
+                company_taxes = self.company_id.service_tax_definition_line
+                for tax_def in company_taxes:
+                    if tax_def.tax_id:
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                        }
+            product_ncm_tax_def = product.ncm_id.sale_tax_definition_line
+
+        else:
+            product_ncm_tax_def = product.ncm_id.purchase_tax_definition_line
+
+        for ncm_tax_def in product_ncm_tax_def:
+            if ncm_tax_def.tax_id:
+                result[ncm_tax_def.tax_id.domain] = {
+                    'tax': ncm_tax_def.tax_id,
+                    'tax_code': ncm_tax_def.tax_code_id,
+                }
+
+        map_taxes = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        for tax in taxes:
+            for map in self.tax_ids:
+                if map.tax_src_id == tax or map.tax_code_src_id == tax.tax_code_id:
+                    if map.tax_dest_id or tax.tax_code_id:
+                        if map.ncm_id == product.ncm_id:
+                            map_taxes_ncm |= map
+                        else:
+                            map_taxes |= map
+            else:
+                if result.get(tax.domain):
+                    result[tax.domain].update({'tax': tax})
+                else:
+                    result[tax.domain] = {'tax': tax}
+
+        result.update(self._map_tax_code(map_taxes))
+        result.update(self._map_tax_code(map_taxes_ncm))
+        return result
+
+    @api.v8
+    def map_tax(self, taxes):
+        result = self.env['account.tax'].browse()
+        taxes_codes = self._map_tax(self.env.context.get('product_id'), taxes)
+        for tax in taxes_codes:
+            if taxes_codes[tax].get('tax'):
+                result |= taxes_codes[tax].get('tax')
+        return result

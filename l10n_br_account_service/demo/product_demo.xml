@@ -8,16 +8,6 @@
 			<field name="fiscal_type">service</field>
 		</record>
 
-		<!-- On Site Monitoring -->
-		<record id="prouduct.product_product_1" model="product.product">
-			<field name="fiscal_type">service</field>
-		</record>
-
-		<!-- On Site Assistance -->
-		<record id="product.product_product_2" model="product.product">
-			<field name="fiscal_type">service</field>
-		</record>
-
 	</data>
 
 </openerp>
