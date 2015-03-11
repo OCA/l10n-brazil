@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -30,20 +30,20 @@
         'account_product_fiscal_classification',
     ],
     'data': [
-        'l10n_br_account_product_view.xml',
         'l10n_br_account_product_sequence.xml',
+        'account_invoice_workflow.xml',
         'data/l10n_br_account_product.cfop.csv',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_product_data.xml',
-        'l10n_br_account_view.xml',
-        'l10n_br_account_product_view.xml',
-        'account_view.xml',
-        'account_invoice_view.xml',
-        'account_invoice_workflow.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
-        'account_product_fiscal_classification_view.xml',
-        'product_view.xml',
+        'views/l10n_br_account_product_view.xml',
+        'views/l10n_br_account_view.xml',
+        'views/l10n_br_account_product_view.xml',
+        'views/account_view.xml',
+        'views/account_invoice_view.xml',
+        'views/res_partner_view.xml',
+        'views/res_company_view.xml',
+        'views/account_product_fiscal_classification_view.xml',
+        'views/product_view.xml',
         'wizard/l10n_br_account_nfe_export_invoice_view.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
         'wizard/l10n_br_account_document_status_sefaz_view.xml',
