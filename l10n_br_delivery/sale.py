@@ -23,7 +23,8 @@ from openerp import models, api
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+    @api.model
+    def _prepare_invoice(self, order, lines):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom
            invoice generation (making sure to call super() to establish
@@ -34,8 +35,7 @@ class SaleOrder(models.Model):
                                   attached to the invoice
            :return: dict of value to create() the invoice
         """
-        result = super(SaleOrder, self)._prepare_invoice(
-            cr, uid, order, lines, context)
+        result = super(SaleOrder, self)._prepare_invoice(order, lines)
 
         if order.carrier_id:
             result['carrier_id'] = order.carrier_id.id
