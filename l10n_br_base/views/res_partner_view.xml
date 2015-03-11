@@ -32,7 +32,7 @@
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<field name="is_company" position="replace">
-					<field name="is_company" class="oe_inline" />
+					<field name="is_company" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" class="oe_inline" />
 				</field>
 				<field name="parent_id" position="before">
 					<group colspan="4">
@@ -40,34 +40,35 @@
 							<label for="legal_name" string="Nome e Sobrenome" attrs="{'invisible': [('is_company','=', True)]}"/>
 							<label for="legal_name" string="Razão Social" attrs="{'invisible': [('is_company','!=', True)]}"/>
 						</div>
-						<field colspan="4" name="legal_name" nolabel="1"/>
+							<field colspan="4" name="legal_name" nolabel="1"/>
 						<div class="oe_edit_only">
 							<label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
-							<label for="cnpj_cpf" string="CNPJ/Id Estrangeiro" attrs="{'invisible': [('is_company','!=', True)]}"/>
+							<label for="cnpj_cpf" string="CNPJ" attrs="{'invisible': [('is_company','!=', True)]}"/>
 						</div>
-						<field colspan="4" name="cnpj_cpf" nolabel="1" />
+						<field colspan="4" name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(is_company, cnpj_cpf)" nolabel="1" />
 					</group>
 				</field>
 				<field name="street" position="replace">
-					<field name="street" placeholder="Endereço"/>
+					<field name="street" />
 					<field name="number" placeholder="Número" />
 					<field name="district" placeholder="Bairro" />
 				</field>
 				<field name="street2" position="replace">
-					<field name="street2" placeholder="Complemento"/>
+					<field name="street2" placeholder="Complemento" />
 				</field>
 				<field name="state_id" position="attributes">
 					<attribute name="domain">[('country_id','=',country_id)]</attribute>
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="cidade"/>
+					<field name="l10n_br_city_id" placeholder="cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" />
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1" />
 				</field>
 				<field name="zip" position="attributes">
-                		    <attribute name="style">width: 50%</attribute>
-		        </field>
+					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
+					<attribute name="style">width: 50%%</attribute>
+				</field>
 				<notebook>
 					<page position="inside" string="Outros Dados">
 						<group string="Dados Fiscais">
@@ -95,7 +96,7 @@
 					<field name="district" placeholder="Bairro"/>
 				</xpath>
 				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='state_id']" position="after">
-					<field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
+					<field name="l10n_br_city_id" placeholder="Cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" style="width: 40%%"/>
 				</xpath>
 				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='city']" position="attributes">
 					<attribute name="invisible">1</attribute>
@@ -123,7 +124,7 @@
 					<field name="district" placeholder="Bairro..."/>
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="Cidade"/>
+					<field name="l10n_br_city_id" placeholder="Cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)"/>
 				</field>
 				<field name="city" position="attributes">
 					<attribute name="invisible">1</attribute>
