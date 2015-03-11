@@ -20,7 +20,7 @@
 from lxml import etree
 
 from openerp import models
-from openerp.addons.l10n_br_account.account_invoice import OPERATION_TYPE
+from openerp.addons.l10n_br_account.models.account_invoice import OPERATION_TYPE
 
 
 class AccountInvoiceLine(models.Model):

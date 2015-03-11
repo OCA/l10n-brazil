@@ -18,7 +18,7 @@
 ###############################################################################
 
 from openerp import models, fields
-from openerp.addons.l10n_br_account_service.l10n_br_account_service import (
+from openerp.addons.l10n_br_account_service.models.l10n_br_account_service import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
