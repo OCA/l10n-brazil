@@ -26,6 +26,13 @@ class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
 
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
+    ind_final = fields.Selection([
+        ('0', u'Não'),
+        ('1', u'Consumidor final')
+        ], u'Operação com Consumidor final', readonly=True,
+        states={'draft': [('readonly', False)]}, required=False,
+        help=u'Indica operação com Consumidor final.', default='0')
+
 
 class AccountFiscalPositionTaxTemplate(models.Model):
     _inherit = 'account.fiscal.position.tax.template'
@@ -41,6 +48,12 @@ class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
+    ind_final = fields.Selection([
+        ('0', u'Não'),
+        ('1', u'Consumidor final')
+        ], u'Operação com Consumidor final', readonly=True,
+        states={'draft': [('readonly', False)]}, required=False,
+        help=u'Indica operação com Consumidor final.', default='0')
 
     @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
