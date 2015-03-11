@@ -9,6 +9,7 @@
 			<field name="arch" type="xml">
 				<field name="fiscal_category_fiscal_type" position="after">
 					<field name="cfop_id" colspan="4" domain="[('type', '=', type)]"/>
+					<field name="ind_final"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="ncm_id" />
@@ -23,7 +24,7 @@
 			<field name="arch" type="xml">
 				<field name="fiscal_category_fiscal_type" position="after">
 					<field name="cfop_id" colspan="4" domain="[('type', '=', type), ('internal_type', '=', 'normal')]"/>
-                    <field name="id_dest" colspan="4"/>
+					<field name="ind_final"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="ncm_id" />
