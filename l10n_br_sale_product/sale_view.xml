@@ -13,8 +13,8 @@
 					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_insurance(amount_insurance)"/>
 					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_costs(amount_costs)"/>
 				</field>
-                		<field name="fiscal_position" position="after">
-					<field name="ind_pres" string="Tipo de operação"/>
+                		<field name="invoiced" position="before">
+					<field name="ind_pres"/>
 				</field>
 			</field>
 		</record>
