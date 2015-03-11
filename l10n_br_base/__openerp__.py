@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -29,19 +29,19 @@
         'base',
     ],
     'data': [
-        'res.country.state.csv',
-        'l10n_br_base.city.csv',
-        'l10n_br_base_data.xml',
-        'l10n_br_base_view.xml',
-        'res_country_view.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
+        'data/res.country.state.csv',
+        'data/l10n_br_base.city.csv',
+        'data/l10n_br_base_data.xml',
+        'views/l10n_br_base_view.xml',
+        'views/res_country_view.xml',
+        'views/res_partner_view.xml',
+        'views/res_company_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_base_security.xml',
     ],
     'demo': [
-        'base_demo.xml',
-        'l10n_br_base_demo.xml',
+        'demo/base_demo.xml',
+        'demo/l10n_br_base_demo.xml',
     ],
     'test': [
         'test/base_inscr_est_valid.yml',
