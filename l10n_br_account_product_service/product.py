@@ -19,7 +19,7 @@
 
 from openerp import models, fields
 
-from openerp.addons.l10n_br_account_product_service import (
+from .l10n_br_account_product_service import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
