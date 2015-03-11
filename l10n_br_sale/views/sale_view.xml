@@ -1,138 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
+	<data>
 
-    <!--Search by cnpj / cpf in the SOs -->
-    <record id="view_l10n_br_sale_partner_filter" model="ir.ui.view">
-        <field name="name">l10n_br_sale.partner.filter</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
-        <field name="arch" type="xml">
-            <field name="name" position="after">
-                <field name="legal_name" string="Razão Social"/>
-                <field name="cnpj_cpf" string="CNPJ/CPF"/>
-                <field name="ie" string="Inscr. Estadual"/>
-            </field>
-        </field>
-    </record>
+		<record id="l10n_br_sale_order_form" model="ir.ui.view">
+			<field name="name">l10n_br_sale.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="priority">36</field>
+			<field name="arch" type="xml">
+				<field name="note" position="before">
+					<group>
+						<label for="copy_note"/>
+						<div>
+							<field name="copy_note"/>
+						</div>
+					</group>
+				</field>
+				<field name="fiscal_position" position="replace">
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_invoice_id, company_id, fiscal_category_id, context)" required="1" />
+					<field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
+				</field>
+				<xpath expr="//field[@name='product_id']" position="attributes">
+					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'company_id': parent.company_id, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='product_uom_qty']" position="attributes">
+					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'company_id': parent.company_id, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id, parent.company_id, product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
+					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, parent.company_id, product_id, fiscal_category_id, context)" required="1" />
+				</xpath>
+				<xpath expr="//group[@name='sale_total']" position="after">
+					<group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+						<label for="discount_rate" />
+						<div>
+							<field name="discount_rate" on_change="onchange_discount_rate(discount_rate)" class="oe_inline"  /> %%
+						</div>
+					</group>
+				</xpath>
+				<xpath expr="//tree[@string='Sales Order Lines']/field[@name='price_unit']" position="after">
+					<field name="price_gross" />
+					<field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+				</xpath>
+				<field name="amount_untaxed" position="before">
+					<field name="amount_gross"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+					<field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+				</field>
+                <field name="company_id" position="attributes">
+					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+				</field>
+				<field name="partner_invoice_id" position="attributes">
+					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+				</field>
+				<field name="partner_shipping_id" position="attributes">
+					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+				</field>
+				<field name="partner_id" position="attributes">
+					<attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+				</field>
+			</field>
+		</record>
 
-    <record id="l10n_br_sale_order_form" model="ir.ui.view">
-        <field name="name">l10n_br_sale.order.form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="priority">99</field>
-        <field name="arch" type="xml">
-            <button name="action_view_invoice" position="after">
-                <button name="action_view_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}">
-                    <field name="fiscal_document_count" widget="statinfo" string="Fiscal Documents" modifiers="{'readonly':true}"/>
-                </button>
-            </button>
-            <field name="amount_untaxed" position="before">
-                <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-            </field>
-            <field name="amount_untaxed" position="after">
-                <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
-            </field>
-            <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True"/>
-                <field name="ind_pres" required="True"/>
-            </field>
-            <field name="note" position="before">
-                <group>
-                    <label for="copy_note"/>
-                    <div>
-                        <field name="copy_note"/>
-                    </div>
-                </group>
-            </field>
-            <xpath expr="//field[@name='order_line']" position="attributes">
-                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree" position="attributes">
-                <attribute name="editable"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-                <field name="discount" groups="!l10n_br_sale.group_discount_per_value"/>
-                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
-                <field name="fiscal_tax_ids" widget="many2many_tags"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
-                <field name="price_total" invisible="1"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='sequence']" position="after">
-                <group name="fiscal_fields" invisible="1">
-                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                    <field name="fiscal_genre_code" invisible="1"/>
-                    <field name="tax_framework" invisible="1"/>
-                </group>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
-                <field name="fiscal_type" force_save="1" invisible="1" readonly="1"/>
-                <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
-                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
-                <field name="cfop_destination" invisible="1"/>
-                <field name="price_total" invisible="1"/>
-                <field name="price_subtotal" invisible="1"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
-                <label for="fiscal_quantity" string="Fiscal Quantity"/>
-                <div>
-                    <field context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}" name="fiscal_quantity" class="oe_inline"/>
-                    <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)],}"/>
-                </div>
-                <field name="fiscal_price"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
-                <notebook>
-                  <page name="fiscal_taxes" string="Taxes"/>
-                  <page string="Invoice Lines" groups="base.group_no_one">
-                      <div attrs="{'invisible': [('display_type', '!=', False)]}">
-                          <label for="invoice_lines"/>
-                          <field name="invoice_lines"/>
-                      </div>
-                  </page>
-                  <page name="outros" string="Outros Custos">
-                      <group>
-                        <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
-                          <field name="freight_value"/>
-                          <field name="insurance_value"/>
-                          <field name="other_costs_value"/>
-                      </group>
-                  </page>
-                </notebook>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="attributes">
-                <attribute name="groups">!l10n_br_sale.group_discount_per_value</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//label[@for='discount']" position="attributes">
-                <attribute name="groups">!l10n_br_sale.group_discount_per_value</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="after">
-              <label for="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
-              <div name="discount_value" groups="l10n_br_sale.group_discount_per_value">
-                  <field name="discount_value" class="oe_inline"/>
-              </div>
-            </xpath>
-            <xpath expr="//group[@name='sale_total']" position="after">
-                <group style="width: 65%%"
-                       groups="l10n_br_sale.group_total_discount">
-                    <label for="discount_rate"/>
-                    <div>
-                        <field name="discount_rate" class="oe_inline"/>
-                        %%
-                    </div>
-                </group>
-            </xpath>
-        </field>
-    </record>
-
-</odoo>
+	</data>
+</openerp>
