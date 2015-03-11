@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -28,8 +28,8 @@
         'l10n_br_account',
     ],
     'data': [
-        'l10n_br_account.cnae.csv',
-        'l10n_br_account.service.type.csv',
+        'data/l10n_br_account.cnae.csv',
+        'data/l10n_br_account.service.type.csv',
     ],
     'demo': [],
     'category': 'Localisation',
