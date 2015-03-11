@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -31,10 +31,10 @@
         'product',
     ],
     'data': [
-        'l10n_br_product_data.xml',
+        'data/l10n_br_product_data.xml',
     ],
     'demo': [
-        'l10n_br_product_demo.xml',
+        'demo/l10n_br_product_demo.xml',
     ],
     'test': [],
     'installable': True,

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2010                                                          #
+# @author Raphaël Valyi - Akretion , Renato Lima - Akretion                   #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -16,5 +17,3 @@
 #You should have received a copy of the GNU Affero General Public License     #
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
-
-from . import models
