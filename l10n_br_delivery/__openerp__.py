@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2010  Renato Lima - Akretion                                  #
@@ -29,10 +29,10 @@
         'delivery',
     ],
     'data': [
-        'account_invoice_view.xml',
-        'delivery_view.xml',
-        'stock_view.xml',
-        'l10n_br_delivery_view.xml',
+        'views/account_invoice_view.xml',
+        'views/delivery_view.xml',
+        'views/stock_view.xml',
+        'views/l10n_br_delivery_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
