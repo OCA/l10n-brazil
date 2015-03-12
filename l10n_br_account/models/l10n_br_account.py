@@ -123,6 +123,7 @@ class L10n_brDocumentEvent(models.Model):
 
 
 class L10n_brAccountFiscalCategory(models.Model):
+    """Fiscal Category to apply fiscal and account parameters in documents."""
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscal'
 
@@ -135,9 +136,9 @@ class L10n_brAccountFiscalCategory(models.Model):
         string=u"Diário Contábil", company_dependent=True,
         help=u"Diário utilizado para esta categoria de operação fiscal")
     journal_type = fields.Selection(
-        [('sale', 'Venda'), ('sale_refund', u'Devolução de Venda'),
-        ('purchase', 'Compras'),
-        ('purchase_refund', u'Devolução de Compras')], u'Tipo do Diário',
+        [('sale', 'Saída'), ('sale_refund', u'Devolução de Saída'),
+        ('purchase', 'Entrada'),
+        ('purchase_refund', u'Devolução de Entrada')], u'Tipo do Diário',
         size=32, required=True, default='sale')
     refund_fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', u'Categoria Fiscal de Devolução',
@@ -163,11 +164,16 @@ class L10n_brAccountFiscalCategory(models.Model):
 
     @api.multi
     def action_unapproved_draft(self):
+        """Set state to draft and create a new workflow instance"""
         self.write({'state': 'draft'})
         self.delete_workflow()
         self.create_workflow()
         return True
 
+    @api.multi
+    def onchange_journal_type(self, journal_type):
+        """Clear property_journal"""
+        return {'value': {'property_journal': None}}
 
 class L10n_brAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
