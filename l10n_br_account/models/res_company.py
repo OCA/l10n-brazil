@@ -32,13 +32,6 @@ COMPANY_FISCAL_TYPE_DEFAULT = '3'
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    service_invoice_id = fields.Many2one(
-        'l10n_br_account.fiscal.document',
-        'Documento Fiscal')
-    document_serie_service_id = fields.Many2one(
-        'l10n_br_account.document.serie', u'Série Fiscais para Serviço',
-        domain="[('company_id', '=', active_id),('active','=',True),"
-        "('fiscal_type','=','service')]")
     annual_revenue = fields.Float(
         'Faturamento Anual', required=True,
         digits_compute=dp.get_precision('Account'), default=0.00,
