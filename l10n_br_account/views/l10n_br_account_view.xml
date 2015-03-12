@@ -120,7 +120,7 @@
 							</group>
 							<newline/>
 							<group colspan="4" string="Diário Contábil">
-								<field name="journal_type" select="1"/>
+								<field name="journal_type" select="1" on_change="onchange_journal_type(journal_type)"/>
 								<field required="1" name="property_journal" domain="[('type', '=', journal_type)]"/>
 							</group>
 							<group colspan="4" string="Posições Fiscais">
