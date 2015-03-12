@@ -85,18 +85,6 @@ class AccountInvoice(models.Model):
     move_line_receivable_id = fields.Many2many(
         'account.move.line', string='Receivables',
         compute='_compute_receivables')
-    fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', 'Documento', readonly=True,
-        states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document)
-    fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic')
-    document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', u'Série',
-        domain="[('fiscal_document_id', '=', fiscal_document_id),\
-        ('company_id','=',company_id)]", readonly=True,
-        states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document_serie)
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, states={'draft': [('readonly', False)]})
