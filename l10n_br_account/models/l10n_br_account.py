@@ -136,8 +136,8 @@ class L10n_brAccountFiscalCategory(models.Model):
         string=u"Diário Contábil", company_dependent=True,
         help=u"Diário utilizado para esta categoria de operação fiscal")
     journal_type = fields.Selection(
-        [('sale', 'Saída'), ('sale_refund', u'Devolução de Saída'),
-        ('purchase', 'Entrada'),
+        [('sale', u'Saída'), ('sale_refund', u'Devolução de Saída'),
+        ('purchase', u'Entrada'),
         ('purchase_refund', u'Devolução de Entrada')], u'Tipo do Diário',
         size=32, required=True, default='sale')
     refund_fiscal_category_id = fields.Many2one(
