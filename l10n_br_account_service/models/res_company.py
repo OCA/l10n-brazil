@@ -31,6 +31,13 @@ class ResCompany(models.Model):
             service_taxes += tax.tax_id
         self.product_tax_ids = service_taxes
 
+    service_invoice_id = fields.Many2one(
+        'l10n_br_account.fiscal.document',
+        'Documento Fiscal')
+    document_serie_service_id = fields.Many2one(
+        'l10n_br_account.document.serie', u'Série Fiscais para Serviço',
+        domain="[('company_id', '=', active_id),('active','=',True),"
+        "('fiscal_type','=','service')]")
     nfse_version = fields.Selection(
         [('100', '1.00')], 'Versão NFse', required=True, default="100")
     nfse_import_folder = fields.Char('Pasta de Origem', size=254)
