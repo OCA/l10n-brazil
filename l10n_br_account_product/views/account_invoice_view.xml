@@ -11,11 +11,14 @@
 				</label>
 				<field name="comment" position="replace">
 				</field>
-                <field name="date_invoice" position="after">
+        		<field name="date_invoice" position="after">
+					<field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+					<field name="fiscal_document_id" required="1" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)"/>
 					<field name="date_hour_invoice" string="Data Emissão"/>
-                    <field name="date_in_out" string="Data de Entrada/Saida"/>
+        			<field name="date_in_out" string="Data de Entrada/Saida"/>
+					<field name="fiscal_document_electronic" invisible="1"/>
 				</field>
-                <field name="date_invoice" position="replace">
+        		<field name="date_invoice" position="replace">
 					<field name="date_invoice" invisible="1"/>
 				</field>
 				<notebook position="inside">
