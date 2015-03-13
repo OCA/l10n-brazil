@@ -314,7 +314,7 @@ class AccountFiscalPosition(models.Model):
 
         return list(set(result))
 
-    @api.v8 
+    @api.v8
     def map_tax(self, taxes):
         result = self._model.map_tax(self._cr, self._uid, self, taxes, self._context)
         result = self.env['account.tax'].browse(result)
@@ -362,21 +362,14 @@ class AccountFiscalPositionTax(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    def _default_partner_fiscal_type_id(self, cr, uid, is_company=False,
-                                        context=None):
+    def _default_partner_fiscal_type_id(self):
         """Define o valor padão para o campo tipo fiscal, por padrão pega
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
-        result = False
-        ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
-            cr, uid, [('default', '=', 'True'),
-                ('is_company', '=', is_company)], context=context)
 
-        parnter_fiscal_type = self.pool.get('res.company').read(
-            cr, uid, ft_ids, ['id'], context=context)
-        if parnter_fiscal_type:
-            result = parnter_fiscal_type[0]['id']
-        return result
+        ft_ids = self.env['l10n_br_account.partner.fiscal.type'].search(
+            [('default', '=', 'True')])[0].id
+        return ft_ids
 
     partner_fiscal_type_id = fields.Many2one(
         'l10n_br_account.partner.fiscal.type', string='Tipo Fiscal do Parceiro',

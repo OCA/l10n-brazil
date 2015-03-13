@@ -18,7 +18,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 from openerp import netsvc
 import datetime
 
@@ -382,11 +382,19 @@ class L10n_brAccountPartnerFiscalType(models.Model):
 
     code = fields.Char(u'Código', size=16, required=True)
     name = fields.Char(u'Descrição', size=64)
-    is_company = fields.Boolean('Pessoa Juridica?')
-    default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
+    is_company = fields.Boolean(string='Pessoa Juridica?')
+    default = fields.Boolean(u'Tipo Fiscal Padrão',
+                             help="Tipo padrão utilizado ao se registrar um novo parceiro!")
     icms = fields.Boolean('Recupera ICMS')
     ipi = fields.Boolean('Recupera IPI')
 
+    @api.one
+    @api.constrains('default')
+    def _check_default(self):
+        if self.default:
+            if len(self.search([('default', '=', 'True')])) > 1:
+                raise Warning(_(u'Mantenha apenas um tipo fiscal padrão!'))
+        return True
 
 class L10n_brAccountCNAE(models.Model):
     _name = 'l10n_br_account.cnae'

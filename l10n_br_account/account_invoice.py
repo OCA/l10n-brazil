@@ -44,37 +44,29 @@ JOURNAL_TYPE = {
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def _get_receivable_lines(self, cr, uid, ids, name, arg, context=None):
-        res = {}
-        for invoice in self.browse(cr, uid, ids, context=context):
-            res[invoice.id] = []
-            if not invoice.move_id:
-                continue
-            data_lines = [x for x in invoice.move_id.line_id if x.account_id.id == invoice.account_id.id and x.account_id.type in ('receivable', 'payable') and invoice.journal_id.revenue_expense]
+
+    @api.one
+    @api.depends(
+        'move_id.line_id'
+    )
+    def _get_receivable_lines(self):
+        if self.move_id:
+            data_lines = [x for x in self.move_id.line_id if (
+                x.account_id.id == self.account_id.id
+                and x.account_id.type in ('receivable', 'payable')
+                and self.journal_id.revenue_expense)]
             New_ids = []
             for line in data_lines:
                 New_ids.append(line.id)
                 New_ids.sort()
-            res[invoice.id] = New_ids
-        return res
+            self.move_line_receivable_id = New_ids
 
-    def _default_fiscal_document(self, cr, uid, context):
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        fiscal_document = self.pool.get('res.company').read(
-            cr, uid, user.company_id.id, ['service_invoice_id'],
-            context=context)['service_invoice_id']
-
+    def _default_fiscal_document(self):
+        fiscal_document = self.env.user.company_id.service_invoice_id
         return fiscal_document and fiscal_document[0] or False
 
-    def _default_fiscal_document_serie(self, cr, uid, context):
-        fiscal_document_serie = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-
-        fiscal_document_serie = company.document_serie_service_id and \
-            company.document_serie_service_id.id or False
-
+    def _default_fiscal_document_serie(self):
+        fiscal_document_serie = self.env.user.company_id.document_serie_service_id
         return fiscal_document_serie
 
     issuer = fields.Selection(
@@ -94,7 +86,7 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         help=u"Série do número da Nota Fiscal do Fornecedor")
     move_line_receivable_id = fields.Many2many(
-        'account.move.line', compute=_get_receivable_lines,
+        'account.move.line', compute='_get_receivable_lines',
         method=True, string='Entry Lines')
     document_serie_id = fields.Many2one(
         'l10n_br_account.document.serie', string=u'Série',
@@ -284,37 +276,34 @@ class AccountInvoice(models.Model):
                 self.write(cr, uid, inv.id, {'ref': seq_no, 'internal_number': seq_no})
         return True
 
-    def action_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        #TODO: not correct fix but required a frech values before reading it.
-        self.write(cr, uid, ids, {})
+    @api.one
+    def action_number(self):
+        # #TODO: not correct fix but required a frech values before reading it.
+        # self.write(cr, uid, ids, {}) #removed: luisfelipemileo
 
-        for obj_inv in self.browse(cr, uid, ids, context=context):
-            inv_id = obj_inv.id
-            move_id = obj_inv.move_id and obj_inv.move_id.id or False
-            ref = obj_inv.internal_number or obj_inv.reference or ''
+        inv_id = self.id
+        move_id = self.move_id and self.move_id.id or False
+        ref = self.internal_number or self.reference or ''
 
-            cr.execute('UPDATE account_move SET ref=%s '
-                'WHERE id=%s AND (ref is null OR ref = \'\')',
-                    (ref, move_id))
-            cr.execute('UPDATE account_move_line SET ref=%s '
-                'WHERE move_id=%s AND (ref is null OR ref = \'\')',
+        self._cr.execute('UPDATE account_move SET ref=%s '
+            'WHERE id=%s AND (ref is null OR ref = \'\')',
                 (ref, move_id))
-            cr.execute('UPDATE account_analytic_line SET ref=%s '
-                'FROM account_move_line '
-                'WHERE account_move_line.move_id = %s '
-                'AND account_analytic_line.move_id = account_move_line.id',
-                (ref, move_id))
-            
-            #TODO Usar OpenChatter para gerar um registro que a fatura foi validada.
-            #for inv_id, name in self.name_get(cr, uid, [inv_id]):
-            #    ctx = context.copy()
-            #    if obj_inv.type in ('out_invoice', 'out_refund'):
-            #        ctx = self.get_log_context(cr, uid, context=ctx)
-            #    message = _('Invoice ') + " '" + name + "' " + _("is validated.")
-            #    self.log(cr, uid, inv_id, message, context=ctx)
-        return True
+        self._cr.execute('UPDATE account_move_line SET ref=%s '
+            'WHERE move_id=%s AND (ref is null OR ref = \'\')',
+            (ref, move_id))
+        self._cr.execute('UPDATE account_analytic_line SET ref=%s '
+            'FROM account_move_line '
+            'WHERE account_move_line.move_id = %s '
+            'AND account_analytic_line.move_id = account_move_line.id',
+            (ref, move_id))
+
+        #TODO Usar OpenChatter para gerar um registro que a fatura foi validada.
+        #for inv_id, name in self.name_get(cr, uid, [inv_id]):
+        #    ctx = context.copy()
+        #    if obj_inv.type in ('out_invoice', 'out_refund'):
+        #        ctx = self.get_log_context(cr, uid, context=ctx)
+        #    message = _('Invoice ') + " '" + name + "' " + _("is validated.")
+        #    self.log(cr, uid, inv_id, message, context=ctx)
 
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
@@ -400,6 +389,7 @@ class AccountInvoice(models.Model):
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
+    #TODO: Fix this method to avoid erros with document_serie_product_ids
     def onchange_fiscal_document_id(self, cr, uid, ids, fiscal_document_id,
                                     company_id, issuer, fiscal_type,
                                     context=None):
@@ -420,33 +410,21 @@ class AccountInvoice(models.Model):
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
-    def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
-        res = {}
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        for line in self.browse(cr, uid, ids):
-            res[line.id] = {
-                'price_subtotal': 0.0,
-                'price_total': 0.0,
-            }
 
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = tax_obj.compute_all(
-                cr, uid, line.invoice_line_tax_id, price, line.quantity,
-                line.product_id, line.invoice_id.partner_id,
-                fiscal_position=line.fiscal_position)
-
-            if line.invoice_id:
-                currency = line.invoice_id.currency_id
-                res[line.id].update({
-                    'price_subtotal': cur_obj.round(
-                        cr, uid, currency,
-                        taxes['total'] - taxes['total_tax_discount']),
-                    'price_total': cur_obj.round(
-                        cr, uid, currency, taxes['total']),
-                })
-
-        return res
+    @api.one
+    @api.depends('price_unit', 'discount', 'invoice_line_tax_id', 'quantity',
+                 'product_id', 'invoice_id.partner_id',
+                 'invoice_id.currency_id', 'fiscal_position')
+    def _compute_price(self):
+        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+        taxes = self.invoice_line_tax_id.compute_all(
+            price, self.quantity, product=self.product_id, partner=self.invoice_id.partner_id,
+            fiscal_position=self.fiscal_position)
+        self.price_subtotal = taxes['total'] - taxes['total_tax_discount']
+        self.price_total = taxes['total']
+        if self.invoice_id:
+            self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)
+            self.price_total = self.invoice_id.currency_id.round(self.price_total)
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', string='Categoria')
@@ -454,7 +432,7 @@ class AccountInvoiceLine(models.Model):
         'account.fiscal.position', string=u'Posição Fiscal',
         domain="[('fiscal_category_id','=',fiscal_category_id)]")
     price_total = fields.Float(
-        compute=_amount_line, method=True, string='Total',
+        compute='_compute_price', method=True, string='Total',
         digits_compute=dp.get_precision('Account'),
         store=True, multi='all')
 
@@ -481,51 +459,58 @@ class AccountInvoiceLine(models.Model):
                         JOURNAL_TYPE[context['type']]))
                     fiscal_category_id.set('required', '1')
 
-            product_ids = eview.xpath("//field[@name='product_id']")
-            for product_id in product_ids:
-                product_id.set('domain', "[('fiscal_type', '=', '%s')]" % (
-                    context.get('fiscal_type', 'service')))
+            # product_ids = eview.xpath("//field[@name='product_id']")
+            # for product_id in product_ids:
+            #     product_id.set('domain', "[('fiscal_type', '=', '%s')]" % (
+            #         context.get('fiscal_type', 'service')))
 
             result['arch'] = etree.tostring(eview)
 
         return result
 
-    def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
+    @api.model
+    def _fiscal_position_map(self, result, context=None, **kwargs):
 
-        context = dict(context or {})         
+        context = dict(context or self._context)
         context.update({'use_domain': ('use_invoice', '=', True)})
         kwargs.update({'context': context})
         result['value']['cfop_id'] = False
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+
+        obj_fp_rule = self.env['account.fiscal.position.rule']
         result_rule = obj_fp_rule.apply_fiscal_mapping(
-            cr, uid, result, **kwargs)
+            result, **kwargs)
         if result['value'].get('fiscal_position', False):
-            obj_fp = self.pool.get('account.fiscal.position').browse(
-                cr, uid, result['value'].get('fiscal_position', False))
-            result_rule['value']['cfop_id'] = obj_fp.cfop_id and obj_fp.cfop_id.id or False
+            obj_fp = self.env['account.fiscal.position'].browse(
+                result['value'].get('fiscal_position', False))
+            result_rule['value'][
+                'cfop_id'] = obj_fp.cfop_id and obj_fp.cfop_id.id or False
             if kwargs.get('product_id', False):
-                obj_product = self.pool.get('product.product').browse(
-                cr, uid, kwargs.get('product_id', False), context=context)
+                obj_product = self.env['product.product'].browse(
+                    kwargs.get('product_id', False))
                 context['fiscal_type'] = obj_product.fiscal_type
                 if context.get('type') in ('out_invoice', 'out_refund'):
                     context['type_tax_use'] = 'sale'
-                    taxes = obj_product.taxes_id and obj_product.taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(cr, uid, kwargs.get('account_id', False), context=context).tax_ids or False)
+                    taxes = obj_product.taxes_id and obj_product.taxes_id or (
+                        kwargs.get('account_id', False) and self.env[
+                            'account.account'].browse(
+                            kwargs.get('account_id', False)).tax_ids or False)
                 else:
                     context['type_tax_use'] = 'purchase'
-                    taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(cr, uid, kwargs.get('account_id', False), context=context).tax_ids or False)
-                tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                    cr, uid, obj_fp, taxes, context)
-
+                    taxes = obj_product.supplier_taxes_id and \
+                        obj_product.supplier_taxes_id or (
+                            kwargs.get('account_id', False) and self.env[
+                                'account.account'].browse(
+                                kwargs.get('account_id',
+                                           False)).tax_ids or False)
+                tax_ids = obj_fp.map_tax(taxes).ids
                 result_rule['value']['invoice_line_tax_id'] = tax_ids
-
-                result['value'].update(self._get_tax_codes(
-                    cr, uid, kwargs.get('product_id'),
-                    obj_fp, tax_ids, kwargs.get('company_id'),
-                    context=context))
-
+                result['value'].update(
+                    self._get_tax_codes(kwargs.get('product_id'), obj_fp,
+                                        tax_ids, kwargs.get('company_id')))
         return result_rule
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
+    @api.multi
+    def product_id_change(self, product, uom, qty=0, name='',
                           type='out_invoice', partner_id=False,
                           fposition_id=False, price_unit=False,
                           currency_id=False, context=None, company_id=False,
@@ -533,24 +518,23 @@ class AccountInvoiceLine(models.Model):
                           parent_fposition_id=False):
 
         result = super(AccountInvoiceLine, self).product_id_change(
-            cr, uid, ids, product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
+            product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
             fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id,
-            company_id=company_id, context=context)
-
+            company_id=company_id)
         fiscal_position = fposition_id or parent_fposition_id or False
 
         if not parent_fiscal_category_id or not product or not fiscal_position:
             return result
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
+        obj_fp_rule = self.env['account.fiscal.position.rule']
         product_fiscal_category_id = obj_fp_rule.product_fiscal_category_map(
-            cr, uid, product, parent_fiscal_category_id)
+            product, parent_fiscal_category_id)
 
         if product_fiscal_category_id:
             parent_fiscal_category_id = product_fiscal_category_id
 
         result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
-        result = self._fiscal_position_map(cr, uid, result, context,
+        result = self._fiscal_position_map(result, context,
             partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=parent_fiscal_category_id,
@@ -565,54 +549,57 @@ class AccountInvoiceLine(models.Model):
             'fiscal_position': result['value'].get('fiscal_position'),
             'invoice_line_tax_id': [[6, 0, result['value'].get('invoice_line_tax_id')]],
         }
-        result['value'].update(self._validate_taxes(cr, uid, values, context))
+        result['value'].update(self._validate_taxes(values))
         return result
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
                                     company_id, product_id, fiscal_category_id,
                                     account_id, context):
         result = {'value': {}}
         return self._fiscal_position_map(
-            cr, uid, result, context, partner_id=partner_id,
+            result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id, product_id=product_id,
             account_id=account_id)
 
-    def onchange_fiscal_position(self, cr, uid, ids, partner_id, company_id,
+    @api.multi
+    def onchange_fiscal_position(self, partner_id, company_id,
                                 product_id, fiscal_category_id,
                                 account_id, context):
         result = {'value': {}}
         return self._fiscal_position_map(
-            cr, uid, result, context, partner_id=partner_id,
+            result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id, product_id=product_id,
             account_id=account_id)
 
-    def onchange_account_id(self, cr, uid, ids, product_id, partner_id,
+    @api.multi
+    def onchange_account_id(self, product_id, partner_id,
                             inv_type, fposition_id, account_id=False,
                             context=None, fiscal_category_id=False,
                             company_id=False):
-
         result = super(AccountInvoiceLine, self).onchange_account_id(
-            cr, uid, ids, product_id, partner_id, inv_type, fposition_id,
-            account_id)
-        return self._fiscal_position_map(
-            cr, uid, result, context, partner_id=partner_id,
+            product_id, partner_id, inv_type, fposition_id, account_id)
+        return self._fiscal_position_map(result, context, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id, product_id=product_id,
             account_id=account_id)
+        return result
 
-    def uos_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
+    @api.multi
+    def uos_id_change(self, product, uom, qty=0, name='',
                     type='out_invoice', partner_id=False, fposition_id=False,
                     price_unit=False, currency_id=False, context=None,
                     company_id=None, fiscal_category_id=False):
 
         result = super(AccountInvoiceLine, self).uos_id_change(
-            cr, uid, ids, product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
+            product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
             fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id, 
-            context=context, company_id=company_id)
-        return self._fiscal_position_map(
-            cr, uid, result, context, partner_id=partner_id,
-            partner_invoice_id=partner_id, company_id=company_id,
-            fiscal_category_id=fiscal_category_id, product_id=product,
-            account_id=False)
+            company_id=company_id)
+        # return self._fiscal_position_map(
+        #     self._cr, self._uid, result, context, partner_id=partner_id,
+        #     partner_invoice_id=partner_id, company_id=company_id,
+        #     fiscal_category_id=fiscal_category_id, product_id=product,
+        #     account_id=False)
+        return result
