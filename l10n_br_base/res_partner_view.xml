@@ -102,7 +102,7 @@
 					<field name="district" placeholder="Bairro"/>
 				</xpath>
 				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='state_id']" position="after">
-					<field name="l10n_br_city_id" placeholder="Cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)" style="width: 40%%"/>
+					<field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
 				</xpath>
 				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='city']" position="attributes">
 					<attribute name="invisible">1</attribute>
