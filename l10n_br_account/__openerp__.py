@@ -48,8 +48,8 @@
         'security/l10n_br_account_security.xml',
     ],
     'demo': [
-        # 'demo/account.account.csv',
-        # 'demo/account_tax_code.xml',
+        'demo/account.account.csv',
+        'demo/account_tax_code.xml',
         'demo/account_financial_demo.xml',
         'demo/account_fiscal_demo.xml',
         'demo/base_demo.xml',
