@@ -95,15 +95,27 @@ class PurchaseOrder(orm.Model):
                             company_id=False, context=None, **kwargs):
         if not context:
             context = {}
+
+        res = super(PurchaseOrder, self).onchange_partner_id(
+            cr, uid, ids, partner_id)
+
         # TODO try to upstream web_context_tunnel in fiscal-rules
         # to avoid having to change this signature
         fiscal_category_id = context.get('fiscal_category_id')
         if not company_id:
             company_id = self.pool['res.users'].browse(
                 cr, uid, uid, context).company_id.id
-        return super(PurchaseOrder, self).onchange_partner_id(
-            cr, uid, ids, partner_id, company_id, context,
-            fiscal_category_id=fiscal_category_id, **kwargs)
+
+        res['value'].update({
+            'fiscal_category_id': fiscal_category_id,
+            'company_id': company_id
+        })
+
+        return res
+
+        # return super(PurchaseOrder, self).onchange_partner_id(
+        #     cr, uid, ids, partner_id, company_id, context,
+        #     fiscal_category_id=fiscal_category_id, **kwargs)
 
     def onchange_dest_address_id(self, cr, uid, ids, partner_id,
                                  dest_address_id, company_id, context,
