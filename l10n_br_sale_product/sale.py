@@ -337,13 +337,8 @@ class SaleOrderLine(orm.Model):
 
     def l10n_br_sale_product_prepare_order_line_invoice_line(self, cr, uid, line,
                                                               result, account_id=False, context=None):
-
         if line.product_id.fiscal_type == 'product':
-            if line.fiscal_position:
-                cfop = self.pool.get("account.fiscal.position").read(
-                    cr, uid, [line.fiscal_position.id], ['cfop_id'],
-                    context=context)
-                if cfop[0]['cfop_id']:
-                    result['cfop_id'] = cfop[0]['cfop_id'][0]
-
+            fp_id = line.fiscal_position or result.get('fiscal_position', False) or False
+            if fp_id:
+                result['cfop_id'] = fp_id.cfop_id.id
         return result

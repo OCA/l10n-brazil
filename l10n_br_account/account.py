@@ -17,22 +17,19 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import api, models
-from openerp.osv import orm, fields
+from openerp import api, models, fields
 
-
-class AccountJournal(orm.Model):
+class AccountJournal(models.Model):
     _inherit = 'account.journal'
-    _columns = {
-        'revenue_expense': fields.boolean('Gera Financeiro')
-    }
+
+    revenue_expense = fields.Boolean(string='Gera Financeiro',
+         help=u"Marque esta caixa para diários de faturas que gerem contas a pagar e a receber")
 
 
-class AccountTaxComputation(orm.Model):
+class AccountTaxComputation(models.Model):
     _name = 'account.tax.computation'
-    _columns = {
-        'name': fields.char('Name', size=64)
-    }
+
+    name = fields.Char(string='Name', size=64)
 
 
 class AccountTax(models.Model):
@@ -137,7 +134,7 @@ class AccountTax(models.Model):
             freight_value=freight_value, other_costs_value=other_costs_value)
 
 
-class WizardMultiChartsAccounts(orm.TransientModel):
+class WizardMultiChartsAccounts(models.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
     def execute(self, cr, uid, ids, context=None):
@@ -182,7 +179,7 @@ class WizardMultiChartsAccounts(orm.TransientModel):
         return result
 
 
-class AccountAccount(orm.Model):
+class AccountAccount(models.Model):
     _inherit = 'account.account'
 
     def _check_allow_type_change(self, cr, uid, ids, new_type, context=None):
