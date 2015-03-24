@@ -20,6 +20,7 @@
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
+from openerp import api
 
 
 class SaleOrder(orm.Model):
@@ -186,17 +187,13 @@ class SaleOrder(orm.Model):
                 line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
         return res
 
-    def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
-                            partner_shipping_id, partner_id,
-                            context=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
+    @api.multi
+    def onchange_address_id(self, partner_invoice_id, partner_shipping_id,
+                            partner_id, company_id, **kwargs):
+        fiscal_category_id=self._context.get('fiscal_category_id')
         return super(SaleOrder, self).onchange_address_id(
-            cr, uid, ids, partner_invoice_id, partner_shipping_id,
-            partner_id, context,
+            partner_invoice_id, partner_shipping_id, partner_id, company_id,
             fiscal_category_id=fiscal_category_id)
-
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     partner_invoice_id=False, 
@@ -339,10 +336,10 @@ class SaleOrderLine(orm.Model):
         context = dict(kwargs['context'] or {})
         context.update({'use_domain': ('use_sale', '=', True)})
         kwargs['context'] = context
-                
+
         obj_user = self.pool.get('res.users').browse(cr, uid, uid)
         company_id = obj_user.company_id.id
-        
+
         kwargs.update({'company_id': company_id})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)

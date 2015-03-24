@@ -51,11 +51,11 @@ class StockPicking(models.Model):
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
-        string='Categoria Fiscal',
+        string=u'Categoria Fiscal',
         readonly=True,
         domain="[('state', '=', 'approved')]",
-        states={'draft': [('readonly', False)]},
-        default=_default_fiscal_category
+        states={'draft': [('readonly', False)]}
+     #   default='_default_fiscal_category'
     )
 
     fiscal_position = fields.Many2one(
@@ -126,9 +126,7 @@ class StockPicking(models.Model):
     @api.multi
     def onchange_company_id(self, partner_id, company_id=False,
                             fiscal_category_id=False):
-        if not context:
-            context = {}
-
+        context = dict(self._context)
         result = {'value': {'fiscal_position': False}}
 
         if not partner_id or not company_id:
@@ -150,52 +148,28 @@ class StockPicking(models.Model):
         }
         return self._fiscal_position_map(result, **kwargs)
 
-    # @api.model
-    # @api.returns
-    @api.multi
-    def _prepare_invoice_line(self, group, picking, move_line,
-                              invoice_id, invoice_vals):
-        result = super(StockPicking, self)._prepare_invoice_line(
-            group, picking, move_line, invoice_id, invoice_vals)
-
-        fiscal_position = move_line.fiscal_position or \
-            move_line.picking_id.fiscal_position or False
-        fiscal_category_id = move_line.fiscal_category_id or \
-            move_line.picking_id.fiscal_category_id or False
-              
-        result['cfop_id'] = fiscal_position and fiscal_position.cfop_id and \
-                            fiscal_position.cfop_id.id
-        result['fiscal_category_id'] = fiscal_category_id and \
-                                       fiscal_category_id.id
-        result['fiscal_position'] = fiscal_position and fiscal_position.id
-
-        result['partner_id'] = picking.partner_id.id
-        result['company_id'] = picking.company_id.id
-
-        return result
-
-    # @api.model
-    # @api.returns
-    @api.multi
-    def _prepare_invoice(self, picking, partner, inv_type, journal_id):
-        result = super(StockPicking, self)._prepare_invoice(
-            self._cr, self._uid, picking, partner, inv_type, journal_id,
-            self._context)
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move, context=None):
+        if not journal_id:
+            journal_id = move.picking_id.fiscal_category_id.property_journal.id
+        inv_vals = super(StockPicking, self)._get_invoice_vals(cr, uid, key, inv_type,
+                                                    journal_id, move, context=context)
+        picking = move.picking_id
 
         comment = ''
         if picking.fiscal_position.inv_copy_note:
             comment += picking.fiscal_position.note or ''
-
         if picking.note:
             comment += ' - ' + picking.note
 
-        result['comment'] = comment
-        result['fiscal_category_id'] = \
-            picking.fiscal_category_id and picking.fiscal_category_id.id
-        result['fiscal_position'] = \
-            picking.fiscal_position and picking.fiscal_position.id
-        result['ind_pres'] = picking.ind_pres
-        return result
+        inv_vals.update({
+            'comment': comment, # TODO: Verificar se os comentarios estão ok!
+            'fiscal_category_id': (picking.fiscal_category_id and
+                                   picking.fiscal_category_id.id),
+            'fiscal_position': (picking.fiscal_position and
+                                picking.fiscal_position.id),
+            'ind_pres': picking.ind_pres,
+            })
+        return inv_vals
 
 
 class StockMove(models.Model):
@@ -204,7 +178,7 @@ class StockMove(models.Model):
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
-        string='Categoria Fiscal',
+        string=u'Categoria Fiscal',
         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
         readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
@@ -275,3 +249,22 @@ class StockMove(models.Model):
             result_super['value'].update(result['value'])
 
         return result_super
+
+    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
+        result = super(StockMove, self)._get_invoice_line_vals(cr, uid, move,
+                                                          partner, inv_type, context=context)
+        fiscal_position = move.fiscal_position or \
+            move.picking_id.fiscal_position or False
+        fiscal_category_id = move.fiscal_category_id or \
+            move.picking_id.fiscal_category_id or False
+
+        result.update({
+            'cfop_id': (fiscal_position and fiscal_position.cfop_id and
+                            fiscal_position.cfop_id.id),
+            'fiscal_category_id': (fiscal_category_id and
+                                   fiscal_category_id.id),
+            'fiscal_position': fiscal_position and fiscal_position.id,
+            'partner_id': move.picking_id.partner_id.id,
+            'company_id': move.picking_id.company_id.id,
+        })
+        return result

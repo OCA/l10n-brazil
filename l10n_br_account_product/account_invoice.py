@@ -990,6 +990,8 @@ class AccountInvoiceLine(orm.Model):
                 partner_id = inv.get('partner_id', [False])[0]
                 company_id = inv.get('company_id', [False])[0]
 
+        if not values.get('invoice_line_tax_id'):
+            return result #FIXME
         taxes = tax_obj.browse(
             cr, uid, values.get('invoice_line_tax_id')[0][2])
         fiscal_position = self.pool.get('account.fiscal.position').browse(

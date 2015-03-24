@@ -346,7 +346,8 @@ class AccountInvoice(models.Model):
                 result.append(move_line)
         return result
 
-    def _fiscal_position_map(self, cr, uid, result, context=None, **kwargs):
+    @api.model
+    def _fiscal_position_map(self, result, context=None, **kwargs):
 
         if not context:
             context = {}
@@ -355,23 +356,20 @@ class AccountInvoice(models.Model):
 
         if not kwargs.get('fiscal_category_id', False):
             return result
-
-        obj_company = self.pool.get('res.company').browse(
-            cr, uid, kwargs.get('company_id', False))
-        obj_fcategory = self.pool.get('l10n_br_account.fiscal.category')
-
-        fcategory = obj_fcategory.browse(
-            cr, uid, kwargs.get('fiscal_category_id'))
+        obj_company = self.env['res.company'].browse(kwargs.get('company_id',
+                                                                False))
+        obj_fcategory = self.env['l10n_br_account.fiscal.category']
+        fcategory = obj_fcategory.browse(kwargs.get('fiscal_category_id'))
         result['value']['journal_id'] = fcategory.property_journal and \
-        fcategory.property_journal.id or False
+            fcategory.property_journal.id or False
         if not result['value'].get('journal_id', False):
             raise orm.except_orm(
                 _(u'Nenhum Diário !'),
                 _(u"Categoria fiscal: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, obj_company.name))
 
-        obj_fp_rule = self.pool.get('account.fiscal.position.rule')
-        return obj_fp_rule.apply_fiscal_mapping(cr, uid, result, **kwargs)
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+        return obj_fp_rule.apply_fiscal_mapping(result, **kwargs)
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
                             date_invoice=False, payment_term=False,
