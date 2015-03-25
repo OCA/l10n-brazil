@@ -4,6 +4,7 @@
 # Copyright (C) 2009 Gabriel C. Stabel                                        #
 # Copyright (C) 2009 Renato Lima (Akretion)                                   #
 # Copyright (C) 2012 Raphaël Valyi (Akretion)                                 #
+# Copyright (C) 2015  Michell Stuttgart (KMEE)                                #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -113,9 +114,8 @@ class ResPartner(models.Model):
         this method call others methods because this validation is State wise
 
         :Return: True or False."""
-        if (not self.inscr_est
-                or self.inscr_est == 'ISENTO'
-                or not self.is_company):
+        if (not self.inscr_est or self.inscr_est == 'ISENTO'
+            or not self.is_company):
             return True
         uf = (self.state_id and
               self.state_id.code.lower() or '')
@@ -129,13 +129,11 @@ class ResPartner(models.Model):
     def _check_ie_duplicated(self):
         """ Check if the field inscr_est has duplicated value
         """
-        if (not self.inscr_est
-                or self.inscr_est == 'ISENTO'):
+        if (not self.inscr_est or self.inscr_est == 'ISENTO'):
             return True
         partner_ids = self.search(
-            ['&',
-                ('inscr_est', '=', self.inscr_est),
-                ('id', '!=', self.id)])
+            ['&', ('inscr_est', '=', self.inscr_est), ('id', '!=', self.id)])
+
         if len(partner_ids) > 0:
             raise Warning(_(u'Já existe um parceiro cadastrado com'
                             u'esta Inscrição Estadual/RG!'))
@@ -202,7 +200,8 @@ class ResPartnerBank(models.Model):
     number = fields.Char(u'Número', size=10)
     street2 = fields.Char('Street2', size=128)
     district = fields.Char('Bairro', size=32)
-    l10n_br_city_id = fields.Many2one('l10n_br_base.city', 'Municipio',
+    l10n_br_city_id = fields.Many2one(comodel_name='l10n_br_base.city',
+                                      string='Municipio',
                                       domain="[('state_id','=',state_id)]")
 
     @api.onchange('l10n_br_city_id')
