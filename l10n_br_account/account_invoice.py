@@ -350,17 +350,19 @@ class AccountInvoice(models.Model):
         obj_fp_rule = self.env['account.fiscal.position.rule']
         return obj_fp_rule.apply_fiscal_mapping(result, **kwargs)
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
+    @api.multi
+    def onchange_partner_id(self, type, partner_id,
                             date_invoice=False, payment_term=False,
-                            partner_bank_id=False, company_id=False,
-                            fiscal_category_id=False):
+                            partner_bank_id=False, company_id=False):
+
+        fiscal_category_id = self._context.get('fiscal_category_id')
 
         result = super(AccountInvoice, self).onchange_partner_id(
-            cr, uid, ids, type, partner_id, date_invoice, payment_term,
+            type, partner_id, date_invoice, payment_term,
             partner_bank_id, company_id)
 
         return self._fiscal_position_map(
-            cr, uid, result, False, partner_id=partner_id,
+            result, False, partner_id=partner_id,
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
