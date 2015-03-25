@@ -27,8 +27,10 @@
 					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
 				</xpath>
 				<xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
-					<field name="fiscal_category_id" on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id,  product_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
-					<field name="fiscal_position" on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, product_id, fiscal_position, fiscal_category_id)" required="1" />
+					<field name="fiscal_category_id"
+                           on_change="onchange_fiscal_category_id(parent.partner_id, parent.partner_invoice_id,  product_id, parent.company_id, fiscal_category_id)" groups="base.group_sale_salesman" required="1" />
+					<field name="fiscal_position"
+                           on_change="onchange_fiscal_position(parent.partner_id, parent.partner_invoice_id, product_id, parent.company_id, fiscal_position, fiscal_category_id)" required="1" />
 				</xpath>
 				<xpath expr="//group[@name='sale_total']" position="after">
 					<group style="width: 65%%" groups="l10n_br_sale.group_total_discount">

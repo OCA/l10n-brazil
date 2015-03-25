@@ -366,10 +366,8 @@ class ResPartner(models.Model):
         """Define o valor padão para o campo tipo fiscal, por padrão pega
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
-
-        ft_ids = self.env['l10n_br_account.partner.fiscal.type'].search(
-            [('default', '=', 'True')])[0].id
-        return ft_ids
+        return self.env['l10n_br_account.partner.fiscal.type'].search(
+            [('default', '=', 'True')], limit=1)
 
     partner_fiscal_type_id = fields.Many2one(
         'l10n_br_account.partner.fiscal.type', string='Tipo Fiscal do Parceiro',

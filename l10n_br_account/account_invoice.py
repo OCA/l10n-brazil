@@ -63,7 +63,7 @@ class AccountInvoice(models.Model):
 
     def _default_fiscal_document(self):
         fiscal_document = self.env.user.company_id.service_invoice_id
-        return fiscal_document and fiscal_document[0] or False
+        return fiscal_document
 
     def _default_fiscal_document_serie(self):
         fiscal_document_serie = self.env.user.company_id.document_serie_service_id

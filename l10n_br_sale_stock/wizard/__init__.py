@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Raphaël Valyi - Akretion                                #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2014  Luis Felipe Mileo - KMEE                                #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -18,7 +17,4 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import stock
-import sale
-import report
-import wizard
+import stock_invoice_onshipping
