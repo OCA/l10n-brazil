@@ -151,8 +151,11 @@ class AccountInvoice(orm.Model):
                             protNFe["message"] = prot.infProt.xMotivo.valor
                             vals["status"] = prot.infProt.cStat.valor
                             vals["message"] = prot.infProt.xMotivo.valor
-                            if prot.infProt.cStat.valor in ('100', '150', '110', '301', '302'):
+                            if prot.infProt.cStat.valor in ('100', '150'):
                                 protNFe["state"] = 'open'
+                            elif prot.infProt.cStat.valor in ('110', '301',
+                                                              '302'):
+                                protNFe["state"] = 'sefaz_denied'
                         self.attach_file_event(cr, uid, [inv.id], None, 'nfe', 'xml', context)
                         self.attach_file_event(cr, uid, [inv.id], None, None, 'pdf', context)
             except Exception as e:
