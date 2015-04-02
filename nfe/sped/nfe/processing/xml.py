@@ -82,9 +82,15 @@ def send(company, nfe):
 
     logo = company.logo
     logo_image = Image.open(StringIO(logo.decode('base64')))
-    image_path = os.path.join(company.nfe_export_folder, 'company_logo.png')
-    logo_image.save(image_path)
+    image_path = os.path.join(company.nfe_export_folder, 'company_logo.jpg')
+    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
+    bg.paste(logo_image, logo_image)
+    bg.save(image_path)
+
+    # logo_image.convert('RGB').save(image_path, 'jpeg')
+    # logo_image.save(image_path, '')
     p.danfe.logo = image_path
+    p.danfe.leiaute_logo_vertical = True
     p.danfe.nome_sistema = company.nfe_email or u"Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto - 100%% WEB - www.openerpbrasil.org"
 
     return p.processar_notas(nfe)
