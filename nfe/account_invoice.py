@@ -225,7 +225,15 @@ class AccountInvoice(orm.Model):
                     for prot in processo.resposta.retEvento:                        
                         vals["status"] = prot.infEvento.cStat.valor
                         vals["message"] = prot.infEvento.xEvento.valor
-                        if vals["status"] == '135':
+                        if vals["status"] in ('101',  #Cancelamento de NF-e
+                        # homologado
+                                              '128',  #Loto do evento processado
+                                              '135',  #Evento registrado e
+                                              # vinculado a NFC-e
+                                              '151',  #Cancelamento de NF-e
+                                              # homologado fora de prazo
+                                              '155'):  # Cancelamento
+                                              # homologado fora de prazo
                             result = super(AccountInvoice, self).action_cancel(cr, uid, [inv.id], context)
                             if result:
                                 self.write(cr, uid, [inv.id], {'state':'sefaz_cancelled',
