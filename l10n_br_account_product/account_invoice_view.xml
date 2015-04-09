@@ -55,7 +55,7 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
-                                                                        <field name="nfe_protocol_number" />
+                                    <field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
@@ -158,7 +158,7 @@
 					<field name="date_hour_invoice" string="Data Emissão"/>
                     <field name="date_in_out" string="Data de Entrada"/>
 				</field>
-                <field name="date_invoice" position="attributes">
+                <field name="date_invoice" position="replace">
 					<field name="date_invoice" invisible="1"/>
 				</field>
 				<notebook>
@@ -198,14 +198,16 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
+                                    <field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
+                                    <field name="nfe_version"/>
 								</group>
 								<group>
 									<field name="nfe_purpose" required="1"/>
 								</group>
-                                <field name="account_document_event_ids"/>
+								<field name="account_document_event_ids"/>
 							</page>
 							<page string="CFOP">
 								<group string="CFOP">
@@ -223,7 +225,7 @@
 									<field name="amount_costs"/>
                                     <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
 								</group>
-								<group name="package_info">
+								<group name="package_info" string="Informações dos pacotes">
 									<field name="weight"/>
 									<field name="weight_net"/>
 									<field name="number_of_packages"/>
@@ -246,6 +248,9 @@
 				<field position="after" name="partner_id">
 					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
 				</field>
+				<button name="invoice_cancel" position="attributes">
+					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
+				</button>
 				<button name="invoice_open" position="replace">
 					<button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight" />
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" class="oe_highlight" />
@@ -259,6 +264,7 @@
                 </xpath>
 			</field>
 		</record>
+
 
 		<!-- Invoice Line views -->
 		<record model="ir.ui.view" id="l10n_br_account_product_invoice_line_tree">
