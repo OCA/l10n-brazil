@@ -205,6 +205,7 @@
 								<group>
 									<field name="nfe_purpose" required="1"/>
 								</group>
+                                <field name="account_document_event_ids"/>
 							</page>
 							<page string="CFOP">
 								<group string="CFOP">
@@ -252,6 +253,10 @@
 				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
 					<field name="cfop_id" />
 				</xpath>
+                 <xpath expr="//field[@name='fiscal_position']" position="after">
+                    <field name="ind_final" string="Operação com Consumidor final" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                    <field name="ind_pres" string="Tipo de operação" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                </xpath>
 			</field>
 		</record>
 
