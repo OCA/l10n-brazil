@@ -159,6 +159,7 @@ class AccountInvoice(orm.Model):
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', u'Erro de autorização da Receita'),
             ('sefaz_cancelled', 'Cancelado no Sefaz'),
+            ('sefaz_denied', 'Denegada no Sefaz'),
             ('open', 'Open'),
             ('paid', 'Paid'),
             ('cancel', 'Cancelled')
