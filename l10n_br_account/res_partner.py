@@ -17,46 +17,37 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp import api
-from openerp.osv import orm, fields
+from openerp import api, models, fields
 
-FISCAL_POSITION_COLUMNS = {
-    'name': fields.char('Fiscal Position', size=128, required=True),
-    'fiscal_category_id': fields.many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal'),
-    'fiscal_category_fiscal_type': fields.related(
-        'fiscal_category_id', 'fiscal_type', type='char', readonly=True,
-        relation='l10n_br_account.fiscal.category', store=True,
-        string='Fiscal Type'),
-    'type': fields.selection([('input', 'Entrada'), ('output', 'Saida')],
-                             'Tipo'),
-    'type_tax_use': fields.selection(
+
+class AccountFiscalPositionTemplate(models.Model):
+    _inherit = 'account.fiscal.position.template'
+
+    name = fields.Char(string='Fiscal Position', size=128, required=True)
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', string='Categoria Fiscal')
+    fiscal_category_fiscal_type = fields.Selection(
+        related='fiscal_category_id.fiscal_type', readonly=True,
+        store=True,
+        string='Fiscal Type')
+    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
+                             string='Tipo')
+    type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
-        'Tax Application'),
-    'inv_copy_note': fields.boolean(u'Copiar Observação na Nota Fiscal'),
-    'asset_operation': fields.boolean(u'Operação de Aquisição de Ativo',
+        string='Tax Application')
+    inv_copy_note = fields.Boolean(string=u'Copiar Observação na Nota Fiscal')
+    asset_operation = fields.Boolean(string=u'Operação de Aquisição de Ativo',
         help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
-            calculo do ICMS."""),
-    'id_dest': fields.selection([('1', u'Operação interna'),
+            calculo do ICMS.""")
+    id_dest = fields.Selection([('1', u'Operação interna'),
                                 ('2', u'Operação interestadual'),
                                 ('3', u'Operação com exterior')],
-                                u'Local de destino da operação',
-                                help=u'Identificador de local de destino da operação.'),
-    'state': fields.selection([('draft', u'Rascunho'),
-            ('review', u'Revisão'), ('approved', u'Aprovada'),
-            ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
-            track_visibility='onchange', select=True),
-}
-
-FISCAL_POSITION_DEFAULTS = {
-    'state': 'draft',
-}
-
-
-class AccountFiscalPositionTemplate(orm.Model):
-    _inherit = 'account.fiscal.position.template'
-    _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
+                               string=u'Local de destino da operação',
+                               help=u'Identificador de local de destino da operação.')
+    state = fields.Selection([('draft', u'Rascunho'),
+                              ('review', u'Revisão'), ('approved', u'Aprovada'),
+                              ('unapproved', u'Não Aprovada')], string='Status', readonly=True,
+                             track_visibility='onchange', select=True, default='draft')
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purchase', 'output': 'sale'}
@@ -137,17 +128,15 @@ class AccountFiscalPositionTemplate(orm.Model):
         return True
 
 
-class AccountFiscalPositionTaxTemplate(orm.Model):
+class AccountFiscalPositionTaxTemplate(models.Model):
     _inherit = 'account.fiscal.position.tax.template'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax.template', 'Tax Source'),
-        'tax_code_src_id': fields.many2one('account.tax.code.template',
-                                            u'Código Taxa Origem'),
-        'tax_src_domain': fields.related('tax_src_id', 'domain',
-                                         type='char'),
-        'tax_code_dest_id': fields.many2one('account.tax.code.template',
-                                            'Replacement Tax Code')
-    }
+
+    tax_src_id = fields.Many2one('account.tax.template', string='Tax Source')
+    tax_code_src_id = fields.Many2one('account.tax.code.template',
+                                        string=u'Código Taxa Origem')
+    tax_src_domain = fields.Char(related='tax_src_id.domain')
+    tax_code_dest_id = fields.Many2one('account.tax.code.template',
+                                        string='Replacement Tax Code')
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
@@ -177,10 +166,34 @@ class AccountFiscalPositionTaxTemplate(orm.Model):
                                 context=context)
 
 
-class AccountFiscalPosition(orm.Model):
+class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
-    _columns = FISCAL_POSITION_COLUMNS
-    _defaults = FISCAL_POSITION_DEFAULTS
+
+    name = fields.Char(string='Fiscal Position', size=128, required=True)
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', string='Categoria Fiscal')
+    fiscal_category_fiscal_type = fields.Selection(
+        related='fiscal_category_id.fiscal_type', readonly=True,
+        store=True,
+        string='Fiscal Type')
+    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
+                             string='Tipo')
+    type_tax_use = fields.Selection(
+        [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
+        string='Tax Application')
+    inv_copy_note = fields.Boolean(string=u'Copiar Observação na Nota Fiscal')
+    asset_operation = fields.Boolean(string=u'Operação de Aquisição de Ativo',
+        help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
+            calculo do ICMS.""")
+    id_dest = fields.Selection([('1', u'Operação interna'),
+                                ('2', u'Operação interestadual'),
+                                ('3', u'Operação com exterior')],
+                               string=u'Local de destino da operação',
+                               help=u'Identificador de local de destino da operação.')
+    state = fields.Selection([('draft', u'Rascunho'),
+                              ('review', u'Revisão'), ('approved', u'Aprovada'),
+                              ('unapproved', u'Não Aprovada')], string='Status', readonly=True,
+                             track_visibility='onchange', select=True, default='draft')
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
         type_tax = {'input': 'purchase', 'output': 'sale'}
@@ -301,23 +314,22 @@ class AccountFiscalPosition(orm.Model):
 
         return list(set(result))
 
-    @api.v8 
+    @api.v8
     def map_tax(self, taxes):
         result = self._model.map_tax(self._cr, self._uid, self, taxes, self._context)
         result = self.env['account.tax'].browse(result)
         return result
 
-class AccountFiscalPositionTax(orm.Model):
+
+class AccountFiscalPositionTax(models.Model):
     _inherit = 'account.fiscal.position.tax'
-    _columns = {
-        'tax_src_id': fields.many2one('account.tax', 'Tax Source'),
-        'tax_code_src_id': fields.many2one(
-            'account.tax.code', u'Código Taxa Origem'),
-        'tax_src_domain': fields.related(
-            'tax_src_id', 'domain', type='char'),
-        'tax_code_dest_id': fields.many2one(
-            'account.tax.code', 'Replacement Tax Code')
-    }
+
+    tax_src_id = fields.Many2one('account.tax', string='Tax Source')
+    tax_code_src_id = fields.Many2one(
+        'account.tax.code', string=u'Código Taxa Origem')
+    tax_src_domain = fields.Char(related='tax_src_id.domain')
+    tax_code_dest_id = fields.Many2one(
+        'account.tax.code', string='Replacement Tax Code')
 
     def _tax_domain(self, cr, uid, ids, tax_src_id=False,
                     tax_code_src_id=False, context=None):
@@ -347,33 +359,20 @@ class AccountFiscalPositionTax(orm.Model):
                                 context=context)
 
 
-class ResPartner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
-    _columns = {
-        'partner_fiscal_type_id': fields.many2one(
-            'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
-            domain="[('is_company', '=', is_company)]")
-    }
 
-    def _default_partner_fiscal_type_id(self, cr, uid, is_company=False,
-                                        context=None):
+    def _default_partner_fiscal_type_id(self):
         """Define o valor padão para o campo tipo fiscal, por padrão pega
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
-        result = False
-        ft_ids = self.pool.get('l10n_br_account.partner.fiscal.type').search(
-            cr, uid, [('default', '=', 'True'),
-                ('is_company', '=', is_company)], context=context)
+        return self.env['l10n_br_account.partner.fiscal.type'].search(
+            [('default', '=', 'True')], limit=1)
 
-        parnter_fiscal_type = self.pool.get('res.company').read(
-            cr, uid, ft_ids, ['id'], context=context)
-        if parnter_fiscal_type:
-            result = parnter_fiscal_type[0]['id']
-        return result
-
-    _defaults = {
-        'partner_fiscal_type_id': _default_partner_fiscal_type_id,
-    }
+    partner_fiscal_type_id = fields.Many2one(
+        'l10n_br_account.partner.fiscal.type', string='Tipo Fiscal do Parceiro',
+        domain="[('is_company', '=', is_company)]",
+        default=_default_partner_fiscal_type_id)
 
     def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
                             cnpj_cpf, context=None):

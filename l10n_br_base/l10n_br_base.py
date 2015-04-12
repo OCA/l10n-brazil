@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Michell Stuttgart - KMEE                                #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -29,5 +30,7 @@ class L10n_brBaseCity(models.Model):
     _description = u'Municipio'
 
     name = fields.Char(string='Nome', size=64, required=True)
-    state_id = fields.Many2one('res.country.state', 'Estado', required=True)
-    ibge_code = fields.Char(u'Código IBGE', size=7, copy=False)
+    state_id = fields.Many2one(comodel_name='res.country.state',
+                               string='Estado',
+                               required=True)
+    ibge_code = fields.Char(string=u'Código IBGE', size=7, copy=False)

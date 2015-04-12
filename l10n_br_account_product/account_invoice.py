@@ -23,6 +23,7 @@ from openerp import SUPERUSER_ID
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
+from openerp import api
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
@@ -510,8 +511,16 @@ class AccountInvoice(orm.Model):
             company.product_invoice_id.id and doc_serie.active]
         if fiscal_document_series:
             fiscal_document_serie = fiscal_document_series[0].id
-
         return fiscal_document_serie
+
+    # def _default_fiscal_document_serie(self):
+    #     fiscal_document_serie = \
+    #         [doc_serie for doc_serie in
+    #             self.env.user.company_id.document_serie_product_ids
+    #             if doc_serie.fiscal_document_id.id ==
+    #             self.env.user.company_id.product_invoice_id.id
+    #             and doc_serie.active]
+    #     return fiscal_document_serie
 
     def _default_nfe_version(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
@@ -519,6 +528,14 @@ class AccountInvoice(orm.Model):
             cr, uid, user.company_id.id, ['nfe_version'],
             context=context)['nfe_version']
         return nfe_version or False
+
+        #TODO: Fix this method to avoid erros with document_serie_product_ids
+        #  caused by l10n_br_account/account_invoice.py -> onchange_fiscal_document_id
+    def onchange_fiscal_document_id(self, cr, uid, ids, fiscal_document_id,
+                                    company_id, issuer, fiscal_type,
+                                    context=None):
+        result = {'value': {}}
+        return result
 
     _defaults = {
         'nfe_version': _default_nfe_version,
@@ -920,6 +937,7 @@ class AccountInvoiceLine(orm.Model):
         }
         return result
 
+
     def _get_tax_codes(self, cr, uid, product_id, fiscal_position,
                         taxes, company_id, context=None):
 
@@ -990,16 +1008,18 @@ class AccountInvoiceLine(orm.Model):
                 partner_id = inv.get('partner_id', [False])[0]
                 company_id = inv.get('company_id', [False])[0]
 
+        if not values.get('invoice_line_tax_id'):
+            return result #FIXME
         taxes = tax_obj.browse(
             cr, uid, values.get('invoice_line_tax_id')[0][2])
         fiscal_position = self.pool.get('account.fiscal.position').browse(
             cr, uid, values.get('fiscal_position'))
 
         price_unit = values.get('price_unit', 0.0)
-        price = price_unit * (1 - values.get('discount', 0.0) / 100.0)
+        price = float(price_unit) * (1 - values.get('discount', 0.0) / 100.0)
 
         taxes_calculed = tax_obj.compute_all(
-            cr, uid, taxes, price, values.get('quantity', 0.0),
+            cr, uid, taxes, price, float(values.get('quantity', 0.0)),
             values.get('product_id'), partner_id,
             fiscal_position=fiscal_position,
             insurance_value=values.get('insurance_value', 0.0),
@@ -1047,8 +1067,7 @@ class AccountInvoiceLine(orm.Model):
         context.update({'invoice_line_id': ids})
         vals.update(self._validate_taxes(cr, uid, vals, context))
         return super(AccountInvoiceLine, self).write(
-            cr, uid, ids, vals, context=context)
-
+            cr, uid, ids, vals, context)
 
 class AccountInvoiceTax(orm.Model):
     _inherit = "account.invoice.tax"

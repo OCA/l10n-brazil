@@ -20,6 +20,7 @@
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
+from openerp import api
 
 
 class SaleOrder(orm.Model):
@@ -186,17 +187,13 @@ class SaleOrder(orm.Model):
                 line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
         return res
 
-    def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
-                            partner_shipping_id, partner_id,
-                            context=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
+    @api.multi
+    def onchange_address_id(self, partner_invoice_id, partner_shipping_id,
+                            partner_id, company_id, **kwargs):
+        fiscal_category_id=self._context.get('fiscal_category_id')
         return super(SaleOrder, self).onchange_address_id(
-            cr, uid, ids, partner_invoice_id, partner_shipping_id,
-            partner_id, context,
+            partner_invoice_id, partner_shipping_id, partner_id, company_id,
             fiscal_category_id=fiscal_category_id)
-
 
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     partner_invoice_id=False, 
@@ -335,17 +332,12 @@ class SaleOrderLine(orm.Model):
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
     }
 
-    def _fiscal_position_map(self, cr, uid, result, **kwargs):
-        context = dict(kwargs['context'] or {})
-        context.update({'use_domain': ('use_sale', '=', True)})
-        kwargs['context'] = context
-                
-        obj_user = self.pool.get('res.users').browse(cr, uid, uid)
-        company_id = obj_user.company_id.id
-        
-        kwargs.update({'company_id': company_id})
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+    @api.model
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self._context)
+        ctx.update({'use_domain': ('use_sale', '=', True)})
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',
@@ -389,30 +381,34 @@ class SaleOrderLine(orm.Model):
         result_super['value'].update(result['value'])
         return result_super
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
                                         partner_invoice_id=False,
                                         product_id=False,
+                                        company_id=False,
                                         fiscal_category_id=False,
                                         context=None):
-        
         if not context:
             context = {}
         result = {'value': {}}
-
         if not partner_id or not fiscal_category_id:
             return result
-
         kwargs = {            
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
             'fiscal_category_id': fiscal_category_id,
+            'company_id': company_id,
             'context': context
         }
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+
+        result = self._fiscal_position_map(result, **kwargs)
+        return result
 
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
                                  partner_invoice_id=False,
-                                 product_id=False, fiscal_position=False,
+                                 product_id=False,
+                                 company_id=False,
+                                 fiscal_position=False,
                                  fiscal_category_id=False):        
         result = {'value': {'tax_id': False}}
         if not partner_id:
@@ -422,6 +418,7 @@ class SaleOrderLine(orm.Model):
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
             'fiscal_category_id': fiscal_category_id,
+            'company_id': company_id,
             'context': {}
         }
         result.update(self._fiscal_position_map(cr, uid, result, **kwargs))

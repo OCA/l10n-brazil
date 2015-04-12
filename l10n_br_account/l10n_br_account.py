@@ -18,7 +18,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import api, models, fields, _
 from openerp import netsvc
 import datetime
 
@@ -34,33 +34,32 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-class L10n_brAccountCce(orm.Model):
+class L10n_brAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
     _description = u'Cartão de Correção no Sefaz'
-    _columns = {
-        'invoice_id': fields.many2one(
-            'account.invoice', 'Fatura'),
-        'motivo': fields.text('Motivo', readonly=True
-            , required=True),
-        'sequencia': fields.char('Sequencia', help=u"Indica a sequencia da carta de correcão"),
-        'cce_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
-    }
 
-class L10n_brAccountInvoiceCancel(orm.Model):
+    invoice_id = fields.Many2one(
+        'account.invoice', 'Fatura')
+    motivo = fields.Text('Motivo', readonly=True
+        , required=True)
+    sequencia = fields.Char('Sequencia', help=u"Indica a sequencia da carta de correcão")
+    cce_document_event_ids = fields.One2many(
+        'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+
+class L10n_brAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
     _description = u'Cancelar Documento Eletrônico no Sefaz'
-    _columns = {
-        'invoice_id': fields.many2one(
-            'account.invoice', 'Fatura'),
-        'justificative': fields.char('Justificativa', size=255, readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'cancel_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids', u'Eventos'),
-        'state': fields.selection(
-            [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-            ('done', u'Concluído')], 'Status', required=True),
-    }
+
+    invoice_id = fields.Many2one(
+        'account.invoice', 'Fatura')
+    justificative = fields.Char('Justificativa', size=255, readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
+    cancel_document_event_ids = fields.One2many(
+        'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+    state = fields.Selection(
+        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
+        ('done', u'Concluído')], 'Status', required=True)
+
     _defaults = {
         'state': 'draft',
     }
@@ -81,49 +80,46 @@ class L10n_brAccountInvoiceCancel(orm.Model):
         return True
 
 
-class L10n_brDocumentEvent(orm.Model):
+class L10n_brDocumentEvent(models.Model):
     _name = 'l10n_br_account.document_event'
-    _columns = {
-        'type': fields.selection(
-            [('-1', u'Exception'),
-            ('0', u'Envio Lote'),
-            ('1', u'Consulta Recibo'),
-            ('2', u'Cancelamento'),
-            ('3', u'Inutilização'),
-            ('4', u'Consulta NFE'),
-            ('5', u'Consulta Situação'),
-            ('6', u'Consulta Cadastro'),
-            ('7', u'DPEC Recepção'),
-            ('8', u'DPEC Consulta'),
-            ('9', u'Recepção Evento'),
-            ('10', u'Download'),
-            ('11', u'Consulta Destinadas'), 
-            ('12', u'Distribuição DFe'),
-            ('13', u'Manifestação')], 'Serviço'),
-        'response': fields.char(u'Descrição', size=64, readonly=True),
-        'company_id': fields.many2one(
-            'res.company', 'Empresa', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'origin': fields.char('Documento de Origem', size=64,
-            readonly=True, states={'draft': [('readonly', False)]},
-            help="Reference of the document that produced event."),
-        'file_sent': fields.char('Envio', readonly=True),
-        'file_returned': fields.char('Retorno', readonly=True),
-        'status': fields.char('Codigo', readonly=True),
-        'message': fields.char('Mensagem', readonly=True),
-        'create_date': fields.datetime(u'Data Criação', readonly=True),
-        'write_date': fields.datetime(u'Data Alteração', readonly=True),
-        'end_date': fields.datetime(u'Data Finalização', readonly=True),
-        'state': fields.selection(
-            [('draft', 'Rascunho'), ('send', 'Enviado'),
-            ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
-            'Status', select=True, readonly=True),
-        'document_event_ids': fields.many2one(
-            'account.invoice', 'Documentos', ondelete='cascade')
-    }
-    _defaults = {
-        'state': 'draft',
-    }
+
+    type = fields.Selection(
+        [('-1', u'Exception'),
+        ('0', u'Envio Lote'),
+        ('1', u'Consulta Recibo'),
+        ('2', u'Cancelamento'),
+        ('3', u'Inutilização'),
+        ('4', u'Consulta NFE'),
+        ('5', u'Consulta Situação'),
+        ('6', u'Consulta Cadastro'),
+        ('7', u'DPEC Recepção'),
+        ('8', u'DPEC Consulta'),
+        ('9', u'Recepção Evento'),
+        ('10', u'Download'),
+        ('11', u'Consulta Destinadas'),
+        ('12', u'Distribuição DFe'),
+        ('13', u'Manifestação')], 'Serviço')
+    response = fields.Char(u'Descrição', size=64, readonly=True)
+    company_id = fields.Many2one(
+        'res.company', 'Empresa', readonly=True,
+        states={'draft': [('readonly', False)]})
+    origin = fields.Char('Documento de Origem', size=64,
+        readonly=True, states={'draft': [('readonly', False)]},
+        help="Reference of the document that produced event.")
+    file_sent = fields.Char('Envio', readonly=True)
+    file_returned = fields.Char('Retorno', readonly=True)
+    status = fields.Char('Codigo', readonly=True)
+    message = fields.Char('Mensagem', readonly=True)
+    create_date = fields.Datetime(u'Data Criação', readonly=True)
+    write_date = fields.Datetime(u'Data Alteração', readonly=True)
+    end_date = fields.Datetime(u'Data Finalização', readonly=True)
+    state = fields.Selection(
+        [('draft', 'Rascunho'), ('send', 'Enviado'),
+        ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
+        'Status', select=True, readonly=True, default='draft')
+    document_event_ids = fields.Many2one(
+        'account.invoice', 'Documentos', ondelete='cascade')
+
     _order = "write_date desc"
 
     def set_done(self, cr, uid, ids, context=None):
@@ -135,45 +131,40 @@ class L10n_brDocumentEvent(orm.Model):
         return True
 
 
-class L10n_brAccountFiscalCategory(orm.Model):
+class L10n_brAccountFiscalCategory(models.Model):
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscal'
-    _columns = {
-        'code': fields.char(u'Código', size=254, required=True),
-        'name': fields.char(u'Descrição', size=254),
-        'type': fields.selection(TYPE, 'Tipo'),
-        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal'),
-        'property_journal': fields.property(type='many2one', relation='account.journal',
-            string=u"Diário Contábil", method=True, 
-            help=u"Diário utilizado para esta categoria de operação fiscal"),
-        'journal_type': fields.selection(
-            [('sale', 'Venda'), ('sale_refund', u'Devolução de Venda'),
-            ('purchase', 'Compras'),
-            ('purchase_refund', u'Devolução de Compras')], u'Tipo do Diário',
-            size=32, required=True),
-        'refund_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', u'Categoria Fiscal de Devolução',
-            domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
-                ('journal_type', 'like', journal_type),
-                ('state', '=', 'approved')]"""),
-        'reverse_fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', u'Categoria Fiscal Inversa',
-            domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
-                ('state', '=', 'approved')]"""),
-        'fiscal_position_ids': fields.one2many('account.fiscal.position',
-            'fiscal_category_id', u'Posições Fiscais'),
-        'note': fields.text(u'Observações'),
-        'state': fields.selection([('draft', u'Rascunho'),
-            ('review', u'Revisão'), ('approved', u'Aprovada'),
-            ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
-            track_visibility='onchange', select=True),
-    }
-    _defaults = {
-        'state': 'draft',
-        'type': 'output',
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-        'journal_type': 'sale',
-    }
+
+    code = fields.Char(u'Código', size=254, required=True)
+    name = fields.Char(u'Descrição', size=254)
+    type = fields.Selection(TYPE, string='Tipo', default='output')
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    property_journal = fields.Many2one('account.journal',
+        string=u"Diário Contábil", method=True, company_dependent=True,
+        help=u"Diário utilizado para esta categoria de operação fiscal")
+    journal_type = fields.Selection(
+        [('sale', 'Venda'), ('sale_refund', u'Devolução de Venda'),
+        ('purchase', 'Compras'),
+        ('purchase_refund', u'Devolução de Compras')], u'Tipo do Diário',
+        size=32, required=True, default='sale')
+    refund_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', u'Categoria Fiscal de Devolução',
+        domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
+            ('journal_type', 'like', journal_type),
+            ('state', '=', 'approved')]""")
+    reverse_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', u'Categoria Fiscal Inversa',
+        domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
+            ('state', '=', 'approved')]""")
+    fiscal_position_ids = fields.One2many('account.fiscal.position',
+        'fiscal_category_id', u'Posições Fiscais')
+    note = fields.Text(u'Observações')
+    state = fields.Selection([('draft', u'Rascunho'),
+        ('review', u'Revisão'), ('approved', u'Aprovada'),
+        ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
+        track_visibility='onchange', select=True, default='draft')
+
     _sql_constraints = [
         ('l10n_br_account_fiscal_category_code_uniq', 'unique (code)',
          u'Já existe uma categoria fiscal com esse código !')
@@ -190,24 +181,20 @@ class L10n_brAccountFiscalCategory(orm.Model):
         return True
 
 
-class L10n_brAccountServiceType(orm.Model):
+class L10n_brAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
-    _columns = {
-        'code': fields.char(u'Código', size=16, required=True),
-        'name': fields.char(u'Descrição', size=256, required=True),
-        'parent_id': fields.many2one(
-            'l10n_br_account.service.type', 'Tipo de Serviço Pai'),
-        'child_ids': fields.one2many(
-            'l10n_br_account.service.type', 'parent_id',
-            u'Tipo de Serviço Filhos'),
-        'internal_type': fields.selection(
-            [('view', u'Visualização'), ('normal', 'Normal')],
-            'Tipo Interno', required=True),
-    }
-    _defaults = {
-        'internal_type': 'normal'
-    }
+
+    code = fields.Char(u'Código', size=16, required=True)
+    name = fields.Char(u'Descrição', size=256, required=True)
+    parent_id = fields.Many2one(
+        'l10n_br_account.service.type', 'Tipo de Serviço Pai')
+    child_ids = fields.One2many(
+        'l10n_br_account.service.type', 'parent_id',
+        u'Tipo de Serviço Filhos')
+    internal_type = fields.Selection(
+        [('view', u'Visualização'), ('normal', 'Normal')],
+        'Tipo Interno', required=True, default='normal')
 
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
@@ -222,36 +209,31 @@ class L10n_brAccountServiceType(orm.Model):
         return res
 
 
-class L10n_brAccountFiscalDocument(orm.Model):
+class L10n_brAccountFiscalDocument(models.Model):
     _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
-    _columns = {
-        'code': fields.char(u'Codigo', size=8, required=True),
-        'name': fields.char(u'Descrição', size=64),
-        'electronic': fields.boolean(u'Eletrônico')
-    }
+
+    code = fields.Char(u'Codigo', size=8, required=True)
+    name = fields.Char(u'Descrição', size=64)
+    electronic = fields.Boolean(u'Eletrônico')
 
 
-class L10n_brAccountDocumentSerie(orm.Model):
+class L10n_brAccountDocumentSerie(models.Model):
     _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
-    _columns = {
-        'code': fields.char(u'Código', size=3, required=True),
-        'name': fields.char(u'Descrição', size=64, required=True),
-        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal'),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document',
-            'Documento Fiscal', required=True),
-        'company_id': fields.many2one(
-            'res.company', 'Empresa', required=True),
-        'active': fields.boolean('Ativo'),
-        'internal_sequence_id': fields.many2one(
-            'ir.sequence', u'Sequência Interna')
-    }
-    _defaults = {
-        'active': True,
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-    }
+
+    code = fields.Char(u'Código', size=3, required=True)
+    name = fields.Char(u'Descrição', size=64, required=True)
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_account.fiscal.document',
+        'Documento Fiscal', required=True)
+    company_id = fields.Many2one(
+        'res.company', 'Empresa', required=True)
+    active = fields.Boolean('Ativo', default=True)
+    internal_sequence_id = fields.Many2one(
+        'ir.sequence', u'Sequência Interna')
 
     def create_sequence(self, cr, uid, vals, context=None):
         """ Create new no_gap entry sequence for every
@@ -291,7 +273,7 @@ class L10n_brAccountDocumentSerie(orm.Model):
         return result
 
 
-class L10n_brAccountInvoiceInvalidNumber(orm.Model):
+class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
@@ -303,44 +285,40 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
             str(record.number_start) + ' - ' + str(record.number_end)
         return result
 
-    _columns = {
-        'name': fields.function(
-            _name_get, method=True, type="char",
-            size=64, string="Nome"),
-        'company_id': fields.many2one(
-            'res.company', 'Empresa', readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'fiscal_document_id': fields.many2one(
-            'l10n_br_account.fiscal.document', 'Documento Fiscal',
-            readonly=True, states={'draft': [('readonly', False)]},
-            required=True),
-        'document_serie_id': fields.many2one(
-            'l10n_br_account.document.serie', u'Série',
-            domain="[('fiscal_document_id', '=', fiscal_document_id), "
-            "('company_id', '=', company_id)]", readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'number_start': fields.integer(
-            u'Número Inicial', readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'number_end': fields.integer(
-            u'Número Final', readonly=True,
-            states={'draft': [('readonly', False)]}, required=True),
-        'state': fields.selection(
-            [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-            ('done', u'Concluído')], 'Status', required=True),
-        'justificative': fields.char('Justificativa', size=255,
-            readonly=True, states={'draft': [('readonly', False)]},
-            required=True),
-        'invalid_number_document_event_ids': fields.one2many(
-            'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos'),
-    }
-    _defaults = {
-        'state': 'draft',
-        'company_id': lambda self, cr, uid,
-            c: self.pool.get('res.company')._company_default_get(
-                cr, uid, 'account.invoice', context=c)
-    }
+    name = fields.Char(
+        compute=_name_get, method=True,
+        size=64, string="Nome")
+    company_id = fields.Many2one(
+        'res.company', 'Empresa', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True,
+        default=lambda self : self.env['res.company']._company_default_get(
+            'account.invoice')
+        )
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_account.fiscal.document', 'Documento Fiscal',
+        readonly=True, states={'draft': [('readonly', False)]},
+        required=True)
+    document_serie_id = fields.Many2one(
+        'l10n_br_account.document.serie', u'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id), "
+        "('company_id', '=', company_id)]", readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
+    number_start = fields.Integer(
+        u'Número Inicial', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
+    number_end = fields.Integer(
+        u'Número Final', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
+    state = fields.Selection(
+        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
+        ('done', u'Concluído')], 'Status', required=True, default='draft')
+    justificative = fields.Char('Justificativa', size=255,
+        readonly=True, states={'draft': [('readonly', False)]},
+        required=True)
+    invalid_number_document_event_ids = fields.One2many(
+        'l10n_br_account.document_event', 'document_event_ids',
+        u'Eventos')
+
     _sql_constraints = [
         ('number_uniq',
          'unique(document_serie_id, number_start, number_end, state)',
@@ -394,43 +372,43 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
                 raise orm.except_orm(
                     (u'Ação Inválida!'),
                     (u'Você não pode excluir uma sequência concluída.'))
-        orm.Model.unlink(self, cr, uid, unlink_ids, context=context)
+        models.Model.unlink(self, cr, uid, unlink_ids, context=context)
         return True
 
 
-class L10n_brAccountPartnerFiscalType(orm.Model):
+class L10n_brAccountPartnerFiscalType(models.Model):
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
-    _columns = {
-        'code': fields.char(u'Código', size=16, required=True),
-        'name': fields.char(u'Descrição', size=64),
-        'is_company': fields.boolean('Pessoa Juridica?'),
-        'default': fields.boolean(u'Tipo Fiscal Padrão'),
-        'icms': fields.boolean('Recupera ICMS'),
-        'ipi': fields.boolean('Recupera IPI')
-    }
-    _defaults = {
-        'default': True,
-    }
 
+    code = fields.Char(u'Código', size=16, required=True)
+    name = fields.Char(u'Descrição', size=64)
+    is_company = fields.Boolean(string='Pessoa Juridica?')
+    default = fields.Boolean(u'Tipo Fiscal Padrão',
+                             help="Tipo padrão utilizado ao se registrar um novo parceiro!")
+    icms = fields.Boolean('Recupera ICMS')
+    ipi = fields.Boolean('Recupera IPI')
 
-class L10n_brAccountCNAE(orm.Model):
+    @api.one
+    @api.constrains('default')
+    def _check_default(self):
+        if self.default:
+            if len(self.search([('default', '=', 'True')])) > 1:
+                raise Warning(_(u'Mantenha apenas um tipo fiscal padrão!'))
+        return True
+
+class L10n_brAccountCNAE(models.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
-    _columns = {
-        'code': fields.char(u'Código', size=16, required=True),
-        'name': fields.char(u'Descrição', size=64, required=True),
-        'version': fields.char(u'Versão', size=16, required=True),
-        'parent_id': fields.many2one('l10n_br_account.cnae', 'CNAE Pai'),
-        'child_ids': fields.one2many(
-            'l10n_br_account.cnae', 'parent_id', 'CNAEs Filhos'),
-        'internal_type': fields.selection(
-            [('view', u'Visualização'), ('normal', 'Normal')],
-            'Tipo Interno', required=True),
-    }
-    _defaults = {
-        'internal_type': 'normal'
-    }
+
+    code = fields.Char(u'Código', size=16, required=True)
+    name = fields.Char(u'Descrição', size=64, required=True)
+    version = fields.Char(u'Versão', size=16, required=True)
+    parent_id = fields.Many2one('l10n_br_account.cnae', 'CNAE Pai')
+    child_ids = fields.One2many(
+        'l10n_br_account.cnae', 'parent_id', 'CNAEs Filhos')
+    internal_type = fields.Selection(
+        [('view', u'Visualização'), ('normal', 'Normal')],
+        'Tipo Interno', required=True, default='normal')
 
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
@@ -445,15 +423,14 @@ class L10n_brAccountCNAE(orm.Model):
         return res
 
 
-class L10n_brTaxDefinitionTemplate(orm.Model):
+class L10n_brTaxDefinitionTemplate(models.Model):
     _name = 'l10n_br_tax.definition.template'
-    _columns = {
-        'tax_id': fields.many2one(
-            'account.tax.template', 'Imposto', required=True),
-        'tax_domain': fields.related(
-            'tax_id', 'domain', type='char'),
-        'tax_code_id': fields.many2one(
-            'account.tax.code.template', u'Código de Imposto')}
+
+    tax_id = fields.Many2one(
+        'account.tax.template', 'Imposto', required=True)
+    tax_domain = fields.Char(related='tax_id.domain')
+    tax_code_id = fields.Many2one(
+        'account.tax.code.template', u'Código de Imposto')
 
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False
@@ -463,18 +440,16 @@ class L10n_brTaxDefinitionTemplate(orm.Model):
         return {'value': {'tax_domain': tax_domain}}
 
 
-class L10n_brTaxDefinition(orm.Model):
+class L10n_brTaxDefinition(models.Model):
     _name = 'l10n_br_tax.definition'
-    _columns = {
-        'tax_id': fields.many2one('account.tax', 'Imposto', required=True),
-        'tax_domain': fields.related('tax_id', 'domain',
-                                     type='char'),
-        'tax_code_id': fields.many2one(
-            'account.tax.code', u'Código de Imposto'),
-        'company_id': fields.related(
-            'tax_id', 'company_id', type='many2one', readonly=True,
-            relation='res.company', store=True, string='Empresa'),
-    }
+
+    tax_id = fields.Many2one('account.tax', 'Imposto', required=True)
+    tax_domain = fields.Char(related='tax_id.domain')
+    tax_code_id = fields.Many2one(
+        'account.tax.code', u'Código de Imposto')
+    company_id = fields.Many2one(
+        related='tax_id.company_id', readonly=True,
+        store=True, string='Empresa')
 
     def onchange_tax_id(self, cr, uid, ids, tax_id=False, context=None):
         tax_domain = False
