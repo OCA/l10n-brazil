@@ -79,7 +79,72 @@ class SaleOrder(orm.Model):
             result[line.order_id.id] = True
         return result.keys()
 
+
+    def _get_costs_value(self, cr, uid, ids, field_names, arg, context=None):
+        """ Read the l10n_br specific functional fields. """
+        result = {}
+        for order in self.browse(cr, uid, ids, context=context):
+            result[order.id] = {
+                'amount_freight': 0.0,
+                'amount_insurance': 0.0,
+                'amount_costs': 0.0,
+                }
+            freight = costs = insurance = 0.0
+            for line in order.order_line:
+                freight += line.freight_value
+                costs += line.insurance_value
+                insurance += line.other_costs_value
+            result[order.id] = {
+                'amount_freight': freight,
+                'amount_costs': costs,
+                'amount_insurance': insurance,
+            }
+        return result
+
+    def _set_costs_value(self, cr, uid, ids, name,
+                            value, arg, context=None):
+        line_obj = self.pool.get('sale.order.line')
+        write = {
+            'amount_freight': 'freight_value',
+            'amount_insurance': 'insurance_value',
+            'amount_costs': 'other_costs_value',
+        }
+        for order in self.browse(cr, uid, ids, context=context):
+            for line in order.order_line:
+                line_obj.write(cr, uid, line.id, {
+                    write[name]: calc_price_ratio(
+                        line.price_gross,
+                        value,
+                        line.order_id.amount_gross),
+                    }, context=context)
+        return True
+
     _columns = {
+        'amount_freight': fields.function(
+            _get_costs_value, fnct_inv=_set_costs_value,
+            type='float',
+            digits_compute=dp.get_precision('Account'),
+            string='Frete',
+            states={'draft': [('readonly', False)]},
+            multi='costs'
+        ),
+        'amount_costs': fields.function(
+            _get_costs_value, fnct_inv=_set_costs_value,
+            type='float',
+            digits_compute=dp.get_precision('Account'),
+            string='Outros custos',
+            states={'draft': [('readonly', False)]},
+            multi='costs'
+
+        ),
+        'amount_insurance': fields.function(
+            _get_costs_value, fnct_inv=_set_costs_value,
+            type='float',
+            digits_compute=dp.get_precision('Account'),
+            string='Seguro',
+            states={'draft': [('readonly', False)]},
+            multi='costs'
+        ),
         'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
             digits_compute=dp.get_precision('Account'),
             store={
@@ -140,15 +205,6 @@ class SaleOrder(orm.Model):
                     'insurance_value', 'other_costs_value'], 10),
             },
               multi='sums', help="The discount amount."),
-        'amount_freight': fields.float('Frete',
-             digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
-        'amount_costs': fields.float('Outros Custos',
-            digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
-        'amount_insurance': fields.float('Seguro',
-            digits_compute=dp.get_precision('Account'), readonly=True,
-                               states={'draft': [('readonly', False)]}),
         'discount_rate': fields.float('Desconto', readonly=True,
                                states={'draft': [('readonly', False)]}),
         'ind_pres': fields.selection([
@@ -219,46 +275,6 @@ class SaleOrder(orm.Model):
                         fc_ids.append(fc.id)
 
         return fp_comment + fc_comment
-
-    def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
-        result = {}
-        if (amount_freight is False) or not ids:
-            return {'value': {'amount_freight': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'freight_value':
-            calc_price_ratio(line.price_gross, amount_freight,
-                order.amount_gross)}, context=None)
-        return result
-
-    def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
-        result = {}
-        if (amount_insurance is False) or not ids:
-            return {'value': {'amount_insurance': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'insurance_value':
-          calc_price_ratio(line.price_gross, amount_insurance,
-                order.amount_gross)}, context=None)
-        return result
-
-    def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
-        result = {}
-        if (amount_costs is False) or not ids:
-            return {'value': {'amount_costs': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'other_costs_value':
-          calc_price_ratio(line.price_gross, amount_costs,
-                order.amount_gross)}, context=None)
-        return result
-
 
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
