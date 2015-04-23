@@ -18,12 +18,13 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, api, _
+from openerp.osv import fields
+from openerp.exceptions import except_orm
 from openerp.addons import decimal_precision as dp
 
 
-class PurchaseOrder(orm.Model):
+class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
@@ -91,19 +92,34 @@ class PurchaseOrder(orm.Model):
     _defaults = {
         'fiscal_category_id': _default_fiscal_category}
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id=False,
+    # @api.multi
+    # def onchange_partner_id(self, partner_id=False,
+    #                         company_id=False, context=None, **kwargs):
+    #     context = dict(self._context)
+    #     # TODO try to upstream web_context_tunnel in fiscal-rules
+    #     # to avoid having to change this signature
+    #     fiscal_category_id = context.get('fiscal_category_id', False)
+    #     if not company_id:
+    #         company_id = self.env['res.users'].browse(
+    #             self._uid).with_context(context).company_id.id
+    #     return super(PurchaseOrder, self).onchange_partner_id(
+    #         partner_id, company_id, fiscal_category_id=fiscal_category_id,
+    #         **kwargs)
+
+    @api.multi
+    def onchange_partner_id(self, partner_id=False,
                             company_id=False, context=None, **kwargs):
-        if not context:
-            context = {}
+        context = dict(self._context)
         # TODO try to upstream web_context_tunnel in fiscal-rules
         # to avoid having to change this signature
-        fiscal_category_id = context.get('fiscal_category_id')
         if not company_id:
-            company_id = self.pool['res.users'].browse(
-                cr, uid, uid, context).company_id.id
+            company_id = self.env['res.users'].browse(
+                self._uid).with_context(context).company_id.id
+
+
         return super(PurchaseOrder, self).onchange_partner_id(
-            cr, uid, ids, partner_id, company_id, context,
-            fiscal_category_id=fiscal_category_id, **kwargs)
+            partner_id, **kwargs)
+
 
     def onchange_dest_address_id(self, cr, uid, ids, partner_id,
                                  dest_address_id, company_id, context,
@@ -182,7 +198,7 @@ class PurchaseOrder(orm.Model):
             if inv_id:
                 company_id = order.company_id
                 if not company_id.document_serie_product_ids:
-                    raise orm.except_orm(
+                    raise except_orm(
                         _('No fiscal document serie found!'),
                         _("No fiscal document serie found for selected \
                         company %s") % (order.company_id.name))
@@ -191,7 +207,7 @@ class PurchaseOrder(orm.Model):
                 order.fiscal_category_id.property_journal.id or False
 
                 if not journal_id:
-                    raise orm.except_orm(
+                    raise except_orm(
                         _(u'Nenhuma Diário!'),
                         _(u"Categoria de operação fisca: '%s', não tem um \
                         diário contábil para a empresa %s") % (
@@ -234,7 +250,7 @@ class PurchaseOrder(orm.Model):
                 order_line.fiscal_position.id
         return result
 
-class PurchaseOrderLine(orm.Model):
+class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     _columns = {
         'fiscal_category_id': fields.many2one(
