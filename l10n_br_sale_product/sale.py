@@ -111,6 +111,8 @@ class SaleOrder(orm.Model):
         }
         for order in self.browse(cr, uid, ids, context=context):
             for line in order.order_line:
+                if not line.order_id.amount_gross:
+                    continue
                 line_obj.write(cr, uid, line.id, {
                     write[name]: calc_price_ratio(
                         line.price_gross,
@@ -119,13 +121,18 @@ class SaleOrder(orm.Model):
                     }, context=context)
         return True
 
+
     _columns = {
         'amount_freight': fields.function(
             _get_costs_value, fnct_inv=_set_costs_value,
             type='float',
             digits_compute=dp.get_precision('Account'),
             string='Frete',
-            states={'draft': [('readonly', False)]},
+            readonly=True,
+            states={
+                'draft': [('readonly', False)],
+                'sent': [('readonly', False)]
+            },
             multi='costs'
         ),
         'amount_costs': fields.function(
@@ -133,16 +140,23 @@ class SaleOrder(orm.Model):
             type='float',
             digits_compute=dp.get_precision('Account'),
             string='Outros custos',
-            states={'draft': [('readonly', False)]},
+            readonly=True,
+            states={
+                'draft': [('readonly', False)],
+                'sent': [('readonly', False)]
+            },
             multi='costs'
-
         ),
         'amount_insurance': fields.function(
             _get_costs_value, fnct_inv=_set_costs_value,
             type='float',
             digits_compute=dp.get_precision('Account'),
             string='Seguro',
-            states={'draft': [('readonly', False)]},
+            readonly=True,
+            states={
+                'draft': [('readonly', False)],
+                'sent': [('readonly', False)]
+            },
             multi='costs'
         ),
         'amount_untaxed': fields.function(_amount_all, string='Untaxed Amount',
@@ -233,9 +247,6 @@ class SaleOrder(orm.Model):
         return result
 
     _defaults = {
-        'amount_freight': 0.00,
-        'amount_costs': 0.00,
-        'amount_insurance': 0.00,
         'ind_pres': _default_ind_pres,
     }
 
