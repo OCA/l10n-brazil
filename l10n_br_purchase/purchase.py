@@ -262,28 +262,26 @@ class PurchaseOrderLine(models.Model):
             domain="[('fiscal_category_id', '=', fiscal_category_id)]")
     }
 
-    def _fiscal_position_map(self, cr, uid, result, **kwargs):
-        kwargs['context'] = dict(kwargs['context'] or {})
-        
-        kwargs['context'].update({'use_domain': ('use_purchase', '=', True)})
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        result_rule = fp_rule_obj.apply_fiscal_mapping(
-            cr, uid, result, **kwargs)
-        if kwargs.get('product_id', False) and \
-        result_rule.get('fiscal_position', False):
-            obj_fposition = self.pool.get('account.fiscal.position').browse(
-                cr, uid, result_rule['fiscal_position'])
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, kwargs.get('product_id', False))
+    @api.model
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self._context)
+        ctx.update({'use_domain': ('use_purchase', '=', True)})
+        result_rule = self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
+        if kwargs.get('product_id', False) and result_rule.get(
+                'fiscal_position', False):
+            obj_fposition = self.env['account.fiscal.position'].browse(
+                result_rule['fiscal_position'])
+            obj_product = self.env['product.product'].browse(
+                kwargs.get('product_id', False))
             kwargs['context'].update({'fiscal_type': obj_product.fiscal_type,
                             'type_tax_use': 'purchase'})
             taxes = obj_product.supplier_taxes_id or False
-            tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                cr, uid, obj_fposition, taxes, kwargs.get('context'))
-
+            tax_ids = obj_fposition.map_tax(taxes, kwargs.get('context'))
             result_rule['taxes_id'] = tax_ids
 
         return result_rule
+
 
     def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id,
                             qty, uom_id, partner_id, date_order=False,
