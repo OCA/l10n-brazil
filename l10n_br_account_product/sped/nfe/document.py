@@ -313,6 +313,7 @@ class NFe200(FiscalDocument):
             # Impostos
             #
             # ICMS
+            self.det.imposto.ICMS.orig.valor = inv_line.icms_origin
             if inv_line.icms_cst_id.code > 100:
                 self.det.imposto.ICMS.CSOSN.valor = inv_line.icms_cst_id.code
                 self.det.imposto.ICMS.pCredSN.valor = str("%.2f" % inv_line.icms_percent)
