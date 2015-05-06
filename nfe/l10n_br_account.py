@@ -24,8 +24,6 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.addons.nfe.sped.nfe.validator.config_check import *
 from openerp.addons.nfe.sped.nfe.processing.xml import invalidate
-from dbus.bus import _logger
-from sys import exc_info
 
 _logger = logging.getLogger(__name__)
 
