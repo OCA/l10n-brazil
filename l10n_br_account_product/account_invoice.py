@@ -840,6 +840,13 @@ class AccountInvoiceLine(models.Model):
         return super(AccountInvoiceLine, self).write(
             cr, uid, ids, vals, context)
 
+    def copy(self, cr, uid, id, default={}, context=None):
+        default.update({
+            'date_in_out': False,
+            'date_hour_invoice': False,
+        })
+        return super(AccountInvoice, self).copy(cr, uid, id, default, context)
+
 
 class AccountInvoiceTax(models.Model):
 

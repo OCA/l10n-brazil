@@ -561,6 +561,11 @@ class NFe310(NFe200):
         self.nfe.infNFe.ide.indPres.valor = inv.ind_pres or ''
         self.nfe.infNFe.ide.dhEmi.valor = datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S')
         self.nfe.infNFe.ide.dhSaiEnt.valor = datetime.strptime(inv.date_in_out, '%Y-%m-%d %H:%M:%S')
+        self.nfe.infNFe.ide.hSaiEnt.valor = datetime.strptime(inv.date_in_out, '%Y-%m-%d %H:%M:%S')
+        #
+        # self.nfe.infNFe.ide.hSaiEnt.valor = datetime.strptime(
+        #     inv.date_in_out[-8:], '%H:%M:%S')
+
 
     def get_NFe(self):
 
