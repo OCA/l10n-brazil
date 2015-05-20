@@ -179,12 +179,15 @@ class SaleOrder(orm.Model):
         'fiscal_category_id': _default_fiscal_category,
     }
 
-    def onchange_discount_rate(self, cr, uid, ids, discount_rate):
-        res = {}
+    def onchange_discount_rate(self, cr, uid, ids, discount_rate, context=None):
+        res = { 'value': {} }
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
+            lines = []
+            for line in order.order_line:               
+                lines.append( (1, line.id, { 'discount': discount_rate } ))
+            res['value'] = { 'id': order.id, 'order_line': lines}
+            
         return res
 
     @api.multi
