@@ -10,14 +10,17 @@
             			<field name="justificativa"/>     			
 					</group>  
 					<footer> 
-						<button name="action_enviar_cancelamento"  string="Enviar Cancelamento" type="object"/>
+						<button name="action_enviar_cancelamento"
+                                string="Enviar Cancelamento" type="object"
+                                class="oe_highlight"
+                                confirm="Deseja realmente cancelar a nota no sefaz?" />
 						<button string="Cancelar" special="cancel"/>
 					</footer>         			
             	</form> 
             </field>
         </record>        
 		<record model="ir.actions.act_window" id="action_nfe_invoice_cancel_form">
-            <field name="name">Reportar</field>
+            <field name="name">Cancelar no Sefaz</field>
             <field name="res_model">nfe.invoice_cancel</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>

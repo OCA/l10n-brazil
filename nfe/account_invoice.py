@@ -209,8 +209,26 @@ class AccountInvoice(orm.Model):
                 }, context)
         return True
 
-    def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
+    def button_cancel(self, cr, uid, ids, context=None):
 
+        document_serie_id = inv.document_serie_id
+        fiscal_document_id = inv.document_serie_id.fiscal_document_id
+        electronic = inv.document_serie_id.fiscal_document_id.electronic
+        status = inv.nfe_status
+
+        if ((document_serie_id and fiscal_document_id and not electronic) or
+                not status):
+            return super(AccountInvoice, self).action_cancel(cr, uid,
+                                                       [inv.id], context)
+        else:
+            ctx = dict(context)
+            res = self.pool.get('ir.actions.act_window').for_xml_id(
+                cr, uid, 'nfe',
+                'action_nfe_invoice_cancel_form', context)
+            return res
+
+    def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
+        
         for inv in self.browse(cr, uid, ids, context):
 
             document_serie_id = inv.document_serie_id
@@ -219,7 +237,7 @@ class AccountInvoice(orm.Model):
 
             if (document_serie_id and fiscal_document_id and not electronic):
                 return False
-
+                      
             event_obj = self.pool.get('l10n_br_account.document_event')
             if inv.state in ('open', 'paid'):
                 company_pool = self.pool.get('res.company')

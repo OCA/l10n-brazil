@@ -5,43 +5,62 @@
 			<field name="name">l10n_br_envio_account.invoice.form</field>
 			<field name="model">account.invoice</field>
 			<field name="priority">32</field>
-			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="replace">
-					<button name="invoice_open" attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}" string="Validate" class="oe_highlight"/>
-					<button name="invoice_trysend" attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}" confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"  groups="base.group_user"/>
-					<button name="invoice_print" string="Pré-Visualizar DANFE" states="sefaz_export" groups="base.group_user" type="object"/>
-					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio" class="oe_highlight"  groups="base.group_user"/>
-					<button name="%(action_nfe_invoice_cancel_form)d"  type="action" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="open" string="Cancelar no Sefaz" groups="account.group_account_invoice"/>					
-					<button name="%(action_nfe_invoice_cce_form)d"  attrs="{'invisible':[('state','!=','open')]}" string="Enviar Carta de correção" type="action"/>				
-				</button>
-	<!--			<field position="attributes" name="invoice_cancel">
-					<button name="%(action_nfe_invoice_cancel_form)d"  type="action" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="open" string="Cancelar no Sefaz" groups="account.group_account_invoice"/>
-				</field>				
-			</field>
-		</record>
-	</data>
-    <data>
-		<record model="ir.ui.view"
-                id="view_l10n_br_envio_account_invoice_supplier_form">
-			<field name="name">l10n_br_envio_account.invoice.form</field>
-			<field name="model">account.invoice</field>
-			<field name="priority">32</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<button name="invoice_open" position="replace">
-					<button name="invoice_open" attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}" string="Validate" class="oe_highlight"/>
-					<button name="invoice_trysend" attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}" confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"  groups="base.group_user"/>
-					<button name="invoice_print" string="Pré-Visualizar DANFE" states="sefaz_export" groups="base.group_user"/>
-					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio" class="oe_highlight"  groups="base.group_user"/>
-					<button name="%(action_nfe_invoice_cancel_form)d"  attrs="{'invisible':[('state','!=','open')]}" type="action" confirm="Deseja realmente cancelar a nota? Em caso de NF-e será efetuado o cancelamento on-line" states="open" string="Cancelar no Sefaz" groups="account.group_account_invoice"/>
-					<button name="%(action_nfe_invoice_cce_form)d"  attrs="{'invisible':[('state','!=','open')]}" string="Enviar Carta de correção" type="action"/>
+					<button name="invoice_open"
+							attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
+							string="Validate" class="oe_highlight"/>
+					<button name="invoice_trysend"
+							attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}"
+							confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"
+							groups="base.group_user"/>
+					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio"
+							class="oe_highlight" groups="base.group_user"/>
+					<button name="button_cancel" string="Cancelar Fatura"
+							states="draft,proforma2,sefaz_export,sefaz_exception,open"
+							groups="base.group_user"
+							type="object"/>
+					<button name="%(action_nfe_invoice_cce_form)d"
+							attrs="{'invisible':['|',('issuer','!=','0'),
+                                                 ('state','not in',['open','paid'])]}"
+							string="Enviar Carta de correção" type="action"/>
 				</button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
-					<button name="invoice_cancel" states="draft,proforma2,sale,sefaz_export,sefaz_exception" string="Cancel Invoice" groups="account.group_account_invoice"/>
 				</xpath>
 			</field>
 		</record>
 	</data>
-
+	<data>
+		<record model="ir.ui.view"
+				id="view_l10n_br_envio_account_invoice_supplier_form">
+			<field name="name">l10n_br_envio_account.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="priority">32</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+				<button name="invoice_open" position="replace">
+					<button name="invoice_open"
+							attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
+							string="Validate" class="oe_highlight"/>
+					<button name="invoice_trysend"
+							attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}"
+							confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"
+							groups="base.group_user"/>
+					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio"
+							class="oe_highlight" groups="base.group_user"/>
+					<button name="button_cancel" string="Cancelar Fatura"
+							states="draft,proforma2,sefaz_export,sefaz_exception,open"
+							groups="base.group_user"
+							type="object"/>
+					<button name="%(action_nfe_invoice_cce_form)d"
+							attrs="{'invisible':['|',('issuer','!=','0'),
+                                                 ('state','not in',['open','paid'])]}"
+							string="Enviar Carta de correção" type="action"/>
+				</button>
+				<xpath expr="//button[@name='invoice_cancel']" position="replace">
+				</xpath>
+			</field>
+		</record>
+	</data>
 </openerp>

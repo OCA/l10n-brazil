@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 
 class NfeInvoiceCancel(osv.osv_memory):
     _name = 'nfe.invoice_cancel'
-
+    
     _columns = {
         'justificativa': fields.text('Justificativa', size=255, required=True),
     }
@@ -45,10 +45,9 @@ class NfeInvoiceCancel(osv.osv_memory):
 
         if context is None:
             context = {}
-
-        justificativa = self.browse(cr, uid, ids)[0].justificativa
-
-        obj_invoice = self.pool.get('account.invoice')
-        obj_invoice.cancel_invoice_online(cr, uid, data['ids'], justificativa)
-
-        return {'type': 'ir.actions.act_window_close'}
+            
+        for cancel in self.browse(cr, uid, ids):
+            obj_invoice = self.pool.get('account.invoice')
+            obj_invoice.cancel_invoice_online(cr, uid, data['ids'],
+                                              cancel.justificativa)
+        return {'type': 'ir.actions.act_window_close'}     
