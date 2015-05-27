@@ -152,17 +152,18 @@ class AccountInvoice(orm.Model):
             readonly=True, required=True,
             states={'draft': [('readonly', False)]},
             help="Delivery address for current sales order."),
-        'state': fields.selection([
-            ('draft', 'Draft'),
-            ('proforma', 'Pro-forma'),
-            ('proforma2', 'Pro-forma'),
-            ('sefaz_export', 'Enviar para Receita'),
-            ('sefaz_exception', u'Erro de autorização da Receita'),
-            ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz'),
-            ('open', 'Open'),
-            ('paid', 'Paid'),
-            ('cancel', 'Cancelled')
+        'state': fields.selection(
+            [
+                ('draft', 'Draft'),
+                ('proforma', 'Pro-forma'),
+                ('proforma2', 'Pro-forma'),
+                ('sefaz_export', 'Enviar para Receita'),
+                ('sefaz_exception', u'Erro de autorização da Receita'),
+                ('sefaz_denied', 'Denegada no Sefaz'),
+                ('open', 'Open'),
+                ('paid', 'Paid'),
+                ('cancel', 'Cancelled'),
+                ('sefaz_cancelled', 'Cancelado no Sefaz'),
             ], 'State', select=True, readonly=True,
             help=u' * The \'Draft\' state is used when a user is encoding a new and unconfirmed Invoice. \
             \n* The \'Pro-forma\' when invoice is in Pro-forma state,invoice does not have an invoice number. \
