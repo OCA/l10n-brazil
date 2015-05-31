@@ -195,6 +195,7 @@ class SaleOrder(orm.Model):
             partner_invoice_id, partner_shipping_id, partner_id, company_id,
             fiscal_category_id=fiscal_category_id)
 
+    @api.model
     def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
                                     partner_invoice_id=False, 
                                     fiscal_category_id=False, context=None):
@@ -219,8 +220,8 @@ class SaleOrder(orm.Model):
             'company_id': company_id,
             'context': context
         }
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+        fp_rule_obj = self.env['account.fiscal.position.rule']
+        return fp_rule_obj.apply_fiscal_mapping(result, **kwargs)
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
