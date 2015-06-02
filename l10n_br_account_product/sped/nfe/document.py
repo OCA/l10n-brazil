@@ -561,6 +561,12 @@ class NFe310(NFe200):
         self.nfe.infNFe.ide.dhEmi.valor = datetime.strptime(invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S')
         self.nfe.infNFe.ide.dhSaiEnt.valor = datetime.strptime(invoice.date_in_out, '%Y-%m-%d %H:%M:%S')
 
+    def _export(self, invoice):
+        "Informações de exportação"
+        self.nfe.infNFe.exporta.UFSaidaPais.valor = invoice.shipping_state_id.code or ''
+        self.nfe.infNFe.exporta.xLocEmbarq.valor = invoice.shipping_location or ''
+        self.nfe.infNFe.exporta.xLocDespacho.valor = '' #TODO
+
     def get_NFe(self):
         try:
             from pysped.nfe.leiaute import NFe_310
