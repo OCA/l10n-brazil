@@ -560,11 +560,20 @@ class AccountInvoice(orm.Model):
     def action_date_assign(self, cr, uid, ids, *args):
 
         for inv in self.browse(cr, uid, ids):
-            if inv.date_hour_invoice:
-                aux = datetime.datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
-                inv.date_invoice = str(aux)
+            date_time_now = fields.datetime.now()
+            date_hour_invoice = inv.date_hour_invoice or date_time_now
+            date_in_out =  inv.date_in_out or date_time_now
 
-            res = self.onchange_payment_term_date_invoice(cr, uid, inv.id, inv.payment_term.id, inv.date_invoice)
+            if date_hour_invoice:
+                aux = datetime.datetime.strptime(date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
+                date_invoice = str(aux)
+
+            res = self.onchange_payment_term_date_invoice(
+                cr, uid, inv.id, inv.payment_term.id, date_invoice)
+
+            res['value']['date_invoice'] = date_invoice
+            res['value']['date_hour_invoice'] = date_hour_invoice
+            res['value']['date_in_out'] = date_in_out
 
             if res and res['value']:
                 self.write(cr, uid, [inv.id], res['value'])
