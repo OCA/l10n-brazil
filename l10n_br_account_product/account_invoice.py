@@ -179,7 +179,8 @@ class AccountInvoice(orm.Model):
         'nfe_purpose': fields.selection(
             [('1', 'Normal'),
              ('2', 'Complementar'),
-             ('3', 'Ajuste')], u'Finalidade da Emissão', readonly=True,
+             ('3', 'Ajuste'),
+             ('4', u'Devolução')], u'Finalidade da Emissão', readonly=True,
             states={'draft': [('readonly', False)]}),
         'nfe_access_key': fields.char(
             'Chave de Acesso NFE', size=44,
