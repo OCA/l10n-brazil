@@ -92,8 +92,8 @@ class SaleOrder(orm.Model):
             freight = costs = insurance = 0.0
             for line in order.order_line:
                 freight += line.freight_value
-                costs += line.insurance_value
-                insurance += line.other_costs_value
+                insurance += line.insurance_value
+                costs += line.other_costs_value
             result[order.id] = {
                 'amount_freight': freight,
                 'amount_costs': costs,
