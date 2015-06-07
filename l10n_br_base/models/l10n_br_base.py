@@ -23,7 +23,7 @@ from openerp import models, fields
 class L10n_brBaseCity(models.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
-    do IBGE dos município envolvidos da transação.
+    do IBGE dos município envolvidos na transação.
     """
     _name = 'l10n_br_base.city'
     _description = u'Municipio'
