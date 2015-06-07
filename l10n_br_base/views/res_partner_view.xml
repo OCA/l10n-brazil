@@ -66,9 +66,8 @@
 					<field name="city" invisible="1" />
 				</field>
 				<field name="zip" position="attributes">
-					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
-					<attribute name="style">width: 50%%</attribute>
-				</field>
+                		    <attribute name="style">width: 50%</attribute>
+		        </field>
 				<notebook>
 					<page position="inside" string="Outros Dados">
 						<group string="Dados Fiscais">
