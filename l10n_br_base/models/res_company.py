@@ -26,84 +26,107 @@
 
 import re
 
-from openerp.osv import fields, orm
+from openerp import models, fields, api
 
 
-#TODO Migrar para nova API ainda não foi feito por causa da função reverse
-class ResCompany(orm.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    def _get_l10n_br_data(self, cr, uid, ids, field_names, arg, context=None):
+    @api.one
+    def _get_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
-        result = {}
-        companies = self.browse(cr, uid, ids, context=context)
-        for company in companies:
-            result[company.id] = {
-                'legal_name': company.partner_id.legal_name,
-                'cnpj_cpf': company.partner_id.cnpj_cpf,
-                'inscr_est': company.partner_id.inscr_est,
-                'inscr_mun': company.partner_id.inscr_mun,
-                'suframa': company.partner_id.suframa
-            }
-        return result
+        self.legal_name = self.partner_id.legal_name
+        self.cnpj_cpf = self.partner_id.cnpj_cpf
+        self.number = self.partner_id.number
+        self.district = self.partner_id.district
+        self.l10n_br_city_id = self.partner_id.l10n_br_city_id
+        self.inscr_est = self.partner_id.inscr_est
+        self.inscr_mun = self.partner_id.inscr_mun
+        self.suframa = self.partner_id.suframa
 
-    def _set_l10n_br_data(self, cr, uid, company_id, name,
-                            value, arg, context=None):
+    @api.one
+    def _set_l10n_br_legal_name(self):
         """ Write the l10n_br specific functional fields. """
-        company = self.browse(cr, uid, company_id, context=context)
-        if company.partner_id:
-            part_obj = self.pool.get('res.partner')
-            part_obj.write(cr, uid, company.partner_id.id,
-                {name: value or False}, context=context)
-        return True
+        self.partner_id.legal_name = self.legal_name
 
-    def _get_address_data(self, cr, uid, ids, field_names, arg, context=None):
-        return super(ResCompany, self)._get_address_data(
-            cr, uid, ids, field_names, arg, context=context)
+    @api.one
+    def _set_l10n_br_number(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.number = self.number
 
-    def _set_address_data(self, cr, uid, company_id, name,
-                            value, arg, context=None):
-        return super(ResCompany, self)._set_address_data(
-            cr, uid, company_id, name, value, arg, context=context)
+    @api.one
+    def _set_l10n_br_district(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.district = self.district
 
-    _columns = {
-        'cnpj_cpf': fields.function(
-            _get_l10n_br_data, fnct_inv=_set_l10n_br_data, size=18,
-            type='char', string='CNPJ/CPF', multi='l10n_br'),
-        'inscr_est': fields.function(
-            _get_l10n_br_data, fnct_inv=_set_l10n_br_data, size=16,
-            type='char', string='Inscr. Estadual', multi='l10n_br'),
-        'inscr_mun': fields.function(
-            _get_l10n_br_data, fnct_inv=_set_l10n_br_data, size=18,
-            type='char', string='Inscr. Municipal', multi='l10n_br'),
-        'suframa': fields.function(
-            _get_l10n_br_data, fnct_inv=_set_l10n_br_data, size=18,
-            type='char', string='Suframa', multi='l10n_br'),
-        'legal_name': fields.function(
-            _get_l10n_br_data, fnct_inv=_set_l10n_br_data, size=128,
-            type='char', string=u'Razão Social', multi='l10n_br'),
-        'l10n_br_city_id': fields.function(
-            _get_address_data, fnct_inv=_set_address_data, type='many2one',
-            relation='l10n_br_base.city', string="City", multi='address'),
-        'district': fields.function(
-            _get_address_data, fnct_inv=_set_address_data, size=32,
-            type='char', string="Bairro", multi='address'),
-        'number': fields.function(
-            _get_address_data, fnct_inv=_set_address_data, size=10,
-            type='char', string="Número", multi='address'),
-    }
+    @api.one
+    def _set_l10n_br_cnpj_cpf(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.cnpj_cpf = self.cnpj_cpf
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, cnpj_cpf):
-        result = {'value': {}}
-        if cnpj_cpf:
-            val = re.sub('[^0-9]', '', cnpj_cpf)
+    @api.one
+    def _set_l10n_br_inscr_est(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.inscr_est = self.inscr_est
+
+    @api.one
+    def _set_l10n_br_inscr_mun(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.inscr_mun = self.inscr_mun
+
+    @api.one
+    def _set_l10n_br_city_id(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.l10n_br_city_id = self.l10n_br_city_id
+
+    @api.one
+    def _set_l10n_br_suframa(self):
+        """ Write the l10n_br specific functional fields. """
+        self.partner_id.suframa = self.suframa
+
+    legal_name = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_legal_name,
+        size=128, string=u'Razão Social')
+
+    district = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_district, size=32,
+        string="Bairro", multi='address')
+
+    number = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_number, size=10,
+        string="Número", multi='address')
+
+    cnpj_cpf = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_cnpj_cpf,
+        size=18, string='CNPJ/CPF')
+
+    inscr_est = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_inscr_est,
+        size=16, string='Inscr. Estadual')
+
+    inscr_mun = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_inscr_mun,
+        size=18, string='Inscr. Municipal')
+
+    suframa = fields.Char(
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_suframa,
+        size=18, string='Suframa')
+
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]",
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_city_id)
+
+    @api.onchange('cnpj_cpf')
+    def _onchange_cnpj_cpf(self):
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
+            val = re.sub('[^0-9]', '', self.cnpj_cpf)
             if len(val) == 14:
-                cnpj_cpf = "%s.%s.%s/%s-%s"\
-                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            result['value'].update({'cnpj_cpf': cnpj_cpf})
-        return result
+                self.cnpj_cpf = "%s.%s.%s/%s-%s" % (
+                    val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
 
-    def onchange_l10n_br_city_id(self, cr, uid, ids, l10n_br_city_id):
+    @api.onchange('l10n_br_city_id')
+    def _onchange_l10n_br_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
         do município para o campo city que é o campo nativo do módulo base
@@ -114,30 +137,12 @@ class ResCompany(orm.Model):
 
         return: dicionário com o nome e id do município.
         """
-        result = {'value': {'city': False, 'l10n_br_city_id': False}}
+        if self.l10n_br_city_id:
+            self.city = self.l10n_br_city_id.name
 
-        if not l10n_br_city_id:
-            return result
-
-        obj_city = self.pool.get('l10n_br_base.city').read(
-            cr, uid, l10n_br_city_id, ['name', 'id'])
-
-        if obj_city:
-            result['value']['city'] = obj_city['name']
-            result['value']['l10n_br_city_id'] = obj_city['id']
-
-        return result
-
-    def onchange_mask_zip(self, cr, uid, ids, code_zip):
-
-        result = {'value': {'zip': False}}
-
-        if not code_zip:
-            return result
-
-        val = re.sub('[^0-9]', '', code_zip)
-
-        if len(val) == 8:
-            code_zip = "%s-%s" % (val[0:5], val[5:8])
-            result['value']['zip'] = code_zip
-        return result
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        if self.zip:
+            val = re.sub('[^0-9]', '', self.zip)
+            if len(val) == 8:
+                self.zip = "%s-%s" % (val[0:5], val[5:8])
