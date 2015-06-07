@@ -27,9 +27,11 @@
 			<field name="model">l10n_br_base.city</field>
 			<field name="arch" type="xml">
 				<form string="Municípios">
-					<field name="name" select="1"/>
-					<field name="state_id" select="1"/>
-					<field name="ibge_code" select="2"/>
+					<group>
+						<field name="name"/>	
+						<field name="state_id"/>
+						<field name="ibge_code"/>
+					</group>
 				</form>
 			</field>
 		</record>
