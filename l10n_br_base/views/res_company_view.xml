@@ -8,7 +8,6 @@
 			<field name="inherit_id" ref="base.view_company_form"/>
 			<field name="arch" type="xml">
 				<field name="zip" position="attributes">
-					<attribute name="on_change">onchange_mask_zip(zip)</attribute>
 					<attribute name="style">width: 50%%</attribute>
 				</field>
 				<field name="street2" position="replace"/>
@@ -25,13 +24,13 @@
 					<field name="legal_name" placeholder="Razão Social"/>
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="cidade" on_change="onchange_l10n_br_city_id(l10n_br_city_id)"/>
+					<field name="l10n_br_city_id" placeholder="cidade"/>
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1"/>
 				</field>
 				<field name="company_registry" position="after">
-					<field name="cnpj_cpf" on_change="onchange_mask_cnpj_cpf(cnpj_cpf)" placeholder="CNPJ"/>
+					<field name="cnpj_cpf" placeholder="CNPJ"/>
 					<field name="inscr_est" placeholder="Inscr. Estadual"/>
 					<field name="inscr_mun" placeholder="Inscr. Municipal"/>
 					<field name="suframa" placeholder="Suframa"/>
