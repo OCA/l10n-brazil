@@ -18,8 +18,10 @@
 ###############################################################################
 
 import re
+
 from openerp import models, fields, api
 from openerp.addons.l10n_br_base.tools import fiscal
+from openerp.exceptions import ValidationError
 
 
 class CrmLead(models.Model):
@@ -28,96 +30,82 @@ class CrmLead(models.Model):
 
     legal_name = fields.Char(u'Razão Social', size=128,
         help="nome utilizado em documentos fiscais")
+
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
+
     suframa = fields.Char('Suframa', size=18)
+
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
+
     district = fields.Char('Bairro', size=32)
+
     number = fields.Char('Número', size=10)
 
-    @api.multi
+    @api.one
+    @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
+        result = True
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
+            cnpj_cpf = re.sub('[^0-9]', '', self.cnpj_cpf)
+            if len(cnpj_cpf) == 14:
+                result = fiscal.validate_cnpj(cnpj_cpf)
+                document = u'CNPJ'
+            elif len(cnpj_cpf) == 11:
+                result = fiscal.validate_cpf(cnpj_cpf)
+                document = u'CPF'
+        if not result:
+            raise ValidationError(u"{} Invalido!".format(document))
 
-        for partner in self:
-            if not partner.cnpj_cpf:
-                continue
-
-            if partner.partner_name:
-                if not fiscal.validate_cnpj(partner.cnpj_cpf):
-                    return False
-            elif not fiscal.validate_cpf(partner.cnpj_cpf):
-                    return False
-
-        return True
-
-    @api.multi
+    @api.one
+    @api.constrains('inscr_est')
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
 
         :Return: True or False.
-
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user’s ID for security checks.
-            - 'ids': List of partner objects IDs.
         """
-        for partner in self:
-            if not partner.inscr_est \
-                or partner.inscr_est == 'ISENTO' \
-                or not partner.partner_name:
-                continue
-
-            uf = partner.state_id and \
-            partner.state_id.code.lower() or ''
-
+        result = True
+        if self.inscr_est != 'ISENTO' or self.partner_name:
+            state_code = self.state_id.code or ''
+            uf = state_code.lower()
             try:
                 mod = __import__(
-                'l10n_br_base.tools.fiscal', globals(), locals(), 'fiscal')
-
+                    'openerp.addons.l10n_br_base.tools.fiscal',
+                    globals(), locals(), 'fiscal')
                 validate = getattr(mod, 'validate_ie_%s' % uf)
-                if not validate(partner.inscr_est):
-                    return False
+                result = validate(self.inscr_est)
             except AttributeError:
-                if not fiscal.validate_ie_param(uf, partner.inscr_est):
-                    return False
+                result = fiscal.validate_ie_param(uf, self.inscr_est)
+        if not result:
+            raise ValidationError(u"Inscrição Estadual Invalida!")
 
-        return True
+    @api.onchange('cnpj_cpf', 'country_id')
+    def _onchange_cnpj_cpf(self):
+        cnpj_cpf = None
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
+            val = re.sub('[^0-9]', '', self.cnpj_cpf)
+            if len(val) == 14:
+                cnpj_cpf = "%s.%s.%s/%s-%s" % (
+                    val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+            elif len(val) == 11:
+                cnpj_cpf = "%s.%s.%s-%s" % (
+                    val[0:3], val[3:6], val[6:9], val[9:11])
+            self.cnpj_cpf = cnpj_cpf
 
-    _constraints = [
-        (_check_cnpj_cpf, u'CNPJ/CPF invalido!', ['cnpj_cpf']),
-        (_check_ie, u'Inscrição Estadual inválida!', ['inscr_est'])
-    ]
-
-    @api.multi
-    def onchange_mask_cnpj_cpf(self, partner_name, cnpj_cpf):
-        result = {'value': {}}
-        if cnpj_cpf:
-            val = re.sub('[^0-9]', '', cnpj_cpf)
-            if partner_name and len(val) == 14:
-                cnpj_cpf = "%s.%s.%s/%s-%s"\
-                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            elif not partner_name and len(val) == 11:
-                cnpj_cpf = "%s.%s.%s-%s"\
-                % (val[0:3], val[3:6], val[6:9], val[9:11])
-            result['value'].update({'cnpj_cpf': cnpj_cpf})
-        return result
-
-    @api.multi
-    def onchange_mask_zip(self, code_zip):
-
-        result = {'value': {'zip': False}}
-        if not code_zip:
-            return result
-
-        val = re.sub('[^0-9]', '', code_zip)
-        if len(val) == 8:
-            code_zip = "%s-%s" % (val[0:5], val[5:8])
-            result['value']['zip'] = code_zip
-        return result
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        if self.zip:
+            val = re.sub('[^0-9]', '', self.zip)
+            if len(val) == 8:
+                self.zip = "%s-%s" % (val[0:5], val[5:8])
 
     @api.multi
     def on_change_partner(self, partner_id):
