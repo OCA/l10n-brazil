@@ -23,6 +23,7 @@ import re
 
 from openerp import models, fields, api
 from openerp.addons.l10n_br_base.tools import fiscal
+from openerp.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -96,17 +97,16 @@ class ResPartner(models.Model):
     @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
         result = True
-        for partner in self:
-            if not partner.cnpj_cpf:
-                continue
-
-            if partner.is_company:
-                if not fiscal.validate_cnpj(partner.cnpj_cpf):
+        if self.cnpj_cpf:
+            if self.is_company:
+                if not fiscal.validate_cnpj(self.cnpj_cpf):
                     result = False
-            elif not fiscal.validate_cpf(partner.cnpj_cpf):
+                    document = u'CNPJ'
+            elif not fiscal.validate_cpf(self.cnpj_cpf):
                 result = False
-
-        return result
+                document = u'CPF'
+        if not result:
+            raise ValidationError(u"{} Invalido!".format(document))
 
     def _validate_ie_param(self, uf, inscr_est):
         result = True
@@ -134,22 +134,14 @@ class ResPartner(models.Model):
         :Parameters:
         """
         result = True
-        for partner in self:
-            if not partner.inscr_est \
-                    or partner.inscr_est == 'ISENTO' \
-                    or not partner.is_company:
-                continue
+        if self.inscr_est == 'ISENTO' or self.is_company:
+            state_code = self.state_id.code or ''
+            uf = state_code.lower()
+            result = self._validate_ie_param(uf, self.inscr_est)
+        if not result:
+            raise ValidationError(u"Inscrição Estadual Invalida!")
 
-            uf = partner.state_id and \
-                 partner.state_id.code.lower() or ''
-
-            res = self._validate_ie_param(uf, partner.inscr_est)
-            if not res:
-                result = False
-
-        return result
-
-    @api.onchange('cnpj_cpf')
+    @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
         cnpj_cpf = None
         country_code = self.country_id.code or ''
