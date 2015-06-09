@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_base_city_user","l10n_br_base.city","model_l10n_br_base_city","base.group_user",1,0,0,0
+"l10n_br_base_city_manager","l10n_br_base.city","model_l10n_br_base_city","base.group_system",1,1,1,1

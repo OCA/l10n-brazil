@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -17,20 +17,36 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-
-
-class ResCountry(orm.Model):
-    _inherit = 'res.country'
-    _columns = {
-        'bc_code': fields.char('Codigo BC', size=5),
-        'ibge_code': fields.char('Codigo IBGE', size=5),
-        'siscomex_code': fields.char('Codigo Siscomex', size=4)
-    }
-
-
-class ResCountryState(orm.Model):
-    _inherit = 'res.country.state'
-    _columns = {
-        'ibge_code': fields.char('Cód. IBGE', size=2)
-    }
+{
+    'name': 'Brazilian Localization Base',
+    'description': 'Brazilian Localization Base',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
+    'depends': [
+        'base',
+    ],
+    'data': [
+        'data/res.country.state.csv',
+        'data/l10n_br_base.city.csv',
+        'data/l10n_br_base_data.xml',
+        'views/l10n_br_base_view.xml',
+        'views/res_country_view.xml',
+        'views/res_partner_view.xml',
+        'views/res_company_view.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_base_security.xml',
+    ],
+    'demo': [
+        'demo/base_demo.xml',
+        'demo/l10n_br_base_demo.xml',
+    ],
+    'test': [
+        'test/base_inscr_est_valid.yml',
+        'test/base_inscr_est_invalid.yml',
+    ],
+    'installable': True,
+    'auto_install': False,
+}
