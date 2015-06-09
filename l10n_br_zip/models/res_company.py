@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -25,6 +25,7 @@
 from openerp.osv import orm
 
 
+# TODO migrate to new API
 class res_company(orm.Model):
     _inherit = 'res.company'
 

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -17,23 +17,5 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localisation ZIP Codes',
-    'description': 'Brazilian Localisation ZIP Codes',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_base',
-    ],
-    'data': [
-        'l10n_br_zip_view.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
-        'wizard/l10n_br_zip_search_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo': [],
-    'category': 'Localization',
-    'installable': False,
-}
+from . import models
+from . import wizard
