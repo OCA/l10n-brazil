@@ -54,7 +54,6 @@ class ResPartner(models.Model):
                 address.parent_id.name or '',
                 'l10n_br_city_name': address.l10n_br_city_id and
                 address.l10n_br_city_id.name or '',
-                'state_code': address.state_id and address.state_id.code or ''
             }
             address_field = ['title', 'street', 'street2', 'zip',
                              'city', 'number', 'district']
