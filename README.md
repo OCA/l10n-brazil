@@ -29,10 +29,10 @@ Além de desenvolver as funcionalidades da localização, os profissionais por t
 Non goal
 --------
  
-* Extender ou modificar as funcionalidades do OpenERP não vinculadas à localização brasileira. Outros módulos em outros projetos são perfeitos para isso.
+* Extender ou modificar as funcionalidades do Odoo não vinculadas à localização brasileira. Outros módulos em outros projetos são perfeitos para isso.
 * De uma forma geral, reimplementar aqui o que ferramentas terceiras já fazem bem.
 * Quando há uma quantidade razoável de soluções técnicas para resolver um problema, o projeto do core da localização não quer impor uma dependência importante. Outros módulos e projetos são bem-vindos nesse caso. Esse projeto é por exemplo agnostico de tecnologia de transmissão de nota fiscal. Existe por exemplo um projeto de transmissão com a biblioteca open source PySPED aqui [https://github.com/odoo-brazil/odoo-brazil-eletronic-documents](https://github.com/odoo-brazil/odoo-brazil-eletronic-documents).
-* Implementar o PAF-ECF no PDV web do OpenERP. Se trata de um trabalho muito burocrático que iria requerer modificar muito o PDV do OpenERP, enquanto se conectar com PDV’s do mercado é uma alternativa razoável.
+* Implementar o PAF-ECF no PDV web do Odoo. Se trata de um trabalho muito burocrático que iria requerer modificar muito o PDV do Odoo, enquanto se conectar com PDV’s do mercado é uma alternativa razoável.
 * Manter dados para a folha de pagamento legal no Brasil.
 * Ter a responsabilidade de manter dados fiscais em geral. Em geral esse tipo de serviço requer uma responsabilidade jurídica que se negocia caso a caso.
  
