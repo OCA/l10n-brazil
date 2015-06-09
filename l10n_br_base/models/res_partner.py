@@ -37,23 +37,23 @@ class ResPartner(models.Model):
             return super(ResPartner, self)._display_address(
                 address, without_company=False)
         else:
-            address_format = address.country_id and \
-                             address.country_id.address_format or \
-                             "%(street)s\n%(street2)s\n%(city)s %(state_code)s"
-            "%(zip)s\n%(country_name)s"
+            address_format = address.country_id and\
+                             address.country_id.address_format or\
+                             "%(street)s\n%(street2)s\n%(city)s" \
+                             " %(state_code)s%(zip)s\n%(country_name)s"
             args = {
                 'state_code': address.state_id and
-                              address.state_id.code or '',
+                address.state_id.code or '',
                 'state_name': address.state_id and
-                              address.state_id.name or '',
+                address.state_id.name or '',
                 'country_code': address.country_id and
-                                address.country_id.code or '',
+                address.country_id.code or '',
                 'country_name': address.country_id and
-                                address.country_id.name or '',
+                address.country_id.name or '',
                 'company_name': address.parent_id and
-                                address.parent_id.name or '',
+                address.parent_id.name or '',
                 'l10n_br_city_name': address.l10n_br_city_id and
-                                     address.l10n_br_city_id.name or '',
+                address.l10n_br_city_id.name or '',
                 'state_code': address.state_id and address.state_id.code or ''
             }
             address_field = ['title', 'street', 'street2', 'zip',
