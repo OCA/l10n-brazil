@@ -30,4 +30,4 @@ class L10n_brBaseCity(models.Model):
 
     name = fields.Char('Nome', size=64, required=True)
     state_id = fields.Many2one('res.country.state', 'Estado', required=True)
-    ibge_code = fields.Char('Codigo IBGE', size=7)
+    ibge_code = fields.Char(u'Código IBGE', size=7)
