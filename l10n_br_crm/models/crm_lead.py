@@ -28,23 +28,17 @@ class CrmLead(models.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
 
-    legal_name = fields.Char(u'Razão Social', size=128,
+    legal_name = fields.Char(
+        u'Razão Social', size=128,
         help="nome utilizado em documentos fiscais")
-
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
-
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
-
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
-
     suframa = fields.Char('Suframa', size=18)
-
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
-
     district = fields.Char('Bairro', size=32)
-
     number = fields.Char('Número', size=10)
 
     @api.one
