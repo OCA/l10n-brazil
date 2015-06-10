@@ -1,7 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-
+			<!-- Sua Empresa -->
+			<record id="base.main_company" model="res.company">
+				<field name="name">Sua Empresa</field>
+				<field name="legal_name">Sua Empresa</field>
+				<field name="street">Avenida Paulista</field>
+				<field name="number">1</field>
+				<field name="district">Bela Vista</field>
+				<field name="state_id" ref="l10n_br_base.br_sp"/>
+				<field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+				<field name="zip">01311-000</field>	
+				<field name="country_id" ref="base.br"/>
+				<field name="rml_header1">Slogan da Sua Empresa</field>
+				<field name="website">www.suaempresa.com.br</field>
+				<field name="phone">+55 11 9999-9999</field>
+				<field name="email">info@suaempresa.com.br</field>
+				<field name="cnpj_cpf">81.583.054/0001-29</field>
+				<field name="inscr_est">078.016.350.838</field>
+				<field name="currency_id" ref="base.BRL"/>
+			</record>
 	</data>
-
 </openerp>
