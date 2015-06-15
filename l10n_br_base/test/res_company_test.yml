@@ -22,7 +22,6 @@
             'email': 'contact@companytest.com.br',
             'website': 'www.companytest.com.br'})
     except:
-        print "TESTE 1"
         assert id, "CNPJ Validation Error"
 -
     Company with invalid CNPJ
