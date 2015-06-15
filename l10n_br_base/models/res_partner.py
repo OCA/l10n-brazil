@@ -66,16 +66,23 @@ class ResPartner(models.Model):
             return address_format % args
 
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
+
     suframa = fields.Char('Suframa', size=18)
+
     legal_name = fields.Char(
         u'Razão Social', size=128,
         help="Nome utilizado em documentos fiscais")
+
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
+
     district = fields.Char('Bairro', size=32)
+
     number = fields.Char(u'Número', size=10)
 
     _sql_constraints = [
