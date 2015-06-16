@@ -47,6 +47,7 @@
     'test': [
         'test/base_inscr_est_valid.yml',
         'test/base_inscr_est_invalid.yml',
+        'test/res_partner_test.yml',
         'test/res_company_test.yml',
     ],
     'installable': True,
