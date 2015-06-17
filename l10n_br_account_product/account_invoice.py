@@ -154,7 +154,8 @@ class AccountInvoice(models.Model):
     nfe_purpose = fields.Selection(
         [('1', 'Normal'),
          ('2', 'Complementar'),
-         ('3', 'Ajuste')], u'Finalidade da Emissão', readonly=True,
+         ('3', 'Ajuste'),
+         ('4', 'Devolução/Retorno')], u'Finalidade da Emissão', readonly=True,
         states={'draft': [('readonly', False)]})
     nfe_access_key = fields.Char(
         'Chave de Acesso NFE', size=44, readonly=True,
@@ -376,6 +377,17 @@ class AccountInvoice(models.Model):
                 self.write(cr, uid, [inv.id], res['value'])
         return True
 
+    @api.model
+    def _prepare_refund(self, invoice, date=None, period_id=None, description=None, journal_id=None):
+        values = super(AccountInvoice, self)._prepare_refund(invoice, date=date, period_id=period_id,
+                                                    description=description, journal_id=journal_id)
+        
+        if invoice.fiscal_document_id.electronic and invoice.nfe_access_key:            
+            values['fiscal_document_related_ids'] = [(0, 0, { 'invoice_related_id': invoice.id, 
+                            'document_type': 'nfe', 'access_key': invoice.nfe_access_key, 
+                            'serie': invoice.document_serie_id.code, 'internal_number': invoice.internal_number  }) ]
+        values['nfe_purpose'] = '4'
+        return values
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
