@@ -17,20 +17,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class ResCountry(orm.Model):
+class ResCountry(models.Model):
     _inherit = 'res.country'
-    _columns = {
-        'bc_code': fields.char('Codigo BC', size=5),
-        'ibge_code': fields.char('Codigo IBGE', size=5),
-        'siscomex_code': fields.char('Codigo Siscomex', size=4)
-    }
 
+    bc_code = fields.Char(u'Código BC', size=5)
+    ibge_code = fields.Char(u'Código IBGE', size=5)
+    siscomex_code = fields.Char(u'Código Siscomex', size=4)
 
-class ResCountryState(orm.Model):
+class ResCountryState(models.Model):
     _inherit = 'res.country.state'
-    _columns = {
-        'ibge_code': fields.char('Cód. IBGE', size=2)
-    }
+
+    ibge_code = fields.Char(u'Cód. IBGE', size=2)
