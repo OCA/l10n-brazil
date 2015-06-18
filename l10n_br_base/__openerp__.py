@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'version': '8.0',
     'depends': [
         'base',
     ],
@@ -46,6 +46,6 @@
         'test/base_inscr_est_valid.yml',
         'test/base_inscr_est_invalid.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
