@@ -27,6 +27,7 @@ class ResCountry(models.Model):
     ibge_code = fields.Char(u'Código IBGE', size=5)
     siscomex_code = fields.Char(u'Código Siscomex', size=4)
 
+
 class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 

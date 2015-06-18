@@ -23,5 +23,5 @@ import string
 
 def punctuation_rm(string_value):
     tmp_value = (re.sub('[%s]' % re.escape(string.punctuation), '',
-            string_value or ''))
+                        string_value or ''))
     return tmp_value
