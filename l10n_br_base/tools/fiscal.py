@@ -73,9 +73,8 @@ def validate_ie_param(uf, inscr_est):
     prod = prod[-val_tam:]
 
     while len(nova_ie) < tam:
-        r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf]\
-        .get('div', 11)
-
+        r = (sum([x * y for (x, y) in zip(nova_ie, prod)]) %
+             PARAMETERS[uf].get('div', 11))
         if r > 1:
             f = 11 - r
         else:
@@ -391,7 +390,7 @@ def validate_ie_sp(inscr_est):
     return nova_ie == inscr_est
 
 
-#def validate_ie_to(inscr_est):
+def validate_ie_to(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual

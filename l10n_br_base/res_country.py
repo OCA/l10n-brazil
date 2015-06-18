@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2014  Renato Lima - Akretion                                  #
+# Copyright (C) 2009  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,11 +17,18 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import re
-import string
+from openerp import models, fields
 
 
-def punctuation_rm(string_value):
-    tmp_value = (re.sub('[%s]' % re.escape(string.punctuation), '',
-            string_value or ''))
-    return tmp_value
+class ResCountry(models.Model):
+    _inherit = 'res.country'
+
+    bc_code = fields.Char(u'Código BC', size=5)
+    ibge_code = fields.Char(u'Código IBGE', size=5)
+    siscomex_code = fields.Char(u'Código Siscomex', size=4)
+
+
+class ResCountryState(models.Model):
+    _inherit = 'res.country.state'
+
+    ibge_code = fields.Char(u'Cód. IBGE', size=2)
