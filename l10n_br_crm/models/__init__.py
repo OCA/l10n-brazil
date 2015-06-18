@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2011  Fabio Negrini - Akretion                                #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,23 +17,4 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization CRM Zip',
-    'description': "ZIP Search Integration for Brazilian Localization of CRM module",
-    'category': 'Localization',
-    'license': 'AGPL-3',
-    'author': 'Fabio Negrini - OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_zip',
-        'l10n_br_crm',
-    ],
-    'data': [
-        'crm_lead_view.xml',
-        'crm_opportunity_view.xml',
-    ],
-    'demo': [],
-    'installable': False,
-    'auto_install': True,
-}
+from . import crm_lead

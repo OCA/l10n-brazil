@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Renato Lima - Akretion                                  #
@@ -17,23 +17,4 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization CRM',
-    'description': 'Brazilian Localization for CRM module',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_base',
-        'crm',
-    ],
-    'data': [
-        'crm_lead_view.xml',
-        'crm_opportunity_view.xml',
-    ],
-    'demo': [],
-    'installable': False,
-    'auto_install': True,
-}
+from . import models

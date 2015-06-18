@@ -17,5 +17,23 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import crm_lead
-
+{
+    'name': 'Brazilian Localization CRM',
+    'description': 'Brazilian Localization for CRM module',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
+    'depends': [
+        'l10n_br_base',
+        'crm',
+    ],
+    'data': [
+        'views/crm_lead_view.xml',
+        'views/crm_opportunity_view.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'auto_install': True,
+}
