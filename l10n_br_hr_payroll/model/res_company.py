@@ -20,7 +20,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields,osv
+from openerp.osv import fields,osv
 
 class ResCompany(osv.osv):
     _inherit = 'res.company'
