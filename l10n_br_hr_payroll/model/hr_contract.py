@@ -21,7 +21,7 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
-from tools.translate import _
+from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 from datetime import datetime
 import time

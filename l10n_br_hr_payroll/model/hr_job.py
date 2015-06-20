@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class HrJob(orm.Model):
     
