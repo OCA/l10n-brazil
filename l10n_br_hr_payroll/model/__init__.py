@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
@@ -19,11 +19,10 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+###############################################################################
 
 from . import l10n_br_hr_cbo
 from . import hr_employee
 from . import hr_job
 from . import hr_contract
 from . import res_company
-
