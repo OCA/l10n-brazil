@@ -21,9 +21,11 @@
 #
 ###############################################################################
 from openerp.osv import orm, fields
+<<<<<<< HEAD
 from openerp.tools.translate import _
+=======
+>>>>>>> Correção de imports não usados
 import openerp.addons.decimal_precision as dp
-from datetime import datetime
 import time
 from decimal import Decimal, ROUND_DOWN
 

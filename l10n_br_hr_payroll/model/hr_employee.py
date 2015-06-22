@@ -153,12 +153,7 @@ class HrEmployee(osv.osv):
 
     def onchange_no_cpf(
             self, cr, uid, ids, no_cpf, address_home_id, context=None):
-        if no_cpf:
-
-            partner = self.pool.get('res.partner').browse(
-                cr,
-                uid,
-                address_home_id)
+        pass
 
     def onchange_user(self, cr, uid, ids, user_id, context=None):
 
