@@ -21,7 +21,10 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
+<<<<<<< HEAD
 from openerp.tools.translate import _
+=======
+>>>>>>> Remoção de import não usado
 
 
 class L10nBrHrCbo(orm.Model):
