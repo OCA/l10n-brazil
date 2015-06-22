@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
@@ -18,15 +18,16 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+###############################################################################
 
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
+
 class HrJob(orm.Model):
-    
+
     _inherit = 'hr.job'
 
     _columns = {
-            'cbo_id' : fields.many2one('l10n_br_hr.cbo', 'CBO'),
+        'cbo_id': fields.many2one('l10n_br_hr.cbo', 'CBO'),
     }
