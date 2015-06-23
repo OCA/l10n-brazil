@@ -180,7 +180,8 @@ class AccountInvoice(orm.Model):
         'nfe_purpose': fields.selection(
             [('1', 'Normal'),
              ('2', 'Complementar'),
-             ('3', 'Ajuste')], u'Finalidade da Emissão', readonly=True,
+             ('3', 'Ajuste'),
+             ('4', u'Devolução')], u'Finalidade da Emissão', readonly=True,
             states={'draft': [('readonly', False)]}),
         'nfe_access_key': fields.char(
             'Chave de Acesso NFE', size=44,
@@ -561,11 +562,20 @@ class AccountInvoice(orm.Model):
     def action_date_assign(self, cr, uid, ids, *args):
 
         for inv in self.browse(cr, uid, ids):
-            if inv.date_hour_invoice:
-                aux = datetime.datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
-                inv.date_invoice = str(aux)
+            date_time_now = fields.datetime.now()
+            date_hour_invoice = inv.date_hour_invoice or date_time_now
+            date_in_out =  inv.date_in_out or date_time_now
 
-            res = self.onchange_payment_term_date_invoice(cr, uid, inv.id, inv.payment_term.id, inv.date_invoice)
+            if date_hour_invoice:
+                aux = datetime.datetime.strptime(date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
+                date_invoice = str(aux)
+
+            res = self.onchange_payment_term_date_invoice(
+                cr, uid, inv.id, inv.payment_term.id, date_invoice)
+
+            res['value']['date_invoice'] = date_invoice
+            res['value']['date_hour_invoice'] = date_hour_invoice
+            res['value']['date_in_out'] = date_in_out
 
             if res and res['value']:
                 self.write(cr, uid, [inv.id], res['value'])
@@ -1115,7 +1125,7 @@ class AccountInvoiceTax(orm.Model):
                     val['account_id'] = tax['account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_paid_id']
 
-                key = (val['tax_code_id'], val['base_code_id'], val['account_id'], val['account_analytic_id'])
+                key = (val['tax_code_id'], val['base_code_id'], val['account_id'])
                 if not key in tax_grouped:
                     tax_grouped[key] = val
                 else:

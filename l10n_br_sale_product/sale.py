@@ -328,9 +328,10 @@ class SaleOrderLine(orm.Model):
             cur = line.order_id.pricelist_id.currency_id
             res[line.id]['price_subtotal'] = cur_obj.round(
                 cr, uid, cur, taxes['total'])
-            res[line.id]['price_gross'] = price * qty
+            res[line.id]['price_gross'] =  line.price_unit * qty
             res[line.id]['discount_value'] = res[line.id]['price_gross']-\
                                              (price * qty)
+
         return res
 
     _columns = {
