@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+###############################################################################
 #
 #    KMEE, KM Enterprising Engineering
 #    Copyright (C) 2014 - Michell Stuttgart Faria (<http://www.kmee.com.br>).
@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+###############################################################################
 
 
 class NfeFactory(object):
@@ -29,16 +29,11 @@ class NfeFactory(object):
         :return: Objeto Nfe
         """
         if nfe_version == '3.10':
-            from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe310
+            from openerp.addons.l10n_br_account_product.sped.nfe.document \
+                import NFe310
             nfe_obj = NFe310()
         else:
-            from openerp.addons.l10n_br_account_product.sped.nfe.document import NFe200
+            from openerp.addons.l10n_br_account_product.sped.nfe.document \
+                import NFe200
             nfe_obj = NFe200()
         return nfe_obj
-
-
-
-
-
-
-

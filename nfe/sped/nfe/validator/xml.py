@@ -18,19 +18,6 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
-from openerp.tools.translate import _
-
-# def validation(nfe_xml):
-#     try:
-#         from pysped.nfe.leiaute import NFe_200, Det_200, NFRef_200, Dup_200
-#         nfe = NFe_200()
-#         nfe.set_xml(nfe_xml)
-#     except ImportError:
-#         raise orm.except_orm(
-#             _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
-#     return nfe.validar()
-
 
 class XMLValidator(object):
 
@@ -41,10 +28,3 @@ class XMLValidator(object):
         nfe.set_xml(nfe_xml)
 
         return nfe.validar()
-
-
-
-
-
-
-
