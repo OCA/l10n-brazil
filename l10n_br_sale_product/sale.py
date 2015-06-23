@@ -337,7 +337,7 @@ class SaleOrderLine(orm.Model):
             # following line
             res[line.id]['discount_value'] = res[line.id]['price_gross']-\
                                              (price * qty)
-        a = 0
+
         return res
 
     _columns = {
