@@ -17,6 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import processing
-import validator
-import nfe_factory
+from . import processing
+from . import validator
+from . import nfe_factory

@@ -18,11 +18,9 @@
 ###############################################################################
 
 import os
-import pysped
 import logging
 import datetime
 from openerp.osv import orm
-from StringIO import StringIO
 from openerp.tools.translate import _
 from .sped.nfe.nfe_factory import NfeFactory
 from .sped.nfe.validator.xml import XMLValidator
@@ -106,7 +104,7 @@ class AccountInvoice(orm.Model):
                     f.close()
 
                     event_obj = self.pool.get('l10n_br_account.document_event')
-                    nfe_send_id = event_obj.create(cr, uid, {
+                    event_obj.create(cr, uid, {
                         'type': '0',
                         'company_id': company.id,
                         'origin': '[NF-E]' + inv.internal_number,
@@ -265,8 +263,7 @@ class AccountInvoice(orm.Model):
                                               # homologado fora de prazo
                             result = super(
                                 AccountInvoice, self).action_cancel(
-                                cr, uid, [
-                                    inv.id], context)
+                                cr, uid, [inv.id], context)
                             if result:
                                 self.write(
                                     cr, uid, [inv.id], {

@@ -25,10 +25,6 @@ import base64
 import re
 import string
 
-from openerp import pooler
-from openerp.osv import orm
-from openerp.tools.translate import _
-
 from pysped.nfe import ProcessadorNFe
 
 

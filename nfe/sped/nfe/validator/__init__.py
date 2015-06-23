@@ -17,5 +17,5 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import config_check
-import xml
+from . import config_check
+from . import xml

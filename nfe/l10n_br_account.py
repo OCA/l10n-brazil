@@ -22,7 +22,8 @@ import logging
 from openerp import netsvc
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
-from openerp.addons.nfe.sped.nfe.validator.config_check import *
+from openerp.addons.nfe.sped.nfe.validator.config_check import \
+    validate_nfe_configuration, validate_nfe_invalidate_number
 from openerp.addons.nfe.sped.nfe.processing.xml import invalidate
 
 _logger = logging.getLogger(__name__)
