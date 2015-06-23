@@ -291,6 +291,9 @@ class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
 
     def _calc_line_base_price(self, cr, uid, line, context=None):
+        return line.price_unit
+
+    def _calc_line_base_price_discount(self, cr, uid, line, context=None):
         return line.price_unit * (1 - (line.discount or 0.0) / 100.0)
 
     def _calc_line_quantity(self, cr, uid, line, context=None):
@@ -310,12 +313,14 @@ class SaleOrderLine(orm.Model):
                 'discount_value': 0.0,
             }
             price = self._calc_line_base_price(cr, uid, line, context=context)
+            price_discount = self._calc_line_base_price_discount(
+                cr, uid, line, context=context)
             qty = self._calc_line_quantity(cr, uid, line, context=context)
             taxes = tax_obj.compute_all(
                 cr,
                 uid,
                 line.tax_id,
-                price,
+                price_discount,
                 qty,
                 line.order_id.partner_invoice_id.id,
                 line.product_id,
@@ -329,8 +334,10 @@ class SaleOrderLine(orm.Model):
             res[line.id]['price_subtotal'] = cur_obj.round(
                 cr, uid, cur, taxes['total'])
             res[line.id]['price_gross'] = price * qty
+            # following line
             res[line.id]['discount_value'] = res[line.id]['price_gross']-\
                                              (price * qty)
+        a = 0
         return res
 
     _columns = {
