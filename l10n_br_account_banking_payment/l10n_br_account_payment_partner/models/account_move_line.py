@@ -19,3 +19,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+from openerp.tools.translate import _
+from openerp import models, fields, api
+from openerp.osv import orm
+
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+
+    payment_mode_id = fields.Many2one('payment.mode',
+                                      related='invoice.payment_mode_id',
+                                      string='Payment Mode')

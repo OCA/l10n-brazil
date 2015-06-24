@@ -36,6 +36,7 @@
         'account_due_list',
         ],
     'data': [
+        'views/payment_view.xml'
         ],
     'demo': [
         ],
