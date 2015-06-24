@@ -20,14 +20,26 @@
 #
 ##############################################################################
 
-from openerp.tools.translate import _
-from openerp import models, fields, api
-from openerp.osv import orm
 
-
-class AccountMoveLine(models.Model):
-    _inherit = 'account.move.line'
-
-    payment_mode_id = fields.Many2one('payment.mode',
-                                      related='invoice.payment_mode_id',
-                                      string='Payment Mode')
+{
+    'name': 'Odoo Brazil Account Payment Mode',
+    'version': '0.1',
+    'category': 'Banking addons',
+    'license': 'AGPL-3',
+    'summary': '',
+    'description': """ """,
+    'author': 'KMEE',
+    'website': 'http://www.kmee.com.br',
+    'depends': [
+        'l10n_br_account',
+        'account_payment_partner',
+        'account_due_list',
+        ],
+    'data': [
+        'views/payment_view.xml',
+        'views/payment_mode_view.xml',
+        ],
+    'demo': [
+        ],
+    'active': False,
+}

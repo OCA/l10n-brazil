@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
+            <field name="name">payment.mode.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group[@col='4']" position="inside">
+                    <group name="l10n-br-config"
+						   string="Localização Brasileira"
+						   colspan="2">
+                        <field name="type_payment"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

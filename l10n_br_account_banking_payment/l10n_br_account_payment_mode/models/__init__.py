@@ -20,25 +20,5 @@
 #
 ##############################################################################
 
-
-{
-    'name': 'Odoo Brazil Account Payment Partner',
-    'version': '0.1',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'summary': '',
-    'description': """ """,
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'depends': [
-        'l10n_br_account',
-        'account_payment_partner',
-        'account_due_list',
-        ],
-    'data': [
-        'views/payment_view.xml'
-        ],
-    'demo': [
-        ],
-    'active': False,
-}
+from . import account_move_line
+from . import payment_mode
