@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<record id="l10n_br_account_payment_extension_type_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_payment_type_form</field>
+			<field name="model">payment.mode.type</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form" />
+			<field name="arch" type="xml">
+				<field name="ir_model_id" position="after">
+			<field name="type_payment" required="1"> </field>
+		</field>
+		</field>
+		</record>	
+
+		<record id="l10n_br_account_payment_modes_extencion_form" model="ir.ui.view">
+		            <field name="name">l10n_br_account_payment_modes_form</field>
+		            <field name="model">payment.mode</field>
+		            <field name="type">form</field>
+		            <field name="inherit_id" ref="account_payment.view_payment_mode_form" />
+		            <field name="arch" type="xml">
+						<field name="partner_id" position="after">
+							<notebook colspan="4">
+								<page string="Geral">
+								<group>
+									<field name="type_payment_sped" invisible="1"/>
+									<field name="internal_sequence_id" />
+									<field name="instrucoes"/>
+                                    <field name="invoice_print"/>
+								</group>
+								</page>	
+								<page string="Boleto"   attrs="{'invisible': [('type_payment_sped', '!=', '00')]}">
+								<group>
+									<field name="boleto_convenio" />
+									<field name="boleto_carteira"/>
+									<field name="boleto_modalidade"/>
+							        <field name="boleto_variacao"/>
+									<field name="boleto_cnab_code" />
+									<field name="boleto_aceite"/>
+								</group>	
+								</page>
+								<page string="Cheque" attrs="{'invisible': [('type_payment_sped', '!=', '01')]}">
+								</page>
+								<page string="Promissoria" attrs="{'invisible': [('type_payment_sped', '!=', '02')]}">
+								</page>
+								<page string="Recibo" attrs="{'invisible': [('type_payment_sped', '!=', '03')]}">
+								</page>
+							</notebook>						
+							</field>
+					</field>
+		</record>
+
+
+	</data>
+</openerp>
