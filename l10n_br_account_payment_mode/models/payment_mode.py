@@ -20,9 +20,11 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields
+
 
 class PaymentMode(models.Model):
+
     _inherit = 'payment.mode'
 
     type_payment = fields.Selection(
@@ -31,8 +33,8 @@ class PaymentMode(models.Model):
          ('02', 'Promissória'),
          ('03', 'Recibo'),
          ('99', 'Outros')],
-            string='Tipo SPED', required=True, default='99')
+        string='Tipo SPED', required=True, default='99')
     internal_sequence_id = fields.Many2one('ir.sequence', u'Sequência')
     instrucoes = fields.Text(u'Instruções de cobrança')
-    invoice_print = fields.Boolean(u'Gerar relatorio na conclusão da '
-                          u'fatura?')
+    invoice_print = fields.Boolean(
+        u'Gerar relatorio na conclusão da fatura?')
