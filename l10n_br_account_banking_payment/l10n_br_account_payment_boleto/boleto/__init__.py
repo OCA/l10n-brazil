@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-# #############################################################################
+##############################################################################
 #
-#    Account Payment Partner module for OpenERP
-#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
+#    Account Payment Boleto module for Odoo
+#    Copyright (C) 2012-2015 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,4 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
-
-class PaymentMode(models.Model):
-    _inherit = 'payment.mode'
-
-    type_payment = fields.Selection(
-        [('00', 'Duplicata'),
-         ('01', 'Cheque'),
-         ('02', 'Promissória'),
-         ('03', 'Recibo'),
-         ('99', 'Outros')],
-            string='Tipo SPED', required=True, default='99')
-    internal_sequence_id = fields.Many2one('ir.sequence', u'Sequência')
-    instrucoes = fields.Text(u'Instruções de cobrança')
-    invoice_print = fields.Boolean(u'Gerar relatorio na conclusão da '
-                          u'fatura?')
+from . import document

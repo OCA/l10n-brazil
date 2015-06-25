@@ -1,12 +1,11 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
-#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
+#    Account Payment Boleto module for Odoo
+#    Copyright (C) 2012-2015 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
-#    This prog
-# ram is free software: you can redistribute it and/or modify
+#    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
 #    License, or (at your option) any later version.
@@ -50,7 +49,6 @@ class report_custom(report_int):
         pool = pooler.get_pool(cr.dbname)
         ids_move_lines = []
 
-
         aml_obj = pool.get('account.move.line')
 
         if active_model == 'account.invoice':
@@ -59,7 +57,6 @@ class report_custom(report_int):
                 for move_line in account_invoice.move_line_receivable_id:
                     ids_move_lines.append(move_line.id)
         elif active_model == 'account.move.line':
-
             ids_move_lines = active_ids
         else:
             return False
@@ -67,7 +64,8 @@ class report_custom(report_int):
         boletoList = aml_obj.send_payment(cr, uid, ids_move_lines)
         if not boletoList:
             raise osv.except_osv(('Error !'),
-                     ('Não é possível gerar um boleto - Documento não é um boleto'))
+                     ('Não é possível gerar um boleto'
+                      ' Documento não é um boleto'))
         pdf_string = Boleto.get_pdfs(boletoList)
         self.obj = external_pdf(pdf_string)
         self.obj.render()

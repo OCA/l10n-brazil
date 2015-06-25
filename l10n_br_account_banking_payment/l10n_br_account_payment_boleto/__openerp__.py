@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Payment Partner module for OpenERP
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
+#    Account Payment Boleto module for Odoo
+#    Copyright (C) 2012-2015 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 
 {
-    'name': 'Account Payment Boleto on Move Line',
+    'name': 'Odoo Brasil Account Payment Boleto',
     'version': '0.1',
     'category': 'Banking addons',
     'license': 'AGPL-3',
@@ -30,11 +30,13 @@
     'description': """ """,
     'author': 'KMEE',
     'website': 'http://www.kmee.com.br',
-    'depends': ['account_payment_move_line'],
+    'depends': [
+        'l10n_br_account_payment_mode'
+    ],
     'data': [
-        'view/payment_mode.xml',
-        'view/account_move_line.xml',
-        'report_print_button_view.xml',
+        'views/payment_mode.xml',
+        'views/account_move_line.xml',
+        'reports/report_print_button_view.xml',
     ],
     'demo': [
     ],

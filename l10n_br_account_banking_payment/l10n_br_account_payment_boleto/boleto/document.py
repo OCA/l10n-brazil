@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-# #############################################################################
+##############################################################################
 #
-#    Account Payment Partner module for OpenERP
-#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
+#    Account Payment Boleto module for Odoo
+#    Copyright (C) 2012-2015 KMEE (http://www.kmee.com.br)
 #    @author Luis Felipe Miléo <mileo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -61,15 +61,20 @@ class Boleto(object):
                 self.boleto = bank.get_class_for_codigo(bank_code)
             self.create(move_line)
 
-
     def create(self, move_line):
         self.boleto.nosso_numero = move_line.ref.encode('utf-8')
         self.boleto.numero_documento = move_line.name.encode('utf-8')
-        self.boleto.data_vencimento = datetime.date(datetime.strptime(move_line.date_maturity, '%Y-%m-%d'))
-        self.boleto.data_documento = datetime.date(datetime.strptime(move_line.invoice.date_invoice, '%Y-%m-%d'))
+        self.boleto.data_vencimento = datetime.date(datetime.strptime(
+            move_line.date_maturity, '%Y-%m-%d'))
+        self.boleto.data_documento = datetime.date(datetime.strptime(
+            move_line.invoice.date_invoice, '%Y-%m-%d'))
         self.boleto.data_processamento = date.today()
-        self.boleto.valor_documento = move_line.debit
-
+        self.boleto.valor = str("%.2f" % move_line.debit or move_line.credit)
+        self.boleto.valor_documento = str("%.2f" % move_line.debit or
+                                move_line.credit)
+        self.boleto.especie = \
+            move_line.currency_id and move_line.currency_id.symbol or 'R$'
+        self.boleto.quantidade = '' #str("%.2f" % move_line.amount_currency)
         self.instrucoes(move_line.payment_mode_id)
         self.payment_mode(move_line.payment_mode_id)
         self.cedente(move_line.company_id)
@@ -114,7 +119,9 @@ class Boleto(object):
         :return:
         """
         self.boleto.convenio = payment_mode_id.boleto_convenio.encode('utf-8')
-        self.boleto.especie_documento = payment_mode_id.boleto_modalidade.encode('utf-8')
+        self.boleto.especie_documento = \
+            payment_mode_id.boleto_modalidade.encode('utf-8')
+        self.boleto.aceite = payment_mode_id.boleto_aceite
         self.boleto.carteira = payment_mode_id.boleto_carteira.encode('utf-8')
         self.boleto.agencia_cedente = payment_mode_id.bank_id.bra_number.encode('utf-8')
         self.boleto.conta_cedente = str(
@@ -141,13 +148,19 @@ class Boleto(object):
         :param partner:
         :return:
         '''
-        self.boleto.sacado_endereco = partner.street + ', ' + partner.number
-        self.boleto.sacado_cidade = partner.city
-        self.boleto.sacado_bairro = partner.district
-        self.boleto.sacado_uf = partner.state_id.code
-        self.boleto.sacado_cep = partner.zip
-        self.boleto.sacado_nome = partner.legal_name
-        self.boleto.sacado_documento = partner.cnpj_cpf
+        self.boleto.sacado = \
+            [
+                "{0} - CNPJ/CPF: {1}".format(partner.legal_name, partner.cnpj_cpf),
+                "{0}, {1}".format(partner.street, partner.number),
+            # "{2}".format(fname, lname, age),
+            ]
+        # self.boleto.sacado_endereco = partner.street + ', ' +
+        # self.boleto.sacado_cidade = partner.city
+        # self.boleto.sacado_bairro = partner.district
+        # self.boleto.sacado_uf = partner.state_id.code
+        # self.boleto.sacado_cep = partner.zip
+        # self.boleto.sacado_nome = partner.legal_name
+        # self.boleto.sacado_documento = partner.cnpj_cpf
 
     @classmethod
     def get_pdfs(cls, boletoList):
