@@ -48,26 +48,29 @@
 						<field colspan="4" name="cnpj_cpf" nolabel="1" />
 					</group>
 				</field>
+				<field name="street2" position="replace"/>
+				<field name="zip" position="replace"/>
 				<field name="street" position="replace">
-					<field name="street" placeholder="Endereço"/>
-					<field name="number" placeholder="Número" />
-					<field name="district" placeholder="Bairro" />
-				</field>
-				<field name="street2" position="replace">
+					<field name="zip" placeholder="CEP" style="width:50%" />
+					<field name="street" placeholder="Logradouro" />
+					<field name="number" placeholder="Número"/>
 					<field name="street2" placeholder="Complemento"/>
+					<field name="district" placeholder="Bairro"/>
 				</field>
 				<field name="state_id" position="attributes">
 					<attribute name="domain">[('country_id','=',country_id)]</attribute>
+					<attribute name="style">width:100%</attribute>
+				</field>
+				<field name="country_id" position="replace"/>
+				<field name="state_id" position="before">
+					<field name="country_id" placeholder="País" />
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="cidade"/>
+					<field name="l10n_br_city_id" placeholder="Cidade"/>
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1" />
-				</field>
-				<field name="zip" position="attributes">
-                		    <attribute name="style">width: 50%</attribute>
-		        </field>
+				</field>				
 				<notebook>
 					<page position="inside" string="Outros Dados">
 						<group string="Dados Fiscais">
