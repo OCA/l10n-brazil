@@ -29,7 +29,6 @@ from openerp.osv import osv
 
 
 class external_pdf(render):
-
     def __init__(self, pdf):
         render.__init__(self)
         self.pdf = pdf
@@ -40,10 +39,13 @@ class external_pdf(render):
 
 
 class report_custom(report_int):
-    '''
+    """
         Custom report for return boletos
-    '''
-    def create(self, cr, uid, ids, datas, context={}):
+    """
+
+    def create(self, cr, uid, ids, datas, context=False):
+        if not context:
+            context = {}
         active_ids = context.get('active_ids')
         active_model = context.get('active_model')
         pool = pooler.get_pool(cr.dbname)
@@ -61,14 +63,14 @@ class report_custom(report_int):
         else:
             return False
 
-        boletoList = aml_obj.send_payment(cr, uid, ids_move_lines)
-        if not boletoList:
-            raise osv.except_osv(('Error !'),
-                     ('Não é possível gerar um boleto'
-                      ' Documento não é um boleto'))
-        pdf_string = Boleto.get_pdfs(boletoList)
+        boleto_list = aml_obj.send_payment(cr, uid, ids_move_lines)
+        if not boleto_list:
+            raise osv.except_osv(
+                'Error !', ('Não é possível gerar um boleto'
+                            ' Documento não é um boleto'))
+        pdf_string = Boleto.get_pdfs(boleto_list)
         self.obj = external_pdf(pdf_string)
         self.obj.render()
-        return (self.obj.pdf, 'pdf')
+        return self.obj.pdf, 'pdf'
 
 report_custom('report.l10n_br_account_payment_boleto.report')

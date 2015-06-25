@@ -36,7 +36,7 @@ class Boleto(object):
     """
 
     def __init__(self, move_line):
-        '''
+        """
         Get bank class from bank code.
             '001': 'bancodobrasil.BoletoBB',
             '041': 'banrisul.BoletoBanrisul',
@@ -48,7 +48,7 @@ class Boleto(object):
             '033': 'santander.BoletoSantander',
         :param bank_code:
         :return:
-        '''
+        """
         if move_line:
             bank_code = move_line.payment_mode_id.bank_id.bank.bic
             if bank_code in '001':
@@ -71,15 +71,14 @@ class Boleto(object):
         self.boleto.data_processamento = date.today()
         self.boleto.valor = str("%.2f" % move_line.debit or move_line.credit)
         self.boleto.valor_documento = str("%.2f" % move_line.debit or
-                                move_line.credit)
+                                          move_line.credit)
         self.boleto.especie = \
             move_line.currency_id and move_line.currency_id.symbol or 'R$'
-        self.boleto.quantidade = '' #str("%.2f" % move_line.amount_currency)
+        self.boleto.quantidade = ''  # str("%.2f" % move_line.amount_currency)
         self.instrucoes(move_line.payment_mode_id)
         self.payment_mode(move_line.payment_mode_id)
         self.cedente(move_line.company_id)
         self.sacado(move_line.partner_id)
-
 
     def instrucoes(self, payment_mode_id):
         """
@@ -88,7 +87,7 @@ class Boleto(object):
         """
         self.instrucoes = [
             payment_mode_id.instrucoes.encode('utf-8'),
-             # move_line.payment_mode_id.instructions_2.encode('utf-8'),
+            # move_line.payment_mode_id.instructions_2.encode('utf-8'),
             # move_line.payment_mode_id.instructions_3.encode('utf-8'),
             # move_line.payment_mode_id.instructions_4.encode('utf-8'),
             # move_line.payment_mode_id.instructions_5.encode('utf-8'),
@@ -123,17 +122,20 @@ class Boleto(object):
             payment_mode_id.boleto_modalidade.encode('utf-8')
         self.boleto.aceite = payment_mode_id.boleto_aceite
         self.boleto.carteira = payment_mode_id.boleto_carteira.encode('utf-8')
-        self.boleto.agencia_cedente = payment_mode_id.bank_id.bra_number.encode('utf-8')
+        self.boleto.agencia_cedente = \
+            payment_mode_id.bank_id.bra_number.encode('utf-8')
         self.boleto.conta_cedente = str(
-            payment_mode_id.bank_id.acc_number + payment_mode_id.bank_id.acc_number_dig).encode('utf-8')
+            payment_mode_id.bank_id.acc_number +
+            payment_mode_id.bank_id.acc_number_dig
+        ).encode('utf-8')
         self.boleto.instrucoes = payment_mode_id.instrucoes
 
     def cedente(self, company):
-        '''
-
+        """
         :param company:
         :return:
-        '''
+        """
+
         self.boleto.cedente = company.partner_id.legal_name.encode('utf-8')
         self.boleto.cedente_documento = company.cnpj_cpf.encode('utf-8')
         self.boleto.cedente_bairro = company.district
@@ -143,16 +145,18 @@ class Boleto(object):
         self.boleto.cedente_uf = company.state_id.code
 
     def sacado(self, partner):
-        '''
+        """
 
         :param partner:
         :return:
-        '''
+        """
+
         self.boleto.sacado = \
             [
-                "{0} - CNPJ/CPF: {1}".format(partner.legal_name, partner.cnpj_cpf),
+                "{0} - CNPJ/CPF: {1}".format(partner.legal_name,
+                                             partner.cnpj_cpf),
                 "{0}, {1}".format(partner.street, partner.number),
-            # "{2}".format(fname, lname, age),
+                # "{2}".format(fname, lname, age),
             ]
         # self.boleto.sacado_endereco = partner.street + ', ' +
         # self.boleto.sacado_cidade = partner.city
@@ -163,7 +167,7 @@ class Boleto(object):
         # self.boleto.sacado_documento = partner.cnpj_cpf
 
     @classmethod
-    def get_pdfs(cls, boletoList):
+    def get_pdfs(cls, boleto_list):
         """
 
         :param boletoList:
@@ -176,8 +180,8 @@ class Boleto(object):
         from pyboleto.pdf import BoletoPDF
 
         boleto = BoletoPDF(fbuffer)
-        for i in range(len(boletoList)):
-            boleto.drawBoleto(boletoList[i])
+        for i in range(len(boleto_list)):
+            boleto.drawBoleto(boleto_list[i])
             boleto.nextPage()
         boleto.save()
         boleto_file = fbuffer.getvalue()
