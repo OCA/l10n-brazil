@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields
+
 
 class PaymentMode(models.Model):
     _inherit = 'payment.mode'

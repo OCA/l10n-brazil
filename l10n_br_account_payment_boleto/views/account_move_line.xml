@@ -6,7 +6,6 @@
 -->
 <openerp>
 <data>
-
     <record id="l10n_br_view_payments_tree" model="ir.ui.view">
         <field name="name">Payments</field>
         <field name="model">account.move.line</field>
@@ -19,18 +18,5 @@
                 </field>
         </field>
     </record>
-
-    <!--<record model="ir.ui.view" id="l10n_br_account_payment_boleto_move_line_form">-->
-        <!--<field name="name">l10n_br_account_payment_boleto.move.line.form</field>-->
-        <!--<field name="model">account.move.line</field>-->
-        <!--<field name="inherit_id" ref="account_payment_move_line.account_payment_move_line_form"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--<field name="payment_mode_id" position="after">-->
-               <!--<field name="date_payment_create"/>-->
-               <!--<button colspan="2" name="send_payment" string="Imprimir Ordem de recebimento"-->
-                       <!--type="object" icon="gtk-execute" />-->
-            <!--</field>-->
-        <!--</field>-->
-    <!--</record>-->
 </data>
 </openerp>
