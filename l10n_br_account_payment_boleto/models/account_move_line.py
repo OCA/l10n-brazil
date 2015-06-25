@@ -24,20 +24,16 @@ from openerp import models, fields, api
 from datetime import date
 from ..boleto.document import Boleto
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
     date_payment_created = fields.Date(
-            u'Data da criação do pagamento', readonly=True)
+        u'Data da criação do pagamento', readonly=True)
 
     @api.multi
     def send_payment(self):
-        boletoList = []
+        boleto_list = []
 
         for move_line in self:
             try:
@@ -45,7 +41,7 @@ class AccountMoveLine(models.Model):
                     boleto = Boleto(move_line)
                     if boleto:
                         move_line.date_payment_created = date.today()
-                    boletoList.append(boleto.boleto)
+                    boleto_list.append(boleto.boleto)
             except:
                 continue
-        return boletoList
+        return boleto_list
