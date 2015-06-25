@@ -10,7 +10,24 @@
                     <group name="l10n-br-config"
 						   string="Localização Brasileira"
 						   colspan="2">
-                        <field name="type_payment"/>
+                        <notebook colspan="4">
+                            <page string="Geral">
+                                <group>
+                                    <field name="type_payment"/>
+									<field name="internal_sequence_id" />
+									<field name="instrucoes"/>
+                                    <field name="invoice_print"/>
+								</group>
+                            </page>
+                            <page string="Boleto"   attrs="{'invisible': [('type_payment', '!=', '00')]}">
+                            </page>
+                            <page string="Cheque" attrs="{'invisible': [('type_payment', '!=', '01')]}">
+                            </page>
+                            <page string="Promissoria" attrs="{'invisible': [('type_payment', '!=', '02')]}">
+                            </page>
+                            <page string="Recibo" attrs="{'invisible': [('type_payment', '!=', '03')]}">
+                            </page>
+                        </notebook>
                     </group>
                 </xpath>
             </field>
