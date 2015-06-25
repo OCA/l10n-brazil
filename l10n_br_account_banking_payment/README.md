@@ -8,6 +8,6 @@ Repositório de Funcionalidades financeiras do Brasil:
 - Integração bancária canb400
 - Importação de extratos bancários
 - Controle de chequs
-etc
+- etc
 
 brazil@odoo-community.org
