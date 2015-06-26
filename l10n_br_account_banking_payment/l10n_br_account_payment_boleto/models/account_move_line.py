@@ -23,6 +23,7 @@
 from openerp import models, fields, api
 from datetime import date
 from ..boleto.document import Boleto
+from ..boleto.document import BoletoException
 
 
 class AccountMoveLine(models.Model):
@@ -38,10 +39,12 @@ class AccountMoveLine(models.Model):
         for move_line in self:
             try:
                 if move_line.payment_mode_id.type_payment == '00':
-                    boleto = Boleto(move_line)
+                    boleto = Boleto.getBoleto(move_line)
                     if boleto:
                         move_line.date_payment_created = date.today()
                     boleto_list.append(boleto.boleto)
+            except BoletoException:
+                continue
             except:
                 continue
         return boleto_list
