@@ -31,7 +31,8 @@
     'author': 'KMEE',
     'website': 'http://www.kmee.com.br',
     'depends': [
-        'l10n_br_account_payment_mode'
+        'l10n_br_account_payment_mode',
+        'base_transaction_id',
     ],
     'data': [
         'data/boleto_data.xml',
