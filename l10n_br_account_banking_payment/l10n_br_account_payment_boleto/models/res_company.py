@@ -20,27 +20,16 @@
 #
 ##############################################################################
 
+from openerp import models, fields
 
-{
-    'name': 'Odoo Brasil Account Payment Boleto',
-    'version': '0.1',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'summary': 'Adds payment mode boleto on move lines',
-    'description': """ """,
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'depends': [
-        'l10n_br_account_payment_mode'
-    ],
-    'data': [
-        'data/boleto_data.xml',
-        'views/res_company.xml',
-        'views/payment_mode.xml',
-        'views/account_move_line.xml',
-        'reports/report_print_button_view.xml',
-    ],
-    'demo': [
-    ],
-    'active': False,
-}
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    own_number_type = fields.Selection(
+        [('0', 'Sequêncial'),
+         ('1', 'Numero da Fatura'),
+         ('2', 'Numero da Move Line'),], string=u'Tipo de nosso número',
+        default='2')
+    own_number_sequence = fields.Many2one('ir.sequence',
+                    string=u'Sequência do Nosso Número', required=True)
