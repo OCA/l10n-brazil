@@ -103,6 +103,29 @@
 				<xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='city']" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
+				
+				
+				<xpath expr="//div[@name='div_address']" position="replace">
+				 	<div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
+	                    <field name="zip" placeholder="CEP" style="width: 20%"/>	                    
+	                     <div class="address_format">
+		                    <field name="street" placeholder="Logradouro" style="width: 70%"/>
+		                    <field name="number" placeholder="Número" style="width: 20%"/>		                    
+		                </div>	
+	                    <div class="address_format">
+		                    <field name="street2" placeholder="Complemento" style="width: 45%"/>
+		                    <field name="district" placeholder="Bairro" style="width: 45%"/>		                    
+		                </div>	                    
+	                    <div class="address_format">
+	                    	<field name="country_id" placeholder="País" class="oe_no_button" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" style="width: 30%"/>
+	                        <field name="state_id" class="oe_no_button" placeholder="Estado" 
+	                        		style="width: 30%" options="{&quot;no_open&quot;: True}" 
+	                        		on_change="onchange_state(state_id)" domain="[('country_id','=',country_id)]"/>
+	                        <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>	                        	                        
+	                    </div>	                    
+	                </div>
+				</xpath>
+				
 			</field>
 		</record>
 
