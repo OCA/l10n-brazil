@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2012  Renato Lima (Akretion)                                  #
@@ -19,30 +19,31 @@
 
 import re
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
+from openerp.exceptions import except_orm
 
 
-class L10n_brZip(orm.Model):
+class L10n_brZip(models.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
     _name = 'l10n_br.zip'
     _description = 'CEP'
     _rec_name = 'zip'
-    _columns = {
-        'zip': fields.char('CEP', size=8, required=True),
-        'street_type': fields.char('Tipo', size=26),
-        'street': fields.char('Logradouro', size=72),
-        'district': fields.char('Bairro', size=72),
-        'country_id': fields.many2one('res.country', 'Country'),
-        'state_id': fields.many2one(
-            'res.country.state', 'Estado',
-            domain="[('country_id','=',country_id)]"),
-        'l10n_br_city_id': fields.many2one(
-            'l10n_br_base.city', 'Cidade',
-            required=True, domain="[('state_id','=',state_id)]"),
-    }
 
+    zip = fields.Char('CEP', size=8, required=True)
+    street_type = fields.Char('Tipo', size=26)
+    street = fields.Char('Logradouro', size=72)
+    district = fields.Char('Bairro', size=72)
+    country_id = fields.Many2one('res.country', 'Country')
+    state_id = fields.Many2one(
+        'res.country.state', 'Estado',
+        domain="[('country_id','=',country_id)]")
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Cidade',
+        required=True, domain="[('state_id','=',state_id)]")
+
+    # TODO migrate to new API
     def set_domain(self, country_id=False, state_id=False,
                 l10n_br_city_id=False, district=False,
                 street=False, zip_code=False):
@@ -53,7 +54,7 @@ class L10n_brZip(orm.Model):
         else:
             if not state_id or not l10n_br_city_id or \
                 len(street or '') == 0:
-                raise orm.except_orm(
+                raise except_orm(
                     u'Parametros insuficientes',
                     u'Necessário informar Estado, município e logradouro')
 
@@ -70,16 +71,17 @@ class L10n_brZip(orm.Model):
 
         return domain
 
-    def set_result(self, cr, uid, ids, context, zip_read=None):
+    @api.model
+    def set_result(self, zip_read=None):
         if zip_read:
             zip_code = zip_read['zip']
             if len(zip_code) == 8:
                 zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
             result = {
-                'country_id': zip_read['country_id'] and zip_read['country_id'][0] or False,
-                'state_id': zip_read['state_id'] and zip_read['state_id'][0] or False,
-                'l10n_br_city_id': zip_read['l10n_br_city_id'] and zip_read['l10n_br_city_id'][0] or False,
-                'district': (zip_read['district'] or ''),
+                'country_id': zip_read.get('country_id'),
+                'state_id': zip_read.get('state_id'),
+                'l10n_br_city_id': zip_read.get('l10n_br_city_id'),
+                'district': (zip_read.get('district', '')),
                 'street': ((zip_read['street_type'] or '') + ' ' + (zip_read['street'] or '')),
                 'zip': zip_code,
             }
@@ -87,6 +89,7 @@ class L10n_brZip(orm.Model):
             result = {}
         return result
 
+    # TODO migrate to new API
     def zip_search_multi(self, cr, uid, ids, context, country_id=False,
                         state_id=False, l10n_br_city_id=False,
                         district=False, street=False, zip_code=False):
@@ -115,12 +118,12 @@ class L10n_brZip(orm.Model):
         else:
             return False
 
-    def create_wizard(self, cr, uid, ids, context,
-                    object_name, country_id=False,
+    @api.model
+    def create_wizard(self, object_name, country_id=False,
                     state_id=False, l10n_br_city_id=False,
                     district=False, street=False, zip_code=False,
                     zip_ids=False):
-
+        context = dict(self.env.context)
         context.update({
             'zip': zip_code,
             'street': street,
