@@ -207,7 +207,7 @@ class NFe200(FiscalDocument):
         # Emitente
         #
         self.nfe.infNFe.emit.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.company_id.partner_id.cnpj_cpf or '')
-        self.nfe.infNFe.emit.xNome.valor = inv.company_id.partner_id.legal_name
+        self.nfe.infNFe.emit.xNome.valor = inv.company_id.partner_id.legal_name[:60]
         self.nfe.infNFe.emit.xFant.valor = inv.company_id.partner_id.name
         self.nfe.infNFe.emit.enderEmit.xLgr.valor = company.street or ''
         self.nfe.infNFe.emit.enderEmit.nro.valor = company.number or ''
@@ -256,7 +256,7 @@ class NFe200(FiscalDocument):
         if nfe_environment == '2':
             self.nfe.infNFe.dest.xNome.valor = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
         else:
-            self.nfe.infNFe.dest.xNome.valor = inv.partner_id.legal_name or ''
+            self.nfe.infNFe.dest.xNome.valor = inv.partner_id.legal_name[:60] or ''
 
         if inv.partner_id.is_company:
             self.nfe.infNFe.dest.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_id.cnpj_cpf or '')
@@ -287,7 +287,7 @@ class NFe200(FiscalDocument):
         self.det.nItem.valor = i
         self.det.prod.cProd.valor = inv_line.product_id.code or ''
         self.det.prod.cEAN.valor = inv_line.product_id.ean13 or ''
-        self.det.prod.xProd.valor = inv_line.product_id.name or ''
+        self.det.prod.xProd.valor = inv_line.product_id.name[:120] or ''
         self.det.prod.NCM.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv_line.fiscal_classification_id.name or '')
         self.det.prod.EXTIPI.valor = ''
         self.det.prod.CFOP.valor = inv_line.cfop_id.code
@@ -423,7 +423,7 @@ class NFe200(FiscalDocument):
                 self.nfe.infNFe.transp.transporta.CPF.valor = \
                     re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
 
-            self.nfe.infNFe.transp.transporta.xNome.valor = inv.carrier_id.partner_id.legal_name or ''
+            self.nfe.infNFe.transp.transporta.xNome.valor = inv.carrier_id.partner_id.legal_name[:60] or ''
             self.nfe.infNFe.transp.transporta.IE.valor = inv.carrier_id.partner_id.inscr_est or ''
             self.nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
             self.nfe.infNFe.transp.transporta.xMun.valor = inv.carrier_id.partner_id.l10n_br_city_id.name or ''
