@@ -510,11 +510,11 @@ class NFe200(FiscalDocument):
     def _carrier_data(self, invoice):
         """Dados da Transportadora e veiculo"""
 
-        if invoice.carrier_id:
-
-            self.nfe.infNFe.transp.modFrete.valor = (
+        self.nfe.infNFe.transp.modFrete.valor = (
                 invoice.incoterm and
                 invoice.incoterm.freight_responsibility or '9')
+
+        if invoice.carrier_id:
 
             if invoice.carrier_id.partner_id.is_company:
                 self.nfe.infNFe.transp.transporta.CNPJ.valor = \
