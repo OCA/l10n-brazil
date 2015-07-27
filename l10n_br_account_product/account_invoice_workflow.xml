@@ -44,6 +44,14 @@ write({'state':'cancel'})</field>
             <field name="kind">function</field>
         </record>
 
+        <record id="act_sefaz_denied" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">sefaz_denied</field>
+            <field name="flow_stop">True</field>
+            <field name="action">write({'state':'sefaz_denied'})</field>
+            <field name="kind">function</field>
+        </record>
+
         <record id="tras_draft_router" model="workflow.transition">
             <field name="act_from" ref="account.act_draft"/>
             <field name="act_to" ref="act_router"/>
@@ -77,6 +85,13 @@ write({'state':'cancel'})</field>
             <field name="act_to" ref="act_sefaz_exception"/>
             <field name="condition">True</field>
             <field name="signal">invoice_sefaz_exception</field>
+        </record>
+
+        <record id="tras_sefaz_export_denied" model="workflow.transition">
+            <field name="act_from" ref="act_sefaz_export"/>
+            <field name="act_to" ref="act_sefaz_denied"/>
+            <field name="condition">True</field>
+            <field name="signal">invoice_sefaz_denied</field>
         </record>
 
         <record id="tras_sefaz_exception_cancel" model="workflow.transition">
