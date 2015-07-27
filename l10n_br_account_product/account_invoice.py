@@ -90,7 +90,6 @@ class AccountInvoice(models.Model):
             result[tax.invoice_id.id] = True
         return list(result.keys())
 
-
     nfe_version = fields.Selection(
         [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')],
         u'Versão NFe', readonly=True,
@@ -133,6 +132,7 @@ class AccountInvoice(models.Model):
         ('sefaz_export', 'Enviar para Receita'),
         ('sefaz_exception', u'Erro de autorização da Receita'),
         ('sefaz_cancelled', 'Cancelado no Sefaz'),
+        ('sefaz_denied', 'Denegada no Sefaz'),
         ('open', 'Open'),
         ('paid', 'Paid'),
         ('cancel', 'Cancelled')
