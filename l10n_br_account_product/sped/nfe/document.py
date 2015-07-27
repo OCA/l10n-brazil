@@ -150,7 +150,7 @@ class NFe200(FiscalDocument):
                     self.nfe.infNFe.retirada.xBairro.valor = inv.partner_shipping_id.district or 'Sem Bairro'
                     self.nfe.infNFe.retirada.cMun.valor = '%s%s' % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code)
                     self.nfe.infNFe.retirada.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
-                    self.nfe.infNFe.retirada.UF.valor = inv.address_invoice_id.state_id.code or ''
+                    self.nfe.infNFe.retirada.UF.valor = inv.partner_shipping_id.state_id.code or ''
                 else:
                     self.nfe.infNFe.entrega.CNPJ.valor = re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_shipping_id.cnpj_cpf or '')
                     self.nfe.infNFe.entrega.xLgr.valor = inv.partner_shipping_id.street or ''
@@ -159,7 +159,7 @@ class NFe200(FiscalDocument):
                     self.nfe.infNFe.entrega.xBairro.valor = inv.partner_shipping_id.district or 'Sem Bairro'
                     self.nfe.infNFe.entrega.cMun.valor = '%s%s' % (inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code)
                     self.nfe.infNFe.entrega.xMun.valor = inv.partner_shipping_id.l10n_br_city_id.name or ''
-                    self.nfe.infNFe.entrega.UF.valor = inv.address_invoice_id.state_id.code or ''
+                    self.nfe.infNFe.entrega.UF.valor = inv.partner_shipping_id.state_id.code or ''
 
 
     def _nfe_references(self, cr, uid, ids, inv_related, context=None):
