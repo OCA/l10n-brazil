@@ -277,15 +277,6 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
-    def name_get(self, cr, uid, ids, context=None):
-        result = {}
-        for record in self.browse(cr, uid, ids, context):
-            result[record.id] = record.fiscal_document_id.name + ' (' + \
-            record.document_serie_id.name + '): ' + \
-            str(record.number_start) + ' - ' + str(record.number_end)
-        return result
-
-    name = fields.Char(u'Números')
     company_id = fields.Many2one(
         'res.company', 'Empresa', readonly=True,
         states={'draft': [('readonly', False)]}, required=True,
