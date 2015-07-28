@@ -364,12 +364,12 @@ class AccountInvoice(models.Model):
         return result
 
     def action_date_assign(self, cr, uid, ids, *args):
-
+        # data de contabilização:
+        # data de entrada:
+        # data do vencimento:
         for inv in self.browse(cr, uid, ids):
-            if inv.date_hour_invoice:
-                aux = datetime.datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
-                inv.date_invoice = str(aux)
-
+            if inv.date_in_out:
+                inv.date_invoice = datetime.datetime.strptime(inv.date_in_out, '%Y-%m-%d').date()
             res = self.onchange_payment_term_date_invoice(cr, uid, inv.id, inv.payment_term.id, inv.date_invoice)
 
             if res and res['value']:
