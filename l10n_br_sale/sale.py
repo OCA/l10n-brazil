@@ -20,8 +20,7 @@
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
-from openerp import api
-
+from openerp import api, _
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
@@ -196,32 +195,40 @@ class SaleOrder(orm.Model):
             fiscal_category_id=fiscal_category_id)
 
     @api.model
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
-                                    partner_invoice_id=False, 
-                                    fiscal_category_id=False, context=None):
+    def _fiscal_position_map(self, result, context=None, **kwargs):
 
-        if context is None:
+        if not context:
             context = {}
-        else:
-            context = context.copy()
+        context.update({'use_domain': ('use_sale', '=', True)})
+        kwargs.update({'context': context})
 
-        result = {'value': {'fiscal_position': False}}
-
-        if not partner_id or not fiscal_category_id:
+        if not kwargs.get('fiscal_category_id', False):
             return result
+        obj_company = self.env['res.company'].browse(kwargs.get('company_id',
+                                                                False))
+        obj_fcategory = self.env['l10n_br_account.fiscal.category']
+        fcategory = obj_fcategory.browse(kwargs.get('fiscal_category_id'))
+        result['value']['journal_id'] = fcategory.property_journal and \
+            fcategory.property_journal.id or False
+        if not result['value'].get('journal_id', False):
+            raise orm.except_orm(
+                _(u'Nenhum Diário !'),
+                _(u"Categoria fiscal: '%s', não tem um diário contábil para a \
+                empresa %s") % (fcategory.name, obj_company.name))
 
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+
+        return obj_fp_rule.apply_fiscal_mapping(result, **kwargs)
+
+    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+                                    partner_invoice_id=False,
+                                    fiscal_category_id=False, context=None):
+        result = {'value': {}}
         obj_user = self.pool.get('res.users').browse(cr, uid, uid)
         company_id = obj_user.company_id.id
-        context.update({'use_domain': ('use_sale', '=', True)})
-        kwargs = {
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'fiscal_category_id': fiscal_category_id,
-            'company_id': company_id,
-            'context': context
-        }
-        fp_rule_obj = self.env['account.fiscal.position.rule']
-        return fp_rule_obj.apply_fiscal_mapping(result, **kwargs)
+        return self._fiscal_position_map(cr, uid, result, False,
+            partner_id=partner_id, partner_invoice_id=partner_id,
+            company_id=company_id, fiscal_category_id=fiscal_category_id)
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
