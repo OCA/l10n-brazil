@@ -405,7 +405,7 @@ class NFe200(FiscalDocument):
 
         self.dup.nDup.valor = line.name
         self.dup.dVenc.valor = line.date_maturity or inv.date_due or inv.date_invoice
-        self.dup.vDup.valor = str("%.2f" % line.debit)
+        self.dup.vDup.valor = str("%.2f" % (line.debit or line.credit))
 
     def _carrier_data(self, cr, uid, ids, inv, context=None):
 
