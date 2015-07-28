@@ -220,13 +220,14 @@ class SaleOrder(orm.Model):
 
         return obj_fp_rule.apply_fiscal_mapping(result, **kwargs)
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
                                     partner_invoice_id=False,
                                     fiscal_category_id=False, context=None):
         result = {'value': {}}
-        obj_user = self.pool.get('res.users').browse(cr, uid, uid)
+        obj_user = self.env['res.users'].browse(self._uid)
         company_id = obj_user.company_id.id
-        return self._fiscal_position_map(cr, uid, result, False,
+        return self._fiscal_position_map(result, False,
             partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, fiscal_category_id=fiscal_category_id)
 
