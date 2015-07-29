@@ -5,7 +5,7 @@
 #    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    Thinkopen - Brasil
-#    Copyright (C) Thinkopen Solutions (<http://www.thinkopensolutions.com.br>).
+#    Copyright (C) Thinkopen Solutions (<http://www.thinkopensolutions.com.br>)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
