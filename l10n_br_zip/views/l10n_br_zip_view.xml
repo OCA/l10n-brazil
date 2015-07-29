@@ -20,13 +20,15 @@
 			<field name="model">l10n_br.zip</field>
 			<field name="arch" type="xml">
 				<form string="CEPs">
-					<field name="zip" select="1"/>
-					<field name="street_type" select="1"/>
-					<field name="street" select="1"/>
-					<field name="district" select="2"/>
-					<field name="country_id" select="2"/>
-					<field name="state_id" select="2"/>
-					<field name="l10n_br_city_id" select="2"/>
+					<group>				
+						<field name="zip" select="1"/>
+						<field name="street_type" select="1"/>
+						<field name="street" select="1"/>
+						<field name="district" select="2"/>
+						<field name="country_id" select="2"/>
+						<field name="state_id" select="2"/>
+						<field name="l10n_br_city_id" select="2"/>
+					</group>
 				</form>
 			</field>
 		</record>
