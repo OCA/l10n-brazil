@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
-# 
+#
 # Copyright (C) 2011  Renato Lima - Akretion
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
@@ -42,7 +42,6 @@ class L10n_brZipSearch(models.TransientModel):
         'state', readonly=True, default='init')
     address_id = fields.Integer('Id do objeto', invisible=True)
     object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
-
 
     def create(self, cr, uid, vals, context):
         result = super(L10n_brZipSearch, self).create(cr, uid, vals, context)
@@ -85,7 +84,7 @@ class L10n_brZipSearch(models.TransientModel):
 
         # Search zips
         zips = obj_zip.search(domain)
-        #MAP zip to zip.search.result
+        # MAP zip to zip.search.result
         zip_result_ids = obj_zip_result.map_to_zip_result(
             zips.ids, data['object_name'], data['address_id'])
         self.write(
@@ -130,14 +129,15 @@ class L10n_brZipResult(models.TransientModel):
         'l10n_br.zip.search', 'Search', readonly=True, invisible=True)
     address_id = fields.Integer('Id do objeto', invisible=True)
     object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
-    #ZIPCODE data to be shown
+    # ZIPCODE data to be shown
     zip = fields.Char('CEP', size=9, readonly=True)
     street = fields.Char('Logradouro', size=72, readonly=True)
     street_type = fields.Char('Tipo', size=26, readonly=True)
     district = fields.Char('Bairro', size=72, readonly=True)
     country_id = fields.Many2one('res.country', 'Country', readonly=True)
     state_id = fields.Many2one('res.country.state', 'Estado',
-        domain="[('country_id', '=', country_id)]", readonly=True)
+                               domain="[('country_id', '=', country_id)]",
+                               readonly=True)
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Cidade', required=True,
         domain="[('state_id', '=', state_id)]", readonly=True)
