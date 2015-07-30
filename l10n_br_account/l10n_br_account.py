@@ -118,7 +118,7 @@ class L10n_brDocumentEvent(models.Model):
         ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
         'Status', select=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
-        'account.invoice', 'Documentos', ondelete='cascade')
+        'account.invoice', 'Documentos')
 
     _order = "write_date desc"
 
