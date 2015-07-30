@@ -22,6 +22,7 @@ import re
 from openerp import models, fields, api
 from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.exceptions import ValidationError
+from openerp.tools.translate import _
 
 
 class CrmLead(models.Model):
@@ -31,7 +32,7 @@ class CrmLead(models.Model):
     legal_name = fields.Char(
         u'Razão Social', size=128,
         help="nome utilizado em documentos fiscais")
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+    cnpj = fields.Char('CNPJ', size=18)
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
     suframa = fields.Char('Suframa', size=18)
@@ -40,22 +41,30 @@ class CrmLead(models.Model):
         domain="[('state_id','=',state_id)]")
     district = fields.Char('Bairro', size=32)
     number = fields.Char('Número', size=10)
+    name_surname = fields.Char(u'Nome e sobrenome', size=128,
+                               help="Nome utilizado em documentos fiscais")
+    cpf = fields.Char('CPF', size=18)
+    rg = fields.Char('RG', size=16)
 
     @api.one
-    @api.constrains('cnpj_cpf')
-    def _check_cnpj_cpf(self):
-        result = True
+    @api.constrains('cnpj')
+    def _check_cnpj(self):
         country_code = self.country_id.code or ''
-        if self.cnpj_cpf and country_code.upper() == 'BR':
-            cnpj_cpf = re.sub('[^0-9]', '', self.cnpj_cpf)
-            if len(cnpj_cpf) == 14:
-                result = fiscal.validate_cnpj(cnpj_cpf)
-                document = u'CNPJ'
-            elif len(cnpj_cpf) == 11:
-                result = fiscal.validate_cpf(cnpj_cpf)
-                document = u'CPF'
-        if not result:
-            raise ValidationError(u"{} Invalido!".format(document))
+        if self.cnpj and country_code.upper() == 'BR':
+            cnpj = re.sub('[^0-9]', '', self.cnpj)
+            if not fiscal.validate_cnpj(cnpj):
+                raise ValidationError(_(u'CNPJ inválido!'))
+        return True
+
+    @api.one
+    @api.constrains('cpf')
+    def _check_cpf(self):
+        country_code = self.country_id.code or ''
+        if self.cpf and country_code.upper() == 'BR':
+            cpf = re.sub('[^0-9]', '', self.cpf)
+            if not fiscal.validate_cpf(cpf):
+                raise ValidationError(_(u'CPF inválido!'))
+        return True
 
     @api.one
     @api.constrains('inscr_est')
@@ -80,19 +89,41 @@ class CrmLead(models.Model):
         if not result:
             raise ValidationError(u"Inscrição Estadual Invalida!")
 
-    @api.onchange('cnpj_cpf', 'country_id')
-    def _onchange_cnpj_cpf(self):
-        cnpj_cpf = None
+    @api.onchange('cnpj', 'country_id')
+    def _onchange_cnpj(self):
+        cnpj = None
         country_code = self.country_id.code or ''
-        if self.cnpj_cpf and country_code.upper() == 'BR':
-            val = re.sub('[^0-9]', '', self.cnpj_cpf)
+        if self.cnpj and country_code.upper() == 'BR':
+            val = re.sub('[^0-9]', '', self.cnpj)
             if len(val) == 14:
-                cnpj_cpf = "%s.%s.%s/%s-%s" % (
+                cnpj = "%s.%s.%s/%s-%s" % (
                     val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            elif len(val) == 11:
-                cnpj_cpf = "%s.%s.%s-%s" % (
-                    val[0:3], val[3:6], val[6:9], val[9:11])
-            self.cnpj_cpf = cnpj_cpf
+            self.cnpj = cnpj
+
+    @api.onchange('cpf', 'country_id')
+    def onchange_mask_cpf(self):
+        cpf = None
+        country_code = self.country_id.code or ''
+        if self.cpf and country_code.upper() == 'BR':
+            val = re.sub('[^0-9]', '', self.cpf)
+            if len(val) == 11:
+                cpf = "%s.%s.%s-%s"\
+                    % (val[0:3], val[3:6], val[6:9], val[9:11])
+            self.cpf = cpf
+
+    @api.onchange('l10n_br_city_id')
+    def onchange_l10n_br_city_id(self):
+        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
+        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
+        do município para o campo city que é o campo nativo do módulo base
+        para manter a compatibilidade entre os demais módulos que usam o
+        campo city.
+        param int l10n_br_city_id: id do l10n_br_city_id digitado.
+        return: dicionário com o nome e id do município.
+        """
+        if self.l10n_br_city_id:
+            self.city = self.l10n_br_city_id.name
+            self.l10n_br_city_id = self.l10n_br_city_id
 
     @api.onchange('zip')
     def _onchange_zip(self):
@@ -117,8 +148,8 @@ class CrmLead(models.Model):
 
         return result
 
-    @api.multi
-    def _lead_create_contact(self, lead, name, is_company, parent_id):
+    @api.model
+    def _lead_create_contact(self, lead, name, is_company, parent_id=False):
         result = super(CrmLead, self)._lead_create_contact(
             lead, name, is_company, parent_id)
 
@@ -131,11 +162,18 @@ class CrmLead(models.Model):
         if is_company:
             value.update({
                 'legal_name': lead.legal_name,
-                'cnpj_cpf': lead.cnpj_cpf,
+                'cnpj_cpf': lead.cnpj,
                 'inscr_est': lead.inscr_est,
                 'inscr_mun': lead.inscr_mun,
                 'suframa': lead.suframa,
             })
-
-        self.env['res.partner'].write([result], value)
+        else:
+            value.update({
+                'legal_name': lead.name_surname,
+                'cnpj_cpf': lead.cpf,
+                'inscr_est': lead.rg,
+            })
+        if result:
+            partner = self.env['res.partner'].browse(result)
+            partner.write(value)
         return result
