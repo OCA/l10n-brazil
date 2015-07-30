@@ -142,7 +142,6 @@ class L10n_brZipResult(models.TransientModel):
         'l10n_br_base.city', 'Cidade', required=True,
         domain="[('state_id', '=', state_id)]", readonly=True)
 
-    @api.model
     def map_to_zip_result(self, zip_data, object_name, address_id):
         obj_zip = self.env['l10n_br.zip']
         result = []
@@ -163,8 +162,8 @@ class L10n_brZipResult(models.TransientModel):
         address_id = data['address_id']
         object_name = data['object_name']
         if address_id and object_name:
-            obj = self.pool.get(object_name)
+            obj = self.env[object_name].browse(address_id)
             obj_zip = self.env['l10n_br.zip']
             result = obj_zip.set_result(data)
-            obj.write([address_id], result)
+            obj.write(result)
         return True
