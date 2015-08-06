@@ -378,30 +378,43 @@ class AccountInvoiceLine(models.Model):
         ctx.update({'use_domain': ('use_invoice', '=', True)})
         # result['value']['cfop_id'] = None
 
+        account_obj = self.env['account.account']
         result_rule = self.env[
             'account.fiscal.position.rule'].with_context(
                 ctx).apply_fiscal_mapping(result, **kwargs)
         if result_rule.get('fiscal_position'):
-            obj_fp = self.pool.get('account.fiscal.position').browse(
-                result_rule.get('fiscal_position', False))
-            if kwargs.get('product_id', False):
-                obj_product = self.env['product.product'].browse(
-                    kwargs.get('product_id', False))
-                ctx['fiscal_type'] = obj_product.fiscal_type
+            fp = self.env['account.fiscal.position'].browse(
+                result_rule['fiscal_position'])
+            if kwargs.get('product_id'):
+                product = self.env['product.product'].browse(
+                    kwargs['product_id'])
+                ctx['fiscal_type'] = product.fiscal_type
+
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
-                    taxes = obj_product.taxes_id and obj_product.taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
+                    if product.taxes_id:
+                        taxes = product.taxes_id
+                    elif kwargs.get('account_id'):
+                        account_id = kwargs['account_id']
+                        taxes = account_obj.browse(account_id).tax_ids
+                    else:
+                        taxes = False
                 else:
                     ctx['type_tax_use'] = 'purchase'
-                    taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
+                    if product.supplier_taxes_id:
+                        taxes = product.supplier_taxes_id
+                    elif kwargs.get('account_id'):
+                        account_id = kwargs['account_id']
+                        taxes = account_obj.browse(account_id).tax_ids
+                    else:
+                        taxes = False
+
                 tax_ids = self.env['account.fiscal.position'].with_context(
-                    ctx).map_tax(obj_fp, taxes)
-
+                    ctx).map_tax(fp, taxes)
                 result_rule['value']['invoice_line_tax_id'] = tax_ids
-
                 result['value'].update(self._get_tax_codes(
-                    kwargs.get('product_id'),
-                    obj_fp, tax_ids, kwargs.get('company_id')))
+                    kwargs['product_id'],
+                    fp, tax_ids, kwargs['company_id']))
 
         return result_rule
 
@@ -420,7 +433,6 @@ class AccountInvoiceLine(models.Model):
 
         parent_fiscal_position = ctx.get('parent_fiscal_position')
         parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
-
         fiscal_position = fposition_id or parent_fiscal_position or None
 
         if not parent_fiscal_category_id or not product or not fiscal_position:
@@ -439,7 +451,7 @@ class AccountInvoiceLine(models.Model):
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=parent_fiscal_category_id,
-            account_id=result['value'].get('account_id'))
+            account_id=result['value']['account_id'])
 
         result_super = super(AccountInvoiceLine, self).product_id_change(
             product, uom_id, qty, name, type, partner_id,
