@@ -53,7 +53,7 @@ class AccountInvoice(models.Model):
         for line in self.move_id.line_id:
             if line.account_id.id == self.account_id.id and \
                 line.account_id.type in ('receivable', 'payable') and \
-                self.journal_id.revenue_expense:
+                    self.journal_id.revenue_expense:
                 lines |= line
         self.move_line_receivable_id = (lines).sorted()
 
@@ -104,7 +104,8 @@ class AccountInvoice(models.Model):
     def _check_invoice_number(self):
         domain = []
         if self.number:
-            fiscal_document = self.fiscal_document_id and self.fiscal_document_id.id or False
+            fiscal_document = self.fiscal_document_id and\
+                self.fiscal_document_id.id or False
             domain.extend([('internal_number', '=', self.number),
                            ('fiscal_type', '=', self.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
@@ -131,7 +132,7 @@ class AccountInvoice(models.Model):
          type, partner_id)', 'Invoice Number must be unique per Company!'),
     ]
 
-    #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
+    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(AccountInvoice, self).fields_view_get(
@@ -188,7 +189,8 @@ class AccountInvoice(models.Model):
             doc = etree.XML(result['arch'])
             nodes = doc.xpath("//field[@name='partner_id']")
             partner_string = _('Customer')
-            if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
+            if context.get('type', 'out_invoice') in \
+                    ('in_invoice', 'in_refund'):
                 partner_string = _('Supplier')
             for node in nodes:
                 node.set('string', partner_string)
@@ -197,7 +199,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_number(self):
-        #TODO: not correct fix but required a fresh values before reading it.
+        # TODO: not correct fix but required a fresh values before reading it.
         self.write({})
 
         for invoice in self:
@@ -244,7 +246,8 @@ class AccountInvoice(models.Model):
         for move_line in move_lines:
             if move_line[2]['debit'] or move_line[2]['credit']:
                 if move_line[2]['account_id'] == self.account_id.id:
-                    move_line[2]['name'] = '%s/%s' % (self.internal_number, count)
+                    move_line[2]['name'] = '%s/%s' % \
+                        (self.internal_number, count)
                     count += 1
                 result.append(move_line)
         return result
@@ -275,14 +278,15 @@ class AccountInvoice(models.Model):
     def onchange_fiscal_category_id(self, partner_address_id,
                                     partner_id, company_id,
                                     fiscal_category_id):
-        #TODO Deixar em branco a posição fiscal se não achar a regra
+        # TODO Deixar em branco a posição fiscal se não achar a regra
         result = {'value': {'fiscal_position': None}}
         if fiscal_category_id:
             fiscal_category = self.env[
                 'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
-            #TODO CASO NAO TENHA DIARIO EXIBIR UMA MENSAGEM
+            # TODO CASO NAO TENHA DIARIO EXIBIR UMA MENSAGEM
             if fiscal_category.property_journal:
-                result['value']['journal_id'] = fiscal_category.property_journal.id
+                result['value']['journal_id'] = \
+                    fiscal_category.property_journal.id
         return self._fiscal_position_map(
             result, partner_id=partner_id,
             partner_invoice_id=partner_address_id, company_id=company_id,
@@ -296,7 +300,7 @@ class AccountInvoice(models.Model):
 
         if issuer == '0':
             serie = company.document_serie_service_id and \
-            company.document_serie_service_id.id or False
+                company.document_serie_service_id.id or False
             result['value']['document_serie_id'] = serie
 
         return result
@@ -349,13 +353,14 @@ class AccountInvoiceLine(models.Model):
             eview = etree.fromstring(result['arch'])
 
             if 'type' in context.keys():
-                fiscal_categories = eview.xpath("//field[@name='fiscal_category_id']")
+                expr = "//field[@name='fiscal_category_id']"
+                fiscal_categories = eview.xpath(expr)
                 for fiscal_category_id in fiscal_categories:
                     fiscal_category_id.set(
                         'domain', """[('type', '=', '%s'),
                         ('journal_type', '=', '%s')]"""
                         % (OPERATION_TYPE[context['type']],
-                        JOURNAL_TYPE[context['type']]))
+                           JOURNAL_TYPE[context['type']]))
                     fiscal_category_id.set('required', '1')
 
             product_ids = eview.xpath("//field[@name='product_id']")
@@ -371,7 +376,7 @@ class AccountInvoiceLine(models.Model):
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
-        #result['value']['cfop_id'] = None
+        # result['value']['cfop_id'] = None
 
         result_rule = self.env[
             'account.fiscal.position.rule'].with_context(
@@ -381,11 +386,11 @@ class AccountInvoiceLine(models.Model):
                 result_rule.get('fiscal_position', False))
             if kwargs.get('product_id', False):
                 obj_product = self.env['product.product'].browse(
-                kwargs.get('product_id', False))
+                    kwargs.get('product_id', False))
                 ctx['fiscal_type'] = obj_product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
-                    taxes = obj_product.taxes_id and obj_product.taxes_id or(kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
+                    taxes = obj_product.taxes_id and obj_product.taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
