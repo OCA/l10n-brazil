@@ -254,14 +254,14 @@ class L10n_brAccountDocumentSerie(models.Model):
             vals.update({'internal_sequence_id': self._create_sequence(vals)})
         result = super(L10n_brAccountDocumentSerie, self).create(vals)
         # TODO
-        #if result:
+        # if result:
         #    company = self.env['res.company'].browse(vals.get('company_id'))
         #    value = {}
         #    if vals.get('fiscal_type') == 'product':
         #        series = [doc_serie.id for doc_serie in
         #            company.document_serie_product_ids]
         #        series.append(result.id)
-        #        company.document_serie_product_ids = [(6, 0, list(set(series)))]
+        #      company.document_serie_product_ids = [(6, 0, list(set(series)))]
         #    else:
         #        company.document_serie_service_id = result.id
         #    company.write()
@@ -272,7 +272,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
-    #TODO
+    # TODO
     def _name_get(self, cr, uid, ids, field_name, arg, context=None):
         result = {}
         for record in self.browse(cr, uid, ids, context):
