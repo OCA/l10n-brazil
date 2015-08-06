@@ -284,7 +284,7 @@ class ResPartner(models.Model):
                     context=context)['service_tax_ids']
 
             company_taxes = self.pool.get('account.tax').browse(
-                    cr, uid, company_tax_ids, context=context)
+                cr, uid, company_tax_ids, context=context)
             if taxes:
                 all_taxes = taxes + company_taxes
             else:
@@ -315,7 +315,8 @@ class ResPartner(models.Model):
     @api.v8
     def map_tax(self, taxes):
         result = self.env['account.tax'].browse()
-        if self.company_id and self.env.context.get('type_tax_use') in ('sale', 'all'):
+        if self.company_id and \
+                self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'product') == 'product':
                 company_taxes = self.company_id.product_tax_ids
             else:
