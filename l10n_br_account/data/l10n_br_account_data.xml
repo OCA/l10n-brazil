@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data noupdate="1">
+		<!-- product.pricelist -->
+		<record id="product.list0" model="product.pricelist">
+			<field name="currency_id" ref="base.BRL" />
+		</record>
 
 		<!-- l10n_br_account.document.serie -->
 		<record id="l10n_br_document_serie_1_service" model="l10n_br_account.document.serie">
