@@ -83,23 +83,24 @@ class L10n_brDocumentEvent(models.Model):
 
     type = fields.Selection(
         [('-1', u'Exception'),
-        ('0', u'Envio Lote'),
-        ('1', u'Consulta Recibo'),
-        ('2', u'Cancelamento'),
-        ('3', u'Inutilização'),
-        ('4', u'Consulta NFE'),
-        ('5', u'Consulta Situação'),
-        ('6', u'Consulta Cadastro'),
-        ('7', u'DPEC Recepção'),
-        ('8', u'DPEC Consulta'),
-        ('9', u'Recepção Evento'),
-        ('10', u'Download'),
-        ('11', u'Consulta Destinadas'), ], 'Serviço')
+         ('0', u'Envio Lote'),
+         ('1', u'Consulta Recibo'),
+         ('2', u'Cancelamento'),
+         ('3', u'Inutilização'),
+         ('4', u'Consulta NFE'),
+         ('5', u'Consulta Situação'),
+         ('6', u'Consulta Cadastro'),
+         ('7', u'DPEC Recepção'),
+         ('8', u'DPEC Consulta'),
+         ('9', u'Recepção Evento'),
+         ('10', u'Download'),
+         ('11', u'Consulta Destinadas'), ], 'Serviço')
     response = fields.Char(u'Descrição', size=64, readonly=True)
     company_id = fields.Many2one(
         'res.company', 'Empresa', readonly=True,
         states={'draft': [('readonly', False)]})
-    origin = fields.Char('Documento de Origem', size=64,
+    origin = fields.Char(
+        'Documento de Origem', size=64,
         readonly=True, states={'draft': [('readonly', False)]},
         help="Reference of the document that produced event.")
     file_sent = fields.Char('Envio', readonly=True)
@@ -111,7 +112,7 @@ class L10n_brDocumentEvent(models.Model):
     end_date = fields.Datetime(u'Data Finalização', readonly=True)
     state = fields.Selection(
         [('draft', 'Rascunho'), ('send', 'Enviado'),
-        ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
+         ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
         'Status', select=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
         'account.invoice', 'Documentos', ondelete='cascade')
@@ -130,15 +131,16 @@ class L10n_brAccountFiscalCategory(models.Model):
     code = fields.Char(u'Código', size=254, required=True)
     name = fields.Char(u'Descrição', size=254)
     type = fields.Selection(TYPE, 'Tipo', default='output')
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
-    property_journal = fields.Many2one('account.journal',
-        string=u"Diário Contábil", company_dependent=True,
+    property_journal = fields.Many2one(
+        'account.journal', string=u"Diário Contábil", company_dependent=True,
         help=u"Diário utilizado para esta categoria de operação fiscal")
     journal_type = fields.Selection(
         [('sale', u'Saída'), ('sale_refund', u'Devolução de Saída'),
-        ('purchase', u'Entrada'),
-        ('purchase_refund', u'Devolução de Entrada')], u'Tipo do Diário',
+         ('purchase', u'Entrada'),
+         ('purchase_refund', u'Devolução de Entrada')], u'Tipo do Diário',
         size=32, required=True, default='sale')
     refund_fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', u'Categoria Fiscal de Devolução',
@@ -149,12 +151,15 @@ class L10n_brAccountFiscalCategory(models.Model):
         'l10n_br_account.fiscal.category', u'Categoria Fiscal Inversa',
         domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
             ('state', '=', 'approved')]""")
-    fiscal_position_ids = fields.One2many('account.fiscal.position',
+    fiscal_position_ids = fields.One2many(
+        'account.fiscal.position',
         'fiscal_category_id', u'Posições Fiscais')
     note = fields.Text(u'Observações')
-    state = fields.Selection([('draft', u'Rascunho'),
-        ('review', u'Revisão'), ('approved', u'Aprovada'),
-        ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
+    state = fields.Selection(
+        [('draft', u'Rascunho'),
+         ('review', u'Revisão'), ('approved', u'Aprovada'),
+         ('unapproved', u'Não Aprovada')],
+        'Status', readonly=True,
         track_visibility='onchange', select=True, default='draft')
 
     _sql_constraints = [
@@ -174,6 +179,7 @@ class L10n_brAccountFiscalCategory(models.Model):
     def onchange_journal_type(self, journal_type):
         """Clear property_journal"""
         return {'value': {'property_journal': None}}
+
 
 class L10n_brAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
@@ -216,7 +222,8 @@ class L10n_brAccountDocumentSerie(models.Model):
 
     code = fields.Char(u'Código', size=3, required=True)
     name = fields.Char(u'Descrição', size=64, required=True)
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document',
@@ -297,9 +304,10 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         states={'draft': [('readonly', False)]}, required=True)
     state = fields.Selection(
         [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-        ('done', u'Concluído')], 'Status', required=True, default='draft')
-    justificative = fields.Char('Justificativa', size=255,
-        readonly=True, states={'draft': [('readonly', False)]}, required=True)
+         ('done', u'Concluído')], 'Status', required=True, default='draft')
+    justificative = fields.Char(
+        'Justificativa', size=255, readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
     invalid_number_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
 
@@ -342,7 +350,9 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _constraints = [
         (_check_range, u'Não é permitido faixas sobrepostas!',
             ['number_start', 'number_end']),
-        (_check_justificative,'Justificativa deve ter tamanho minimo de 15 caracteres.', ['justificative'])
+        (_check_justificative,
+            'Justificativa deve ter tamanho minimo de 15 caracteres.',
+            ['justificative'])
     ]
 
     def action_draft_done(self):
@@ -401,8 +411,8 @@ class L10n_brAccountCNAE(models.Model):
 class L10n_brTaxDefinitionTemplate(models.Model):
     _name = 'l10n_br_tax.definition.template'
 
-    tax_id = fields.Many2one('account.tax.template', string='Imposto',
-        required=True)
+    tax_id = fields.Many2one(
+        'account.tax.template', string='Imposto', required=True)
     tax_domain = fields.Char(related='tax_id.domain', string='Tax Domain')
     tax_code_id = fields.Many2one(
         'account.tax.code.template', u'Código de Imposto')
@@ -421,8 +431,9 @@ class L10n_brTaxDefinition(models.Model):
     tax_id = fields.Many2one('account.tax', string='Imposto', required=True)
     tax_domain = fields.Char(related='tax_id.domain', string='Tax Domain')
     tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
-    company_id = fields.Many2one('res.company', string='Company',
-        related='tax_id.company_id', store=True, readonly=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company', related='tax_id.company_id',
+        store=True, readonly=True)
 
     @api.multi
     def onchange_tax_id(self, tax_id):
