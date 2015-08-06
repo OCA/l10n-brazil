@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009-2013  Renato Lima - Akretion                             #
+# Copyright (C) 2009-TODAY  Renato Lima - Akretion                            #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -28,7 +28,6 @@
     'depends': [
         'l10n_br',
         'l10n_br_base',
-        'l10n_br_product',
         'account_fiscal_position_rule',
         'web_context_tunnel',
     ],
