@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
 
 
@@ -29,7 +29,7 @@ class ProductTemplate(models.Model):
         'l10n_br_account.product.category', 'product_tmpl_id',
         u'Categoria de Operação Fiscal Padrões')
     service_type_id = fields.Many2one(
-            'l10n_br_account.service.type', u'Tipo de Serviço')
+        'l10n_br_account.service.type', u'Tipo de Serviço')
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
