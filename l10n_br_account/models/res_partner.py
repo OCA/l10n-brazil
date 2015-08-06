@@ -272,8 +272,8 @@ class ResPartner(models.Model):
         result = []
         if not context:
             context = {}
-        if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use') in ('sale', 'all'):
+        if fposition_id and fposition_id.company_id and\
+                context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
