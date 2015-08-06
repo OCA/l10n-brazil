@@ -277,8 +277,8 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context):
             result[record.id] = record.fiscal_document_id.name + ' (' + \
-            record.document_serie_id.name + '): ' + \
-            str(record.number_start) + ' - ' + str(record.number_end)
+                record.document_serie_id.name + '): ' + \
+                str(record.number_start) + ' - ' + str(record.number_end)
         return result
 
     name = fields.Char(store=True, size=64, string="Nome", function=_name_get)
@@ -337,12 +337,13 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
                 "((number_start<='%s') or (number_start is null))" % (
                     self.number_end,))
 
-        self._cr.execute('SELECT id ' \
-                'FROM l10n_br_account_invoice_invalid_number ' \
-                'WHERE '+' and '.join(where) + (where and ' and ' or '') +
-                    'document_serie_id = %s ' \
-                    "AND state = 'done'" \
-                    'AND id <> %s' % (self.document_serie_id.id, self.id))
+        self._cr.execute(
+            'SELECT id \
+            FROM l10n_br_account_invoice_invalid_number \
+            WHERE '+' and '.join(where) + (where and ' and ' or '') +
+            "document_serie_id = %s \
+            AND state = 'done' \
+            AND id <> %s" % (self.document_serie_id.id, self.id))
         if self._cr.fetchall() or (self.number_start > self.number_end):
             raise Warning(_(u'Não é permitido faixas sobrepostas!'))
         return True
