@@ -123,11 +123,12 @@ class AccountInvoice(models.Model):
 
             invoices = self.env['account.invoice'].search(domain)
             if len(invoices) > 1:
-                raise Warning(u'Não é possível registrar documentos fiscais com números repetidos.')
+                raise Warning(u'Não é possível registrar documentos\
+                              fiscais com números repetidos.')
 
     _sql_constraints = [
-        ('number_uniq', 'unique(number, company_id, journal_id, type, partner_id)',
-            'Invoice Number must be unique per Company!'),
+        ('number_uniq', 'unique(number, company_id, journal_id,\
+         type, partner_id)', 'Invoice Number must be unique per Company!'),
     ]
 
     #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
@@ -205,10 +206,10 @@ class AccountInvoice(models.Model):
                 sequence = sequence_obj.browse(
                     invoice.document_serie_id.internal_sequence_id.id)
                 invalid_number = self.env[
-                    'l10n_br_account.invoice.invalid.number'].search([
-                        ('number_start', '<=', sequence.number_next),
-                        ('number_end', '>=', sequence.number_next),
-                        ('state', '=', 'done')])
+                    'l10n_br_account.invoice.invalid.number'].search(
+                    [('number_start', '<=', sequence.number_next),
+                     ('number_end', '>=', sequence.number_next),
+                     ('state', '=', 'done')])
 
                 if invalid_number:
                     raise except_orm(
@@ -219,7 +220,8 @@ class AccountInvoice(models.Model):
 
                 seq_number = sequence_obj.get_id(
                     invoice.document_serie_id.internal_sequence_id.id)
-                self.write({'internal_number': seq_number, 'number': seq_number})
+                self.write(
+                    {'internal_number': seq_number, 'number': seq_number})
         return True
 
     # TODO Talvez este metodo substitui o metodo action_move_create
@@ -230,10 +232,13 @@ class AccountInvoice(models.Model):
             Hook method to be overridden in additional modules to verify and
             possibly alter the move lines to be created by an invoice, for
             special cases.
-            :param move_lines: list of dictionaries with the account.move.lines (as for create())
-            :return: the (possibly updated) final move_lines to create for this invoice
+            :param move_lines: list of dictionaries with the account.move.lines
+            (as for create())
+            :return: the (possibly updated) final move_lines to create for this
+            invoice
         """
-        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
+        move_lines = super(
+            AccountInvoice, self).finalize_invoice_move_lines(move_lines)
         count = 1
         result = []
         for move_line in move_lines:
@@ -380,7 +385,7 @@ class AccountInvoiceLine(models.Model):
                 ctx['fiscal_type'] = obj_product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
-                    taxes = obj_product.taxes_id and obj_product.taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
+                    taxes = obj_product.taxes_id and obj_product.taxes_id or(kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     taxes = obj_product.supplier_taxes_id and obj_product.supplier_taxes_id or (kwargs.get('account_id', False) and self.pool.get('account.account').browse(kwargs.get('account_id', False)).tax_ids or False)
@@ -397,9 +402,9 @@ class AccountInvoiceLine(models.Model):
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='',
-                        type='out_invoice', partner_id=False,
-                        fposition_id=False, price_unit=False,
-                        currency_id=False, company_id=None):
+                          type='out_invoice', partner_id=False,
+                          fposition_id=False, price_unit=False,
+                          currency_id=False, company_id=None):
         ctx = dict(self.env.context)
         if ctx.get('type') in ('out_invoice', 'out_refund'):
             type_tax_use = {'type_tax_use': 'sale'}
