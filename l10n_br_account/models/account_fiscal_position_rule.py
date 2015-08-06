@@ -73,7 +73,8 @@ class AccountFiscalPositionRule(models.Model):
         partner_fiscal_type_id = partner.partner_fiscal_type_id.id
 
         document_date = self.env.context.get('date', time.strftime('%Y-%m-%d'))
-        use_domain = self.env.context.get('use_domain', ('use_sale', '=', True))
+        use_domain = self.env.context.get(
+            'use_domain', ('use_sale', '=', True))
 
         domain = [
             '&', ('company_id', '=', company.id), use_domain,
