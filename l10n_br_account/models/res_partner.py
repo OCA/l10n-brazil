@@ -28,22 +28,24 @@ class AccountFiscalPositionTemplate(models.Model):
     name = fields.Char('Fiscal Position', size=128, required=True)
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
-    fiscal_category_fiscal_type = fields.Selection(TYPE,
-        related='fiscal_category_id.type', readonly=True,
+    fiscal_category_fiscal_type = fields.Selection(
+        TYPE, related='fiscal_category_id.type', readonly=True,
         store=True, string='Fiscal Type')
-    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
-                             'Tipo')
+    type = fields.Selection(
+        [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
     type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application')
     inv_copy_note = fields.Boolean('Copiar Observação na Nota Fiscal')
-    asset_operation = fields.Boolean('Operação de Aquisição de Ativo',
+    asset_operation = fields.Boolean(
+        'Operação de Aquisição de Ativo',
         help="""Caso seja marcada essa opção, será incluido o IPI na base de
-            calculo do ICMS.""")
-    state = fields.Selection([('draft', u'Rascunho'),
-            ('review', u'Revisão'), ('approved', u'Aprovada'),
-            ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
-            track_visibility='onchange', select=True, default='draft')
+        calculo do ICMS.""")
+    state = fields.Selection(
+        [('draft', u'Rascunho'),
+         ('review', u'Revisão'), ('approved', u'Aprovada'),
+         ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
+        track_visibility='onchange', select=True, default='draft')
 
     @api.multi
     def onchange_type(self, type):
@@ -94,33 +96,43 @@ class AccountFiscalPositionTemplate(models.Model):
             if tax_code_template:
                 tax_code_template_ref[tax_code_template[0]] = tax_code.id
 
-        fp_ids = self.search(cr, uid,
-            [('chart_template_id', '=', chart_temp_id)])
+        fp_ids = self.search(
+            cr, uid, [('chart_template_id', '=', chart_temp_id)])
         for position in self.browse(cr, uid, fp_ids, context=context):
-            new_fp = obj_fiscal_position.create(cr, uid,
-                {'company_id': company_id,
-                    'name': position.name,
-                    'note': position.note,
-                    'type': position.type,
-                    'state': position.state,
-                    'type_tax_use': position.type_tax_use,
-                    'cfop_id': position.cfop_id and position.cfop_id.id or False,
-                    'inv_copy_note': position.inv_copy_note,
-                    'asset_operation': position.asset_operation,
-                    'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
+            new_fp = obj_fiscal_position.create(
+                cr, uid, {'company_id': company_id,
+                          'name': position.name,
+                          'note': position.note,
+                          'type': position.type,
+                          'state': position.state,
+                          'type_tax_use': position.type_tax_use,
+                          'cfop_id':
+                          position.cfop_id and position.cfop_id.id or False,
+                          'inv_copy_note': position.inv_copy_note,
+                          'asset_operation': position.asset_operation,
+                          'fiscal_category_id':
+                          position.fiscal_category_id and
+                          position.fiscal_category_id.id or False})
             for tax in position.tax_ids:
                 obj_tax_fp.create(cr, uid, {
-                    'tax_src_id': tax.tax_src_id and tax_template_ref.get(tax.tax_src_id.id, False),
-                    'tax_code_src_id': tax.tax_code_src_id and tax_code_template_ref.get(tax.tax_code_src_id.id, False),
+                    'tax_src_id':
+                    tax.tax_src_id and
+                    tax_template_ref.get(tax.tax_src_id.id, False),
+                    'tax_code_src_id':
+                    tax.tax_code_src_id and
+                    tax_code_template_ref.get(tax.tax_code_src_id.id, False),
                     'tax_src_domain': tax.tax_src_domain,
-                    'tax_dest_id': tax.tax_dest_id and tax_template_ref.get(tax.tax_dest_id.id, False),
-                    'tax_code_dest_id': tax.tax_code_dest_id and tax_code_template_ref.get(tax.tax_code_dest_id.id, False),
+                    'tax_dest_id': tax.tax_dest_id and
+                    tax_template_ref.get(tax.tax_dest_id.id, False),
+                    'tax_code_dest_id': tax.tax_code_dest_id and
+                    tax_code_template_ref.get(tax.tax_code_dest_id.id, False),
                     'position_id': new_fp
                 })
             for acc in position.account_ids:
                 obj_ac_fp.create(cr, uid, {
                     'account_src_id': acc_template_ref[acc.account_src_id.id],
-                    'account_dest_id': acc_template_ref[acc.account_dest_id.id],
+                    'account_dest_id':
+                    acc_template_ref[acc.account_dest_id.id],
                     'position_id': new_fp
                 })
         return True
@@ -163,28 +175,30 @@ class AccountFiscalPosition(models.Model):
     name = fields.Char('Fiscal Position', size=128, required=True)
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
-    fiscal_category_fiscal_type = fields.Selection(TYPE,
-        related='fiscal_category_id.type', readonly=True,
+    fiscal_category_fiscal_type = fields.Selection(
+        TYPE, related='fiscal_category_id.type', readonly=True,
         store=True, string='Fiscal Type')
-    type = fields.Selection([('input', 'Entrada'), ('output', 'Saida')],
-        'Tipo')
+    type = fields.Selection(
+        [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
     type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application')
     inv_copy_note = fields.Boolean('Copiar Observação na Nota Fiscal')
-    asset_operation = fields.Boolean('Operação de Aquisição de Ativo',
+    asset_operation = fields.Boolean(
+        'Operação de Aquisição de Ativo',
         help="""Caso seja marcada essa opção, será incluido o IPI na base de
-            calculo do ICMS.""")
-    state = fields.Selection([('draft', u'Rascunho'),
-        ('review', u'Revisão'), ('approved', u'Aprovada'),
-        ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
+        calculo do ICMS.""")
+    state = fields.Selection(
+        [('draft', u'Rascunho'),
+         ('review', u'Revisão'), ('approved', u'Aprovada'),
+         ('unapproved', u'Não Aprovada')], 'Status', readonly=True,
         track_visibility='onchange', select=True, default='draft')
 
     @api.multi
     def onchange_type(self, type):
         type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
-            'tax_ids': False}}
+                'tax_ids': False}}
 
     @api.multi
     def onchange_fiscal_category_id(self, fiscal_category_id=None):
@@ -319,4 +333,3 @@ class ResPartner(models.Model):
             else:
                 result |= tax
         return result
-
