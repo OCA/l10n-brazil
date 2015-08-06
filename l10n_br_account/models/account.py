@@ -43,20 +43,25 @@ class AccountTax(models.Model):
             if tax.get('type') == 'weight' and product:
                 product_read = self.pool.get('product.product').read(
                     cr, uid, product, ['weight_net'])
-                tax['amount'] = round((product_qty * product_read.get('weight_net', 0.0)) * tax['percent'], precision)
+                weight_net = product_read.get('weight_net', 0.0)
+                float_val = product_qty * weight_net * tax['percent']
+                tax['amount'] = round(float_val, precision)
 
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
             tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+            tax['amount'] = round(
+                tax['amount'] * (1 - tax['base_reduction']), precision)
 
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
 
             if tax['percent']:
-                tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
-                tax['total_base_other'] = round(total_line - tax['total_base'], precision)
+                tax['total_base'] = round(
+                    total_line * (1 - tax['base_reduction']), precision)
+                tax['total_base_other'] = round(
+                    total_line - tax['total_base'], precision)
             else:
                 tax['total_base'] = 0.00
                 tax['total_base_other'] = 0.00
@@ -95,8 +100,10 @@ class AccountTax(models.Model):
         """
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
-        result = super(AccountTax, self).compute_all(cr, uid, taxes,
-            price_unit, quantity, product, partner, force_excluded)
+        result = super(
+            AccountTax, self).compute_all(
+            cr, uid, taxes, price_unit, quantity, product,
+            partner, force_excluded)
         totaldc = 0.0
         calculed_taxes = []
 
@@ -112,7 +119,8 @@ class AccountTax(models.Model):
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
         common_taxes = [tx for tx in result['taxes'] if tx['domain']]
-        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
+        result_tax = self._compute_tax(
+            cr, uid, common_taxes, result['total'],
             product, quantity, precision)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
@@ -166,18 +174,20 @@ class WizardMultiChartsAccounts(models.TransientModel):
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
 
-        fp_template_ids = obj_fp_template.search(cr, uid,
-            [('chart_template_id', '=', chart_template_id)])
+        fp_template_ids = obj_fp_template.search(
+            cr, uid, [('chart_template_id', '=', chart_template_id)])
 
         for fp_template in obj_fp_template.browse(cr, uid, fp_template_ids,
                                                   context=context):
             if fp_template.cfop_id:
-                fp_id = obj_fp.search(cr, uid,
+                fp_id = obj_fp.search(
+                    cr, uid,
                     [('name', '=', fp_template.name),
                      ('company_id', '=', company_id)])
 
                 if fp_id:
-                    obj_fp.write(cr, uid, fp_id,
+                    obj_fp.write(
+                        cr, uid, fp_id,
                         {'cfop_id': fp_template.cfop_id.id})
         return result
 
