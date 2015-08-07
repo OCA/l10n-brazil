@@ -3,17 +3,6 @@
 	<data>
 
 		<!-- Customer Invoice views -->
-		<record id="view_l10n_br_account_invoice_tree" model="ir.ui.view">
-			<field name="name">l10n_br_account.invoice.tree</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_tree" />
-			<field name="arch" type="xml">
-				<field position="replace" name="number">
-					<field name="internal_number" />
-				</field>
-			</field>
-		</record>
-
 		<record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.form</field>
 			<field name="model">account.invoice</field>
@@ -23,7 +12,7 @@
 					<field name="fiscal_type" invisible="1"/>
 				</field>
 				<!-- Remove fields in inherited view -->
-				<field position="replace" name="number">
+				<field position="replace" name="internal_number">
 				</field>
 				<page string="Payments" position="before">
 					<page string="Vencimentos">
@@ -96,18 +85,6 @@
 			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'service')]</field>
 		</record>
 
-		<record id="l10n_br_account_invoice_filter" model="ir.ui.view">
-			<field name="name">l10n_br_account.invoice.select</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.view_account_invoice_filter" />
-			<field name="priority">32</field>
-			<field name="arch" type="xml">
-				<field name="number" position="replace">
-					<field name="internal_number" />
-				</field>
-			</field>
-		</record>
-
 		<!-- Vendor Invoice views -->
 		<record id="l10n_br_account_invoice_supplier_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.supplier.form</field>
@@ -125,7 +102,7 @@
 				<field name="partner_id" position="attributes">
                     <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
 				</field>
-				<field position="replace" name="number">
+				<field position="replace" name="internal_number">
 				</field>
 				<field position="attributes" name="company_id">
 					<attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
