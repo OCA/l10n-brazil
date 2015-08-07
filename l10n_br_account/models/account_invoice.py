@@ -89,10 +89,12 @@ class AccountInvoice(models.Model):
         'l10n_br_account.document.serie', string=u'Série',
         domain="[('fiscal_document_id', '=', fiscal_document_id),\
         ('company_id','=',company_id)]", readonly=True,
-        states={'draft': [('readonly', False)]}, default=_default_fiscal_document_serie)
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_document_serie)
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', string='Documento', readonly=True,
-        states={'draft': [('readonly', False)]}, default=_default_fiscal_document)
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_document)
     fiscal_document_electronic = fields.Boolean(
         related='fiscal_document_id.electronic', type='boolean', readonly=True,
         store=True, string='Electronic')
@@ -434,7 +436,6 @@ class AccountInvoiceLine(models.Model):
                           type='out_invoice', partner_id=False,
                           fposition_id=False, price_unit=False,
                           currency_id=False, company_id=None):
-        import pudb; pudb.set_trace()
         ctx = dict(self.env.context)
         if ctx.get('type') in ('out_invoice', 'out_refund'):
             type_tax_use = {'type_tax_use': 'sale'}
