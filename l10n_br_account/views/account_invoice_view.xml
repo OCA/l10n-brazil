@@ -10,6 +10,7 @@
 			<field name="arch" type="xml">
 				<field name="date_invoice" position="before">
 					<field name="fiscal_type" invisible="1"/>
+					<field name="fiscal_document_electronic" invisible="1"/>
 				</field>
 				<!-- Remove fields in inherited view -->
 				<field position="replace" name="internal_number">
@@ -34,6 +35,8 @@
 				</field>
 				<field name="date_invoice" position="before">
 					<field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+					<field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+					<field name="fiscal_document_id" required="1" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)"/>
 					<field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
 					<field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
 				</field>
