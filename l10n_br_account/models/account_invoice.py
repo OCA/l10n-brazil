@@ -269,10 +269,8 @@ class AccountInvoice(models.Model):
         ctx = dict(self._context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
 
-        if not ctx.get('fiscal_category_id'):
+        if not kwargs.get('fiscal_category_id'):
             return result
-
-        kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
         company = self.env['res.company'].browse(kwargs.get('company_id'))
 
@@ -442,7 +440,9 @@ class AccountInvoiceLine(models.Model):
         else:
             type_tax_use = {'type_tax_use': 'purchase'}
         self = self.with_context(type_tax_use)
-        result = {'value': {}}
+        result = super(AccountInvoiceLine, self).product_id_change(
+            product, uom_id, qty, name, type, partner_id,
+            fposition_id, price_unit, currency_id, company_id)
 
         parent_fiscal_position = ctx.get('parent_fiscal_position')
         parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
@@ -466,12 +466,7 @@ class AccountInvoiceLine(models.Model):
             fiscal_category_id=parent_fiscal_category_id,
             account_id=result['value']['account_id'])
 
-        result_super = super(AccountInvoiceLine, self).product_id_change(
-            product, uom_id, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, company_id)
-
-        result_super['value'].update(result['value'])
-        return result_super
+        return result
 
     @api.multi
     def onchange_fiscal_category_id(self, partner_id, company_id, product_id,
