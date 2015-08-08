@@ -21,7 +21,7 @@
 			<field name="cnpj_cpf">81.583.054/0001-29</field>
 			<field name="inscr_est">078.016.350.838</field>
 			<field name="currency_id" ref="base.BRL"/>
-			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+			<field name="fiscal_type">3</field>
 		</record>
 
 		<record id="base.main_partner" model="res.partner">
