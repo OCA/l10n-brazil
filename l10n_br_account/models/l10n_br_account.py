@@ -153,7 +153,7 @@ class L10n_brAccountFiscalCategory(models.Model):
             ('state', '=', 'approved')]""")
     fiscal_position_ids = fields.One2many(
         'account.fiscal.position',
-        'fiscal_category_id', u'Posições Fiscais')
+        'fiscal_category_id', string=u'Posições Fiscais')
     note = fields.Text(u'Observações')
     state = fields.Selection(
         [('draft', u'Rascunho'),
