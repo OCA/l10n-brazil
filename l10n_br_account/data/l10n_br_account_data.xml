@@ -56,7 +56,7 @@
 			<field name="code">Não Contribuinte</field>
 			<field name="name">Não Contribuinte</field>
 			<field name="is_company" eval="False"/>
-			<field name="default" eval="True"/>
+			<field name="default" eval="False"/>
 			<field name="ipi" eval="False"/>
 			<field name="icms" eval="False"/>
 		</record>
