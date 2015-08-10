@@ -57,7 +57,8 @@ class L10n_brAccountInvoiceCancel(models.Model):
         'Justificativa', size=255, readonly=True, required=True,
         states={'draft': [('readonly', False)]})
     cancel_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+        'l10n_br_account.document_event', 'cancel_document_event_id',
+        u'Eventos')
     state = fields.Selection(
         [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
          ('done', u'Concluído')], 'Status', required=True, default='draft')
@@ -118,6 +119,10 @@ class L10n_brDocumentEvent(models.Model):
         'Status', select=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
         'account.invoice', 'Documentos', ondelete='cascade')
+    cancel_document_event_id = fields.Many2one(
+        'l10n_br_account.invoice.cancel', 'Cancelamento')
+    invalid_number_document_event_id = fields.Many2one(
+        'l10n_br_account.invoice.invalid.number', u'Inutilização')
 
     @api.multi
     def set_done(self):
@@ -310,7 +315,8 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         'Justificativa', size=255, readonly=True,
         states={'draft': [('readonly', False)]}, required=True)
     invalid_number_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+        'l10n_br_account.document_event', 'invalid_number_document_event_id',
+        u'Eventos', states={'done': [('readonly', True)]})
 
     _sql_constraints = [
         ('number_uniq',
