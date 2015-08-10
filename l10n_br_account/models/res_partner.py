@@ -19,7 +19,7 @@
 
 from openerp import models, fields, api
 
-from .l10n_br_account import TYPE
+from .l10n_br_account import PRODUCT_FISCAL_TYPE
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -29,8 +29,8 @@ class AccountFiscalPositionTemplate(models.Model):
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
     fiscal_category_fiscal_type = fields.Selection(
-        TYPE, related='fiscal_category_id.type', readonly=True,
-        store=True, string='Fiscal Type')
+        PRODUCT_FISCAL_TYPE, related='fiscal_category_id.fiscal_type',
+        readonly=True, store=True, string='Fiscal Type')
     type = fields.Selection(
         [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
     type_tax_use = fields.Selection(
@@ -176,8 +176,8 @@ class AccountFiscalPosition(models.Model):
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
     fiscal_category_fiscal_type = fields.Selection(
-        TYPE, related='fiscal_category_id.type', readonly=True,
-        store=True, string='Fiscal Type')
+        PRODUCT_FISCAL_TYPE, related='fiscal_category_id.fiscal_type',
+        readonly=True, store=True, string='Fiscal Type')
     type = fields.Selection(
         [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
     type_tax_use = fields.Selection(
