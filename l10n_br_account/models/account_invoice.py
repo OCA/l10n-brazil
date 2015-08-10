@@ -448,7 +448,7 @@ class AccountInvoiceLine(models.Model):
         parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
         fiscal_position = fposition_id or parent_fiscal_position or None
 
-        if not parent_fiscal_category_id or not product or not fiscal_position:
+        if not parent_fiscal_category_id or not product:
             return result
         partner = self.env['res.partner'].browse(partner_id)
         obj_fp_rule = self.env['account.fiscal.position.rule']
@@ -468,21 +468,3 @@ class AccountInvoiceLine(models.Model):
 
         return result
 
-    @api.multi
-    def onchange_fiscal_category_id(self, partner_id, company_id, product_id,
-                                    fiscal_category_id, account_id):
-        result = {'value': {}}
-        return self._fiscal_position_map(
-            result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, fiscal_category_id=fiscal_category_id,
-            product_id=product_id, account_id=account_id)
-
-    @api.multi
-    def onchange_fiscal_position(self, partner_id, company_id, product_id,
-                                 fiscal_category_id, account_id, quantity,
-                                 price_unit):
-        result = {'value': {}}
-        return self._fiscal_position_map(
-            result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, fiscal_category_id=fiscal_category_id,
-            product_id=product_id, account_id=account_id)
