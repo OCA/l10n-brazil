@@ -117,6 +117,8 @@ class L10n_brDocumentEvent(models.Model):
     document_event_ids = fields.Many2one(
         'account.invoice', 'Documentos', ondelete='cascade')
 
+    _order = 'write_date desc'
+
     @api.multi
     def set_done(self):
         self.write({'state': 'done', 'end_date': datetime.datetime.now()})
@@ -382,6 +384,14 @@ class L10n_brAccountPartnerFiscalType(models.Model):
     default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
     icms = fields.Boolean('Recupera ICMS')
     ipi = fields.Boolean('Recupera IPI')
+
+    @api.one
+    @api.constrains('default')
+    def _check_default(self):
+        if self.default:
+            if len(self.search([('default', '=', 'True')])) > 1:
+                raise Warning(_(u'Mantenha apenas um tipo fiscal padrão!'))
+        return True
 
 
 class L10n_brAccountCNAE(models.Model):
