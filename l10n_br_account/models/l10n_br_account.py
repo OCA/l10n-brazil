@@ -117,6 +117,8 @@ class L10n_brDocumentEvent(models.Model):
     document_event_ids = fields.Many2one(
         'account.invoice', 'Documentos', ondelete='cascade')
 
+    _order = 'write_date desc'
+
     @api.multi
     def set_done(self):
         self.write({'state': 'done', 'end_date': datetime.datetime.now()})
