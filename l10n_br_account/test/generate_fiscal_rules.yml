@@ -1,0 +1,11 @@
+-
+  Create Wizard 
+-
+  !record {model: wizard.account.fiscal.position.rule, id: wizard_account_fiscal_position_rule_test}:
+    company_id: base.main_company
+-
+  Execute Wizard
+-
+  !python {model: wizard.account.fiscal.position.rule}: |
+    context = {"active_ids": [ref("account_fiscal_position_rule.menu_action_account_fiscal_position_rule_template_form")], "active_id":ref('account_fiscal_position_rule.menu_action_account_fiscal_position_rule_template_form')}
+    self.action_create(cr, uid, [ref("wizard_account_fiscal_position_rule_test")], context=context)
