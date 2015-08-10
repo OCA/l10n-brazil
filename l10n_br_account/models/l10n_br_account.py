@@ -390,6 +390,14 @@ class L10n_brAccountPartnerFiscalType(models.Model):
     icms = fields.Boolean('Recupera ICMS')
     ipi = fields.Boolean('Recupera IPI')
 
+    @api.one
+    @api.constrains('default')
+    def _check_default(self):
+        if self.default:
+            if len(self.search([('default', '=', 'True')])) > 1:
+                raise Warning(_(u'Mantenha apenas um tipo fiscal padrão!'))
+        return True
+
 
 class L10n_brAccountCNAE(models.Model):
     _name = 'l10n_br_account.cnae'
