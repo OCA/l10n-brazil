@@ -262,7 +262,6 @@
 						<field name="status"/>
 						<field name="message"/>
 						<field name="state"/>
-						<field name="document_event_ids"/>
 					</group>
 				</form>
 			</field>
@@ -282,7 +281,6 @@
 						<field name="status"/>
 						<field name="message"/>
 						<field name="state"/>
-						<field name="document_event_ids"/>
 				</tree>
 			</field>
 		</record>
