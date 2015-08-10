@@ -91,12 +91,12 @@
 				</tree>
 			</field>
 		</record>
-	
+
 		<record id="view_l10n_br_account_fiscal_category_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.fiscal.category.form</field>
 			<field name="model">l10n_br_account.fiscal.category</field>
 			<field name="arch" type="xml">
-				<form string="Categoria Fiscal" version="7.0">
+				<form string="Categoria Fiscal">
 					<header>
 						<button name="fiscal_category_review" states="draft" string="Revisar" groups="account.group_account_invoice"/>
 						<button name="fiscal_category_approved" states="draft,review" string="Aprovar" groups="account.group_account_manager"/>
@@ -128,7 +128,7 @@
 									<tree string="Posições Fiscais">
 										<field name="name"/>
 										<field name="company_id"/>
-										<field state="state"/>
+										<field name="state"/>
 									</tree>
 								</field>
 							</group>
