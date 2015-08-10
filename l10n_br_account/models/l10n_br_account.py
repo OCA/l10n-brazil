@@ -274,16 +274,15 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
-    # TODO
-    def _name_get(self, cr, uid, ids, field_name, arg, context=None):
-        result = {}
-        for record in self.browse(cr, uid, ids, context):
-            result[record.id] = record.fiscal_document_id.name + ' (' + \
-                record.document_serie_id.name + '): ' + \
-                str(record.number_start) + ' - ' + str(record.number_end)
-        return result
+    @api.multi
+    def name_get(self):
+        return [(rec.id,
+                 u"{0} ({1}): {2} - {3}".format(
+                     rec.fiscal_document_id.name,
+                     rec.document_serie_id.name,
+                     rec.number_start, rec.number_end)
+                 ) for rec in self]
 
-    name = fields.Char(store=True, size=64, string="Nome", function=_name_get)
     company_id = fields.Many2one(
         'res.company', 'Empresa', readonly=True,
         states={'draft': [('readonly', False)]}, required=True,
@@ -342,7 +341,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         self._cr.execute(
             'SELECT id \
             FROM l10n_br_account_invoice_invalid_number \
-            WHERE '+' and '.join(where) + (where and ' and ' or '') +
+            WHERE ' + ' and '.join(where) + (where and ' and ' or '') +
             "document_serie_id = %s \
             AND state = 'done' \
             AND id <> %s" % (self.document_serie_id.id, self.id))
