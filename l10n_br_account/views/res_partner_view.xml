@@ -14,7 +14,7 @@
 							<field name="type" required="1" on_change="onchange_type(type, context)"/>
 							<field name="type_tax_use" invisible="1"/>
 							<field name="chart_template_id"/>
-                            <field name="state" invisible="1"/>
+                            				<field name="state" invisible="1"/>
 						</group>
 						<newline/>
 						<notebook colspan="4">
@@ -89,7 +89,7 @@
 								<field name="type_tax_use" invisible="1"/>
 								<field name="company_id" widget="selection" groups="base.group_multi_company"/>
 								<field name="active" groups="base.group_extended"/>
-                                <field name="state" invisible="1"/>
+                                				<field name="state" invisible="1"/>
 							</group>
 							<newline/>
 							<notebook colspan="4">
