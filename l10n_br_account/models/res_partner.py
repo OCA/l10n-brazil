@@ -41,6 +41,12 @@ class AccountFiscalPositionTemplate(models.Model):
         'Operação de Aquisição de Ativo',
         help="""Caso seja marcada essa opção, será incluido o IPI na base de
         calculo do ICMS.""")
+    id_dest = fields.Selection(
+        [('1', u'Operação Interna'),
+         ('2', u'Operação Interestadual'),
+         ('3', u'Operação com Exterior')],
+        u'Local de destino da operação',
+        help=u'Identificador de local de destino da operação')
     state = fields.Selection(
         [('draft', u'Rascunho'),
          ('review', u'Revisão'), ('approved', u'Aprovada'),
@@ -110,6 +116,7 @@ class AccountFiscalPositionTemplate(models.Model):
                           position.cfop_id and position.cfop_id.id or False,
                           'inv_copy_note': position.inv_copy_note,
                           'asset_operation': position.asset_operation,
+                          'id_dest': position.id_dest,
                           'fiscal_category_id':
                           position.fiscal_category_id and
                           position.fiscal_category_id.id or False})
@@ -188,6 +195,12 @@ class AccountFiscalPosition(models.Model):
         'Operação de Aquisição de Ativo',
         help="""Caso seja marcada essa opção, será incluido o IPI na base de
         calculo do ICMS.""")
+    id_dest = fields.Selection(
+        [('1', u'Operação Interna'),
+         ('2', u'Operação Interestadual'),
+         ('3', u'Operação com Exterior')],
+        u'Local de destino da operação',
+        help=u'Identificador de local de destino da operação')
     state = fields.Selection(
         [('draft', u'Rascunho'),
          ('review', u'Revisão'), ('approved', u'Aprovada'),
@@ -198,7 +211,7 @@ class AccountFiscalPosition(models.Model):
     def onchange_type(self, type):
         type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
-                'tax_ids': False}}
+                          'tax_ids': False}}
 
     @api.multi
     def onchange_fiscal_category_id(self, fiscal_category_id=None):
