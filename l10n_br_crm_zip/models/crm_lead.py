@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2012  Renato Lima - Akretion                                  #
@@ -17,13 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class CrmLead(orm.Model):
+class CrmLead(models.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
 
+    # TODO migrate to new API
     def zip_search(self, cr, uid, ids, context=None):
         obj_zip = self.pool.get('l10n_br.zip')
         for crm_lead in self.browse(cr, uid, ids):
