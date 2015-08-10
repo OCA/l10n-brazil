@@ -272,7 +272,7 @@
 			<field name="name">l10n_br_account.document_event.tree</field>
 			<field name="model">l10n_br_account.document_event</field>
 			<field name="arch" type="xml">
-				<tree string="Eventos Eletronicos">
+				<tree string="Eventos Eletronicos" edit="false" create="false">
 						<field name="type"/>
 						<field name="company_id"/>
 						<field name="response"/>
