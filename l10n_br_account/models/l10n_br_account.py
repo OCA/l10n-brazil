@@ -124,6 +124,8 @@ class L10n_brDocumentEvent(models.Model):
     invalid_number_document_event_id = fields.Many2one(
         'l10n_br_account.invoice.invalid.number', u'Inutilização')
 
+    _order = 'write_date desc'
+
     @api.multi
     def set_done(self):
         self.write({'state': 'done', 'end_date': datetime.datetime.now()})
