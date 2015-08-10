@@ -53,7 +53,10 @@
         'demo/account_fiscal_demo.xml',
         'demo/base_demo.xml',
     ],
-    'test': [],
+    'test': [
+        'test/account_customer_invoice.yml',
+        'test/account_supplier_invoice.yml',
+    ],
     'installable': True,
     'auto_install': True,
 }
