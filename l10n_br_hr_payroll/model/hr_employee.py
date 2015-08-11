@@ -21,7 +21,7 @@
 #
 ###############################################################################
 
-from openerp.osv import osv, orm, fields
+from openerp.osv import osv, fields
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 import openerp.addons.decimal_precision as dp

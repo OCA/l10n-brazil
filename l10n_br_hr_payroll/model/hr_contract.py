@@ -20,11 +20,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+
 from openerp.osv import orm, fields
-<<<<<<< HEAD
-from openerp.tools.translate import _
-=======
->>>>>>> Correção de imports não usados
 import openerp.addons.decimal_precision as dp
 import time
 from decimal import Decimal, ROUND_DOWN
