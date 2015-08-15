@@ -27,7 +27,7 @@ class L10n_brDeliveryCarrierVehicle(orm.Model):
         'name': fields.char('Nome', required=True, size=32),
         'description': fields.char('Descrição', size=132),
         'plate': fields.char('Placa', size=7),
-        'driver': fields.char('Condudor', size=64),
+        'driver': fields.char('Condutor', size=64),
         'rntc_code': fields.char('Codigo ANTT', size=32),
         'country_id': fields.many2one('res.country', 'País'),
         'state_id': fields.many2one(
