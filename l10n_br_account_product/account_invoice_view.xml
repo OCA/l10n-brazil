@@ -72,15 +72,21 @@
 								</group>
 							</page>
 							<page string="Transporte">
-								<group name="delivery_info">
-									<field name="carrier_name"/>
-									<field name="vehicle_plate"/>
-									<field name="vehicle_state_id"/>
-									<field name="vehicle_l10n_br_city_id"/>
-									<field name="amount_freight"/>
-									<field name="amount_insurance"/>
-									<field name="amount_costs"/>
-                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
+								<group name="transport" col="4">
+									<group name="delivery_info">
+										<field name="freight_responsibility" />
+										<field name="partner_carrier_id" context="{'default_customer': False, 'default_supplier': True,
+																					'default_is_carrier': True, 'default_is_company':True }" />
+										<field name="vehicle_plate"/>
+										<field name="vehicle_state_id"/>
+										<field name="vehicle_l10n_br_city_id"/>
+									</group>
+									<group name="freight_values">
+										<field name="amount_freight"/>
+										<field name="amount_insurance"/>
+										<field name="amount_costs"/>
+	                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
+									</group>
 								</group>
 								<group name="package_info" string="Informações dos pacotes">
 									<field name="weight"/>
@@ -215,15 +221,21 @@
 								</group>
 							</page>
 							<page string="Transporte">
-								<group name="delivery_info">
-									<field name="carrier_name"/>
-									<field name="vehicle_plate"/>
-									<field name="vehicle_state_id"/>
-									<field name="vehicle_l10n_br_city_id"/>
-									<field name="amount_freight"/>
-									<field name="amount_insurance"/>
-									<field name="amount_costs"/>
-                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
+								<group name="transport" col="4">
+									<group name="delivery_info">
+										<field name="freight_responsibility" />
+										<field name="partner_carrier_id" context="{'default_customer': False, 'default_supplier': True,
+																					'default_is_carrier': True, 'default_is_company':True }" />
+										<field name="vehicle_plate"/>
+										<field name="vehicle_state_id"/>
+										<field name="vehicle_l10n_br_city_id"/>
+									</group>
+									<group name="freight_values">
+										<field name="amount_freight"/>
+										<field name="amount_insurance"/>
+										<field name="amount_costs"/>
+	                                    <button string="Recalcular Custos" states="draft" name="%(action_l10n_br_account_product_costs_ratio)d" type="action"/>
+									</group>
 								</group>
 								<group name="package_info" string="Informações dos pacotes">
 									<field name="weight"/>

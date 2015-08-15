@@ -7,12 +7,16 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_form"/>
 			<field name="arch" type="xml">
-				<field name="amount_freight" position="before">
-					<separator colspan="4" string="Dados da Transportadora"/>
-					<field name="carrier_id"/>
-					<field name="vehicle_id"/>
-					<field name="incoterm" widget="selection" />
-				</field>
+				<group name="delivery_info" position="after">
+					<group>						
+						<field name="carrier_id"/>
+						<field name="vehicle_id"/>
+						<field name="incoterm" widget="selection" />
+					</group>
+				</group>
+				<group name="delivery_info" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</group>
 			</field>
 		</record>
 
@@ -21,12 +25,16 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_supplier_form"/>
 			<field name="arch" type="xml">
-				<field name="amount_freight" position="before">
-					<separator colspan="4" string="Dados da Transportadora"/>
-					<field colspan="4" name="carrier_id"/>
-					<field name="vehicle_id"/>
-					<field name="incoterm" widget="selection" />
-				</field>
+				<group name="delivery_info" position="after">
+					<group>						
+						<field name="carrier_id"/>
+						<field name="vehicle_id"/>
+						<field name="incoterm" widget="selection" />
+					</group>
+				</group>
+				<group name="delivery_info" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</group>
 			</field>
 		</record>
 
