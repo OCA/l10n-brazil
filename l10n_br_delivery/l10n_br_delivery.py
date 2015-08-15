@@ -22,23 +22,23 @@ from openerp.osv import orm, fields
 
 class L10n_brDeliveryCarrierVehicle(orm.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
-    _description = 'Veiculos das transportadoras'
+    _description = 'Veículos das transportadoras'
     _columns = {
         'name': fields.char('Nome', required=True, size=32),
         'description': fields.char('Descrição', size=132),
         'plate': fields.char('Placa', size=7),
         'driver': fields.char('Condutor', size=64),
-        'rntc_code': fields.char('Codigo ANTT', size=32),
+        'rntc_code': fields.char('Código ANTT', size=32),
         'country_id': fields.many2one('res.country', 'País'),
         'state_id': fields.many2one(
             'res.country.state', 'Estado',
             domain="[('country_id', '=', country_id)]"),
-        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Municipio',
+        'l10n_br_city_id': fields.many2one('l10n_br_base.city', 'Município',
             domain="[('state_id','=',state_id)]"),
         'active': fields.boolean('Ativo'),
         'manufacture_year': fields.char('Ano de Fabricação', size=4),
         'model_year': fields.char('Ano do Modelo', size=4),
-        'type': fields.selection([('bau', 'Caminhão Baú')], 'Ano do Modelo'),
+        'type': fields.selection([('bau', 'Caminhão Baú')], 'Tipo'),
         'carrier_id': fields.many2one(
             'delivery.carrier', 'Carrier', select=True,
             required=True, ondelete='cascade'),
