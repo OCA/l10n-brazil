@@ -93,7 +93,7 @@ class NFe200(FiscalDocument):
             try:
                 self._carrier_data(cr, uid, ids, inv, context)
             except AttributeError:
-                pass
+                self._transport_data(cr, uid, ids, inv, context)
 
             self.vol = self._get_Vol()
             self._weight_data(cr, uid, ids, inv, context=None)
@@ -411,7 +411,7 @@ class NFe200(FiscalDocument):
     def _carrier_data(self, cr, uid, ids, inv, context=None):
 
         #
-        # Dados da Transportadora e veiculo
+        # Dados da Transportadora e veiculo relacionados ao módulo delivery
         #
 
         self.nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
@@ -433,8 +433,33 @@ class NFe200(FiscalDocument):
 
         if inv.vehicle_id:
             self.nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''
-            self.nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.plate.state_id.code or ''
+            self.nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.state_id.code or ''
             self.nfe.infNFe.transp.veicTransp.RNTC.valor = inv.vehicle_id.rntc_code or ''
+
+    def _transport_data(self, cr, uid, ids, inv, context=None):
+        #
+        # Dados de transportes básicos
+        #
+        self.nfe.infNFe.transp.modFrete.valor = inv.freight_responsibility or '9'
+
+        if inv.partner_carrier_id:
+
+            if inv.partner_carrier_id.is_company:
+                self.nfe.infNFe.transp.transporta.CNPJ.valor = \
+                    re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_carrier_id.cnpj_cpf or '')
+            else:
+                self.nfe.infNFe.transp.transporta.CPF.valor = \
+                    re.sub('[%s]' % re.escape(string.punctuation), '', inv.partner_carrier_id.cnpj_cpf or '')
+
+            self.nfe.infNFe.transp.transporta.xNome.valor = inv.partner_carrier_id.legal_name[:60] or ''
+            self.nfe.infNFe.transp.transporta.IE.valor = inv.partner_carrier_id.inscr_est or ''
+            self.nfe.infNFe.transp.transporta.xEnder.valor = inv.partner_carrier_id.street or ''
+            self.nfe.infNFe.transp.transporta.xMun.valor = inv.partner_carrier_id.l10n_br_city_id.name or ''
+            self.nfe.infNFe.transp.transporta.UF.valor = inv.partner_carrier_id.state_id.code or ''
+
+        self.nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_plate or ''
+        self.nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_state_id.code or ''
+             
 
     def _weight_data(self, cr, uid, ids, inv, context=None):
         #
