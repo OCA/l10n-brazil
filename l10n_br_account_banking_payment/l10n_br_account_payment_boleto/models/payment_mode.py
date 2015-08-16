@@ -20,10 +20,12 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 from ..boleto.document import getBoletoSelection
+from openerp.exceptions import ValidationError
 
 selection = getBoletoSelection()
+
 
 class PaymentMode(models.Model):
     _inherit = 'payment.mode'
@@ -32,8 +34,15 @@ class PaymentMode(models.Model):
     boleto_modalidade = fields.Char('Modalidade', size=2)
     boleto_convenio = fields.Char(u'Codigo convênio', size=10)
     boleto_variacao = fields.Char(u'Variação', size=2)
-    boleto_cnab_code = fields.Char('Codigo Cnab', size=20)
+    boleto_cnab_code = fields.Char(u'Código Cnab', size=20)
     boleto_aceite = fields.Selection(
         [('S', 'Sim'), ('N', 'Não')], string='Aceite', default='N')
     boleto_type = fields.Selection(
         selection, string="Boleto")
+
+    @api.constrains('boleto_type', 'boleto_carteira',
+                    'boleto_modalidade', 'boleto_convenio',
+                    'boleto_variacao', 'boleto_aceite')
+    def boleto_restriction(self):
+        if self.boleto_type == '6' and not self.boleto_carteira:
+            raise ValidationError(u'Carteira no banco Itaú é obrigatória')

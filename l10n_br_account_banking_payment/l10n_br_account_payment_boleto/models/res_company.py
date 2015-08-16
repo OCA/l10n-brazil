@@ -32,5 +32,6 @@ class ResCompany(models.Model):
          ('2', u'Sequêncial unico por modo de pagamento'), ],
         string=u'Tipo de nosso número', default='2')
     own_number_sequence = fields.Many2one('ir.sequence',
-                                          string=u'Sequência do Nosso Número',
-                                          required=True)
+                                          string=u'Sequência do Nosso Número')
+    transaction_id_sequence = fields.Many2one('ir.sequence',
+                                      string=u'Sequência da fatura')
