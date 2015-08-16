@@ -44,11 +44,10 @@ class Boleto:
     @staticmethod
     def getBoleto(move_line, nosso_numero):
         boleto_type = move_line.payment_mode_id.boleto_type
-        try:
-            if boleto_type:
-                return dict_boleto[boleto_type][0](move_line, nosso_numero)
-        except:
-            pass
+        if boleto_type:
+            return dict_boleto[boleto_type][0](move_line, nosso_numero)
+        raise BoletoException(u'Configure o tipo de boleto no modo de '
+                              u'pagamento')
 
     @staticmethod
     def getBoletoClass(move_line):
