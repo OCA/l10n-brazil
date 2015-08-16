@@ -9,7 +9,7 @@
                 <group position="after" name="account_grp" string="Accounting">
                     <group string="Boleto">
                         <field name="own_number_type" />
-                        <field name="own_number_sequence"/>
+                        <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '=', '2')]}"/>
                     </group>
                 </group>
 			</field>

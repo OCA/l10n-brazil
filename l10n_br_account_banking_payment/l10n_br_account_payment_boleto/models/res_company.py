@@ -27,9 +27,10 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     own_number_type = fields.Selection(
-        [('0', 'Sequêncial'),
-         ('1', 'Numero da Fatura'),
-         ('2', 'Numero da Move Line'),], string=u'Tipo de nosso número',
-        default='2')
+        [('0', u'Sequêncial único por empresa'),
+         ('1', u'Numero sequêncial da Fatura'),
+         ('2', u'Sequêncial unico por modo de pagamento'), ],
+        string=u'Tipo de nosso número', default='2')
     own_number_sequence = fields.Many2one('ir.sequence',
-                    string=u'Sequência do Nosso Número', required=True)
+                                          string=u'Sequência do Nosso Número',
+                                          required=True)
