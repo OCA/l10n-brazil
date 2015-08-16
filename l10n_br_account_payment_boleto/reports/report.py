@@ -66,8 +66,8 @@ class report_custom(report_int):
         boleto_list = aml_obj.send_payment(cr, uid, ids_move_lines)
         if not boleto_list:
             raise osv.except_osv(
-                'Error !', ('Não é possível gerar um boleto'
-                            ' Documento não é um boleto'))
+                'Error !', ('Não é possível gerar os boletos\n'
+                            'Certifique-se que a fatura esteja confirmada e o forma de pagamento seja duplicatas'))
         pdf_string = Boleto.get_pdfs(boleto_list)
         self.obj = external_pdf(pdf_string)
         self.obj.render()
