@@ -38,3 +38,9 @@ class PaymentMode(models.Model):
     instrucoes = fields.Text(u'Instruções de cobrança')
     invoice_print = fields.Boolean(
         u'Gerar relatorio na conclusão da fatura?')
+
+    _sql_constraints = [
+        ('internal_sequence_id_unique',
+         'unique(internal_sequence_id)',
+         u'Sequência já usada! Crie uma sequência unica para cada modo')
+    ]
