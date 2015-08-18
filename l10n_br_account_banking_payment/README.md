@@ -2,12 +2,14 @@
 
 Repositório de Funcionalidades financeiras do Brasil:
 
-- Boleto com registro
-- Boleto sem registro
-- Integração bancária cnab240
-- Integração bancária canb400
-- Importação de extratos bancários
-- Controle de chequs
-- etc
+Serviço | Status
+------------ | -------------
+Boleto sem registro | Done
+Boleto com registro | In progress
+Controle de cheques | In progress
+Integração bancária cnab240 | TODO
+Integração bancária canb400 | TODO
+Integração de extratos bancários | TODO
+
 
 brazil@odoo-community.org
