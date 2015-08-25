@@ -40,6 +40,7 @@
         'views/payment_mode_view.xml',
         ],
     'demo': [
+        'demo/payment_demo.xml'
         ],
     'active': False,
 }
