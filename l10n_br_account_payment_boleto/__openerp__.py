@@ -42,6 +42,7 @@
         'reports/report_print_button_view.xml',
     ],
     'demo': [
+        'demo/payment_demo.xml',
     ],
     'active': False,
 }
