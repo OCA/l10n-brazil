@@ -32,6 +32,7 @@
     'website': 'http://www.kmee.com.br',
     'depends': [
         'l10n_br_account',
+        'l10n_br_data_base',
         'account_payment_partner',
         'account_due_list',
         ],
