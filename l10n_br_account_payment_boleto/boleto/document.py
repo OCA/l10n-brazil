@@ -107,7 +107,7 @@ class Boleto:
         self.boleto.cedente_bairro = company.district
         self.boleto.cedente_cep = company.zip
         self.boleto.cedente_cidade = company.city
-        self.boleto.cedente_endereco = company.street + ', ' + company.number
+        self.boleto.cedente_logradouro = company.street + ', ' + company.number
         self.boleto.cedente_uf = company.state_id.code
         self.boleto.agencia_cedente = self.getBranchNumber()
         self.boleto.conta_cedente = self.getAccountNumber()
