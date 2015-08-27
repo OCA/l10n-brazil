@@ -342,7 +342,7 @@ class NFe200(FiscalDocument):
                 pesol = 0
                 if inv_line.product_id:
                     pesol = inv_line.product_id.weight_net
-                    self.det.imposto.IPI.qUnid.valor = str("%.2f" % inv_line.quantity * pesol)
+                    self.det.imposto.IPI.qUnid.valor = str("%.2f" % (inv_line.quantity * pesol))
                     self.det.imposto.IPI.vUnid.valor = str("%.2f" % inv_line.ipi_percent)
             self.det.imposto.IPI.vIPI.valor = str("%.2f" % inv_line.ipi_value)
 
