@@ -1,0 +1,3 @@
+server-tools https://github.com/OCA/server-tools.git
+account-fiscal-rule https://github.com/odoo-brazil/account-fiscal-rule.git
+

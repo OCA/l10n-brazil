@@ -90,7 +90,6 @@ class AccountInvoice(models.Model):
             result[tax.invoice_id.id] = True
         return list(result.keys())
 
-
     nfe_version = fields.Selection(
         [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')],
         u'Versão NFe', readonly=True,
@@ -133,6 +132,7 @@ class AccountInvoice(models.Model):
         ('sefaz_export', 'Enviar para Receita'),
         ('sefaz_exception', u'Erro de autorização da Receita'),
         ('sefaz_cancelled', 'Cancelado no Sefaz'),
+        ('sefaz_denied', 'Denegada no Sefaz'),
         ('open', 'Open'),
         ('paid', 'Paid'),
         ('cancel', 'Cancelled')
@@ -364,12 +364,12 @@ class AccountInvoice(models.Model):
         return result
 
     def action_date_assign(self, cr, uid, ids, *args):
-
+        # data de contabilização:
+        # data de entrada:
+        # data do vencimento:
         for inv in self.browse(cr, uid, ids):
-            if inv.date_hour_invoice:
-                aux = datetime.datetime.strptime(inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
-                inv.date_invoice = str(aux)
-
+            if inv.date_in_out:
+                inv.date_invoice = datetime.datetime.strptime(inv.date_in_out, '%Y-%m-%d').date()
             res = self.onchange_payment_term_date_invoice(cr, uid, inv.id, inv.payment_term.id, inv.date_invoice)
 
             if res and res['value']:
@@ -839,6 +839,13 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(cr, uid, vals, context))
         return super(AccountInvoiceLine, self).write(
             cr, uid, ids, vals, context)
+
+    def copy(self, cr, uid, id, default={}, context=None):
+        default.update({
+            'date_in_out': False,
+            'date_hour_invoice': False,
+        })
+        return super(AccountInvoice, self).copy(cr, uid, id, default, context)
 
 
 class AccountInvoiceTax(models.Model):

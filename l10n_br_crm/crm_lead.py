@@ -60,7 +60,7 @@ class CrmLead(models.Model):
     def _validate_ie_param(self, uf, inscr_est):
         try:
             mod = __import__(
-                'tools.fiscal', globals(), locals(), 'fiscal')
+                'openerp.addons.l10n_br_base.tools.fiscal', globals(), locals(), 'fiscal')
 
             validate = getattr(mod, 'validate_ie_%s' % uf)
             if not validate(inscr_est):
@@ -78,8 +78,7 @@ class CrmLead(models.Model):
 
         :Return: True or False."""
         if (not self.inscr_est
-                or self.inscr_est == 'ISENTO'
-                or not self.is_company):
+                or self.inscr_est == 'ISENTO'):
             return True
         uf = (self.state_id and
               self.state_id.code.lower() or '')

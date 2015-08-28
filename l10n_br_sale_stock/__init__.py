@@ -20,5 +20,4 @@
 
 import stock
 import sale
-import report
 import wizard

@@ -10,12 +10,14 @@
 					<attribute name="style">width: 50%</attribute>
 				</field>
 				<field name="street2" position="replace"/>
-					<field name="street" position="replace">
+				<field name="zip" position="replace"/>
+				<field name="street" position="replace">
+					<field name="zip" placeholder="Cep" style="width:50%;" />
 					<field name="street"/>
 					<field name="number" placeholder="número"/>
 					<field name="street2" placeholder="complemento"/>
 					<field name="district" placeholder="bairro"/>
-				</field>
+				</field>				
 				<field name="state_id" position="attributes">
 					<attribute name="domain">[('country_id','=',country_id)]</attribute>
                     <attribute name="style">width: 100%</attribute>
@@ -23,6 +25,10 @@
 				<field name="parent_id" position="before">
 					<field name="legal_name" placeholder="Razão Social"/>
 				</field>
+				 <field name="country_id" position="replace"/>
+        		<field name="state_id" position="before">
+                    <field name="country_id" placeholder="Pais"/>
+        		</field>
 				<field name="state_id" position="after">
 					<field name="l10n_br_city_id" placeholder="cidade"/>
 				</field>
