@@ -214,18 +214,18 @@ class AccountInvoice(orm.Model):
         document_serie_id = inv.document_serie_id
         fiscal_document_id = inv.document_serie_id.fiscal_document_id
         electronic = inv.document_serie_id.fiscal_document_id.electronic
-        status = inv.nfe_status
+        nfe_protocol = inv.nfe_protocol_number
 
         if ((document_serie_id and fiscal_document_id and not electronic) or
-                not status):
+                not nfe_protocol):
             return super(AccountInvoice, self).action_cancel(cr, uid,
                                                        [inv.id], context)
         else:
             ctx = dict(context)
-            res = self.pool.get('ir.actions.act_window').for_xml_id(
+            result = self.pool.get('ir.actions.act_window').for_xml_id(
                 cr, uid, 'nfe',
                 'action_nfe_invoice_cancel_form', context)
-            return res
+            return result
 
     def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
         
