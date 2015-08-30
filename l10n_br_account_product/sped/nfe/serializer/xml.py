@@ -22,7 +22,7 @@ from ..document import NFe310
 
 
 def nfe_export(cr, uid, ids, nfe_environment='1',
-                nfe_version='2.00', context=None):
+               nfe_version='2.00', context=None):
 
     if nfe_version == '3.10':
         NFe = NFe310()
