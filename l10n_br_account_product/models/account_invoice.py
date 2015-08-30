@@ -22,7 +22,7 @@ from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import RedirectWarning
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
@@ -770,7 +770,6 @@ class AccountInvoiceLine(models.Model):
         """Verifica se o valor dos campos dos impostos estão sincronizados
         com os impostos do OpenERP"""
         context = self.env.context
-        tax_obj = self.env['account.tax']
 
         if not values.get('product_id') or not values.get('quantity') \
         or not values.get('fiscal_position'):

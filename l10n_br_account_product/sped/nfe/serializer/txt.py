@@ -17,15 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import time
 from datetime import datetime
 from unicodedata import normalize
 import pytz
 from openerp import SUPERUSER_ID
-
-from openerp.osv import osv
-from openerp.tools.translate import _
-from openerp import netsvc
 from openerp import pooler
 
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm

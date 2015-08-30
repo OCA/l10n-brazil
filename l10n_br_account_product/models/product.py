@@ -18,7 +18,6 @@
 ###############################################################################
 
 from openerp import models, fields, api
-from openerp import SUPERUSER_ID
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
