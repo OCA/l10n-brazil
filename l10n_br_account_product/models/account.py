@@ -27,7 +27,7 @@ class AccountPaymentTerm(models.Model):
 
     indPag = fields.Selection(
         [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
-        ('2', 'Outros')], 'Indicador de Pagamento', default='1')
+         ('2', 'Outros')], 'Indicador de Pagamento', default='1')
 
 
 class AccountTax(models.Model):
@@ -49,14 +49,17 @@ class AccountTax(models.Model):
                 tax['amount'] = round(product_qty * tax['percent'], precision)
 
             tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']), precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']),
+                                  precision)
 
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
 
             if tax['percent']:
-                tax['total_base'] = round(total_line * (1 - tax['base_reduction']), precision)
-                tax['total_base_other'] = round(total_line - tax['total_base'], precision)
+                unrounded_base = total_line * (1 - tax['base_reduction'])
+                tax['total_base'] = round(unrounded_base, precision)
+                tax['total_base_other'] = round(total_line - tax['total_base'],
+                                                precision)
             else:
                 tax['total_base'] = 0.00
                 tax['total_base_other'] = 0.00
@@ -99,7 +102,9 @@ class AccountTax(models.Model):
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
         result = super(AccountTax, self).compute_all(cr, uid, taxes,
-            price_unit, quantity, product, partner, force_excluded)
+                                                     price_unit, quantity,
+                                                     product, partner,
+                                                     force_excluded)
         totaldc = icms_base = icms_value = icms_percent = 0.0
         icms_percent_reduction = ipi_value = 0.0
         calculed_taxes = []
@@ -115,29 +120,31 @@ class AccountTax(models.Model):
             tax['amount_mva'] = tax_brw.amount_mva
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
-        common_taxes = [tx for tx in result['taxes'] if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
+        common_taxes = [tx for tx in result['taxes']
+                        if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
         result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
-            product, quantity, precision)
+                                       product, quantity, precision)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
         result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
-            product, quantity, precision)
+                                       product, quantity, precision)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
         for ipi in result_ipi['taxes']:
             ipi_value += ipi['amount']
 
         # Calcula ICMS
-        specific_icms = [tx for tx in result['taxes'] if tx['domain'] == 'icms']
+        specific_icms = [tx for tx in result['taxes']
+                         if tx['domain'] == 'icms']
         if fiscal_position and fiscal_position.asset_operation:
             total_base = result['total'] + insurance_value + \
-            freight_value + other_costs_value + ipi_value
+                freight_value + other_costs_value + ipi_value
         else:
             total_base = result['total'] + insurance_value + \
-            freight_value + other_costs_value
+                freight_value + other_costs_value
 
         result_icms = self._compute_tax(
             cr, uid, specific_icms, total_base, product, quantity, precision)
@@ -150,8 +157,11 @@ class AccountTax(models.Model):
             icms_percent_reduction = result_icms['taxes'][0]['base_reduction']
 
         # Calcula ICMS ST
-        specific_icmsst = [tx for tx in result['taxes'] if tx['domain'] == 'icmsst']
-        result_icmsst = self._compute_tax(cr, uid, specific_icmsst, result['total'], product, quantity, precision)
+        specific_icmsst = [tx for tx in result['taxes']
+                           if tx['domain'] == 'icmsst']
+        result_icmsst = self._compute_tax(cr, uid, specific_icmsst,
+                                          result['total'], product,
+                                          quantity, precision)
         totaldc += result_icmsst['tax_discount']
         if result_icmsst['taxes']:
             icms_st_percent = result_icmsst['taxes'][0]['percent']
