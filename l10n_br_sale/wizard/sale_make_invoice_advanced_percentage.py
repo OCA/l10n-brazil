@@ -23,7 +23,7 @@
 from openerp.osv import orm, fields
 
 
-class SaleAdvancePaymentInvoice(orm.Model):
+class SaleAdvancePaymentInvoice(orm.TransientModel):
 
     _inherit = 'sale.advance.payment.inv'
 
