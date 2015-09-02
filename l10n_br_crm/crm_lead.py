@@ -26,7 +26,7 @@ from openerp.exceptions import Warning
 class CrmLead(models.Model):
     """ CRM Lead Case """
     _inherit = "crm.lead"
-    legal_name = fields.Char(u'Razão Social', size=128,
+    legal_name = fields.Char(u'Razão Social', size=60,
                              help="Nome utilizado em documentos fiscais")
     cnpj = fields.Char('CNPJ', size=18,  oldname='cnpj_cpf')
     inscr_est = fields.Char('Inscr. Estadual', size=16)
