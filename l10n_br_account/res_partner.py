@@ -367,20 +367,17 @@ class ResPartner(models.Model):
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
         return self.env['l10n_br_account.partner.fiscal.type'].search(
-            [('default', '=', 'True')], limit=1)
+            [('default', '=', 'True'), ('is_company', '=', self.is_company)],
+            limit=1)
 
     partner_fiscal_type_id = fields.Many2one(
         'l10n_br_account.partner.fiscal.type', string='Tipo Fiscal do Parceiro',
         domain="[('is_company', '=', is_company)]",
         default=_default_partner_fiscal_type_id)
 
-    def onchange_mask_cnpj_cpf(self, cr, uid, ids, is_company,
-                            cnpj_cpf, context=None):
-        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
-            cr, uid, ids, is_company, cnpj_cpf, context)
-        ft_id = self._default_partner_fiscal_type_id(
-            cr, uid, is_company, context)
-
-        if ft_id:
-            result['value']['partner_fiscal_type_id'] = ft_id
-        return result
+    @api.onchange('is_company')
+    def _onchange_is_company(self):           
+        ft_id = self._default_partner_fiscal_type_id()
+        if ft_id:            
+            self.partner_fiscal_type_id = ft_id            
+        

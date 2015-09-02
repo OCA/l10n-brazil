@@ -140,7 +140,7 @@ class ResPartner(models.Model):
         return True
 
     @api.onchange('cnpj_cpf')
-    def onchange_mask_cnpj_cpf(self):
+    def _onchange_cnpj_cpf(self):        
         if self.cnpj_cpf:
             val = re.sub('[^0-9]', '', self.cnpj_cpf)
             if len(val) == 14:
