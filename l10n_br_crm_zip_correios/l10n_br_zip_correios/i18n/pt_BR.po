@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_zip_correios
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-02 14:28+0000\n"
+"PO-Revision-Date: 2015-09-02 14:28+0000\n"
+"Last-Translator: <Michell Stuttgart>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_zip_correios
+#: model:ir.model,name:l10n_br_zip_correios.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_zip_correios
+#: code:addons/l10n_br_zip_correios/models/webservice_client.py:42
+#: code:addons/l10n_br_zip_correios/models/webservice_client.py:87
+#: code:addons/l10n_br_zip_correios/models/webservice_client.py:89
+#, python-format
+msgid "Error!"
+msgstr "Erro!"
+
+#. module: l10n_br_zip_correios
+#: code:addons/l10n_br_zip_correios/models/webservice_client.py:42
+#, python-format
+msgid "Invalid zip length"
+msgstr "Tamanho de CEP inválido"
+
+#. module: l10n_br_zip_correios
+#: model:ir.model,name:l10n_br_zip_correios.model_res_partner
+msgid "Partner"
+msgstr "Parceiro"
+
