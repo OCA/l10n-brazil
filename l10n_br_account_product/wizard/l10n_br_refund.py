@@ -21,17 +21,10 @@ from openerp.osv import orm, fields
 from lxml import etree
 
 OPERATION_TYPE = {
-    'out_invoice': 'output',
-    'in_invoice': 'input',
-    'out_refund': 'input',
-    'in_refund': 'output'
-}
-
-JOURNAL_TYPE = {
-    'out_invoice': 'sale',
-    'in_invoice': 'purchase',
-    'out_refund': 'sale_refund',
-    'in_refund': 'purchase_refund'
+    'out_invoice': 'input',
+    'in_invoice': 'output',
+    'out_refund': 'output',
+    'in_refund': 'input'
 }
 
 class account_invoice_refund(orm.TransientModel):
@@ -95,7 +88,10 @@ class account_invoice_refund(orm.TransientModel):
         if not context:
             context = {}
         type = context.get('type', 'out_invoice')
-        journal_type = JOURNAL_TYPE[type]
+        journal_type = (type == 'out_invoice') and 'sale_refund' or \
+                       (type == 'out_refund') and 'sale' or \
+                       (type == 'in_invoice') and 'purchase_refund' or \
+                       (type == 'in_refund') and 'purchase'
         type = OPERATION_TYPE[type]
         eview = etree.fromstring(res['arch'])
         fiscal_categ = eview.xpath("//field[@name='fiscal_category_id']")
