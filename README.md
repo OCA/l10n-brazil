@@ -1,5 +1,6 @@
   * [![Build Status](https://travis-ci.org/odoo-brazil/l10n-brazil.svg?branch=8.0)](https://travis-ci.org/odoo-brazil/l10n-brazil) 
- 
+ [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/odoo-brazil/odoo-brazil?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+
 
 Localização Brasileira - Odoo - l10n-brazil
 ============================================
