@@ -43,19 +43,15 @@ class StockPicking(models.Model):
     def _default_fiscal_category(self):
         user = self.env['res.users'].browse(self._uid).with_context(
             dict(self._context))
-
-        stock_fiscal_category = user.company_id.stock_fiscal_category_id
-        stock_fiscal_category_id = user.company_id.stock_fiscal_category_id.id
-
-        return stock_fiscal_category and stock_fiscal_category_id or False
+        return user.company_id.stock_fiscal_category_id 
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal',
         readonly=True,
         domain="[('state', '=', 'approved')]",
-        states={'draft': [('readonly', False)]}
-     #   default='_default_fiscal_category'
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category
     )
 
     fiscal_position = fields.Many2one(

@@ -168,9 +168,9 @@ class SaleOrder(orm.Model):
             company_id = default_company["company_id"]        
             if company_id:
                 fiscal_category = self.pool.get("res.company").read(
-                    cr, uid, [company_id], ["out_invoice_fiscal_category_id"])
-                if fiscal_category[0]["out_invoice_fiscal_category_id"]:
-                    result = fiscal_category[0]["out_invoice_fiscal_category_id"][0]
+                    cr, uid, [company_id], ["default_fiscal_category_sale_id"])
+                if fiscal_category[0]["default_fiscal_category_sale_id"]:
+                    result = fiscal_category[0]["default_fiscal_category_sale_id"][0]
                     return result
         return None
 
@@ -198,10 +198,8 @@ class SaleOrder(orm.Model):
             fiscal_category_id=fiscal_category_id)
 
     @api.model
-    def _fiscal_position_map(self, result, context=None, **kwargs):
-
-        if not context:
-            context = {}
+    def _fiscal_position_map(self, result, context=None, **kwargs):        
+        context = dict(context or {})
         context.update({'use_domain': ('use_sale', '=', True)})
         kwargs.update({'context': context})
 
@@ -380,6 +378,8 @@ class SaleOrderLine(orm.Model):
             result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
             if result['value'].get('fiscal_position'):
                 fiscal_position = result['value'].get('fiscal_position')
+            else:
+                result['value']['fiscal_position'] = fiscal_position
 
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product)

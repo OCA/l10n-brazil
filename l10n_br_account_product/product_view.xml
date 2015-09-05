@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-		<record model="ir.ui.view" id="l10n_br_account_product_fiscal_classification_product_normal_form_view">
-            <field name="name">l10n_br_account_product_fiscal_classification_product_normal_form_view</field>
+		<record model="ir.ui.view" id="l10n_br_account_product_fiscal_classification_form_view">
+            <field name="name">l10n_br_account_product_fiscal_classification_form_view</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="account_product_fiscal_classification.product_fiscal_classification_product_normal_form_view"/>
             <field name="arch" type="xml">
