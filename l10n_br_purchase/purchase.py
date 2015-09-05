@@ -141,7 +141,8 @@ class PurchaseOrder(models.Model):
             cr, uid, ids, partner_id, dest_address_id, company_id, context,
             fiscal_category_id=fiscal_category_id, **kwargs)
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id=False,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id=False,
                                     dest_address_id=False, company_id=False,
                                     context=None, fiscal_category_id=False,
                                     **kwargs):
@@ -161,7 +162,7 @@ class PurchaseOrder(models.Model):
             'partner_shipping_id': dest_address_id,
             'context': context,
         })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        return self._fiscal_position_map(result, **kwargs)
 
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
 
@@ -329,7 +330,8 @@ class PurchaseOrderLine(models.Model):
         result_super['value'].update(result['value'])
         return result_super
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
                                     dest_address_id=False,
                                     product_id=False,
                                     fiscal_category_id=False,
@@ -347,9 +349,10 @@ class PurchaseOrderLine(models.Model):
             'fiscal_category_id': fiscal_category_id,
             'context': context,
         })
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+        return self._fiscal_position_map(result, **kwargs)
 
-    def onchange_fiscal_position(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_position(self, partner_id,
                                  dest_address_id=False, product_id=False,
                                  fiscal_position=False,
                                  fiscal_category_id=False, company_id=False,
@@ -367,19 +370,19 @@ class PurchaseOrderLine(models.Model):
             'context': context,
         })
 
-        result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
+        result.update(self._fiscal_position_map(result, **kwargs))
         fiscal_position = result['value'].get('fiscal_position')
 
         if product_id and fiscal_position:
-            obj_fposition = self.pool.get('account.fiscal.position').browse(
-                cr, uid, fiscal_position)
-            obj_product = self.pool.get('product.product').browse(
-                cr, uid, product_id)
+            obj_fposition = self.env['account.fiscal.position'].browse(
+                fiscal_position)
+            obj_product = self.env['product.product'].browse(
+                product_id)
             context = {'fiscal_type': obj_product.fiscal_type,
                        'type_tax_use': 'purchase'}
             taxes = obj_product.supplier_taxes_id or False
-            taxes_ids = self.pool.get('account.fiscal.position').map_tax(
-                cr, uid, obj_fposition, taxes, context)
+            taxes_ids = self.env['account.fiscal.position'].map_tax(
+                obj_fposition, taxes, context=context)
 
             result['value']['taxes_id'] = taxes_ids
 
