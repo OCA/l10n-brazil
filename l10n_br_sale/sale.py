@@ -168,9 +168,9 @@ class SaleOrder(orm.Model):
             company_id = default_company["company_id"]        
             if company_id:
                 fiscal_category = self.pool.get("res.company").read(
-                    cr, uid, [company_id], ["out_invoice_fiscal_category_id"])
-                if fiscal_category[0]["out_invoice_fiscal_category_id"]:
-                    result = fiscal_category[0]["out_invoice_fiscal_category_id"][0]
+                    cr, uid, [company_id], ["default_fiscal_category_sale_id"])
+                if fiscal_category[0]["default_fiscal_category_sale_id"]:
+                    result = fiscal_category[0]["default_fiscal_category_sale_id"][0]
                     return result
         return None
 
