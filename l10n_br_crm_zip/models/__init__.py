@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2011  Renato Lima - Akretion                                  #
+# Copyright (C) 2015 KMEE - www.kmee.com.br                                   #
+#              Michell Stuttgart <michell.stuttgart@kmee.com.br>              #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -11,10 +12,11 @@
 # This program is distributed in the hope that it will be useful,             #
 # but WITHOUT ANY WARRANTY; without even the implied warranty of              #
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU Affero General Public License for more details.                         #
+# GNU General Public License for more details.                                #
 #                                                                             #
-# You should have received a copy of the GNU Affero General Public License    #
+# You should have received a copy of the GNU General Public License           #
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
+#                                                                             #
 ###############################################################################
 
-from . import models
+from . import crm_lead
