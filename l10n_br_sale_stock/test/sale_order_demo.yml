@@ -58,13 +58,13 @@
   I check the details of delivery order after confirmed quotation.
 -
   !python {model: sale.order}: |
-    sale_order = self.browse(cr, uid, ref("sale_order_test2"))
-    assert sale_order.picking_ids, "Delivery order is not created."
-    for picking in sale_order.picking_ids:
-      assert picking.state == "auto" or "confirmed", "Delivery order should be in 'Waitting Availability' state."
-      assert picking.picking_type_id.code == 'outgoing',"Shipment should be Outgoing."
-      assert picking.fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
-      assert picking.fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
+    sale_order = self.browse(cr, uid, ref('sale_order_test2'))
+    assert sale_order.picking_ids, 'Delivery order is not created.'
+    for picking in sale_order.picking_ids:        
+        assert picking.state == 'confirmed', 'Delivery order should be in Waitting Availability state.'
+        assert picking.picking_type_id.code == 'outgoing', 'Shipment should be Outgoing.'        
+        assert picking.fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'Fiscal category not set correctly'
+        assert picking.fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo'), 'Fiscal position not set correctly'
 -
   I create Invoice from Delivery Order.
 -

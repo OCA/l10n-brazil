@@ -98,6 +98,15 @@ class StockPicking(orm.Model):
 
 class StockMove(orm.Model):
     _inherit = 'stock.move'
+    
+    def _prepare_picking_assign(self, cr, uid, move, context=None):        
+        result = super(StockMove, self)._prepare_picking_assign(cr, uid,
+            move, context)
+        result['fiscal_category_id'] = move.fiscal_category_id and \
+            move.fiscal_category_id.id
+        result['fiscal_position'] = move.fiscal_position and \
+            move.fiscal_position.id             
+        return result
 
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
                                context=None):
