@@ -33,7 +33,7 @@
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': [],
+    'test': ['test/zip_demo.yml'],
     'category': 'Localization',
     'installable': True,
 }
