@@ -35,7 +35,7 @@ class ResPartner(models.Model):
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
     suframa = fields.Char('Suframa', size=18)
     legal_name = fields.Char(
-        u'Razão Social', size=128, help="nome utilizado em documentos fiscais")
+        u'Razão Social', size=60, help="nome utilizado em documentos fiscais")
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', u'Município',
         domain="[('state_id','=',state_id)]")
