@@ -40,15 +40,16 @@ class CrmLead(models.Model):
             zip_code=self.zip,
         )
 
-        obj_zip_result = self.env['l10n_br.zip.result']
-        zip_ids = obj_zip_result.map_to_zip_result(zip_ids, self._name,
-                                                   self.id)
         if len(zip_ids) == 1:
             result = obj_zip.set_result(zip_ids[0])
             self.write(result)
             return True
         else:
             if len(zip_ids) > 1:
+                obj_zip_result = self.env['l10n_br.zip.result']
+                zip_ids = obj_zip_result.map_to_zip_result(
+                    zip_ids, self._name, self.id)
+
                 return obj_zip.create_wizard(
                     self._name,
                     self.id,
