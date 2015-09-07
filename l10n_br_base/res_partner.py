@@ -86,7 +86,8 @@ class ResPartner(models.Model):
     @api.one
     @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
-        if self.cnpj_cpf:
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
             if self.is_company:
                 if not fiscal.validate_cnpj(self.cnpj_cpf):
                     raise Warning(_(u'CNPJ inválido!'))
@@ -140,8 +141,9 @@ class ResPartner(models.Model):
         return True
 
     @api.onchange('cnpj_cpf')
-    def _onchange_cnpj_cpf(self):        
-        if self.cnpj_cpf:
+    def _onchange_cnpj_cpf(self):
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
             val = re.sub('[^0-9]', '', self.cnpj_cpf)
             if len(val) == 14:
                 cnpj_cpf = "%s.%s.%s/%s-%s"\
