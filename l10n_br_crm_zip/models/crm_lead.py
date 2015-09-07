@@ -61,4 +61,4 @@ class CrmLead(models.Model):
                     zip_ids=[z.id for z in zip_ids],
                 )
             else:
-                raise Warning(_('Nenhum registro encontrado'))
+                raise Warning(_('No records found!'))
