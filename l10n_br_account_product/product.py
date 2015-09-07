@@ -39,11 +39,10 @@ PRODUCT_ORIGIN = [
 class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     _columns = {
-        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,
-            'Tipo Fiscal', required=True),
+        'name': fields.char('Name', required=True, translate=True, select=True, size=120),
+        'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
         'origin': fields.selection(PRODUCT_ORIGIN, 'Origem'),
-        'ncm_id': fields.many2one(
-            'account.product.fiscal.classification', u'NCM'),
+        'ncm_id': fields.many2one('account.product.fiscal.classification', u'NCM'),
     }
     _defaults = {
         'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,

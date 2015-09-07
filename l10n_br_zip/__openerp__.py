@@ -21,20 +21,19 @@
     'name': 'Brazilian Localisation ZIP Codes',
     'description': 'Brazilian Localisation ZIP Codes',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'version': '8.0',
     'depends': [
         'l10n_br_base',
     ],
     'data': [
-        'l10n_br_zip_view.xml',
-        'res_partner_view.xml',
-        'res_company_view.xml',
+        'views/l10n_br_zip_view.xml',
+        'views/res_partner_view.xml',
+        'views/res_company_view.xml',
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
     'category': 'Localization',
-    'active': False,
-    'installable': True
+    'installable': True,
 }

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Luis Felipe Miléo - luisfelipe@mileo.co                 #
+# Copyright (C) 2014  Luis Felipe Mileo - KMEE                                #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,16 +17,4 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-
-
-class ResCompany(orm.Model):
-    _inherit = 'res.company'
-    _columns = {
-        'account_freight_id': fields.many2one(
-            'account.account', 'Freight Sale Tax Account'),
-        'account_insurance_id': fields.many2one(
-            'account.account', 'Insurance Sale Tax Account'),
-        'account_other_costs': fields.many2one(
-            'account.account', 'Other Costs Sale Tax Account'),
-    }
+import stock_invoice_onshipping

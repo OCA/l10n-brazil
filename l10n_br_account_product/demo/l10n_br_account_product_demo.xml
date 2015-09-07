@@ -8,8 +8,8 @@
 			<field name="code">TSAJ</field>
 			<field name="type">sale</field>
 			<field name="sequence_id" ref="account.sequence_sale_journal"/>
-			<field model="account.account" name="default_credit_account_id" ref="account.a_sale"/>
-			<field model="account.account" name="defa ult_debit_account_id" ref="account.a_sale"/>
+			<field name="default_credit_account_id" ref="account.a_sale"/>
+			<field name="default_debit_account_id" ref="account.a_sale"/>
 			<field name="analytic_journal_id" ref="account.cose_journal_sale"/>
 			<field name="user_id" ref="base.user_root"/>
 			<field eval="1" name="revenue_expense"/>
@@ -45,6 +45,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 		
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo" model="account.fiscal.position">
@@ -54,6 +55,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo" model="account.fiscal.position">
@@ -63,6 +65,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 		
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_exportation_demo" model="account.fiscal.position">
@@ -72,6 +75,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
@@ -82,6 +86,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo" model="account.fiscal.position">
@@ -91,6 +96,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo" model="account.fiscal.position">
@@ -100,6 +106,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
+			<field name="id_dest">2</field>
 		</record>
 		
 		<!-- Compras para Industrialização -->
@@ -110,6 +117,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">1</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo" model="account.fiscal.position">
@@ -119,6 +127,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo" model="account.fiscal.position">
@@ -128,6 +137,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_exportation_demo" model="account.fiscal.position">
@@ -137,6 +147,7 @@
 			<field name="company_id" ref="base.main_company"/>
 			<field name="type">input</field>
 			<field name="type_tax_use">purchase</field>
+			<field name="id_dest">2</field>
 		</record>
 
 		<!-- account.product.fiscal.classification -->

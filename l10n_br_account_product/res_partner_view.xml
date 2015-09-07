@@ -9,6 +9,7 @@
 			<field name="arch" type="xml">
 				<field name="fiscal_category_fiscal_type" position="after">
 					<field name="cfop_id" colspan="4" domain="[('type', '=', type)]"/>
+					<field name="id_dest" colspan="4"/>
 				</field>
 			</field>
 		</record>

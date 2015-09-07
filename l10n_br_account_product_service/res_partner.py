@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp.osv import orm, fields
+from openerp import api
 
 FISCAL_POSITION_COLUMNS = {
     'fiscal_category_id': fields.many2one('l10n_br_account.fiscal.category',
@@ -35,7 +36,7 @@ class AccountFiscalPositionTemplate(orm.Model):
     _columns = FISCAL_POSITION_COLUMNS
 
     def onchange_type(self, cr, uid, ids, type=False, context=None):
-        type_tax = {'input': 'purhcase', 'output': 'sale'}
+        type_tax = {'input': 'purchase', 'output': 'sale'}
         return {'value': {'type_tax_use': type_tax.get(type, 'all'),
                           'tax_ids': False}}
 
@@ -45,8 +46,7 @@ class AccountFiscalPositionTemplate(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                     cr, uid, fiscal_category_id,
                     ['fiscal_type', 'journal_type'], context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value': {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     def generate_fiscal_position(self, cr, uid, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
@@ -165,8 +165,7 @@ class AccountFiscalPosition(orm.Model):
             fc_fields = self.pool.get('l10n_br_account.fiscal.category').read(
                 cr, uid, fiscal_category_id, ['fiscal_type', 'journal_type'],
                 context=context)
-        return {'value':
-            {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
+            return {'value': {'fiscal_category_fiscal_type': fc_fields['fiscal_type']}}
 
     def map_tax_code(self, cr, uid, product_id, fiscal_position,
                      company_id=False, tax_ids=False, context=None):
@@ -226,50 +225,6 @@ class AccountFiscalPosition(orm.Model):
                                        fp_tax.tax_code_dest_id.id})
 
         return result
-
-    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
-        result = []
-        if not context:
-            context = {}
-        if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use') in ('sale', 'all'):
-            if context.get('fiscal_type', 'product') == 'product':
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
-                    context=context)['product_tax_ids']
-            else:
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
-                    context=context)['service_tax_ids']
-
-            company_taxes = self.pool.get('account.tax').browse(
-                    cr, uid, company_tax_ids, context=context)
-            if taxes:
-                all_taxes = taxes + company_taxes
-            else:
-                all_taxes = company_taxes
-            taxes = all_taxes
-
-        if not taxes:
-            return []
-        if not fposition_id:
-            return map(lambda x: x.id, taxes)
-        for t in taxes:
-            ok = False
-            tax_src = False
-            for tax in fposition_id.tax_ids:
-                tax_src = tax.tax_src_id and tax.tax_src_id.id == t.id
-                tax_code_src = tax.tax_code_src_id and \
-                    tax.tax_code_src_id.id == t.tax_code_id.id
-
-                if tax_src or tax_code_src:
-                    if tax.tax_dest_id:
-                        result.append(tax.tax_dest_id.id)
-                    ok = True
-            if not ok:
-                result.append(t.id)
-
-        return list(set(result))
 
 
 class AccountFiscalPositionTax(orm.Model):

@@ -22,18 +22,6 @@
 			</field>
 		</record>
 
-		<record id="view_l10n_br_base_city_form" model="ir.ui.view">
-			<field name="name">l10n_br_base.city</field>
-			<field name="model">l10n_br_base.city</field>
-			<field name="arch" type="xml">
-				<form string="Municípios">
-					<field name="name" select="1"/>
-					<field name="state_id" select="1"/>
-					<field name="ibge_code" select="2"/>
-				</form>
-			</field>
-		</record>
-
 		<record id="action_l10n_br_base_city_form" model="ir.actions.act_window">
 			<field name="name">Município</field>
 			<field name="type">ir.actions.act_window</field>

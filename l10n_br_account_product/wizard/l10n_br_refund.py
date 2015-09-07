@@ -21,17 +21,10 @@ from openerp.osv import orm, fields
 from lxml import etree
 
 OPERATION_TYPE = {
-    'out_invoice': 'output',
-    'in_invoice': 'input',
-    'out_refund': 'input',
-    'in_refund': 'output'
-}
-
-JOURNAL_TYPE = {
-    'out_invoice': 'sale',
-    'in_invoice': 'purchase',
-    'out_refund': 'sale_refund',
-    'in_refund': 'purchase_refund'
+    'out_invoice': 'input',
+    'in_invoice': 'output',
+    'out_refund': 'output',
+    'in_refund': 'input'
 }
 
 class account_invoice_refund(orm.TransientModel):
@@ -64,16 +57,13 @@ class account_invoice_refund(orm.TransientModel):
             for invoice in inv_obj.browse(cr, uid, invoice_ids, context=context):
                 
                 line_ids = line_obj.search(cr, uid, [('invoice_id', '=', invoice.id)])
+                payment_term = invoice.payment_term and invoice.payment_term.id or False
+                bank = invoice.partner_bank_id and invoice.partner_bank_id.id or False
 
-                if invoice.payment_term:
-                    payment_term = invoice.payment_term.id
-                else:
-                    payment_term = False
-                if invoice.partner_bank_id:
-                    bank = invoice.partner_bank_id.id
-                else:
-                    bank = False
-                onchange = inv_obj.onchange_partner_id(cr, uid, [invoice.id], 'out_refund', invoice.partner_id.id, invoice.date_invoice, payment_term, bank, invoice.company_id.id, fiscal_category_id)
+                context['fiscal_category_id'] = fiscal_category_id
+                onchange = inv_obj.onchange_partner_id(cr, uid, [invoice.id], 'out_refund', invoice.partner_id.id,
+                                       invoice.date_invoice, payment_term, bank, invoice.company_id.id,
+                                       context)
                 onchange['value']['fiscal_category_id'] = fiscal_category_id
 
                 for idx, send_line in enumerate(send_invoice.invoice_line):
@@ -83,23 +73,29 @@ class account_invoice_refund(orm.TransientModel):
                                      invoice.company_id.id, send_line.product_id.id, line_fiscal_category_id,
                                      send_line.account_id.id, context)
                     line_onchange['value']['fiscal_category_id'] = line_fiscal_category_id
-
+                    if 'invoice_line_tax_id' in line_onchange['value']:
+                        taxes = line_onchange['value']['invoice_line_tax_id']
+                        line_onchange['value']['invoice_line_tax_id'] = [[6, 0, taxes]]
+                        
                     line_obj.write(cr, uid, line_ids[idx],line_onchange['value'],context)
                 inv_obj.write(cr, uid, [invoice.id], onchange['value'], context=context)
             return res
 
-
-
     def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
-        res = super(account_invoice_refund, self).fields_view_get(cr, uid, view_id, view_type, context, toolbar, submenu)
+        res = super(account_invoice_refund, self).fields_view_get(cr, uid, view_id, view_type, context, toolbar,
+                                                                  submenu)
         if not context:
             context = {}
         type = context.get('type', 'out_invoice')
-        journal_type = JOURNAL_TYPE[type]
+        journal_type = (type == 'out_invoice') and 'sale_refund' or \
+                       (type == 'out_refund') and 'sale' or \
+                       (type == 'in_invoice') and 'purchase_refund' or \
+                       (type == 'in_refund') and 'purchase'
         type = OPERATION_TYPE[type]
         eview = etree.fromstring(res['arch'])
         fiscal_categ = eview.xpath("//field[@name='fiscal_category_id']")
         for field in fiscal_categ:
-            field.set('domain', "[('journal_type', '=', '%s'),('fiscal_type', '=', 'product'), ('type', '=', '%s')]" % (journal_type, type,))
+            field.set('domain', "[('journal_type', '=', '%s'),('fiscal_type', '=', 'product'), ('type', '=', '%s')]" %
+                      (journal_type, type,))
         res['arch'] = etree.tostring(eview)
         return res

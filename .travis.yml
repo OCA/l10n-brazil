@@ -1,26 +1,28 @@
+sudo: false
 language: python
+
 python:
-  - "2.7"
-virtualenv:
-  system_site_packages: true
+  - "2.7_with_system_site_packages"
 
-before_install:
- - sudo apt-get install -qq graphviz
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow
 
-services:
-  - postgresql
+env:
+  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
 
-before_script:
-    - psql -c "CREATE USER openerp WITH PASSWORD 'admin';" -U postgres
-    - psql -c 'create database l10n_br_test with owner openerp;' -U postgres
 
 install:
-    - ./.travis_install_nightly.sh
+  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - pip install unidecode
+  - pip install python-ldap
+  - travis_install_nightly
 
 script:
-    - ./.travis_test_script.sh
+  - travis_run_tests
 
-notifications:
-  email:
-    - raphael.valyi@akretion.com
-    - renato.lima@akretion.com
+after_success:
+  coveralls

@@ -47,7 +47,7 @@
 				<tree string="Cancelar Documento Eletrônico">										
 					<field name="invoice_id"/>
 					<field name="justificative"/>
-					<field name="state"/>
+					<field name="state" />
 				</tree>
 			</field>
 		</record>
@@ -69,9 +69,13 @@
 			<field name="model">l10n_br_account.fiscal.document</field>
 			<field name="arch" type="xml">
 				<form string="Documento Fiscal">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-					<field name="electronic" select="2"/>
+					<sheet>
+						<group>
+							<field name="code" select="1"/>
+							<field name="name" select="1"/>
+							<field name="electronic" select="2"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
@@ -176,13 +180,18 @@
 			<field name="model">l10n_br_account.partner.fiscal.type</field>
 			<field name="arch" type="xml">
 				<form string="Tipo Fiscal de Parceiro">
-					<field name="code" select="1"/>
-					<field name="name" select="1"/>
-					<field name="is_company" select="1"/>
-					<field name="default"/>
-					<separator string="Recupera Impostos" colspan="4"/>
-					<field name="icms"/>
-					<field name="ipi"/>
+					<sheet>
+						<group>
+							<field name="code" select="1"/>
+							<field name="name" select="1"/>
+							<field name="is_company" select="1"/>
+							<field name="default"/>
+						</group>
+						<group string="Recupera Impostos">
+							<field name="icms"/>
+							<field name="ipi"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
@@ -204,13 +213,17 @@
 			<field name="model">l10n_br_account.document.serie</field>
 			<field name="arch" type="xml">
 				<form string="Serie de Documentos Fiscais">
-					<field name="code" select="1"/>
-					<field name="active"/>
-					<field name="name" colspan="4" select="1"/>
-					<field name="fiscal_document_id" select="1"/>
-					<field name="fiscal_type"/>
-					<field name="internal_sequence_id" select="1"/>
-					<field name="company_id"/>
+					<sheet>
+						<group>
+							<field name="code" select="1"/>
+							<field name="active"/>
+							<field name="name" select="1"/>
+							<field name="fiscal_document_id" select="1"/>
+							<field name="fiscal_type"/>
+							<field name="internal_sequence_id" select="1"/>
+							<field name="company_id"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
@@ -301,7 +314,6 @@
 			<field name="model">l10n_br_account.invoice.invalid.number</field>
 			<field name="arch" type="xml">
 				<tree string="Inutilizar Faixa de Numeração">
-					<field name="name"/>
 					<field name="fiscal_document_id"/>
 					<field name="document_serie_id"/>
 					<field name="number_start"/>
@@ -316,12 +328,16 @@
 			<field name="name">l10n_br_account.cnae.form</field>
 			<field name="model">l10n_br_account.cnae</field>
 			<field name="arch" type="xml">
-				<form string="CNAE">
-					<field name="code" select="1"/>
-					<field name="name" colspan="4" select="1"/>
-					<field name="version" select="1"/>
-					<field name="internal_type" select="1"/>
-					<field name="parent_id"/>
+				<form string="CNAE" version="7.0">
+					<sheet>
+						<group>
+							<field name="code" select="1"/>
+							<field name="name" select="1"/>
+							<field name="version" select="1"/>
+							<field name="internal_type" select="1"/>
+							<field name="parent_id"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
@@ -358,12 +374,14 @@
 			<field name="model">l10n_br_account.service.type</field>
 			<field name="arch" type="xml">
 				<form string="Tipo de Serviço">
-					<group>
-						<field name="code"/>
-						<field name="name"/>
-						<field name="parent_id"/>
-						<field name="internal_type"/>
-					</group>
+					<sheet>
+						<group>
+							<field name="code"/>
+							<field name="name"/>
+							<field name="parent_id"/>
+							<field name="internal_type"/>
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>
@@ -398,9 +416,13 @@
 			<field name="model">l10n_br_tax.definition</field>
 			<field name="arch" type="xml">
 				<form string="Tax Definition">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" select="1" />
-					<field name="tax_domain" invisible="1"/>
-					<field name="tax_code_id" select="1" />
+					<sheet>
+						<group>
+							<field name="tax_id" on_change="onchange_tax_id(tax_id)" select="1" />
+							<field name="tax_domain" invisible="1"/>
+							<field name="tax_code_id" select="1" />
+						</group>
+					</sheet>
 				</form>
 			</field>
 		</record>

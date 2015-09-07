@@ -20,15 +20,7 @@
 
 from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
-
-
-class SaleShop(orm.Model):
-    _inherit = 'sale.shop'
-    _columns = {
-        'default_fc_id': fields.many2one(
-            'l10n_br_account.fiscal.category', u'Categoria Fiscal Padrão')
-    }
-
+from openerp import api, _
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
@@ -69,7 +61,7 @@ class SaleOrder(orm.Model):
             line.product_id, line.order_id.partner_id,
             fiscal_position=line.fiscal_position)['taxes']:
             tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
-            if not tax.tax_code_id.tax_discount:
+            if not tax.tax_discount:
                 value += c.get('amount', 0.0)
         return value
 
@@ -171,69 +163,74 @@ class SaleOrder(orm.Model):
 
     def _default_fiscal_category(self, cr, uid, context=None):
         result = False
-        shop_id = context.get("shop_id", self.default_get(
-            cr, uid, ["shop_id"], context)["shop_id"])
-        if shop_id:
-            shop = self.pool.get("sale.shop").read(
-                cr, uid, [shop_id], ["default_fc_id"])
-            if shop[0]["default_fc_id"]:
-                result = shop[0]["default_fc_id"][0]
-        return result
+        default_company = self.default_get(cr , uid, ["company_id"], context)
+        if default_company:
+            company_id = default_company["company_id"]        
+            if company_id:
+                fiscal_category = self.pool.get("res.company").read(
+                    cr, uid, [company_id], ["default_fiscal_category_sale_id"])
+                if fiscal_category[0]["default_fiscal_category_sale_id"]:
+                    result = fiscal_category[0]["default_fiscal_category_sale_id"][0]
+                    return result
+        return None
 
     _defaults = {
         'fiscal_category_id': _default_fiscal_category,
     }
 
-    def onchange_discount_rate(self, cr, uid, ids, discount_rate):
-        res = {}
+    def onchange_discount_rate(self, cr, uid, ids, discount_rate, context=None):
+        res = { 'value': {} }
         line_obj = self.pool.get('sale.order.line')
         for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                line_obj.write(cr, uid, [line.id], {'discount': discount_rate}, context=None)
+            lines = []
+            for line in order.order_line:               
+                lines.append( (1, line.id, { 'discount': discount_rate } ))
+            res['value'] = { 'id': order.id, 'order_line': lines}
+            
         return res
 
-    def onchange_address_id(self, cr, uid, ids, partner_invoice_id,
-                            partner_shipping_id, partner_id,
-                            shop_id=None, context=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
+    @api.multi
+    def onchange_address_id(self, partner_invoice_id, partner_shipping_id,
+                            partner_id, company_id, **kwargs):
+        fiscal_category_id=self._context.get('fiscal_category_id')
         return super(SaleOrder, self).onchange_address_id(
-            cr, uid, ids, partner_invoice_id, partner_shipping_id,
-            partner_id, shop_id, context,
+            partner_invoice_id, partner_shipping_id, partner_id, company_id,
             fiscal_category_id=fiscal_category_id)
 
-    def onchange_shop_id(self, cr, uid, ids, shop_id=None, context=None,
-                         partner_id=None, partner_invoice_id=None,
-                         partner_shipping_id=None, **kwargs):
-        if not context:
-            context = {}
-        fiscal_category_id=context.get('fiscal_category_id')
-        return super(SaleOrder, self).onchange_shop_id(
-            cr, uid, ids, shop_id, context, partner_id, partner_invoice_id,
-            partner_shipping_id, fiscal_category_id=fiscal_category_id)
-
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
-                                    partner_invoice_id=False, shop_id=False,
-                                    fiscal_category_id=False, context=None):
-
-        result = {'value': {'fiscal_position': False}}
-
-        if not shop_id or not partner_id or not fiscal_category_id:
-            return result
-
-        obj_shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-        company_id = obj_shop.company_id.id
+    @api.model
+    def _fiscal_position_map(self, result, context=None, **kwargs):        
+        context = dict(context or {})
         context.update({'use_domain': ('use_sale', '=', True)})
-        kwargs = {
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'fiscal_category_id': fiscal_category_id,
-            'company_id': company_id,
-            'context': context
-        }
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+        kwargs.update({'context': context})
+
+        if not kwargs.get('fiscal_category_id', False):
+            return result
+        obj_company = self.env['res.company'].browse(kwargs.get('company_id',
+                                                                False))
+        obj_fcategory = self.env['l10n_br_account.fiscal.category']
+        fcategory = obj_fcategory.browse(kwargs.get('fiscal_category_id'))
+        result['value']['journal_id'] = fcategory.property_journal and \
+            fcategory.property_journal.id or False
+        if not result['value'].get('journal_id', False):
+            raise orm.except_orm(
+                _(u'Nenhum Diário !'),
+                _(u"Categoria fiscal: '%s', não tem um diário contábil para a \
+                empresa %s") % (fcategory.name, obj_company.name))
+
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+
+        return obj_fp_rule.apply_fiscal_mapping(result, **kwargs)
+
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
+                                    partner_invoice_id=False,
+                                    fiscal_category_id=False, context=None):
+        result = {'value': {}}
+        obj_user = self.env['res.users'].browse(self._uid)
+        company_id = obj_user.company_id.id
+        return self._fiscal_position_map(result, False,
+            partner_id=partner_id, partner_invoice_id=partner_id,
+            company_id=company_id, fiscal_category_id=fiscal_category_id)
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
@@ -267,7 +264,8 @@ class SaleOrder(orm.Model):
             cr, uid, lines, ['fiscal_category_id', 'fiscal_position'])
 
         if (context.get('fiscal_type') == 'service' and
-            inv_lines and inv_lines[0]['fiscal_category_id']):
+            inv_lines and inv_lines[0]['fiscal_category_id']
+                        and inv_lines[0]['fiscal_position']):
                 fiscal_category_id = inv_lines[0]['fiscal_category_id'][0]
                 result['fiscal_position'] = inv_lines[0]['fiscal_position'][0]
         else:
@@ -344,28 +342,24 @@ class SaleOrderLine(orm.Model):
             digits_compute=dp.get_precision('Sale Price'), multi='sums'),
     }
 
-    def _fiscal_position_map(self, cr, uid, result, **kwargs):
-        kwargs['context'].update({'use_domain': ('use_sale', '=', True)})
-        obj_shop = self.pool.get('sale.shop').browse(
-            cr, uid, kwargs.get('shop_id'))
-        company_id = obj_shop.company_id.id
-        kwargs.update({'company_id': company_id})
-        fp_rule_obj = self.pool.get('account.fiscal.position.rule')
-        return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
+    @api.model
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self._context)
+        ctx.update({'use_domain': ('use_sale', '=', True)})
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
                           fiscal_position=False, flag=False, context=None):
-        if not context:
-            context = {}
+        
+        context = dict(context or {})        
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
-        shop_id = context.get('shop_id')
         partner_invoice_id = context.get('partner_invoice_id')
         result = {'value': {}}
-        if parent_fiscal_category_id and product and partner_invoice_id \
-        and shop_id:
+        if parent_fiscal_category_id and product and partner_invoice_id:
             obj_fp_rule = self.pool.get('account.fiscal.position.rule')
             product_fc_id = obj_fp_rule.product_fiscal_category_map(
                 cr, uid, product, parent_fiscal_category_id)
@@ -375,8 +369,7 @@ class SaleOrderLine(orm.Model):
 
             result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
-            kwargs = {
-                'shop_id': shop_id,
+            kwargs = {               
                 'partner_id': partner_id,
                 'partner_invoice_id': partner_invoice_id,
                 'fiscal_category_id': parent_fiscal_category_id,
@@ -385,6 +378,8 @@ class SaleOrderLine(orm.Model):
             result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
             if result['value'].get('fiscal_position'):
                 fiscal_position = result['value'].get('fiscal_position')
+            else:
+                result['value']['fiscal_position'] = fiscal_position
 
             obj_product = self.pool.get('product.product').browse(
                 cr, uid, product)
@@ -398,41 +393,44 @@ class SaleOrderLine(orm.Model):
         result_super['value'].update(result['value'])
         return result_super
 
-    def onchange_fiscal_category_id(self, cr, uid, ids, partner_id,
+    @api.multi
+    def onchange_fiscal_category_id(self, partner_id,
                                         partner_invoice_id=False,
-                                        shop_id=False, product_id=False,
+                                        product_id=False,
+                                        company_id=False,
                                         fiscal_category_id=False,
                                         context=None):
-
         if not context:
             context = {}
         result = {'value': {}}
-
-        if not shop_id or not partner_id or not fiscal_category_id:
+        if not partner_id or not fiscal_category_id:
             return result
-
-        kwargs = {
-            'shop_id': shop_id,
+        kwargs = {            
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
             'fiscal_category_id': fiscal_category_id,
+            'company_id': company_id,
             'context': context
         }
-        return self._fiscal_position_map(cr, uid, result, **kwargs)
+
+        result = self._fiscal_position_map(result, **kwargs)
+        return result
 
     def onchange_fiscal_position(self, cr, uid, ids, partner_id,
-                                 partner_invoice_id=False, shop_id=False,
-                                 product_id=False, fiscal_position=False,
-                                 fiscal_category_id=False):
+                                 partner_invoice_id=False,
+                                 product_id=False,
+                                 company_id=False,
+                                 fiscal_position=False,
+                                 fiscal_category_id=False):        
         result = {'value': {'tax_id': False}}
-        if not shop_id or not partner_id:
+        if not partner_id:
             return result
 
-        kwargs = {
-            'shop_id': shop_id,
+        kwargs = {            
             'partner_id': partner_id,
             'partner_invoice_id': partner_invoice_id,
             'fiscal_category_id': fiscal_category_id,
+            'company_id': company_id,
             'context': {}
         }
         result.update(self._fiscal_position_map(cr, uid, result, **kwargs))
@@ -477,5 +475,7 @@ class SaleOrderLine(orm.Model):
 
         if fp_id:
             result['fiscal_position'] = fp_id.id
+            if line.product_id.fiscal_type == 'product':
+                result['cfop_id'] = fp_id.cfop_id.id
 
         return result
