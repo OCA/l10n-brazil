@@ -22,13 +22,9 @@
 
 {
     'name': 'Address from Brazilian Localization ZIP by Correios',
-    'description': """
-    Search address from Brazilian Localization ZIP Codes from Brazilian Correios.
-    This module fetch the whole address from webservice through zip number
-    provided by user.
-    """,
     'license': 'AGPL-3',
-    'author': 'KMEE',
+    'author': 'Michell Stuttgart',
+    'maintainer': 'KMEE',
     'version': '8.0',
     'website': 'www.kmee.com.br',
     'depends': [
