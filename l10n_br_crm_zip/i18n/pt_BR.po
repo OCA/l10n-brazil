@@ -1,0 +1,20 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_crm_zip
+msgid "Brazilian Localization CRM Zip"
+msgstr "Localização Brasileira - Módulo de Cep para o CRM"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_crm_zip
+msgid "ZIP Search Integration for Brazilian Localization of CRM module"
+msgstr "Localização Brasileira - Integra a busca de cep ao módulo de CRM"
+
+#. module: l10n_br_crm_zip
+#: model:ir.model,name:l10n_br_crm_zip.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Prospecto/Oportunidade"
+
+#. module: l10n_br_crm_zip
+#: code:addons/l10n_br_crm_zip/models/crm_lead.py:64
+#, python-format
+msgid "No records found!"
+msgstr "Nenhum registro encontrado!"
