@@ -20,7 +20,19 @@
 #
 ##############################################################################
 
-from . import webservice_client
-from . import res_company
-from . import res_partner
-from . import l10n_br_zip
+from openerp import models, fields
+from openerp.exceptions import except_orm
+
+
+class L10nBrZip(models.Model):
+
+    _inherit = 'l10n_br.zip'
+
+    def set_result(self, zip_obj=None):
+        result = super(L10nBrZip, self).set_result(zip_obj=zip_obj)
+
+        if 'street' in result:
+            # Remove white space in begin of street name
+            result['street'] = result['street'].lstrip()
+
+        return result
