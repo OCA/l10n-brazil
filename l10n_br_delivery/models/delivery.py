@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2010  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,8 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-import sale
-import l10n_br_delivery
-import delivery
-import account_invoice
-import stock
+from openerp import models, fields
+
+
+class DeliveryCarrier(models.Model):
+    _inherit = 'delivery.carrier'
+
+    antt_code = fields.Char('Codigo ANTT', size=32)
+    vehicle_ids = fields.One2many(
+        'l10n_br_delivery.carrier.vehicle', 'carrier_id', u'Veículos')
