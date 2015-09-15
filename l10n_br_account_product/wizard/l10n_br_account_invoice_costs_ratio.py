@@ -40,7 +40,10 @@ class L10nBrAccountProductInvoiceCostsRatio(orm.TransientModel):
             return False
 
         def calc_price_ratio(price_gross, amount_calc, amount_total):
-            return price_gross * amount_calc / amount_total
+            if ammount_total:
+                return price_gross * amount_calc / amount_total
+            else:
+                return 0.0
 
         for delivery in self.browse(cr, uid, ids, context):
             for invoice in self.pool.get('account.invoice').browse(
@@ -57,6 +60,8 @@ class L10nBrAccountProductInvoiceCostsRatio(orm.TransientModel):
                             line.price_gross, delivery.amount_costs_value,
                             invoice.amount_gross),
                         }
+                    print line
+                    print vals
                     self.pool.get('account.invoice.line').write(
                         cr, uid, [line.id], vals, context)
         return True
