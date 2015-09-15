@@ -81,7 +81,8 @@ class L10n_brZip(models.Model):
                 'l10n_br_city_id': zip_obj.l10n_br_city_id.id,
                 'district': zip_obj.district,
                 'street': ((zip_obj.street_type or '') +
-                           ' ' + (zip_obj.street or '')),
+                           ' ' + (zip_obj.street or '')) if
+                zip_obj.street_type else (zip_obj.street or ''),
                 'zip': zip_code,
             }
         else:
