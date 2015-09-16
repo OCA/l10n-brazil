@@ -40,7 +40,7 @@ class L10nBrAccountProductInvoiceCostsRatio(orm.TransientModel):
             return False
 
         def calc_price_ratio(price_gross, amount_calc, amount_total):
-            if ammount_total:
+            if amount_total:
                 return price_gross * amount_calc / amount_total
             else:
                 return 0.0
