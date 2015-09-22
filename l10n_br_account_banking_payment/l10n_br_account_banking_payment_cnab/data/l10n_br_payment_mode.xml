@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- payment.mode Itau240 -->
+		<record id="payment_mode_itau240" model="payment.mode">
+			<field name="name">Itau240</field>
+			<!--<field name="journal">Itau240</field>-->
+			<!--<field name="bank_id">Itau240</field>-->
+			<field name="type" ref="payment_mode_type_cnab240" />
+		</record>
+
+	</data>
+</openerp>

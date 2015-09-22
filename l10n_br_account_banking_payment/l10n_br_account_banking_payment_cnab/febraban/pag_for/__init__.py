@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 # ###########################################################################
 #
 #    Author: Luis Felipe Mileo
@@ -20,6 +20,3 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import wizard
-from . import model
