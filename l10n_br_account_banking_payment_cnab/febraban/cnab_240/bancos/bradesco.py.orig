@@ -21,24 +21,23 @@
 #
 ##############################################################################
 
+
 from ..cnab_240 import Cnab240
 import re
 import string
+from decimal import *
 
 
-class Itau240(Cnab240):
-    """
+<<<<<<< HEAD
+class BradescoCnab240(Cnab240):
+=======
+class Bradesco240(Cnab240):
 
-    """
-
+>>>>>>> Ajustes para Itau, Cef, Bradesco -- 240
     def __init__(self):
-        """
-
-        :return:
-        """
         super(Cnab240, self).__init__()
-        from cnab240.bancos import itau
-        self.bank = itau
+        from cnab240.bancos import bradesco
+        self.bank = bradesco
 
     def _prepare_header(self):
         """
@@ -46,11 +45,7 @@ class Itau240(Cnab240):
         :param order:
         :return:
         """
-        vals = super(Itau240, self)._prepare_header()
-        vals['cedente_agencia_conta_dv'] = int(
-            vals['cedente_agencia_conta_dv'])
-        vals['cedente_codigo_agencia_digito'] = int(
-            vals['cedente_codigo_agencia_digito']),
+        vals = super(Bradesco240, self)._prepare_header()
         return vals
 
     def _prepare_segmento(self, line):
@@ -59,17 +54,12 @@ class Itau240(Cnab240):
         :param line:
         :return:
         """
-        vals = super(Itau240, self)._prepare_segmento(line)
-
-        carteira, nosso_numero, digito = self.nosso_numero(
-            line.move_line_id.transaction_ref)
-
-        vals['cedente_agencia_conta_dv'] = int(
-            vals['cedente_agencia_conta_dv'])
-        vals['carteira_numero'] = int(carteira)
-        vals['nosso_numero'] = int(nosso_numero)
-        vals['nosso_numero_dv'] = int(digito)
-
+        vals = super(Bradesco240, self)._prepare_segmento(line)
+        vals['prazo_baixa'] = unicode(str(
+            vals['prazo_baixa']), "utf-8")
+        vals['desconto1_percentual'] = Decimal('0.00')
+        vals['valor_iof'] = Decimal('0.00')
+        vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
         return vals
 
     # Override cnab_240.nosso_numero. Diferentes números de dígitos entre

@@ -35,8 +35,11 @@
     'depends': [
         'l10n_br_account_payment_boleto',
         'l10n_br_account_payment_mode',
-        'l10n_br_account',
+<<<<<<< HEAD
         'account_direct_debit',
+=======
+        'l10n_br_account',
+>>>>>>> Ajustes para Itau, Cef, Bradesco -- 240
     ],
     'data': [
         'view/l10n_br_payment_cnab.xml',

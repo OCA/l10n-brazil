@@ -3,7 +3,6 @@
 #
 #    Author: Luis Felipe Mileo
 #            Fernando Marcato Rodrigues
-#            Daniel Sadamo Hirayama
 #    Copyright 2015 KMEE - www.kmee.com.br
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,24 +20,19 @@
 #
 ##############################################################################
 
-from ..cnab_240 import Cnab240
+
+from ..pag_for500 import PagFor500
 import re
 import string
+from decimal import *
 
 
-class Itau240(Cnab240):
-    """
-
-    """
+class BradescoPagFor(PagFor500):
 
     def __init__(self):
-        """
-
-        :return:
-        """
-        super(Cnab240, self).__init__()
-        from cnab240.bancos import itau
-        self.bank = itau
+        super(PagFor500, self).__init__()
+        from cnab240.bancos import bradescoPagFor
+        self.bank = bradescoPagFor
 
     def _prepare_header(self):
         """
@@ -46,11 +40,7 @@ class Itau240(Cnab240):
         :param order:
         :return:
         """
-        vals = super(Itau240, self)._prepare_header()
-        vals['cedente_agencia_conta_dv'] = int(
-            vals['cedente_agencia_conta_dv'])
-        vals['cedente_codigo_agencia_digito'] = int(
-            vals['cedente_codigo_agencia_digito']),
+        vals = super(BradescoPagFor, self)._prepare_header()
         return vals
 
     def _prepare_segmento(self, line):
@@ -59,24 +49,22 @@ class Itau240(Cnab240):
         :param line:
         :return:
         """
-        vals = super(Itau240, self)._prepare_segmento(line)
+        vals = super(BradescoPagFor, self)._prepare_segmento(line)
 
-        carteira, nosso_numero, digito = self.nosso_numero(
-            line.move_line_id.transaction_ref)
-
-        vals['cedente_agencia_conta_dv'] = int(
-            vals['cedente_agencia_conta_dv'])
-        vals['carteira_numero'] = int(carteira)
-        vals['nosso_numero'] = int(nosso_numero)
-        vals['nosso_numero_dv'] = int(digito)
+        # TODO campo para informar a data do pagamento.
+        vals['data_para_efetivacao_pag'] = self.muda_campos_data(vals['vencimento_titulo'])
 
         return vals
 
-    # Override cnab_240.nosso_numero. Diferentes números de dígitos entre
-    # CEF e Itau
+    # Override cnab_240.nosso_numero. Diferentes números de dígitos entre CEF e Itau
     def nosso_numero(self, format):
         digito = format[-1:]
         carteira = format[:3]
         nosso_numero = re.sub(
             '[%s]' % re.escape(string.punctuation), '', format[3:-1] or '')
         return carteira, nosso_numero, digito
+
+    def muda_campos_data(self, campo):
+        campo = str(campo)
+        campo = campo[-4:] + campo[2:4] + campo[:2]
+        return int(campo)

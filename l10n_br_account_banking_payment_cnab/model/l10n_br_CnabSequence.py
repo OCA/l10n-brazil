@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
-# ###########################################################################
+# #############################################################################
 #
-#    Author: Luis Felipe Mileo
-#            Fernando Marcato Rodrigues
-#            Daniel Sadamo Hirayama
-#    Copyright 2015 KMEE - www.kmee.com.br
+#
+#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
+#    @author Fernando Marcato Rodrigues
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,5 +20,14 @@
 #
 ##############################################################################
 
-from . import model
+from openerp import models, fields
 
+
+class L10n_br_CnabSequence(models.Model):
+
+    _name = 'l10n_br_cnab_sequence'
+
+    code = fields.Char(u'Código')
+    name = fields.Char(u'Nome')
+    internal_sequence_id = fields.Many2one(
+        'ir.sequence', u'Sequência Interna')

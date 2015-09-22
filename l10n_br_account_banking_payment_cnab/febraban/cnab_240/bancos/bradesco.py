@@ -23,8 +23,45 @@
 
 
 from ..cnab_240 import Cnab240
+import re
+import string
+from decimal import *
 
 
-class BradescoCnab240(Cnab240):
+class Bradesco240(Cnab240):
     def __init__(self):
         super(Cnab240, self).__init__()
+        from cnab240.bancos import bradesco
+        self.bank = bradesco
+
+    def _prepare_header(self):
+        """
+
+        :param order:
+        :return:
+        """
+        vals = super(Bradesco240, self)._prepare_header()
+        return vals
+
+    def _prepare_segmento(self, line):
+        """
+
+        :param line:
+        :return:
+        """
+        vals = super(Bradesco240, self)._prepare_segmento(line)
+        vals['prazo_baixa'] = unicode(str(
+            vals['prazo_baixa']), "utf-8")
+        vals['desconto1_percentual'] = Decimal('0.00')
+        vals['valor_iof'] = Decimal('0.00')
+        vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
+        return vals
+
+    # Override cnab_240.nosso_numero. Diferentes números de dígitos entre
+    # CEF e Itau
+    def nosso_numero(self, format):
+        digito = format[-1:]
+        carteira = format[:3]
+        nosso_numero = re.sub(
+            '[%s]' % re.escape(string.punctuation), '', format[3:-1] or '')
+        return carteira, nosso_numero, digito

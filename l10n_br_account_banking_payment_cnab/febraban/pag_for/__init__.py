@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 # ###########################################################################
 #
 #    Author: Luis Felipe Mileo
@@ -20,32 +20,3 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
-{
-    'name': 'Account Payment CNAB',
-    'version': '0.1',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'external_dependencies': {
-        'python': ['cnab240'],
-    },
-    'depends': [
-        'l10n_br_account_payment_boleto',
-        'l10n_br_account_payment_mode',
-        'l10n_br_account',
-        'account_direct_debit',
-    ],
-    'data': [
-        'view/l10n_br_payment_cnab.xml',
-        'view/payment_order.xml',
-        'view/l10n_br_cnab_sequence.xml',
-        'data/l10n_br_payment_export_type.xml',
-        # 'data/l10n_br_payment_mode.xml',
-    ],
-    'active': False,
-    "installable": True,
-    "auto_install": False,
-}
