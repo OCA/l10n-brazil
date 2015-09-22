@@ -38,5 +38,5 @@
     'demo': [],
     'category': 'Localisation',
     'active': False,
-    'installable': True,
+    'installable': False,
 }
