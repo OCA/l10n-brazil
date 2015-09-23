@@ -31,7 +31,7 @@ action_number()</field>
         <record id="account.act_open" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">open</field>
-            <field name="action">write({'state':'open'})</field>
+            <field name="action">invoice_validate()</field>
             <field name="kind">function</field>
         </record>
 
