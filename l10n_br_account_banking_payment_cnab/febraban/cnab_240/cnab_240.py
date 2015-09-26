@@ -130,11 +130,13 @@ class Cnab240(Cnab):
         carteira, nosso_numero, digito = self.nosso_numero(
             str(line.move_line_id.transaction_ref))  # TODO: Improve!
         prefixo, sulfixo = self.cep(line.partner_id.zip)
+
         if self.order.mode. \
                 boleto_aceite == 'S':
             aceite = 'A'
         else:
             aceite = 'N'
+
         return {
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
