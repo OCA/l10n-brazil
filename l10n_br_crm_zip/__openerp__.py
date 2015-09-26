@@ -33,7 +33,7 @@
         'views/crm_lead_view.xml',
         'views/crm_opportunity_view.xml',
     ],
-    'demo': [],
+    'test': ['test/crm_zip_test.yml'],
     'installable': True,
     'auto_install': True,
 }
