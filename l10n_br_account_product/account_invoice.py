@@ -430,9 +430,6 @@ class AccountInvoiceLine(models.Model):
     import_declaration_ids = fields.One2many(
         'l10n_br_account_product.import.declaration',
         'invoice_line_id', u'Declaração de Importação')
-    cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
-    fiscal_classification_id = fields.Many2one(
-        'account.product.fiscal.classification', u'Classificação Fiscal')
     product_type = fields.Selection(
         [('product', 'Produto'), ('service', u'Serviço')],
         'Tipo do Produto', required=True)
