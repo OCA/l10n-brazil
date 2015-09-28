@@ -99,6 +99,7 @@ class NFe200(FiscalDocument):
             self._weight_data(cr, uid, ids, inv, context=None)
             self.nfe.infNFe.transp.vol.append(self.vol)
 
+            self._purchase_information(cr, uid, ids, inv, context)
             self._additional_information(cr, uid, ids, inv, context)
             self._total(cr, uid, ids, inv, context)
 
@@ -445,6 +446,12 @@ class NFe200(FiscalDocument):
         self.vol.nVol.valor = inv.notation_of_packages or ''
         self.vol.pesoL.valor = str("%.2f" % inv.weight)
         self.vol.pesoB.valor = str("%.2f" % inv.weight_net)
+    
+    
+    def _purchase_information(self, cr, uid, ids, inv, context=None):
+        
+        # Informações de compra
+        self.nfe.infNFe.compra.xPed.valor = inv.name or ''
 
     def _additional_information(self, cr, uid, ids, inv, context=None):
 
