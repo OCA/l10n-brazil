@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Address from Brazilian Localization ZIP by Correios to Odoo
+#    Brazilian Localization CRM ZIP by Correios to Odoo
 #    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 #    @author Michell Stuttgart <michell.stuttgart@kmee.com.br>
 #
@@ -20,20 +20,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Address from Brazilian Localization ZIP by Correios',
-    'license': 'AGPL-3',
-    'author': 'Michell Stuttgart',
-    'maintainer': 'KMEE',
-    'version': '8.0',
-    'website': 'www.kmee.com.br',
-    'depends': [
-        'l10n_br_zip',
-    ],
-    'category': 'Localization',
-    'active': False,
-    'installable': True,
-    'external_dependencies': {
-        'python': ['suds'],
-    }
-}
+from . import crm_lead
