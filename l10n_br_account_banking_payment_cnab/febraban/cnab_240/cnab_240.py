@@ -49,6 +49,9 @@ class Cnab240(Cnab):
         elif bank == '104':
             from bancos.cef import Cef240
             return Cef240
+        elif bank == '033':
+            from bancos.santander import Santander240
+            return Santander240
         else:
             return Cnab240
 
@@ -66,23 +69,25 @@ class Cnab240(Cnab):
         :param:
         :return:
         """
+        data_de_geracao = self.order.date_created[8:11] + self.order.date_created[5:7] + self.order.date_created[0:4]
+        t = datetime.datetime.now() - datetime.timedelta(hours=3)  # FIXME
+        hora_de_geracao = t.strftime("%H%M%S")
+
         return {
-            'arquivo_data_de_geracao': 27062012,
-            'arquivo_hora_de_geracao': 112000,
-            'arquivo_sequencia': 1,
+            'arquivo_data_de_geracao': int(data_de_geracao),
+            'arquivo_hora_de_geracao': int(hora_de_geracao),
+            'arquivo_sequencia': self.order.id,
             'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(
-                self.order.company_id.cnpj_cpf)),
+            'cedente_inscricao_numero': int(punctuation_rm(self.order.company_id.cnpj_cpf)),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_agencia_conta_dv': int(
-                self.order.mode.bank_id.bra_number_dig),
+            'cedente_agencia_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'cedente_nome': self.order.company_id.legal_name,
-            'cedente_codigo_agencia_digito': int(
-                self.order.mode.bank_id.bra_number_dig),
+            'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'arquivo_codigo': 1,  # Remessa/Retorno
             'reservado_cedente_campo': u'REMESSA-TESTE',
-            'servico_operacao': u'R'
+            'servico_operacao': u'R',
+            'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
         }
 
     def format_date(self, srt_date):
@@ -118,25 +123,31 @@ class Cnab240(Cnab):
         :return:
         """
         carteira, nosso_numero, digito = self.nosso_numero(
-            line.move_line_id.transaction_ref)  # TODO: Improve!
+            str(line.move_line_id.transaction_ref))  # TODO: Improve!
         prefixo, sulfixo = self.cep(line.partner_id.zip)
+        if self.order.mode.\
+                boleto_aceite == 'S':
+            aceite = 'A'
+        else:
+            aceite = 'N'
         return {
-            'cedente_agencia': 4459,  # FIXME
-            'cedente_conta': 17600,  # FIXME
-            'cedente_agencia_conta_dv': 6,
+            'cedente_agencia': int(self.order.mode.bank_id.bra_number),
+            'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
+            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'carteira_numero': int(carteira),
             'nosso_numero': int(nosso_numero),
             'nosso_numero_dv': int(digito),
-            'identificacao_titulo': u'0000000',  # TODO
+            'identificacao_titulo': u'%s' % str(line.move_line_id.move_id.id),
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
-            'valor_titulo': Decimal('100.00'),
-            'especie_titulo': 8,  # TODO:
-            'aceite_titulo': u'A',  # TODO:
+            'valor_titulo': Decimal("{0:,.2f}".format(line.move_line_id.debit)),
+            'especie_titulo': int(self.order.mode.boleto_especie),
+            'aceite_titulo': u'%s' % aceite,
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
-            'juros_mora_taxa_dia': Decimal('2.00'),
+            'juros_mora_taxa_dia': Decimal("{0:,.2f}".format(line.move_line_id.debit * 0.00066666667)),  # FIXME
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
@@ -150,8 +161,8 @@ class Cnab240(Cnab):
             'sacado_cep_sufixo': int(sulfixo),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
-            'codigo_protesto': 3,
-            'prazo_protesto': 0,
+            'codigo_protesto': int(self.order.mode.boleto_protesto),
+            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 0,
             'prazo_baixa': 0,
         }
