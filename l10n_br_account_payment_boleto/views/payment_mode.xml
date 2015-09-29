@@ -17,6 +17,9 @@
                         <field name="boleto_variacao"/>
                         <field name="boleto_cnab_code" />
                         <field name="boleto_aceite"/>
+                        <field name="boleto_especie"/>
+                        <field name="boleto_protesto"/>
+                        <field name="boleto_protesto_prazo"/>
                     </group>
                 </xpath>
             </field>
