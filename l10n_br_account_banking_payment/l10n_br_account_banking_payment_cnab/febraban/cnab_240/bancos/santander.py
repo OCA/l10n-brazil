@@ -1,9 +1,10 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 # ###########################################################################
 #
 #    Author: Luis Felipe Mileo
 #            Fernando Marcato Rodrigues
 #            Daniel Sadamo Hirayama
+#            Gustavo Lepri
 #    Copyright 2015 KMEE - www.kmee.com.br
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,26 +22,38 @@
 #
 ##############################################################################
 
+from ..cnab_240 import Cnab240
 
-{
-    'name': 'Account Payment CNAB',
-    'version': '0.1',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'external_dependencies': {
-        'python': ['cnab240'],
-    },
-    'depends': [
-        'l10n_br_account_payment_boleto',
-        'l10n_br_account_payment_mode',
-        'account_direct_debit',
-    ],
-    'data': [
-        'view/l10n_br_payment_cnab.xml',
-    ],
-    'active': False,
-    "installable": True,
-    "auto_install": False,
-}
+
+class Santander240(Cnab240):
+    """
+
+    """
+
+    def __init__(self):
+        """
+
+        :return:
+        """
+        super(Cnab240, self).__init__()
+        from cnab240.bancos import santander
+        self.bank = santander
+
+    def _prepare_header(self):
+        """
+
+        :param order:
+        :return:
+        """
+        vals = super(Santander240, self)._prepare_header()
+        del vals['arquivo_hora_de_geracao']
+        return vals
+
+    def _prepare_segmento(self, line):
+        """
+
+        :param line:
+        :return:
+        """
+        vals = super(Santander240, self)._prepare_segmento(line)
+        return vals
