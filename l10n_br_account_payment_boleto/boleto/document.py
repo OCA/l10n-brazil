@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-
 from datetime import datetime, date
 from pyboleto import bank
 
@@ -29,6 +28,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 BoletoException = bank.BoletoException
+
 
 class Boleto:
 
@@ -147,6 +147,7 @@ class Boleto:
 
         fbuffer.close()
         return boleto_file
+
 
 class BoletoBB(Boleto):
 
@@ -273,15 +274,15 @@ class BoletoCaixaSigcb(Boleto):
 
 
 dict_boleto = {
-    '1' : (BoletoBB, 'Banco do Brasil 18'),
-    '2' : (BoletoBarisul, 'Barisul x'),
-    '3' : (BoletoBradesco, 'Bradesco 06, 03'),
-    '4' : (BoletoCaixa, 'Caixa Economica SR'),
-    '5' : (BoletoHsbc, 'HSBC CNR CSB'),
-    '6' : (BoletoItau157, 'Itau 157'),
-    '7' : (BoletoItau, 'Itau 175, 174, 178, 104, 109'),
-    '8' : (BoletoReal, 'Real 57'),
-    '9' : (BoletoSantander101, 'Santander 102'),
+    '1': (BoletoBB, 'Banco do Brasil 18'),
+    '2': (BoletoBarisul, 'Barisul x'),
+    '3': (BoletoBradesco, 'Bradesco 06, 03'),
+    '4': (BoletoCaixa, 'Caixa Economica SR'),
+    '5': (BoletoHsbc, 'HSBC CNR CSB'),
+    '6': (BoletoItau157, 'Itau 157'),
+    '7': (BoletoItau, 'Itau 175, 174, 178, 104, 109'),
+    '8': (BoletoReal, 'Real 57'),
+    '9': (BoletoSantander101, 'Santander 102'),
     '10': (BoletoStatander101201, 'Santander 101, 201'),
     '11': (BoletoCaixaSigcb, 'Caixa Sigcb'),
 }
