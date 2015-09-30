@@ -154,8 +154,7 @@ class Cnab240(Cnab):
             'sacado_inscricao_numero': int(
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
-            'sacado_endereco': (
-                line.partner_id.street + ',' + line.partner_id.number),
+            'sacado_endereco': (line.partner_id.street + ',' + line.partner_id.number)[:40],
             'sacado_bairro': line.partner_id.district,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
