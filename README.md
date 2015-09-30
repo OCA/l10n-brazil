@@ -1,4 +1,5 @@
   * [![Build Status](https://travis-ci.org/odoo-brazil/l10n-brazil.svg?branch=8.0)](https://travis-ci.org/odoo-brazil/l10n-brazil) 
+ [![Coverage Status](https://coveralls.io/repos/odoo-brazil/l10n-brazil/badge.svg?branch=8.0&service=github)](https://coveralls.io/github/odoo-brazil/l10n-brazil?branch=8.0)
  [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/odoo-brazil/odoo-brazil?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
 
