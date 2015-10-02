@@ -25,10 +25,10 @@ from openerp.addons.l10n_br_zip_correios.models.webservice_client import \
     WebServiceClient
 
 
-class L10nBrZipCorreiosCrmLead(models.Model, WebServiceClient):
+class L10nBrCrmZipCorreiosCrmLead(models.Model, WebServiceClient):
     _inherit = "crm.lead"
 
     @api.one
     def zip_search(self):
         self.get_address()
-        return super(L10nBrZipCorreiosCrmLead, self).zip_search()
+        return super(L10nBrCrmZipCorreiosCrmLead, self).zip_search()
