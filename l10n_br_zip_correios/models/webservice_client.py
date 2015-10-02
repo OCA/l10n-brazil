@@ -38,53 +38,51 @@ class WebServiceClient(object):
 
         zip_str = self.zip.replace('-', '')
 
-        if len(zip_str) != 8:
-            raise Warning(_('Error!'), _('Invalid zip length'))
-
-        if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
-
-            # SigepWeb webservice url
-            url_prod = 'https://apps.correios.com.br/SigepMasterJPA' \
-                       '/AtendeClienteService/AtendeCliente?wsdl'
-
-            try:
-
-                # Connect Brazil Correios webservice
-                res = Client(url_prod).service.consultaCEP(zip_str)
-
-                # Search state with state_code
-                state_ids = self.env['res.country.state'].search(
-                    [('code', '=', str(res.uf))])
-
-                # city name
-                city_name = str(res.cidade.encode('utf8'))
-
-                # search city with name and state
-                city_ids = self.env['l10n_br_base.city'].search([
-                    ('name', '=', city_name),
-                    ('state_id.id', 'in', state_ids.ids)])
-
-                # Search Brazil id
-                country_ids = self.env['res.country'].search(
-                    [('code', '=', 'BR')])
-
-                values = {
-                    'zip': zip_str,
-                    'street': str(res.end.encode('utf8')) if res.end else '',
-                    'district': str(res.bairro.encode('utf8')) if res.bairro
-                    else '',
-                    'street_type': str(res.complemento.encode('utf8')) if res.complemento
-                    else '',
-                    'l10n_br_city_id': city_ids.ids[0] if city_ids else False,
-                    'state_id': state_ids.ids[0] if state_ids else False,
-                    'country_id': country_ids.ids[0] if country_ids else False,
-                }
-
-                # Create zip object
-                self.env['l10n_br.zip'].create(values)
-
-            except TransportError as e:
-                raise Warning(_('Error!'), e.message)
-            except WebFault as e:
-                raise Warning(_('Error!'), e.message)
-
+        if len(zip_str) == 8:
+            if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
+    
+                # SigepWeb webservice url
+                url_prod = 'https://apps.correios.com.br/SigepMasterJPA' \
+                           '/AtendeClienteService/AtendeCliente?wsdl'
+    
+                try:
+    
+                    # Connect Brazil Correios webservice
+                    res = Client(url_prod).service.consultaCEP(zip_str)
+                    
+                    # Search Brazil id
+                    country_ids = self.env['res.country'].search(
+                        [('code', '=', 'BR')])
+                    
+                    # Search state with state_code and country id
+                    state_ids = self.env['res.country.state'].search([
+                        ('code', '=', str(res.uf)),
+                        ('country_id.id', 'in', country_ids.ids)])
+    
+                    # city name
+                    city_name = str(res.cidade.encode('utf8'))
+    
+                    # search city with name and state
+                    city_ids = self.env['l10n_br_base.city'].search([
+                        ('name', '=', city_name),
+                        ('state_id.id', 'in', state_ids.ids)])
+    
+                    values = {
+                        'zip': zip_str,
+                        'street': str(res.end.encode('utf8')) if res.end else '',
+                        'district': str(res.bairro.encode('utf8')) if res.bairro
+                        else '',
+                        'street_type': str(res.complemento.encode('utf8')) if res.complemento
+                        else '',
+                        'l10n_br_city_id': city_ids.ids[0] if city_ids else False,
+                        'state_id': state_ids.ids[0] if state_ids else False,
+                        'country_id': country_ids.ids[0] if country_ids else False,
+                    }
+    
+                    # Create zip object
+                    self.env['l10n_br.zip'].create(values)
+    
+                except TransportError as e:
+                    raise Warning(_('Error!'), e.message)
+                except WebFault as e:
+                    raise Warning(_('Error!'), e.message)

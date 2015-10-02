@@ -24,9 +24,9 @@
     'name': 'Address from Brazilian Localization ZIP by Correios',
     'license': 'AGPL-3',
     'author': 'Michell Stuttgart',
-    'maintainer': 'KMEE',
-    'version': '8.0',
-    'website': 'www.kmee.com.br',
+    'maintainer': 'KMEE, UKTech',
+    'version': '8.1',
+    'website': 'www.kmee.com.br, www.uktech.com.br',
     'depends': [
         'l10n_br_zip',
     ],
