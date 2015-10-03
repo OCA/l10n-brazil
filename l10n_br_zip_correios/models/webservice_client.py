@@ -20,6 +20,8 @@
 #
 ##############################################################################
 
+import logging
+
 from openerp import models, api
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
@@ -27,6 +29,7 @@ from openerp.exceptions import Warning
 from suds.client import Client, TransportError
 from suds import WebFault
 
+_logger = logging.getLogger(__name__)
 
 class WebServiceClient(object):
 
@@ -83,6 +86,6 @@ class WebServiceClient(object):
                     self.env['l10n_br.zip'].create(values)
     
                 except TransportError as e:
-                    raise Warning(_('Error!'), e.message)
+                    _logger.error(e.message, exc_info=True)
                 except WebFault as e:
-                    raise Warning(_('Error!'), e.message)
+                    _logger.error(e.message, exc_info=True)
