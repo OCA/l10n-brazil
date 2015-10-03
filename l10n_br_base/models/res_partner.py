@@ -93,10 +93,11 @@ class ResPartner(models.Model):
     ]
 
     @api.one
-    @api.constrains('cnpj_cpf')
+    @api.constrains('cnpj_cpf', 'country_id')
     def _check_cnpj_cpf(self):
         result = True
-        if self.cnpj_cpf:
+        country_code = self.country_id.code or ''
+        if self.cnpj_cpf and country_code.upper() == 'BR':
             if self.is_company:
                 if not fiscal.validate_cnpj(self.cnpj_cpf):
                     result = False
