@@ -21,5 +21,5 @@
 ##############################################################################
 
 from . import webservice_client
-from . import inherited_res_company
-from . import inherited_res_partner
+from . import res_company
+from . import res_partner
