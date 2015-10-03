@@ -24,10 +24,10 @@ from openerp import models, api
 from webservice_client import WebServiceClient
 
 
-class L10nBrZipCorreiosResCompany(models.Model, WebServiceClient):
+class ResCompany(models.Model, WebServiceClient):
     _inherit = 'res.company'
 
     @api.one
     def zip_search(self):
         self.get_address()
-        return super(L10nBrZipCorreiosResCompany, self).zip_search()
+        return super(ResCompany, self).zip_search()
