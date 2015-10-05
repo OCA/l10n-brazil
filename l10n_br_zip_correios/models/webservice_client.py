@@ -87,5 +87,7 @@ class WebServiceClient(object):
     
                 except TransportError as e:
                     _logger.error(e.message, exc_info=True)
+                    raise Warning(_('Error!'), e.message)
                 except WebFault as e:
                     _logger.error(e.message, exc_info=True)
+                    raise Warning(_('Error!'), e.message)
