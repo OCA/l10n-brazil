@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_fci_import_form" model="ir.ui.view">
+			<field name="name">l10n_br_fci_import.form</field>
+			<field name="model">l10n_br.fci</field>
+			<field name="arch" type="xml">
+				<form string="Importar FCI">
+					<field invisible="1" name="state"/>
+					<field name="name" invisible="1" />
+					<group>
+						<group string="Click em importar para iniciar a importação...">
+							<!--<field name="sign_xml" attrs="{'invisible': [('file_type','!=', 'txt')]}"/>-->
+							<field name="export_folder"/>
+						</group>
+						<!--<group states="done" string="Resultado da Exportação">-->
+							<!--<field nolabel="1" readonly="1" colspan="4" name="fci_import_result">-->
+								<!--<tree colors="green:status == 'success';red:status == 'error'">-->
+									<!--<field name="document"/>-->
+									<!--<field name="message"/>-->
+									<!--<field name="status"/>-->
+								<!--</tree>-->
+							<!--</field>-->
+                        <field name="file_name" colspan="4" filename="name" attrs="{'invisible': [('export_folder','=', True)]}" />
+						</group>
+					<!--</group>-->
+						<footer>
+							<button name="fci_importa_pronta" string="Importar" type="object"/>
+                            <!--class="oe_highlight" /> ou-->
+	                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                    	</footer>
+	                    <footer states="done">
+	                        <button special="cancel" string="Close" type="object"/>
+	                    </footer>
+				</form>
+			</field>
+		</record>
+
+
+        <record model="ir.actions.act_window" id="action_l10n_br_fci_import">
+            <field name="name">Importar FCI</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br.fci</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="l10n_br_fci_import_form"/>
+        </record>
+
+        <menuitem name="Importar FCI" id="menu_action_l10n_br_fci_form_import"
+                  parent="menu_l10n_br_fci_root"
+                  action="action_l10n_br_fci_import"/>
+
+                  <!--view_mode="form" target="new"view_type="form"-->
+
+    </data>
+</openerp>

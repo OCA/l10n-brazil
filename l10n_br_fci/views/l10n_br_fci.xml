@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_fci_tree" model="ir.ui.view">
+            <field name="name">l10n_br_fci.tree</field>
+            <field name="model">l10n_br.fci</field>
+            <field name="arch" type="xml">
+                <tree string="FCI_Empresa">
+                    <field name="company_id"/>
+                    <!--<field name="hash_code"/>-->
+                    <!--<field name="dt_recepcao"/>-->
+                    <!--<field name="cod_recepcao"/>-->
+                    <!--<field name="dt_validacao"/>-->
+                    <!--<field name="in_validacao"/>-->
+                    <!--<field name="cod_recepcao"/>-->
+                    <!--<field name="dt_validacao"/>-->
+                    <!--<field name="in_validacao"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_l10n_br_fci_form" model="ir.ui.view">
+            <field name="name">l10n_br_fci.form</field>
+            <field name="model">l10n_br.fci</field>
+            <!-- é o nome , nao o nome do arquivo-->
+            <field name="arch" type="xml">
+                <form string="FCI_Empresa">
+                    <header>
+                        <button name="action_waiting_protocol"
+                                string="Confirmar Rascunho"
+                                states="draft"
+                                type="object"
+                                class="L10n_brFci">
+                        </button>
+
+                        <button name="gera_fci"
+                                string="Gerar FCI"
+                                type="object"
+                                states="waiting_protocol"
+                                class="L10n_brFci">
+                        </button>
+
+                        <button name="action_cancel"
+                                states="waiting_protocol,waiting_fci"
+                                string="Cancelar"
+                                type="object">
+                        </button>
+
+                        <button name="importa_fci"
+                                string="Importar FCI"
+                                type="object"
+                                states="waiting_fci"
+                                class="L10n_brFci">
+                        </button>
+
+                        <button name="action_waiting_fci"
+                                string="Validar Protocolo"
+                                states="waiting_protocol"
+                                class="L10n_brFci"
+                                type="object">
+                        </button>
+
+                        <button name="action_aproved"
+                                type="object"
+                                string="Confirmar FCI"
+                                states="waiting_fci">
+                        </button>
+
+                        <field name="state" select="1" readonly="1"
+                               widget="statusbar"
+                               statusbar_visible="draft, waiting_protocol, waiting_fci, aproved"/>
+                        <!--<field name="file_name"/>-->
+                    </header>
+                    <group string="Emnpresa">
+                        <group>
+                            <field name="company_id"/>
+                            <!--<field name="hash_code"/>-->
+                            <!--<field name="dt_recepcao"/>-->
+                        </group>
+                        <!--<group>-->
+                            <!--<field name="cod_recepcao"/>-->
+                            <!--<field name="dt_validacao"/>-->
+                            <!--<field name="in_validacao"/>-->
+                        <!--</group>-->
+                    </group>
+                    <!--<notebook position="inside">-->
+                        <!--<page string="Produtos">-->
+                            <!--<field name="products_ids">-->
+                                <!--<tree>-->
+                                    <!--<field name="default_code"/>-->
+                                    <!--<field name="name"/>-->
+                                    <!--<field name="ean13"/>-->
+                                    <!--<field name="list_price"/>-->
+                                    <!--<field name="uom_id"/>-->
+                                    <!--<field name="ncm_id"/>-->
+                                    <!--<field name="fci"/>-->
+                                <!--</tree>-->
+                            <!--</field>-->
+                        <!--</page>-->
+                    <!--</notebook>-->
+                </form>
+            </field>
+        </record>
+
+        <!--<group>-->
+        <!--<field name="protocolo_number"/>-->
+        <!--<button name="save_protocol_number"-->
+        <!--string="Salvar"-->
+        <!--type="object"-->
+        <!--states="waiting_protocol"-->
+        <!--class="L10n_brFci">-->
+        <!--</button>-->
+        <!--</group>-->
+
+
+        <!--<button class="L10n_brFci" name="importa_fci"-->
+        <!--string="Importar FCI" type="action"-->
+        <!--attrs="{'invisible':[('state','=','waiting_fci')]}" widget="statinfo" icon="fa-pencil-square-o"/>-->
+
+
+        <record model="ir.actions.act_window" id="action_l10n_br_fci">
+            <field name="name">FCI</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br.fci</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+
+            <field name="view_id" ref="view_l10n_br_fci_tree"/>
+        </record>
+
+        <menuitem name="FCI" id="menu_l10n_br_fci_root" parent="account.menu_finance" sequence="3"/>
+
+        <menuitem name="Criar FCI" id="menu_action_l10n_br_fci_form" parent="menu_l10n_br_fci_root"
+                  action="action_l10n_br_fci"/>
+
+    </data>
+</openerp>
+
+
+
