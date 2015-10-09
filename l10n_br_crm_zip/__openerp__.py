@@ -23,7 +23,7 @@
     'license': 'AGPL-3',
     'author': 'Fabio Negrini - OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '8.0',
+    'version': '8.0.0',
     'depends': [
         'l10n_br_zip',
         'l10n_br_crm',
