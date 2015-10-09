@@ -18,6 +18,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import hr_timesheet_invoice
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
+
+{
+    'name': 'Brazilian Invoice on Timesheets',
+    'version': '8.0',
+    'category': 'Sales Management',
+    'description': """
+Generate your Invoices from Expenses, Timesheet Entries.
+========================================================
+
+Module to generate invoices based on costs (human resources, expenses, ...).
+
+With Brazilian Taxes
+
+You can define price lists in analytic account, make some theoretical revenue
+reports.""",
+    'author': 'KMEE',
+    'website': 'http://www.kmee.com.br',
+    'depends': [
+        'l10n_br_account',
+        'hr_timesheet_invoice',
+    ],
+    'data': [
+    ],
+    'installable': True,
+    'auto_install': False,
+}

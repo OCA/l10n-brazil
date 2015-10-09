@@ -19,30 +19,5 @@
 #
 ##############################################################################
 
-{
-    'name': 'Brazilian Invoice on Timesheets',
-    'version': '1.0',
-    'category': 'Sales Management',
-    'description': """
-Generate your Invoices from Expenses, Timesheet Entries.
-========================================================
 
-Module to generate invoices based on costs (human resources, expenses, ...).
-
-With Brazilian Taxes
-
-You can define price lists in analytic account, make some theoretical revenue
-reports.""",
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'depends': ['l10n_br_account',
-                'hr_timesheet_invoice',
-                ],
-    'data': [
-        'hr_timesheet_invoice_data.xml',
-        'hr_timesheet_invoice_view.xml',
-    ],
-    'installable': False,
-    'auto_install': False,
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import models
