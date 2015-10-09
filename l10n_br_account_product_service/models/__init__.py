@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,33 +17,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-from openerp.osv import orm, fields
-
-PRODUCT_FISCAL_TYPE = [
-    ('service', u'Serviço'),
-    ('product', 'Produto'),
-]
-
-PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
-
-
-class L10n_brAccountFiscalCategory(orm.Model):
-    _inherit = 'l10n_br_account.fiscal.category'
-    _columns = {
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-    }
-    
-    
-class L10n_brAccountDocumentSerie(orm.Model):
-    _inherit = 'l10n_br_account.document.serie'
-    _columns = {
-        'fiscal_type': fields.selection(
-            PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
-    }
-    _defaults = {
-        'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
-    }
+from . import l10n_br_account_product_service
+from . import account_invoice
+from . import product
+from . import res_partner

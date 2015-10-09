@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -17,24 +17,27 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Account Product and Service',
-    'description': 'Brazilian Localization Account Product and Service',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_account_product',
-        'l10n_br_account_service',
-    ],
-    'data': [
-        'res_company_view.xml',
-    ],
-    'demo': [
-    ],
-    'test': [],
-    'installable': False,
-    'auto_install': True,
-}
+from openerp import models, fields
+
+PRODUCT_FISCAL_TYPE = [
+    ('service', u'Serviço'),
+    ('product', 'Produto'),
+]
+
+PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
+
+
+class L10n_brAccountFiscalCategory(models.Model):
+    _inherit = 'l10n_br_account.fiscal.category'
+
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class L10n_brAccountDocumentSerie(models.Model):
+    _inherit = 'l10n_br_account.document.serie'
+
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
