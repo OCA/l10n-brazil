@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Brasil',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0',
+    'version': '8.0.0',
     'depends': [
         'base',
     ],
