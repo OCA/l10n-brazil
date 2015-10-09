@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -22,9 +22,9 @@
     'description': 'Brazilian Localization Account Voucher',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'author': 'Akretion, Odoo Brasil',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0',
     'depends': [
         'l10n_br_base',
         'l10n_br_account',
@@ -35,5 +35,5 @@
     ],
     'demo': [
     ],
-    'installable': False,
+    'installable': True,
 }
