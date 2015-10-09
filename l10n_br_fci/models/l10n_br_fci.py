@@ -10,25 +10,26 @@ class L10n_brFci(models.Model):
     _description = "fci module"
 
     # campos referentes a empresa
-    company_id = fields.Many2one('res.company', string='Empresa', select=True, required=False, readonly=True,
-                                 states={'draft': [('readonly', False)]})
-                                 # , ('required', True)]})
+    company_id = fields.Many2one('res.company', string='Empresa', select=True, readonly=False, required=True,
+                                 states={'draft': [('readonly', False), ('required', True)]})
+    # ,('required',True)
+
 
     # campos de retorno do sistema
     hash_code = fields.Char('Hash code', size=47, readonly=True, invisible=True,
-                            states={'waiting_fci': [('invisible', False)],'aproved': [('invisible', False)]})
+                            states={'waiting_fci': [('invisible', False)], 'aproved': [('invisible', False)]})
     dt_recepcao = fields.Char(u'Data recepção', size=20, readonly=True, invisibre=True,
-                              states={'waiting_fci': [('invisible', False)],'aproved': [('invisible', False)]})
+                              states={'waiting_fci': [('invisible', False)], 'aproved': [('invisible', False)]})
     cod_recepcao = fields.Char(u'Código recepção', size=36, readonly=True, invisible=True,
-                               states={'waiting_fci': [('invisible', False)],'aproved': [('invisible', False)]})
+                               states={'waiting_fci': [('invisible', False)], 'aproved': [('invisible', False)]})
     dt_validacao = fields.Char(u'Data validação', size=20, readonly=True, invisible=True,
-                               states={'waiting_fci': [('invisible', False)],'aproved': [('invisible', False)]})
-    in_validacao = fields.Char('in_validacao', size=20, readonly=True, invisible=True,
-                               states={'waiting_fci': [('invisible', False)],'aproved': [('invisible', False)]})
+                               states={'waiting_fci': [('invisible', False)], 'aproved': [('invisible', False)]})
+    in_validacao = fields.Char(u'Validação', size=20, readonly=True, invisible=True,
+                               states={'waiting_fci': [('invisible', False)], 'aproved': [('invisible', False)]})
 
     # campos referentes ao produto
     products_ids = fields.Many2many('product.template', 'fci_id',
-                                    'product_id', 'fci_product_rel', string='Produtos', readonly=True,
+                                    'product_id', 'fci_product_rel', string='Produtos', select=True, readonly=True,
                                     states={'draft': [('readonly', False), ('required', True)]})
 
     # campos de retorno preenchimento sistema
@@ -41,27 +42,24 @@ class L10n_brFci(models.Model):
         ('waiting_fci', 'Aguardando FCI'),
         ('aproved', 'Aprovada')], default='draft')
 
-    protocol_number = fields.Char('Protocolo de recebimento', readonly=True, invisible=True, states={
-        'waiting_protocol': [('readonly', False), ('invisible', False), ('required', True)],
-        'aproved': [('invisible', False)]})
+    protocol_number = fields.Char('Protocolo de recebimento', readonly=True,
+                                  states={'waiting_protocol': [('readonly', False),('required',True)]})
 
     # #--------------------
     name = fields.Char('Nome', size=255)
-    file_name = fields.Binary(string='Arquivo', filters='*.txt')  #, invisible=True,
-                              # states={'waiting_fci': [('invisible', False), ('required', True)]})
+    file_name = fields.Binary(string='Arquivo', filters='*.txt')  # , invisible=True,
+    # states={'waiting_fci': [('invisible', False), ('required', True)]})
     file_type = fields.Selection([('txt', 'TXT')], 'Tipo do Arquivo')
 
     # fci_import_result = fields.one2many('l10n_br_account.nfe_import_invoice_result', 'wizard_id',
     #                                 'NFe Import Result')
     export_folder = fields.Boolean(u'Buscar da Pasta de Importação')
 
-
     @api.multi
     def gera_fci(self):
         self.ensure_one()
 
         fci.gera_fci(self.company_id, self.products_ids)
-
 
     @api.multi
     def importa_fci(self):
@@ -91,24 +89,20 @@ class L10n_brFci(models.Model):
         self.products_ids = list_ids
         return
 
-
     @api.multi
     def action_waiting_protocol(self):
         self.write({'state': 'waiting_protocol'})
         return True
-
 
     @api.multi
     def action_waiting_fci(self):
         self.write({'state': 'waiting_fci'})
         return True
 
-
     @api.multi
     def action_aproved(self):
         self.write({'state': 'aproved'})
         return True
-
 
     @api.multi
     def action_cancel(self):
@@ -119,13 +113,12 @@ class L10n_brFci(models.Model):
 
         return True
 
-    #
-    # @api.multi
-    # def save_protocol_number(self):
-    #     self.ensure_one()
-    #
-    #     # self.protocolo_number = protocolo_number
-    #     return True
+    @api.multi
+    def save_protocol_number(self):
+        self.ensure_one()
+        print 'SALVAR PROTOCOLO'
+        # self.protocolo_number = protocolo_number
+        return True
 
     @api.multi
     def fci_importa_pronta(self):
@@ -156,9 +149,3 @@ class L10n_brFci(models.Model):
 
         self.write(res_importados)
         return True
-
-
-
-
-
-
