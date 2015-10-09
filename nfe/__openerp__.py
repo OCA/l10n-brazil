@@ -19,7 +19,7 @@
 
 {
     'name': 'NFE',
-    'version': '0.1',
+    'version': '8.0.1.0.0',
     'category': 'Generic Modules',
     'description': """Implementa a exportação de notas fiscais através de
                         arquivos XML""",
