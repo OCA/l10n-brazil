@@ -22,9 +22,9 @@
     'description': 'Brazilian Localization Base',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
+    'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.0',
+    'version': '8.0.1.0.0',
     'depends': [
         'base',
     ],
