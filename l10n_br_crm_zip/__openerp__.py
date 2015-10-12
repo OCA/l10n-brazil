@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2011  Fabio Negrini - Akretion                                #
+# Copyright (C) 2011  Fabio Negrini                                           #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -21,9 +21,9 @@
     'name': 'Brazilian Localization CRM Zip',
     'category': 'Localization',
     'license': 'AGPL-3',
-    'author': 'Fabio Negrini - OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '8.0.0',
+    'author': 'Fabio Negrini, Odoo Community Association (OCA)',
+    'website': 'http://odoobrasil.org',
+    'version': '8.0.1.0.0',
     'depends': [
         'l10n_br_zip',
         'l10n_br_crm',
