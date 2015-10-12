@@ -18,7 +18,7 @@ Sobre
 -----
  
 Como a grande maioria dos módulos da OCA, esse projeto é open source sob licença [AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html).
-A licença AGPL é derivada da licença GPL e accrescenta para os usuarios a garantia de poder baixar o codigo desse projeto assim como dos módulos de extenções, mesmo quando o accesso a oferecido na nuvem. Vale a pena lembrar que a Odoo SA mudou da licença do core do OpenERP de GPL para AGPL durante 2009 e mudou de novo a licença do core para LGPL em 2015 enquanto maioria do ecosistema de modulos eram feitos sobe licença AGPL e não poderiam mudar de licença mais devido à diversidade das contribuições.
+A licença AGPL é derivada da licença GPL e acrescenta para os usuários a garantia de poder baixar o codigo desse projeto assim como dos módulos de extenções, mesmo quando o accesso a oferecido na nuvem. Vale a pena lembrar que a Odoo SA mudou da licença do core do OpenERP de GPL para AGPL durante 2009 e mudou de novo a licença do core para LGPL em 2015 enquanto maioria do ecosistema de modulos eram feitos sob licença AGPL e não poderiam mudar de licença mais devido à diversidade das contribuições.
  
 Esse projeto [segue se aperfeiçoando desde o início de 2009](https://github.com/openerpbrasil/l10n_br_core/network). O código era [inicialmente desenvolvido no Launchpad](https://code.launchpad.net/openerp.pt-br-localiz). Esse projeto é gerenciado pela fundação [OCA](https://odoo-community.org/) com a liderança do projeto:
 
@@ -32,14 +32,14 @@ Esse projeto foi iniciado e principalmente desenvolvido pela AKRETION mas conta 
 * Fabio Negrini e [varios outros contribuidores](https://github.com/OCA/l10n-brazil/graphs/contributors).
 
  
-Contexto e extenções significativas desse projeto
+Contexto e extensões significativas desse projeto
 -------------------------------------------------
 
 ![estrutura do projeto](https://raw.githubusercontent.com/akretion/l10n-brazil-assets/master/l10n-brazil.png)
 
 
-* [odoo-brazil-eletronic-documents](https://github.com/odoo-brazil/odoo-brazil-eletronic-documents): os módulos do l10n-brazil definem a estrutura de dados das NFe's, porem a transmissão (exportação e importação) é plugavel com tecnologias específicas. Hoje a forma mais madura de transmitir as NFe's é com a biblioteca pysped atraves no projeto odoo-brazil-eletronic-documents.
-* [odoo-brazil-banking](https://github.com/odoo-brazil/odoo-brazil-banking): a transmissão de boletos, CNAB e a importacão de extratos bancarios usando os projetos OCA l10n-brazil e bank-statement-import.
+* [odoo-brazil-eletronic-documents](https://github.com/odoo-brazil/odoo-brazil-eletronic-documents): os módulos do l10n-brazil definem a estrutura de dados das NFe's, porém a transmissão (exportação e importação) é plugável com tecnologias específicas. Hoje a forma mais madura de transmitir as NFe's é com a biblioteca pysped atraves do projeto odoo-brazil-eletronic-documents.
+* [odoo-brazil-banking](https://github.com/odoo-brazil/odoo-brazil-banking): a transmissão de boletos, CNAB e a importacão de extratos bancários usando os projetos OCA l10n-brazil e bank-statement-import.
 * [odoo-brazil-sped](https://github.com/odoo-brazil/odoo-brazil-sped): o projeto visando a implementar o SPED no Odoo.
 
 Esses projetos ja estão sendo desenvolvidos de forma colaborativa com processos semelhantes aos da OCA (menos burocráticos e mais ágeis porem). A medida que eles amadurescem é provavel que eles ou parte deles integram a OCA tambem.
@@ -59,7 +59,7 @@ Fora do escopo desse repo
 Aviso importante
 ----------------
  
-Apesar do código ser livramente disponível para baixar, implementar o Odoo de forma sustentável nao é algo facil (a menos que seja apenas gestao de projeto ou CRM). E muito comum ver empresas achando que sabe mas que acaba desistindo a medida que descobre a dificuldade quando já é tarde demais. Um fator importante de dificuldade é a velocidade de evolução do core feito pela Odoo SA que nem sempre acontece de forma concertada com a comunidade. Isso obriga quem pretende implementar a trabalhar com branches em evolução em vez de pacotes estaveis por varios anos como em alguns outros projetos open source mais maduros. Por isso, é melhor você trabalhar com profisionais altamente especializados nisso (o aprendizado leva anos). O Odoo não foi projetado para o Brasil inicialmente, apenas tornamos isso possível com todo esses modulos. O Odoo pode também não ser tão maduro quanto se pretende. Isso não quer dizer que não serve. Serve sim, mas não para qualquer empresa e deve se observar muitos cuidados. Por fim, muitas vezes o valor aggregado vem mais da possibilidade de ter customizações do que das funcionalidades padrões; apesar de elas estar sempre melhorando.
+Apesar do código ser livremente disponível para baixar, implementar o Odoo de forma sustentável nao é algo fácil (a menos que seja apenas gestao de projeto ou CRM). E muito comum ver empresas achando que sabe mas que acaba desistindo a medida que descobre a dificuldade quando já é tarde demais. Um fator importante de dificuldade é a velocidade de evolução do core feito pela Odoo SA que nem sempre acontece de forma conectada com a comunidade. Isso obriga quem pretende implementar a trabalhar com branches em evolução em vez de pacotes estáveis por varios anos como em alguns outros projetos open source mais maduros. Por isso, é melhor você trabalhar com profisionais altamente especializados nisso (o aprendizado leva anos). O Odoo não foi projetado para o Brasil inicialmente, apenas tornamos isso possível com todo esses modulos. O Odoo pode também não ser tão maduro quanto se pretende. Isso não quer dizer que não serve. Serve sim, mas não para qualquer empresa e deve se observar muitos cuidados. Por fim, muitas vezes o valor aggregado vem mais da possibilidade de ter customizações do que das funcionalidades padrões; apesar de elas estarem sempre melhorando.
  
 Contribuindo com o código
 -------------------------
