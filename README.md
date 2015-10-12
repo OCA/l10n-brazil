@@ -79,7 +79,7 @@ addon | version | summary
 [l10n_br_account](l10n_br_account/) | 8.0.1.0.0 | Brazilian Localization Account
 [l10n_br_base](l10n_br_base/) | 8.0.1.0.0 | Brazilian Localization Base
 [l10n_br_crm](l10n_br_crm/) | 8.0.1.0.0 | Brazilian Localization CRM
-[l10n_br_crm_zip](l10n_br_crm_zip/) | 8.0.1.0.0 | Brazilian Localization CRM Zip
+[l10n_br_crm_zip](l10n_br_crm_zip/) | 8.0.0 | Brazilian Localization CRM Zip
 [l10n_br_data_account](l10n_br_data_account/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Account
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Base
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
