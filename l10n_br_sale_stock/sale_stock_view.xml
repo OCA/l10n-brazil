@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="l10n_br_sale_stock_order_form" model="ir.ui.view">
+			<field name="name">l10n_br_sale_stock.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="l10n_br_sale.l10n_br_sale_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='product_id']" position="attributes">
+					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'shop_id': parent.shop_id, 'parent_fiscal_position': False, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='product_uom_qty']" position="attributes">
+					<attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'shop_id': parent.shop_id, 'parent_fiscal_position': False, 'partner_invoice_id': parent.partner_invoice_id}</attribute>
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</openerp>
