@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_sale
+msgid "Brazilian Localization Sale"
+msgstr "Localização Brasileira - Módulo de Vendas"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_sale
+msgid "Brazilian Localization for Sale"
+msgstr "Localização Brasileira - Implementa o módulo de vendas"
