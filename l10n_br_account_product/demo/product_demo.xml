@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+                        <record id="product.product_template_8" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
+                        </record>
+
+                        <record id="product.product_template_9" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
+                        </record>
+
+                        <record id="product.product_template_10" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+                        </record>
+
+                        <record id="product.product_template_11" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+                        </record>
+
+                        <record id="product.product_template_12" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+                        </record>
+
+                        <record id="product.product_template_17" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+                        </record>
+
+                        <record id="product.product_template_18" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+                        </record>
+
+                        <record id="product.product_template_19" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+                        </record>
+
+                        <record id="product.product_template_20" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboad"/>
+                        </record>
+
+                        <record id="product.product_template_21" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboad"/>
+                        </record>
+
+                        <record id="product.product_template_22" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
+                        </record>
+
+                        <record id="product.product_template_23" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
+                        </record>
+
+                        <record id="product.product_template_25" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+                        </record>
+
+                        <record id="product.product_template_26" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+                        </record>
+
+                        <record id="product.product_template_27" model="product.template">
+                                <field name="fiscal_type">product</field>
+                                <field name="ncm_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+                        </record>
+
+	</data>
+</openerp>
