@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_account_product
+msgid "Brazilian Localization Account Product"
+msgstr "Localização Brasileira - Módulo Informações Contabéis do Produto"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_account_product
+msgid "Brazilian Localization Account Product"
+msgstr "Localização Brasileira - Fornece funcionalidades para venda de produtos com os impostos brasileiros"
