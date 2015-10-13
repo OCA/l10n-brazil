@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="l10n_br_sale_product_order_form" model="ir.ui.view">
+			<field name="name">l10n_br_sale_product.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="priority">46</field>
+			<field name="arch" type="xml">
+				<field name="amount_untaxed" position="after">
+					<field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_freight(amount_freight)"/>
+					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_insurance(amount_insurance)"/>
+					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_costs(amount_costs)"/>
+				</field>
+                <field name="shop_id" position="after">
+					<field name="ind_pres" string="Tipo de operação"/>
+				</field>
+			</field>
+		</record>
+
+        <record id="l10n_br_sale_product_view_shop_form" model="ir.ui.view">
+			<field name="name">l10n_br_sale_product.sale.shop.form</field>
+			<field name="model">sale.shop</field>
+			<field name="inherit_id" ref="l10n_br_sale.l10n_br_sale_view_shop_form" />
+			<field name="priority">36</field>
+			<field name="arch" type="xml">
+				<field name="default_fc_id" position="after">
+					<field name="default_ind_pres" required="1" />
+				</field>
+			</field>
+		</record>
+
+	</data>
+</openerp>
