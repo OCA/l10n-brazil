@@ -32,6 +32,9 @@ def importa_fci(file_name):
     file_entrada = file_entrada.rstrip()
     registros= file_entrada.split('\r\n')
 
+
+    print file_entrada
+
     for reg in registros:
         arq_entrada.read_registro(reg)
 

@@ -16,7 +16,7 @@
     'data': [
         'views/l10n_br_fci.xml',
         'workflow/fci_workflow.xml',
-        # 'views/l10n_br_fci_import.xml'
+        'views/l10n_br_fci_import.xml'
     ],
     'demo': [],
     'category': 'Localization',

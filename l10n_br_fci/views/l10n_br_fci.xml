@@ -7,7 +7,8 @@
             <field name="model">l10n_br.fci</field>
             <field name="arch" type="xml">
                 <tree string="FCI_Empresa">
-                    <field name="company_id"/>
+                    <field name="state" invisible="1"/>
+                    <field name="partner_id"/>
                     <field name="hash_code"/>
                     <field name="dt_recepcao"/>
                     <field name="cod_recepcao"/>
@@ -28,8 +29,8 @@
                 <form string="FCI_Empresa">
                     <field name="state" invisible="1"/>
                     <header>
-                        <button name="action_waiting_protocol"
-                                string="Confirmar Rascunho"
+                        <button name="action_create_fci"
+                                string="Confirmar"
                                 states="draft"
                                 type="object"
                                 class="L10n_brFci">
@@ -38,12 +39,12 @@
                         <button name="gera_fci"
                                 string="Gerar FCI"
                                 type="object"
-                                states="waiting_protocol"
+                                states="create_fci"
                                 class="L10n_brFci">
                         </button>
 
                         <button name="action_cancel"
-                                states="waiting_protocol,waiting_fci"
+                                states="waiting_protocol,waiting_fci, create_fci"
                                 string="Cancelar"
                                 type="object">
                         </button>
@@ -70,13 +71,12 @@
 
                         <field name="state" select="1" readonly="1"
                                widget="statusbar"
-                               statusbar_visible="draft, waiting_protocol, waiting_fci, aproved"/>
-                        <!--<field name="file_name"/>-->
+                               statusbar_visible="draft, create_fci, waiting_protocol, waiting_fci, aproved"/>
+                        <field name="file_name" states="waiting_fci"/>
                     </header>
                     <group string="Emnpresa">
                         <group>
-                            <field name="company_id"/>
-
+                            <field name="partner_id"/>
                             <field name="hash_code"/>
                             <field name="dt_recepcao"/>
                         </group>
@@ -107,14 +107,7 @@
             </field>
         </record>
 
-
-
-
-        <!--<button class="L10n_brFci" name="importa_fci"-->
-        <!--string="Importar FCI" type="action"-->
-        <!--attrs="{'invisible':[('state','=','waiting_fci')]}" widget="statinfo" icon="fa-pencil-square-o"/>-->
-
-
+        ]
         <record model="ir.actions.act_window" id="action_l10n_br_fci">
             <field name="name">FCI</field>
             <field name="type">ir.actions.act_window</field>
