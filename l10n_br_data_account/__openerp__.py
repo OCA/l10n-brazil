@@ -34,6 +34,6 @@
     'demo': [],
     'category': 'Localisation',
     'active': True,
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }
