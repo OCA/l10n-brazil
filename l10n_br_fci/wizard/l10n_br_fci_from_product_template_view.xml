@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_l10n_br_fci_lines" model="ir.ui.view">
+            <field name="name">view.l10n.br.fci.lines.form</field>
+            <field name="model">product_fci.from.product.template.lines</field>
+            <field name="arch" type="xml">
+                <form string="Import Entries">
+                    <field height="300" width="700"
+                           name="products_ids"/>
+                        <!--<tree>-->
+                            <!--<field name="default_code"/>-->
+                            <!--<field name="name"/>-->
+                            <!--<field name="ean13"/>-->
+                            <!--<field name="list_price"/>-->
+                            <!--<field name="uom_id"/>-->
+                            <!--<field name="ncm_id"/>-->
+                            <!--<field name="fci"/>-->
+                        <!--</tree>-->
+                    <footer>
+                        <button string="Ok" name="populate_l10n_br_fci" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_l10n_br_fci_lines" model="ir.actions.act_window">
+            <field name="name">Import Entries</field>
+            <field name="res_model">product_fci.from.product.template.lines</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_l10n_br_fci_lines"/>
+            <field name="target">new</field>
+            <!--<field name="context">{'statement_id': active_id}</field>-->
+        </record>
+    </data>
+</openerp>

@@ -8,15 +8,12 @@
             <field name="arch" type="xml">
                 <tree string="FCI_Empresa">
                     <field name="state" invisible="1"/>
-                    <field name="partner_id"/>
+                    <field name="company_id"/>
                     <field name="hash_code"/>
                     <field name="dt_recepcao"/>
-                    <field name="cod_recepcao"/>
                     <field name="dt_validacao"/>
                     <field name="in_validacao"/>
                     <field name="cod_recepcao"/>
-                    <field name="dt_validacao"/>
-                    <field name="in_validacao"/>
                 </tree>
             </field>
         </record>
@@ -27,7 +24,8 @@
             <!-- é o nome , nao o nome do arquivo-->
             <field name="arch" type="xml">
                 <form string="FCI_Empresa">
-                    <field name="state" invisible="1"/>
+                    <sheet>
+                        <field name="state" invisible="1"/>
                     <header>
                         <button name="action_create_fci"
                                 string="Confirmar"
@@ -35,48 +33,43 @@
                                 type="object"
                                 class="L10n_brFci">
                         </button>
-
                         <button name="gera_fci"
                                 string="Gerar FCI"
                                 type="object"
                                 states="create_fci"
                                 class="L10n_brFci">
                         </button>
-
                         <button name="action_cancel"
                                 states="waiting_protocol,waiting_fci, create_fci"
                                 string="Cancelar"
                                 type="object">
                         </button>
-
                         <button name="importa_fci"
                                 string="Importar FCI"
                                 type="object"
                                 states="waiting_fci"
                                 class="L10n_brFci">
                         </button>
-
                         <button name="action_waiting_fci"
                                 string="Validar Protocolo"
                                 states="waiting_protocol"
                                 class="L10n_brFci"
                                 type="object">
                         </button>
-
                         <button name="action_aproved"
                                 type="object"
                                 string="Confirmar FCI"
                                 states="waiting_fci">
                         </button>
-
                         <field name="state" select="1" readonly="1"
                                widget="statusbar"
                                statusbar_visible="draft, create_fci, waiting_protocol, waiting_fci, aproved"/>
-                        <field name="file_name" states="waiting_fci"/>
+                        <!--<field name="file_name" states="waiting_fci"/>-->
                     </header>
-                    <group string="Emnpresa">
+
+                    <group string="Empresa">
                         <group>
-                            <field name="partner_id"/>
+                            <field name="company_id"/>
                             <field name="hash_code"/>
                             <field name="dt_recepcao"/>
                         </group>
@@ -89,25 +82,27 @@
                     </group>
                     <notebook>
                         <page string="Produtos">
-                            <field name="products_ids">
-                                <tree>
-                                    <field name="default_code"/>
-                                    <field name="name"/>
-                                    <field name="ean13"/>
-                                    <field name="list_price"/>
-                                    <field name="uom_id"/>
+                            <field name="fci_line">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="default_code" invisible="1"/>
+                                    <field name="name" invisible="1"/>
+                                    <field name="ean13" invisible="1"/>
+                                    <field name="product_uom"/>
                                     <field name="ncm_id"/>
+                                    <field name="list_price"/>
+                                    <field name="valor_parcela_importada"/>
+                                    <field name="conteudo_importacao"/>
                                     <field name="fci"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
-
+                    </sheet>
                 </form>
             </field>
         </record>
 
-        ]
         <record model="ir.actions.act_window" id="action_l10n_br_fci">
             <field name="name">FCI</field>
             <field name="type">ir.actions.act_window</field>

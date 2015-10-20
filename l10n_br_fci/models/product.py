@@ -3,8 +3,12 @@
 from openerp import models, fields
 
 
-class Product(models.Model):
+class product_fci(models.Model):
+    """
+    Generate Entries by Statement from Invoices
+    """
+    _inherit = "product.template"
+    _description = "Entries by product template"
 
-    _inherit = 'product.template'
 
-    fci_ids = fields.Many2many('l10n_br.fci', 'product_id', 'fci_id', 'fci_product_rel', string='Products')
+    products_ids = fields.Many2many('product_fci.from.product.template.lines', 'product_id','fci_id', 'fci_product_rel', string='Produtos')
