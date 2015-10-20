@@ -27,15 +27,44 @@ class AccountPaymentTerm(models.Model):
 
     indPag = fields.Selection(
         [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
-         ('2', 'Outros')], 'Indicador de Pagamento', default='1')
+        ('2', 'Outros')], 'Indicador de Pagamento', default='1')
+
+
+class AccountTaxTemplate(models.Model):
+    """Implement computation method in taxes"""
+    _inherit = 'account.tax.template'
+
+    icms_base_type = fields.Selection(
+        [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
+        ('2', 'Preço Tabelado Máximo (valor)'),
+        ('3', 'Valor da Operação')],
+        'Tipo Base ICMS', required=True, default='0')
+    icms_st_base_type = fields.Selection(
+        [('0', 'Preço tabelado ou máximo  sugerido'),
+         ('1', 'Lista Negativa (valor)'),
+         ('2', 'Lista Positiva (valor)'), ('3', 'Lista Neutra (valor)'),
+         ('4', 'Margem Valor Agregado (%)'), ('5', 'Pauta (valor)')],
+        'Tipo Base ICMS ST', required=True, default='4')
 
 
 class AccountTax(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax'
 
+    icms_base_type = fields.Selection(
+        [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
+        ('2', 'Preço Tabelado Máximo (valor)'),
+        ('3', 'Valor da Operação')],
+        'Tipo Base ICMS', required=True, default='0')
+    icms_st_base_type = fields.Selection(
+        [('0', 'Preço tabelado ou máximo  sugerido'),
+         ('1', 'Lista Negativa (valor)'),
+         ('2', 'Lista Positiva (valor)'), ('3', 'Lista Neutra (valor)'),
+         ('4', 'Margem Valor Agregado (%)'), ('5', 'Pauta (valor)')],
+        'Tipo Base ICMS ST', required=True, default='4')
+
     def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
-                     precision):
+                     precision, base_tax=0.0):
         result = {'tax_discount': 0.0, 'taxes': []}
 
         for tax in taxes:
@@ -44,6 +73,9 @@ class AccountTax(models.Model):
                     cr, uid, product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get(
                     'weight_net', 0.0)) * tax['percent'], precision)
+
+            if base_tax:
+                total_line = base_tax
 
             if tax.get('type') == 'quantity':
                 tax['amount'] = round(product_qty * tax['percent'], precision)
@@ -74,7 +106,7 @@ class AccountTax(models.Model):
     def compute_all(self, cr, uid, taxes, price_unit, quantity,
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
-                    freight_value=0.0, other_costs_value=0.0):
+                    freight_value=0.0, other_costs_value=0.0, base_tax=0.0):
         """Compute taxes
 
         Returns a dict of the form::
@@ -120,17 +152,22 @@ class AccountTax(models.Model):
             tax['amount_mva'] = tax_brw.amount_mva
             tax['tax_discount'] = tax_brw.base_code_id.tax_discount
 
-        common_taxes = [tx for tx in result['taxes']
-                        if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
+            if tax.get('domain') == 'icms':
+                tax['icms_base_type'] = tax_brw.icms_base_type
+
+            if tax.get('domain') == 'icmsst':
+                tax['icms_st_base_type'] = tax_brw.icms_st_base_type
+
+        common_taxes = [tx for tx in result['taxes'] if tx['domain'] not in ['icms', 'icmsst', 'ipi']]
         result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
-                                       product, quantity, precision)
+                                       product, quantity, precision, base_tax)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
         result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
-                                       product, quantity, precision)
+                                       product, quantity, precision, base_tax)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
         for ipi in result_ipi['taxes']:
@@ -147,7 +184,7 @@ class AccountTax(models.Model):
                 freight_value + other_costs_value
 
         result_icms = self._compute_tax(
-            cr, uid, specific_icms, total_base, product, quantity, precision)
+            cr, uid, specific_icms, total_base, product, quantity, precision, base_tax)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -161,7 +198,7 @@ class AccountTax(models.Model):
                            if tx['domain'] == 'icmsst']
         result_icmsst = self._compute_tax(cr, uid, specific_icmsst,
                                           result['total'], product,
-                                          quantity, precision)
+                                          quantity, precision, base_tax)
         totaldc += result_icmsst['tax_discount']
         if result_icmsst['taxes']:
             icms_st_percent = result_icmsst['taxes'][0]['percent']
@@ -177,11 +214,8 @@ class AccountTax(models.Model):
             if result_icmsst['taxes'][0]['amount_mva']:
                 calculed_taxes += result_icmsst['taxes']
 
-
         #Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
-            obj_product = self.pool.get('product.product')
-            product = obj_product.browse(cr, uid, product)
             obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
             date = datetime.now().strftime('%Y-%m-%d')
             tax_estimate_ids = obj_tax_estimate.search(
@@ -216,9 +250,10 @@ class AccountTax(models.Model):
     def compute_all(self, price_unit, quantity, product=None, partner=None,
                     force_excluded=False, fiscal_position=False,
                     insurance_value=0.0, freight_value=0.0,
-                    other_costs_value=0.0):
+                    other_costs_value=0.0, base_tax=0.00):
         return self._model.compute_all(
             self._cr, self._uid, self, price_unit, quantity,
             product=product, partner=partner, force_excluded=force_excluded,
             fiscal_position=fiscal_position, insurance_value=insurance_value,
-            freight_value=freight_value, other_costs_value=other_costs_value)
+            freight_value=freight_value, other_costs_value=other_costs_value,
+            base_tax=base_tax)
