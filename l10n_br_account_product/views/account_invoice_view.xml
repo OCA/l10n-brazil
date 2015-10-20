@@ -11,9 +11,7 @@
 				</label>
 				<field name="comment" position="replace">
 				</field>
-        		<field name="date_invoice" position="after">
-					<field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
-					<field name="fiscal_document_id" required="1" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)"/>
+        			<field name="date_invoice" position="after">
 					<field name="date_hour_invoice" string="Data Emissão"/>
         			<field name="date_in_out" string="Data de Entrada/Saida"/>
 					<field name="fiscal_document_electronic" invisible="1"/>
@@ -258,6 +256,9 @@
 				<field position="after" name="partner_id">
 					<field domain="[('partner_id', '=', partner_id)]" name="partner_shipping_id" />
 				</field>
+				<button name="invoice_cancel" position="attributes">
+					<attribute name="statusbar_visible">draft,proforma2,sale,sefaz_export,sefaz_exception,open</attribute>
+				</button>
 				<button name="invoice_open" position="replace">
 					<button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight" />
 					<button name="invoice_open" states="sefaz_export,proforma2" string="Validate" class="oe_highlight" />
@@ -296,24 +297,24 @@
 										<field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, fiscal_position, price_unit, parent.currency_id, parent.company_id, context)" context_br="{'parent_fiscal_category_id': parent.fiscal_category_id, 'parent_fiscal_position': parent.fiscal_position}"/>
 										<label for="quantity"/>
 										<div>
-											<field name="quantity" class="oe_inline"/>
+											<field name="quantity" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)" class="oe_inline"/>
 											<field name="uos_id" class="oe_inline" groups="product.group_uom" on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)"/>
 										</div>
-										<field name="price_unit"/>
-										<field name="discount" groups="sale.group_discount_per_so_line"/>
-										<field name="freight_value"/>
-										<field name="insurance_value"/>
-										<field name="other_costs_value"/>
+										<field name="price_unit" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)"/>
+										<field name="discount" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)" groups="sale.group_discount_per_so_line"/>
+										<field name="freight_value" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)"/>
+										<field name="insurance_value" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)"/>
+										<field name="other_costs_value" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)"/>
 									</group>
 									<group>
 										<field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
 										<field name="fiscal_classification_id" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
-                                        <field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
+										<field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
 										<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]" on_change="onchange_fiscal_category_id(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
-										<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, quantity, price_unit, context)"/>
+										<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, quantity, price_unit, discount, insurance_value, freight_value, other_costs_value, context)"/>
 										<field name="cfop_id"/>
-										<field domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id, context)" groups="account.group_account_user"/>
-										<field name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" widget="many2many_tags"/>
+										<field domain="[('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id, context)" groups="account.group_account_user"/>
+										<field name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value, context)" widget="many2many_tags"/>
 										<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]" name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
 										<field name="company_id" groups="base.group_multi_company" readonly="1"/>
 									</group>
@@ -439,6 +440,11 @@
 									</page>
 								</notebook>
 							</page>
+                            <page string="Informações Adicionais">
+                                <group>
+                                    <field name="fiscal_comment" nolabel="1"/>
+                                </group>
+                            </page>
 							<page string="Declaração de Importação">
 								<group>
 									<field name="import_declaration_ids" colspan="4" nolabel="1">
@@ -456,12 +462,21 @@
 													<field name="name"/>
 													<field name="date_registration"/>
 													<field name="exporting_code"/>
+                                                    <field name="type_import"/>
 												</group>
 												<group>
 													<field name="state_id"/>
 													<field name="location"/>
 													<field name="date_release"/>
 												</group>
+                                                <group string="Transporte Internacional">
+                                                    <field name="type_transportation"/>
+                                                    <field name="afrmm_value" attrs="{'invisible': [('type_transportation', '!=', '1')], 'required': [('type_transportation', '=', '1')]}"/>
+                                                </group>
+                                                <group string="Terceiros">
+                                                    <field name="thirdparty_state_id"/>
+                                                    <field name="thirdparty_cnpj" on_change="onchange_mask_cnpj_cpf(thirdparty_cnpj)"/>
+                                                </group>
 												<group string="Adições" colspan="4">
 													<field name="line_ids" nolabel="1">
 														<tree>
