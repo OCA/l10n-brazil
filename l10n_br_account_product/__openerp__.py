@@ -60,7 +60,10 @@
         'demo/base_demo.xml',
         'demo/product_taxes.yml',
     ],
-    'test': [],
+    'test': [
+        'test/account_customer_invoice.yml',
+        'test/account_supplier_invoice.yml',
+    ],
     'installable': True,
     'auto_install': False,
 }
