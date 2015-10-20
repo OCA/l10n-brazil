@@ -268,6 +268,8 @@ class AccountInvoice(models.Model):
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self._context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
+        if ctx.get('fiscal_category_id'):
+            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
         if not kwargs.get('fiscal_category_id'):
             return result
@@ -289,15 +291,7 @@ class AccountInvoice(models.Model):
     def onchange_fiscal_category_id(self, partner_address_id,
                                     partner_id, company_id,
                                     fiscal_category_id):
-        # TODO Deixar em branco a posição fiscal se não achar a regra
         result = {'value': {'fiscal_position': None}}
-        if fiscal_category_id:
-            fiscal_category = self.env[
-                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
-            # TODO CASO NAO TENHA DIARIO EXIBIR UMA MENSAGEM
-            if fiscal_category.property_journal:
-                result['value']['journal_id'] = \
-                    fiscal_category.property_journal.id
         return self._fiscal_position_map(
             result, partner_id=partner_id,
             partner_invoice_id=partner_address_id, company_id=company_id,
