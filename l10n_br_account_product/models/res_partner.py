@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp import models, fields, api
+from .l10n_br_account_product import PRODUCT_FISCAL_TYPE
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -115,9 +116,11 @@ class AccountFiscalPosition(models.Model):
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
                         }
+            # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product.ncm_id.sale_tax_definition_line
 
         else:
+            # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product.ncm_id.purchase_tax_definition_line
 
         for ncm_tax_def in product_ncm_tax_def:
