@@ -2,8 +2,8 @@
   Create Fiscal Category
 -
   !record {model: l10n_br_account.fiscal.category, id: fiscal_category_sale}:
-    code: Venda
-    name: Venda
+    code: Venda Teste
+    name: Venda Teste
     type: output
     journal_type: sale
     property_journal: account.sales_journal
@@ -11,7 +11,7 @@
   Create Fiscal Position
 -
   !record {model: account.fiscal.position, id: fiscal_position_sale}:
-    name: Venda
+    name: Venda Teste
     type: output
     company_id: base.main_company
     fiscal_category_id: fiscal_category_sale
