@@ -17,10 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
+import time
+
 from datetime import datetime
 from unicodedata import normalize
 import pytz
 from openerp import SUPERUSER_ID
+
+from openerp.osv import osv
+from openerp.tools.translate import _
+from openerp import netsvc
 from openerp import pooler
 
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
@@ -87,7 +93,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrRegB['dhSaiEnt'] = str(pytz.utc.localize(
                 datetime.strptime(inv.date_in_out, '%Y-%m-%d %H:%M:%S')).astimezone(tz)).replace(' ', 'T') or ''
 
-            StrRegB['idDest'] = inv.fiscal_position.id_dest or ''
+            StrRegB['idDest'] = inv.fiscal_position.cfop_id.id_dest or ''
             StrRegB['indFinal'] = inv.ind_final or ''
             StrRegB['indPres'] = inv.ind_pres or ''
             StrRegB['VerProc'] = '3.10.18'
@@ -161,11 +167,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrB20e = 'B20e|%s|\n' % StrRegB20e['CPF']
                     StrFile += StrB20e
             elif inv_related.document_type == 'nfe':
-                StrRegB13 = {
+                StrRegBA02 = {
                     'refNFe': inv_related.access_key or '',
                 }
-                StrB13 = 'B13|%s|\n' % StrRegB13['refNFe']
-                StrFile += StrB13
+                StrBA02 = 'BA02|%s|\n' % StrRegBA02['refNFe']
+                StrFile += StrBA02
             elif inv_related.document_type == 'cte':
                 StrRegB20i = {
                     'refCTe': inv_related.access_key or '',
@@ -446,15 +452,25 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     'XLocDesemb': inv_di.location,
                     'UFDesemb': inv_di.state_id.code or '',
                     'DDesemb': inv_di.date_release or '',
+                    'tpViaTransp': inv_di.type_transportation or '',
+                    'vAFRMM': str("%.2f" % inv_di.afrmm_value),
+                    'tpIntermedio': inv_di.type_import or '',
+                    'CNPJ': inv_di.exporting_code or '',
+                    'UFTerceiro': inv_di.thirdparty_state_id.code or '',
                     'CExportador': inv_di.exporting_code,
                 }
 
-                StrI18 = 'I18|%s|%s|%s|%s|%s|%s|\n' % (
+                StrI18 = 'I18|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
                     StrRegI18['NDI'],
                     StrRegI18['DDI'],
                     StrRegI18['XLocDesemb'],
                     StrRegI18['UFDesemb'],
                     StrRegI18['DDesemb'],
+                    StrRegI18['tpViaTransp'],
+                    StrRegI18['vAFRMM'],
+                    StrRegI18['tpIntermedio'],
+                    StrRegI18['CNPJ'],
+                    StrRegI18['UFTerceiro'],
                     StrRegI18['CExportador'],
                 )
 
