@@ -18,6 +18,7 @@
 ###############################################################################
 
 from openerp import models, fields, api
+from openerp import SUPERUSER_ID
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
@@ -44,6 +45,8 @@ class ProductTemplate(models.Model):
     origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
     ncm_id = fields.Many2one('account.product.fiscal.classification', u'NCM')
     fci = fields.Char('FCI do Produto', size=36)
+    service_type_id = fields.Many2one(
+            'l10n_br_account.service.type', u'Tipo de Serviço')
 
     @api.multi
     def ncm_id_change(self, ncm_id=False, sale_tax_ids=None,
