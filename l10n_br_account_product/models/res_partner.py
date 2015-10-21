@@ -28,7 +28,7 @@ class AccountFiscalPositionTemplate(models.Model):
     ind_final = fields.Selection([
         ('0', u'Não'),
         ('1', u'Consumidor final')
-        ], u'Operação com Consumidor final', readonly=True,
+    ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
 
@@ -47,7 +47,7 @@ class AccountFiscalPosition(models.Model):
     ind_final = fields.Selection([
         ('0', u'Não'),
         ('1', u'Consumidor final')
-        ], u'Operação com Consumidor final', readonly=True,
+    ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
 

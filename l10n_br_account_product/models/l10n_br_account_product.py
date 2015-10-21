@@ -52,8 +52,8 @@ class L10nbrAccountCFOP(models.Model):
         'Tipo Interno', required=True, default='normal')
     id_dest = fields.Selection(
         [('1', u'Operação interna'),
-        ('2', u'Operação interestadual'),
-        ('3', u'Operação com exterior')],
+         ('2', u'Operação interestadual'),
+         ('3', u'Operação com exterior')],
         u'Local de destino da operação',
         help=u'Identificador de local de destino da operação.')
 
@@ -114,9 +114,9 @@ class L10nbrAccountDocumentRelated(models.Model):
     _name = 'l10n_br_account_product.document.related'
 
     invoice_id = fields.Many2one('account.invoice', 'Documento Fiscal',
-        ondelete='cascade', select=True)
+                                 ondelete='cascade', select=True)
     invoice_related_id = fields.Many2one('account.invoice',
-        'Documento Fiscal', ondelete='cascade', select=True)
+                                         'Documento Fiscal', ondelete='cascade', select=True)
     document_type = fields.Selection(
         [('nf', 'NF'), ('nfe', 'NF-e'), ('cte', 'CT-e'),
             ('nfrural', 'NF Produtor'), ('cf', 'Cupom Fiscal')],
@@ -125,7 +125,7 @@ class L10nbrAccountDocumentRelated(models.Model):
     serie = fields.Char(u'Série', size=12)
     internal_number = fields.Char(u'Número', size=32)
     state_id = fields.Many2one('res.country.state', 'Estado',
-        domain="[('country_id.code', '=', 'BR')]")
+                               domain="[('country_id.code', '=', 'BR')]")
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
     cpfcnpj_type = fields.Selection(
         [('cpf', 'CPF'), ('cnpj', 'CNPJ')], 'Tipo Doc.',
@@ -169,7 +169,7 @@ class L10nbrAccountDocumentRelated(models.Model):
             uf = self.state_id and self.state_id.code.lower() or ''
             try:
                 mod = __import__('openerp.addons.l10n_br_base.tools.fiscal',
-                globals(), locals(), 'fiscal')
+                                 globals(), locals(), 'fiscal')
 
                 validate = getattr(mod, 'validate_ie_%s' % uf)
                 if not validate(self.inscr_est):
@@ -179,7 +179,8 @@ class L10nbrAccountDocumentRelated(models.Model):
                     check_ie = False
 
         if not check_ie:
-            raise Warning(_(u'Inscrição Estadual do documento fiscal inválida!'))
+            raise Warning(
+                _(u'Inscrição Estadual do documento fiscal inválida!'))
 
     @api.multi
     def onchange_invoice_related_id(self, invoice_related_id):
@@ -222,16 +223,16 @@ class L10nbrAccountDocumentRelated(models.Model):
             result['value']['access_key'] = False
             if inv_related.issuer == '0':
                 result['value']['serie'] = inv_related.document_serie_id and \
-                inv_related.document_serie_id.code or False
+                    inv_related.document_serie_id.code or False
             else:
                 result['value']['serie'] = inv_related.vendor_serie
 
             result['value']['internal_number'] = inv_related.internal_number
             result['value']['state_id'] = inv_related.partner_id and \
-            inv_related.partner_id.state_id and \
-            inv_related.partner_id.state_id.id or False
+                inv_related.partner_id.state_id and \
+                inv_related.partner_id.state_id.id or False
             result['value']['cnpj_cpf'] = inv_related.partner_id and \
-            inv_related.partner_id.cnpj_cpf or False
+                inv_related.partner_id.cnpj_cpf or False
 
             if inv_related.partner_id.is_company:
                 result['value']['cpfcnpj_type'] = 'cnpj'
@@ -240,11 +241,11 @@ class L10nbrAccountDocumentRelated(models.Model):
 
             result['value']['date'] = inv_related.date_invoice
             result['value']['fiscal_document_id'] = inv_related.fiscal_document_id and \
-            inv_related.fiscal_document_id.id or False
+                inv_related.fiscal_document_id.id or False
 
         if inv_related.fiscal_document_id.code == '04':
             result['value']['inscr_est'] = inv_related.partner_id and \
-            inv_related.partner_id.inscr_est or False
+                inv_related.partner_id.inscr_est or False
 
         return result
 
@@ -255,10 +256,10 @@ class L10nbrAccountDocumentRelated(models.Model):
             val = re.sub('[^0-9]', '', cnpj_cpf)
             if cpfcnpj_type == 'cnpj' and len(val) == 14:
                 cnpj_cpf = "%s.%s.%s/%s-%s"\
-                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+                    % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
             elif cpfcnpj_type == 'cpf' and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s"\
-                % (val[0:3], val[3:6], val[6:9], val[9:11])
+                    % (val[0:3], val[3:6], val[6:9], val[9:11])
             result['value'].update({'cnpj_cpf': cnpj_cpf})
         return result
 
@@ -312,7 +313,7 @@ class ImportDeclaration(models.Model):
             val = re.sub('[^0-9]', '', thirdparty_cnpj)
             if len(val) == 14:
                 thirdparty_cnpj = "%s.%s.%s/%s-%s"\
-                % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+                    % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
         result['value'].update({'thirdparty_cnpj': thirdparty_cnpj})
         return result
 
@@ -328,4 +329,4 @@ class ImportDeclarationLine(models.Model):
     manufacturer_code = fields.Char(
         u'Código do Fabricante', size=3, required=True)
     amount_discount = fields.Float(u'Valor',
-        digits=dp.get_precision('Account'), default=0.00)
+                                   digits=dp.get_precision('Account'), default=0.00)
