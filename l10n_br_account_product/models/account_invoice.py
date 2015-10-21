@@ -47,23 +47,33 @@ class AccountInvoice(models.Model):
         self.icms_st_base = 0.0
         self.icms_st_value = 0.0
         self.ipi_base = sum(line.ipi_base for line in self.invoice_line)
-        self.ipi_base_other = sum(line.ipi_base_other for line in self.invoice_line)
+        self.ipi_base_other = sum(
+            line.ipi_base_other for line in self.invoice_line)
         self.ipi_value = sum(line.ipi_value for line in self.invoice_line)
         self.pis_base = sum(line.pis_base for line in self.invoice_line)
         self.pis_value = sum(line.pis_value for line in self.invoice_line)
         self.cofins_base = sum(line.cofins_base for line in self.invoice_line)
-        self.cofins_value = sum(line.cofins_value for line in self.invoice_line)
+        self.cofins_value = sum(
+            line.cofins_value for line in self.invoice_line)
         self.ii_value = sum(line.ii_value for line in self.invoice_line)
-        self.amount_discount = sum(line.discount_value for line in self.invoice_line)
-        self.amount_insurance = sum(line.insurance_value for line in self.invoice_line)
-        self.amount_costs = sum(line.other_costs_value for line in self.invoice_line)
-        self.amount_total_taxes = sum(line.total_taxes for line in self.invoice_line)
+        self.amount_discount = sum(
+            line.discount_value for line in self.invoice_line)
+        self.amount_insurance = sum(
+            line.insurance_value for line in self.invoice_line)
+        self.amount_costs = sum(
+            line.other_costs_value for line in self.invoice_line)
+        self.amount_total_taxes = sum(
+            line.total_taxes for line in self.invoice_line)
         self.amount_gross = sum(line.price_gross for line in self.invoice_line)
-        self.amount_freight = sum(line.freight_value for line in self.invoice_line)
+        self.amount_freight = sum(
+            line.freight_value for line in self.invoice_line)
         self.amount_tax_discount = 0.0
-        self.amount_untaxed = sum(line.price_total for line in self.invoice_line)
-        self.amount_tax = sum(tax.amount for tax in self.tax_line if not tax.tax_code_id.tax_discount)
-        self.amount_total = self.amount_tax + self.amount_untaxed + self.amount_costs + self.amount_insurance + self.amount_freight
+        self.amount_untaxed = sum(
+            line.price_total for line in self.invoice_line)
+        self.amount_tax = sum(
+            tax.amount for tax in self.tax_line if not tax.tax_code_id.tax_discount)
+        self.amount_total = self.amount_tax + self.amount_untaxed + \
+            self.amount_costs + self.amount_insurance + self.amount_freight
 
         for line in self.invoice_line:
             if line.icms_cst_id.code not in ('101', '102', '201', '202', '300', '500'):
@@ -107,9 +117,9 @@ class AccountInvoice(models.Model):
         result = self.env['l10n_br_account.document.serie']
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         fiscal_document_series = [doc_serie for doc_serie in
-            company.document_serie_product_ids if
-            doc_serie.fiscal_document_id.id ==
-            company.product_invoice_id.id and doc_serie.active]
+                                  company.document_serie_product_ids if
+                                  doc_serie.fiscal_document_id.id ==
+                                  company.product_invoice_id.id and doc_serie.active]
         if fiscal_document_series:
             result = fiscal_document_series[0]
         return result
@@ -134,7 +144,7 @@ class AccountInvoice(models.Model):
     ind_final = fields.Selection([
         ('0', u'Não'),
         ('1', u'Consumidor final')
-        ], u'Operação com Consumidor final', readonly=True,
+    ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
     ind_pres = fields.Selection([
@@ -144,7 +154,7 @@ class AccountInvoice(models.Model):
         ('3', u'Operação não presencial, Teleatendimento'),
         ('4', u'NFC-e em operação com entrega em domicílio'),
         ('9', u'Operação não presencial, outros'),
-        ], u'Tipo de operação', readonly=True,
+    ], u'Tipo de operação', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indicador de presença do comprador no \
         \nestabelecimento comercial no momento \
@@ -166,8 +176,8 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]},
         default=_default_fiscal_category)
     date_in_out = fields.Datetime(u'Data de Entrada/Saida', readonly=True,
-        states={'draft': [('readonly', False)]}, select=True, copy=False,
-        help="Deixe em branco para usar a data atual")
+                                  states={'draft': [('readonly', False)]}, select=True, copy=False,
+                                  help="Deixe em branco para usar a data atual")
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Delivery Address',
         readonly=True, required=True,
@@ -183,7 +193,7 @@ class AccountInvoice(models.Model):
         ('open', 'Open'),
         ('paid', 'Paid'),
         ('cancel', 'Cancelled')
-        ], 'State', select=True, readonly=True,
+    ], 'State', select=True, readonly=True,
         help=' * The \'Draft\' state is used when a user is encoding a new and unconfirmed Invoice. \
         \n* The \'Pro-forma\' when invoice is in Pro-forma state,invoice does not have an invoice number. \
         \n* The \'Open\' state is used when user create invoice,a invoice number is generated.Its in open state till user does not pay invoice. \
@@ -192,12 +202,13 @@ class AccountInvoice(models.Model):
         \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
         \n* The \'Cancelled\' state is used when user cancel invoice.')
     fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-        'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
+                                   'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Endereço de Entrega', readonly=True,
         states={'draft': [('readonly', False)]},
         help="Shipping address for current sales order.")
-    shipping_state_id = fields.Many2one('res.country.state', 'Estado de Embarque')
+    shipping_state_id = fields.Many2one(
+        'res.country.state', 'Estado de Embarque')
     shipping_location = fields.Char('Local de Embarque', size=32)
     nfe_purpose = fields.Selection(
         [('1', 'Normal'),
@@ -212,9 +223,9 @@ class AccountInvoice(models.Model):
         'Protocolo', size=15, readonly=True,
         copy=False, states={'draft': [('readonly', False)]})
     nfe_status = fields.Char('Status na Sefaz', size=44, readonly=True,
-        copy=False)
+                             copy=False)
     nfe_date = fields.Datetime('Data do Status NFE', readonly=True,
-        copy=False)
+                               copy=False)
     nfe_export_date = fields.Datetime('Exportação NFE', readonly=True)
     cfop_ids = fields.Many2many(
         'l10n_br_account_product.cfop', string='CFOP',
@@ -227,30 +238,30 @@ class AccountInvoice(models.Model):
     vehicle_plate = fields.Char('Placa do Veiculo', size=7)
     vehicle_state_id = fields.Many2one('res.country.state', 'UF da Placa')
     vehicle_l10n_br_city_id = fields.Many2one('l10n_br_base.city',
-        'Municipio', domain="[('state_id', '=', vehicle_state_id)]")
+                                              'Municipio', domain="[('state_id', '=', vehicle_state_id)]")
     amount_untaxed = fields.Float(string='Untaxed', store=True,
-        digits=dp.get_precision('Account'), compapply_fiscal_mappingute='_compute_amount')
+                                  digits=dp.get_precision('Account'), compapply_fiscal_mappingute='_compute_amount')
     amount_tax = fields.Float(string='Tax', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                              digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_total = fields.Float(string='Total', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                                digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_gross = fields.Float(string='Vlr. Bruto', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount',
-        readonly=True)
+                                digits=dp.get_precision('Account'), compute='_compute_amount',
+                                readonly=True)
     amount_discount = fields.Float(string='Desconto', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                                   digits=dp.get_precision('Account'), compute='_compute_amount')
     icms_base = fields.Float(string='Base ICMS', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                             digits=dp.get_precision('Account'), compute='_compute_amount')
     icms_base_other = fields.Float(string='Base ICMS Outras', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount',
-        readonly=True)
+                                   digits=dp.get_precision('Account'), compute='_compute_amount',
+                                   readonly=True)
     icms_value = fields.Float(
         string='Valor ICMS', digits=dp.get_precision('Account'),
         compute='_compute_amount', store=True)
     icms_st_base = fields.Float(string='Base ICMS ST', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                                digits=dp.get_precision('Account'), compute='_compute_amount')
     icms_st_value = fields.Float(string='Valor ICMS ST', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                                 digits=dp.get_precision('Account'), compute='_compute_amount')
     ipi_base = fields.Float(
         string='Base IPI', store=True, digits=dp.get_precision('Account'),
         compute='_compute_amount')
@@ -301,9 +312,9 @@ class AccountInvoice(models.Model):
         string='Outros Custos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_total_taxes = fields.Float(string='Total de Tributos', store=True,
-        digits=dp.get_precision('Account'), compute='_compute_amount')
+                                      digits=dp.get_precision('Account'), compute='_compute_amount')
 
-    #TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
+    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
         result = super(AccountInvoice, self).fields_view_get(
@@ -370,7 +381,8 @@ class AccountInvoice(models.Model):
             result['arch'] = etree.tostring(doc)
         return result
 
-    #TODO Imaginar em não apagar o internal number para nao ter a necessidade de voltar a numeracão
+    # TODO Imaginar em não apagar o internal number para nao ter a necessidade
+    # de voltar a numeracão
     @api.multi
     def action_cancel_draft(self):
         result = super(AccountInvoice, self).action_cancel_draft()
@@ -407,15 +419,18 @@ class AccountInvoice(models.Model):
 
         if issuer == '0':
             series = [doc_serie for doc_serie in
-                company.document_serie_product_ids if
-                doc_serie.fiscal_document_id.id ==
-                fiscal_document_id and doc_serie.active]
+                      company.document_serie_product_ids if
+                      doc_serie.fiscal_document_id.id ==
+                      fiscal_document_id and doc_serie.active]
 
-            #TODO Alerta se nao tiver serie
+            # TODO Alerta se nao tiver serie
             if not series:
-                action = self.env.ref('l10n_br_account.action_l10n_br_account_document_serie_form')
-                msg = _(u'Você deve ser uma série de documento fiscal para este documento fiscal.')
-                raise RedirectWarning(msg, action.id, _(u'Criar uma nova série'))
+                action = self.env.ref(
+                    'l10n_br_account.action_l10n_br_account_document_serie_form')
+                msg = _(
+                    u'Você deve ser uma série de documento fiscal para este documento fiscal.')
+                raise RedirectWarning(
+                    msg, action.id, _(u'Criar uma nova série'))
             result['value']['document_serie_id'] = series[0].id
         return result
 
@@ -423,7 +438,8 @@ class AccountInvoice(models.Model):
     def action_date_assign(self):
         for invoice in self:
             if invoice.date_hour_invoice:
-                aux = datetime.datetime.strptime(invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
+                aux = datetime.datetime.strptime(
+                    invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
                 invoice.date_invoice = str(aux)
             result = invoice.onchange_payment_term_date_invoice(
                 invoice.payment_term.id, invoice.date_invoice)
@@ -464,7 +480,7 @@ class AccountInvoiceLine(models.Model):
                 self.price_gross - taxes['total'])
 
     date_invoice = fields.Datetime(
-        'Invoice Date', readonly=True, states={'draft':[('readonly',False)]},
+        'Invoice Date', readonly=True, states={'draft': [('readonly', False)]},
         select=True, help="Keep empty to use the current date")
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
@@ -503,11 +519,11 @@ class AccountInvoiceLine(models.Model):
     icms_origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
     icms_base_type = fields.Selection(
         [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
-        ('2', 'Preço Tabelado Máximo (valor)'),
-        ('3', 'Valor da Operação')],
+         ('2', 'Preço Tabelado Máximo (valor)'),
+         ('3', 'Valor da Operação')],
         'Tipo Base ICMS', required=True, default='0')
     icms_base = fields.Float('Base ICMS', required=True,
-        digits=dp.get_precision('Account'), default=0.00)
+                             digits=dp.get_precision('Account'), default=0.00)
     icms_base_other = fields.Float(
         'Base ICMS Outras', required=True,
         digits=dp.get_precision('Account'), default=0.00)
@@ -583,7 +599,7 @@ class AccountInvoiceLine(models.Model):
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
         'Tipo do PIS', required=True, default='percent')
     pis_base = fields.Float('Base PIS', required=True,
-        digits=dp.get_precision('Account'), default=0.00)
+                            digits=dp.get_precision('Account'), default=0.00)
     pis_base_other = fields.Float(
         'Base PIS Outras', required=True, digits=dp.get_precision('Account'),
         default=0.00)
@@ -612,7 +628,7 @@ class AccountInvoiceLine(models.Model):
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
         'Tipo do COFINS', required=True, default='percent')
     cofins_base = fields.Float('Base COFINS', required=True,
-        digits=dp.get_precision('Account'), default=0.00)
+                               digits=dp.get_precision('Account'), default=0.00)
     cofins_base_other = fields.Float(
         'Base COFINS Outras', required=True,
         digits=dp.get_precision('Account'), default=0.00)
@@ -774,7 +790,7 @@ class AccountInvoiceLine(models.Model):
         result['cofins_cst_id'] = tax_codes.get('cofins')
         return result
 
-    #TODO
+    # TODO
     @api.multi
     def _validate_taxes(self, values):
         """Verifica se o valor dos campos dos impostos estão sincronizados
@@ -784,14 +800,18 @@ class AccountInvoiceLine(models.Model):
 
         price_unit = values.get('price_unit', 0.0) or self.price_unit
         discount = values.get('discount', 0.0)
-        insurance_value = values.get('insurance_value', 0.0) or self.insurance_value
+        insurance_value = values.get(
+            'insurance_value', 0.0) or self.insurance_value
         freight_value = values.get('freight_value', 0.0) or self.freight_value
-        other_costs_value = values.get('other_costs_value', 0.0) or self.other_costs_value
-        tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[0][2] or self.invoice_line_tax_id.ids
+        other_costs_value = values.get(
+            'other_costs_value', 0.0) or self.other_costs_value
+        tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+            0][2] or self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
-        fiscal_position = values.get('fiscal_position') or self.fiscal_position.id
+        fiscal_position = values.get(
+            'fiscal_position') or self.fiscal_position.id
 
         if not product_id or not quantity or not fiscal_position:
             return {}
@@ -974,15 +994,20 @@ class AccountInvoiceLine(models.Model):
             ctx['product_id'] = product_id
             if ctx.get('type') in ('out_invoice', 'out_refund'):
                 ctx['type_tax_use'] = 'sale'
-                taxes = obj_product.taxes_id + self.env['account.account'].browse(kwargs.get('account_id')).tax_ids
+                taxes = obj_product.taxes_id + \
+                    self.env['account.account'].browse(
+                        kwargs.get('account_id')).tax_ids
             else:
                 ctx['type_tax_use'] = 'purchase'
-                taxes = obj_product.supplier_taxes_id + self.env['account.account'].browse(kwargs.get('account_id')).tax_ids
+                taxes = obj_product.supplier_taxes_id + \
+                    self.env['account.account'].browse(
+                        kwargs.get('account_id')).tax_ids
 
             tax_ids = obj_fposition.with_context(ctx).map_tax(taxes)
 
             result['value']['invoice_line_tax_id'] = tax_ids
-            #TODO Incluir valores campos de desconto, seguro, frete e outras despesas
+            # TODO Incluir valores campos de desconto, seguro, frete e outras
+            # despesas
             values = {
                 'partner_id': partner_id,
                 'company_id': company_id,
@@ -1152,9 +1177,9 @@ class AccountInvoiceLine(models.Model):
 
     @api.multi
     def onchange_tax_ipi(self, ipi_type, ipi_base, ipi_base_other,
-                             ipi_value, ipi_percent, ipi_cst_id,
-                             price_unit, discount, insurance_value,
-                             freight_value, other_costs_value):
+                         ipi_value, ipi_percent, ipi_cst_id,
+                         price_unit, discount, insurance_value,
+                         freight_value, other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
 
@@ -1202,9 +1227,9 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    ##TODO comentado por causa deste bug https://github.com/odoo/odoo/issues/2197
+    # TODO comentado por causa deste bug https://github.com/odoo/odoo/issues/2197
     #@api.multi
-    #def write(self, vals):
+    # def write(self, vals):
     #    vals.update(self._validate_taxes(vals))
     #    return super(AccountInvoiceLine, self).write(vals)
 
@@ -1215,7 +1240,8 @@ class AccountInvoiceTax(models.Model):
     @api.v8
     def compute(self, invoice):
         tax_grouped = {}
-        currency = invoice.currency_id.with_context(date=invoice.date_invoice or fields.Date.context_today(invoice))
+        currency = invoice.currency_id.with_context(
+            date=invoice.date_invoice or fields.Date.context_today(invoice))
         company_currency = invoice.company_id.currency_id
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(
@@ -1237,27 +1263,37 @@ class AccountInvoiceTax(models.Model):
                 if invoice.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = currency.compute(val['base'] * tax['base_sign'], company_currency, round=False)
-                    val['tax_amount'] = currency.compute(val['amount'] * tax['tax_sign'], company_currency, round=False)
-                    val['account_id'] = tax['account_collected_id'] or line.account_id.id
-                    val['account_analytic_id'] = tax['account_analytic_collected_id']
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['base_sign'], company_currency, round=False)
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['tax_sign'], company_currency, round=False)
+                    val['account_id'] = tax[
+                        'account_collected_id'] or line.account_id.id
+                    val['account_analytic_id'] = tax[
+                        'account_analytic_collected_id']
                 else:
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = currency.compute(val['base'] * tax['ref_base_sign'], company_currency, round=False)
-                    val['tax_amount'] = currency.compute(val['amount'] * tax['ref_tax_sign'], company_currency, round=False)
-                    val['account_id'] = tax['account_paid_id'] or line.account_id.id
-                    val['account_analytic_id'] = tax['account_analytic_paid_id']
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['ref_base_sign'], company_currency, round=False)
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['ref_tax_sign'], company_currency, round=False)
+                    val['account_id'] = tax[
+                        'account_paid_id'] or line.account_id.id
+                    val['account_analytic_id'] = tax[
+                        'account_analytic_paid_id']
 
                 # If the taxes generate moves on the same financial account as the invoice line
                 # and no default analytic account is defined at the tax level, propagate the
                 # analytic account from the invoice line to the tax line. This is necessary
                 # in situations were (part of) the taxes cannot be reclaimed,
-                # to ensure the tax move is allocated to the proper analytic account.
+                # to ensure the tax move is allocated to the proper analytic
+                # account.
                 if not val.get('account_analytic_id') and line.account_analytic_id and val['account_id'] == line.account_id.id:
                     val['account_analytic_id'] = line.account_analytic_id.id
 
-                key = (val['tax_code_id'], val['base_code_id'], val['account_id'])
+                key = (val['tax_code_id'], val[
+                       'base_code_id'], val['account_id'])
                 if not key in tax_grouped:
                     tax_grouped[key] = val
                 else:

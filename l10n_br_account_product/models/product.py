@@ -41,12 +41,12 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-        'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
+                                   'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
     origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
     ncm_id = fields.Many2one('account.product.fiscal.classification', u'NCM')
     fci = fields.Char('FCI do Produto', size=36)
     service_type_id = fields.Many2one(
-            'l10n_br_account.service.type', u'Tipo de Serviço')
+        'l10n_br_account.service.type', u'Tipo de Serviço')
 
     @api.multi
     def ncm_id_change(self, ncm_id=False, sale_tax_ids=None,
@@ -77,7 +77,8 @@ class ProductTemplate(models.Model):
 
             result['value']['taxes_id'] = list(set(to_keep_sale_tax_ids.ids + [
                 x.id for x in fiscal_classification.sale_base_tax_ids]))
-            result['value']['supplier_taxes_id'] = list(set(to_keep_purchase_tax_ids.ids + [x.id for x in fiscal_classification.purchase_base_tax_ids]))
+            result['value']['supplier_taxes_id'] = list(set(
+                to_keep_purchase_tax_ids.ids + [x.id for x in fiscal_classification.purchase_base_tax_ids]))
         return result
 
 
@@ -86,7 +87,7 @@ class ProductProduct(models.Model):
 
     @api.multi
     def ncm_id_change(self, ncm_id=False, sale_tax_ids=None,
-                    purchase_tax_ids=None):
+                      purchase_tax_ids=None):
         """We eventually keep the sale and purchase taxes because those
         are not company wise in OpenERP. So if we choose a different
         fiscal position for a different company, we don't want to override

@@ -21,9 +21,9 @@ from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
 
 FC_SQL_CONSTRAINTS = [
-        ('account_fiscal_classfication_code_uniq', 'unique (name)',
-         u'Já existe um classificação fiscal com esse código!')
-    ]
+    ('account_fiscal_classfication_code_uniq', 'unique (name)',
+     u'Já existe um classificação fiscal com esse código!')
+]
 
 
 # TODO migrate to new api
@@ -59,7 +59,7 @@ class AccountProductFiscalClassificationTemplate(orm.Model):
             domain="[('type', 'in', ('view', 'normal'))]", select=True),
         'child_ids': fields.one2many(
             'account.product.fiscal.classification.template',
-             'parent_id', 'Child Fiscal Classifications'),
+            'parent_id', 'Child Fiscal Classifications'),
         'sale_tax_definition_line': fields.one2many(
             'l10n_br_tax.definition.sale.template',
             'fiscal_classification_id', 'Taxes Definitions'),
@@ -96,7 +96,7 @@ class L10n_brTaxDefinitionSaleTemplate(orm.Model):
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')
+         u'Imposto já existente nesta classificação fiscal!')
     ]
 
 
@@ -111,7 +111,7 @@ class L10n_brTaxDefinitionPurchaseTemplate(orm.Model):
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')
+         u'Imposto já existente nesta classificação fiscal!')
     ]
 
 
@@ -207,7 +207,7 @@ class AccountProductFiscalClassification(orm.Model):
         'type': 'normal'}
     _sql_constraints = FC_SQL_CONSTRAINTS
 
-    #FIXME
+    # FIXME
     def button_update_products(self, cr, uid, ids, context=None):
 
         result = True
@@ -231,11 +231,11 @@ class AccountProductFiscalClassification(orm.Model):
 
                 to_keep_purchase_tax_ids = self.pool.get('account.tax').search(
                     cr, uid, [('id', 'in', [x.id for x in product.supplier_taxes_id]),
-                    ('company_id', '!=', current_company_id)])
+                              ('company_id', '!=', current_company_id)])
 
                 vals = {
-                        'taxes_id': [(6, 0, list(set(to_keep_sale_tax_ids + [x.id for x in fiscal_classification.sale_base_tax_ids])))],
-                        'supplier_taxes_id': [(6, 0, list(set(to_keep_purchase_tax_ids + [x.id for x in fiscal_classification.purchase_base_tax_ids])))],
+                    'taxes_id': [(6, 0, list(set(to_keep_sale_tax_ids + [x.id for x in fiscal_classification.sale_base_tax_ids])))],
+                    'supplier_taxes_id': [(6, 0, list(set(to_keep_purchase_tax_ids + [x.id for x in fiscal_classification.purchase_base_tax_ids])))],
                 }
 
                 obj_product.write(cr, uid, product.id, vals, context)
@@ -254,7 +254,7 @@ class L10n_brTaxDefinitionSale(orm.Model):
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')
+         u'Imposto já existente nesta classificação fiscal!')
     ]
 
 
@@ -262,14 +262,14 @@ class L10n_brTaxDefinitionPurchase(orm.Model):
     _name = 'l10n_br_tax.definition.purchase'
     _inherit = 'l10n_br_tax.definition'
     _columns = {
-                'fiscal_classification_id': fields.many2one(
-                    'account.product.fiscal.classification',
-                    'Fiscal Classification', select=True)
+        'fiscal_classification_id': fields.many2one(
+            'account.product.fiscal.classification',
+            'Fiscal Classification', select=True)
     }
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')]
+         u'Imposto já existente nesta classificação fiscal!')]
 
 
 class L10n_brTaxEstimate(orm.Model):
@@ -338,7 +338,8 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
         for company_id in company_ids:
 
             tax_template_ref[company_id] = {}
-            tax_ids = obj_tax.search(cr, uid, [('company_id', '=', company_id)])
+            tax_ids = obj_tax.search(
+                cr, uid, [('company_id', '=', company_id)])
             for tax in obj_tax.browse(cr, uid, tax_ids):
                 tax_template = obj_tax_template.search(
                     cr, uid, [('name', '=', tax.name)])
@@ -352,7 +353,8 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
                 tax_code_template = obj_tax_code_template.search(
                     cr, uid, [('name', '=', tax_code.name)])
                 if tax_code_template:
-                    tax_code_template_ref[company_id][tax_code_template[0]] = tax_code.id
+                    tax_code_template_ref[company_id][
+                        tax_code_template[0]] = tax_code.id
 
         fclass_ids_template = obj_fclass_template.search(cr, uid, [])
         for fclass_template in obj_fclass_template.browse(cr, uid, fclass_ids_template):
@@ -360,17 +362,21 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
             parent_id = False
             for company_id in company_ids:
                 vals = {
-                        'name': fclass_template.name,
-                        'description': fclass_template.description,
-                        'type': fclass_template.type,
-                        'parent_id': parent_id}
+                    'name': fclass_template.name,
+                    'description': fclass_template.description,
+                    'type': fclass_template.type,
+                    'parent_id': parent_id}
                 if obj_wizard.company_id:
-                    parent_ids = obj_fclass.search(cr, uid, [('name', '=', fclass_template.parent_id.name), ('company_id', '=', company_id)])
-                    fclass = obj_fclass.search(cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', company_id)])
+                    parent_ids = obj_fclass.search(cr, uid, [(
+                        'name', '=', fclass_template.parent_id.name), ('company_id', '=', company_id)])
+                    fclass = obj_fclass.search(
+                        cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', company_id)])
                     vals['company_id'] = company_id
                 else:
-                    parent_ids = obj_fclass.search(cr, uid, [('name', '=', fclass_template.parent_id.name), ('company_id', '=', False)])
-                    fclass = obj_fclass.search(cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', False)])
+                    parent_ids = obj_fclass.search(cr, uid, [(
+                        'name', '=', fclass_template.parent_id.name), ('company_id', '=', False)])
+                    fclass = obj_fclass.search(
+                        cr, uid, [('name', '=', fclass_template.name), ('company_id', '=', False)])
                     vals['company_id'] = False
 
                 if parent_ids:
@@ -389,7 +395,7 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
                             'fiscal_classification_id': new_fclass_id})
 
                 for purchase_tax in fclass_template.purchase_tax_definition_line:
-                    if not obj_tax_purchase.search(cr, uid, [('tax_id', '=',tax_template_ref[company_id].get(purchase_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
+                    if not obj_tax_purchase.search(cr, uid, [('tax_id', '=', tax_template_ref[company_id].get(purchase_tax.tax_id.id, False)), ('fiscal_classification_id', '=', new_fclass_id)]):
                         obj_tax_purchase.create(cr, uid, {
                             'tax_id': tax_template_ref[company_id].get(purchase_tax.tax_id.id, False),
                             'tax_code_id': tax_code_template_ref[company_id].get(purchase_tax.tax_code_id.id, False),
