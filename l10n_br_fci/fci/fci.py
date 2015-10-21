@@ -1,7 +1,8 @@
 from ..models.python_sped.sped.fci import arquivos
 import base64
+from openerp import api
 
-
+@api.multi
 def gera_fci(fci):
     arq = arquivos.ArquivoDigital()
 
@@ -24,10 +25,12 @@ def gera_fci(fci):
         arq.read_registro(input5020)
     arq.read_registro(input0000)
     arq.read_registro(input0010)
+
     arqSaida = open('saida.txt', 'w')
     arqSaida.write(arq.getstring().encode('utf8'))
-    arqSaida.close()
-    return
+    # arqSaida.close()
+    return (arqSaida)
+
 
 def importa_fci(file_name):
     arq_entrada = arquivos.ArquivoDigital()
@@ -36,8 +39,6 @@ def importa_fci(file_name):
     file_entrada = file_entrada.lstrip()
     file_entrada = file_entrada.rstrip()
     registros = file_entrada.split('\r\n')
-
-    print file_entrada
 
     for reg in registros:
         arq_entrada.read_registro(reg)

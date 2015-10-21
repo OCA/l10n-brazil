@@ -41,4 +41,5 @@ class L10n_brFci_Import(models.Model):
 
         self.env['l10n_br.fci'].create(vals)
 
+
         return True

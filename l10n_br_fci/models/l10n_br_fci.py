@@ -53,6 +53,12 @@ class L10nBrFci(models.Model):
         ('aproved', 'Aprovada')], default='draft')
     fci_line = fields.One2many('l10n_br.fci.line',
                                'l10n_br_fci_id', 'Product lines')
+     #arquivos
+    fci_file_sent = fields.Binary(filters='*.txt',readonly=True)
+        # , invisible=True,
+        #                           states={'create_fci': [('invisible', False)]})
+    fci_file_returned = fields.Binary(filters='*.txt')
+
     # # campos referentes ao produto
     # products_ids = fields.Many2many('product.template', 'fci_id',
     #                                 'product_id', 'fci_product_rel', string='Produtos', readonly=True,
@@ -67,61 +73,64 @@ class L10nBrFci(models.Model):
 
     # #--------------------
 
-    # file_name = fields.Binary(filters='*.txt')
+
 
 
     @api.multi
     def gera_fci(self):
         self.ensure_one()
-        fci.gera_fci(self)
+        self.fci_file_sent = fci.gera_fci(self)
         self.write({'state': 'waiting_protocol'})
 
     @api.multi
     def importa_fci(self):
         self.ensure_one()
 
-        res_importados = fci.importa_fci(self.file_name)
+        res_importados = fci.importa_fci(self.fci_file_returned)
 
-        partner_id = self.env['res.company'].search(
+        company_id = self.env['res.company'].search(
             [('partner_id.cnpj_cpf', '=', res_importados['cnpj_cpf'])])
-        if partner_id:
+        if company_id:
             # SE EMPRESA OK
-            # if (self.partner_id == partner_id[0]):
+            if (self.company_id == company_id[0]):
 
-            # # VERIFICA SE TEM PRODUTOS
-            # list_ids = []
-            # for default_code, fci_code in zip(res_importados['default_code'], res_importados['fci_codes']):
-            #     products_ids = self.env['product.template'].search([('default_code', '=', default_code)])
-            # if products_ids:
-            #     products_ids[0].fci = fci_code
-            #     list_ids.append(products_ids[0].id)
-            #
-            #     # CHECA SE PRODUTOS NO ARQUIVO SÃO IGUAIS AOS DA TELA
-            #     for produtos_tela in self.products_ids:
-            #         if (produtos_tela.default_code in res_importados['default_code']):
-            #             resp = True
-            #         else:
-            #             resp = False
-            #
-            #     if (resp == True):
-            self.partner_id = partner_id[0]
-            # self.products_ids = list_ids
-            self.hash_code = res_importados['hash_code']
-            self.dt_recepcao = res_importados['dt_recepcao']
-            self.cod_recepcao = res_importados['cod_recepcao']
-            self.dt_validacao = res_importados['dt_validacao']
-            self.in_validacao = res_importados['in_validacao']
-            self.cnpj_cpf = res_importados['cnpj_cpf']
-            # SE TUDO DER ERRADO
-            # else:
-            #     print 'Arquivo FCI não correspondente. Os produtos diferem dos mostrados na tela'
-            #     raise Warning(('Error!'), (
-            #     'Arquivo FCI de entrada não corresponde ao esperado.\n Os produtos contidos no arquivo de entrada diferem dos exibida na tela'))
-        else:
-            # SE EMPRESA NÃO OK
-            raise Warning(('Error!'), (
-                'Arquivo FCI de entrada não corresponde ao esperado.\n '
-                'A empresa do arquivo de entrada difere da exibida na tela'))
+                # # VERIFICA SE TEM PRODUTOS
+                list_ids = []
+                for default_code, fci_code in zip(res_importados['default_code'],
+                                                  res_importados['fci_codes']):
+                    product_id = self.env['product.template'].search([('default_code', '=', default_code)])
+                if product_id:
+                    product_id[0].fci = fci_code
+                    list_ids.append(product_id[0].id)
+
+                    # CHECA SE PRODUTOS NO ARQUIVO SÃO IGUAIS AOS DA TELA
+                    for produtos_tela in self.fci_line:
+                        if (produtos_tela.default_code in res_importados['default_code']):
+                            resp = True
+                        else:
+                            resp = False
+
+                    if (resp == True):
+                        self.partner_id = company_id[0]
+                        self.fci_line = list_ids
+                        self.hash_code = res_importados['hash_code']
+                        self.dt_recepcao = res_importados['dt_recepcao']
+                        self.cod_recepcao = res_importados['cod_recepcao']
+                        self.dt_validacao = res_importados['dt_validacao']
+                        self.in_validacao = res_importados['in_validacao']
+                        self.cnpj_cpf = res_importados['cnpj_cpf']
+                    # SE TUDO DER ERRADO
+                    else:
+                        raise Warning(('Error!'), (
+                        'Arquivo FCI de entrada não corresponde ao esperado.\n '
+                        'Os produtos contidos no arquivo de entrada diferem'
+                        ' dos exibida na tela'))
+                else:
+                      # SE EMPRESA NÃO OK
+                    raise Warning(('Error!'), (
+                     'Arquivo FCI de entrada não corresponde ao esperado.\n '
+                     'A empresa do arquivo de entrada difere da exibida na'
+                     ' tela'))
         return
 
     @api.multi
@@ -154,25 +163,33 @@ class L10nBrFciLine(models.Model):
     _name = "l10n_br.fci.line"
     _description = "Linhas da FCI"
 
+    @api.depends('list_price', 'valor_parcela_importada')
     def _calc_conteudo_importacao(self):
-        if self.valor_parcela_importada:
-            self.conteudo_importacao = (
-                self.list_price / self.valor_parcela_importada)
+        for record in self:
+            if record.valor_parcela_importada:
+                record.conteudo_importacao = (
+                    record.list_price / record.valor_parcela_importada)
 
     # guarda o id da fci pertencente
     l10n_br_fci_id = fields.Many2one('l10n_br.fci', u'Código do arquivo FCI',
-                                     select=True, required=True,
-                                     ondelete='restrict')
-    product_id = fields.Many2one('product.template', string='Produto')
-    default_code = fields.Char(u'Código', related='product_id.default_code')
-    name = fields.Char('Nome', related='product_id.name')
-    ean13 = fields.Char('EAN13', related='product_id.ean13')
-    list_price = fields.Float(u'Preço', related='product_id.list_price')
-    product_uom = fields.Many2one('product.uom')
-    ncm_id = fields.Char('NCM', related='product_id.ncm_id.name')
+                                     select=True, required=True)
+    product_id = fields.Many2one('product.template', string='Produto',
+                        readonly=True, states={'draft':[('readonly', False)]})
+    default_code = fields.Char(u'Código', related='product_id.default_code',
+                        readonly=True, states={'draft':[('readonly', False)]})
+    name = fields.Char('Nome', related='product_id.name', readonly=True,
+                       states={'draft':[('readonly', False)]})
+    ean13 = fields.Char('EAN13', related='product_id.ean13', readonly=True,
+                        states={'draft':[('readonly', False)]})
+    list_price = fields.Float(u'Preço', related='product_id.list_price',
+                        readonly=True, states={'draft':[('readonly', False)]})
+    product_uom = fields.Many2one('product.uom', required=True,
+                        readonly=True, states={'draft':[('readonly', False)]})
+    ncm_id = fields.Char('NCM', related='product_id.ncm_id.name',
+                         readonly=True, states={'draft':[('readonly', False)]})
     fci = fields.Char('FCI')
-    valor_parcela_importada = fields.Float(u'Valor parcela importação')
+    valor_parcela_importada = fields.Float(u'Valor parcela importação',
+                        required=True)
     conteudo_importacao = fields.Float(u'Conteúdo importação',
-                                       compute='_calc_conteudo_importacao')
-    # #chama os produtos de entrada
-    # campos produto
+                        compute='_calc_conteudo_importacao', readonly=True,
+                        states={'draft':[('readonly', False)]})

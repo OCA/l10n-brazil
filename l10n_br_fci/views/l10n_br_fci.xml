@@ -21,11 +21,9 @@
         <record id="view_l10n_br_fci_form" model="ir.ui.view">
             <field name="name">l10n_br_fci.form</field>
             <field name="model">l10n_br.fci</field>
-            <!-- é o nome , nao o nome do arquivo-->
             <field name="arch" type="xml">
                 <form string="FCI_Empresa">
-                    <sheet>
-                        <field name="state" invisible="1"/>
+                    <field name="state" invisible="1"/>
                     <header>
                         <button name="action_create_fci"
                                 string="Confirmar"
@@ -63,41 +61,57 @@
                         </button>
                         <field name="state" select="1" readonly="1"
                                widget="statusbar"
-                               statusbar_visible="draft, create_fci, waiting_protocol, waiting_fci, aproved"/>
-                        <!--<field name="file_name" states="waiting_fci"/>-->
+                               statusbar_visible="draft, create_fci,
+                                   waiting_protocol, waiting_fci, aproved"/>
+                        <field name="fci_file_returned"/>
                     </header>
+                    <sheet>
 
-                    <group string="Empresa">
+
+                        <div class="oe_right oe_button_box"
+                             name="import_buttons">
+                            <button class="oe_inline oe_stat_button"
+                                    name="%(action_view_l10n_br_fci_lines)d"
+                                    string="Adicionar produtos"
+                                    type="action"
+                                    widget="statinfo" states="draft"
+                                    icon="fa-pencil-square-o"
+                                    position="inside"/>
+                        </div>
                         <group>
-                            <field name="company_id"/>
-                            <field name="hash_code"/>
-                            <field name="dt_recepcao"/>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="hash_code"/>
+                                <field name="dt_recepcao"/>
+                                <field name="fci_file_sent"/>
+                            </group>
+                            <group>
+
+                                <field name="cod_recepcao"/>
+                                <field name="dt_validacao"/>
+                                <field name="in_validacao"/>
+                                <field name="protocol_number"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="cod_recepcao"/>
-                            <field name="dt_validacao"/>
-                            <field name="in_validacao"/>
-                            <field name="protocol_number"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page string="Produtos">
-                            <field name="fci_line">
-                                <tree editable="bottom">
-                                    <field name="product_id"/>
-                                    <field name="default_code" invisible="1"/>
-                                    <field name="name" invisible="1"/>
-                                    <field name="ean13" invisible="1"/>
-                                    <field name="product_uom"/>
-                                    <field name="ncm_id"/>
-                                    <field name="list_price"/>
-                                    <field name="valor_parcela_importada"/>
-                                    <field name="conteudo_importacao"/>
-                                    <field name="fci"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
+                        <notebook>
+                            <page string="Produtos">
+                                <field name="fci_line">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="default_code"
+                                               invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="ean13" invisible="1"/>
+                                        <field name="product_uom"/>
+                                        <field name="ncm_id"/>
+                                        <field name="list_price"/>
+                                        <field name="valor_parcela_importada"/>
+                                        <field name="conteudo_importacao"/>
+                                        <field name="fci"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -113,9 +127,11 @@
             <field name="view_id" ref="view_l10n_br_fci_tree"/>
         </record>
 
-        <menuitem name="FCI" id="menu_l10n_br_fci_root" parent="account.menu_finance" sequence="3"/>
+        <menuitem name="FCI" id="menu_l10n_br_fci_root"
+                  parent="account.menu_finance" sequence="3"/>
 
-        <menuitem name="Criar FCI" id="menu_action_l10n_br_fci_form" parent="menu_l10n_br_fci_root"
+        <menuitem name="Criar FCI" id="menu_action_l10n_br_fci_form"
+                  parent="menu_l10n_br_fci_root"
                   action="action_l10n_br_fci"/>
 
     </data>

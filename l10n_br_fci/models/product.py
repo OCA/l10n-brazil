@@ -10,5 +10,4 @@ class product_fci(models.Model):
     _inherit = "product.template"
     _description = "Entries by product template"
 
-
     products_ids = fields.Many2many('product_fci.from.product.template.lines', 'product_id','fci_id', 'fci_product_rel', string='Produtos')
