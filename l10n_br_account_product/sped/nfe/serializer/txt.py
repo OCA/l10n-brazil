@@ -57,15 +57,18 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         StrRegB = {
             'cUF': company_addr_default.state_id.ibge_code,
             'cNF': '',
-            'NatOp': normalize('NFKD', unicode(inv.cfop_ids[0].small_name or '')).encode('ASCII', 'ignore'),
+            'NatOp': (normalize('NFKD',
+                                unicode(inv.cfop_ids[0].small_name or ''))
+                      .encode('ASCII', 'ignore')),
             'indPag': inv.payment_term and inv.payment_term.indPag or '0',
             'mod': inv.fiscal_document_id.code,
             'serie': inv.document_serie_id.code,
             'nNF': inv.internal_number or '',
             'hSaiEnt': '',
             'tpNF': '',
-            'cMunFG': ('%s%s') % (
-                company_addr_default.state_id.ibge_code, company_addr_default.l10n_br_city_id.ibge_code),
+            'cMunFG': ('%s%s') % (company_addr_default.state_id.ibge_code,
+                                  (company_addr_default
+                                   .l10n_br_city_id.ibge_code)),
             'TpImp': '1',
             'TpEmis': '1',
             'cDV': '',
