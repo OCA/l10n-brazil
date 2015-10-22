@@ -185,7 +185,14 @@ class AccountTax(models.Model):
                 freight_value + other_costs_value
 
         result_icms = self._compute_tax(
-            cr, uid, specific_icms, total_base, product, quantity, precision, base_tax)
+            cr,
+            uid,
+            specific_icms,
+            total_base,
+            product,
+            quantity,
+            precision,
+            base_tax)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
@@ -207,8 +214,10 @@ class AccountTax(models.Model):
                 'taxes'][0]['base_reduction']
             icms_st_base = round((((result['total'] + ipi_value) * (1 - icms_st_percent_reduction)) * (
                 1 + result_icmsst['taxes'][0]['amount_mva'])), precision)
-            icms_st_base_other = round(((result['total'] + ipi_value) * (
-                1 + result_icmsst['taxes'][0]['amount_mva'])), precision) - icms_st_base
+            icms_st_base_other = round(
+                ((result['total'] + ipi_value) * (
+                    1 + result_icmsst['taxes'][0]['amount_mva'])),
+                precision) - icms_st_base
             result_icmsst['taxes'][0]['total_base'] = icms_st_base
             result_icmsst['taxes'][0]['amount'] = round(
                 (icms_st_base * icms_st_percent) - icms_value, precision)

@@ -116,7 +116,9 @@ class L10nbrAccountDocumentRelated(models.Model):
     invoice_id = fields.Many2one('account.invoice', 'Documento Fiscal',
                                  ondelete='cascade', select=True)
     invoice_related_id = fields.Many2one('account.invoice',
-                                         'Documento Fiscal', ondelete='cascade', select=True)
+                                         'Documento Fiscal',
+                                         ondelete='cascade',
+                                         select=True)
     document_type = fields.Selection(
         [('nf', 'NF'), ('nfe', 'NF-e'), ('cte', 'CT-e'),
             ('nfrural', 'NF Produtor'), ('cf', 'Cupom Fiscal')],
@@ -240,7 +242,8 @@ class L10nbrAccountDocumentRelated(models.Model):
                 result['value']['cpfcnpj_type'] = 'cpf'
 
             result['value']['date'] = inv_related.date_invoice
-            result['value']['fiscal_document_id'] = inv_related.fiscal_document_id and \
+            result['value']['fiscal_document_id'] = \
+                inv_related.fiscal_document_id and \
                 inv_related.fiscal_document_id.id or False
 
         if inv_related.fiscal_document_id.code == '04':
@@ -329,4 +332,5 @@ class ImportDeclarationLine(models.Model):
     manufacturer_code = fields.Char(
         u'Código do Fabricante', size=3, required=True)
     amount_discount = fields.Float(u'Valor',
-                                   digits=dp.get_precision('Account'), default=0.00)
+                                   digits=dp.get_precision('Account'),
+                                   default=0.00)
