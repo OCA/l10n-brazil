@@ -18,7 +18,6 @@
 ###############################################################################
 
 from openerp import models, fields, api
-from .l10n_br_account_product import PRODUCT_FISCAL_TYPE
 
 
 class AccountFiscalPositionTemplate(models.Model):
