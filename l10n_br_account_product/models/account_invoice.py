@@ -76,7 +76,8 @@ class AccountInvoice(models.Model):
             self.amount_costs + self.amount_insurance + self.amount_freight
 
         for line in self.invoice_line:
-            if line.icms_cst_id.code not in ('101', '102', '201', '202', '300', '500'):
+            if line.icms_cst_id.code not in (
+                    '101', '102', '201', '202', '300', '500'):
                 self.icms_base += line.icms_base
                 self.icms_base_other += line.icms_base_other
                 self.icms_value += line.icms_value
@@ -175,9 +176,16 @@ class AccountInvoice(models.Model):
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, states={'draft': [('readonly', False)]},
         default=_default_fiscal_category)
-    date_in_out = fields.Datetime(u'Data de Entrada/Saida', readonly=True,
-                                  states={'draft': [('readonly', False)]}, select=True, copy=False,
-                                  help="Deixe em branco para usar a data atual")
+    date_in_out = fields.Datetime(
+        u'Data de Entrada/Saida',
+        readonly=True,
+        states={
+            'draft': [
+                ('readonly',
+                 False)]},
+        select=True,
+        copy=False,
+        help="Deixe em branco para usar a data atual")
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Delivery Address',
         readonly=True, required=True,
@@ -201,8 +209,11 @@ class AccountInvoice(models.Model):
         \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
         \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
         \n* The \'Cancelled\' state is used when user cancel invoice.')
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-                                   'Tipo Fiscal', required=True, default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Endereço de Entrega', readonly=True,
         states={'draft': [('readonly', False)]},
@@ -237,31 +248,60 @@ class AccountInvoice(models.Model):
     carrier_name = fields.Char('Nome Transportadora', size=32)
     vehicle_plate = fields.Char('Placa do Veiculo', size=7)
     vehicle_state_id = fields.Many2one('res.country.state', 'UF da Placa')
-    vehicle_l10n_br_city_id = fields.Many2one('l10n_br_base.city',
-                                              'Municipio', domain="[('state_id', '=', vehicle_state_id)]")
-    amount_untaxed = fields.Float(string='Untaxed', store=True,
-                                  digits=dp.get_precision('Account'), compapply_fiscal_mappingute='_compute_amount')
-    amount_tax = fields.Float(string='Tax', store=True,
-                              digits=dp.get_precision('Account'), compute='_compute_amount')
-    amount_total = fields.Float(string='Total', store=True,
-                                digits=dp.get_precision('Account'), compute='_compute_amount')
-    amount_gross = fields.Float(string='Vlr. Bruto', store=True,
-                                digits=dp.get_precision('Account'), compute='_compute_amount',
-                                readonly=True)
-    amount_discount = fields.Float(string='Desconto', store=True,
-                                   digits=dp.get_precision('Account'), compute='_compute_amount')
-    icms_base = fields.Float(string='Base ICMS', store=True,
-                             digits=dp.get_precision('Account'), compute='_compute_amount')
-    icms_base_other = fields.Float(string='Base ICMS Outras', store=True,
-                                   digits=dp.get_precision('Account'), compute='_compute_amount',
-                                   readonly=True)
+    vehicle_l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city',
+        'Municipio',
+        domain="[('state_id', '=', vehicle_state_id)]")
+    amount_untaxed = fields.Float(
+        string='Untaxed',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compapply_fiscal_mappingute='_compute_amount')
+    amount_tax = fields.Float(
+        string='Tax',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    amount_total = fields.Float(
+        string='Total',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    amount_gross = fields.Float(
+        string='Vlr. Bruto',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount',
+        readonly=True)
+    amount_discount = fields.Float(
+        string='Desconto',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    icms_base = fields.Float(
+        string='Base ICMS',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    icms_base_other = fields.Float(
+        string='Base ICMS Outras',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount',
+        readonly=True)
     icms_value = fields.Float(
         string='Valor ICMS', digits=dp.get_precision('Account'),
         compute='_compute_amount', store=True)
-    icms_st_base = fields.Float(string='Base ICMS ST', store=True,
-                                digits=dp.get_precision('Account'), compute='_compute_amount')
-    icms_st_value = fields.Float(string='Valor ICMS ST', store=True,
-                                 digits=dp.get_precision('Account'), compute='_compute_amount')
+    icms_st_base = fields.Float(
+        string='Base ICMS ST',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    icms_st_value = fields.Float(
+        string='Valor ICMS ST',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
     ipi_base = fields.Float(
         string='Base IPI', store=True, digits=dp.get_precision('Account'),
         compute='_compute_amount')
@@ -297,11 +337,17 @@ class AccountInvoice(models.Model):
     number_of_packages = fields.Integer(
         'Volume', readonly=True, states={'draft': [('readonly', False)]})
     kind_of_packages = fields.Char(
-        'Espécie', size=60, readonly=True, states={'draft': [('readonly', False)]})
+        'Espécie', size=60, readonly=True, states={
+            'draft': [
+                ('readonly', False)]})
     brand_of_packages = fields.Char(
-        'Brand',  size=60, readonly=True, states={'draft': [('readonly', False)]})
+        'Brand', size=60, readonly=True, states={
+            'draft': [
+                ('readonly', False)]})
     notation_of_packages = fields.Char(
-        'Numeração', size=60, readonly=True, states={'draft': [('readonly', False)]})
+        'Numeração', size=60, readonly=True, states={
+            'draft': [
+                ('readonly', False)]})
     amount_insurance = fields.Float(
         string='Valor do Seguro', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
@@ -311,8 +357,11 @@ class AccountInvoice(models.Model):
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
-    amount_total_taxes = fields.Float(string='Total de Tributos', store=True,
-                                      digits=dp.get_precision('Account'), compute='_compute_amount')
+    amount_total_taxes = fields.Float(
+        string='Total de Tributos',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
 
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
@@ -374,7 +423,11 @@ class AccountInvoice(models.Model):
             doc = etree.XML(result['arch'])
             nodes = doc.xpath("//field[@name='partner_id']")
             partner_string = _('Customer')
-            if context.get('type', 'out_invoice') in ('in_invoice', 'in_refund'):
+            if context.get(
+                    'type',
+                    'out_invoice') in (
+                    'in_invoice',
+                    'in_refund'):
                 partner_string = _('Supplier')
             for node in nodes:
                 node.set('string', partner_string)
@@ -627,8 +680,11 @@ class AccountInvoiceLine(models.Model):
     cofins_type = fields.Selection(
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
         'Tipo do COFINS', required=True, default='percent')
-    cofins_base = fields.Float('Base COFINS', required=True,
-                               digits=dp.get_precision('Account'), default=0.00)
+    cofins_base = fields.Float(
+        'Base COFINS',
+        required=True,
+        digits=dp.get_precision('Account'),
+        default=0.00)
     cofins_base_other = fields.Float(
         'Base COFINS Outras', required=True,
         digits=dp.get_precision('Account'), default=0.00)
@@ -686,14 +742,27 @@ class AccountInvoiceLine(models.Model):
 
     def _amount_tax_icmsst(self, tax=None):
         result = {
-            'icms_st_value': tax.get('amount', 0.0),
-            'icms_st_base': tax.get('total_base', 0.0),
-            'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
-            'icms_st_percent_reduction': tax.get('icms_st_percent_reduction', 0.0) * 100,
-            'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
-            'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
-            'icms_st_base_type': tax.get('icms_st_base_type', '4')
-        }
+            'icms_st_value': tax.get(
+                'amount',
+                0.0),
+            'icms_st_base': tax.get(
+                'total_base',
+                0.0),
+            'icms_st_percent': tax.get(
+                'icms_st_percent',
+                0.0) * 100,
+            'icms_st_percent_reduction': tax.get(
+                'icms_st_percent_reduction',
+                0.0) * 100,
+            'icms_st_mva': tax.get(
+                'amount_mva',
+                0.0) * 100,
+            'icms_st_base_other': tax.get(
+                'icms_st_base_other',
+                0.0),
+            'icms_st_base_type': tax.get(
+                'icms_st_base_type',
+                '4')}
         return result
 
     def _amount_tax_ipi(self, tax=None):
@@ -772,7 +841,8 @@ class AccountInvoiceLine(models.Model):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
 
-        if fiscal_position.fiscal_category_id.journal_type in ('sale', 'sale_refund'):
+        if fiscal_position.fiscal_category_id.journal_type in (
+                'sale', 'sale_refund'):
             ctx.update({'type_tax_use': 'sale'})
         else:
             ctx.update({'type_tax_use': 'purchase'})
@@ -1166,10 +1236,19 @@ class AccountInvoiceLine(models.Model):
         return result
 
     @api.multi
-    def onchange_tax_icms_st(self, icms_st_base_type, icms_st_base, icms_st_percent,
-                             icms_st_percent_reduction, icms_st_mva, icms_st_base_other,
-                             price_unit, discount, insurance_value,
-                             freight_value, other_costs_value):
+    def onchange_tax_icms_st(
+            self,
+            icms_st_base_type,
+            icms_st_base,
+            icms_st_percent,
+            icms_st_percent_reduction,
+            icms_st_mva,
+            icms_st_base_other,
+            price_unit,
+            discount,
+            insurance_value,
+            freight_value,
+            other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
 
@@ -1196,27 +1275,51 @@ class AccountInvoiceLine(models.Model):
         return result
 
     @api.multi
-    def onchange_tax_pis_st(self, pis_st_type, pis_st_base, pis_st_percent,
-                            pis_st_value, price_unit, discount, insurance_value,
-                            freight_value, other_costs_value):
+    def onchange_tax_pis_st(
+            self,
+            pis_st_type,
+            pis_st_base,
+            pis_st_percent,
+            pis_st_value,
+            price_unit,
+            discount,
+            insurance_value,
+            freight_value,
+            other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
 
         return result
 
     @api.multi
-    def onchange_tax_cofins(self, cofins_st_type, cofins_st_base, cofins_st_percent,
-                            cofins_st_value, price_unit, discount, insurance_value,
-                            freight_value, other_costs_value):
+    def onchange_tax_cofins(
+            self,
+            cofins_st_type,
+            cofins_st_base,
+            cofins_st_percent,
+            cofins_st_value,
+            price_unit,
+            discount,
+            insurance_value,
+            freight_value,
+            other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
 
         return result
 
     @api.multi
-    def onchange_tax_cofins_st(self, cofins_st_type, cofins_st_base, cofins_st_percent,
-                               cofins_st_value, price_unit, discount, insurance_value,
-                               freight_value, other_costs_value):
+    def onchange_tax_cofins_st(
+            self,
+            cofins_st_type,
+            cofins_st_base,
+            cofins_st_percent,
+            cofins_st_value,
+            price_unit,
+            discount,
+            insurance_value,
+            freight_value,
+            other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
 
@@ -1258,7 +1361,9 @@ class AccountInvoiceTax(models.Model):
                     'amount': tax['amount'],
                     'manual': False,
                     'sequence': tax['sequence'],
-                    'base': currency.round(tax['price_unit'] * line['quantity']),
+                    'base': currency.round(
+                        tax['price_unit'] *
+                        line['quantity']),
                 }
                 if invoice.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
@@ -1289,12 +1394,13 @@ class AccountInvoiceTax(models.Model):
                 # in situations were (part of) the taxes cannot be reclaimed,
                 # to ensure the tax move is allocated to the proper analytic
                 # account.
-                if not val.get('account_analytic_id') and line.account_analytic_id and val['account_id'] == line.account_id.id:
+                if not val.get('account_analytic_id') and line.account_analytic_id and val[
+                        'account_id'] == line.account_id.id:
                     val['account_analytic_id'] = line.account_analytic_id.id
 
                 key = (val['tax_code_id'], val[
                        'base_code_id'], val['account_id'])
-                if not key in tax_grouped:
+                if key not in tax_grouped:
                     tax_grouped[key] = val
                 else:
                     tax_grouped[key]['base'] += val['base']
