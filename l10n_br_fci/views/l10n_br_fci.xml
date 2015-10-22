@@ -63,7 +63,7 @@
                                widget="statusbar"
                                statusbar_visible="draft, create_fci,
                                    waiting_protocol, waiting_fci, aproved"/>
-                        <field name="fci_file_returned"/>
+                        <field name="fci_file_returned" states="waiting_fci"/>
                     </header>
                     <sheet>
 
@@ -83,7 +83,7 @@
                                 <field name="company_id"/>
                                 <field name="hash_code"/>
                                 <field name="dt_recepcao"/>
-                                <field name="fci_file_sent"/>
+                                <field name="fci_file_sent" states="create_fci"/>
                             </group>
                             <group>
 

@@ -5,6 +5,7 @@ from ..fci import fci
 from openerp.exceptions import Warning
 
 
+
 class L10nBrFci(models.Model):
 
     _name = "l10n_br.fci"
@@ -53,7 +54,7 @@ class L10nBrFci(models.Model):
         ('aproved', 'Aprovada')], default='draft')
     fci_line = fields.One2many('l10n_br.fci.line',
                                'l10n_br_fci_id', 'Product lines')
-     #arquivos
+
     fci_file_sent = fields.Binary(filters='*.txt',readonly=True)
         # , invisible=True,
         #                           states={'create_fci': [('invisible', False)]})
@@ -69,11 +70,6 @@ class L10nBrFci(models.Model):
     # move_line_ids =  fields.one2many('account.move.line', 'statement_id',
     #                                      'Entry lines', states={'confirm':[('readonly',True)]}),
     #
-    # campos de retorno preenchimento sistema
-
-    # #--------------------
-
-
 
 
     @api.multi
@@ -99,6 +95,7 @@ class L10nBrFci(models.Model):
                 for default_code, fci_code in zip(res_importados['default_code'],
                                                   res_importados['fci_codes']):
                     product_id = self.env['product.template'].search([('default_code', '=', default_code)])
+
                 if product_id:
                     product_id[0].fci = fci_code
                     list_ids.append(product_id[0].id)
@@ -112,7 +109,7 @@ class L10nBrFci(models.Model):
 
                     if (resp == True):
                         self.partner_id = company_id[0]
-                        self.fci_line = list_ids
+                        self.fci_line = [list_ids]
                         self.hash_code = res_importados['hash_code']
                         self.dt_recepcao = res_importados['dt_recepcao']
                         self.cod_recepcao = res_importados['cod_recepcao']
@@ -160,6 +157,7 @@ class L10nBrFci(models.Model):
 
 
 class L10nBrFciLine(models.Model):
+
     _name = "l10n_br.fci.line"
     _description = "Linhas da FCI"
 
@@ -172,24 +170,41 @@ class L10nBrFciLine(models.Model):
 
     # guarda o id da fci pertencente
     l10n_br_fci_id = fields.Many2one('l10n_br.fci', u'Código do arquivo FCI',
-                                     select=True, required=True)
-    product_id = fields.Many2one('product.template', string='Produto',
-                        readonly=True, states={'draft':[('readonly', False)]})
-    default_code = fields.Char(u'Código', related='product_id.default_code',
-                        readonly=True, states={'draft':[('readonly', False)]})
-    name = fields.Char('Nome', related='product_id.name', readonly=True,
-                       states={'draft':[('readonly', False)]})
-    ean13 = fields.Char('EAN13', related='product_id.ean13', readonly=True,
-                        states={'draft':[('readonly', False)]})
-    list_price = fields.Float(u'Preço', related='product_id.list_price',
-                        readonly=True, states={'draft':[('readonly', False)]})
-    product_uom = fields.Many2one('product.uom', required=True,
-                        readonly=True, states={'draft':[('readonly', False)]})
-    ncm_id = fields.Char('NCM', related='product_id.ncm_id.name',
-                         readonly=True, states={'draft':[('readonly', False)]})
+                                     select=True)# required=True
+    product_id = fields.Many2one('product.template', string='Produto')
+            # ,
+            #             readonly=True, states={'draft':[('readonly', False)]})
+    default_code = fields.Char(u'Código', related='product_id.default_code')
+
+                        # ,readonly=True, states={'draft':[('readonly', False)]})
+    name = fields.Char('Nome', related='product_id.name')#, readonly=True)
+                       # states={'draft':[('readonly', False)]})
+    ean13 = fields.Char('EAN13', related='product_id.ean13')#, readonly=True,
+                        # states={'draft':[('readonly', False)]})
+    list_price = fields.Float(u'Preço', related='product_id.list_price')#,
+                        # readonly=True, states={'draft':[('readonly', False)]})
+    product_uom = fields.Many2one('product.uom')#,, required=True
+                        # readonly=True, states={'draft':[('readonly', False)]})
+    ncm_id = fields.Char('NCM', related='product_id.ncm_id.name')#,
+                         # readonly=True, states={'draft':[('readonly', False)]})
     fci = fields.Char('FCI')
-    valor_parcela_importada = fields.Float(u'Valor parcela importação',
-                        required=True)
+    valor_parcela_importada = fields.Float(u'Valor parcela importação')#,
+                       # required=True)
     conteudo_importacao = fields.Float(u'Conteúdo importação',
-                        compute='_calc_conteudo_importacao', readonly=True,
-                        states={'draft':[('readonly', False)]})
+                         compute='_calc_conteudo_importacao')#, readonly=True,
+                        # states={'draft':[('readonly', False)]})
+
+
+    # @api.multi
+    # def insert_lines_from_wizard(self,list_code):
+    #
+    #     list_ids = []
+    #     for default_code in list_code:
+    #         lines  = self.env['product.template'].search([('default_code', '=', default_code)])
+    #         if lines:
+    #             list_ids.append(lines.id)
+    #
+    #     self.product_id =list_ids
+    #
+    #
+    #     return
