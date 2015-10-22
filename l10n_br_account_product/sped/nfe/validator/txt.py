@@ -240,7 +240,8 @@ def validate(cr, uid, ids, context=None):
                     strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - CST do COFINS\n' % (
                         inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
-                if (inv_line.cfop_id and inv_line.cfop_id.code[0] == '3') and not inv_line.import_declaration_ids:
+                if (inv_line.cfop_id and inv_line.cfop_id.code[
+                        0] == '3') and not inv_line.import_declaration_ids:
                     strErro += u'Produtos e Serviços: %s - %s, Qtde: %s - NFe de Exportação devem de Declaração de Importação\n' % (
                         inv_line.product_id.default_code, inv_line.product_id.name, inv_line.quantity)
 
