@@ -3,18 +3,18 @@
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
+# This program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU Affero General Public License as published by #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
 #                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
+# This program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+# GNU Affero General Public License for more details.                         #
 #                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+# You should have received a copy of the GNU Affero General Public License    #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
 from openerp.osv import orm, fields
@@ -50,8 +50,8 @@ class AccountInvoice(orm.Model):
         }
 
         default_fo_category = {
-           'product': DEFAULT_FCATEGORY_PRODUCT,
-           'service': DEFAULT_FCATEGORY_SERVICE
+            'product': DEFAULT_FCATEGORY_PRODUCT,
+            'service': DEFAULT_FCATEGORY_SERVICE
         }
 
         invoice_type = context.get('type', 'out_invoice')
@@ -86,15 +86,15 @@ class AccountInvoice(orm.Model):
 
         if invoice_fiscal_type == 'product':
             fiscal_document_series = [doc_serie for doc_serie in
-                                     company.document_serie_product_ids if
-                                     doc_serie.fiscal_document_id.id ==
-                                     company.product_invoice_id.id and
-                                     doc_serie.active]
+                                      company.document_serie_product_ids if
+                                      doc_serie.fiscal_document_id.id ==
+                                      company.product_invoice_id.id and
+                                      doc_serie.active]
             if fiscal_document_series:
                 fiscal_document_serie = fiscal_document_series[0].id
         else:
             fiscal_document_serie = company.document_serie_service_id and \
-            company.document_serie_service_id.id or False
+                company.document_serie_service_id.id or False
 
         return fiscal_document_serie
 
