@@ -152,22 +152,25 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
                 str_nfe_version, context)
 
             for nfe in nfes:
-                #if nfe['message']:
-                    #status = 'error'
-                #else:
-                    #status = 'success'
+                # if nfe['message']:
+                    # status = 'error'
+                # else:
+                    # status = 'success'
 
-                #self.pool.get(self._name + '_result').create(
-                    #cr, uid, {'document': nfe['key'],
-                        #'message': nfe['message'],
-                        #'status': status,
-                        #'wizard_id': data['id']})
+                # self.pool.get(self._name + '_result').create(
+                    # cr, uid, {'document': nfe['key'],
+                        # 'message': nfe['message'],
+                        # 'status': status,
+                        # 'wizard_id': data['id']})
 
                 nfe_file = nfe['nfe'].encode('utf8')
 
             self.write(
-                cr, uid, ids, {'file': base64.b64encode(nfe_file),
-                'state': 'done', 'name': name}, context=context)
+                cr, uid, ids,
+                {'file': base64.b64encode(nfe_file),
+                 'state': 'done',
+                 'name': name},
+                context=context)
 
         if err_msg:
             raise orm.except_orm(_('Error!'), _("'%s'") % _(err_msg, ))
@@ -175,7 +178,9 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
         mod_obj = self.pool.get('ir.model.data')
         model_data_ids = mod_obj.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
-            ('name', '=', 'l10n_br_account_product_nfe_export_invoice_form')],
+                      ('name',
+                       '=',
+                       'l10n_br_account_product_nfe_export_invoice_form')],
             context=context)
         resource_id = mod_obj.read(
             cr, uid, model_data_ids,
