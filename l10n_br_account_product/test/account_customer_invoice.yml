@@ -1,29 +1,144 @@
 -
-  Create a customer invoice
+  Create a sale customer invoice from SP to SP fiscal contributor
 -
-  !record {model: account.invoice, id: account_invoice_customer0, view: l10n_br_account.view_l10n_br_account_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp, view: l10n_br_account.view_l10n_br_account_invoice_form}:
     payment_term: account.account_payment_term_advance
-    partner_id: base.res_partner_3
+    partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
     reference_type: none
-    name: 'Test NFe Invoice'
+    name: 'NFe Invoice Test'
     invoice_line:
-      - product_id: product.product_product_5
+      - product_id: product.product_product_18
         fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
         quantity: 10.0
+        price_unit: 240.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].cfop_id.code == '5101'
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].icms_cst_id.code == '00'
+    - invoice_line[0].icms_base == 2400.00
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 432.00
+    - invoice_line[0].icms_percent == 18.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 2400.00
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 240.00
+    - invoice_line[0].ipi_percent == 10.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 2400.00
+    - invoice_line[0].pis_value == 15.60
+    - invoice_line[0].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 2400.00
+    - invoice_line[0].cofins_value == 72.00
+    - invoice_line[0].cofins_percent == 3.00
 -
   I check that Initially customer invoice is in the "Draft" state
 -
-  !assert {model: account.invoice, id: account_invoice_customer0}:
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
     - state == 'draft'
 -
   I create invoice by clicking on Create button
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_customer0}
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_sp}
 -
-  I check that the invoice state is "Open"
+  I check that the invoice state is "sefaz_export"
 -
-  !assert {model: account.invoice, id: account_invoice_customer0}:
-    - state == 'open'
-
-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - state == 'sefaz_export'
+-
+  Create a sale customer invoice from SP to RS fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs, view: l10n_br_account.view_l10n_br_account_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].cfop_id.code == '6101'
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - invoice_line[0].icms_cst_id.code == '00'
+    - invoice_line[0].icms_base == 550.00
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 66.00
+    - invoice_line[0].icms_percent == 12.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 550.00
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 82.50
+    - invoice_line[0].ipi_percent == 15.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 550.00
+    - invoice_line[0].pis_value == 3.58
+    - invoice_line[0].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 550.00
+    - invoice_line[0].cofins_value == 16,50
+    - invoice_line[0].cofins_percent == 3.00
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_rs}
+-
+  I check that the invoice state is "sefaz_export"
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - state == 'sefaz_export'
