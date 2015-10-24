@@ -28,18 +28,19 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
     _columns = {
         'state': fields.selection(
             [('init', 'Init'),
-            ('error', 'Error'),
-            ('done', 'Done')], 'State', select=True, readonly=True),
+             ('error', 'Error'),
+             ('done', 'Done')], 'State', select=True, readonly=True),
         'version': fields.text(u'Versão', readonly=True),
         'nfe_environment': fields.selection(
             [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
         'xMotivo': fields.text('Motivo', readonly=True),
-        #FIXME
+        # FIXME
         'cUF': fields.integer('Codigo Estado', readonly=True),
         'chNFe': fields.char('Chave de Acesso NFE', size=44),
         'protNFe': fields.text('Protocolo NFE', readonly=True),
         'retCancNFe': fields.text('Cancelamento NFE', readonly=True),
-        'procEventoNFe': fields.text('Processamento Evento NFE', readonly=True),
+        'procEventoNFe': fields.text('Processamento Evento NFE',
+                                     readonly=True),
     }
     _defaults = {
         'state': 'init',
@@ -47,7 +48,7 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
 
     def get_document_status(self, cr, uid, ids, context=None):
         data = self.read(cr, uid, ids, [], context=context)[0]
-        #Call some method from l10n_br_account to check chNFE
+        # Call some method from l10n_br_account to check chNFE
         call_result = {
             'version': '2.01',
             'nfe_environment': '2',
