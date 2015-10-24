@@ -196,10 +196,7 @@ class AccountTax(models.Model):
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
-            icms_base = result_icms['taxes'][0]['total_base']
             icms_value = result_icms['taxes'][0]['amount']
-            icms_percent = result_icms['taxes'][0]['percent']
-            icms_percent_reduction = result_icms['taxes'][0]['base_reduction']
 
         # Calcula ICMS ST
         specific_icmsst = [tx for tx in result['taxes']
