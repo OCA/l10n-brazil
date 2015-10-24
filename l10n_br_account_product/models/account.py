@@ -137,8 +137,8 @@ class AccountTax(models.Model):
                                                      price_unit, quantity,
                                                      product, partner,
                                                      force_excluded)
-        totaldc = icms_base = icms_value = icms_percent = 0.0
-        icms_percent_reduction = ipi_value = 0.0
+        totaldc = icms_value = 0.0
+        ipi_value = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
@@ -209,8 +209,10 @@ class AccountTax(models.Model):
             icms_st_percent = result_icmsst['taxes'][0]['percent']
             icms_st_percent_reduction = result_icmsst[
                 'taxes'][0]['base_reduction']
-            icms_st_base = round((((result['total'] + ipi_value) * (1 - icms_st_percent_reduction)) * (
-                1 + result_icmsst['taxes'][0]['amount_mva'])), precision)
+            icms_st_base = round(((result['total'] + ipi_value) *
+                                 (1 - icms_st_percent_reduction)) *
+                                 (1 + result_icmsst['taxes'][0]['amount_mva']),
+                                 precision)
             icms_st_base_other = round(
                 ((result['total'] + ipi_value) * (
                     1 + result_icmsst['taxes'][0]['amount_mva'])),
@@ -250,8 +252,9 @@ class AccountTax(models.Model):
 
                 tax_estimate_percent += tax_estimate.state_taxes
                 tax_estimate_percent /= 100
-                result['total_taxes'] = round(
-                    (result['total_included'] - totaldc) * tax_estimate_percent, precision)
+                total_taxes = ((result['total_included'] - totaldc) *
+                               tax_estimate_percent)
+                result['total_taxes'] = round(total_taxes, precision)
 
         return {
             'total': result['total'],
