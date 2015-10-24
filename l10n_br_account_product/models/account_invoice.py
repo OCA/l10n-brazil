@@ -995,7 +995,7 @@ class AccountInvoiceLine(models.Model):
                           fposition_id=False, price_unit=False,
                           currency_id=False, company_id=None):
         ctx = dict(self.env.context)
-        if ctx.get('type') in ('out_invoice', 'out_refund'):
+        if type in ('out_invoice', 'out_refund'):
             type_tax_use = {'type_tax_use': 'sale'}
         else:
             type_tax_use = {'type_tax_use': 'purchase'}
