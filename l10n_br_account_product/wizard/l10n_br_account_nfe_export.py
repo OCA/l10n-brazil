@@ -33,17 +33,16 @@ class L10n_brAccountNfeExport(orm.TransientModel):
             'NFe Export Result'),
     }
     _defaults = {
-        'company_id': lambda self, cr, uid,
-            c: self.pool.get('res.company')._company_default_get(
+        'company_id': lambda self, cr, uid, c:
+            self.pool.get('res.company')._company_default_get(
                 cr, uid, 'account.invoice', context=c),
     }
 
     def _get_invoice_ids(self, cr, uid, data, context=None):
-
         if not context:
             context = {}
-
-        return self.pool.get('account.invoice').search(cr, uid,
+        return self.pool.get('account.invoice').search(
+            cr, uid,
             [('state', '=', 'sefaz_export'),
              ('nfe_export_date', '=', False),
              ('company_id', '=', data['company_id'][0]),
