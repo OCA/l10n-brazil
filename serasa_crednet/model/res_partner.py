@@ -28,8 +28,6 @@ class ResPartner(models.Model):
 
     consulta_serasa = fields.One2many('consulta_serasa', 'partner_id')
 
-    teste = "a"
-
     @api.multi
     def do_consultar_serasa(self):
         for partner in self:

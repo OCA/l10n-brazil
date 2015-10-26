@@ -18,13 +18,54 @@
                         <!--<button name="do_consulta_serasa" type="object" icon="fa-lock" class="oe_inline oe_stat_button" string="Consultar" />-->
                     <!--</header>-->
                     <sheet>
-
                         <group name="group_top">
-                            <field name="partner_id" string="Parceiro" />
-                            <field name="data_consulta" string="Data da Consulta" />
-                            <field name="status" string="Status Parceiro" />
-                            <field name="stringRetorno" string="String Retorno"/>
+                            <group>
+                              <field name="partner_id" string="Parceiro" />
+                               <field name="data_consulta" string="Data da Consulta" />
+                            </group>
+                            <group>
+                                <field name="status" string="Status Parceiro" />
+                            </group>
                         </group>
+                        <notebook>
+                            <page string="Informaçoes">
+                                <separator string="Protestos"/>
+                                <field  name="protesto_ids" sum="valor">
+                                    <tree>
+                                        <field name="cartorio"/>
+                                        <field name="date"/>
+                                        <field name="city" />
+                                        <field name="uf" />
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                                <separator string="Pefin"/>
+                                <field name="pefin_ids" sum="valor">
+                                    <tree>
+                                        <field name="modalidade"/>
+                                        <field name="origem" />
+                                        <field name="avalista" />
+                                        <field name="date"/>
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                                <separator string="Cheques"/>
+                                <field name="cheque_ids" sum="valor">
+                                    <tree>
+                                        <field name="num_cheque"/>
+                                        <field name="name_bank" />
+                                        <field name="city" />
+                                        <field name="uf" />
+                                        <field name="date"/>
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Retorno">
+                                <field name="stringRetorno" string="String Retorno"/>
+                            </page>
+                        </notebook>
+
                     </sheet>
                 </form>
 
@@ -59,7 +100,18 @@
 				<notebook>
 					<page position="inside" string="Consultas Serasa">
                         <button name="do_consultar_serasa"  type="object" icon="fa-search" class="oe_inline oe_stat_button" string="Consultar" />
-                        <field name="consulta_serasa" readonly="1" />
+                        <field name="consulta_serasa" readonly="1">
+                            <tree>
+                                <field name="data_consulta"/>
+                                <field name="protesto_count"/>
+                                <field name="protesto_sum"/>
+                                <field name="pefin_count"/>
+                                <field name="pefin_sum"/>
+                                <field name="cheque_count"/>
+                                <field name="cheque_sum"/>
+                                <field name="status"/>
+                            </tree>
+                        </field>
 					</page>
 				</notebook>
 			</field>
