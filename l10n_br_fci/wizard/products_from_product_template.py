@@ -21,7 +21,7 @@ class ProductFciFromProductTemplateLines(models.TransientModel):
                 vals = {}
                 vals = {
                     'product_id' : product.id,
-                    # 'product_uom': product.product_uom.id,
+                    'product_uom': product.uom_id.id,
                     'l10n_br_fci_id': active_id,
                 }
                 fci_line_obj = self.env['l10n_br.fci.line']
