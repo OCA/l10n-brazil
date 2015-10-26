@@ -43,6 +43,7 @@ class ProductTemplate(orm.Model):
         'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True),
         'origin': fields.selection(PRODUCT_ORIGIN, 'Origem'),
         'ncm_id': fields.many2one('account.product.fiscal.classification', u'NCM'),
+        'fci': fields.char('FCI do Produto', size=36),
     }
     _defaults = {
         'fiscal_type': PRODUCT_FISCAL_TYPE_DEFAULT,
