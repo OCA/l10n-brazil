@@ -31,30 +31,29 @@ def consulta_cnpj(partner, company):
     senha = '10203040'
 
     if partner.is_company:
-        tipoPessoaBusca = 'J'
+        tipo_pessoa_busca = 'J'
     else:
-        tipoPessoaBusca = 'F'
+        tipo_pessoa_busca = 'F'
 
     document = punctuation_rm(partner.cnpj_cpf)
     company_document = punctuation_rm(company.cnpj_cpf)
 
-    documentoConsultado = "%015d" % int(document)
-    documentoConsultor = "%014d" % int(company_document)
+    documento_consultado = "%015d" % int(document)
+    documento_consultor = "%014d" % int(company_document)
 
     # Objeto que gerencia todas as funções de parsing
     parser = parserStringDados.ParserStringDados()
 
     # Variavel que recebe o a string de retorno do Serasa
-    stringDados = parser.realizarBuscaSerasa(parser.gerarStringEnvio(logon, senha, documentoConsultado, tipoPessoaBusca,
-                                                                     documentoConsultor))
+    string_dados = parser.realizarBuscaSerasa(parser.gerarStringEnvio(
+        logon, senha, documento_consultado, tipo_pessoa_busca,
+        documento_consultor))
 
     arquivo = crednet.Crednet()
 
-    # stringDados = 'B49C      062173620000180JC     FI0001000000000000000N99SFIMAN                            SS              N                                            06217362000180  000000000               00  2014071811253000000025    0026                                                                        0000                    3#                                                                            P002RE02                                                                                                          N00100PPX25PN0    7                            EEX                                                                N20000SERASA S/A                                                            191019702 27022013                    N20001                                                                                                            N21099NAO CONSTAM OCORRENCIAS                                                                                     N23099NAO CONSTAM OCORRENCIAS                                                                                     N2400028052013FINANCIAMENTO                 NR$ 0000000012547899897879878974522SERASA                        SPO  N24001N                                                                            V0030188217                    N2400001012012ADIANT CONTA                  SR$ 00000000000165401              SERASA                        SPO  N24001N                                                                            V0026548030                    N2409000002012012052013000000001256443V                                                                           N2400001082012ADIANT CONTA                  NR$ 00000000012200101              B DO BRASIL                   SPO  N24001SDIVIDA SUB JUDICE                                                           I0025647992                    N2409000001082012082012000000000122001I                                                                           N2400012112013SENTENCA JUDICIAL             NR$ 0000000000080004599            E.B.O.T.E. EMPRESA B               N24001N                                                                            50032468375                    N2400010052011CERT DIV EN 76                NR$ 000000000030000123456789       BAU                           SPO  N24001N                                                                            50019767719                    N24090000020520111120130000000000380005                                                                           N25099NAO CONSTAM OCORRENCIAS                                                                                     N2700001082010CCF-BB         00006               409UNIBANCO      0001ALFENAS                       MG0010104940  N270000107201000000000450001200001000000000055400356ABN AMRO      2020                                0000051460  N270900002201072010011120104090001UNIBANCO                                                                        N44099NAO CONSTAM INFORMACOES                                                                                     T999000PROCESSO ENCERRADO NORMALMENTE                                                                             '
-
     # Gera o arquivo parseado separando os blocos da string de retorno
     # segundo o manual do Crednet do Serasa versão:06 de Janeiro/2014
-    arquivo = parser.parserStringDadosRetorno(stringDados, arquivo)
+    arquivo = parser.parserStringDadosRetorno(string_dados, arquivo)
 
 
     #TODO: ME tire daqui por favor!
@@ -62,106 +61,116 @@ def consulta_cnpj(partner, company):
         from openerp.exceptions import Warning
         raise Warning(arquivo.T999.mensagem)
 
-    retornoConsulta = {
+    retorno_consulta = {
             'status': '',
+            'fundacao': '',
             'texto': '',
             'pefin': '',
             'protesto': '',
             'cheque': '',
         }
 
-    retornoConsulta = retorna_pefin(retornoConsulta, arquivo.getBlocoDeRegistros('pendenciasFinanceiras'))
-    retornoConsulta = retorna_protesto(retornoConsulta, arquivo.getBlocoDeRegistros('protestosEstados'))
-    retornoConsulta = retorna_cheques(retornoConsulta, arquivo.getBlocoDeRegistros('chequesSemFundos'))
-    retornoConsulta = retorno_detalhes_string_retorno(retornoConsulta, arquivo)
+    retorno_consulta = retorna_pefin(
+        retorno_consulta, arquivo.getBlocoDeRegistros('pendenciasFinanceiras'))
+    retorno_consulta = retorna_protesto(
+        retorno_consulta, arquivo.getBlocoDeRegistros('protestosEstados'))
+    retorno_consulta = retorna_cheques(
+        retorno_consulta, arquivo.getBlocoDeRegistros('chequesSemFundos'))
+    retorno_consulta = retorno_detalhes_string_retorno(
+        retorno_consulta, arquivo)
 
-    return retornoConsulta
+    blocoN200 = arquivo.getBlocoDeRegistros('N200')
+
+    retorno_consulta['fundacao'] = blocoN200.dataNascFundacao
+
+    return retorno_consulta
 
 
-def retorna_pefin(retornoConsulta, bloco):
+def retorna_pefin(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
-        retornoConsulta['status'] = "Não aprovado"
+        retorno_consulta['status'] = "Não aprovado"
     else:
-        retornoConsulta['status'] = "Aprovado"
+        retorno_consulta['status'] = "Aprovado"
 
     pefin = []
 
     if len(bloco.blocos) > 0:
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
-                pefinDic = {
+                pefin_dic = {
                     'modalidade': registro.campos.campos[3]._valor,
                     'origem': registro.campos.campos[8]._valor,
                     'avalista': 'Não' if registro.campos.campos[4] else 'Sim',
                     'date': registro.campos.campos[2]._valor,
                     'value': registro.campos.campos[6]._valor,
                 }
-                pefin.append(pefinDic)
+                pefin.append(pefin_dic)
 
-    retornoConsulta['pefin'] = pefin
+    retorno_consulta['pefin'] = pefin
     pefin = []
 
-    return retornoConsulta
+    return retorno_consulta
 
 
-def retorna_protesto(retornoConsulta, bloco):
+def retorna_protesto(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
-        retornoConsulta['status'] = "Não aprovado"
+        retorno_consulta['status'] = "Não aprovado"
     else:
-        retornoConsulta['status'] = "Aprovado"
+        retorno_consulta['status'] = "Aprovado"
 
     protesto = []
 
     if len(bloco.blocos) > 0:
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
-                protestoDic = {
+                protesto_dic = {
                     'cartorio': registro.campos.campos[5]._valor,
                     'city': registro.campos.campos[6]._valor,
                     'uf': registro.campos.campos[7]._valor,
                     'date': registro.campos.campos[2]._valor,
                     'value': registro.campos.campos[4]._valor,
                 }
-                protesto.append(protestoDic)
+                protesto.append(protesto_dic)
 
-        retornoConsulta['protestosEstados'] = protesto
+        retorno_consulta['protestosEstados'] = protesto
         protesto = []
 
-        return retornoConsulta
+        return retorno_consulta
 
 
-def retorna_cheques(retornoConsulta, bloco):
+def retorna_cheques(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
-        retornoConsulta['status'] = "Não aprovado"
+        retorno_consulta['status'] = "Não aprovado"
     else:
-        retornoConsulta['status'] = "Aprovado"
+        retorno_consulta['status'] = "Aprovado"
 
     cheque = []
 
     if len(bloco.blocos) > 0:
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
-                chequeDic = {
+                cheque_dic = {
                     'num_cheque': registro.campos.campos[3]._valor,
+                    'alinea': int(registro.campos.campos[4]._valor),
                     'name_bank': registro.campos.campos[8]._valor,
                     'date': registro.campos.campos[2]._valor,
                     'city': registro.campos.campos[10]._valor,
                     'uf': registro.campos.campos[11]._valor,
                     'value': registro.campos.campos[6]._valor,
                 }
-                cheque.append(chequeDic)
+                cheque.append(cheque_dic)
 
-    retornoConsulta['cheque'] = cheque
+    retorno_consulta['cheque'] = cheque
     cheque = []
 
-    return retornoConsulta
+    return retorno_consulta
 
 
-def retorno_detalhes_string_retorno(retornoConsulta, arquivo, bloco=None):
+def retorno_detalhes_string_retorno(retorno_consulta, arquivo, bloco=None):
     if bloco is None:
         retorno_string = arquivo.get_string()
     else:
         retorno_string = arquivo.get_string(bloco)
 
-    retornoConsulta['texto'] = retorno_string
-    return retornoConsulta
+    retorno_consulta['texto'] = retorno_string
+    return retorno_consulta

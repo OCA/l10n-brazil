@@ -46,7 +46,9 @@ class Serasa(models.Model):
     data_consulta = fields.Date('Data Consulta', default=datetime.now())
     status = fields.Char('Estado')
     partner_id = fields.Many2one('res.partner', required=True)
-    stringRetorno = fields.Text('StringRetorno')
+    partner_fundation = fields.Date('Data de Fundação')
+    partner_identification = fields.Char('Documento')
+    string_retorno = fields.Text('StringRetorno')
     protesto_count = fields.Integer('Protestos', compute='_count_serasa')
     protesto_sum = fields.Float('Valor', compute='_count_serasa')
     protesto_ids = fields.One2many('serasa.protesto', 'serasa_id')
@@ -57,19 +59,20 @@ class Serasa(models.Model):
     cheque_sum = fields.Float('Valor', compute='_count_serasa')
     cheque_ids = fields.One2many('serasa.cheque', 'serasa_id')
 
-
     def _check_partner(self):
         id_consulta_serasa = self.id
         company = self.env.user.company_id
-        retornoConsulta = consulta.consulta_cnpj(self.partner_id, company)
+        retorno_consulta = consulta.consulta_cnpj(self.partner_id, company)
 
         result = self.write({
-                'status': retornoConsulta['status'],
-                'stringRetorno': retornoConsulta['texto'],
+                'status': retorno_consulta['status'],
+                'string_retorno': retorno_consulta['texto'],
+                'partner_fundation': retorno_consulta['fundacao'],
+                'partner_identification': self.partner_id.cnpj_cpf,
             })
 
         pefin_obj = self.env['serasa.pefin']
-        for pefin in retornoConsulta['pefin']:
+        for pefin in retorno_consulta['pefin']:
             pefin_obj.create({
                 'value': pefin['value'],
                 'date': pefin['date'],
@@ -80,7 +83,7 @@ class Serasa(models.Model):
             })
 
         protesto_obj = self.env['serasa.protesto']
-        for protesto in retornoConsulta['protesto']:
+        for protesto in retorno_consulta['protesto']:
             protesto_obj.create({
                 'value': protesto['value'],
                 'date': protesto['date'],
@@ -91,11 +94,12 @@ class Serasa(models.Model):
             })
 
         cheque_obj = self.env['serasa.cheque']
-        for cheque in retornoConsulta['cheque']:
+        for cheque in retorno_consulta['cheque']:
             cheque_obj.create({
                 'value': cheque['value'],
                 'date': cheque['date'],
                 'num_cheque': cheque['num_cheque'],
+                'alinea': cheque['alinea'],
                 'serasa_id': id_consulta_serasa,
                 'name_bank': cheque['name_bank'],
                 'city': cheque['city'],
@@ -110,6 +114,7 @@ class Serasa(models.Model):
         rec._check_partner()
         return rec
 
+
 class SerasaProtesto(models.Model):
 
     _name = 'serasa.protesto'
@@ -120,6 +125,7 @@ class SerasaProtesto(models.Model):
     serasa_id = fields.Many2one('consulta_serasa', required=True)
     date = fields.Date('Data')
     value = fields.Float('Valor')
+
 
 class SerasaPefin(models.Model):
 
@@ -138,6 +144,7 @@ class SerasaCheque(models.Model):
     _name = 'serasa.cheque'
 
     num_cheque = fields.Integer(u'Número do Cheque')
+    alinea = fields.Integer(u'Alínea')
     serasa_id = fields.Many2one('consulta_serasa', required=True)
     name_bank = fields.Char('Nome do Banco')
     city = fields.Char('Cidade')

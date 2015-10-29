@@ -21,10 +21,13 @@
                         <group name="group_top">
                             <group>
                               <field name="partner_id" string="Parceiro" />
-                               <field name="data_consulta" string="Data da Consulta" />
+                                <field name="data_consulta" string="Data da Consulta" />
+
                             </group>
                             <group>
                                 <field name="status" string="Status Parceiro" />
+                                <field name="partner_fundation" string="Fundação" />
+                                <field name="partner_identification" string="Documento" />
                             </group>
                         </group>
                         <notebook>
@@ -32,37 +35,38 @@
                                 <separator string="Protestos"/>
                                 <field  name="protesto_ids" sum="valor">
                                     <tree>
-                                        <field name="cartorio"/>
                                         <field name="date"/>
+                                        <field name="cartorio"/>
                                         <field name="city" />
                                         <field name="uf" />
                                         <field name="value"/>
                                     </tree>
                                 </field>
-                                <separator string="Pefin"/>
+                                <separator string="Pendências Financeiras"/>
                                 <field name="pefin_ids" sum="valor">
                                     <tree>
+                                        <field name="date"/>
                                         <field name="modalidade"/>
                                         <field name="origem" />
                                         <field name="avalista" />
-                                        <field name="date"/>
                                         <field name="value"/>
                                     </tree>
                                 </field>
                                 <separator string="Cheques"/>
                                 <field name="cheque_ids" sum="valor">
                                     <tree>
+                                        <field name="date"/>
                                         <field name="num_cheque"/>
+                                        <field name="alinea" />
                                         <field name="name_bank" />
                                         <field name="city" />
                                         <field name="uf" />
-                                        <field name="date"/>
                                         <field name="value"/>
                                     </tree>
                                 </field>
                             </page>
                             <page string="Retorno">
-                                <field name="stringRetorno" string="String Retorno"/>
+                                <field name="string_retorno" string="String Retorno"/>
                             </page>
                         </notebook>
 
@@ -98,8 +102,8 @@
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<notebook>
-					<page position="inside" string="Consultas Serasa">
-                        <button name="do_consultar_serasa"  type="object" icon="fa-search" class="oe_inline oe_stat_button" string="Consultar" />
+					<page position="inside" string="Serasa">
+                        <button name="do_consultar_serasa"  type="object" icon="fa-search" class="oe_inline oe_stat_button" string="Consultar" align="right"/>
                         <field name="consulta_serasa" readonly="1">
                             <tree>
                                 <field name="data_consulta"/>
