@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 200(  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,18 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from ..document import NFe200
-from ..document import NFe310
-
-
-def nfe_export(cr, uid, ids, nfe_environment='1',
-               nfe_version='2.00', context=None):
-
-    if nfe_version == '3.10':
-        NFe = NFe310()
-    else:
-        NFe = NFe200()
-
-    nfes = NFe.get_xml(cr, uid, ids, nfe_environment, context)
-
-    return nfes
+from . import res_company
+from . import l10n_br_account_product
+from . import l10n_br_account
+from . import account_product_fiscal_classification
+from . import account_invoice
+from . import account
+from . import product
+from . import res_partner

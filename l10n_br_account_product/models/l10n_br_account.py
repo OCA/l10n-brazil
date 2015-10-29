@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 200(  Renato Lima - Akretion                                  #
+# Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,18 +17,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from ..document import NFe200
-from ..document import NFe310
+from openerp import models, fields
+
+from .l10n_br_account_product import (
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
-def nfe_export(cr, uid, ids, nfe_environment='1',
-               nfe_version='2.00', context=None):
+class L10nBrAccountFiscalCategory(models.Model):
+    _inherit = 'l10n_br_account.fiscal.category'
 
-    if nfe_version == '3.10':
-        NFe = NFe310()
-    else:
-        NFe = NFe200()
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
-    nfes = NFe.get_xml(cr, uid, ids, nfe_environment, context)
 
-    return nfes
+class L10nBrAccountDocumentSerie(models.Model):
+    _inherit = 'l10n_br_account.document.serie'
+
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class L10nBrAccountPartnerFiscalType(models.Model):
+    _inherit = 'l10n_br_account.partner.fiscal.type'
+
+    icms = fields.Boolean('Recupera ICMS', default=True)
+    ipi = fields.Boolean('Recupera IPI', default=True)
