@@ -191,24 +191,13 @@ class AccountInvoice(models.Model):
         readonly=True, required=True,
         states={'draft': [('readonly', False)]},
         help="Delivery address for current sales order.")
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('proforma', 'Pro-forma'),
-        ('proforma2', 'Pro-forma'),
-        ('sefaz_export', 'Enviar para Receita'),
-        ('sefaz_exception', 'Erro de autorização da Receita'),
-        ('sefaz_cancelled', u'Cancelado no Sefaz'),
-        ('open', 'Open'),
-        ('paid', 'Paid'),
-        ('cancel', 'Cancelled')
-    ], 'State', select=True, readonly=True,
-        help=' * The \'Draft\' state is used when a user is encoding a new and unconfirmed Invoice. \
-        \n* The \'Pro-forma\' when invoice is in Pro-forma state,invoice does not have an invoice number. \
-        \n* The \'Open\' state is used when user create invoice,a invoice number is generated.Its in open state till user does not pay invoice. \
-        \n* The \'Paid\' state is set automatically when invoice is paid.\
-        \n* The \'sefaz_out\' Gerado aquivo de exportação para sistema daReceita.\
-        \n* The \'sefaz_aut\' Recebido arquivo de autolização da Receita.\
-        \n* The \'Cancelled\' state is used when user cancel invoice.')
+    state = fields.Selection(
+        selection_add=[
+            ('sefaz_export', 'Enviar para Receita'),
+            ('sefaz_exception', u'Erro de autorização da Receita'),
+            ('sefaz_cancelled', 'Cancelado no Sefaz'),
+            ('sefaz_denied', 'Denegada no Sefaz'),
+        ])
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE,
         'Tipo Fiscal',
