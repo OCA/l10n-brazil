@@ -2,26 +2,6 @@
 <openerp>
 	<data>
 
-		<!--<record id="l10n_br_account_product_fiscal_classification_template_form" model="ir.ui.view">-->
-			<!--<field name="name">l10n_br_account_product.fiscal.classification.template.form</field>-->
-			<!--<field name="model">account.product.fiscal.classification.template</field>-->
-			<!--<field name="inherit_id" ref="account_product_fiscal_classification.fiscal_classification_template_normal_form_view_form"/>-->
-			<!--<field name="arch" type="xml">-->
-				<!--<field name="description" position="after">-->
-					<!--<field name="type"/>-->
-					<!--<field name="parent_id"/>-->
-					<!--<field name="inv_copy_note"/>-->
-					<!--<field name="note"/>-->
-				<!--</field>-->
-				<!--<field name="sale_base_tax_ids"  position="replace">-->
-					<!--<field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>-->
-				<!--</field>-->
-				<!--<field name="purchase_base_tax_ids"  position="replace">-->
-					<!--<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>-->
-				<!--</field>-->
-			<!--</field>-->
-		<!--</record>-->
-
 		<record id="l10n_br_tax_definition_template_sale_form" model="ir.ui.view">
 			<field name="name">l10n_br_tax.definition.sale.template.form</field>
 			<field name="model">l10n_br_tax.definition.sale.template</field>
@@ -166,6 +146,45 @@
 			</field>
 		</record>
 
-	</data>
+		<record model="ir.ui.view" id="l10n_br_fiscal_classification_template_normal_form_view_form">
+			<field name="name">fiscal_classification_template_normal_form_view_form</field>
+			<field name="model">account.product.fiscal.classification.template</field>
+			<field name="arch" type="xml">
+				<form string="Fiscal Classification Template">
+					<field name="name" />
+					<field colspan="4" name="description" />
+					<field name="type"/>
+					<field name="parent_id"/>
+					<field name="inv_copy_note"/>
+					<field name="note"/>
+					<newline />
+					<separator string="Sale Taxes" colspan="2" />
+					<separator string="Purchase Taxes" colspan="2" />
+					<field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+					<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+				</form>
+			</field>
+		</record>
 
+		<record model="ir.ui.view" id="l10n_br_fiscal_classification_template_normal_form_view_tree">
+			<field name="name">fiscal_classification_normal_form_view_tree</field>
+			<field name="model">account.product.fiscal.classification.template</field>
+			<field name="arch" type="xml">
+				<tree string="Fiscal Classification Template">
+					<field name="name" />
+					<field name="description" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="l10n_br_product_fiscal_classifications_template_action"	model="ir.actions.act_window">
+			<field name="name">Product Fiscal Classifications Template</field>
+			<field name="res_model">account.product.fiscal.classification.template</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="l10n_br_product_fiscal_classifications_template_action" id="menu_product_fiscal_classifications_template" parent="account.account_template_folder" sequence="22" />
+
+	</data>
 </openerp>
