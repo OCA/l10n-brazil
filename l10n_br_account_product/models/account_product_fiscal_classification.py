@@ -27,64 +27,6 @@ FC_SQL_CONSTRAINTS = [
 
 
 # TODO migrate to new api
-class AccountProductFiscalClassificationTemplate(orm.Model):
-    _inherit = 'account.product.fiscal.classification.template'
-
-    def _get_taxes(self, cr, uid, ids, name, arg, context=None):
-        result = {}
-        for fiscal_classification in self.browse(cr, uid, ids,
-                                                 context=context):
-            fc_id = fiscal_classification.id
-            result[fc_id] = {'sale_base_tax_ids': [],
-                             'purchase_base_tax_ids': []}
-            sale_tax_ids = []
-            purchase_tax_ids = []
-            for line in fiscal_classification.sale_tax_definition_line:
-                sale_tax_ids.append(line.tax_id.id)
-            for line in fiscal_classification.purchase_tax_definition_line:
-                purchase_tax_ids.append(line.tax_id.id)
-            sale_tax_ids.sort()
-            purchase_tax_ids.sort()
-            result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
-            result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
-        return result
-
-    _columns = {
-        'type': fields.selection([('view', u'Visão'),
-                                  ('normal', 'Normal'),
-                                  ('extension', u'Extensão')], 'Tipo'),
-        'parent_id': fields.many2one(
-            'account.product.fiscal.classification.template',
-            'Parent Fiscal Classification',
-            domain="[('type', 'in', ('view', 'normal'))]", select=True),
-        'child_ids': fields.one2many(
-            'account.product.fiscal.classification.template',
-            'parent_id', 'Child Fiscal Classifications'),
-        'sale_tax_definition_line': fields.one2many(
-            'l10n_br_tax.definition.sale.template',
-            'fiscal_classification_id', 'Taxes Definitions'),
-        'note': fields.text(u'Observações'),
-        'inv_copy_note': fields.boolean(
-            u'Copiar Observação',
-            help=u"Copia a observação no documento fiscal"),
-        'sale_base_tax_ids': fields.function(
-            _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Sale Taxes', multi='all'),
-        'purchase_tax_definition_line': fields.one2many(
-            'l10n_br_tax.definition.purchase.template',
-            'fiscal_classification_id', 'Taxes Definitions'),
-        'purchase_base_tax_ids': fields.function(
-            _get_taxes, method=True, type='many2many',
-            relation='account.tax', string='Purchase Taxes', multi='all'),
-        'tax_estimate_ids': fields.one2many(
-            'l10n_br_tax.estimate.template', 'fiscal_classification_id',
-            'Impostos Estimados'),
-    }
-    _defaults = {
-        'type': 'normal'}
-    _sql_constraints = FC_SQL_CONSTRAINTS
-
-
 class L10n_brTaxDefinitionSaleTemplate(orm.Model):
     _name = 'l10n_br_tax.definition.sale.template'
     _inherit = 'l10n_br_tax.definition.template'
@@ -320,7 +262,7 @@ class L10n_brTaxEstimate(orm.Model):
 
 
 class WizardAccountProductFiscalClassification(orm.TransientModel):
-    _inherit = 'wizard.account.product.fiscal.classification'
+    _name = 'wizard.account.product.fiscal.classification'
     _columns = {
         'company_id': fields.many2one('res.company', 'Company')
     }
@@ -461,3 +403,61 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
                                              ),
                              'fiscal_classification_id': new_fclass_id})
         return {}
+
+
+class AccountProductFiscalClassificationTemplate(AccountProductFiscalClassification):
+    _name = 'account.product.fiscal.classification.template'
+
+    def _get_taxes(self, cr, uid, ids, name, arg, context=None):
+        result = {}
+        for fiscal_classification in self.browse(cr, uid, ids,
+                                                 context=context):
+            fc_id = fiscal_classification.id
+            result[fc_id] = {'sale_base_tax_ids': [],
+                             'purchase_base_tax_ids': []}
+            sale_tax_ids = []
+            purchase_tax_ids = []
+            for line in fiscal_classification.sale_tax_definition_line:
+                sale_tax_ids.append(line.tax_id.id)
+            for line in fiscal_classification.purchase_tax_definition_line:
+                purchase_tax_ids.append(line.tax_id.id)
+            sale_tax_ids.sort()
+            purchase_tax_ids.sort()
+            result[fc_id]['sale_base_tax_ids'] = sale_tax_ids
+            result[fc_id]['purchase_base_tax_ids'] = purchase_tax_ids
+        return result
+
+    _columns = {
+        'type': fields.selection([('view', u'Visão'),
+                                  ('normal', 'Normal'),
+                                  ('extension', u'Extensão')], 'Tipo'),
+        'parent_id': fields.many2one(
+            'account.product.fiscal.classification.template',
+            'Parent Fiscal Classification',
+            domain="[('type', 'in', ('view', 'normal'))]", select=True),
+        'child_ids': fields.one2many(
+            'account.product.fiscal.classification.template',
+            'parent_id', 'Child Fiscal Classifications'),
+        'sale_tax_definition_line': fields.one2many(
+            'l10n_br_tax.definition.sale.template',
+            'fiscal_classification_id', 'Taxes Definitions'),
+        'note': fields.text(u'Observações'),
+        'inv_copy_note': fields.boolean(
+            u'Copiar Observação',
+            help=u"Copia a observação no documento fiscal"),
+        'sale_base_tax_ids': fields.function(
+            _get_taxes, method=True, type='many2many',
+            relation='account.tax', string='Sale Taxes', multi='all'),
+        'purchase_tax_definition_line': fields.one2many(
+            'l10n_br_tax.definition.purchase.template',
+            'fiscal_classification_id', 'Taxes Definitions'),
+        'purchase_base_tax_ids': fields.function(
+            _get_taxes, method=True, type='many2many',
+            relation='account.tax', string='Purchase Taxes', multi='all'),
+        'tax_estimate_ids': fields.one2many(
+            'l10n_br_tax.estimate.template', 'fiscal_classification_id',
+            'Impostos Estimados'),
+    }
+    _defaults = {
+        'type': 'normal'}
+    _sql_constraints = FC_SQL_CONSTRAINTS
