@@ -358,7 +358,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         # Adicionado
         if nfe_version == '3.10':
-            StrRegE['indIEDest'] = '9'
+            StrRegE['indIEDest'] = inv.cfop_ids[0].id_dest
             StrRegE['IM'] = StrRegC['IM']
 
             StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'],
@@ -1226,9 +1226,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         StrFile += StrW02
 
-        # Modo do Frete: 0- Por conta do emitente; 1- Por conta do
-        # destinatário/remetente; 2- Por conta de terceiros; 9- Sem frete
-        # (v2.0)
+        # Modo do Frete:
+        # 0- Por conta do emitente;
+        # 1- Por conta do destinatário/remetente;
+        # 2- Por conta de terceiros; 9- Sem frete (v2.0)
         try:
             if not inv.incoterm:
                 StrRegX0 = '9'
