@@ -159,9 +159,9 @@ class AccountInvoice(models.Model):
         ('9', u'Operação não presencial, outros'),
     ], u'Tipo de operação', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
-        help=u'Indicador de presença do comprador no \
-        \nestabelecimento comercial no momento \
-        \nda operação.', default='0')
+        help=u'Indicador de presença do comprador no\n'
+             u'estabelecimento comercial no momento\n'
+             u'da operação.', default='0')
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', 'Documento', readonly=True,
         states={'draft': [('readonly', False)]},
@@ -472,8 +472,8 @@ class AccountInvoice(models.Model):
             if not series:
                 action = self.env.ref('l10n_br_account.\
                     action_l10n_br_account_document_serie_form')
-                msg = _(u'Você deve ser uma série de documento fiscal \
-                        para este documento fiscal.')
+                msg = _(u'Você deve ser uma série de documento fiscal'
+                        u'para este documento fiscal.')
                 raise RedirectWarning(
                     msg, action.id, _(u'Criar uma nova série'))
             result['value']['document_serie_id'] = series[0].id
