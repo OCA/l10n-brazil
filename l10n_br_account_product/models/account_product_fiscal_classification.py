@@ -405,7 +405,8 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
         return {}
 
 
-class AccountProductFiscalClassificationTemplate(AccountProductFiscalClassification):
+class AccountProductFiscalClassificationTemplate(
+        AccountProductFiscalClassification):
     _name = 'account.product.fiscal.classification.template'
 
     def _get_taxes(self, cr, uid, ids, name, arg, context=None):
