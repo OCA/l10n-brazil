@@ -722,7 +722,6 @@ class AccountInvoiceLine(models.Model):
 
     def _amount_tax_icms(self, tax=None):
         result = {
-            'icms_base_type': '0',
             'icms_base': tax.get('total_base', 0.0),
             'icms_base_other': tax.get('total_base_other', 0.0),
             'icms_value': tax.get('amount', 0.0),
