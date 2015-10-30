@@ -25,8 +25,8 @@ from datetime import datetime
 
 
 class Serasa(models.Model):
-    #TODO: Rename to serasa.serasa
-    _name = 'consulta_serasa'
+
+    _name = 'consulta.serasa'
     _order = "id desc"
 
     @api.multi
@@ -63,6 +63,9 @@ class Serasa(models.Model):
         id_consulta_serasa = self.id
         company = self.env.user.company_id
         retorno_consulta = consulta.consulta_cnpj(self.partner_id, company)
+        if len(retorno_consulta) == 1:
+            from openerp.exceptions import Warning
+            raise Warning(retorno_consulta)
 
         result = self.write({
                 'status': retorno_consulta['status'],
@@ -122,7 +125,7 @@ class SerasaProtesto(models.Model):
     cartorio = fields.Char('Cartorio')
     city = fields.Char('Cidade')
     uf = fields.Char('UF')
-    serasa_id = fields.Many2one('consulta_serasa', required=True)
+    serasa_id = fields.Many2one('consulta.serasa', required=True)
     date = fields.Date('Data')
     value = fields.Float('Valor')
 
@@ -134,7 +137,7 @@ class SerasaPefin(models.Model):
     modalidade = fields.Char('Modalidade')
     origem = fields.Char('Origem')
     avalista = fields.Char('Avalista')
-    serasa_id = fields.Many2one('consulta_serasa', required=True)
+    serasa_id = fields.Many2one('consulta.serasa', required=True)
     date = fields.Date('Data')
     value = fields.Float('Valor')
 
@@ -145,7 +148,7 @@ class SerasaCheque(models.Model):
 
     num_cheque = fields.Integer(u'Número do Cheque')
     alinea = fields.Integer(u'Alínea')
-    serasa_id = fields.Many2one('consulta_serasa', required=True)
+    serasa_id = fields.Many2one('consulta.serasa', required=True)
     name_bank = fields.Char('Nome do Banco')
     city = fields.Char('Cidade')
     uf = fields.Char('UF')

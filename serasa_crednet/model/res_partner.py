@@ -26,11 +26,11 @@ from . import serasa
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    consulta_serasa = fields.One2many('consulta_serasa', 'partner_id')
+    consulta_serasa = fields.One2many('consulta.serasa', 'partner_id')
 
     @api.multi
     def do_consultar_serasa(self):
         for partner in self:
             vals = {'partner_id': partner.id}
-            consulta_serasa = self.env['consulta_serasa'].create(vals)
+            consulta_serasa = self.env['consulta.serasa'].create(vals)
         return True

@@ -26,10 +26,6 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 def consulta_cnpj(partner, company):
 
-    # TODO:
-    logon = '31563967'
-    senha = '10203040'
-
     if partner.is_company:
         tipo_pessoa_busca = 'J'
     else:
@@ -45,21 +41,19 @@ def consulta_cnpj(partner, company):
     parser = parserStringDados.ParserStringDados()
 
     # Variavel que recebe o a string de retorno do Serasa
-    string_dados = parser.realizarBuscaSerasa(parser.gerarStringEnvio(
-        logon, senha, documento_consultado, tipo_pessoa_busca,
-        documento_consultor))
+    string_dados = parser.realizar_busca_serasa(parser.gerar_string_envio(
+        documento_consultado, tipo_pessoa_busca, documento_consultor))
 
     arquivo = crednet.Crednet()
 
     # Gera o arquivo parseado separando os blocos da string de retorno
     # segundo o manual do Crednet do Serasa versão:06 de Janeiro/2014
-    arquivo = parser.parserStringDadosRetorno(string_dados, arquivo)
+    arquivo = parser.parser_string_dados_retorno(string_dados, arquivo)
 
-
-    #TODO: ME tire daqui por favor!
-    if arquivo.T999.codigo == u'023':
-        from openerp.exceptions import Warning
-        raise Warning(arquivo.T999.mensagem)
+    if len(arquivo.blocos) == 4:
+        return "Usuario ou senha do serasa invalidos"
+    elif arquivo.T999.codigo != u'000':
+        return arquivo.T999.mensagem
 
     retorno_consulta = {
             'status': '',
@@ -71,15 +65,15 @@ def consulta_cnpj(partner, company):
         }
 
     retorno_consulta = retorna_pefin(
-        retorno_consulta, arquivo.getBlocoDeRegistros('pendenciasFinanceiras'))
+        retorno_consulta, arquivo.get_bloco_de_registros('pendenciasFinanceiras'))
     retorno_consulta = retorna_protesto(
-        retorno_consulta, arquivo.getBlocoDeRegistros('protestosEstados'))
+        retorno_consulta, arquivo.get_bloco_de_registros('protestosEstados'))
     retorno_consulta = retorna_cheques(
-        retorno_consulta, arquivo.getBlocoDeRegistros('chequesSemFundos'))
+        retorno_consulta, arquivo.get_bloco_de_registros('chequesSemFundos'))
     retorno_consulta = retorno_detalhes_string_retorno(
         retorno_consulta, arquivo)
 
-    blocoN200 = arquivo.getBlocoDeRegistros('N200')
+    blocoN200 = arquivo.get_bloco_de_registros('N200')
 
     retorno_consulta['fundacao'] = blocoN200.dataNascFundacao
 

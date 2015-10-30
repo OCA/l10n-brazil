@@ -5,12 +5,12 @@
         <!-- Action to open Serasa -->
         <act_window id="action_serasa_form"
                     name="Consulta Serasa"
-                    res_model="consulta_serasa"
+                    res_model="consulta.serasa"
                     view_mode="tree,form" />
 
         <record id="view_form_consulta_serasa" model="ir.ui.view">
             <field name="name">Consulta Serasa</field>
-            <field name="model">consulta_serasa</field>
+            <field name="model">consulta.serasa</field>
             <field name="arch" type="xml">
 
                 <form>
@@ -78,7 +78,7 @@
 
         <record	id="view_tree_consulta_serasa" model="ir.ui.view">
             <field	name="name">Consultas Serasa</field>
-            <field	name="model">consulta_serasa</field>
+            <field	name="model">consulta.serasa</field>
             <field	name="arch"	type="xml">
                 <tree>
                     <field name="partner_id" string="Parceiro"/>
