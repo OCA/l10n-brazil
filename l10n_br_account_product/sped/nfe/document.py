@@ -364,8 +364,6 @@ class NFe200(FiscalDocument):
         self.det.prod.indTot.valor = 1
 
         if invoice_line.product_type == 'product':
-            """Impostos"""
-
             # ICMS
             if invoice_line.icms_cst_id.code > 100:
                 self.det.imposto.ICMS.CSOSN.valor = (
