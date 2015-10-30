@@ -22,7 +22,7 @@ from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import RedirectWarning
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
@@ -70,8 +70,9 @@ class AccountInvoice(models.Model):
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
             line.price_total for line in self.invoice_line)
-        self.amount_tax = sum(
-            tax.amount for tax in self.tax_line if not tax.tax_code_id.tax_discount)
+        self.amount_tax = sum(tax.amount
+                              for tax in self.tax_line
+                              if not tax.tax_code_id.tax_discount)
         self.amount_total = self.amount_tax + self.amount_untaxed + \
             self.amount_costs + self.amount_insurance + self.amount_freight
 
@@ -120,7 +121,8 @@ class AccountInvoice(models.Model):
         fiscal_document_series = [doc_serie for doc_serie in
                                   company.document_serie_product_ids if
                                   doc_serie.fiscal_document_id.id ==
-                                  company.product_invoice_id.id and doc_serie.active]
+                                  company.product_invoice_id.id and
+                                  doc_serie.active]
         if fiscal_document_series:
             result = fiscal_document_series[0]
         return result
@@ -157,9 +159,9 @@ class AccountInvoice(models.Model):
         ('9', u'Operação não presencial, outros'),
     ], u'Tipo de operação', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
-        help=u'Indicador de presença do comprador no \
-        \nestabelecimento comercial no momento \
-        \nda operação.', default='0')
+        help=u'Indicador de presença do comprador no\n'
+             u'estabelecimento comercial no momento\n'
+             u'da operação.', default='0')
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', 'Documento', readonly=True,
         states={'draft': [('readonly', False)]},
@@ -214,7 +216,8 @@ class AccountInvoice(models.Model):
         [('1', 'Normal'),
          ('2', 'Complementar'),
          ('3', 'Ajuste'),
-         ('4', u'Devolução de Mercadoria')], 'Finalidade da Emissão', readonly=True,
+         ('4', u'Devolução de Mercadoria')],
+        'Finalidade da Emissão', readonly=True,
         states={'draft': [('readonly', False)]}, default='1')
     nfe_access_key = fields.Char(
         'Chave de Acesso NFE', size=44,
@@ -467,10 +470,10 @@ class AccountInvoice(models.Model):
 
             # TODO Alerta se nao tiver serie
             if not series:
-                action = self.env.ref(
-                    'l10n_br_account.action_l10n_br_account_document_serie_form')
-                msg = _(
-                    u'Você deve ser uma série de documento fiscal para este documento fiscal.')
+                action = self.env.ref('l10n_br_account.\
+                    action_l10n_br_account_document_serie_form')
+                msg = _(u'Você deve ser uma série de documento fiscal'
+                        u'para este documento fiscal.')
                 raise RedirectWarning(
                     msg, action.id, _(u'Criar uma nova série'))
             result['value']['document_serie_id'] = series[0].id
@@ -855,7 +858,6 @@ class AccountInvoiceLine(models.Model):
         """Verifica se o valor dos campos dos impostos estão sincronizados
         com os impostos do OpenERP"""
         context = self.env.context
-        tax_obj = self.env['account.tax']
 
         price_unit = values.get('price_unit', 0.0) or self.price_unit
         discount = values.get('discount', 0.0)
@@ -993,9 +995,7 @@ class AccountInvoiceLine(models.Model):
             product, uom_id, qty, name, type, partner_id,
             fposition_id, price_unit, currency_id, company_id)
 
-        parent_fiscal_position = ctx.get('parent_fiscal_position')
         parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
-        fiscal_position = fposition_id or parent_fiscal_position or None
 
         if not parent_fiscal_category_id or not product:
             return result
@@ -1075,7 +1075,9 @@ class AccountInvoiceLine(models.Model):
                 'price_unit': price_unit,
                 'fiscal_position': result['value'].get('fiscal_position'),
                 'invoice_line_tax_id': [
-                    [6, 0, [x.id for x in result['value']['invoice_line_tax_id']]]],
+                    [6, 0,
+                     [x.id
+                      for x in result['value']['invoice_line_tax_id']]]],
                 'discount': discount,
                 'insurance_value': insurance_value,
                 'freight_value': freight_value,
@@ -1134,15 +1136,8 @@ class AccountInvoiceLine(models.Model):
                           insurance_value, freight_value, other_costs_value,
                           invoice_line_tax_id):
 
-        DEFAULT_TAX_TYPE = {
-            'in_invoice': 'purchase',
-            'out_invoice': 'sale',
-            'in_refund': 'purchase',
-            'out_refund': 'sale'
-        }
-
         result = {'value': {}}
-        #ctx = dict(self.env.context)
+        # ctx = dict(self.env.context)
 
         # Search if exists the tax
         # domain = [('domain', '=', 'icms')]
@@ -1168,12 +1163,15 @@ class AccountInvoiceLine(models.Model):
         #     ])
         #
         #     if not tax_template:
-        #         raise except_orm(_('Alerta', u'Não existe imposto do domínio ICMS com aliquita 0%!'))
+        #         raise except_orm(_('Alerta', u'Não existe imposto\
+        #                            do domínio ICMS com aliquita 0%!'))
         #
         #     tax_name = 'ICMS Interno Saída {:.2f}%'.format(icms_percent)
         #
         #     if icms_percent_reduction:
-        #         tax_name = 'ICMS Interno Saída {:.2f}% Red {:.2f}%'.format(icms_percent, icms_percent_reduction)
+        #         tax_name = 'ICMS Interno Saída {:.2f}% Red \
+        #                     {:.2f}%'.format(icms_percent,
+        #                                     icms_percent_reduction)
         #
         #     tax_values = {
         #         'name': tax_name,
@@ -1188,7 +1186,8 @@ class AccountInvoiceLine(models.Model):
         #         'applicable_type': 'true',
         #         'icms_base_type': icms_base_type,
         #         'domain': 'icms',
-        #         'account_collected_id': tax_template[0].account_collected_id.id,
+        #         'account_collected_id': (tax_template[0]
+        #                                  .account_collected_id.id),
         #         'account_paid_id': tax_template[0].account_paid_id.id,
         #         'base_code_id': tax_template[0].base_code_id.id,
         #         'base_sign': 1.0,
@@ -1220,8 +1219,9 @@ class AccountInvoiceLine(models.Model):
         #
         # # Update invoice_line_tax_id
         # # Remove all taxes with domain ICMS
-        # result['value']['invoice_line_tax_id'] = self.update_invoice_line_tax_id(
-        #     tax.id, invoice_line_tax_id, tax.domain)
+        # result['value']['invoice_line_tax_id'] = (self
+        #      .update_invoice_line_tax_id(tax.id, invoice_line_tax_id,
+        #                                  tax.domain))
         return result
 
     @api.multi
@@ -1238,30 +1238,21 @@ class AccountInvoiceLine(models.Model):
             insurance_value,
             freight_value,
             other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.multi
     def onchange_tax_ipi(self, ipi_type, ipi_base, ipi_base_other,
                          ipi_value, ipi_percent, ipi_cst_id,
                          price_unit, discount, insurance_value,
                          freight_value, other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.multi
     def onchange_tax_pis(self, pis_type, pis_base, pis_base_other,
                          pis_value, pis_percent, pis_cst_id,
                          price_unit, discount, insurance_value,
                          freight_value, other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.multi
     def onchange_tax_pis_st(
@@ -1275,10 +1266,7 @@ class AccountInvoiceLine(models.Model):
             insurance_value,
             freight_value,
             other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.multi
     def onchange_tax_cofins(
@@ -1292,10 +1280,7 @@ class AccountInvoiceLine(models.Model):
             insurance_value,
             freight_value,
             other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.multi
     def onchange_tax_cofins_st(
@@ -1309,18 +1294,16 @@ class AccountInvoiceLine(models.Model):
             insurance_value,
             freight_value,
             other_costs_value):
-        result = {'value': {}}
-        ctx = dict(self.env.context)
-
-        return result
+        return {'value': {}}
 
     @api.model
     def create(self, vals):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    # TODO comentado por causa deste bug https://github.com/odoo/odoo/issues/2197
-    #@api.multi
+    # TODO comentado por causa deste bug
+    # https://github.com/odoo/odoo/issues/2197
+    # @api.multi
     # def write(self, vals):
     #    vals.update(self._validate_taxes(vals))
     #    return super(AccountInvoiceLine, self).write(vals)
@@ -1358,9 +1341,11 @@ class AccountInvoiceTax(models.Model):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
                     val['base_amount'] = currency.compute(
-                        val['base'] * tax['base_sign'], company_currency, round=False)
+                        val['base'] * tax['base_sign'],
+                        company_currency, round=False)
                     val['tax_amount'] = currency.compute(
-                        val['amount'] * tax['tax_sign'], company_currency, round=False)
+                        val['amount'] * tax['tax_sign'],
+                        company_currency, round=False)
                     val['account_id'] = tax[
                         'account_collected_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
@@ -1369,22 +1354,26 @@ class AccountInvoiceTax(models.Model):
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
                     val['base_amount'] = currency.compute(
-                        val['base'] * tax['ref_base_sign'], company_currency, round=False)
+                        val['base'] * tax['ref_base_sign'],
+                        company_currency, round=False)
                     val['tax_amount'] = currency.compute(
-                        val['amount'] * tax['ref_tax_sign'], company_currency, round=False)
+                        val['amount'] * tax['ref_tax_sign'],
+                        company_currency, round=False)
                     val['account_id'] = tax[
                         'account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
                         'account_analytic_paid_id']
 
-                # If the taxes generate moves on the same financial account as the invoice line
-                # and no default analytic account is defined at the tax level, propagate the
-                # analytic account from the invoice line to the tax line. This is necessary
+                # If the taxes generate moves on the same financial account
+                # as the invoice line and no default analytic account is
+                # defined at the tax level, propagate the analytic account
+                # from the invoice line to the tax line. This is necessary
                 # in situations were (part of) the taxes cannot be reclaimed,
                 # to ensure the tax move is allocated to the proper analytic
                 # account.
-                if not val.get('account_analytic_id') and line.account_analytic_id and val[
-                        'account_id'] == line.account_id.id:
+                if not val.get('account_analytic_id') and\
+                        line.account_analytic_id and\
+                        val['account_id'] == line.account_id.id:
                     val['account_analytic_id'] = line.account_analytic_id.id
 
                 key = (val['tax_code_id'], val[
