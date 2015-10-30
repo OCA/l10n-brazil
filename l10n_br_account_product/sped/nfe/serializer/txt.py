@@ -17,18 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import time
-
 from datetime import datetime
 from unicodedata import normalize
 import pytz
 from openerp import SUPERUSER_ID
-
-from openerp.osv import osv
-from openerp.tools.translate import _
-from openerp import netsvc
 from openerp import pooler
-
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
@@ -93,10 +86,12 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             tz = pytz.timezone(user.partner_id.tz) or pytz.utc
 
             StrRegB['dhEmi'] = str(pytz.utc.localize(datetime.strptime(
-                inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S')).astimezone(tz)).replace(' ', 'T') or ''
+                inv.date_hour_invoice, '%Y-%m-%d %H:%M:%S'))
+                .astimezone(tz)).replace(' ', 'T') or ''
 
             StrRegB['dhSaiEnt'] = str(pytz.utc.localize(datetime.strptime(
-                inv.date_in_out, '%Y-%m-%d %H:%M:%S')).astimezone(tz)).replace(' ', 'T') or ''
+                inv.date_in_out, '%Y-%m-%d %H:%M:%S'))
+                .astimezone(tz)).replace(' ', 'T') or ''
 
             StrRegB['idDest'] = inv.fiscal_position.cfop_id.id_dest or ''
             StrRegB['indFinal'] = inv.ind_final or ''
@@ -104,7 +99,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrRegB['VerProc'] = '3.10.18'
 
             # Modificado
-            StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
+            StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\
+            |%s|%s|%s|%s|%s|%s|\n' % (
                 StrRegB['cUF'], StrRegB['cNF'], StrRegB[
                     'NatOp'], StrRegB['indPag'], StrRegB['mod'],
                 StrRegB['serie'], StrRegB['nNF'], StrRegB[
@@ -113,7 +109,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     'cMunFG'], StrRegB['TpImp'], StrRegB['TpEmis'],
                 StrRegB['cDV'], StrRegB['tpAmb'], StrRegB[
                     'finNFe'], StrRegB['indFinal'], StrRegB['indPres'],
-                StrRegB['procEmi'], StrRegB['VerProc'], StrRegB['dhCont'], StrRegB['xJust'])
+                StrRegB['procEmi'], StrRegB['VerProc'], StrRegB['dhCont'],
+                StrRegB['xJust'])
 
         else:
             StrRegB['dEmi'] = inv.date_invoice or ''
@@ -121,7 +118,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 inv.date_in_out, '%Y-%m-%d %H:%M:%S').date()) or ''
             StrRegB['VerProc'] = '2.2.26'
 
-            StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
+            StrB = 'B|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\
+            |%s|%s|%s|\n' % (
                 StrRegB['cUF'], StrRegB['cNF'], StrRegB[
                     'NatOp'], StrRegB['indPag'],
                 StrRegB['mod'], StrRegB['serie'], StrRegB[
@@ -138,42 +136,50 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
             if inv_related.document_type == 'nf':
                 StrRegB14 = {
-                    'cUF': '%s' % inv_related.state_id and inv_related.state_id.ibge_code or '',
+                    'cUF': '%s' % inv_related.state_id and
+                    inv_related.state_id.ibge_code or '',
                     'AAMM': datetime.strptime(
                         inv_related.date,
                         '%Y-%m-%d').strftime('%y%m') or '',
                     'CNPJ': punctuation_rm(
                         inv_related.cnpj_cpf),
-                    'Mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
+                    'Mod': inv_related.fiscal_document_id and
+                    inv_related.fiscal_document_id.code or '',
                     'serie': inv_related.serie or '',
                     'nNF': punctuation_rm(
                         inv_related.internal_number),
                 }
 
                 StrB14 = 'B14|%s|%s|%s|%s|%s|%s|\n' % (StrRegB14['cUF'],
-                                                       StrRegB14['AAMM'], StrRegB14[
-                                                           'CNPJ'], StrRegB14['CNPJ'],
-                                                       StrRegB14['serie'], StrRegB14['nNF'])
+                                                       StrRegB14['AAMM'],
+                                                       StrRegB14['CNPJ'],
+                                                       StrRegB14['CNPJ'],
+                                                       StrRegB14['serie'],
+                                                       StrRegB14['nNF'])
 
                 StrFile += StrB14
 
             elif inv_related.document_type == 'nfrural':
                 StrRegB20a = {
-                    'cUF': '%s' % inv_related.state_id and inv_related.state_id.ibge_code or '',
+                    'cUF': '%s' % inv_related.state_id and
+                    inv_related.state_id.ibge_code or '',
                     'AAMM': datetime.strptime(
                         inv_related.date,
                         '%Y-%m-%d').strftime('%y%m') or '',
                     'IE': punctuation_rm(
                         inv_related.inscr_est),
-                    'mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
+                    'mod': inv_related.fiscal_document_id and
+                    inv_related.fiscal_document_id.code or '',
                     'serie': inv_related.serie or '',
                     'nNF': punctuation_rm(
                         inv_related.internal_number),
                 }
                 StrB20a = 'B20a|%s|%s|%s|%s|%s|%s|\n' % (StrRegB20a['cUF'],
-                                                         StrRegB20a['AAMM'], StrRegB20a[
-                                                             'IE'], StrRegB20a['mod'],
-                                                         StrRegB20a['serie'], StrRegB20a['nNF'])
+                                                         StrRegB20a['AAMM'],
+                                                         StrRegB20a['IE'],
+                                                         StrRegB20a['mod'],
+                                                         StrRegB20a['serie'],
+                                                         StrRegB20a['nNF'])
 
                 StrFile += StrB20a
 
@@ -203,7 +209,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrFile += StrB20i
             elif inv_related.document_type == 'cf':
                 StrRegB20j = {
-                    'mod': inv_related.fiscal_document_id and inv_related.fiscal_document_id.code or '',
+                    'mod': inv_related.fiscal_document_id and
+                    inv_related.fiscal_document_id.code or '',
                     'nECF': inv_related.internal_number,
                     'nCOO': inv_related.serie,
                 }
@@ -213,23 +220,31 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         StrRegC = {
             'XNome': normalize(
-                'NFKD', unicode(
-                    inv.company_id.partner_id.legal_name or '')).encode(
-                'ASCII', 'ignore'), 'XFant': normalize(
-                    'NFKD', unicode(
-                        inv.company_id.partner_id.name or '')).encode(
-                            'ASCII', 'ignore'), 'IE': punctuation_rm(
-                                inv.company_id.partner_id.inscr_est), 'IEST': '', 'IM': punctuation_rm(
-                                    inv.company_id.partner_id.inscr_mun), 'CNAE': punctuation_rm(
-                                        inv.company_id.cnae_main_id.code), 'CRT': inv.company_id.fiscal_type or '', }
+                'NFKD',
+                unicode(inv.company_id.partner_id.legal_name or '')).encode(
+                    'ASCII', 'ignore'),
+            'XFant': normalize(
+                'NFKD',
+                unicode(inv.company_id.partner_id.name or '')).encode(
+                    'ASCII', 'ignore'),
+            'IE': punctuation_rm(inv.company_id.partner_id.inscr_est),
+            'IEST': '',
+            'IM': punctuation_rm(inv.company_id.partner_id.inscr_mun),
+            'CNAE': punctuation_rm(inv.company_id.cnae_main_id.code),
+            'CRT': inv.company_id.fiscal_type or '', }
 
         # TODO - Verificar, pois quando e informado do CNAE ele exige que a
         # inscricao municipal, parece um bug do emissor da NFE
         if not inv.company_id.partner_id.inscr_mun:
             StrRegC['CNAE'] = ''
 
-        StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'], StrRegC['XFant'], StrRegC['IE'], StrRegC['IEST'],
-                                              StrRegC['IM'], StrRegC['CNAE'], StrRegC['CRT'])
+        StrC = 'C|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegC['XNome'],
+                                              StrRegC['XFant'],
+                                              StrRegC['IE'],
+                                              StrRegC['IEST'],
+                                              StrRegC['IM'],
+                                              StrRegC['CNAE'],
+                                              StrRegC['CRT'])
 
         StrFile += StrC
 
@@ -244,8 +259,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         address_company_bc_code = ''
         if company_addr_default.country_id.bc_code:
-            address_company_bc_code = company_addr_default.country_id.bc_code[
-                1:]
+            address_company_bc_code = (company_addr_default
+                                       .country_id.bc_code[1:])
 
         StrRegC05 = {
             'XLgr': normalize(
@@ -276,8 +291,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 'ASCII',
                 'ignore'),
             'UF': company_addr_default.state_id.code or '',
-            'CEP': punctuation_rm(
-                                                        company_addr_default.zip),
+            'CEP': punctuation_rm(company_addr_default.zip),
             'cPais': address_company_bc_code or '',
             'xPais': normalize(
                 'NFKD',
@@ -323,12 +337,14 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     inv.partner_id.l10n_br_city_id.name or '')).encode(
                 'ASCII', 'ignore')
             address_invoice_city_code = ('%s%s') % (
-                inv.partner_id.state_id.ibge_code, inv.partner_id.l10n_br_city_id.ibge_code)
+                inv.partner_id.state_id.ibge_code,
+                inv.partner_id.l10n_br_city_id.ibge_code)
             partner_cep = punctuation_rm(inv.partner_id.zip)
 
         # Se o ambiente for de teste deve ser escrito na razão do destinatário
         if nfe_environment == '2':
-            xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
+            xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO'\
+                    ' - SEM VALOR FISCAL'
         else:
             xNome = normalize('NFKD', unicode(
                 inv.partner_id.legal_name or '')).encode('ASCII', 'ignore')
@@ -345,8 +361,12 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrRegE['indIEDest'] = '9'
             StrRegE['IM'] = StrRegC['IM']
 
-            StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'], StrRegE['indIEDest'], StrRegE[
-                                         'IE'], StrRegE['ISUF'], StrRegE['IM'], StrRegE['email'])
+            StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'],
+                                         StrRegE['indIEDest'],
+                                         StrRegE['IE'],
+                                         StrRegE['ISUF'],
+                                         StrRegE['IM'],
+                                         StrRegE['email'])
         else:
             StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'], StrRegE[
                 'IE'], StrRegE['ISUF'], StrRegE['email'])
@@ -361,19 +381,28 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         StrFile += StrE0
 
         StrRegE05 = {
-            'xLgr': normalize('NFKD', unicode(inv.partner_id.street or '')).encode('ASCII', 'ignore'),
-            'nro': normalize('NFKD', unicode(inv.partner_id.number or '')).encode('ASCII', 'ignore'),
-            'xCpl': punctuation_rm(normalize('NFKD', unicode(inv.partner_id.street2 or '')).encode('ASCII', 'ignore')),
-            'xBairro': normalize('NFKD', unicode(inv.partner_id.district or 'Sem Bairro')).encode('ASCII', 'ignore'),
+            'xLgr': (normalize('NFKD', unicode(inv.partner_id.street or ''))
+                     .encode('ASCII', 'ignore')),
+            'nro': (normalize('NFKD', unicode(inv.partner_id.number or ''))
+                    .encode('ASCII', 'ignore')),
+            'xCpl': (punctuation_rm(normalize(
+                'NFKD', unicode(inv.partner_id.street2 or ''))
+                .encode('ASCII', 'ignore'))),
+            'xBairro': (normalize(
+                'NFKD', unicode(inv.partner_id.district or 'Sem Bairro'))
+                .encode('ASCII', 'ignore')),
             'cMun': address_invoice_city_code,
             'xMun': address_invoice_city,
             'UF': address_invoice_state_code,
             'CEP': partner_cep,
             'cPais': partner_bc_code,
-            'xPais': normalize('NFKD', unicode(inv.partner_id.country_id.name or '')).encode('ASCII', 'ignore'),
+            'xPais': (normalize(
+                'NFKD', unicode(inv.partner_id.country_id.name or ''))
+                .encode('ASCII', 'ignore')),
             # 'fone': re.sub('[%s]' % re.escape(string.punctuation), '',
             #                str(inv.partner_id.phone or '').replace(' ', '')),
-            'fone': punctuation_rm(inv.partner_id.phone or '').replace(' ', ''),
+            'fone': (punctuation_rm(inv.partner_id.phone or '')
+                     .replace(' ', '')),
         }
 
         StrE05 = 'E05|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
@@ -390,18 +419,28 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             if inv.partner_id.id != inv.partner_shipping_id.id:
 
                 StrRegG = {
-                    'XLgr': normalize('NFKD', unicode(inv.partner_shipping_id.street or '', )).encode('ASCII',
-                                                                                                      'ignore'),
-                    'Nro': normalize('NFKD', unicode(inv.partner_shipping_id.number or '')).encode('ASCII', 'ignore'),
-                    'XCpl': punctuation_rm(normalize('NFKD', unicode(inv.partner_shipping_id.street2 or
-                                                                     '')).encode('ASCII', 'ignore')),
-                    'XBairro': punctuation_rm(normalize('NFKD',
-                                                        unicode(inv.partner_shipping_id.district or
-                                                                'Sem Bairro')).encode('ASCII', 'ignore')),
+                    'XLgr': (normalize(
+                        'NFKD', unicode(inv.partner_shipping_id.street or ''))
+                        .encode('ASCII', 'ignore')),
+                    'Nro': (normalize(
+                            'NFKD',
+                            unicode(inv.partner_shipping_id.number or ''))
+                            .encode('ASCII', 'ignore')),
+                    'XCpl': (punctuation_rm(normalize(
+                        'NFKD', unicode(inv.partner_shipping_id.street2 or ''))
+                        .encode('ASCII', 'ignore'))),
+                    'XBairro': punctuation_rm(normalize(
+                        'NFKD', unicode(inv.partner_shipping_id.district or
+                                        'Sem Bairro')).encode('ASCII',
+                                                              'ignore')),
                     'CMun': ('%s%s') % (
-                        inv.partner_shipping_id.state_id.ibge_code, inv.partner_shipping_id.l10n_br_city_id.ibge_code),
-                    'XMun': normalize('NFKD', unicode(inv.partner_shipping_id.l10n_br_city_id.name or '')).encode(
-                        'ASCII', 'ignore'),
+                        inv.partner_shipping_id.state_id.ibge_code,
+                        inv.partner_shipping_id.l10n_br_city_id.ibge_code),
+                    'XMun': (normalize(
+                             'NFKD',
+                             unicode((inv.partner_shipping_id
+                                      .l10n_br_city_id.name) or ''))
+                             .encode('ASCII', 'ignore')),
                     'UF': inv.partner_shipping_id.state_id.code,
                 }
 
@@ -521,31 +560,34 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrRegI['NVE'] = ''
                 StrRegI['nFCI'] = ''
 
-                StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                    StrRegI['CProd'], StrRegI['CEAN'], StrRegI[
-                        'XProd'], StrRegI['NCM'],
-                    StrRegI['NVE'], StrRegI['EXTIPI'], StrRegI[
-                        'CFOP'], StrRegI['UCom'],
-                    StrRegI['QCom'], StrRegI['VUnCom'], StrRegI[
-                        'VProd'], StrRegI['CEANTrib'],
-                    StrRegI['UTrib'], StrRegI['QTrib'], StrRegI[
-                        'VUnTrib'], StrRegI['VFrete'],
-                    StrRegI['VSeg'], StrRegI['VDesc'], StrRegI[
-                        'vOutro'], StrRegI['indTot'],
-                    StrRegI['xPed'], StrRegI['nItemPed'], StrRegI['nFCI'])
+                StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'\
+                       '|%s|%s|%s|%s|%s|%s|%s|\n' % (
+                           StrRegI['CProd'], StrRegI['CEAN'],
+                           StrRegI['XProd'], StrRegI['NCM'],
+                           StrRegI['NVE'], StrRegI['EXTIPI'],
+                           StrRegI['CFOP'], StrRegI['UCom'],
+                           StrRegI['QCom'], StrRegI['VUnCom'],
+                           StrRegI['VProd'], StrRegI['CEANTrib'],
+                           StrRegI['UTrib'], StrRegI['QTrib'],
+                           StrRegI['VUnTrib'], StrRegI['VFrete'],
+                           StrRegI['VSeg'], StrRegI['VDesc'],
+                           StrRegI['vOutro'], StrRegI['indTot'],
+                           StrRegI['xPed'], StrRegI['nItemPed'],
+                           StrRegI['nFCI'])
             else:
-                StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                    StrRegI['CProd'], StrRegI['CEAN'], StrRegI[
-                        'XProd'], StrRegI['NCM'],
-                    StrRegI['EXTIPI'], StrRegI['CFOP'], StrRegI[
-                        'UCom'], StrRegI['QCom'],
-                    StrRegI['VUnCom'], StrRegI['VProd'], StrRegI[
-                        'CEANTrib'], StrRegI['UTrib'],
-                    StrRegI['QTrib'], StrRegI['VUnTrib'], StrRegI[
-                        'VFrete'], StrRegI['VSeg'],
-                    StrRegI['VDesc'], StrRegI['vOutro'], StrRegI[
-                        'indTot'], StrRegI['xPed'],
-                    StrRegI['nItemPed'], StrRegI['nFCI'])
+                StrI = 'I|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'\
+                       '|%s|%s|%s|%s|%s|\n' % (
+                           StrRegI['CProd'], StrRegI['CEAN'],
+                           StrRegI['XProd'], StrRegI['NCM'],
+                           StrRegI['EXTIPI'], StrRegI['CFOP'],
+                           StrRegI['UCom'], StrRegI['QCom'],
+                           StrRegI['VUnCom'], StrRegI['VProd'],
+                           StrRegI['CEANTrib'], StrRegI['UTrib'],
+                           StrRegI['QTrib'], StrRegI['VUnTrib'],
+                           StrRegI['VFrete'], StrRegI['VSeg'],
+                           StrRegI['VDesc'], StrRegI['vOutro'],
+                           StrRegI['indTot'], StrRegI['xPed'],
+                           StrRegI['nItemPed'], StrRegI['nFCI'])
 
             StrFile += StrI
 
@@ -602,10 +644,13 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                     StrFile += StrI25
 
-            icms_cst = inv_line.icms_cst_id and inv_line.icms_cst_id.code or ''
-            ipi_cst = inv_line.ipi_cst_id and inv_line.ipi_cst_id.code or ''
+            icms_cst = inv_line.icms_cst_id and\
+                inv_line.icms_cst_id.code or ''
+            ipi_cst = inv_line.ipi_cst_id and\
+                inv_line.ipi_cst_id.code or ''
             pis_cst = inv_line.pis_cst_id and inv_line.pis_cst_id.code or ''
-            cofins_cst = inv_line.cofins_cst_id and inv_line.cofins_cst_id.code or ''
+            cofins_cst = inv_line.cofins_cst_id and\
+                inv_line.cofins_cst_id.code or ''
 
             StrRegStrM = {
                 'vTotTrib': str("%.2f" % inv_line.total_taxes),
@@ -752,8 +797,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'VICMSST': str("%.2f" % 0.00),
                     }
 
-                    StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'], StrRegN08[
-                        'CST'], StrRegN08['VBCST'], StrRegN08['VICMSST'])
+                    StrN08 = 'N08|%s|%s|%s|%s|\n' % (StrRegN08['Orig'],
+                                                     StrRegN08['CST'],
+                                                     StrRegN08['VBCST'],
+                                                     StrRegN08['VICMSST'])
                     StrFile += StrN08
 
                 if icms_cst in ('70',):
@@ -789,12 +836,15 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                             inv_line.icms_st_value),
                     }
 
-                    StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                        StrRegN09['Orig'], StrRegN09['CST'], StrRegN09[
-                            'ModBC'], StrRegN09['PRedBC'], StrRegN09['VBC'],
-                        StrRegN09['PICMS'], StrRegN09['VICMS'], StrRegN09[
-                            'ModBCST'], StrRegN09['PMVAST'],
-                        StrRegN09['PRedBCST'], StrRegN09['VBCST'], StrRegN09['PICMSST'], StrRegN09['VICMSST'])
+                    StrN09 = 'N09|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'\
+                             '|%s|%s|%s|\n' % (
+                                 StrRegN09['Orig'], StrRegN09['CST'],
+                                 StrRegN09['ModBC'], StrRegN09['PRedBC'],
+                                 StrRegN09['VBC'], StrRegN09['PICMS'],
+                                 StrRegN09['VICMS'], StrRegN09['ModBCST'],
+                                 StrRegN09['PMVAST'], StrRegN09['PRedBCST'],
+                                 StrRegN09['VBCST'], StrRegN09['PICMSST'],
+                                 StrRegN09['VICMSST'])
                     StrFile += StrN09
 
                 if icms_cst in ('90',):
@@ -830,12 +880,14 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                             inv_line.icms_st_value),
                     }
 
-                    StrN10 = 'N10|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-                        StrRegN10['Orig'], StrRegN10['CST'], StrRegN10[
-                            'ModBC'], StrRegN10['PRedBC'], StrRegN10['VBC'],
-                        StrRegN10['PICMS'], StrRegN10['VICMS'], StrRegN10[
-                            'ModBCST'], StrRegN10['PMVAST'],
-                        StrRegN10['PRedBCST'], StrRegN10['VBCST'], StrRegN10['PICMSST'], StrRegN10['VICMSST'])
+                    StrN10 = 'N10|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' %\
+                        (StrRegN10['Orig'], StrRegN10['CST'],
+                         StrRegN10['ModBC'], StrRegN10['PRedBC'],
+                         StrRegN10['VBC'], StrRegN10['PICMS'],
+                         StrRegN10['VICMS'], StrRegN10['ModBCST'],
+                         StrRegN10['PMVAST'], StrRegN10['PRedBCST'],
+                         StrRegN10['VBCST'], StrRegN10['PICMSST'],
+                         StrRegN10['VICMSST'])
                     StrFile += StrN10
 
                 if icms_cst in ('101',):
@@ -846,8 +898,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'vCredICMSSN': str("%.2f" % inv_line.icms_value),
                     }
 
-                    StrN10c = 'N10c|%s|%s|%s|%s|\n' % (StrRegN10c['Orig'], StrRegN10c[
-                        'CSOSN'], StrRegN10c['pCredSN'], StrRegN10c['vCredICMSSN'])
+                    StrN10c = 'N10c|%s|%s|%s|%s|\n' %\
+                        (StrRegN10c['Orig'], StrRegN10c['CSOSN'],
+                         StrRegN10c['pCredSN'], StrRegN10c['vCredICMSSN'])
                     StrFile += StrN10c
 
                 # Incluido CST 102,103 e 300 - Uso no Simples Nacional - Linha
@@ -878,24 +931,12 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'vCredICMSSN': str("%.2f" % 0.00),
                     }
 
-                    StrN10e = 'N10e|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10e['Orig'],
-                                                                         StrRegN10e[
-                                                                             'CSOSN'],
-                                                                         StrRegN10e[
-                                                                             'ModBCST'],
-                                                                         StrRegN10e[
-                                                                             'PMVAST'],
-                                                                         StrRegN10e[
-                                                                             'PRedBCST'],
-                                                                         StrRegN10e[
-                                                                             'VBCST'],
-                                                                         StrRegN10e[
-                                                                             'PICMSST'],
-                                                                         StrRegN10e[
-                                                                             'VICMSST'],
-                                                                         StrRegN10e[
-                                                                             'pCredSN'],
-                                                                         StrRegN10e['vCredICMSSN'])
+                    StrN10e = 'N10e|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' %\
+                        (StrRegN10e['Orig'], StrRegN10e['CSOSN'],
+                         StrRegN10e['ModBCST'], StrRegN10e['PMVAST'],
+                         StrRegN10e['PRedBCST'], StrRegN10e['VBCST'],
+                         StrRegN10e['PICMSST'], StrRegN10e['VICMSST'],
+                         StrRegN10e['pCredSN'], StrRegN10e['vCredICMSSN'])
                     StrFile += StrN10e
 
                 if icms_cst in ('202', '203'):
@@ -910,32 +951,24 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'VICMSST': str("%.2f" % inv_line.icms_st_value),
                     }
 
-                    StrN10f = 'N10f|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10f['Orig'],
-                                                                   StrRegN10f[
-                                                                       'CSOSN'],
-                                                                   StrRegN10f[
-                                                                       'ModBCST'],
-                                                                   StrRegN10f[
-                                                                       'PMVAST'],
-                                                                   StrRegN10f[
-                                                                       'PRedBCST'],
-                                                                   StrRegN10f[
-                                                                       'VBCST'],
-                                                                   StrRegN10f[
-                                                                       'PICMSST'],
-                                                                   StrRegN10f['VICMSST'])
+                    StrN10f = 'N10f|%s|%s|%s|%s|%s|%s|%s|%s|\n' %\
+                        (StrRegN10f['Orig'], StrRegN10f['CSOSN'],
+                         StrRegN10f['ModBCST'], StrRegN10f['PMVAST'],
+                         StrRegN10f['PRedBCST'], StrRegN10f['VBCST'],
+                         StrRegN10f['PICMSST'], StrRegN10f['VICMSST'])
                     StrFile += StrN10f
 
                 if icms_cst in ('500',):
                     StrRegN10g = {
                         'Orig': inv_line.product_id.origin or '0',
                         'CSOSN': icms_cst,
-                        'vBCSTRet': '',  # Todo - Variavel cf. Faixa faturamento
-                        'vICMSSTRet': ''  # Todo - Variavel cf. Faixa faturamento
+                        'vBCSTRet': '',  # TODO Variavel cf Faixa faturamento
+                        'vICMSSTRet': ''  # TODO Variavel cf Faixa faturamento
                     }
 
-                    StrN10g = 'N10g|%s|%s|%s|%s|\n' % (StrRegN10g['Orig'], StrRegN10g[
-                        'CSOSN'], StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
+                    StrN10g = 'N10g|%s|%s|%s|%s|\n' %\
+                        (StrRegN10g['Orig'], StrRegN10g['CSOSN'],
+                         StrRegN10g['vBCSTRet'], StrRegN10g['vICMSSTRet'])
                     StrFile += StrN10g
 
                 if icms_cst in ('900',):
@@ -957,34 +990,22 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         'vCredICMSSN': str("%.2f" % 0.00),
                     }
 
-                    StrN10h = 'N10h|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (StrRegN10h['Orig'],
-                                                                                        StrRegN10h[
-                                                                                            'CSOSN'],
-                                                                                        StrRegN10h[
-                                                                                            'modBC'],
-                                                                                        StrRegN10h[
-                                                                                            'vBC'],
-                                                                                        StrRegN10h[
-                                                                                            'pRedBC'],
-                                                                                        StrRegN10h[
-                                                                                            'pICMS'],
-                                                                                        StrRegN10h[
-                                                                                            'vICMS'],
-                                                                                        StrRegN10h[
-                                                                                            'modBCST'],
-                                                                                        StrRegN10h[
-                                                                                            'pMVAST'],
-                                                                                        StrRegN10h[
-                                                                                            'pRedBCST'],
-                                                                                        StrRegN10h[
-                                                                                            'vBCST'],
-                                                                                        StrRegN10h[
-                                                                                            'pICMSST'],
-                                                                                        StrRegN10h[
-                                                                                            'vICMSST'],
-                                                                                        StrRegN10h[
-                                                                                            'pCredSN'],
-                                                                                        StrRegN10h['vCredICMSSN'])
+                    StrN10h = 'N10h|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'\
+                              '|%s|\n' % (StrRegN10h['Orig'],
+                                          StrRegN10h['CSOSN'],
+                                          StrRegN10h['modBC'],
+                                          StrRegN10h['vBC'],
+                                          StrRegN10h['pRedBC'],
+                                          StrRegN10h['pICMS'],
+                                          StrRegN10h['vICMS'],
+                                          StrRegN10h['modBCST'],
+                                          StrRegN10h['pMVAST'],
+                                          StrRegN10h['pRedBCST'],
+                                          StrRegN10h['vBCST'],
+                                          StrRegN10h['pICMSST'],
+                                          StrRegN10h['vICMSST'],
+                                          StrRegN10h['pCredSN'],
+                                          StrRegN10h['vCredICMSSN'])
 
                     StrFile += StrN10h
 
@@ -996,8 +1017,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     'CEnq': '999',
                 }
 
-                StrO = 'O|%s|%s|%s|%s|%s|\n' % (StrRegO['ClEnq'], StrRegO['CNPJProd'], StrRegO[
-                    'CSelo'], StrRegO['QSelo'], StrRegO['CEnq'])
+                StrO = 'O|%s|%s|%s|%s|%s|\n' % (StrRegO['ClEnq'],
+                                                StrRegO['CNPJProd'],
+                                                StrRegO['CSelo'],
+                                                StrRegO['QSelo'],
+                                                StrRegO['CEnq'])
 
                 StrFile += StrO
 
@@ -1052,7 +1076,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         StrRegO10['VBC'], StrRegO10['PIPI'])
                     StrFile += StrO10
 
-                if inv_line.ipi_percent == 0 and not ipi_cst in ('99'):
+                if inv_line.ipi_percent == 0 and ipi_cst not in ('99'):
                     StrO1 = 'O08|%s|\n' % ipi_cst
                     StrFile += StrO1
 
@@ -1076,7 +1100,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     'VISSQN': str(
                         "%.2f" % inv_line.issqn_value),
                     'CMunFG': ('%s%s') % (inv.partner_id.state_id.ibge_code,
-                                          inv.partner_id.l10n_br_city_id.ibge_code),
+                                          (inv.partner_id
+                                           .l10n_br_city_id.ibge_code)),
                     'CListServ': punctuation_rm(
                         inv_line.service_type_id.code),
                     'cSitTrib': inv_line.issqn_type}
@@ -1127,7 +1152,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrRegQ07['VBC'], StrRegQ07['PPIS'])
                 StrFile += StrQ07
 
-            if inv_line.pis_percent == 0 and not pis_cst in ('99', '49'):
+            if inv_line.pis_percent == 0 and pis_cst not in ('99', '49'):
                 StrQ02 = 'Q04|%s|\n' % pis_cst
                 StrFile += StrQ02
 
@@ -1166,7 +1191,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     StrRegS07['VBC'], StrRegS07['PCOFINS'])
                 StrFile += StrS07
 
-            if inv_line.cofins_percent == 0 and not cofins_cst in ('99', '49'):
+            if inv_line.cofins_percent == 0 and cofins_cst not in ('99', '49'):
                 StrS04 = 'S04|%s|\n' % cofins_cst
                 StrFile += StrS04
 
@@ -1193,11 +1218,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
         }
 
         StrW02 = 'W02|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|\n' % (
-            StrRegW02['vBC'], StrRegW02['vICMS'], StrRegW02[
-                'vBCST'], StrRegW02['vST'], StrRegW02['vProd'],
-            StrRegW02['vFrete'], StrRegW02['vSeg'], StrRegW02[
-                'vDesc'], StrRegW02['vII'], StrRegW02['vIPI'],
-            StrRegW02['vPIS'], StrRegW02['vCOFINS'], StrRegW02['vOutro'], StrRegW02['vNF'], StrRegW02['vTotTrib'])
+            StrRegW02['vBC'], StrRegW02['vICMS'], StrRegW02['vBCST'],
+            StrRegW02['vST'], StrRegW02['vProd'], StrRegW02['vFrete'],
+            StrRegW02['vSeg'], StrRegW02['vDesc'], StrRegW02['vII'],
+            StrRegW02['vIPI'], StrRegW02['vPIS'], StrRegW02['vCOFINS'],
+            StrRegW02['vOutro'], StrRegW02['vNF'], StrRegW02['vTotTrib'])
 
         StrFile += StrW02
 
@@ -1240,15 +1265,15 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                     cr, uid, [carrier_addr['default']])[0]
 
                 if inv.carrier_id.partner_id.legal_name:
-                    StrRegX03['XNome'] = normalize(
-                        'NFKD', unicode(
-                            inv.carrier_id.partner_id.legal_name or '')).encode(
-                        'ASCII', 'ignore')
+                    StrRegX03['XNome'] = (normalize(
+                        'NFKD',
+                        unicode(inv.carrier_id.partner_id.legal_name or ''))
+                        .encode('ASCII', 'ignore'))
                 else:
-                    StrRegX03['XNome'] = normalize(
-                        'NFKD', unicode(
-                            inv.carrier_id.partner_id.name or '')).encode(
-                        'ASCII', 'ignore')
+                    StrRegX03['XNome'] = (normalize(
+                        'NFKD',
+                        unicode(inv.carrier_id.partner_id.name or ''))
+                        .encode('ASCII', 'ignore'))
 
                 StrRegX03['IE'] = inv.carrier_id.partner_id.inscr_est or ''
                 StrRegX03['XEnder'] = normalize(
@@ -1258,10 +1283,10 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrRegX03['UF'] = carrier_addr_default.state_id.code or ''
 
                 if carrier_addr_default.l10n_br_city_id:
-                    StrRegX03['XMun'] = normalize(
+                    StrRegX03['XMun'] = (normalize(
                         'NFKD', unicode(
-                            carrier_addr_default.l10n_br_city_id.name or '')).encode(
-                        'ASCII', 'ignore')
+                            carrier_addr_default.l10n_br_city_id.name or ''))
+                        .encode('ASCII', 'ignore'))
 
                 if inv.carrier_id.partner_id.is_company:
                     StrX0 = 'X04|%s|\n' % (punctuation_rm(
@@ -1271,8 +1296,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                         inv.carrier_id.partner_id.cnpj_cpf))
         except AttributeError:
             pass
-        StrX03 = 'X03|%s|%s|%s|%s|%s|\n' % (StrRegX03['XNome'], StrRegX03['IE'], StrRegX03[
-            'XEnder'], StrRegX03['UF'], StrRegX03['XMun'])
+        StrX03 = 'X03|%s|%s|%s|%s|%s|\n' % (
+            StrRegX03['XNome'], StrRegX03['IE'], StrRegX03['XEnder'],
+            StrRegX03['UF'], StrRegX03['XMun'])
 
         StrFile += StrX03
         StrFile += StrX0
@@ -1336,7 +1362,8 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
                 StrRegY07 = {
                     'NDup': line.name,
-                    'DVenc': line.date_maturity or inv.date_due or inv.date_invoice,
+                    'DVenc': line.date_maturity or inv.date_due or
+                    inv.date_invoice,
                     'VDup': str(
                         "%.2f" %
                         value),
