@@ -1334,9 +1334,9 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
         if inv.number_of_packages:
             StrRegX26['QVol'] = inv.number_of_packages
-            StrRegX26['Esp'] = 'Volume'  # TODO
-            StrRegX26['Marca']
-            StrRegX26['NVol']
+            StrRegX26['Esp'] = inv.kind_of_packages or ''
+            StrRegX26['Marca'] = inv.brand_of_packages or ''
+            StrRegX26['NVol'] = inv.number_of_packages or ''
             StrRegX26['PesoL'] = str("%.3f" % inv.weight_net)
             StrRegX26['PesoB'] = str("%.3f" % inv.weight)
 
