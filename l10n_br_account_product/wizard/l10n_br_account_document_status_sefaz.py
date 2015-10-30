@@ -55,7 +55,6 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
             'xMotivo': '101',
             'cUF': 27,
             'chNFe': data['chNFe'],
-            'nfe_environment': '2',
             'protNFe': '123',
             'retCancNFe': '',
             'procEventoNFe': '',
