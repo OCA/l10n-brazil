@@ -179,11 +179,7 @@ class AccountProductFiscalClassification(orm.Model):
 
                 s_tx = [x.id for x in fiscal_classification.sale_base_tax_ids]
                 p_tx = [
-                        x.id
-                        for
-                        x
-                        in
-                        fiscal_classification.purchase_base_tax_ids]
+                    x.id for x in fiscal_classification.purchase_base_tax_ids]
                 s_tx_id = [(6, 0, list(set(to_keep_sale_tax_ids + s_tx)))]
                 p_tx_id = [(6, 0, list(set(to_keep_purchase_tax_ids + p_tx)))]
                 vals = {
@@ -374,9 +370,8 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
                         obj_tax_sale.create(
                             cr,
                             uid,
-                            {
-                             'tax_id': tax_template_ref[company_id].get(
-                                 sale_tax.tax_id.id),
+                            {'tax_id': (tax_template_ref[company_id]
+                                        .get(sale_tax.tax_id.id)),
                              'tax_code_id': (tax_code_template_ref[company_id]
                                              .get(sale_tax.tax_code_id.id)),
                              'fiscal_classification_id': new_fclass_id})
@@ -395,9 +390,8 @@ class WizardAccountProductFiscalClassification(orm.TransientModel):
                         obj_tax_purchase.create(
                             cr,
                             uid,
-                            {
-                             'tax_id': tax_template_ref[company_id].get(
-                                 purchase_tax.tax_id.id),
+                            {'tax_id': (tax_template_ref[company_id]
+                                        .get(purchase_tax.tax_id.id)),
                              'tax_code_id': (tax_code_template_ref[company_id]
                                              .get(purchase_tax.tax_code_id.id)
                                              ),
