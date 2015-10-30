@@ -18,7 +18,7 @@
 ###############################################################################
 
 from lxml import etree
-
+from ..sped.edoc.document import get_edoc
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import except_orm, Warning
@@ -42,6 +42,11 @@ JOURNAL_TYPE = {
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    @api.multi
+    def invoice_validate(self):
+        edoc = get_edoc(self)
+        return edoc.validate() & super(AccountInvoice, self).invoice_validate()
 
     @api.one
     @api.depends(

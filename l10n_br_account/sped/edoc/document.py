@@ -30,7 +30,7 @@ class Edoc(object):
         """Override this method for every new parser, so that
         new_bank_statement_parser can return the good class from his name.
         """
-        return edoc_name == False
+        return False
 
 
     def _serializer(self, *args, **kwargs):
@@ -131,5 +131,5 @@ def get_edoc(edoc, *args, **kwargs):
     """
     for cls in itersubclasses(Edoc):
         if cls.edoc_type(edoc.fiscal_document_id.edoc_type):
-            return cls(*args, **kwargs)
-    raise ValueError
+            return cls(edoc, *args, **kwargs)
+    return Edoc(edoc, *args, **kwargs)
