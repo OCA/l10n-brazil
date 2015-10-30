@@ -226,8 +226,7 @@ class AccountTax(models.Model):
             result_icmsst['taxes'][0][
                 'icms_st_base_other'] = icms_st_base_other
 
-            if result_icmsst['taxes'][0]['amount_mva']:
-                calculed_taxes += result_icmsst['taxes']
+            calculed_taxes += result_icmsst['taxes']
 
         # Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
