@@ -17,6 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import serializer
-import processing
-import validator
+from . import serializer
+from . import processing
+from . import validator

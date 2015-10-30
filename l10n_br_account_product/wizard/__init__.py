@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import l10n_br_account_nfe_export_invoice
-import l10n_br_account_nfe_export
-import l10n_br_account_document_status_sefaz
-import l10n_br_refund
+from . import l10n_br_account_nfe_export_invoice
+from . import l10n_br_account_nfe_export
+from . import l10n_br_account_document_status_sefaz
+from . import l10n_br_refund
