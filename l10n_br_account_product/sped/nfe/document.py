@@ -23,11 +23,11 @@ from openerp import pooler
 from openerp.osv import orm
 from openerp.tools.translate import _
 
-from openerp.addons.l10n_br_account.sped.document import FiscalDocument
+# from openerp.addons.l10n_br_account.sped.document import FiscalDocument
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
-class NFe200(FiscalDocument):
+class NFe200(object):
     def __init__(self):
         super(NFe200, self).__init__()
         self.nfe = None

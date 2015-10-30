@@ -25,3 +25,4 @@ from . import account_invoice
 from . import account
 from . import product
 from . import res_partner
+from . import l10n_br_account_fiscal_document

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2015 Luis Felipe Mileo - www.kmee.com.br                      #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,5 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-import edoc
-import nfe
+from openerp import models, fields
+
+
+class L10n_brAccountFiscalDocument(models.Model):
+    _inherit = 'l10n_br_account.fiscal.document'
+
+    edoc_type = fields.Selection(
+        selection_add=[('nfe', u'55 - Nota Fiscal Eletrônica')]
+    )
