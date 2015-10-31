@@ -50,10 +50,10 @@
 				</field>
                 		<field name="zip" position="replace"/>
 				<field name="street" position="replace">
-					<field name="zip" placeholder="Cep"/>
-					<field name="street" placeholder="Logadouro"/>
-					<field name="number" placeholder="numero" />
-					<field name="district" placeholder="bairro" />
+					<field name="zip" placeholder="CEP"/>
+					<field name="street" placeholder="Logradouro"/>
+					<field name="number" placeholder="Número" />
+					<field name="district" placeholder="Bairro" />
 				</field>
 				<field name="street2" position="replace">
 					<field name="street2" placeholder="Complemento" />
@@ -63,14 +63,14 @@
 					<attribute name="style">width: 70%%</attribute>
 				</field>
 				<field name="state_id" position="after">
-					<field name="l10n_br_city_id" placeholder="cidade"/>
+					<field name="l10n_br_city_id" placeholder="Cidade"/>
 				</field>
 				<field name="city" position="replace">
 					<field name="city" invisible="1"/>
 				</field>
 		                <field name="country_id" position="replace"/>
                 		<field name="state_id" position="before">
-		                    <field name="country_id" placeholder="Pais"/>
+		                    <field name="country_id" placeholder="País"/>
                 		</field>
 		                <field name="zip" position="attributes">
                 		    <attribute name="style">width: 50%</attribute>
