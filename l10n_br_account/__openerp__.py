@@ -32,6 +32,7 @@
         'web_context_tunnel',
     ],
     'data': [
+        'workflow/edoc_workflow.xml',
         'l10n_br_account_workflow.xml',
         'account_fiscal_position_workflow.xml',
         'data/l10n_br_account.fiscal.document.csv',

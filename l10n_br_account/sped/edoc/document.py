@@ -18,12 +18,16 @@
 ###############################################################################
 
 
-class Edoc(object):
-
-    def __init__(self, edoc, *args, **kwargs):
-        self.edoc_name = edoc.fiscal_document_id.edoc_type
-        self.edoc = edoc
-        self.support_multi_edoc = False
+class ElectronicDocument(object):
+    def __init__(self, edoc_list, edoc_name, *args, **kwargs):
+        self.edoc_name = edoc_name
+        self.edoc_list = edoc_list
+        self.support_multi_send = False
+        # The result as a list of row. One row per line of data in the file,
+        # but not the commission one!
+        self.result_row_list = None
+        # The edoc buffer on which to work on
+        self.edoc_buffer = None
 
     @classmethod
     def edoc_type(cls, edoc_name):
@@ -32,49 +36,53 @@ class Edoc(object):
         """
         return False
 
-
-    def _serializer(self, *args, **kwargs):
-        """Implement a method in your parser to save the result of parsing
-        self.filebuffer in self.result_row_list instance property.
-        """
-        return NotImplementedError
-
-
-    def validate(self, *args, **kwargs):
-        """Implement a method in your parser  to validate the
-        self.result_row_list instance property and raise an error if not valid.
+    def _check(self, *args, **kwargs):
+        """Implement a method in your edoc to pre-check it before it been
+        transmitted, raise an user warning with errors for eg:
+        >>> strError = ''
+        >>> if self.edoc.partner_id:
+        >>>     strError += "Partner not defined"
+        >>> if strError:
+        >>>     raise Warning(
+        >>>     _('Error !'), ("Error Validating My E-Doc:\n '%s'") % (
+        >>>                    strError,))
         """
         return True
 
+    def _serializer(self, *args, **kwargs):
+        """
+
+        """
+        return True
 
     def _send(self, *args, **kwargs):
-        """Implement a method in your parser to make some last changes on the
-        result of parsing the datas, like converting dates, computing
-        commission, ...
         """
-        return NotImplementedError
-
-
-    def send(self, *args, **kwargs):
-        """This will be the method that will be called by wizard, button and so
-        to parse a filebuffer by calling successively all the private method
-        that need to be define for each parser.
-        Return:
-             [] of rows as {'key':value}
-        Note: The row_list must contain only value that are present in the
-        account.bank.statement.line object !!!
         """
-        self._format(*args, **kwargs)
-        self._pre(*args, **kwargs)
-        if self.support_multi_send:
+        for edoc in self.edoc_list:
+            edoc.write({'state': 'transmited'})
+        self.result_row_list = True
+
+    def validate(self, *args, **kwargs):
+        """
+        """
+        return False
+
+    def transmit(self, *args, **kwargs):
+        """
+
+        """
+        self._check(*args, **kwargs)
+        if not self.support_multi_send:
             while self._serializer(*args, **kwargs):
-                self.validate(*args, **kwargs)
+                # Send edoc one at a time
                 self._send(*args, **kwargs)
+                self.validate(*args, **kwargs)
                 yield self.result_row_list
         else:
             self._serializer(*args, **kwargs)
-            self.validate(*args, **kwargs)
+            # Send a list of edoc in a single transmission
             self._send(*args, **kwargs)
+            self.validate(*args, **kwargs)
             yield self.result_row_list
 
     def report(self, *args, **kwargs):
@@ -123,13 +131,13 @@ def itersubclasses(cls, _seen=None):
                 yield sub
 
 
-def get_edoc(edoc, *args, **kwargs):
+def get_edoc(edoc_list, edoc_name, *args, **kwargs):
     """Return an instance of edoc.
 
     :param profile: browse_record of invoice.
     :return: class instance for given edoc import type.
     """
-    for cls in itersubclasses(Edoc):
-        if cls.edoc_type(edoc.fiscal_document_id.edoc_type):
-            return cls(edoc, *args, **kwargs)
-    return Edoc(edoc, *args, **kwargs)
+    for cls in itersubclasses(ElectronicDocument):
+        if cls.edoc_type(edoc_name):
+            return cls(edoc_list, edoc_name, *args, **kwargs)
+    return ValueError

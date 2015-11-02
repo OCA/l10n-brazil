@@ -40,13 +40,51 @@ JOURNAL_TYPE = {
 }
 
 
+class AccountInvoiceConfirm(models.TransientModel):
+    """
+    This wizard will confirm the all the selected draft invoices
+    """
+
+    _inherit = "account.invoice.confirm"
+    _description = "Transmit the selected invoices"
+
+    @api.multi
+    def invoice_confirm(self):
+
+        active_ids = self._context.get('active_ids', []) or []
+        invoices = self.env['account.invoice'].search(
+            [('state', 'in', ['draft', 'proforma', 'proforma2']),
+             ('id', 'in', active_ids)])
+        invoices.action_date_assign()
+        invoices.action_move_create()
+        invoices.action_number()
+        invoices.transmit()
+        return {'type': 'ir.actions.act_window_close'}
+
+
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
+    def action_transmit(self):
+        edoc_group = {}
+        for inv in self:
+            edoc_group.setdefault(
+                inv.fiscal_document_id.edoc_type,
+                []).append(inv)
+        for edoc_name in edoc_group:
+            edoc = get_edoc(edoc_group[edoc_name], edoc_name)
+            for transmisison in edoc.transmit():
+                pass
+
+        return True
+
+    @api.multi
     def invoice_validate(self):
-        edoc = get_edoc(self)
-        return edoc.validate() & super(AccountInvoice, self).invoice_validate()
+        self.ensure_one()
+        edoc = get_edoc(self, self.fiscal_document_id.edoc_type)
+        if edoc.validate():
+            super(AccountInvoice, self).invoice_validate()
 
     @api.one
     @api.depends(
@@ -114,6 +152,10 @@ class AccountInvoice(models.Model):
         'l10n_br_account.document_event', 'document_event_ids',
         u'Eventos')
     fiscal_comment = fields.Text(u'Observação Fiscal')
+    state = fields.Selection(
+        selection_add=[
+            ('transmited', 'Transmited'),
+        ])
 
     _order = 'internal_number desc'
 
