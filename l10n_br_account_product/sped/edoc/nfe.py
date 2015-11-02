@@ -324,29 +324,6 @@ class NFe(ElectronicDocument):
         """
         return NotImplementedError
 
-
-    def send(self, *args, **kwargs):
-        """This will be the method that will be called by wizard, button and so
-        to parse a filebuffer by calling successively all the private method
-        that need to be define for each parser.
-        Return:
-             [] of rows as {'key':value}
-        Note: The row_list must contain only value that are present in the
-        account.bank.statement.line object !!!
-        """
-        self._format(*args, **kwargs)
-        self._pre(*args, **kwargs)
-        if self.support_multi_send:
-            while self._serializer(*args, **kwargs):
-                self.validate(*args, **kwargs)
-                self._send(*args, **kwargs)
-                yield self.result_row_list
-        else:
-            self._serializer(*args, **kwargs)
-            self.validate(*args, **kwargs)
-            self._send(*args, **kwargs)
-            yield self.result_row_list
-
     def report(self, *args, **kwargs):
 
         return NotImplementedError
