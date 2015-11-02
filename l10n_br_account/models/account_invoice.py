@@ -18,7 +18,7 @@
 ###############################################################################
 
 from lxml import etree
-
+from ..sped.edoc.document import get_edoc
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import except_orm, Warning
@@ -40,8 +40,53 @@ JOURNAL_TYPE = {
 }
 
 
+class AccountInvoiceConfirm(models.TransientModel):
+    """
+    This wizard will confirm the all the selected draft invoices
+    """
+
+    _inherit = "account.invoice.confirm"
+    _description = "Transmit the selected invoices"
+
+    @api.multi
+    def invoice_confirm(self):
+
+        active_ids = self._context.get('active_ids', []) or []
+        invoices = self.env['account.invoice'].search(
+            [('state', 'in', ['draft', 'proforma', 'proforma2']),
+             ('id', 'in', active_ids)])
+        invoices.action_date_assign()
+        invoices.action_move_create()
+        invoices.action_number()
+        invoices.transmit()
+        return {'type': 'ir.actions.act_window_close'}
+
+
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+
+    @api.multi
+    def action_transmit(self):
+        edoc_group = {}
+        for inv in self:
+            edoc_group.setdefault(
+                inv.fiscal_document_id.edoc_type,
+                []).append(inv)
+        for edoc_name in edoc_group:
+            edoc = get_edoc(edoc_group[edoc_name], edoc_name)
+            for transmisison in edoc.transmit():
+                pass
+
+        return True
+
+    @api.multi
+    @api.depends(
+        'state'
+    )
+    def _compute_authorized(self):
+        edoc = get_edoc(self, self.fiscal_document_id.edoc_type)
+        edoc.validate()
 
     @api.one
     @api.depends(
@@ -109,6 +154,16 @@ class AccountInvoice(models.Model):
         'l10n_br_account.document_event', 'document_event_ids',
         u'Eventos')
     fiscal_comment = fields.Text(u'Observação Fiscal')
+    state = fields.Selection(
+        selection_add=[
+            ('transmited', 'Transmited'),
+        ])
+    edoc_authorized = fields.Boolean(string='Authorized',
+        store=True, readonly=True, compute='_compute_authorized',
+        help=(
+            "It indicates that the eletronic document of invoice has been "
+            "autorized.")
+                                     )
 
     _order = 'internal_number desc'
 
@@ -268,6 +323,8 @@ class AccountInvoice(models.Model):
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self._context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
+        if ctx.get('fiscal_category_id'):
+            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
         if not kwargs.get('fiscal_category_id'):
             return result
@@ -289,15 +346,7 @@ class AccountInvoice(models.Model):
     def onchange_fiscal_category_id(self, partner_address_id,
                                     partner_id, company_id,
                                     fiscal_category_id):
-        # TODO Deixar em branco a posição fiscal se não achar a regra
         result = {'value': {'fiscal_position': None}}
-        if fiscal_category_id:
-            fiscal_category = self.env[
-                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
-            # TODO CASO NAO TENHA DIARIO EXIBIR UMA MENSAGEM
-            if fiscal_category.property_journal:
-                result['value']['journal_id'] = \
-                    fiscal_category.property_journal.id
         return self._fiscal_position_map(
             result, partner_id=partner_id,
             partner_invoice_id=partner_address_id, company_id=company_id,

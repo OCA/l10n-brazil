@@ -1,2 +1,2 @@
-"id","code","name","electronic"
-"fiscal_document_service","XX","Nota Fiscal de Serviço Municipal","False"
+"id","code","name","electronic","edoc_type"
+"fiscal_document_service","XX","Nota Fiscal de Serviço Municipal","False","default"

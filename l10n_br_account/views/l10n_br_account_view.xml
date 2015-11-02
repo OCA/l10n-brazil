@@ -74,6 +74,7 @@
 							<field name="code" select="1"/>
 							<field name="name" select="1"/>
 							<field name="electronic" select="2"/>
+							<field name="edoc_type" select="2"/>
                         </group>
                     </sheet>
 				</form>
@@ -88,6 +89,7 @@
 					<field name="code" select="1"/>
 					<field name="name" select="1"/>
 					<field name="electronic" select="2"/>
+					<field name="edoc_type" select="2"/>
 				</tree>
 			</field>
 		</record>

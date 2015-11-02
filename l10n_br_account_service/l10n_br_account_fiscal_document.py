@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013 - TODAY Renato Lima - Akretion                           #
+# Copyright (C) 2015 Luis Felipe Mileo - www.kmee.com.br                      #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,26 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
+from openerp import models, fields
 
-class FiscalDocument(object):
 
-    def __init__(self):
-        pass
+class L10n_brAccountFiscalDocument(models.Model):
+    _inherit = 'l10n_br_account.fiscal.document'
 
-    def _serializer():
-        pass
-
-    def _deserializer():
-        pass
-
-    def get_xml():
-        pass
-
-    def set_xml():
-        pass
-
-    def get_txt():
-        pass
-
-    def set_txt():
-        pass
+    edoc_type = fields.Selection(
+        selection_add=[('abrasf', u'NFS-e - Abrasf')]
+    )

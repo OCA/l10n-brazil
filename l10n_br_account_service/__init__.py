@@ -23,3 +23,4 @@ import product
 import res_company
 import res_partner
 import sped
+import l10n_br_account_fiscal_document

@@ -1,21 +1,21 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 # Copyright (C) 2011  Vinicius Dittgen - PROGE, Leonardo Santagada - PROGE    #
 #                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
+# This program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU Affero General Public License as published by #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
 #                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
+# This program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+# GNU Affero General Public License for more details.                         #
 #                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+# You should have received a copy of the GNU Affero General Public License    #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
 import time
@@ -137,7 +137,7 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
                 name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
 
             mod_serializer = __import__(
-                'l10n_br_account_product.sped.nfe.serializer.' +
+                'openerp.addons.l10n_br_account_product.sped.nfe.serializer.' +
                 data['file_type'], globals(), locals(), data['file_type'])
 
             func = getattr(mod_serializer, 'nfe_export')
@@ -152,22 +152,25 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
                 str_nfe_version, context)
 
             for nfe in nfes:
-                #if nfe['message']:
-                    #status = 'error'
-                #else:
-                    #status = 'success'
+                # if nfe['message']:
+                    # status = 'error'
+                # else:
+                    # status = 'success'
 
-                #self.pool.get(self._name + '_result').create(
-                    #cr, uid, {'document': nfe['key'],
-                        #'message': nfe['message'],
-                        #'status': status,
-                        #'wizard_id': data['id']})
+                # self.pool.get(self._name + '_result').create(
+                    # cr, uid, {'document': nfe['key'],
+                        # 'message': nfe['message'],
+                        # 'status': status,
+                        # 'wizard_id': data['id']})
 
                 nfe_file = nfe['nfe'].encode('utf8')
 
             self.write(
-                cr, uid, ids, {'file': base64.b64encode(nfe_file),
-                'state': 'done', 'name': name}, context=context)
+                cr, uid, ids,
+                {'file': base64.b64encode(nfe_file),
+                 'state': 'done',
+                 'name': name},
+                context=context)
 
         if err_msg:
             raise orm.except_orm(_('Error!'), _("'%s'") % _(err_msg, ))
@@ -175,7 +178,9 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
         mod_obj = self.pool.get('ir.model.data')
         model_data_ids = mod_obj.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
-            ('name', '=', 'l10n_br_account_product_nfe_export_invoice_form')],
+                      ('name',
+                       '=',
+                       'l10n_br_account_product_nfe_export_invoice_form')],
             context=context)
         resource_id = mod_obj.read(
             cr, uid, model_data_ids,
