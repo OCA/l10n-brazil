@@ -18,10 +18,11 @@
 ###############################################################################
 
 
-from openerp.addons.l10n_br_account.sped.edoc.document import Edoc
+from openerp.addons.l10n_br_account.sped.edoc.document import \
+    ElectronicDocument
 from openerp.exceptions import Warning
 
-class NFe(Edoc):
+class NFe(ElectronicDocument):
 
     @classmethod
     def edoc_type(cls, edoc_name):
@@ -43,7 +44,7 @@ class NFe(Edoc):
         self.result_row_list instance property and raise an error if not valid.
         """
       # Nota fiscal
-        strErro =
+        strErro = ''
 
         inv = self.edoc
         partner = inv.partner_id
