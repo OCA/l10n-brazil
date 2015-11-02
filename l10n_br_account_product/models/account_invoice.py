@@ -32,7 +32,6 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
-from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
 class AccountInvoice(models.Model):
@@ -437,10 +436,6 @@ class AccountInvoice(models.Model):
             'nfe_status': False,
             'nfe_date': False,
             'nfe_export_date': False})
-        return result
-
-    def nfe_check(self, cr, uid, ids, context=None):
-        result = txt.validate(cr, uid, ids, context)
         return result
 
     @api.multi
