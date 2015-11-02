@@ -90,10 +90,11 @@ class NFe200(FiscalDocument):
                     self._encashment_data(cr, uid, ids, inv, line, context)
                     self.nfe.infNFe.cobr.dup.append(self.dup)
 
+            self._transport_data(cr, uid, ids, inv, context)
             try:
                 self._carrier_data(cr, uid, ids, inv, context)
             except AttributeError:
-                self._transport_data(cr, uid, ids, inv, context)
+                pass
 
             self.vol = self._get_Vol()
             self._weight_data(cr, uid, ids, inv, context=None)
@@ -411,29 +412,9 @@ class NFe200(FiscalDocument):
     def _carrier_data(self, cr, uid, ids, inv, context=None):
 
         #
-        # Dados da Transportadora e veiculo relacionados ao módulo delivery
+        # Dados de veiculo relacionados ao módulo delivery
         #
-
-        self.nfe.infNFe.transp.modFrete.valor = inv.incoterm and inv.incoterm.freight_responsibility or '9'
-
-        if inv.carrier_id:
-
-            if inv.carrier_id.partner_id.is_company:
-                self.nfe.infNFe.transp.transporta.CNPJ.valor = \
-                    re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
-            else:
-                self.nfe.infNFe.transp.transporta.CPF.valor = \
-                    re.sub('[%s]' % re.escape(string.punctuation), '', inv.carrier_id.partner_id.cnpj_cpf or '')
-
-            self.nfe.infNFe.transp.transporta.xNome.valor = inv.carrier_id.partner_id.legal_name[:60] or ''
-            self.nfe.infNFe.transp.transporta.IE.valor = inv.carrier_id.partner_id.inscr_est or ''
-            self.nfe.infNFe.transp.transporta.xEnder.valor = inv.carrier_id.partner_id.street or ''
-            self.nfe.infNFe.transp.transporta.xMun.valor = inv.carrier_id.partner_id.l10n_br_city_id.name or ''
-            self.nfe.infNFe.transp.transporta.UF.valor = inv.carrier_id.partner_id.state_id.code or ''
-
         if inv.vehicle_id:
-            self.nfe.infNFe.transp.veicTransp.placa.valor = inv.vehicle_id.plate or ''
-            self.nfe.infNFe.transp.veicTransp.UF.valor = inv.vehicle_id.state_id.code or ''
             self.nfe.infNFe.transp.veicTransp.RNTC.valor = inv.vehicle_id.rntc_code or ''
 
     def _transport_data(self, cr, uid, ids, inv, context=None):

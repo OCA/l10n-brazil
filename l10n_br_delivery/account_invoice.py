@@ -63,7 +63,7 @@ class AccountInvoice(models.Model):
                     strErro = u'Transportadora - Razão Social\n'
 
                 if not inv.carrier_id.partner_id.cnpj_cpf:
-                    strErro = 'Transportadora - CNPJ/CPF\n'
+                    strErro = u'Transportadora - CNPJ/CPF\n'
 
             # Carrier Vehicle
             if inv.vehicle_id:

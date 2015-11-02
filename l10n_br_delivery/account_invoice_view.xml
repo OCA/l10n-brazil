@@ -9,9 +9,9 @@
 			<field name="arch" type="xml">
 				<field name="freight_responsibility" position="before">											
 					<field name="carrier_id"/>
-					<field name="vehicle_id"/>
+					<field name="vehicle_id" domain="[('carrier_id', '=', carrier_id)]"/>
 					<field name="incoterm" widget="selection" />					
-				</field>				
+				</field>							
 			</field>
 		</record>
 
@@ -22,7 +22,7 @@
 			<field name="arch" type="xml">
 				<field name="freight_responsibility" position="before">											
 					<field name="carrier_id"/>
-					<field name="vehicle_id"/>
+					<field name="vehicle_id" domain="[('carrier_id', '=', carrier_id)]"/>
 					<field name="incoterm" widget="selection" />					
 				</field>	
 			</field>
