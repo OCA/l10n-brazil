@@ -224,7 +224,7 @@ class L10n_brAccountFiscalDocument(models.Model):
     name = fields.Char(u'Descrição', size=64)
     electronic = fields.Boolean(u'Eletrônico')
     edoc_type = fields.Selection(
-        selection=[('default', 'Default')],
+        selection=[('default', u'Não Eletrônico')],
         string=u'Tipo Documento Eletrônico')
 
 

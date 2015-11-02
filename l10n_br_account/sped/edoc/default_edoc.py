@@ -21,6 +21,7 @@ from document import ElectronicDocument
 
 
 class DefaultEdoc(ElectronicDocument):
+
     def __init__(self, edoc_list, edoc_name, *args, **kwargs):
         super(DefaultEdoc, self).__init__(
             edoc_list, edoc_name,

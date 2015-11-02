@@ -19,6 +19,7 @@
 
 
 class ElectronicDocument(object):
+
     def __init__(self, edoc_list, edoc_name, *args, **kwargs):
         self.edoc_name = edoc_name
         self.edoc_list = edoc_list
@@ -27,7 +28,7 @@ class ElectronicDocument(object):
         # but not the commission one!
         self.result_row_list = None
         # The edoc buffer on which to work on
-        self.edoc_buffer = None
+        self.edoc_buffer = []
 
     @classmethod
     def edoc_type(cls, edoc_name):
