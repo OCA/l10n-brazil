@@ -23,7 +23,7 @@ action_transmit()</field>
         <record id="tras_transmit_open" model="workflow.transition">
             <field name="act_from" ref="act_transmit"/>
             <field name="act_to" ref="account.act_open"/>
-            <field name="condition">True</field>
+            <field name="condition">edoc_authorized</field>
             <field name="signal"></field>
         </record>
 

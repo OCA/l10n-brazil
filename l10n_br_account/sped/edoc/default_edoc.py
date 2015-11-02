@@ -59,4 +59,6 @@ class DefaultEdoc(ElectronicDocument):
         result of parsing the datas, like converting dates, computing
         commission, ...
         """
-        return False
+        for edoc in self.edoc_list:
+            if edoc.state == 'transmited':
+                edoc.edoc_authorized = True

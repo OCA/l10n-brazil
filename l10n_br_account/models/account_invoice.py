@@ -65,6 +65,7 @@ class AccountInvoiceConfirm(models.TransientModel):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+
     @api.multi
     def action_transmit(self):
         edoc_group = {}
@@ -80,11 +81,12 @@ class AccountInvoice(models.Model):
         return True
 
     @api.multi
-    def invoice_validate(self):
-        self.ensure_one()
+    @api.depends(
+        'state'
+    )
+    def _compute_authorized(self):
         edoc = get_edoc(self, self.fiscal_document_id.edoc_type)
-        if edoc.validate():
-            super(AccountInvoice, self).invoice_validate()
+        edoc.validate()
 
     @api.one
     @api.depends(
@@ -156,6 +158,12 @@ class AccountInvoice(models.Model):
         selection_add=[
             ('transmited', 'Transmited'),
         ])
+    edoc_authorized = fields.Boolean(string='Authorized',
+        store=True, readonly=True, compute='_compute_authorized',
+        help=(
+            "It indicates that the eletronic document of invoice has been "
+            "autorized.")
+                                     )
 
     _order = 'internal_number desc'
 
