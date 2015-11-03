@@ -138,10 +138,14 @@
                             <div>
                                 <div>
                                     <label string="Login:"/>
-                                    <field name="logon_serasa" class="oe_inline" />
+                                </div>
+                                <div>
+                                   <field name="logon_serasa" class="oe_inline" />
                                 </div>
                                 <div>
                                     <label string="Senha:"/>
+                                </div>
+                                <div>
                                     <field name="senha_serasa" class="oe_inline" password="True"/>
                                 </div>
                             </div>

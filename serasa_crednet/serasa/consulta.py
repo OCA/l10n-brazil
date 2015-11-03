@@ -36,6 +36,8 @@ def consulta_cnpj(partner, company):
 
     documento_consultado = "%015d" % int(document)
     documento_consultor = "%014d" % int(company_document)
+    login = str("%08d" % int(company.logon_serasa))
+    senha = str("%08d" % int(company.senha_serasa))
 
     # Objeto que gerencia todas as funções de parsing
     parser = parserStringDados.ParserStringDados()
@@ -43,7 +45,7 @@ def consulta_cnpj(partner, company):
     # Variavel que recebe o a string de retorno do Serasa
     string_dados = parser.realizar_busca_serasa(parser.gerar_string_envio(
         documento_consultado, tipo_pessoa_busca, documento_consultor,
-        company.logon_serasa, company.senha_serasa))
+        login, senha))
 
     arquivo = crednet.Crednet()
 

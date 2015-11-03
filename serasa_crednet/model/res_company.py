@@ -25,5 +25,5 @@ from openerp import models, fields, api
 class res_company(models.Model):
     _inherit = 'res.company'
 
-    logon_serasa = fields.Char('Logon')
-    senha_serasa = fields.Char('Senha')
+    logon_serasa = fields.Char('Logon', size=8)
+    senha_serasa = fields.Char('Senha', size=8)
