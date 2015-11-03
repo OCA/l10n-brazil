@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
+#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 #    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ class Serasa(models.Model):
                 rec.protesto_count += 1
                 rec.protesto_sum += protesto.value
 
-    data_consulta = fields.Date('Data Consulta', default=datetime.now())
+    data_consulta = fields.Datetime('Data Consulta', default=datetime.now())
     status = fields.Char('Estado')
     partner_id = fields.Many2one('res.partner', required=True)
     partner_fundation = fields.Date('Data de Fundação')
@@ -63,11 +63,12 @@ class Serasa(models.Model):
         id_consulta_serasa = self.id
         company = self.env.user.company_id
         retorno_consulta = consulta.consulta_cnpj(self.partner_id, company)
-        if len(retorno_consulta) == 1:
+        if retorno_consulta == 'Usuario ou senha do serasa invalidos':
             from openerp.exceptions import Warning
             raise Warning(retorno_consulta)
 
         result = self.write({
+                'data_consulta': datetime.now(),
                 'status': retorno_consulta['status'],
                 'string_retorno': retorno_consulta['texto'],
                 'partner_fundation': retorno_consulta['fundacao'],

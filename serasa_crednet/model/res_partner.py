@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
+#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 #    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
-from . import serasa
+from datetime import datetime
 
 
 class ResPartner(models.Model):
@@ -31,6 +31,9 @@ class ResPartner(models.Model):
     @api.multi
     def do_consultar_serasa(self):
         for partner in self:
-            vals = {'partner_id': partner.id}
+            vals = {
+                'partner_id': partner.id,
+                'data_consulta': datetime.now(),
+            }
             consulta_serasa = self.env['consulta.serasa'].create(vals)
         return True

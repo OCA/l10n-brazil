@@ -103,7 +103,12 @@
 			<field name="arch" type="xml">
 				<notebook>
 					<page position="inside" string="Serasa">
-                        <button name="do_consultar_serasa"  type="object" icon="fa-search" class="oe_inline oe_stat_button" string="Consultar" align="right"/>
+                        <button name="do_consultar_serasa"
+                                type="object"
+                                icon="fa-search"
+                                class="oe_inline oe_stat_button"
+                                string="Consultar"
+                                position="right" />
                         <field name="consulta_serasa" readonly="1">
                             <tree>
                                 <field name="data_consulta"/>
@@ -120,5 +125,31 @@
 				</notebook>
 			</field>
         </record>
+
+        <record id="view_account_config_settings_serasa" model="ir.ui.view">
+            <field name="name">account.config.settings.serasa</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='bank_cash']" position="after">
+                        <group name="serasa" string="Serasa">
+                            <label for="id" string="Configuration"/>
+                            <div>
+                                <div>
+                                    <label string="Login:"/>
+                                    <field name="logon_serasa" class="oe_inline" />
+                                </div>
+                                <div>
+                                    <label string="Senha:"/>
+                                    <field name="senha_serasa" class="oe_inline" password="True"/>
+                                </div>
+                            </div>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
     </data>
 </openerp>

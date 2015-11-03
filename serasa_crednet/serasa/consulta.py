@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
+#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 #    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,8 @@ def consulta_cnpj(partner, company):
 
     # Variavel que recebe o a string de retorno do Serasa
     string_dados = parser.realizar_busca_serasa(parser.gerar_string_envio(
-        documento_consultado, tipo_pessoa_busca, documento_consultor))
+        documento_consultado, tipo_pessoa_busca, documento_consultor,
+        company.logon_serasa, company.senha_serasa))
 
     arquivo = crednet.Crednet()
 
@@ -65,7 +66,8 @@ def consulta_cnpj(partner, company):
         }
 
     retorno_consulta = retorna_pefin(
-        retorno_consulta, arquivo.get_bloco_de_registros('pendenciasFinanceiras'))
+        retorno_consulta, arquivo.get_bloco_de_registros(
+            'pendenciasFinanceiras'))
     retorno_consulta = retorna_protesto(
         retorno_consulta, arquivo.get_bloco_de_registros('protestosEstados'))
     retorno_consulta = retorna_cheques(

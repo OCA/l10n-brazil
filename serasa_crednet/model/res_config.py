@@ -19,4 +19,17 @@
 #
 ##############################################################################
 
-from . import model
+from openerp import models, fields, api
+
+
+class res_config(models.Model):
+    _inherit = 'account.config.settings'
+
+    logon_serasa = fields.Char(
+        string='Login',
+        related='company_id.logon_serasa'
+    )
+    senha_serasa = fields.Char(
+        string='Senha',
+        related='company_id.senha_serasa'
+    )

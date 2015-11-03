@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
+#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 #    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify

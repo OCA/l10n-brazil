@@ -1,10 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Brazillian 5 acts module for OpenERP
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
-#    @author Luis Felipe Mileo <mileo@kmee.com.br>
-#    @author Matheus Lima Felix <matheus.felix@kmee.com.br>
+#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
+#    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,7 +25,7 @@
     'website' : 'http://www.kmee.com.br',
     'category' : 'Accounting & Finace',
     'sequence' : 32,
-    'depends': ['l10n_br_base'],
+    'depends': ['l10n_br_base', 'account'],
     'data' : ['view/serasa_view.xml'],
     'installable': True,
     'auto_install': False,
