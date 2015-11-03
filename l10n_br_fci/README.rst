@@ -13,18 +13,18 @@ Configuration
 É imprescindível que os dados cadastrais dos itens abaixo estejam preenchidos
 
 Empresa:
-* CNPJ;
-* Incrição estadual
-* Razão sozial
-* Endereço completo
+ * CNPJ;
+ * Incrição estadual
+ * Razão sozial
+ * Endereço completo
 
 Produtos:
-* Código do produto;
-* Código de barras EAN;
-* Código NCM
-* Preço de venda;
-* Preço de custo ou preço de custo do BOM;
-* Unidade de medida;
+ * Código do produto
+ * Código de barras EAN;
+ * Código NCM
+ * Preço de venda;
+ * Preço de custo ou preço de custo do BOM;
+ * Unidade de medida;
 
 Credits
 =======
