@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_product_template_fci_form_inherited">
+            <field name="name">product.template.fci</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="priority" eval="7"></field>
+            <field name="arch" type="xml">
+                <data>
+                    <notebook position="inside">
+                        <page name="FCIs" string="FCIs">
+                           <field name="fci_lines">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="default_code"
+                                       invisible="1"/>
+                                <field name="name" invisible="1"/>
+                                <field name="ean13" invisible="1"/>
+                                <field name="product_uom"/>
+                                <field name="ncm_id"/>
+                                <field name="list_price"/>
+                                <field name="valor_parcela_importada"/>
+                                <field name="conteudo_importacao"/>
+                                <field name="fci"/>
+                            </tree>
+                        </field>
+                        </page>
+                    </notebook>
+                </data>
+
+
+            </field>
+        </record>
+     </data>
+</openerp>

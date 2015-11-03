@@ -35,4 +35,4 @@ nosetests.xml
 .project
 .pydevproject
 
-models/python_sped
+

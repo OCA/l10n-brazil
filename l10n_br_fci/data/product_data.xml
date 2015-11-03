@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+            TODO: CORRIGIR AS UNIDADES DE MEDIDAS NA TRADUÇÃO POIS A ABORDAGEM ABAIXO NÃO FUNCIONA CORRETAMENTE
+        -->
+        <!--<record id="product.product_uom_unit" model="product.uom">-->
+            <!--<field name="name">unid</field>-->
+        <!--</record>-->
+      <!-- -->
+    </data>
+</openerp>
