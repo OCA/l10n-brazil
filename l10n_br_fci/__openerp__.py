@@ -28,6 +28,7 @@
     'sequence': 64,
     'depends': [
         'l10n_br_account_product',
+        'mrp',
     ],
     'data': [
         'wizard/products_from_product_template_view.xml',
