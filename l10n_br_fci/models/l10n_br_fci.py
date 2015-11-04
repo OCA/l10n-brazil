@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Brazillian 5 acts module for OpenERP

@@ -130,10 +130,6 @@
         </record>
 
         <menuitem name="FCI" id="menu_action_l10n_br_fci_form" parent="l10n_br_account.menu_l10n_br_account_configuration" action="action_l10n_br_fci" sequence="6"/>
-                  <!--sequece="6"-->
 
     </data>
 </openerp>
-
-
-
