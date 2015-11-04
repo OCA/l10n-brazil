@@ -23,5 +23,3 @@ from . import serasa
 from . import res_partner
 from . import res_config
 from . import res_company
-
-

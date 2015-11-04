@@ -49,6 +49,7 @@ class Serasa(models.Model):
     partner_fundation = fields.Date('Data de Fundação')
     partner_identification = fields.Char('Documento')
     string_retorno = fields.Text('StringRetorno')
+    consultado_por = fields.Char('Consultado por')
     protesto_count = fields.Integer('Protestos', compute='_count_serasa')
     protesto_sum = fields.Float('Valor', compute='_count_serasa')
     protesto_ids = fields.One2many('serasa.protesto', 'serasa_id')
@@ -62,12 +63,25 @@ class Serasa(models.Model):
     def _check_partner(self):
         id_consulta_serasa = self.id
         company = self.env.user.company_id
+        consultado_por = self.env.user.name
+
+        if not company.cnpj_cpf:
+            from openerp.exceptions import Warning
+            raise Warning(
+                "O CNPJ da empresa consultante não pode estar em branco."
+            )
+        elif not self.partner_id.cnpj_cpf:
+            from openerp.exceptions import Warning
+            raise Warning("O CNPJ/CPF do consultado não pode estar em branco.")
+
         retorno_consulta = consulta.consulta_cnpj(self.partner_id, company)
+
         if retorno_consulta == 'Usuario ou senha do serasa invalidos':
             from openerp.exceptions import Warning
             raise Warning(retorno_consulta)
 
         result = self.write({
+                'consultado_por': consultado_por,
                 'data_consulta': datetime.now(),
                 'status': retorno_consulta['status'],
                 'string_retorno': retorno_consulta['texto'],

@@ -20,9 +20,9 @@
                     <sheet>
                         <group name="group_top">
                             <group>
-                              <field name="partner_id" string="Parceiro" />
+                                <field name="partner_id" string="Parceiro" />
                                 <field name="data_consulta" string="Data da Consulta" />
-
+                                <field name="consultado_por" string="Consultado por" />
                             </group>
                             <group>
                                 <field name="status" string="Status Parceiro" />
@@ -89,9 +89,9 @@
         </record>
 
         <!-- Menu item to open serasa -->
-        <menuitem id="menu _serasa"
+        <menuitem id="menu_serasa"
                   name="Consulta Serasa"
-                  parent="base.menu_sales"
+                  parent="account.menu_finance_receivables"
                   sequence="20"
                   action="action_serasa_form" />
 
