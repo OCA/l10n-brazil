@@ -83,6 +83,7 @@
                 <tree>
                     <field name="partner_id" string="Parceiro"/>
                     <field name="data_consulta" string="Data da Consulta"/>
+                    <field name="create_uid" string="Consultado por" />
                     <field name="status" />
                 </tree>
             </field>
