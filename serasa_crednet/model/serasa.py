@@ -43,13 +43,16 @@ class Serasa(models.Model):
                 rec.protesto_count += 1
                 rec.protesto_sum += protesto.value
 
-    data_consulta = fields.Datetime('Data Consulta', default=datetime.now())
-    status = fields.Char('Estado')
+    data_consulta = fields.Datetime(
+        'Data Consulta',
+        default=datetime.now(),
+        readonly=True
+    )
+    status = fields.Char('Estado', readonly=True)
     partner_id = fields.Many2one('res.partner', required=True)
-    partner_fundation = fields.Date('Data de Fundação')
-    partner_identification = fields.Char('Documento')
+    partner_fundation = fields.Date('Data de Fundação', readonly=True)
+    partner_identification = fields.Char('Documento', readonly=True)
     string_retorno = fields.Text('StringRetorno')
-    consultado_por = fields.Char('Consultado por')
     protesto_count = fields.Integer('Protestos', compute='_count_serasa')
     protesto_sum = fields.Float('Valor', compute='_count_serasa')
     protesto_ids = fields.One2many('serasa.protesto', 'serasa_id')
@@ -63,7 +66,6 @@ class Serasa(models.Model):
     def _check_partner(self):
         id_consulta_serasa = self.id
         company = self.env.user.company_id
-        consultado_por = self.env.user.name
 
         if not company.cnpj_cpf:
             from openerp.exceptions import Warning
@@ -81,7 +83,6 @@ class Serasa(models.Model):
             raise Warning(retorno_consulta)
 
         result = self.write({
-                'consultado_por': consultado_por,
                 'data_consulta': datetime.now(),
                 'status': retorno_consulta['status'],
                 'string_retorno': retorno_consulta['texto'],

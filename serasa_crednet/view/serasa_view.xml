@@ -22,7 +22,7 @@
                             <group>
                                 <field name="partner_id" string="Parceiro" />
                                 <field name="data_consulta" string="Data da Consulta" />
-                                <field name="consultado_por" string="Consultado por" />
+                                <field name="create_uid" string="Consultado por" readonly="1" />
                             </group>
                             <group>
                                 <field name="status" string="Status Parceiro" />
