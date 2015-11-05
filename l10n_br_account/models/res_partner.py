@@ -210,63 +210,6 @@ class AccountFiscalPosition(models.Model):
                 {'fiscal_category_fiscal_type': fiscal_category.fiscal_type})
         return result
 
-
-class AccountFiscalPositionTax(models.Model):
-    _inherit = 'account.fiscal.position.tax'
-
-    tax_src_id = fields.Many2one(
-        'account.tax', string='Tax Source', required=False)
-    tax_code_src_id = fields.Many2one(
-        'account.tax.code', u'Código Taxa Origem')
-    tax_src_domain = fields.Char(related='tax_src_id.domain')
-    tax_code_dest_id = fields.Many2one(
-        'account.tax.code', 'Replacement Tax Code')
-
-    def _tax_domain(self, tax_src_id=None, tax_code_src_id=None):
-
-        tax_domain = None
-        if tax_src_id:
-            tax_domain = self.env['account.tax'].browse(tax_src_id).domain
-        if tax_code_src_id:
-            tax_domain = self.env['account.tax'].browse(
-                tax_code_src_id).domain
-        return {'value': {'tax_src_domain': tax_domain}}
-
-    @api.one
-    def onchange_tax_src_id(self, tax_src_id, tax_code_src_id):
-        return self._tax_domain(tax_src_id, tax_code_src_id)
-
-    @api.one
-    def onchange_tax_code_src_id(self, tax_src_id, tax_code_src_id,):
-        return self._tax_domain(tax_src_id, tax_code_src_id)
-
-
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    @api.model
-    def _default_partner_fiscal_type_id(self, is_company=False):
-        """Define o valor padão para o campo tipo fiscal, por padrão pega
-        o tipo fiscal para não contribuinte já que quando é criado um novo
-        parceiro o valor do campo is_company é false"""
-        ft_ids = self.env['l10n_br_account.partner.fiscal.type'].search(
-            [('default', '=', 'True'), ('is_company', '=', is_company)])
-        return ft_ids
-
-    partner_fiscal_type_id = fields.Many2one(
-        'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
-        domain="[('is_company', '=', is_company)]",
-        default=_default_partner_fiscal_type_id)
-
-    @api.multi
-    def onchange_mask_cnpj_cpf(self, is_company, cnpj_cpf):
-        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
-            is_company, cnpj_cpf)
-        ft_id = self._default_partner_fiscal_type_id(is_company)
-        if ft_id:
-            result['value']['partner_fiscal_type_id'] = ft_id
-        return result
-
     @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
         result = []
@@ -333,4 +276,61 @@ class ResPartner(models.Model):
                     break
             else:
                 result |= tax
+        return result
+
+
+class AccountFiscalPositionTax(models.Model):
+    _inherit = 'account.fiscal.position.tax'
+
+    tax_src_id = fields.Many2one(
+        'account.tax', string='Tax Source', required=False)
+    tax_code_src_id = fields.Many2one(
+        'account.tax.code', u'Código Taxa Origem')
+    tax_src_domain = fields.Char(related='tax_src_id.domain')
+    tax_code_dest_id = fields.Many2one(
+        'account.tax.code', 'Replacement Tax Code')
+
+    def _tax_domain(self, tax_src_id=None, tax_code_src_id=None):
+
+        tax_domain = None
+        if tax_src_id:
+            tax_domain = self.env['account.tax'].browse(tax_src_id).domain
+        if tax_code_src_id:
+            tax_domain = self.env['account.tax'].browse(
+                tax_code_src_id).domain
+        return {'value': {'tax_src_domain': tax_domain}}
+
+    @api.one
+    def onchange_tax_src_id(self, tax_src_id, tax_code_src_id):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
+
+    @api.one
+    def onchange_tax_code_src_id(self, tax_src_id, tax_code_src_id,):
+        return self._tax_domain(tax_src_id, tax_code_src_id)
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.model
+    def _default_partner_fiscal_type_id(self, is_company=False):
+        """Define o valor padão para o campo tipo fiscal, por padrão pega
+        o tipo fiscal para não contribuinte já que quando é criado um novo
+        parceiro o valor do campo is_company é false"""
+        ft_ids = self.env['l10n_br_account.partner.fiscal.type'].search(
+            [('default', '=', 'True'), ('is_company', '=', is_company)])
+        return ft_ids
+
+    partner_fiscal_type_id = fields.Many2one(
+        'l10n_br_account.partner.fiscal.type', 'Tipo Fiscal do Parceiro',
+        domain="[('is_company', '=', is_company)]",
+        default=_default_partner_fiscal_type_id)
+
+    @api.multi
+    def onchange_mask_cnpj_cpf(self, is_company, cnpj_cpf):
+        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
+            is_company, cnpj_cpf)
+        ft_id = self._default_partner_fiscal_type_id(is_company)
+        if ft_id:
+            result['value']['partner_fiscal_type_id'] = ft_id
         return result
