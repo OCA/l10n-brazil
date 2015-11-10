@@ -47,7 +47,6 @@ class StockReturnPicking(models.TransientModel):
         for send_picking in picking_obj.browse(ctx.get('active_ids')):
 
             result = super(StockReturnPicking, self).create_returns()
-
             result_domain = eval(result['domain'])
             picking_ids = \
                 result_domain and result_domain[0] and result_domain[0][2]
@@ -90,8 +89,13 @@ class StockReturnPicking(models.TransientModel):
                     {'value': {}}, **kwargs).get('value'))
 
                 picking.write(values)
-                               
-                for idx, send_move in enumerate(send_picking.move_lines):
+                move_line_ids = []
+                #iterate over only on selected move lines which are selected in return wizard
+                for move in self.product_return_moves:
+                    if move.quantity > 0:
+                        move_line_ids.append(move.move_id)
+                
+                for idx, send_move in enumerate(move_line_ids):
                     line_fiscal_category_id =  \
                         send_move.fiscal_category_id.refund_fiscal_category_id.id
 
@@ -99,16 +103,22 @@ class StockReturnPicking(models.TransientModel):
                         'parent_fiscal_category_id': line_fiscal_category_id,
                         'picking_type': picking_type,
                     })
-                     
+                    
                     line_onchange = move_obj.onchange_product_id(
                         send_move.product_id.id,
                         send_move.location_id.id,
                         send_move.location_dest_id.id,
                         picking.partner_id.id)
-                     
+                    
                     line_onchange['value']['fiscal_category_id'] = \
                         line_fiscal_category_id
-
+                    #set correct quantity in moves passed from wizard  
+                    for return_move in self.product_return_moves:
+                        if return_move.move_id == send_move:
+                            result_qty = move_obj.onchange_quantity(send_move.product_id.id,return_move.quantity,  send_move.product_id.uom_id, send_move.product_id.uos_id)
+                            line_onchange['value']['product_uom_qty'] = return_move.quantity
+                            line_onchange['value']['product_uos_qty'] = result_qty['value'].get('product_uos_qty',1.0)
+                    
                     for m in move_obj.browse([move_ids[idx].id]):
                         m.write(line_onchange['value'])
                      
