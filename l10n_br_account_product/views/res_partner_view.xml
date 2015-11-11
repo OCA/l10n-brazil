@@ -12,7 +12,7 @@
 					<field name="ind_final"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
-					<field name="ncm_id" />
+					<field name="fiscal_classification_id" />
 				</xpath>
 			</field>
 		</record>
@@ -27,7 +27,7 @@
 					<field name="ind_final"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
-					<field name="ncm_id" />
+					<field name="fiscal_classification_id" />
 				</xpath>
 			</field>
 		</record>
