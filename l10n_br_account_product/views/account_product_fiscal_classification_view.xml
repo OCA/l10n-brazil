@@ -7,9 +7,9 @@
 			<field name="model">l10n_br_tax.definition.sale.template</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_template_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_template_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</form>
 			</field>
 		</record>
@@ -19,9 +19,9 @@
 			<field name="model">l10n_br_tax.definition.sale.template</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+					<field name="tax_template_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_template_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</tree>
 			</field>
 		</record>
@@ -31,9 +31,9 @@
 			<field name="model">l10n_br_tax.definition.purchase.template</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1" />
+					<field name="tax_template_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_template_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</form>
 			</field>
 		</record>
@@ -43,9 +43,9 @@
 			<field name="model">l10n_br_tax.definition.purchase.template</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
+					<field name="tax_template_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_template_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</tree>
 			</field>
 		</record>
@@ -60,41 +60,41 @@
 					<field name="parent_id"/>
 				</field>
 				<field name="description" position="after">
-                    <field name="inv_copy_note"/>
-                    <field name="note"/>
+					<field name="inv_copy_note"/>
+					<field name="note"/>
 				</field>
-			  <xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
-			  </xpath>
-			  <xpath expr="/form/sheet/group[3]" position="replace">
-                    <notebook>
-                        <page string="Impostos">
-                            <group name="taxes" colspan="4">
-							    <group string="Sale Taxes">
-								    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-							    </group>
-							    <group string="Purchase Taxes">
-								    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-							    </group>
-						    </group>
-                        </page>
-                        <page string="Impostos Estimados">
-                            <field name="tax_estimate_ids" nolabel="1">
-                                <tree>
-                                    <field name="state_id"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
-                                    <field name="key"/>
-                                    <field name="version"/>
-                                    <field name="origin"/>
-                                    <field name="federal_taxes_national"/>
-                                    <field name="federal_taxes_import"/>
-                                    <field name="state_taxes"/>
-                                    <field name="municipal_taxes"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
-			  </xpath>
+			  	<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
+			  	</xpath>
+			  	<xpath expr="/form/sheet/group[3]" position="replace">
+		            		<notebook>
+		                		<page string="Impostos">
+		                    			<group name="taxes" colspan="4">
+								<group string="Sale Taxes">
+									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+								</group>
+								<group string="Purchase Taxes">
+									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+								</group>
+							</group>
+						</page>
+						<page string="Impostos Estimados">
+							<field name="tax_estimate_ids" nolabel="1">
+								<tree>
+									<field name="state_id"/>
+									<field name="date_start"/>
+									<field name="date_end"/>
+									<field name="key"/>
+									<field name="version"/>
+									<field name="origin"/>
+									<field name="federal_taxes_national"/>
+									<field name="federal_taxes_import"/>
+									<field name="state_taxes"/>
+									<field name="municipal_taxes"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</xpath>
 			</field>
 		</record>
 
@@ -103,9 +103,9 @@
 			<field name="model">l10n_br_tax.definition.sale</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1" />
+					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</form>
 			</field>
 		</record>
@@ -115,9 +115,9 @@
 			<field name="model">l10n_br_tax.definition.sale</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</tree>
 			</field>
 		</record>
@@ -127,9 +127,9 @@
 			<field name="model">l10n_br_tax.definition.purchase</field>
 			<field name="arch" type="xml">
 				<form string="Definição de Impostos">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1" />
+					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</form>
 			</field>
 		</record>
@@ -139,30 +139,58 @@
 			<field name="model">l10n_br_tax.definition.purchase</field>
 			<field name="arch" type="xml">
 				<tree string="Definição de Impostos" editable="bottom">
-					<field name="tax_id" on_change="onchange_tax_id(tax_id)" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
+					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
-					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1" />
+					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
 				</tree>
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="l10n_br_fiscal_classification_template_normal_form_view_form">
+		<record id="l10n_br_fiscal_classification_template_normal_form_view_form" model="ir.ui.view">
 			<field name="name">fiscal_classification_template_normal_form_view_form</field>
 			<field name="model">account.product.fiscal.classification.template</field>
+			<field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_template_form"/>
 			<field name="arch" type="xml">
-				<form string="Fiscal Classification Template">
-					<field name="name" />
-					<field colspan="4" name="description" />
+				<field name="description" position="before">
 					<field name="type"/>
 					<field name="parent_id"/>
-					<field name="inv_copy_note"/>
-					<field name="note"/>
-					<newline />
-					<separator string="Sale Taxes" colspan="2" />
-					<separator string="Purchase Taxes" colspan="2" />
-					<field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-					<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-				</form>
+				</field>
+				<field name="description" position="after">
+					<field name="inv_copy_note" colspan="4"/>
+					<field name="note" colspan="4"/>
+				</field>
+				<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
+			  	</xpath>
+			  	<xpath expr="/form/sheet/group[2]" position="replace">
+		            		<notebook>
+		                		<page string="Impostos">
+		                    			<group name="taxes" colspan="4">
+								<group string="Sale Taxes">
+									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+								</group>
+								<group string="Purchase Taxes">
+									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+								</group>
+							</group>
+						</page>
+						<page string="Impostos Estimados">
+							<field name="tax_estimate_ids" nolabel="1">
+								<tree>
+									<field name="state_id"/>
+									<field name="date_start"/>
+									<field name="date_end"/>
+									<field name="key"/>
+									<field name="version"/>
+									<field name="origin"/>
+									<field name="federal_taxes_national"/>
+									<field name="federal_taxes_import"/>
+									<field name="state_taxes"/>
+									<field name="municipal_taxes"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</xpath>
 			</field>
 		</record>
 
