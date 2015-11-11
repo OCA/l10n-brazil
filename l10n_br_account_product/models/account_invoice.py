@@ -902,8 +902,9 @@ class AccountInvoiceLine(models.Model):
                 result['service_type_id'] = product.service_type_id.id
             else:
                 result['product_type'] = 'product'
-            if product.ncm_id:
-                result['fiscal_classification_id'] = product.ncm_id.id
+            if product.fiscal_classification_id:
+                result['fiscal_classification_id'] = \
+                    product.fiscal_classification_id.id
 
             if product.fci:
                 result['fci'] = product.fci
