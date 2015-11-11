@@ -426,36 +426,29 @@ class L10n_brAccountCNAE(models.Model):
         return result
 
 
-class L10n_brTaxDefinitionTemplate(models.Model):
+class L10n_brTaxDefinitionTemplate(object):
     _name = 'l10n_br_tax.definition.template'
 
-    tax_id = fields.Many2one(
-        'account.tax.template', string='Imposto', required=True)
-    tax_domain = fields.Char(related='tax_id.domain', string='Tax Domain')
-    tax_code_id = fields.Many2one(
-        'account.tax.code.template', u'Código de Imposto')
+    tax_template_id = fields.Many2one('account.tax.template', u'Imposto',
+                                      required=True)
 
-    @api.multi
-    def onchange_tax_id(self, tax_id):
-        tax_domain = False
-        if tax_id:
-            tax_domain = self.env['account.tax'].browse(tax_id).domain
-        return {'value': {'tax_domain': tax_domain}}
+    tax_domain = fields.Char('Tax Domain', related='tax_template_id.domain',
+                             store=True)
+
+    tax_code_template_id = fields.Many2one('account.tax.code.template',
+                                           u'Código de Imposto')
 
 
-class L10n_brTaxDefinition(models.Model):
+class L10n_brTaxDefinition(object):
     _name = 'l10n_br_tax.definition'
 
     tax_id = fields.Many2one('account.tax', string='Imposto', required=True)
-    tax_domain = fields.Char(related='tax_id.domain', string='Tax Domain')
-    tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
-    company_id = fields.Many2one(
-        'res.company', string='Company', related='tax_id.company_id',
-        store=True, readonly=True)
 
-    @api.multi
-    def onchange_tax_id(self, tax_id):
-        tax_domain = False
-        if tax_id:
-            tax_domain = self.env['account.tax'].browse(tax_id).domain
-        return {'value': {'tax_domain': tax_domain}}
+    tax_domain = fields.Char('Tax Domain', related='tax_id.domain',
+                             store=True)
+
+    tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
+
+    company_id = fields.Many2one('res.company', string='Company',
+                                 related='tax_id.company_id',
+                                 store=True, readonly=True)
