@@ -14,17 +14,6 @@
 			</field>
 		</record>
 
-		<record id="l10n_br_account_product_position_template_form" model="ir.ui.view">
-			<field name="name">l10n_br_account_product.fiscal.position.template.form</field>
-			<field name="model">account.fiscal.position.template</field>
-			<field name="inherit_id" ref="account.view_account_position_template_form"/>
-			<field name="arch" type="xml">
-				<field name="name" position="after">
-					<field name="cfop_id"/>
-				</field>
-			</field>
-		</record>
-
 		<record model="ir.ui.view" id="l10n_br_account_product_tax_template_form">
 			<field name="name">l10n_br_account_product.tax.template.form</field>
 			<field name="model">account.tax.template</field>
