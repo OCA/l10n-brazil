@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
+    'version': '8.0.2.0.0',
     'depends': [
         'l10n_br_data_account',
         'account_product_fiscal_classification',
@@ -63,6 +63,7 @@
     'test': [
         'test/account_customer_invoice.yml',
         'test/account_supplier_invoice.yml',
+        'test/nfe_export.yml',
     ],
     'installable': True,
     'auto_install': False,
