@@ -7,8 +7,12 @@
 			<field name="model">product.template</field>
 			<field name="inherit_id" ref="l10n_br_account.l10n_br_account_product_template_form_view" />
 			<field name="arch" type="xml">
-				<!--<field name="property_fiscal_classification" position="replace">-->
-				<!--</field>-->
+				<field name="fiscal_classification_id" position="replace">
+				</field>
+				<field name="taxes_id" position="replace">
+				</field>
+				<field name="supplier_taxes_id" position="replace">
+				</field>
 				<field name="fiscal_category_default_ids" position="before">
 					<group string="Dados Fiscais">
 						<group>
@@ -16,11 +20,19 @@
 							<field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')]}" />
 						</group>
 						<group>
-							<field name="ncm_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" on_change="ncm_id_change(ncm_id, taxes_id, supplier_taxes_id, context)" domain="[('type', '=', 'normal')]"/>
+							<field name="fiscal_classification_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" domain="[('type', '=', 'normal')]"/>
 							<field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
 						</group>
 					</group>
-                    <group string="Dados Fiscais de Importação">
+					<group string="Impostos">
+						<group>
+							<field name="taxes_id" colspan="2" widget="many2many_tags"/>
+						</group>
+						<group>
+							<field name="supplier_taxes_id" colspan="2" widget="many2many_tags"/>
+						</group>
+					</group>
+                    			<group string="Dados Fiscais de Importação">
 						<field name="fci"/>
 					</group>
 				</field>
