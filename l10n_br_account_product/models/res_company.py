@@ -19,10 +19,9 @@
 
 from openerp import models, fields, api
 
-SQL_CONSTRAINTS = [
-    ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id, company_id)',
-        u'Imposto já existente nesta empresa!')
-]
+from openerp.addons.l10n_br_account.models.l10n_br_account import (
+    L10n_brTaxDefinition
+)
 
 
 class ResCompany(models.Model):
@@ -88,10 +87,13 @@ class ResCompany(models.Model):
     nfe_a1_password = fields.Char('Senha NFe A1', size=64)
 
 
-class L10n_brTaxDefinitionCompanyProduct(models.Model):
+class L10n_brTaxDefinitionCompanyProduct(L10n_brTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.product'
-    _inherit = 'l10n_br_tax.definition'
 
     company_id = fields.Many2one('res.company', 'Empresa')
 
-    _sql_constraints = SQL_CONSTRAINTS
+    _sql_constraints = [
+    	('l10n_br_tax_definition_tax_id_uniq',
+         'unique (tax_id, company_id)',
+         u'Imposto já existente nesta empresa!')
+    ]
