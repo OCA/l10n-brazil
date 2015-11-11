@@ -59,5 +59,5 @@
         'test/generate_fiscal_rules.yml',
     ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
 }
