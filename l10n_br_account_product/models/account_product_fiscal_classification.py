@@ -35,9 +35,9 @@ class AccountProductFiscalClassificationTemplate(models.Model):
                  'sale_tax_definition_line')
     def _compute_taxes(self):
         for fc in self:
-            fc.sale_tax_ids = [line.tax_template_id.id for line in \
+            fc.sale_tax_ids = [line.tax_template_id.id for line in
                                fc.sale_tax_definition_line]
-            fc.purchase_tax_ids = [line.tax_template_id.id for line in \
+            fc.purchase_tax_ids = [line.tax_template_id.id for line in
                                    fc.purchase_tax_definition_line]
 
     type = fields.Selection([('view', u'Visão'),
@@ -96,14 +96,14 @@ class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     _sql_constraints = [
         ('l10n_br_tax_definition_template_tax_template_id_uniq', 'unique \
          (tax_template_id, fiscal_classification_id)',
-        u'Imposto já existente nesta classificação fiscal!')
+         u'Imposto já existente nesta classificação fiscal!')
     ]
 
 
 class L10n_brTaxDefinitionSaleTemplate(L10n_brTaxDefinitionTemplateModel,
                                        models.Model):
     """Definition a class model for sales tax and tax code template"""
-    _name = 'l10n_br_tax.definition.sale.template'  
+    _name = 'l10n_br_tax.definition.sale.template'
 
 
 class L10n_brTaxDefinitionPurchaseTemplate(L10n_brTaxDefinitionTemplateModel,
@@ -166,9 +166,9 @@ class AccountProductFiscalClassification(models.Model):
                  'sale_tax_definition_line')
     def _compute_taxes(self):
         for fc in self:
-            fc.sale_tax_ids = [line.tax_id.id for line in \
+            fc.sale_tax_ids = [line.tax_id.id for line in
                                fc.sale_tax_definition_line]
-            fc.purchase_tax_ids = [line.tax_id.id for line in \
+            fc.purchase_tax_ids = [line.tax_id.id for line in
                                    fc.purchase_tax_definition_line]
 
     type = fields.Selection([('view', u'Visão'),
@@ -186,7 +186,7 @@ class AccountProductFiscalClassification(models.Model):
         'account.product.fiscal.classification',
         'Parent Fiscal Classification',
         domain="[('type', 'in', ('view', 'normal'))]", select=True)
-    
+
     child_ids = fields.One2many(
         'account.product.fiscal.classification', 'parent_id',
         'Child Fiscal Classifications')
@@ -264,8 +264,6 @@ class WizardAccountProductFiscalClassification(models.TransientModel):
             'account.product.fiscal.classification.template']
 
         def map_taxes_codes(tax_definition, tax_type='sale'):
-            import pudb; pudb.set_trace()
-            tax_def_lines = []
             for line in tax_definition:
 
                 for company in companies:
@@ -320,7 +318,8 @@ class WizardAccountProductFiscalClassification(models.TransientModel):
                 if tax_template:
                     company_taxes[company][tax_template[0].id] = tax.id
 
-            for code in obj_tax_code.sudo().search([('company_id', '=', company)]):
+            for code in obj_tax_code.sudo().search(
+                    [('company_id', '=', company)]):
 
                 code_template = obj_tax_code_template.search(
                     [('name', '=', code.name)])
