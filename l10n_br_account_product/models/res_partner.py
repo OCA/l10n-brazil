@@ -35,7 +35,7 @@ class AccountFiscalPositionTemplate(models.Model):
 class AccountFiscalPositionTaxTemplate(models.Model):
     _inherit = 'account.fiscal.position.tax.template'
 
-    ncm_id = fields.Many2one(
+    fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template', 'NCM')
 
 
@@ -104,6 +104,7 @@ class AccountFiscalPosition(models.Model):
     def _map_tax(self, product_id, taxes):
         result = {}
         product = self.env['product.product'].browse(product_id)
+        product_fc = product.fiscal_classification_id
         if self.company_id and \
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'product') == 'product':
@@ -115,12 +116,13 @@ class AccountFiscalPosition(models.Model):
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
                         }
+
             # FIXME se tiver com o admin pegar impostos de outras empresas
-            product_ncm_tax_def = product.ncm_id.sale_tax_definition_line
+            product_ncm_tax_def = product_fc.sale_tax_definition_line
 
         else:
             # FIXME se tiver com o admin pegar impostos de outras empresas
-            product_ncm_tax_def = product.ncm_id.purchase_tax_definition_line
+            product_ncm_tax_def = product_fc.purchase_tax_definition_line
 
         for ncm_tax_def in product_ncm_tax_def:
             if ncm_tax_def.tax_id:
@@ -136,7 +138,8 @@ class AccountFiscalPosition(models.Model):
                 if map.tax_src_id == tax or \
                         map.tax_code_src_id == tax.tax_code_id:
                     if map.tax_dest_id or tax.tax_code_id:
-                        if map.ncm_id == product.ncm_id:
+                        if map.fiscal_classification_id == \
+                                product.fiscal_classification_id:
                             map_taxes_ncm |= map
                         else:
                             map_taxes |= map
@@ -172,4 +175,5 @@ class AccountFiscalPosition(models.Model):
 class AccountFiscalPositionTax(models.Model):
     _inherit = 'account.fiscal.position.tax'
 
-    ncm_id = fields.Many2one('account.product.fiscal.classification', 'NCM')
+    fiscal_classification_id = fields.Many2one(
+        'account.product.fiscal.classification', 'NCM')
