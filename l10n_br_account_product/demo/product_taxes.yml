@@ -1,12 +1,4 @@
 -
-  In order to test taxes on products
--
-  I apply fiscal classification taxes on products
--
-  !python {model: account.product.fiscal.classification}: |
-    fc_ids = self.search(cr, uid, [])
-    res = self.button_update_products(cr, uid, fc_ids, {})
--
   I check taxes on products
 -
   !python {model: product.product}: |
