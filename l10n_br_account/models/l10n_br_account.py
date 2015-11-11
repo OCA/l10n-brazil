@@ -230,19 +230,24 @@ class L10n_brAccountDocumentSerie(models.Model):
     _description = 'Serie de documentos fiscais'
 
     code = fields.Char(u'Código', size=3, required=True)
-    name = fields.Char(u'Descrição', size=64, required=True)
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
-    fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document',
-        'Documento Fiscal', required=True)
-    company_id = fields.Many2one(
-        'res.company', 'Empresa', required=True)
-    active = fields.Boolean('Ativo')
-    internal_sequence_id = fields.Many2one(
-        'ir.sequence', u'Sequência Interna')
 
+    name = fields.Char(u'Descrição', required=True)
+
+    active = fields.Boolean('Ativo')
+
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
+    fiscal_document_id = fields.Many2one('l10n_br_account.fiscal.document',
+                                         'Documento Fiscal', required=True)
+
+    company_id = fields.Many2one('res.company', 'Empresa',
+                                 required=True)
+
+    internal_sequence_id = fields.Many2one('ir.sequence',
+                                           u'Sequência Interna')
+
+    @api.model
     def _create_sequence(self, vals):
         """ Create new no_gap entry sequence for every
          new document serie """
@@ -261,20 +266,7 @@ class L10n_brAccountDocumentSerie(models.Model):
          this field is null """
         if not vals.get('internal_sequence_id'):
             vals.update({'internal_sequence_id': self._create_sequence(vals)})
-        result = super(L10n_brAccountDocumentSerie, self).create(vals)
-        # TODO
-        # if result:
-        #    company = self.env['res.company'].browse(vals.get('company_id'))
-        #    value = {}
-        #    if vals.get('fiscal_type') == 'product':
-        #        series = [doc_serie.id for doc_serie in
-        #            company.document_serie_product_ids]
-        #        series.append(result.id)
-        #      company.document_serie_product_ids = [(6, 0, list(set(series)))]
-        #    else:
-        #        company.document_serie_service_id = result.id
-        #    company.write()
-        return result
+        return super(L10n_brAccountDocumentSerie, self).create(vals)
 
 
 class L10n_brAccountInvoiceInvalidNumber(models.Model):
@@ -295,27 +287,34 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         states={'draft': [('readonly', False)]}, required=True,
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n_br_account.invoice.invalid.number'))
+
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', 'Documento Fiscal',
         readonly=True, states={'draft': [('readonly', False)]},
         required=True)
+
     document_serie_id = fields.Many2one(
         'l10n_br_account.document.serie', u'Série',
         domain="[('fiscal_document_id', '=', fiscal_document_id), "
         "('company_id', '=', company_id)]", readonly=True,
         states={'draft': [('readonly', False)]}, required=True)
+
     number_start = fields.Integer(
         u'Número Inicial', readonly=True,
         states={'draft': [('readonly', False)]}, required=True)
+
     number_end = fields.Integer(
         u'Número Final', readonly=True,
         states={'draft': [('readonly', False)]}, required=True)
+
     state = fields.Selection(
         [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
          ('done', u'Concluído')], 'Status', required=True, default='draft')
+
     justificative = fields.Char(
         'Justificativa', size=255, readonly=True,
         states={'draft': [('readonly', False)]}, required=True)
+
     invalid_number_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'invalid_number_document_event_id',
         u'Eventos', states={'done': [('readonly', True)]})
@@ -386,10 +385,15 @@ class L10n_brAccountPartnerFiscalType(models.Model):
     _description = 'Tipo Fiscal de Parceiros'
 
     code = fields.Char(u'Código', size=16, required=True)
+
     name = fields.Char(u'Descrição', size=64)
+
     is_company = fields.Boolean('Pessoa Juridica?')
+
     default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
+
     icms = fields.Boolean('Recupera ICMS')
+
     ipi = fields.Boolean('Recupera IPI')
 
     @api.one
@@ -406,11 +410,16 @@ class L10n_brAccountCNAE(models.Model):
     _description = 'Cadastro de CNAE'
 
     code = fields.Char(u'Código', size=16, required=True)
+
     name = fields.Char(u'Descrição', size=64, required=True)
+
     version = fields.Char(u'Versão', size=16, required=True)
+
     parent_id = fields.Many2one('l10n_br_account.cnae', 'CNAE Pai')
+
     child_ids = fields.One2many(
         'l10n_br_account.cnae', 'parent_id', 'CNAEs Filhos')
+
     internal_type = fields.Selection(
         [('view', u'Visualização'), ('normal', 'Normal')],
         'Tipo Interno', required=True, default='normal')
