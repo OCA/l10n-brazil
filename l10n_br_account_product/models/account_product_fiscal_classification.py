@@ -109,7 +109,6 @@ class L10n_brTaxDefinitionSaleTemplate(L10n_brTaxDefinitionTemplateModel,
 class L10n_brTaxDefinitionPurchaseTemplate(L10n_brTaxDefinitionTemplateModel,
                                            models.Model):
     """Definition a class model for purchase tax and tax code template"""
-    """Definition a class model for sales tax and tax code"""
     _name = 'l10n_br_tax.definition.purchase.template'
 
 
