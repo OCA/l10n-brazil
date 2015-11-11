@@ -55,13 +55,13 @@
 			<field name="model">account.product.fiscal.classification</field>
 			<field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_form"/>
 			<field name="arch" type="xml">
-				<field name="company_id" position="before">
+				<field name="code" position="after">
 					<field name="type"/>
 					<field name="parent_id"/>
 				</field>
 				<field name="description" position="after">
-					<field name="inv_copy_note"/>
-					<field name="note"/>
+					<field name="inv_copy_note" colspan="4"/>
+					<field name="note" colspan="4"/>
 				</field>
 			  	<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
 			  	</xpath>
@@ -151,7 +151,7 @@
 			<field name="model">account.product.fiscal.classification.template</field>
 			<field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_template_form"/>
 			<field name="arch" type="xml">
-				<field name="description" position="before">
+				<field name="code" position="after">
 					<field name="type"/>
 					<field name="parent_id"/>
 				</field>
