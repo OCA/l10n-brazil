@@ -28,6 +28,7 @@ from openerp.addons.l10n_br_account.models.l10n_br_account import (
 
 class AccountProductFiscalClassificationTemplate(models.Model):
     _inherit = 'account.product.fiscal.classification.template'
+    _rec_name = 'code'
 
     @api.multi
     @api.depends('purchase_tax_definition_line',
@@ -159,6 +160,7 @@ class L10n_brTaxEstimateTemplate(models.Model):
 
 class AccountProductFiscalClassification(models.Model):
     _inherit = 'account.product.fiscal.classification'
+    _rec_name = 'code'
 
     @api.multi
     @api.depends('purchase_tax_definition_line',
