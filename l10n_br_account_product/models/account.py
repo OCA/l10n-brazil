@@ -233,7 +233,8 @@ class AccountTax(models.Model):
             obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
             date = datetime.now().strftime('%Y-%m-%d')
             tax_estimate_ids = obj_tax_estimate.search(
-                cr, uid, [('fiscal_classification_id', '=', product.ncm_id.id),
+                cr, uid, [('fiscal_classification_id', '=', \
+                           product.fiscal_classification_id.id),
                           '|', ('date_start', '=', False),
                           ('date_start', '<=', date),
                           '|', ('date_end', '=', False),
