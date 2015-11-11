@@ -20,7 +20,7 @@
 from datetime import datetime
 
 from openerp import pooler
-from openerp.osv import orm
+from openerp.exceptions import Warning
 from openerp.tools.translate import _
 
 from openerp.addons.l10n_br_account.sped.document import FiscalDocument
@@ -606,7 +606,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import NFe_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return NFe_200()
@@ -615,7 +615,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import NFRef_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return NFRef_200()
@@ -624,7 +624,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import Det_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return Det_200()
@@ -633,7 +633,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import DI_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return DI_200()
 
@@ -641,7 +641,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import Adi_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return Adi_200()
 
@@ -649,7 +649,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import Vol_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return Vol_200()
 
@@ -658,7 +658,7 @@ class NFe200(FiscalDocument):
         try:
             from pysped.nfe.leiaute import Dup_200
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return Dup_200()
