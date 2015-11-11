@@ -1,58 +1,39 @@
 -
-  Create Fiscal Category
+  Create a sale supplier invoice from SP to SP fiscal contributor
 -
-  !record {model: l10n_br_account.fiscal.category, id: fiscal_category_purchase}:
-    code: Compras
-    name: Compras
-    type: input
-    journal_type: purchase
-    property_journal: account.expenses_journal
--
-  Create Fiscal Position
--
-  !record {model: account.fiscal.position, id: fiscal_position_purchase}:
-    name: Compras
-    type: input
-    company_id: base.main_company
-    fiscal_category_id: fiscal_category_purchase
--
-  Create Fiscal Position Rule
--
-  !record {model: account.fiscal.position.rule, id: fiscal_position_rule_purchase}:
-    name: Compras
-    description: Compras
-    company_id: base.main_company
-    from_country: base.br
-    fiscal_category_id: fiscal_category_purchase
-    fiscal_position_id: fiscal_position_purchase
-    use_purchase: true
-    use_invoice: true
-    use_picking: true
--
-  Create a supplier invoice
--
-  !record {model: account.invoice, id: account_invoice_supplier0, view: view_l10n_br_account_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_supplier_sp_sp, view: l10n_br_account_product_invoice_supplier_form}:
     payment_term: account.account_payment_term_advance
-    partner_id: base.res_partner_3
-    fiscal_category_id: fiscal_category_purchase
+    partner_id: l10n_br_base.res_partner_akretion
+    fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
+    issuer: '1'
+    internal_number: '2001'
+    vendor_serie: '1'
     reference_type: none
-    name: 'Test Supplier Invoice'
+    name: 'NFe Invoice Test'
     invoice_line:
-      - product_id: product.product_product_5
-        quantity: 10.0
+      - product_id: product.product_product_17
+        fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
+        quantity: 20.0
+        price_unit: 140.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].cfop_id.code == '1101'
 -
   I check that Initially supplier invoice is in the "Draft" state
 -
-  !assert {model: account.invoice, id: account_invoice_supplier0}:
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
     - state == 'draft'
 -
   I create invoice by clicking on Create button
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier0}
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_supplier_sp_sp}
 -
-  I check that the invoice state is "Open"
+  I check that the invoice state is "sefaz_export"
 -
-  !assert {model: account.invoice, id: account_invoice_supplier0}:
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
     - state == 'open'
-
-
