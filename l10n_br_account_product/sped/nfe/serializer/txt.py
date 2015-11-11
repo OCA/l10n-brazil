@@ -361,12 +361,12 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             StrRegE['indIEDest'] = inv.cfop_ids[0].id_dest
             StrRegE['IM'] = StrRegC['IM']
 
-            StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'],
-                                         StrRegE['indIEDest'],
-                                         StrRegE['IE'],
-                                         StrRegE['ISUF'],
-                                         StrRegE['IM'],
-                                         StrRegE['email'])
+            StrE = 'E|%s|%s|%s|%s|%s|%s|\n' % (StrRegE['xNome'],
+                                               StrRegE['indIEDest'],
+                                               StrRegE['IE'],
+                                               StrRegE['ISUF'],
+                                               StrRegE['IM'],
+                                               StrRegE['email'])
         else:
             StrE = 'E|%s|%s|%s|%s|\n' % (StrRegE['xNome'], StrRegE[
                 'IE'], StrRegE['ISUF'], StrRegE['email'])

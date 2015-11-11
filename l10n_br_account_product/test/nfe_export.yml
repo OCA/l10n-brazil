@@ -1,0 +1,22 @@
+-
+  I export a NFe in txt format
+-
+  !python {model: l10n_br_account_product.nfe_export_invoice}: |
+    ctx = context.copy()
+    ctx.update({"active_model": 'account.invoice', "active_ids": [ref("account_invoice_customer_sp_sp")]})
+    wizard_id = self.create(cr, uid, {'file_type': 'txt', 'nfe_environment': '2'})
+    result = self.nfe_export(cr, uid, [wizard_id], context=ctx)
+    wizard = self.browse(cr, uid, wizard_id)
+    assert wizard.state == 'done', "State is not done"
+    assert wizard.file, "File not found"
+-
+  I export a NFe in xml format
+-
+  !python {model: l10n_br_account_product.nfe_export_invoice}: |
+    ctx = context.copy()
+    ctx.update({"active_model": 'account.invoice', "active_ids": [ref("account_invoice_customer_sp_rs")]})
+    wizard_id = self.create(cr, uid, {'file_type': 'xml', 'nfe_environment': '2'})
+    result = self.nfe_export(cr, uid, [wizard_id], context=ctx)
+    wizard = self.browse(cr, uid, wizard_id)
+    assert wizard.state == 'done', "State is not done"
+    assert wizard.file, "File not found"

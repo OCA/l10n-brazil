@@ -32,6 +32,15 @@
     - invoice_line[0].icms_percent == 18.00
     - invoice_line[0].icms_percent_reduction == 0.00
 -
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].icms_st_base == 0.00
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 0.00
+    - invoice_line[0].icms_st_percent == 0.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
+-
   I check tax values IPI
 -
   !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
@@ -103,6 +112,15 @@
     - invoice_line[0].icms_value == 66.00
     - invoice_line[0].icms_percent == 12.00
     - invoice_line[0].icms_percent_reduction == 0.00
+-
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].icms_st_base == 0.00
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 0.00
+    - invoice_line[0].icms_st_percent == 0.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
 -
   I check tax values IPI
 -
