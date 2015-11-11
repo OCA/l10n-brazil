@@ -93,7 +93,7 @@ class L10n_brTaxDefinitionCompanyProduct(L10n_brTaxDefinition, models.Model):
     company_id = fields.Many2one('res.company', 'Empresa')
 
     _sql_constraints = [
-    	('l10n_br_tax_definition_tax_id_uniq',
+        ('l10n_br_tax_definition_tax_id_uniq',
          'unique (tax_id, company_id)',
          u'Imposto já existente nesta empresa!')
     ]
