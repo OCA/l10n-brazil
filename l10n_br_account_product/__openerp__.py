@@ -26,7 +26,7 @@
     'website': 'http://odoo-brasil.org',
     'version': '8.0.1.0.0',
     'depends': [
-        'l10n_br_account',
+        'l10n_br_data_account',
         'account_product_fiscal_classification',
     ],
     'data': [
