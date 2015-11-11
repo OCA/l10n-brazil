@@ -728,7 +728,7 @@ class NFe310(NFe200):
         try:
             from pysped.nfe.leiaute import NFe_310
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return NFe_310()
@@ -737,7 +737,7 @@ class NFe310(NFe200):
         try:
             from pysped.nfe.leiaute import NFRef_310
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return NFRef_310()
@@ -746,7 +746,7 @@ class NFe310(NFe200):
         try:
             from pysped.nfe.leiaute import Det_310
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return Det_310()
@@ -755,7 +755,7 @@ class NFe310(NFe200):
         try:
             from pysped.nfe.leiaute import Dup_310
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
 
         return Dup_310()
@@ -764,6 +764,6 @@ class NFe310(NFe200):
         try:
             from pysped.nfe.leiaute import DI_310
         except ImportError:
-            raise orm.except_orm(
+            raise Warning(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return DI_310()
