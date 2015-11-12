@@ -21,4 +21,4 @@
 from . import l10n_br_account_nfe_export_invoice
 from . import l10n_br_account_nfe_export
 from . import l10n_br_account_document_status_sefaz
-from . import l10n_br_refund
+from . import account_invoice_refund
