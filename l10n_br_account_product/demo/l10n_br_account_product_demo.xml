@@ -28,15 +28,21 @@
 		</record>
 
 		<!-- l10n_br_account.fiscal.category -->
+		<!-- Venda -->
 		<record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
 			<field name="property_journal" ref="account.sales_journal" />
 		</record>
-		
+
+		<!-- Devolução de Venda -->
+		<record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
+			<field name="property_journal" ref="account.refund_sales_journal" />
+		</record>
+
 		<record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_account.fiscal.category">
 			<field name="property_journal" ref="aj_b7aafa9c3056c3f020ceae63d7312504" />
 		</record>
 
-		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
+		<!-- account.fiscal.position - Fiscal position From l10n_br_data_account -->
 		<!-- venda -->
 		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo" model="account.fiscal.position">
 			<field name="name">Venda para Dentro do Estado</field>
@@ -90,7 +96,7 @@
 			<field name="type_tax_use">sale</field>
 		</record>
 
-		<!-- account.fiscal.position - Fiscal Operations Froml10n_br_data_account -->
+		<!-- Bonificação -->
 		<record id="fp_c333f0a13695741d07c872b54016c093_internal_demo" model="account.fiscal.position">
 			<field name="name">Bonificação Dentro do Estado</field>
 			<field name="cfop_id" ref="l10n_br_account_product.cfop_5910" />
@@ -117,7 +123,44 @@
 			<field name="type">output</field>
 			<field name="type_tax_use">sale</field>
 		</record>
+
+		<!-- Devolução de Venda -->
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_internal_demo" model="account.fiscal.position">
+			<field name="name">Devolução de Venda</field>
+			<field name="cfop_id" ref="cfop_1201"/>
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">sale</field>
+		</record>
 		
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo" model="account.fiscal.position">
+			<field name="name">Devolução de Venda Fora do Estado ICMS 7%</field>
+			<field name="cfop_id" ref="cfop_2201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo" model="account.fiscal.position">
+			<field name="name">Devolução de Venda Fora do Estado ICMS 12%</field>
+			<field name="cfop_id" ref="cfop_2201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">input</field>
+			<field name="type_tax_use">sale</field>
+		</record>	
+
+		<record id="fp_7817d015cb9832d137d7939a224a79a5_exportation_demo" model="account.fiscal.position">
+			<field name="name">input de Venda Ex</field>
+			<field name="cfop_id" ref="cfop_3201" />
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="type">output</field>
+			<field name="type_tax_use">sale</field>
+		</record>
+
 		<!-- Compras para Industrialização -->
 		<record id="fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo" model="account.fiscal.position">
 			<field name="name">Compras para Ind Interna</field>
