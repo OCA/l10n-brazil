@@ -27,12 +27,22 @@
 		</record>
 
 		<!-- l10n_br_account.fiscal.category -->
+		<record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
+			<field name="code">DevoluçãoVenda</field>
+			<field name="name">Devolução de Venda</field>
+			<field name="type">input</field>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale_refund</field>
+			<field name="state">approved</field>
+		</record>
+
 		<record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
 			<field name="code">Venda</field>
 			<field name="name">Venda</field>
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">sale</field>
+			<field name="refund_fiscal_category_id" ref="fc_7817d015cb9832d137d7939a224a79a5"/>
 			<field name="state">approved</field>
 		</record>
 
@@ -79,15 +89,6 @@
 			<field name="type">output</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">sale</field>
-			<field name="state">approved</field>
-		</record>
-
-		<record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
-			<field name="code">DevoluçãoVenda</field>
-			<field name="name">Devolução de Venda</field>
-			<field name="type">input</field>
-			<field name="fiscal_type">product</field>
-			<field name="journal_type">sale_refund</field>
 			<field name="state">approved</field>
 		</record>
 
