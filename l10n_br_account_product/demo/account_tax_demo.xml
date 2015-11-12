@@ -225,6 +225,42 @@
 			<field ref="tax_code_demo_icms" name="ref_tax_code_id" />
 		</record>
 
+		<record id="demo_tax_out_icms_subist_pe_12_4443_84733041" model="account.tax">
+			<field name="description">ICMS Subist PE 12% MVA 44,43%</field>
+			<field name="name">ICMS Subist PE 12% MVA 44,43%</field>
+			<field name="type_tax_use">sale</field>
+			<field name="amount">0.12</field>
+			<field name="amount_mva">0.4443</field>
+			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
+			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">icmsst</field>
+			<field ref="tax_code_demo_icms" name="base_code_id" />
+			<field ref="tax_code_demo_icms" name="tax_code_id" />
+			<field ref="tax_code_demo_icms" name="ref_base_code_id" />
+			<field ref="tax_code_demo_icms" name="ref_tax_code_id" />
+		</record>
+
+		<record id="demo_tax_out_icms_subist_pe_12_84717012" model="account.tax">
+			<field name="description">ICMS Subist PE 12%</field>
+			<field name="name">ICMS Subist PE 12%</field>
+			<field name="type_tax_use">sale</field>
+			<field name="amount">0.12</field>
+			<field name="amount_mva">0.00</field>
+			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
+			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
+			<field eval="0" name="price_include" />
+			<field name="company_id" ref="base.main_company" />
+			<field eval="0" name="tax_discount" />
+			<field name="domain">icmsst</field>
+			<field ref="tax_code_demo_icms" name="base_code_id" />
+			<field ref="tax_code_demo_icms" name="tax_code_id" />
+			<field ref="tax_code_demo_icms" name="ref_base_code_id" />
+			<field ref="tax_code_demo_icms" name="ref_tax_code_id" />
+		</record>
+
 		<record id="demo_tax_out_pis" model="account.tax">
 			<field name="description">PIS Saída</field>
 			<field name="name">PIS Saída</field>

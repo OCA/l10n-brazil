@@ -410,6 +410,23 @@
 		</record>
 
 		<!-- Regras de posições fiscais para contribuintes -->
+		<!-- VendaST -->
+		<record id="fr_9ca6c34b77a2c78171252551db171ff7_sp_pe" model="account.fiscal.position.rule">
+			<field name="name">VendaST</field>
+			<field name="description">VendaST para Fora do Estado</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="from_country" ref="base.br"/>
+			<field name="from_state" ref="l10n_br_base.br_sp"/>
+			<field name="to_invoice_country" ref="base.br"/>
+			<field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+			<field name="fiscal_position_id" ref="l10n_br_account_product.fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
+			<field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="use_sale">True</field>
+			<field name="use_invoice">True</field>
+			<field name="fiscal_type">3</field>
+		</record>
+
+		<!-- Regras de posições fiscais para contribuintes -->
 		<!-- Devolução de Venda -->
 		<record id="fr_7817d015cb9832d137d7939a224a79a5_sp_ac" model="account.fiscal.position.rule">
 			<field name="name">Devolução de Venda</field>
