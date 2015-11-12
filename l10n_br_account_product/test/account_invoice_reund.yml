@@ -1,0 +1,17 @@
+-
+  I create a invoice refund
+-
+  !python {model: account.invoice.refund}: |
+    ctx = context.copy()
+    ctx.update({"active_model": 'account.invoice', "active_ids": [ref("account_invoice_customer_sp_sp")]})
+    wizard_id = self.create(cr, uid, {'description': 'Test refund sale invoice'})
+    result = self.invoice_refund(cr, uid, [wizard_id], context=ctx)
+    domain_ids = [x for x in result['domain'] if x[0] == 'id'][0]
+    invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_customer_sp_sp"))
+    if domain_ids:
+        invoice_refund_id = domain_ids[2][0]
+        assert invoice_refund_id, "Invoice refund not created!"
+        invoice_refund = self.pool.get('account.invoice').browse(cr, uid, invoice_refund_id)
+        assert invoice_refund.fiscal_category_id.id == invoice.fiscal_category_id.refund_fiscal_category_id.id, "Wrong refund fiscal category!"
+        for line in invoice_refund.invoice_line:
+            assert line.cfop_id.code == '1201', "Wrong CFOP Code"
