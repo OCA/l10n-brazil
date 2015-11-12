@@ -116,7 +116,8 @@ class AccountFiscalPositionRule(models.Model):
 
         if not product_id or not fiscal_category_id:
             return result
-        product_tmpl_id = self.env['product.product'].browse(product_id).id
+        product_tmpl_id = self.env['product.product'].browse(
+            product_id).product_tmpl_id.id
         fiscal_category = self.env[
             'l10n_br_account.product.category'].search(
                 [('product_tmpl_id', '=', product_tmpl_id),
