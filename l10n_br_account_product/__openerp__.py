@@ -63,7 +63,7 @@
     'test': [
         'test/account_customer_invoice.yml',
         'test/account_supplier_invoice.yml',
-        'test/account_invoice_reund.yml',
+        'test/account_invoice_refund.yml',
         'test/nfe_export.yml',
     ],
     'installable': True,
