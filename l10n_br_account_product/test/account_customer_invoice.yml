@@ -19,7 +19,7 @@
     - fiscal_position != False
     - fiscal_document_id.id == company_id.product_invoice_id.id
     - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
-    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
     - invoice_line[0].cfop_id.code == '5101'
 -
   I check tax values ICMS
@@ -100,7 +100,7 @@
     - fiscal_position != False
     - fiscal_document_id.id == company_id.product_invoice_id.id
     - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
-    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
     - invoice_line[0].cfop_id.code == '6101'
 -
   I check tax values ICMS
@@ -159,4 +159,122 @@
   I check that the invoice state is "sefaz_export"
 -
   !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - state == 'sefaz_export'
+-
+  I prepare tunneling extra args in the context for account_invoice_customer_sp_pe
+-
+  !python {model: account.invoice}: |
+    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'type': 'out_invoice'})
+-
+  Create a sale customer invoice from SP to PE fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_pe, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente5_pe
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_10
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 56.39
+      - product_id: product.product_product_17
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 280.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+    - invoice_line[0].fiscal_position.id == ref('fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo')
+    - invoice_line[0].cfop_id.code == '6401'
+    - invoice_line[1].fiscal_position.id == ref('fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo')
+    - invoice_line[1].cfop_id.code == '6401'
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].icms_cst_id.code == '10'
+    - invoice_line[0].icms_base == 281,95
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 33.83
+    - invoice_line[0].icms_percent == 12.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+    - invoice_line[1].icms_cst_id.code == '10'
+    - invoice_line[1].icms_base == 1400.00
+    - invoice_line[1].icms_base_other == 0.00
+    - invoice_line[1].icms_value == 168.00
+    - invoice_line[1].icms_percent == 12.00
+    - invoice_line[1].icms_percent_reduction == 0.00
+-
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].icms_st_base == 468.30
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 22.37
+    - invoice_line[0].icms_st_mva == 44.43
+    - invoice_line[0].icms_st_percent == 12.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
+    - invoice_line[1].icms_st_base == 1540.00
+    - invoice_line[1].icms_st_base_other == 0.00
+    - invoice_line[1].icms_st_value == 16.80
+    - invoice_line[1].icms_st_mva == 0.00
+    - invoice_line[1].icms_st_percent == 12.00
+    - invoice_line[1].icms_st_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 281.95
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 42.29
+    - invoice_line[0].ipi_percent == 15.00
+    - invoice_line[1].ipi_cst_id.code == '50'
+    - invoice_line[1].ipi_base == 1400.00
+    - invoice_line[1].ipi_base_other == 0.00
+    - invoice_line[1].ipi_value == 140.00
+    - invoice_line[1].ipi_percent == 10.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 281.95
+    - invoice_line[0].pis_value == 1.83
+    - invoice_line[0].pis_percent == 0.65
+    - invoice_line[1].pis_cst_id.code == '01'
+    - invoice_line[1].pis_base == 1400.00
+    - invoice_line[1].pis_value == 9.10
+    - invoice_line[1].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 281.95
+    - invoice_line[0].cofins_value == 8.46
+    - invoice_line[0].cofins_percent == 3.00
+    - invoice_line[1].cofins_cst_id.code == '01'
+    - invoice_line[1].cofins_base == 1400.00
+    - invoice_line[1].cofins_value == 42.00
+    - invoice_line[1].cofins_percent == 3.00
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_pe}
+-
+  I check that the invoice state is "sefaz_export"
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
     - state == 'sefaz_export'
