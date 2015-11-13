@@ -951,9 +951,10 @@ class AccountInvoiceLine(models.Model):
         if product_fiscal_category_id:
             kwargs['fiscal_category_id'] = product_fiscal_category_id
 
-        result_rule = obj_fp_rule.with_context(
-                ctx).apply_fiscal_mapping(result, **kwargs)
-        result_rule['value']['fiscal_category_id'] = kwargs.get('fiscal_category_id')
+        result_rule = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(
+            result, **kwargs)
+        result_rule['value']['fiscal_category_id'] = \
+            kwargs.get('fiscal_category_id')
         if result_rule['value'].get('fiscal_position'):
             fp = self.env['account.fiscal.position'].browse(
                 result_rule['value']['fiscal_position'])
