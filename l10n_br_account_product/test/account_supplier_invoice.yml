@@ -21,7 +21,7 @@
   !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
     - fiscal_position != False
     - fiscal_document_id.id == company_id.product_invoice_id.id
-    - invoice_line[0].fiscal_position != False
+    - invoice_line[0].fiscal_position.id == ref('fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo')
     - invoice_line[0].cfop_id.code == '1101'
 -
   I check that Initially supplier invoice is in the "Draft" state
@@ -33,7 +33,7 @@
 -
   !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_supplier_sp_sp}
 -
-  I check that the invoice state is "sefaz_export"
+  I check that the invoice state is "open"
 -
   !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
     - state == 'open'
