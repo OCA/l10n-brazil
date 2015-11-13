@@ -855,7 +855,7 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def _validate_taxes(self, values):
         """Verifica se o valor dos campos dos impostos estão sincronizados
-        com os impostos do OpenERP"""
+        com os impostos do Odoo"""
         context = self.env.context
 
         price_unit = values.get('price_unit', 0.0) or self.price_unit
@@ -938,20 +938,29 @@ class AccountInvoiceLine(models.Model):
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
-        # result['value']['cfop_id'] = None
-
+        ctx.update({'product_id': kwargs.get('product_id')})
         account_obj = self.env['account.account']
-        result_rule = self.env[
-            'account.fiscal.position.rule'].with_context(
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+        partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
+
+        product_fiscal_category_id = obj_fp_rule.with_context(
+            ctx).product_fiscal_category_map(
+                kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
+                partner.state_id.id)
+
+        if product_fiscal_category_id:
+            kwargs['fiscal_category_id'] = product_fiscal_category_id
+
+        result_rule = obj_fp_rule.with_context(
                 ctx).apply_fiscal_mapping(result, **kwargs)
-        if result_rule.get('fiscal_position'):
+        result_rule['value']['fiscal_category_id'] = kwargs.get('fiscal_category_id')
+        if result_rule['value'].get('fiscal_position'):
             fp = self.env['account.fiscal.position'].browse(
-                result_rule['fiscal_position'])
+                result_rule['value']['fiscal_position'])
             if kwargs.get('product_id'):
                 product = self.env['product.product'].browse(
                     kwargs['product_id'])
                 ctx['fiscal_type'] = product.fiscal_type
-
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
@@ -970,13 +979,10 @@ class AccountInvoiceLine(models.Model):
                         taxes = account_obj.browse(account_id).tax_ids
                     else:
                         taxes = False
-
-                tax_ids = self.env['account.fiscal.position'].with_context(
-                    ctx).map_tax(fp, taxes)
-                result_rule['value']['invoice_line_tax_id'] = tax_ids
+                tax_ids = fp.with_context(ctx).map_tax(taxes)
+                result_rule['value']['invoice_line_tax_id'] = tax_ids.ids
                 result['value'].update(self._get_tax_codes(
-                    kwargs['product_id'],
-                    fp, tax_ids, kwargs['company_id']))
+                    kwargs['product_id'], fp, tax_ids))
 
         return result_rule
 
@@ -987,32 +993,23 @@ class AccountInvoiceLine(models.Model):
                           currency_id=False, company_id=None):
         ctx = dict(self.env.context)
         if type in ('out_invoice', 'out_refund'):
-            type_tax_use = {'type_tax_use': 'sale'}
+            ctx.update({'type_tax_use': 'sale'})
         else:
-            type_tax_use = {'type_tax_use': 'purchase'}
-        self = self.with_context(type_tax_use)
+            ctx.update({'type_tax_use': 'purchase'})
+        self = self.with_context(ctx)
         result = super(AccountInvoiceLine, self).product_id_change(
             product, uom_id, qty, name, type, partner_id,
             fposition_id, price_unit, currency_id, company_id)
 
-        parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
+        fiscal_category_id = ctx.get('parent_fiscal_category_id')
 
-        if not parent_fiscal_category_id or not product:
+        if not fiscal_category_id or not product:
             return result
-        partner = self.env['res.partner'].browse(partner_id)
-        obj_fp_rule = self.env['account.fiscal.position.rule']
-        product_fiscal_category_id = obj_fp_rule.with_context(
-            ctx).product_fiscal_category_map(
-                product, parent_fiscal_category_id, partner.state_id.id)
-
-        if product_fiscal_category_id:
-            parent_fiscal_category_id = product_fiscal_category_id
-        result['value']['fiscal_category_id'] = parent_fiscal_category_id
 
         result = self._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
-            fiscal_category_id=parent_fiscal_category_id,
+            fiscal_category_id=fiscal_category_id,
             account_id=result['value']['account_id'])
 
         return result
@@ -1033,58 +1030,15 @@ class AccountInvoiceLine(models.Model):
                                  freight_value, other_costs_value):
         result = {'value': {}}
         ctx = dict(self.env.context)
-
         kwargs = {
             'company_id': company_id,
             'partner_id': partner_id,
+            'product_id': product_id,
             'partner_invoice_id': partner_id,
             'fiscal_category_id': fiscal_category_id,
             'context': ctx
         }
         result.update(self._fiscal_position_map(result, **kwargs))
-        fiscal_position = result['value'].get('fiscal_position')
-
-        if product_id and fiscal_position:
-
-            obj_product = self.env['product.product'].browse(product_id)
-            obj_fposition = self.env['account.fiscal.position'].browse(
-                fiscal_position)
-            ctx['fiscal_type'] = obj_product.fiscal_type
-            ctx['product_id'] = product_id
-            if ctx.get('type') in ('out_invoice', 'out_refund'):
-                ctx['type_tax_use'] = 'sale'
-                taxes = obj_product.taxes_id + \
-                    self.env['account.account'].browse(
-                        kwargs.get('account_id')).tax_ids
-            else:
-                ctx['type_tax_use'] = 'purchase'
-                taxes = obj_product.supplier_taxes_id + \
-                    self.env['account.account'].browse(
-                        kwargs.get('account_id')).tax_ids
-
-            tax_ids = obj_fposition.with_context(ctx).map_tax(taxes)
-
-            result['value']['invoice_line_tax_id'] = tax_ids
-            # TODO Incluir valores campos de desconto, seguro, frete e outras
-            # despesas
-            values = {
-                'partner_id': partner_id,
-                'company_id': company_id,
-                'product_id': product_id,
-                'quantity': quantity,
-                'price_unit': price_unit,
-                'fiscal_position': result['value'].get('fiscal_position'),
-                'invoice_line_tax_id': [
-                    [6, 0,
-                     [x.id
-                      for x in result['value']['invoice_line_tax_id']]]],
-                'discount': discount,
-                'insurance_value': insurance_value,
-                'freight_value': freight_value,
-                'other_costs_value': other_costs_value,
-            }
-            result['value'].update(self._validate_taxes(values))
-
         return result
 
     @api.multi
@@ -1095,7 +1049,6 @@ class AccountInvoiceLine(models.Model):
                                      freight_value, other_costs_value):
 
         result = {'value': {}}
-
         values = {
             'product_id': product_id,
             'partner_id': partner_id,
@@ -1108,16 +1061,15 @@ class AccountInvoiceLine(models.Model):
             'freight_value': freight_value,
             'other_costs_value': other_costs_value,
         }
-
         result['value'].update(self._validate_taxes(values))
         return result
 
-    @api.multi
+    @api.model
     def tax_exists(self, domain=None):
         result = False
-        tax = self.env['account.tax'].search(domain)
+        tax = self.env['account.tax'].search(domain, limit=1)
         if tax:
-            result = tax[0]
+            result = tax
         return result
 
     @api.multi
