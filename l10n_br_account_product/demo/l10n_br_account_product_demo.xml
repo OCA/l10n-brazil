@@ -122,6 +122,14 @@
 			<field name="tax_src_domain">icmsst</field>
 		</record>
 
+		<record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icms_pe_demo" model="account.fiscal.position.tax">
+			<field name="position_id" ref="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
+			<field name="tax_code_src_id" ref="l10n_br_account_product.tax_code_demo_icms"/>
+			<field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_icms_externo12"/>
+			<field name="tax_code_dest_id" ref="l10n_br_account_product.tax_code_demo_icms_10"/>
+			<field name="tax_src_domain">icms</field>
+		</record>
+
 		<!-- Bonificação -->
 		<record id="fp_c333f0a13695741d07c872b54016c093_internal_demo" model="account.fiscal.position">
 			<field name="name">Bonificação Dentro do Estado</field>
