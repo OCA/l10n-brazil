@@ -367,7 +367,7 @@ class PurchaseOrderLine(models.Model):
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
             'fiscal_category_id': fiscal_category_id,
-            'context': context,
+            'context': dict(context or self._context),
         })
 
         result.update(self._fiscal_position_map(result, **kwargs))
@@ -378,12 +378,13 @@ class PurchaseOrderLine(models.Model):
                 fiscal_position)
             obj_product = self.env['product.product'].browse(
                 product_id)
-            context = {'fiscal_type': obj_product.fiscal_type,
-                       'type_tax_use': 'purchase'}
+            ctx = {
+                'fiscal_type': obj_product.fiscal_type,
+                'type_tax_use': 'purchase'
+            }
+            kwargs['context'].update(ctx)
             taxes = obj_product.supplier_taxes_id or False
-            taxes_ids = self.env['account.fiscal.position'].map_tax(
-                obj_fposition, taxes, context=context)
-
+            taxes_ids = obj_fposition.map_tax(taxes)
             result['value']['taxes_id'] = taxes_ids
 
         return result
