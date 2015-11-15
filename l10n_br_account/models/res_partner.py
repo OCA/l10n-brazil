@@ -306,6 +306,7 @@ class AccountFiscalPositionTax(models.Model):
                 self.tax_code_src_id
             )
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
