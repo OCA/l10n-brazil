@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class L10n_brAccountNfeExport(orm.TransientModel):
+class L10nBrAccountNfeExport(orm.TransientModel):
     """ Exportar Nota Fiscal Eletrônica """
     _name = 'l10n_br_account_product.nfe_export'
     _inherit = 'l10n_br_account_product.nfe_export_invoice'
@@ -49,7 +49,7 @@ class L10n_brAccountNfeExport(orm.TransientModel):
              ('issuer', '=', '0')])
 
 
-class L10n_brAccountNfeExportResult(orm.TransientModel):
+class L10nBrAccountNfeExportResult(orm.TransientModel):
     _name = 'l10n_br_account_product.nfe_export_result'
     _inherit = 'l10n_br_account_product.nfe_export_invoice_result'
     _columns = {

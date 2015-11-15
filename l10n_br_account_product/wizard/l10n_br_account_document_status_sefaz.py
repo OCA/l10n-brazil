@@ -21,7 +21,7 @@
 from openerp.osv import orm, fields
 
 
-class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
+class L10nBrAccountDocumentStatusSefaz(orm.TransientModel):
     """ Check fiscal document key"""
     _name = 'l10n_br_account_product.document_status_sefaz'
     _description = 'Check fiscal document key on sefaz'

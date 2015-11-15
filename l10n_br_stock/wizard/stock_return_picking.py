@@ -21,7 +21,7 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 
 
-class stock_return_picking(orm.TransientModel):
+class StockReturnPicking(orm.TransientModel):
     _inherit = 'stock.return.picking'
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
@@ -49,7 +49,7 @@ class stock_return_picking(orm.TransientModel):
 
         for send_picking in picking_obj.browse(cr, uid, context.get('active_ids'), context):        
 
-            result = super(stock_return_picking, self).create_returns(
+            result = super(StockReturnPicking, self).create_returns(
                 cr, uid, ids, context)
 
             result_domain = eval(result['domain'])

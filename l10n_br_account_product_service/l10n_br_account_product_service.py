@@ -27,7 +27,7 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-class L10n_brAccountFiscalCategory(orm.Model):
+class L10nBrAccountFiscalCategory(orm.Model):
     _inherit = 'l10n_br_account.fiscal.category'
     _columns = {
         'fiscal_type': fields.selection(
@@ -38,7 +38,7 @@ class L10n_brAccountFiscalCategory(orm.Model):
     }
     
     
-class L10n_brAccountDocumentSerie(orm.Model):
+class L10nBrAccountDocumentSerie(orm.Model):
     _inherit = 'l10n_br_account.document.serie'
     _columns = {
         'fiscal_type': fields.selection(

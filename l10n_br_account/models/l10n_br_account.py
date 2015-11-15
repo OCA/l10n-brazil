@@ -35,7 +35,7 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 
-class L10n_brAccountCce(models.Model):
+class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
     _description = u'Cartão de Correção no Sefaz'
 
@@ -48,7 +48,7 @@ class L10n_brAccountCce(models.Model):
         'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
 
 
-class L10n_brAccountInvoiceCancel(models.Model):
+class L10nBrAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
     _description = u'Cancelar Documento Eletrônico no Sefaz'
 
@@ -79,7 +79,7 @@ class L10n_brAccountInvoiceCancel(models.Model):
         return True
 
 
-class L10n_brDocumentEvent(models.Model):
+class L10nBrDocumentEvent(models.Model):
     _name = 'l10n_br_account.document_event'
 
     type = fields.Selection(
@@ -132,7 +132,7 @@ class L10n_brDocumentEvent(models.Model):
         return True
 
 
-class L10n_brAccountFiscalCategory(models.Model):
+class L10nBrAccountFiscalCategory(models.Model):
     """Fiscal Category to apply fiscal and account parameters in documents."""
     _name = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscal'
@@ -190,7 +190,7 @@ class L10n_brAccountFiscalCategory(models.Model):
         return {'value': {'property_journal': None}}
 
 
-class L10n_brAccountServiceType(models.Model):
+class L10nBrAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
 
@@ -216,7 +216,7 @@ class L10n_brAccountServiceType(models.Model):
         return result
 
 
-class L10n_brAccountFiscalDocument(models.Model):
+class L10nBrAccountFiscalDocument(models.Model):
     _name = 'l10n_br_account.fiscal.document'
     _description = 'Tipo de Documento Fiscal'
 
@@ -225,7 +225,7 @@ class L10n_brAccountFiscalDocument(models.Model):
     electronic = fields.Boolean(u'Eletrônico')
 
 
-class L10n_brAccountDocumentSerie(models.Model):
+class L10nBrAccountDocumentSerie(models.Model):
     _name = 'l10n_br_account.document.serie'
     _description = 'Serie de documentos fiscais'
 
@@ -266,10 +266,10 @@ class L10n_brAccountDocumentSerie(models.Model):
          this field is null """
         if not vals.get('internal_sequence_id'):
             vals.update({'internal_sequence_id': self._create_sequence(vals)})
-        return super(L10n_brAccountDocumentSerie, self).create(vals)
+        return super(L10nBrAccountDocumentSerie, self).create(vals)
 
 
-class L10n_brAccountInvoiceInvalidNumber(models.Model):
+class L10nBrAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
     _description = u'Inutilização de Faixa de Numeração'
 
@@ -377,10 +377,10 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
             else:
                 raise Warning(_(
                     u'Você não pode excluir uma sequência concluída.'))
-        return super(L10n_brAccountInvoiceInvalidNumber, self).unlink()
+        return super(L10nBrAccountInvoiceInvalidNumber, self).unlink()
 
 
-class L10n_brAccountPartnerFiscalType(models.Model):
+class L10nBrAccountPartnerFiscalType(models.Model):
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
 
@@ -405,7 +405,7 @@ class L10n_brAccountPartnerFiscalType(models.Model):
         return True
 
 
-class L10n_brAccountCNAE(models.Model):
+class L10nBrAccountCNAE(models.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
 
@@ -435,7 +435,7 @@ class L10n_brAccountCNAE(models.Model):
         return result
 
 
-class L10n_brTaxDefinitionTemplate(object):
+class L10nBrTaxDefinitionTemplate(object):
     _name = 'l10n_br_tax.definition.template'
 
     tax_template_id = fields.Many2one('account.tax.template', u'Imposto',
@@ -448,7 +448,7 @@ class L10n_brTaxDefinitionTemplate(object):
                                            u'Código de Imposto')
 
 
-class L10n_brTaxDefinition(object):
+class L10nBrTaxDefinition(object):
     _name = 'l10n_br_tax.definition'
 
     tax_id = fields.Many2one('account.tax', string='Imposto', required=True)
