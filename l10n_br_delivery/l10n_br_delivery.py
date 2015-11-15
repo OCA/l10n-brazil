@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class L10n_brDeliveryCarrierVehicle(orm.Model):
+class L10nBrDeliveryCarrierVehicle(orm.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
     _description = 'Veiculos das transportadoras'
     _columns = {
@@ -45,7 +45,7 @@ class L10n_brDeliveryCarrierVehicle(orm.Model):
     }
 
 
-class L10n_brDeliveryShipment(orm.Model):
+class L10nBrDeliveryShipment(orm.Model):
     _name = 'l10n_br_delivery.shipment'
     _columns = {
         'code': fields.char('Nome', size=32),
