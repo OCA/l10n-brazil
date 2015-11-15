@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Base',
-    'description': 'Brazilian Localization Base',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
