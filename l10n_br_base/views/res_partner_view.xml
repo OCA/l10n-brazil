@@ -3,7 +3,7 @@
 	<data>
 
 		<!-- Parceiro -->
-		<record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
+		<record id="view_l10n_br_base_partner_filter" model="ir.ui.view">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_res_partner_filter" />
