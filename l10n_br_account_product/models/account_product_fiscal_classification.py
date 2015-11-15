@@ -21,8 +21,8 @@ from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 
 from openerp.addons.l10n_br_account.models.l10n_br_account import (
-    L10n_brTaxDefinition,
-    L10n_brTaxDefinitionTemplate
+    L10nBrTaxDefinition,
+    L10nBrTaxDefinitionTemplate
 )
 
 
@@ -86,7 +86,7 @@ class AccountProductFiscalClassificationTemplate(models.Model):
          u'Já existe um classificação fiscal com esse código!')]
 
 
-class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
+class L10nBrTaxDefinitionTemplateModel(L10nBrTaxDefinitionTemplate):
     """Model for tax definition template"""
 
     fiscal_classification_id = fields.Many2one(
@@ -100,19 +100,19 @@ class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     ]
 
 
-class L10n_brTaxDefinitionSaleTemplate(L10n_brTaxDefinitionTemplateModel,
+class L10nBrTaxDefinitionSaleTemplate(L10nBrTaxDefinitionTemplateModel,
                                        models.Model):
     """Definition a class model for sales tax and tax code template"""
     _name = 'l10n_br_tax.definition.sale.template'
 
 
-class L10n_brTaxDefinitionPurchaseTemplate(L10n_brTaxDefinitionTemplateModel,
+class L10nBrTaxDefinitionPurchaseTemplate(L10nBrTaxDefinitionTemplateModel,
                                            models.Model):
     """Definition a class model for purchase tax and tax code template"""
     _name = 'l10n_br_tax.definition.purchase.template'
 
 
-class L10n_brTaxEstimateModel(models.AbstractModel):
+class L10nBrTaxEstimateModel(models.AbstractModel):
     _name = 'l10n_br_tax.estimate.model'
     _auto = False
 
@@ -148,7 +148,7 @@ class L10n_brTaxEstimateModel(models.AbstractModel):
     origin = fields.Char('Fonte', size=32)
 
 
-class L10n_brTaxEstimateTemplate(models.Model):
+class L10nBrTaxEstimateTemplate(models.Model):
     _name = 'l10n_br_tax.estimate.template'
     _inherit = 'l10n_br_tax.estimate.model'
 
@@ -216,7 +216,7 @@ class AccountProductFiscalClassification(models.Model):
          u'Já existe um classificação fiscal com esse código!')]
 
 
-class L10n_brTaxDefinitionModel(L10n_brTaxDefinition):
+class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
     _name = 'l10n_br_tax.definition.model'
 
     fiscal_classification_id = fields.Many2one(
@@ -230,15 +230,15 @@ class L10n_brTaxDefinitionModel(L10n_brTaxDefinition):
     ]
 
 
-class L10n_brTaxDefinitionSale(L10n_brTaxDefinitionModel, models.Model):
+class L10nBrTaxDefinitionSale(L10nBrTaxDefinitionModel, models.Model):
     _name = 'l10n_br_tax.definition.sale'
 
 
-class L10n_brTaxDefinitionPurchase(L10n_brTaxDefinitionModel, models.Model):
+class L10nBrTaxDefinitionPurchase(L10nBrTaxDefinitionModel, models.Model):
     _name = 'l10n_br_tax.definition.purchase'
 
 
-class L10n_brTaxEstimate(models.Model):
+class L10nBrTaxEstimate(models.Model):
     _name = 'l10n_br_tax.estimate'
     _inherit = 'l10n_br_tax.estimate.model'
 
