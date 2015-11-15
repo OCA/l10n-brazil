@@ -23,7 +23,7 @@ from openerp import models, fields
 from openerp.exceptions import except_orm
 
 
-class L10n_brZip(models.Model):
+class L10nBrZip(models.Model):
     """ Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
