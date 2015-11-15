@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -21,7 +21,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class stock_invoice_onshipping(orm.TransientModel):
+class StockInvoiceOnshipping(orm.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     def _get_journal_id(self, cr, uid, context=None):
@@ -74,7 +74,7 @@ class stock_invoice_onshipping(orm.TransientModel):
         onshipdata_obj = self.read(
             cr, uid, ids, ['journal_id', 'group', 'invoice_date',
             'fiscal_category_journal'])
-        res = super(stock_invoice_onshipping, self).create_invoice(
+        res = super(StockInvoiceOnshipping, self).create_invoice(
             cr, uid, ids, context)
 
         if not res or not onshipdata_obj[0]['fiscal_category_journal']:

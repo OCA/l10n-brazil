@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
@@ -23,16 +23,6 @@
     'name': 'Brazilian Invoice on Timesheets',
     'version': '1.0',
     'category': 'Sales Management',
-    'description': """
-Generate your Invoices from Expenses, Timesheet Entries.
-========================================================
-
-Module to generate invoices based on costs (human resources, expenses, ...).
-
-With Brazilian Taxes
-
-You can define price lists in analytic account, make some theoretical revenue
-reports.""",
     'author': 'KMEE',
     'website': 'http://www.kmee.com.br',
     'depends': ['l10n_br_account',

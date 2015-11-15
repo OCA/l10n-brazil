@@ -945,8 +945,8 @@ class AccountInvoiceLine(models.Model):
 
         product_fiscal_category_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
-                kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
-                partner.state_id.id)
+            kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
+            partner.state_id.id)
 
         if product_fiscal_category_id:
             kwargs['fiscal_category_id'] = product_fiscal_category_id
@@ -1168,7 +1168,8 @@ class AccountInvoiceLine(models.Model):
         #     base_tax=icms_base)
         #
         # # Update tax values to new values
-        # result['value'].update(self._amount_tax_icms(tax_compute['taxes'][0]))
+        # result['value'].update(self._amount_tax_icms(
+        # tax_compute['taxes'][0]))
         #
         # # Update invoice_line_tax_id
         # # Remove all taxes with domain ICMS
@@ -1271,6 +1272,13 @@ class AccountInvoiceTax(models.Model):
         currency = invoice.currency_id.with_context(
             date=invoice.date_invoice or fields.Date.context_today(invoice))
         company_currency = invoice.company_id.currency_id
+
+        total_costs = {
+            'insurance_value': 0.00,
+            'freight_value': 0.00,
+            'other_costs_value': 0.00,
+        }
+
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
@@ -1279,7 +1287,14 @@ class AccountInvoiceTax(models.Model):
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
                 other_costs_value=line.other_costs_value)['taxes']
+
+            total_costs['insurance_value'] += line.insurance_value
+            total_costs['freight_value'] += line.freight_value
+            total_costs['other_costs_value'] += line.other_costs_value
+
             for tax in taxes:
+                tax_price_unit = tax.get('price_unit', 0.00)
+                tax_quantity = tax.get('quantity', 0.00)
                 val = {
                     'invoice_id': invoice.id,
                     'name': tax['name'],
@@ -1287,8 +1302,8 @@ class AccountInvoiceTax(models.Model):
                     'manual': False,
                     'sequence': tax['sequence'],
                     'base': currency.round(
-                        tax['price_unit'] *
-                        line['quantity']),
+                        tax_price_unit *
+                        tax_quantity),
                 }
                 if invoice.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
@@ -1345,4 +1360,42 @@ class AccountInvoiceTax(models.Model):
             t['base_amount'] = currency.round(t['base_amount'])
             t['tax_amount'] = currency.round(t['tax_amount'])
 
+        tax_grouped.update(self._compute_costs(total_costs))
+
         return tax_grouped
+
+    def _compute_costs(self, total_costs):
+
+        result = {}
+        company = self.env.user.company_id
+
+        if not (company.insurance_tax_id and
+                company.freight_tax_id and
+                company.other_costs_tax_id):
+
+            from openerp.exceptions import MissingError
+            raise MissingError('Please define insurance, freight and other '
+                               'costs accounts in the company')
+
+        costs = {
+            company.insurance_tax_id: total_costs['insurance_value'],
+            company.freight_tax_id: total_costs['freight_value'],
+            company.other_costs_tax_id: total_costs['other_costs_value'],
+        }
+
+        for tax in costs:
+            if not costs[tax]:
+                continue
+            result[(tax['tax_code_id'].id,
+                    tax['base_code_id'].id,
+                    tax['account_paid_id'].id)] = {
+                'invoice_id': self.invoice_id.id,
+                'name': tax.name,
+                'amount': costs[tax],
+                'manual': False,
+                # 'sequence': tax['sequence'],
+                'base': costs[tax],
+                'account_analytic_id': tax.account_analytic_collected_id.id,
+                'account_id': tax.account_paid_id.id,
+                }
+        return result

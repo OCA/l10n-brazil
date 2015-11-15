@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Renato Lima - Akretion                                  #
@@ -20,7 +20,7 @@
 from openerp.osv import orm, fields
 
 
-class res_company(orm.Model):
+class ResCompany(orm.Model):
     _inherit = 'res.company'
     _columns = {
         'stock_fiscal_category_id': fields.many2one(

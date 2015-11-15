@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
@@ -24,7 +24,7 @@ from .l10n_br_account_service import (
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
-class L10n_brAccountFiscalCategory(orm.Model):
+class L10nBrAccountFiscalCategory(orm.Model):
     _inherit = 'l10n_br_account.fiscal.category'
     _columns = {
         'fiscal_type': fields.selection(PRODUCT_FISCAL_TYPE,

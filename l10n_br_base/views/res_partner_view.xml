@@ -3,12 +3,13 @@
 	<data>
 
 		<!-- Parceiro -->
-		<record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
+		<record id="view_l10n_br_base_partner_filter" model="ir.ui.view">
 			<field name="name">l10n_br_base.partner.filter</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_res_partner_filter" />
 			<field name="arch" type="xml">
 				<field name="name" position="after">
+					<field name="legal_name" />
 					<field name="cnpj_cpf" />
 				</field>
 			</field>
@@ -20,6 +21,7 @@
 			<field name="inherit_id" ref="base.view_partner_tree" />
 			<field name="arch" type="xml">
 				<field name="display_name" position="after">
+					<field name="legal_name" />
 					<field name="cnpj_cpf" />
 					<field name="inscr_est" />
 				</field>
