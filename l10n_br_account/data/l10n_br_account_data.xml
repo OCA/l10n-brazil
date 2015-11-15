@@ -263,7 +263,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_61" model="account.tax.template">
+		<record id="tax_template_62" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,48%</field>
 			<field name="name">ICMS Simples Nacional 3,48%</field>
 			<field name="amount">0.0348</field>
@@ -278,7 +278,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_62" model="account.tax.template">
+		<record id="tax_template_63" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,51%</field>
 			<field name="name">ICMS Simples Nacional 3,51%</field>
 			<field name="amount">0.0351</field>
@@ -293,7 +293,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_63" model="account.tax.template">
+		<record id="tax_template_64" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,82%</field>
 			<field name="name">ICMS Simples Nacional 3,82%</field>
 			<field name="amount">0.0382</field>
@@ -308,7 +308,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_64" model="account.tax.template">
+		<record id="tax_template_65" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,85%</field>
 			<field name="name">ICMS Simples Nacional 3,85%</field>
 			<field name="amount">0.0385</field>
@@ -323,7 +323,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
        	</record>
        	
-       	<record id="tax_template_65" model="account.tax.template">
+       	<record id="tax_template_66" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,88%</field>
 			<field name="name">ICMS Simples Nacional 3,88%</field>
 			<field name="amount">0.0388</field>
@@ -338,7 +338,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_66" model="account.tax.template">
+		<record id="tax_template_67" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,91%</field>
 			<field name="name">ICMS Simples Nacional 3,91%</field>
 			<field name="amount">0.0391</field>
@@ -353,7 +353,7 @@
 			<field ref="l10n_br.tax_code_template_icms" name="ref_tax_code_id"/>
 		</record>
 
-		<record id="tax_template_67" model="account.tax.template">
+		<record id="tax_template_68" model="account.tax.template">
 			<field name="description">ICMS Simples Nacional 3,95%</field>
 			<field name="name">ICMS Simples Nacional 3,95%</field>
 			<field name="amount">0.0395</field>
