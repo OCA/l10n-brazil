@@ -150,7 +150,8 @@ class L10nbrAccountDocumentRelated(models.Model):
             elif not fiscal.validate_cpf(self.cnpj_cpf):
                 check_cnpj_cpf = False
         if not check_cnpj_cpf:
-            raise UserError(_(u'CNPJ/CPF do documento relacionado é invalido!'))
+            raise UserError(
+                _(u'CNPJ/CPF do documento relacionado é invalido!'))
 
     @api.one
     @api.constrains('inscr_est')
