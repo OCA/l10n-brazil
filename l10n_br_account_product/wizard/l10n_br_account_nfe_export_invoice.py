@@ -24,7 +24,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class L10n_brAccountNfeExportInvoice(orm.TransientModel):
+class L10nBrAccountNfeExportInvoice(orm.TransientModel):
     """ Export fiscal eletronic file from invoice"""
     _name = 'l10n_br_account_product.nfe_export_invoice'
     _description = 'Export eletronic invoice for Emissor de NFe SEFAZ SP'
@@ -197,7 +197,7 @@ class L10n_brAccountNfeExportInvoice(orm.TransientModel):
         }
 
 
-class L10n_brAccountNfeExportInvoiceResult(orm.TransientModel):
+class L10nBrAccountNfeExportInvoiceResult(orm.TransientModel):
     _name = 'l10n_br_account_product.nfe_export_invoice_result'
     _columns = {
         'wizard_id': fields.many2one(
