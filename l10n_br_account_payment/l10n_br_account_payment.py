@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Renato Lima - Akretion                                  #
@@ -20,7 +20,7 @@
 from openerp.osv import fields, orm
 
 
-class payment_line(orm.Model):
+class PaymentLine(orm.Model):
     _inherit = 'payment.line'
     _columns = {
         'related_mode_id': fields.related(
@@ -29,7 +29,7 @@ class payment_line(orm.Model):
     }
 
 
-class account_move_line(orm.Model):
+class AccountMoveLine(orm.Model):
     _inherit = 'account.move.line'
 
     def _payment_mode_search(self, cr, uid, obj, name, args, context):

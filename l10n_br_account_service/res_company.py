@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -66,7 +66,7 @@ class ResCompany(orm.Model):
     }
 
 
-class L10n_brTaxDefinitionCompanyService(orm.Model):
+class L10nBrTaxDefinitionCompanyService(orm.Model):
     _name = 'l10n_br_tax.definition.company.service'
     _inherit = 'l10n_br_tax.definition'
     _columns = {

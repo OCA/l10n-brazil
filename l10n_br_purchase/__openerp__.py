@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Purchase',
-    'description': 'Brazilian Localization for Purchase',
     'license': 'AGPL-3',
     'category': 'Localisation',
     'author': 'Akretion, OpenERP Brasil',

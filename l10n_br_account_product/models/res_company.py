@@ -20,7 +20,7 @@
 from openerp import models, fields, api
 
 from openerp.addons.l10n_br_account.models.l10n_br_account import (
-    L10n_brTaxDefinition
+    L10nBrTaxDefinition
 )
 
 
@@ -85,9 +85,18 @@ class ResCompany(models.Model):
         " ('type','=','input')]")
     nfe_a1_file = fields.Binary('Arquivo NFe A1')
     nfe_a1_password = fields.Char('Senha NFe A1', size=64)
+    freight_tax_id = fields.Many2one(
+        'account.tax', string='Freight Sale Tax',
+        domain=[('domain', '=', 'freight')])
+    insurance_tax_id = fields.Many2one(
+        'account.tax', string='Insurance Sale Tax',
+        domain=[('domain', '=', 'insurance')])
+    other_costs_tax_id = fields.Many2one(
+        'account.tax', string='Other Costs Sale Tax',
+        domain=[('domain', '=', 'other_costs')])
 
 
-class L10n_brTaxDefinitionCompanyProduct(L10n_brTaxDefinition, models.Model):
+class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.product'
 
     company_id = fields.Many2one('res.company', 'Empresa')

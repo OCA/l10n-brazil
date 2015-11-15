@@ -20,7 +20,7 @@
 import re
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 from openerp.addons import decimal_precision as dp
 
 from openerp.addons.l10n_br_base.tools import fiscal
@@ -84,7 +84,7 @@ class L10nbrAccountCFOP(models.Model):
                  (x['name'] and ' - ' + x['name'] or '')) for x in reads]
 
 
-class L10n_brAccountServiceType(models.Model):
+class L10nBrAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
 
@@ -150,7 +150,8 @@ class L10nbrAccountDocumentRelated(models.Model):
             elif not fiscal.validate_cpf(self.cnpj_cpf):
                 check_cnpj_cpf = False
         if not check_cnpj_cpf:
-            raise Warning(_(u'CNPJ/CPF do documento relacionado é invalido!'))
+            raise UserError(
+                _(u'CNPJ/CPF do documento relacionado é invalido!'))
 
     @api.one
     @api.constrains('inscr_est')
@@ -181,7 +182,7 @@ class L10nbrAccountDocumentRelated(models.Model):
                     check_ie = False
 
         if not check_ie:
-            raise Warning(
+            raise UserError(
                 _(u'Inscrição Estadual do documento fiscal inválida!'))
 
     @api.multi
