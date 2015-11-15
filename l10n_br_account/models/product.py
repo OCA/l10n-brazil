@@ -35,7 +35,7 @@ class ProductTemplate(models.Model):
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
-class L10n_brAccountProductFiscalCategory(models.Model):
+class L10nBrAccountProductFiscalCategory(models.Model):
     _name = 'l10n_br_account.product.category'
 
     fiscal_category_source_id = fields.Many2one(
