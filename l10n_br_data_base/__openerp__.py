@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion                           #
@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localisation Data Extension for Base',
-    'description': 'Brazilian Localisation Data Extension for Base',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'version': '8.0.2.0.0',
