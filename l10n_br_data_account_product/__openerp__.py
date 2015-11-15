@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localisation Data Extension for Product',
-    'description': 'Brazilian Localisation Data Extension for Product',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
@@ -37,7 +36,6 @@
         'l10n_br_data_account_product_demo.xml',
     ],
     'category': 'Localisation',
-    'active': False,
     'installable': False,
     'auto_install': True,
 }

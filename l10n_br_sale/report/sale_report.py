@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Renato Lima - Akretion                                  #
@@ -21,7 +21,7 @@ from openerp import tools
 from openerp.osv import orm, fields
 
 
-class sale_report(orm.Model):
+class SaleReport(orm.Model):
     _inherit = "sale.report"
     _columns = {
         'fiscal_category_id': fields.many2one(

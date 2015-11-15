@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.2.0.0',
+    'version': '8.0.2.0.1',
     'depends': [
         'l10n_br_data_account',
         'account_product_fiscal_classification',
@@ -39,6 +39,7 @@
         'views/l10n_br_account_view.xml',
         'views/l10n_br_account_product_view.xml',
         'views/account_view.xml',
+        'wizard/l10n_br_account_invoice_costs_ratio_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',

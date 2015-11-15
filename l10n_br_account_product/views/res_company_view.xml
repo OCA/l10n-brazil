@@ -52,6 +52,18 @@
 									<field name="export_folder"/>
 								</group>
 							</page>
+							<page string="Custos entrega">
+								<group>
+									<field name="freight_tax_id" />
+									<field name="insurance_tax_id"/>
+									<field name="other_costs_tax_id"/>
+								</group>
+								<!--<group>-->
+									<!--<field name="refund_freight_tax_id" />-->
+									<!--<field name="refund_insurance_tax_id"/>-->
+									<!--<field name="refund_other_costs_tax_id"/>-->
+								<!--</group>-->
+							</page>
 						</notebook>
 					</page>
 				</page>

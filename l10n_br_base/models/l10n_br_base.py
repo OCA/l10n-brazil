@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
@@ -20,7 +20,7 @@
 from openerp import models, fields
 
 
-class L10n_brBaseCity(models.Model):
+class L10nBrBaseCity(models.Model):
     """ Este objeto persite todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos na transação.
