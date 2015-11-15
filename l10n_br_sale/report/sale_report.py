@@ -21,7 +21,7 @@ from openerp import tools
 from openerp.osv import orm, fields
 
 
-class sale_report(orm.Model):
+class SaleReport(orm.Model):
     _inherit = "sale.report"
     _columns = {
         'fiscal_category_id': fields.many2one(
