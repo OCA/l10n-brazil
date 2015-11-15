@@ -1,0 +1,39 @@
+-
+  Create a sale supplier invoice from SP to SP fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_supplier_sp_sp, view: l10n_br_account_product_invoice_supplier_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_akretion
+    fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
+    issuer: '1'
+    internal_number: '2001'
+    vendor_serie: '1'
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_17
+        fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
+        quantity: 20.0
+        price_unit: 140.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - invoice_line[0].fiscal_position.id == ref('fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo')
+    - invoice_line[0].cfop_id.code == '1101'
+-
+  I check that Initially supplier invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_supplier_sp_sp}
+-
+  I check that the invoice state is "open"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier_sp_sp}:
+    - state == 'open'
