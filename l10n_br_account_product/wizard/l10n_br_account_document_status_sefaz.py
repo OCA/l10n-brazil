@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013 Luis Felipe Miléo - luisfelipe@mileo.co                  #
+# Copyright (C) 2013 Luis Felipe Miléo - KMEE                                 #
 # Copyright (C) 2014 Renato Lima - Akretion                                   #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
@@ -18,55 +18,77 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
+class L10nBrAccountDocumentStatusSefaz(models.TransientModel):
     """ Check fiscal document key"""
     _name = 'l10n_br_account_product.document_status_sefaz'
     _description = 'Check fiscal document key on sefaz'
-    _columns = {
-        'state': fields.selection(
-            [('init', 'Init'),
-             ('error', 'Error'),
-             ('done', 'Done')], 'State', select=True, readonly=True),
-        'version': fields.text(u'Versão', readonly=True),
-        'nfe_environment': fields.selection(
-            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
-        'xMotivo': fields.text('Motivo', readonly=True),
-        # FIXME
-        'cUF': fields.integer('Codigo Estado', readonly=True),
-        'chNFe': fields.char('Chave de Acesso NFE', size=44),
-        'protNFe': fields.text('Protocolo NFE', readonly=True),
-        'retCancNFe': fields.text('Cancelamento NFE', readonly=True),
-        'procEventoNFe': fields.text('Processamento Evento NFE',
-                                     readonly=True),
-    }
-    _defaults = {
-        'state': 'init',
-    }
 
-    def get_document_status(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
-        # Call some method from l10n_br_account to check chNFE
-        call_result = {
-            'version': '2.01',
-            'nfe_environment': '2',
-            'xMotivo': '101',
-            'cUF': 27,
-            'chNFe': data['chNFe'],
-            'protNFe': '123',
-            'retCancNFe': '',
-            'procEventoNFe': '',
-            'state': 'done',
+    state = fields.Selection(
+        selection=[('init', 'Init'),
+                   ('error', 'Error'),
+                   ('done', 'Done')],
+        string='State',
+        select=True,
+        readonly=True,
+        default='init')
+    version = fields.Text(
+        string=u'Versão', readonly=True)
+    nfe_environment = fields.Selection(
+        selection=[('1', u'Produção'),
+                   ('2', u'Homologação')],
+        string='Ambiente')
+    xMotivo = fields.Text(
+        string='Motivo',
+        readonly=True)
+    # FIXME
+    cUF = fields.Integer(
+        string='Codigo Estado',
+        readonly=True)
+    chNFe = fields.Char(
+        string='Chave de Acesso NFE',
+        size=44)
+    protNFe = fields.Text(
+        string='Protocolo NFE',
+        readonly=True)
+    retCancNFe = fields.Text(
+        string='Cancelamento NFE',
+        readonly=True)
+    procEventoNFe = fields.Text(
+        sting='Processamento Evento NFE',
+        readonly=True)
+
+    @api.multi
+    def get_document_status(self):
+        for data in self:
+            # Call some method from l10n_br_account to check chNFE
+            call_result = {
+                'version': '2.01',
+                'nfe_environment': '2',
+                'xMotivo': '101',
+                'cUF': 27,
+                'chNFe': data.chNFe,
+                'protNFe': '123',
+                'retCancNFe': '',
+                'procEventoNFe': '',
+                'state': 'done',
+                }
+            data.write(call_result)
+
+            view_rec = self.env['ir.model.data'].get_object_reference(
+                'l10n_br_account_product',
+                'l10n_br_account_product_document_status_sefaz_form')
+            view_id = view_rec and view_rec[1] or False
+
+            return {
+                'view_type': 'form',
+                'view_id': [view_id],
+                'view_mode': 'form',
+                'res_model': 'l10n_br_account_product.document_status_sefaz',
+                'res_id': data.id,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'context': data.env.context,
             }
-        self.write(cr, uid, ids, call_result)
-        mod_obj = self.pool.get('ir.model.data')
-        act_obj = self.pool.get('ir.actions.act_window')
-        result = mod_obj.get_object_reference(
-            cr, uid, 'l10n_br_account_product',
-            'action_l10n_br_account_product_document_status_sefaz')
-        res_id = result and result[1] or False
-        result = act_obj.read(cr, uid, res_id, context=context)
-        result['res_id'] = ids[0]
-        return result
