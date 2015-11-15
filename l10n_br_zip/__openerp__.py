@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localisation ZIP Codes',
-    'description': 'Brazilian Localisation ZIP Codes',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'version': '8.0.2.0.0',
