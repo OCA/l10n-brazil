@@ -21,7 +21,8 @@ from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
-from openerp.exceptions import except_orm, Warning
+from openerp.exceptions import except_orm
+from openerp.exceptions import Warning as UserError
 
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, PRODUCT_FISCAL_TYPE_DEFAULT
 
@@ -137,7 +138,7 @@ class AccountInvoice(models.Model):
 
             invoices = self.env['account.invoice'].search(domain)
             if len(invoices) > 1:
-                raise Warning(u'Não é possível registrar documentos\
+                raise UserError(u'Não é possível registrar documentos\
                               fiscais com números repetidos.')
 
     _sql_constraints = [
