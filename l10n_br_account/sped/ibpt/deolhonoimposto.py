@@ -32,7 +32,7 @@ WS_IBPT = {
 }
 
 
-Config = namedtuple('Config', 'token cnpj uf')
+DeOlhoNoImposto = namedtuple('Config', 'token cnpj uf')
 
 
 def _convert(dictionary):
