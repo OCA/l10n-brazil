@@ -20,7 +20,7 @@
 from lxml import etree
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
@@ -50,7 +50,7 @@ class AccountInvoiceRefund(models.TransientModel):
 
                 if not self.force_fiscal_category_id and not \
                         invoice.fiscal_category_id.refund_fiscal_category_id:
-                    raise Warning(_("Categoria Fiscal: %s não possui uma "
+                    raise UserError(_("Categoria Fiscal: %s não possui uma "
                                   "catégoria de devolução!") %
                                   invoice.fiscal_category_id.name)
 
@@ -68,7 +68,7 @@ class AccountInvoiceRefund(models.TransientModel):
 
                     if not self.force_fiscal_category_id and not \
                             line.fiscal_category_id.refund_fiscal_category_id:
-                        raise Warning(_("Categoria Fiscal: %s não possui uma "
+                        raise UserError(_("Categoria Fiscal: %s não possui uma "
                                       "catégoria de devolução!") %
                                       line.fiscal_category_id.name)
 
