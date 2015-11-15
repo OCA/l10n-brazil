@@ -38,11 +38,11 @@ class L10nBrAccountNfeExport(models.TransientModel):
         string='NFe Export Result')
 
     @api.multi
-    def _get_invoice_ids(self, data):
-        return self.pool.get('account.invoice').search([
+    def _get_invoice_ids(self):
+        return self.env['account.invoice'].search([
             ('state', '=', 'sefaz_export'),
             ('nfe_export_date', '=', False),
-            ('company_id', '=', data['company_id'][0]),
+            ('company_id', '=', self.company_id.id),
             ('issuer', '=', '0')])
 
 
