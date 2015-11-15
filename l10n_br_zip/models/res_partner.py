@@ -19,7 +19,7 @@
 
 from openerp import models, api
 from openerp.tools.translate import _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 
 class ResPartner(models.Model):
@@ -61,4 +61,4 @@ class ResPartner(models.Model):
                     zip_ids=[zip.id for zip in zip_ids]
                 )
             else:
-                raise Warning(_('Nenhum registro encontrado'))
+                raise UserError(_('Nenhum registro encontrado'))
