@@ -51,8 +51,8 @@ class AccountInvoiceRefund(models.TransientModel):
                 if not self.force_fiscal_category_id and not \
                         invoice.fiscal_category_id.refund_fiscal_category_id:
                     raise UserError(_("Categoria Fiscal: %s não possui uma "
-                                  "catégoria de devolução!") %
-                                  invoice.fiscal_category_id.name)
+                                      "catégoria de devolução!") %
+                                    invoice.fiscal_category_id.name)
 
                 fiscal_category_id = self.force_fiscal_category_id.id or \
                     invoice.fiscal_category_id.refund_fiscal_category_id.id
@@ -68,9 +68,9 @@ class AccountInvoiceRefund(models.TransientModel):
 
                     if not self.force_fiscal_category_id and not \
                             line.fiscal_category_id.refund_fiscal_category_id:
-                        raise UserError(_("Categoria Fiscal: %s não possui uma "
-                                      "catégoria de devolução!") %
-                                      line.fiscal_category_id.name)
+                        raise UserError(_("Categoria Fiscal: %s não possui"
+                                          " uma catégoria de devolução!") %
+                                        line.fiscal_category_id.name)
 
                     line_fiscal_category_id = (line.fiscal_category_id
                                                .refund_fiscal_category_id.id)

@@ -222,11 +222,11 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
             'XNome': normalize(
                 'NFKD',
                 unicode(inv.company_id.partner_id.legal_name or '')).encode(
-                    'ASCII', 'ignore'),
+                'ASCII', 'ignore'),
             'XFant': normalize(
                 'NFKD',
                 unicode(inv.company_id.partner_id.name or '')).encode(
-                    'ASCII', 'ignore'),
+                'ASCII', 'ignore'),
             'IE': punctuation_rm(inv.company_id.partner_id.inscr_est),
             'IEST': '',
             'IM': punctuation_rm(inv.company_id.partner_id.inscr_mun),
