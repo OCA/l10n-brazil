@@ -18,7 +18,7 @@
 ###############################################################################
 
 from openerp import pooler
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 from openerp.tools.translate import _
 
 # TODO migrate
@@ -297,7 +297,7 @@ def validate(cr, uid, ids, context=None):
                         inv_line.product_id.name,
                         inv_line.quantity)
     if strErro:
-        raise Warning(
+        raise UserError(
             _('Error !'), ("Error Validating NFE:\n '%s'") % (strErro,))
 
     return True
