@@ -945,8 +945,8 @@ class AccountInvoiceLine(models.Model):
 
         product_fiscal_category_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
-                kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
-                partner.state_id.id)
+            kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
+            partner.state_id.id)
 
         if product_fiscal_category_id:
             kwargs['fiscal_category_id'] = product_fiscal_category_id
@@ -1168,7 +1168,8 @@ class AccountInvoiceLine(models.Model):
         #     base_tax=icms_base)
         #
         # # Update tax values to new values
-        # result['value'].update(self._amount_tax_icms(tax_compute['taxes'][0]))
+        # result['value'].update(self._amount_tax_icms(
+        # tax_compute['taxes'][0]))
         #
         # # Update invoice_line_tax_id
         # # Remove all taxes with domain ICMS

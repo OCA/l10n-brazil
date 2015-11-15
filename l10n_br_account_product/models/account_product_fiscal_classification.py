@@ -101,13 +101,13 @@ class L10nBrTaxDefinitionTemplateModel(L10nBrTaxDefinitionTemplate):
 
 
 class L10nBrTaxDefinitionSaleTemplate(L10nBrTaxDefinitionTemplateModel,
-                                       models.Model):
+                                      models.Model):
     """Definition a class model for sales tax and tax code template"""
     _name = 'l10n_br_tax.definition.sale.template'
 
 
 class L10nBrTaxDefinitionPurchaseTemplate(L10nBrTaxDefinitionTemplateModel,
-                                           models.Model):
+                                          models.Model):
     """Definition a class model for purchase tax and tax code template"""
     _name = 'l10n_br_tax.definition.purchase.template'
 
