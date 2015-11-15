@@ -24,7 +24,10 @@ from openerp.addons.l10n_br_account.models.l10n_br_account import (
     L10nBrTaxDefinition,
     L10nBrTaxDefinitionTemplate
 )
-
+from openerp.addons.l10n_br_account.sped.ibpt.deolhonoimposto import (
+    DeOlhoNoImposto,
+    get_product
+)
 
 class AccountProductFiscalClassificationTemplate(models.Model):
     _inherit = 'account.product.fiscal.classification.template'
@@ -246,6 +249,10 @@ class L10nBrTaxEstimate(models.Model):
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template',
         'Fiscal Classification', select=True)
+
+    @api.multi
+    def get_ibpt(self):
+        return True
 
 
 class WizardAccountProductFiscalClassification(models.TransientModel):
