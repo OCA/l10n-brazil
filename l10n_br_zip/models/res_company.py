@@ -25,7 +25,7 @@
 from openerp import models, api
 
 
-class res_company(models.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
     @api.multi
