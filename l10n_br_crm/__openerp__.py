@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011 - TODAY  Renato Lima - Akretion                          #
@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization CRM',
-    'description': 'Brazilian Localization for CRM module',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
