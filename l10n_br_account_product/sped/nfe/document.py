@@ -339,7 +339,7 @@ class NFe200(FiscalDocument):
         self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
         self.det.prod.xProd.valor = invoice_line.product_id.name[:120] or ''
         self.det.prod.NCM.valor = punctuation_rm(
-            invoice_line.fiscal_classification_id.name or '')
+            invoice_line.fiscal_classification_id.name or '')[:8]
         self.det.prod.EXTIPI.valor = ''
         self.det.prod.nFCI.valor = invoice_line.fci or ''
         self.det.prod.CFOP.valor = invoice_line.cfop_id.code
