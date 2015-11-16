@@ -1,21 +1,21 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
-#                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
-# Copyright (C) 2012  Raphaël Valyi - Akretion                                #
-#                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
-#                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
-#                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+#
+# Copyright (C) 2009  Renato Lima - Akretion
+# Copyright (C) 2012  Raphaël Valyi - Akretion
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
 from openerp import models, fields, api
@@ -29,7 +29,8 @@ class SaleOrder(models.Model):
     @api.depends('order_line.price_unit', 'order_line.tax_id',
                   'order_line.discount', 'order_line.product_uom_qty')
     def _amount_all_wrapper(self):
-        """ Wrapper because of direct method passing as parameter for function fields """
+        """ Wrapper because of direct method passing 
+        as parameter for function fields """
         return self._amount_all()
 
     @api.one
@@ -44,16 +45,20 @@ class SaleOrder(models.Model):
         amount_tax = amount_untaxed = amount_extra = \
              amount_discount = amount_gross = 0.0
         for line in self.order_line:
-            amount_tax += sum(tax_value for tax_value in self._amount_line_tax(line))
+            amount_tax += sum(tax_value for tax_value in
+                              self._amount_line_tax(line))
             amount_untaxed += line.price_subtotal
             amount_discount += line.discount_value
             amount_gross += line.price_gross
 
         self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
-        self.amount_untaxed = self.pricelist_id.currency_id.round(amount_untaxed)
+        self.amount_untaxed = self.pricelist_id.currency_id.round(
+            amount_untaxed)
         self.amount_extra = self.pricelist_id.currency_id.round(amount_extra)
-        self.amount_total = self.amount_untaxed + self.amount_tax + self.amount_extra
-        self.amount_discount = self.pricelist_id.currency_id.round(amount_discount)
+        self.amount_total = self.amount_untaxed + \
+                            self.amount_tax + self.amount_extra
+        self.amount_discount = self.pricelist_id.currency_id.round(
+            amount_discount)
         self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
 
     @api.one
@@ -133,10 +138,10 @@ class SaleOrder(models.Model):
     @api.multi
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
-        kwargs['fiscal_category_id'] = ctx.get(
-            'fiscal_category_id')
-        ctx.update({'use_domain': ('use_sale', '=', True), 'fiscal_category_id': ctx.get(
-            'fiscal_category_id')})
+        kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
+        ctx.update({
+            'use_domain': ('use_sale', '=', True),
+            'fiscal_category_id': ctx.get('fiscal_category_id')})
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
@@ -209,8 +214,8 @@ class SaleOrder(models.Model):
             fiscal_category_id = order.fiscal_category_id.id
 
         if fiscal_category_id:
-            fiscal_category = self.env['l10n_br_account.fiscal.category'].browse(
-                fiscal_category_id)
+            fiscal_category = self.env[
+                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
             if fiscal_category:
                 result['journal_id'] = fiscal_category[0].property_journal.id
 
@@ -239,9 +244,11 @@ class SaleOrderLine(models.Model):
             self.product_id.id, self.order_id.partner_invoice_id.id,
             fiscal_position=self.fiscal_position)
 
-        self.price_subtotal = self.order_id.pricelist_id.currency_id.round(taxes['total'])
+        self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
+            taxes['total'])
         self.price_gross = self.price_unit * self.product_uom_qty
-        self.discount_value = self.order_id.pricelist_id.currency_id.round(self.price_gross - (price * self.product_uom_qty))
+        self.discount_value = self.order_id.pricelist_id.currency_id.round(
+            self.price_gross - (price * self.product_uom_qty))
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
@@ -267,7 +274,8 @@ class SaleOrderLine(models.Model):
         context = dict(self.env.context)
         context.update({'use_domain': ('use_sale', '=', True)})
         fp_rule_obj = self.env['account.fiscal.position.rule']
-        return fp_rule_obj.with_context(context).apply_fiscal_mapping(result, **kwargs)
+        return fp_rule_obj.with_context(context).apply_fiscal_mapping(
+            result, **kwargs)
 
     @api.multi
     def product_id_change(self,  pricelist, product, qty=0,
@@ -283,8 +291,9 @@ class SaleOrderLine(models.Model):
         partner_invoice_id = context.get('partner_invoice_id')
         result = {'value': {}}
         if parent_fiscal_category_id and product and partner_invoice_id \
-        and company_id:
-            partner_invoice = self.env['res.partner'].browse(partner_invoice_id)
+                and company_id:
+            partner_invoice = self.env['res.partner'].browse(
+                partner_invoice_id)
             obj_fp_rule = self.env['account.fiscal.position.rule']
             product_fc_id = obj_fp_rule.with_context(
                 context).product_fiscal_category_map(
@@ -317,7 +326,7 @@ class SaleOrderLine(models.Model):
         result_super['value'].update(result['value'])
         return result_super
 
-    @api.multi
+    # TODO migrate to new API (api.onchange)
     def onchange_fiscal_category_id(self, partner_id, partner_invoice_id,
                                     company_id, product_id,
                                     fiscal_category_id):
@@ -337,6 +346,7 @@ class SaleOrderLine(models.Model):
         }
         return self._fiscal_position_map(result, **kwargs)
 
+    #TODO migrate to new API (api.onchange)
     @api.multi
     def onchange_fiscal_position(self, partner_id, partner_invoice_id,
                                  company_id, product_id, fiscal_category_id):
