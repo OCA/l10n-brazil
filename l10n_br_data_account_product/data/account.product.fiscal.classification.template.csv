@@ -1,4 +1,4 @@
-"id","name","description","type","parent_id:id"
+"id","code","name","type","parent_id:id"
 "ncm_1","1","Capítulo 1 – Animais Vivos","view",
 "ncm_0101","01.01","Cavalos, asininos e muares, vivos.","view",
 "ncm_01012","0101.2","Cavalos:","view","ncm_0101"
