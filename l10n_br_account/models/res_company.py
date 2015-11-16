@@ -56,3 +56,4 @@ class ResCompany(models.Model):
     fiscal_rule_parent_id = fields.Many2one(
         'account.fiscal.position.rule', u'Conjunto de Regras Fiscais',
         domain="[('parent_id', '=', False)]")
+    ipbt_token = fields.Char(string='IPBT Token')
