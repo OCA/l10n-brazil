@@ -35,6 +35,7 @@ class Cnab240(Cnab):
     """
 
     """
+
     def __init__(self):
         super(Cnab, self).__init__()
 
@@ -69,7 +70,9 @@ class Cnab240(Cnab):
         :param:
         :return:
         """
-        data_de_geracao = self.order.date_created[8:11] + self.order.date_created[5:7] + self.order.date_created[0:4]
+        data_de_geracao = (self.order.date_created[8:11] +
+                           self.order.date_created[5:7] +
+                           self.order.date_created[0:4])
         t = datetime.datetime.now() - datetime.timedelta(hours=3)  # FIXME
         hora_de_geracao = t.strftime("%H%M%S")
 
@@ -78,10 +81,12 @@ class Cnab240(Cnab):
             'arquivo_hora_de_geracao': int(hora_de_geracao),
             'arquivo_sequencia': self.order.id,
             'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(self.order.company_id.cnpj_cpf)),
+            'cedente_inscricao_numero': int(
+                punctuation_rm(self.order.company_id.cnpj_cpf)),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_agencia_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
+            'cedente_agencia_conta_dv': int(
+                self.order.mode.bank_id.acc_number_dig),
             'cedente_nome': self.order.company_id.legal_name,
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'arquivo_codigo': 1,  # Remessa/Retorno
@@ -125,7 +130,7 @@ class Cnab240(Cnab):
         carteira, nosso_numero, digito = self.nosso_numero(
             str(line.move_line_id.transaction_ref))  # TODO: Improve!
         prefixo, sulfixo = self.cep(line.partner_id.zip)
-        if self.order.mode.\
+        if self.order.mode. \
                 boleto_aceite == 'S':
             aceite = 'A'
         else:
@@ -142,19 +147,23 @@ class Cnab240(Cnab):
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
-            'valor_titulo': Decimal("{0:,.2f}".format(line.move_line_id.debit)),
+            'valor_titulo': Decimal("{0:,.2f}".format(
+                line.move_line_id.debit)),
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': u'%s' % aceite,
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
-            'juros_mora_taxa_dia': Decimal("{0:,.2f}".format(line.move_line_id.debit * 0.00066666667)),  # FIXME
+            'juros_mora_taxa_dia': Decimal(
+                "{0:,.2f}".format(line.move_line_id.debit * 0.00066666667)),
+            # FIXME
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
-            'sacado_endereco': (line.partner_id.street + ',' + line.partner_id.number)[:40],
+            'sacado_endereco': (
+                line.partner_id.street + ',' + line.partner_id.number)[:40],
             'sacado_bairro': line.partner_id.district,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
