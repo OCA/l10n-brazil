@@ -19,49 +19,37 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import fields, models
 from openerp.addons import decimal_precision as dp
 
 COMPANY_WITHHOLDING_TYPE = [
-    ('1', 'Regime de Caixa'),
+    ('1', u'Regime de Caixa'),
     ('2', u'Regime de Competência'),
 ]
 
-class ResCompany(orm.Model):
 
+class ResCompany(models.Model):
     _inherit = 'res.company'
-    _columns = {
-        'wh_type': fields.selection(COMPANY_WITHHOLDING_TYPE,
-            u'Forma de Retenção',  help=u"Regime de Caixa: A retenção é aplicada caso soma dos vencimentos\
-            mensais utrapasse os limites; Regime de Competência: A retenção é aplicada caso a soma do valor faturado \
-              ultrapasse os limites"),
-        'wh_on_nfe_limit': fields.boolean(
-            u'Retenção sempre que ultrapassar o valor da NF?'),
-        'cofins_csll_pis_wh_base': fields.float(
-            u'Valor mínimo COFINS/CSLL/PIS',
-            digits_compute=dp.get_precision('Account')),
-        'irrf_wh_base': fields.float(
-            u'Valor mínimo IRRF',
-            digits_compute=dp.get_precision('Account')),
-        'irrf_wh_percent': fields.float(u'Taxa de IR(%)',
-               digits_compute=dp.get_precision('Discount')),
-        'irrf_wh': fields.boolean(
-            u'Retém IRRF'),
-        'issqn_wh': fields.boolean(
-            u'Retém ISSQN'),
-        'inss_wh': fields.boolean(
-            u'Retém INSS'),
-        'pis_wh': fields.boolean(
-            u'Retém PIS'),
-        'cofins_wh': fields.boolean(
-            u'Retém COFINS'),
-        'csll_wh': fields.boolean(
-            u'Retém CSLL'),
-    }
 
-    _defaults = {
-        'irrf_wh_base' : 0.00,
-        'cofins_csll_pis_wh_base': 0.00,
-    }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    wh_type = fields.Selection(
+        COMPANY_WITHHOLDING_TYPE, u'Forma de Retenção',
+        help=u"Regime de Caixa: A retenção é aplicada caso soma dos \
+            vencimentos mensais utrapasse os limites; Regime de \
+            Competência: A retenção é aplicada caso a soma do valor\
+            faturado  ultrapasse os limites")
+    wh_on_nfe_limit = fields.Boolean(
+        u'Retenção sempre que ultrapassar o valor da NF?')
+    cofins_csll_pis_wh_base = fields.Float(
+        u'Valor mínimo COFINS/CSLL/PIS', default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    irrf_wh_base = fields.Float(
+        u'Valor mínimo IRRF', default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    irrf_wh_percent = fields.Float(
+        u'Taxa de IR(%)', digits_compute=dp.get_precision('Discount'))
+    irrf_wh = fields.Boolean(u'Retém IRRF')
+    issqn_wh = fields.Boolean(u'Retém ISSQN')
+    inss_wh = fields.Boolean(u'Retém INSS')
+    pis_wh = fields.Boolean(u'Retém PIS')
+    cofins_wh = fields.Boolean(u'Retém COFINS')
+    csll_wh = fields.Boolean(u'Retém CSLL')
