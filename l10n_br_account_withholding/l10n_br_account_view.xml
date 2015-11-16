@@ -15,7 +15,6 @@
                     <field name="csll_wh"/>
                     <field name="irrf_wh"/>
                     <field name="irrf_wh_percent"/>
-
                     <separator string="Retenção Impostos sobre produtos:" colspan="4"/>
                         <!-- TODO: -->
 				</field>
