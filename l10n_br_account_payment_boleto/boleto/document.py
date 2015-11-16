@@ -101,7 +101,6 @@ class Boleto:
         :param company:
         :return:
         """
-        self.boleto.logo_image = company.logo
         self.boleto.cedente = company.partner_id.legal_name.encode('utf-8')
         self.boleto.cedente_documento = company.cnpj_cpf.encode('utf-8')
         self.boleto.cedente_bairro = company.district
