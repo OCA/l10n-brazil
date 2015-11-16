@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Purchase',
-    'description': 'Brazilian Localization for Purchase',
     'license': 'AGPL-3',
     'category': 'Localisation',
     'author': 'Akretion, OpenERP Brasil',

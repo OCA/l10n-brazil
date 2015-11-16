@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Data Account for Service',
-    'description': 'Brazilian Localization Data Account for Service',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',

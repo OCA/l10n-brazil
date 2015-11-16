@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localisation Data Extension for Base',
-    'description': 'Brazilian Localisation Data Extension for Base',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'version': '8.0.1.0.1',

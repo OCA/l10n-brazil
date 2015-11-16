@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Account Voucher',
-    'description': 'Brazilian Localization Account Voucher',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',

@@ -20,7 +20,6 @@
 
 {
     'name': 'Brazilian Localization Sales and Warehouse',
-    'description': 'Brazilian Localization for sale_stock_module',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERPBrasil.org',

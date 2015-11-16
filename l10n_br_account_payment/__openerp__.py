@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Account Payment',
-    'description': 'Brazilian Localization Account Payment',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
