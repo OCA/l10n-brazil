@@ -270,14 +270,17 @@
         assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
         assert tax.tax_amount == 322.50  , "Total do cofins incorreto"
 -
-  Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods
+  Create a sale customer invoice from SP to SP fiscal contributor with many manufectured goods with insurance, freight and other costs
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
     payment_term: account.account_payment_term_advance
-    partner_id: l10n_br_base.res_partner_cliente7_rs
+    partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
     reference_type: none
     name: 'NFe Invoice Test'
+    amount_freight: 15.00
+    amount_insurance: 20.00
+    amount_costs: 20.00
     invoice_line:
       - product_id: product.product_product_18
         fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -288,20 +291,23 @@
         quantity: 5.0
         price_unit: 110.00
 -
-  I check invoice totals of many manufectured goods
+  I check invoice totals of many manufectured goods with insurance, freight and other costs
 -
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs_mult}:
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs}:
     - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
     - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
     - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
     - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
     - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
     - residual == 0.00 , "Valor residual esta incorreto!"
+    - amount_freight == 15.00 , "Valor do frete esta incorreto!"
+    - amount_insurance == 20.00 , "Valor do seguro esta incorreto!"
+    - amount_costs == 20.00 , "Valor de outros custos esta incorreto!"
 -
-  I check invoice tax_lines of many manufectured goods
+  I check invoice tax_lines of many manufectured goods with insurance, freight and other costs
 -
   !python {model: account.invoice}: |
-    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs_mult'), context=context)
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_sp_mult_with_other_costs'), context=context)
     for tax in invoice.tax_line:
       if tax.base_code_id.domain == 'ipi':
         assert tax.base == 2950.00 , "Base de ipi incorreta"
@@ -433,3 +439,101 @@
 -
   !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
     - state == 'sefaz_export'
+-
+  Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs_mult}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs_mult'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
+-
+  Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods with insurance, freight and other costs
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    amount_freight: 15.00
+    amount_insurance: 20.00
+    amount_costs: 20.00
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods with insurance, freight and other costs
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+    - amount_freight == 15.00 , "Valor do frete esta incorreto!"
+    - amount_insurance == 20.00 , "Valor do seguro esta incorreto!"
+    - amount_costs == 20.00 , "Valor de outros custos esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods with insurance, freight and other costs
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs_mult_with_other_costs'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
