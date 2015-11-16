@@ -35,13 +35,13 @@
         'l10n_br_data_base',
         'account_payment_partner',
         'account_due_list',
-        ],
+    ],
     'data': [
         'views/payment_view.xml',
         'views/payment_mode_view.xml',
-        ],
+    ],
     'demo': [
         'demo/payment_demo.xml'
-        ],
+    ],
     'active': False,
 }
