@@ -24,7 +24,6 @@
 
 
 class Cnab(object):
-
     def __init__(self):
         pass
 

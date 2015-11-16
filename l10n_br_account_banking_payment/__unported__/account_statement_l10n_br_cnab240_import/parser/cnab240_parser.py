@@ -24,6 +24,7 @@ import datetime
 from openerp.tools.translate import _
 from openerp.addons.account_statement_base_import.parser import \
     BankStatementImportParser
+
 try:
     import cnab240
     from cnab240.bancos import cef
@@ -57,26 +58,27 @@ class Cnab240Parser(BankStatementImportParser):
         cnab240_file.seek(0)
         cnab240_file.write(self.filebuffer)
         cnab240_file.flush()
-        
+
         ret_file = codecs.open(cnab240_file.name, encoding='ascii')
         arquivo = Arquivo(cef, arquivo=ret_file)
 
         cnab240_file.close()
-        
+
         res = []
         for lote in arquivo.lotes:
             for evento in lote.eventos:
-                
-                res.append({  
+                res.append({
                     'name': evento.sacado_nome,
-                    'date': datetime.datetime.strptime(str(evento.vencimento_titulo), '%d%m%Y'),
+                    'date': datetime.datetime.strptime(
+                        str(evento.vencimento_titulo), '%d%m%Y'),
                     'amount': evento.valor_titulo,
                     'ref': evento.numero_documento,
-                    'label': evento.sacado_inscricao_numero, #cnpj
-                    'transaction_id': evento.nosso_numero_identificacao, #nosso numero
-                    'commission_amount':evento.valor_tarifas,
+                    'label': evento.sacado_inscricao_numero,  # cnpj
+                    'transaction_id': evento.nosso_numero_identificacao,
+                    # nosso numero
+                    'commission_amount': evento.valor_tarifas,
                 })
-                
+
         self.result_row_list = res
         return True
 

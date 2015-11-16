@@ -26,6 +26,5 @@ from ..cnab_240 import Cnab240
 
 
 class BradescoCnab240(Cnab240):
-
     def __init__(self):
         super(Cnab240, self).__init__()

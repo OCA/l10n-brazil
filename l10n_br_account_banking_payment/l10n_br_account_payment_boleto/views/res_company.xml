@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-	<data>
-		<record id="view_boleto_account_company_form" model="ir.ui.view">
-			<field name="name">l10n_br_account_payment_boleto.res.company.form</field>
-			<field name="model">res.company</field>
-			<field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
-			<field name="arch" type="xml">
+    <data>
+        <record id="view_boleto_account_company_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_payment_boleto.res.company.form
+            </field>
+            <field name="model">res.company</field>
+            <field name="inherit_id"
+                   ref="l10n_br_account.view_l10n_br_account_company_form"/>
+            <field name="arch" type="xml">
                 <group position="after" name="account_grp" string="Accounting">
                     <group string="Boleto">
-                        <field name="own_number_type" />
+                        <field name="own_number_type"/>
                         <field name="transaction_id_sequence" attrs="{'invisible': [('own_number_type', '!=', '1')],
                         											'required': [('own_number_type', '==', '1')]}"/>
                         <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '0')],
                         										'required': [('own_number_type', '==', '0')]}"/>
                     </group>
                 </group>
-			</field>
-		</record>
-	</data>
+            </field>
+        </record>
+    </data>
 </openerp>

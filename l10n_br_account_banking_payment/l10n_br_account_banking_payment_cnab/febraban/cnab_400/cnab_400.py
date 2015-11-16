@@ -22,7 +22,6 @@ from ..cnab import Cnab
 
 
 class Cnab400(Cnab):
-
     def __init__(self):
         super(Cnab, self).__init__()
 

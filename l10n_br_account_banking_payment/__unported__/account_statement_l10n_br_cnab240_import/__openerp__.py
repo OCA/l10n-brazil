@@ -20,30 +20,30 @@
 ##############################################################################
 
 {'name': "Bank statement CNAB 240 import",
-    'version': '1.0.0',
-    'author': 'KMEE',
-    'maintainer': 'Luis Felipe Mileo',
-    'category': 'Finance',
-    'complexity': 'normal',
-    'depends': [
-        'account_statement_commission',
-        'account_statement_transactionid_import'
-    ],
-    'external_dependencies': {
-        'python': ['cnab240'],
-    },
-    'description': """
+ 'version': '1.0.0',
+ 'author': 'KMEE',
+ 'maintainer': 'Luis Felipe Mileo',
+ 'category': 'Finance',
+ 'complexity': 'normal',
+ 'depends': [
+     'account_statement_commission',
+     'account_statement_transactionid_import'
+ ],
+ 'external_dependencies': {
+     'python': ['cnab240'],
+ },
+ 'description': """
     Allows to import CNAB 240 (Centro Nacional de Automação Bancária) statement files, using
     *account_statement_base_import* generic inheritance mechanism to import
     statements.
 
     It requires python cnab240 library to work.
     """,
-    'website': 'http://www.kmee.com.br',
-    'data': [],
-    'test': [],
-    'installable': True,
-    'images': [],
-    'auto_install': False,
-    'license': 'AGPL-3',
+ 'website': 'http://www.kmee.com.br',
+ 'data': [],
+ 'test': [],
+ 'installable': True,
+ 'images': [],
+ 'auto_install': False,
+ 'license': 'AGPL-3',
  }

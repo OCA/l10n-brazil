@@ -30,5 +30,6 @@ class AccountStatementProfil(orm.Model):
         selection = super(AccountStatementProfil, self
                           )._get_import_type_selection(cr, uid,
                                                        context=context)
-        selection.append(('cnab240_so', _(u'CNAB 240 - Centro Nacional de Automação Bancária')))
+        selection.append(('cnab240_so', _(
+            u'CNAB 240 - Centro Nacional de Automação Bancária')))
         return selection
