@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_account_config_settings_l10n_br_account" model="ir.ui.view">
+            <field name="name">account.config.settings.l10n_br_account</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='bank_cash']" position="after">
+                        <group name="l10n_br_account" string="Contabilidade Brasil">
+                            <label for="id" string="Configuration"/>
+                            <div>
+                                <div>
+                                    <label string="IPBT Token:"/>
+                                </div>
+                                <div>
+                                   <field name="ipbt_token" class="oe_inline" />
+                                </div>
+                            </div>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>
