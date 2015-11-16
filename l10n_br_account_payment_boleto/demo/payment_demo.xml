@@ -1,131 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data noupdate="1">
-    <record id="payment_mode_boleto_unregistred_bb" model="payment.mode">
-        <field name="name">Boleto sem registro Banco do Brasil</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_bb"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">1</field>
-        <field name="boleto_convenio">27</field>
-        <field name="boleto_carteira">18</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">29</field>
-        <field name="aceite">S</field>
-    </record>
+    <data noupdate="1">
+        <record id="payment_mode_boleto_unregistred_bb" model="payment.mode">
+            <field name="name">Boleto sem registro Banco do Brasil</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_bb"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">1</field>
+            <field name="boleto_convenio">27</field>
+            <field name="boleto_carteira">18</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">29</field>
+            <field name="aceite">S</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_bradesco" model="payment.mode">
-        <field name="name">Boleto sem registro Bradesco</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">3</field>
-        <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">03</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_bradesco"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Bradesco</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">3</field>
+            <field name="boleto_convenio">06</field>
+            <field name="boleto_carteira">03</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">19</field>
+            <field name="aceite">N</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_hsbc" model="payment.mode">
-        <field name="name">Boleto sem registro HSBC</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_hsbc"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">5</field>
-        <!--<field name="boleto_convenio"></field>-->
-        <field name="boleto_carteira">CNR</field>
-        <field name="boleto_modalidade">PD</field>
-        <!--<field name="boleto_variacao">19</field>-->
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_hsbc" model="payment.mode">
+            <field name="name">Boleto sem registro HSBC</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_hsbc"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">5</field>
+            <!--<field name="boleto_convenio"></field>-->
+            <field name="boleto_carteira">CNR</field>
+            <field name="boleto_modalidade">PD</field>
+            <!--<field name="boleto_variacao">19</field>-->
+            <field name="aceite">N</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_itau" model="payment.mode">
-        <field name="name">Boleto sem registro ITAU</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_itau"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">7</field>
-        <field name="boleto_convenio">99999999</field>
-        <field name="boleto_carteira">109</field>
-        <field name="boleto_modalidade">DM</field>
-        <!--<field name="boleto_variacao">19</field>-->
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_itau" model="payment.mode">
+            <field name="name">Boleto sem registro ITAU</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_itau"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">7</field>
+            <field name="boleto_convenio">99999999</field>
+            <field name="boleto_carteira">109</field>
+            <field name="boleto_modalidade">DM</field>
+            <!--<field name="boleto_variacao">19</field>-->
+            <field name="aceite">N</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_santander" model="payment.mode">
-        <field name="name">Boleto sem registro Santander</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_santander"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">9</field>
-        <!--<field name="boleto_convenio">99999999</field>-->
-        <field name="boleto_carteira">102</field>
-        <field name="boleto_modalidade">DM</field>
-        <!--<field name="boleto_variacao">19</field>-->
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_santander"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Santander</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_santander"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">9</field>
+            <!--<field name="boleto_convenio">99999999</field>-->
+            <field name="boleto_carteira">102</field>
+            <field name="boleto_modalidade">DM</field>
+            <!--<field name="boleto_variacao">19</field>-->
+            <field name="aceite">N</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_caixa" model="payment.mode">
-        <field name="name">Boleto sem registro Caixa Economica SR</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">4</field>
-        <!--<field name="boleto_convenio">99999999</field>-->
-        <field name="boleto_carteira">SR</field>
-        <!--<field name="boleto_modalidade">DM</field>-->
-        <!--<field name="boleto_variacao">19</field>-->
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_caixa" model="payment.mode">
+            <field name="name">Boleto sem registro Caixa Economica SR</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">4</field>
+            <!--<field name="boleto_convenio">99999999</field>-->
+            <field name="boleto_carteira">SR</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <field name="aceite">N</field>
+        </record>
 
-    <record id="payment_mode_boleto_unregistred_caixa_sigcb" model="payment.mode">
-        <field name="name">Boleto sem registro Caixa Economica SR</field>
-        <field name="journal" ref="account.bank_journal"/>
-        <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="type" ref="account_banking_payment_export.manual_bank_tranfer"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
-        <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="boleto_type">11</field>
-        <!--<field name="boleto_convenio">99999999</field>-->
-        <field name="boleto_carteira">SR</field>
-        <!--<field name="boleto_modalidade">DM</field>-->
-        <!--<field name="boleto_variacao">19</field>-->
-        <field name="aceite">N</field>
-    </record>
+        <record id="payment_mode_boleto_unregistred_caixa_sigcb"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Caixa Economica SR</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="account_banking_payment_export.manual_bank_tranfer"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">11</field>
+            <!--<field name="boleto_convenio">99999999</field>-->
+            <field name="boleto_carteira">SR</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <field name="aceite">N</field>
+        </record>
 
-</data>
+    </data>
 </openerp>
