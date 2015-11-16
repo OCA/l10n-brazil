@@ -42,7 +42,8 @@ class AccountProductFiscalClassificationTemplate(models.Model):
 
     type = fields.Selection([('view', u'Visão'),
                              ('normal', 'Normal'),
-                             ('extension', u'Extensão')], 'Tipo',
+                             ('extension', u'Extensão')],
+                            string='Tipo',
                             default='normal')
 
     note = fields.Text(u'Observações')
