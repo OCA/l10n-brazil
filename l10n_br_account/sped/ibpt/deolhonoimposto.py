@@ -56,8 +56,8 @@ def _request(req):
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
-def get_product(config, ncm, ex, reference=None, description=None, uom=None,
-                amount=None, gtin=None):
+def get_ibpt_product(config, ncm, ex, reference=None, description=None,
+                     uom=None, amount=None, gtin=None):
 
     data = urllib.urlencode({
         'token': config.token,
@@ -76,7 +76,7 @@ def get_product(config, ncm, ex, reference=None, description=None, uom=None,
     return _request(req)
 
 
-def get_service(config, nbs, description=None, uom=None, amount=None):
+def get_ibpt_service(config, nbs, description=None, uom=None, amount=None):
 
     data = urllib.urlencode({
         'token': config.token,
