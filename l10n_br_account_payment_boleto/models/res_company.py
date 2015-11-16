@@ -34,4 +34,4 @@ class ResCompany(models.Model):
     own_number_sequence = fields.Many2one('ir.sequence',
                                           string=u'Sequência do Nosso Número')
     transaction_id_sequence = fields.Many2one('ir.sequence',
-                                      string=u'Sequência da fatura')
+                                              string=u'Sequência da fatura')
