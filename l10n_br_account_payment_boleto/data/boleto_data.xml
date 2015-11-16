@@ -11,7 +11,8 @@
         </record>
         <record id="base.main_company" model="res.company">
             <field name="own_number_sequence" ref="sequence_boleto_own_number"/>
-            <field name="transaction_id_sequence" ref="sequence_transaction_id_invoice"/>
+            <field name="transaction_id_sequence"
+                   ref="sequence_transaction_id_invoice"/>
         </record>
     </data>
 </openerp>

@@ -4,18 +4,19 @@
         <record id="view_payment_mode_form_inherit" model="ir.ui.view">
             <field name="name">payment.mode.form.inherit</field>
             <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="l10n_br_account_payment_mode.view_payment_mode_form_inherit"/>
+            <field name="inherit_id"
+                   ref="l10n_br_account_payment_mode.view_payment_mode_form_inherit"/>
             <field name="arch" type="xml">
                 <xpath
                         expr="//group[@name='l10n-br-config']/notebook/page[@string='Boleto']"
-                       position="inside">
+                        position="inside">
                     <group>
                         <field name="boleto_type"/>
-                        <field name="boleto_convenio" />
+                        <field name="boleto_convenio"/>
                         <field name="boleto_carteira"/>
                         <field name="boleto_modalidade"/>
                         <field name="boleto_variacao"/>
-                        <field name="boleto_cnab_code" />
+                        <field name="boleto_cnab_code"/>
                         <field name="boleto_aceite"/>
                         <field name="boleto_especie"/>
                         <field name="boleto_protesto"/>
