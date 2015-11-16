@@ -239,7 +239,7 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.emit.CNPJ.valor = punctuation_rm(
             invoice.company_id.partner_id.cnpj_cpf)
         self.nfe.infNFe.emit.xNome.valor = (
-            invoice.company_id.partner_id.legal_name)
+            invoice.company_id.partner_id.legal_name[:60])
         self.nfe.infNFe.emit.xFant.valor = invoice.company_id.partner_id.name
         self.nfe.infNFe.emit.enderEmit.xLgr.valor = company.street or ''
         self.nfe.infNFe.emit.enderEmit.nro.valor = company.number or ''
@@ -301,7 +301,7 @@ class NFe200(FiscalDocument):
                 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL')
         else:
             self.nfe.infNFe.dest.xNome.valor = (
-                invoice.partner_id.legal_name or '')
+                invoice.partner_id.legal_name[:60] or '')
 
             if invoice.partner_id.is_company:
                 self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
@@ -337,7 +337,7 @@ class NFe200(FiscalDocument):
         self.det.nItem.valor = index
         self.det.prod.cProd.valor = invoice_line.product_id.code or ''
         self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
-        self.det.prod.xProd.valor = invoice_line.product_id.name or ''
+        self.det.prod.xProd.valor = invoice_line.product_id.name[:120] or ''
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.name or '')
         self.det.prod.EXTIPI.valor = ''
@@ -526,7 +526,7 @@ class NFe200(FiscalDocument):
                         invoice.carrier_id.partner_id.cnpj_cpf or '')
 
             self.nfe.infNFe.transp.transporta.xNome.valor = (
-                invoice.carrier_id.partner_id.legal_name or '')
+                invoice.carrier_id.partner_id.legal_name[:60] or '')
             self.nfe.infNFe.transp.transporta.IE.valor = punctuation_rm(
                 invoice.carrier_id.partner_id.inscr_est)
             self.nfe.infNFe.transp.transporta.xEnder.valor = (
