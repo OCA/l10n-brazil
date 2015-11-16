@@ -30,8 +30,6 @@
     ],
     'data': [
         'data/account.product.fiscal.classification.template.csv',
-        'data/l10n_br_data_account_product_data.xml',
-        'data/account_fiscal_position_rule_data.xml',
     ],
     'demo': [
         'demo/l10n_br_data_account_product_demo.xml',
