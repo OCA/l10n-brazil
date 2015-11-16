@@ -118,7 +118,7 @@ class L10nBrDocumentEvent(models.Model):
          ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
         'Status', select=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
-        'account.invoice', 'Documentos', ondelete='cascade')
+        'account.invoice', 'Documentos')
     cancel_document_event_id = fields.Many2one(
         'l10n_br_account.invoice.cancel', 'Cancelamento')
     invalid_number_document_event_id = fields.Many2one(
