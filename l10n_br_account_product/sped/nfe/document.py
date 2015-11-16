@@ -511,8 +511,8 @@ class NFe200(FiscalDocument):
         """Dados da Transportadora e veiculo"""
 
         self.nfe.infNFe.transp.modFrete.valor = (
-                invoice.incoterm and
-                invoice.incoterm.freight_responsibility or '9')
+            invoice.incoterm and
+            invoice.incoterm.freight_responsibility or '9')
 
         if invoice.carrier_id:
 
