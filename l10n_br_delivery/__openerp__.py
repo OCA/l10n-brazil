@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Delivery',
-    'description': 'Extend delivery module for Brazilian Localization',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',

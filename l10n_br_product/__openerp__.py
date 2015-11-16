@@ -22,9 +22,6 @@
     'version': '7.0',
     'category': 'Generic Modules',
     'license': 'AGPL-3',
-    'description': """
-    Modulo de Produtos
-    """,
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://www.openerpbrasil.org',
     'depends': [
