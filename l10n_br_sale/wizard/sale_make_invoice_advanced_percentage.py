@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 ##############################################################################
 #
 #    KMEE, KM Enterprising Engineering
@@ -20,29 +19,30 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp.osv import orm
 
 
 class SaleAdvancePaymentInvoice(orm.Model):
-
     _inherit = 'sale.advance.payment.inv'
 
     def _get_line_qty(self, cr, uid, line, context=None):
-        if (line.order_id.invoice_quantity=='order'):
+        if (line.order_id.invoice_quantity == 'order'):
             if line.product_uos:
                 return line.product_uos_qty or 0.0
         return line.product_uom_qty
 
     def _get_line_uom(self, cr, uid, line, context=None):
-        if (line.order_id.invoice_quantity=='order'):
+        if (line.order_id.invoice_quantity == 'order'):
             if line.product_uos:
                 return line.product_uos.id
         return line.product_uom.id
-    
+
     def _prepare_advance_invoice_vals(self, cr, uid, ids, context=None):
 
         # Lista de campos
-        result = super(SaleAdvancePaymentInvoice, self)._prepare_advance_invoice_vals(cr, uid, ids, context)
+        result = super(
+            SaleAdvancePaymentInvoice, self)._prepare_advance_invoice_vals(
+                cr, uid, ids, context)
 
         if context is None:
             context = {}
@@ -51,16 +51,16 @@ class SaleAdvancePaymentInvoice(orm.Model):
         wizard = self.browse(cr, uid, ids[0], context)
         # get invoice type
         payment_type = wizard.advance_payment_method
-        
+
         for res in result:
             for sale in sale_obj.browse(cr, uid, [res[0]], context=context):
-                
+
                 # Verificamos o tipo de fatura
                 if payment_type == 'percentage':
                     percent = wizard.amount / 100.0
                 else:
                     percent = wizard.amount / sale.amount_gross
-              
+
                 # Aux list of invoice
                 list_invoice = []
 
@@ -73,16 +73,20 @@ class SaleAdvancePaymentInvoice(orm.Model):
                     order_line_obj = self.pool.get('sale.order.line')
 
                     res_aux = {}
-                    res_aux = order_line_obj.l10n_br_sale_prepare_order_line_invoice_line(
-                        cr, uid, order_line, res_aux, context)
+                    res_aux = (order_line_obj.
+                        l10n_br_sale_prepare_order_line_invoice_line(
+                            cr, uid, order_line, res_aux, context))
 
-                    res_aux = order_line_obj.l10n_br_sale_product_prepare_order_line_invoice_line(
-                        cr, uid, order_line, res_aux, context)
+                    res_aux = (order_line_obj.
+                        l10n_br_sale_product_prepare_order_line_invoice_line(
+                            cr, uid, order_line, res_aux, context))
 
                     tax_list_id = []
-                    
-                    uosqty = self._get_line_qty(cr, uid, order_line, context=context)
-                    uos_id = self._get_line_uom(cr, uid, order_line, context=context)
+
+                    uosqty = self._get_line_qty(
+                        cr, uid, order_line, context=context)
+                    uos_id = self._get_line_uom(
+                        cr, uid, order_line, context=context)
 
                     # Add the ID of tax of order line
                     for tax in order_line.tax_id:
@@ -99,8 +103,10 @@ class SaleAdvancePaymentInvoice(orm.Model):
                         'uos_id': uos_id,
                         'product_id': order_line.product_id.id,
                         'invoice_line_tax_id': [(6, 0, tax_list_id)],
-                        'account_analytic_id': invoice_dict['account_analytic_id'],
-                        'fiscal_category_id': res_aux.get('fiscal_category_id'),
+                        'account_analytic_id': invoice_dict.get(
+                            'account_analytic_id'),
+                        'fiscal_category_id': res_aux.get(
+                            'fiscal_category_id'),
                         'fiscal_position': res_aux.get('fiscal_position'),
                         'cfop_id': res_aux.get('cfop_id'),
                     }
