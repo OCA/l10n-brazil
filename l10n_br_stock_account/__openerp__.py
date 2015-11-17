@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization WMS Accounting',
-    'description': 'Brazilian Localization WMS Accounting',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
