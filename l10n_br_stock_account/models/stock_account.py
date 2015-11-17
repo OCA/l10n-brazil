@@ -3,18 +3,18 @@
 #
 # Copyright (C) 2014  Renato Lima - Akretion
 #
-#This program is free software: you can redistribute it and/or modify
-#it under the terms of the GNU Affero General Public License as published by
-#the Free Software Foundation, either version 3 of the License, or
-#(at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU Affero General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
 #
-#You should have received a copy of the GNU Affero General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
 from openerp import models, fields, api
@@ -55,7 +55,7 @@ class StockPicking(models.Model):
         if not partner_id or not company_id or not fiscal_category_id:
             return result
 
-        #TODO waiting migration super method to new api
+        # TODO waiting migration super method to new api
         partner_invoice_id = self.pool.get('res.partner').address_get(
             self._cr, self._uid, [partner_id], ['invoice'])['invoice']
         partner_shipping_id = self.pool.get('res.partner').address_get(
@@ -78,7 +78,7 @@ class StockPicking(models.Model):
         if not partner_id or not company_id:
             return result
 
-        #TODO waiting migration super method to new api
+        # TODO waiting migration super method to new api
         partner_invoice_id = self.pool.get('res.partner').address_get(
             self._cr, self._uid, [partner_id], ['invoice'])['invoice']
         partner_shipping_id = self.pool.get('res.partner').address_get(
@@ -119,15 +119,15 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal', readonly=True,
         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
-        readonly=True, states={'draft': [('readonly', False)],
-            'sent': [('readonly', False)]})
+        states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]})
     fiscal_position = fields.Many2one(
-        'account.fiscal.position', 'Fiscal Position',
+        'account.fiscal.position', 'Fiscal Position', readonly=True,
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
-        readonly=True, states={'draft': [('readonly', False)],
-            'sent': [('readonly', False)]})
+        states={'draft': [('readonly', False)],
+                'sent': [('readonly', False)]})
 
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
@@ -190,7 +190,7 @@ class StockMove(models.Model):
         if not partner_id or not company_id or not fiscal_category_id:
             return result
 
-        #TODO waiting migration super method to new api
+        # TODO waiting migration super method to new api
         partner_invoice_id = self.pool.get('res.partner').address_get(
             self._cr, self._uid, [partner_id], ['invoice'])['invoice']
         partner_shipping_id = self.pool.get('res.partner').address_get(
@@ -234,7 +234,6 @@ class StockMove(models.Model):
         if fiscal_position:
             taxes = fiscal_position.with_context(ctx).map_tax(taxes)
         result['invoice_line_tax_id'] = [[6, 0, taxes.ids]]
-        ##############
 
         if fiscal_position:
             account_id = result.get('account_id')
@@ -243,9 +242,12 @@ class StockMove(models.Model):
         return result
 
     @api.cr_uid_ids_context
-    def _picking_assign(self, cr, uid, move_ids, procurement_group, location_from, location_to, context=None):
+    def _picking_assign(self, cr, uid, move_ids, procurement_group,
+                        location_from, location_to, context=None):
+
         result = super(StockMove, self)._picking_assign(
-            cr, uid, move_ids, procurement_group, location_from, location_to, context)
+            cr, uid, move_ids, procurement_group,
+            location_from, location_to, context)
         if move_ids:
             move = self.browse(cr, uid, move_ids, context=context)[0]
             if move.picking_id:
@@ -254,5 +256,6 @@ class StockMove(models.Model):
                     'fiscal_position': move.fiscal_position.id,
                 }
                 self.pool.get("stock.picking").write(
-                    cr, uid, move.picking_id.id, picking_values, context=context)
+                    cr, uid, move.picking_id.id,
+                    picking_values, context=context)
         return result
