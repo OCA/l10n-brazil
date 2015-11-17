@@ -27,9 +27,9 @@ class SaleOrder(models.Model):
 
     @api.one
     @api.depends('order_line.price_unit', 'order_line.tax_id',
-                  'order_line.discount', 'order_line.product_uom_qty')
+                 'order_line.discount', 'order_line.product_uom_qty')
     def _amount_all_wrapper(self):
-        """ Wrapper because of direct method passing 
+        """ Wrapper because of direct method passing
         as parameter for function fields """
         return self._amount_all()
 
@@ -43,7 +43,7 @@ class SaleOrder(models.Model):
         self.amount_gross = 0.0
 
         amount_tax = amount_untaxed = amount_extra = \
-             amount_discount = amount_gross = 0.0
+            amount_discount = amount_gross = 0.0
         for line in self.order_line:
             amount_tax += sum(tax_value for tax_value in
                               self._amount_line_tax(line))
@@ -65,10 +65,10 @@ class SaleOrder(models.Model):
     def _amount_line_tax(self, line):
         value = 0.0
         for computed in line.tax_id.compute_all(
-            line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-            line.product_uom_qty, line.order_id.partner_invoice_id.id,
-            line.product_id.id, line.order_id.partner_id,
-            fiscal_position=line.fiscal_position)['taxes']:
+                line.price_unit * (1 - (line.discount or 0.0) / 100.0),
+                line.product_uom_qty, line.order_id.partner_invoice_id.id,
+                line.product_id.id, line.order_id.partner_id,
+                fiscal_position=line.fiscal_position)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
             if not tax.tax_code_id.tax_discount:
                 value += computed.get('amount', 0.0)
@@ -83,7 +83,8 @@ class SaleOrder(models.Model):
             tot = 0.0
             for invoice in sale.invoice_ids:
                 if invoice.state not in ('draft', 'cancel') and \
-                invoice.fiscal_category_id.id == sale.fiscal_category_id.id:
+                        invoice.fiscal_category_id.id == \
+                        sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
                 result[sale.id] = min(100.0, tot * 100.0 / (
@@ -152,10 +153,10 @@ class SaleOrder(models.Model):
                 sale_line.discount = sale_order.discount_rate
 
     @api.onchange('fiscal_category_id')
-    def onchange_fiscal_category_id(self):
-        """Método chamado ao mudar a categoria fiscal 
-        para refinir a posição fiscal de acordo com as 
-        regras de posição fiscal"""        
+    def onchange_fiscal(self):
+        """Método chamado ao mudar a categoria fiscal
+        para refinir a posição fiscal de acordo com as
+        regras de posição fiscal"""
         if self.company_id and self.partner_id and self.fiscal_category_id:
             result = {'value': {'fiscal_position': False}}
             kwargs = {
@@ -177,8 +178,8 @@ class SaleOrder(models.Model):
 
         for line in order.order_line:
             if line.fiscal_position and \
-            line.fiscal_position.inv_copy_note and \
-            line.fiscal_position.note:
+                    line.fiscal_position.inv_copy_note and \
+                    line.fiscal_position.note:
                 if not line.fiscal_position.id in fp_ids:
                     fp_comment.append(line.fiscal_position.note)
                     fp_ids.append(line.fiscal_position.id)
@@ -203,9 +204,9 @@ class SaleOrder(models.Model):
         inv_lines = self.env['account.invoice.line'].browse(lines)
 
         if (context.get('fiscal_type') == 'service' and
-            inv_lines and inv_lines[0].fiscal_category_id):
-                fiscal_category_id = inv_lines[0].fiscal_category_id.id
-                result['fiscal_position'] = inv_lines[0].fiscal_position.id
+                inv_lines and inv_lines[0].fiscal_category_id):
+            fiscal_category_id = inv_lines[0].fiscal_category_id.id
+            result['fiscal_position'] = inv_lines[0].fiscal_position.id
         else:
             fiscal_category_id = order.fiscal_category_id.id
 
@@ -236,9 +237,11 @@ class SaleOrderLine(models.Model):
     @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
     def _amount_line(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-        taxes = self.tax_id.compute_all(price, self.product_uom_qty,
-            self.product_id.id, self.order_id.partner_invoice_id.id,
-            fiscal_position=self.fiscal_position)
+        taxes = self.tax_id.compute_all(price,
+                                        self.product_uom_qty,
+                                        self.product_id.id,
+                                        self.order_id.partner_invoice_id.id,
+                                        fiscal_position=self.fiscal_position)
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
             taxes['total'])
@@ -283,7 +286,7 @@ class SaleOrderLine(models.Model):
 
         if product_fc_id:
             kwargs['fiscal_category_id'] = product_fc_id
-        
+
         result['value']['fiscal_category_id'] = kwargs.get(
             'fiscal_category_id')
 
@@ -334,7 +337,7 @@ class SaleOrderLine(models.Model):
 
             obj_product = self.env['product.product'].browse(product)
             context.update({'fiscal_type': obj_product.fiscal_type,
-                'type_tax_use': 'sale', 'product_id': product})
+                            'type_tax_use': 'sale', 'product_id': product})
 
         result_super = super(SaleOrderLine, self).product_id_change(
             pricelist, product, qty, uom, qty_uos, uos, name, partner_id,
@@ -343,7 +346,7 @@ class SaleOrderLine(models.Model):
         return result_super
 
     @api.onchange('fiscal_category_id', 'fiscal_position')
-    def onchange_fiscal_category_id(self):
+    def onchange_fiscal(self):
         if self.order_id.company_id and self.order_id.partner_id \
                 and self.fiscal_category_id:
             result = {'value': {}}
