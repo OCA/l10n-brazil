@@ -23,7 +23,7 @@
 {
     'name': 'Address from Brazilian Localization ZIP by Correios',
     'license': 'AGPL-3',
-    'author': 'Michell Stuttgart',
+    'author': 'KMEE',
     'maintainer': 'KMEE',
     'version': '8.1',
     'website': 'www.kmee.com.br',
