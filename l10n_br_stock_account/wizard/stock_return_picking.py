@@ -3,23 +3,22 @@
 #
 # Copyright (C) 2009  Renato Lima - Akretion
 #
-#This program is free software: you can redistribute it and/or modify
-#it under the terms of the GNU Affero General Public License as published by
-#the Free Software Foundation, either version 3 of the License, or
-#(at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU Affero General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
 #
-#You should have received a copy of the GNU Affero General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import models, api
-from openerp.exceptions import except_orm
-from openerp.tools.translate import _
+from openerp import models, api, _
+from openerp.exceptions import Warning as UserError
 
 
 class StockReturnPicking(models.TransientModel):
@@ -49,17 +48,19 @@ class StockReturnPicking(models.TransientModel):
             result = super(StockReturnPicking, self).create_returns()
 
             result_domain = eval(result['domain'])
-            picking_ids = result_domain and result_domain[0] and result_domain[0][2]
+            picking_ids = result_domain and result_domain[0] and \
+                result_domain[0][2]
 
             for picking in picking_obj.browse(picking_ids):
 
-                fiscal_category_id = send_picking.fiscal_category_id.refund_fiscal_category_id.id
+                fiscal_category_id = (send_picking.fiscal_category_id.
+                                      refund_fiscal_category_id.id)
 
                 if not fiscal_category_id:
-                    raise except_orm(
+                    raise UserError(
                         _('Error!'),
-                        _("""This Fiscal Operation does not has Fiscal Operation
-                        for Returns!"""))
+                        _('This Fiscal Operation does not has Fiscal Operation'
+                          'for Returns!'))
 
                 values = {
                     'fiscal_category_id': fiscal_category_id,
@@ -84,11 +85,14 @@ class StockReturnPicking(models.TransientModel):
                 picking.write(values)
                 for move in picking.move_lines:
 
-                    line_fiscal_category_id = move.origin_returned_move_id.fiscal_category_id.refund_fiscal_category_id.id
-                    kwargs.update({'fiscal_category_id': line_fiscal_category_id})
+                    line_fiscal_category_id = (
+                        move.origin_returned_move_id.
+                        fiscal_category_id.refund_fiscal_category_id.id)
+                    kwargs.update(
+                        {'fiscal_category_id': line_fiscal_category_id})
 
                     self._fiscal_position_map(
-                    {'value': {}}, **kwargs).get('value')
+                        {'value': {}}, **kwargs).get('value')
 
                     line_values = {
                         'invoice_state': self.invoice_state,
@@ -96,8 +100,6 @@ class StockReturnPicking(models.TransientModel):
                     }
                     line_values.update(self._fiscal_position_map(
                         {'value': {}}, **kwargs).get('value'))
-                    
-                    # TODO
                     write_move = move_obj.browse(move.id)
                     write_move.write(line_values)
 
