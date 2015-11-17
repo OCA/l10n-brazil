@@ -17,22 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import tools
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class sale_report(orm.Model):
+class sale_report(models.Model):
     _inherit = "sale.report"
-    _columns = {
-        'fiscal_category_id': fields.many2one(
-            'l10n_br_account.fiscal.category', 'Fiscal Category',
-            readonly=True),
-        'fiscal_position': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position', readonly=True)
-    }
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        'Fiscal Category',
+        readonly=True),
+    fiscal_position = fields.Many2one(
+        'account.fiscal.position',
+        'Fiscal Position',
+        readonly=True)
 
     def _select(self):
-        return  super(sale_report, self)._select() + \
+        return super(sale_report, self)._select() + \
             ", l.fiscal_category_id as fiscal_category_id, " \
             "l.fiscal_position as fiscal_position"
 
