@@ -48,5 +48,5 @@ class SaleConfiguration(orm.TransientModel):
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context)
         ir_values.set_default(cr, SUPERUSER_ID, 'sale.order', 'copy_note',
-            wizard.copy_note, company_id=user.company_id.id)
+                              wizard.copy_note, company_id=user.company_id.id)
         return result
