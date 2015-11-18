@@ -83,14 +83,14 @@ class L10nBrFci(models.Model):
     @api.multi
     def action_create_fci(self):
         self.ensure_one()
-        fci_file_sent = fci.gera_fci(self)
+        fci_file_sent = fci.create_fci(self)
         self.write({'state': 'waiting_protocol',
                     'fci_file_sent': fci_file_sent})
 
     @api.multi
-    def importa_fci(self):
+    def import_fci(self):
         self.ensure_one()
-        res_importados = fci.importa_fci(self.fci_file_returned)
+        res_importados = fci.import_fci(self.fci_file_returned)
         company_id = self.env['res.company'].search(
             [('partner_id.cnpj_cpf', '=', res_importados['cnpj_cpf'])])
         # SE AS EMPRESAS ESTIVEREM IGUAIS

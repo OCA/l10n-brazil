@@ -28,7 +28,7 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 @api.multi
-def gera_fci(fci):
+def create_fci(fci):
     arq = arquivos.ArquivoDigital()
 
     cpf_cnpj_numbers = punctuation_rm(fci.company_id.partner_id.cnpj_cpf)
@@ -36,7 +36,8 @@ def gera_fci(fci):
     zip_numbers = punctuation_rm(fci.company_id.partner_id.zip)
 
     input0000 = ('0000|' + cpf_cnpj_numbers + '|' +
-                 fci.company_id.partner_id.name + '|' + '1.0')
+                 fci.company_id.partner_id.name + '|' +
+                 '1.0')
     input0010 = ('0010|' + cpf_cnpj_numbers + '|' +
                  fci.company_id.partner_id.legal_name + '|' +
                  inscr_est_numbers + '|' +
@@ -51,14 +52,20 @@ def gera_fci(fci):
                 'O campo Valor parcela importada nao pode ser zero'))
         else:
             line.ncm_id_numbers = punctuation_rm(line.ncm_id)
-            input5020 = ('5020|' + line.name + '|' + str(
-                line.ncm_id_numbers) + '|' + line.default_code + '|' + str(
-                line.ean13) + '|' + (line.product_uom.name or '99') + '|' +
-                str("{0:.2f}".format(round(line.list_price))).
-                replace('.', ',') + '|' +
-                str("{0:.2f}".format(round(line.valor_parcela_importada, 2))).
-                replace('.',',') + '|' + str("{0:.2f}".
-                format(round(line.conteudo_importacao, 2))).replace('.', ','))
+            input5020 = ('5020|' +
+                         line.name + '|' +
+                         str(line.ncm_id_numbers) + '|' +
+                         line.default_code + '|' +
+                         str(line.ean13) + '|' +
+                         (line.product_uom.name or '99') + '|' +
+                         str("{0:.2f}".format(round(line.list_price))).
+                         replace('.', ',') + '|' +
+                         str("{0:.2f}".
+                             format(round(line.valor_parcela_importada, 2))).
+                         replace('.',',') + '|' +
+                         str("{0:.2f}".
+                             format(round(line.conteudo_importacao, 2))).
+                         replace('.', ','))
         arq.read_registro(input5020)
     arq.read_registro(input0000)
     arq.read_registro(input0010)
@@ -66,7 +73,7 @@ def gera_fci(fci):
     return base64.b64encode(arq.getstring().encode('utf-8'))
 
 
-def importa_fci(file_name):
+def import_fci(file_name):
     arq_entrada = arquivos.ArquivoDigital()
 
     file_entrada = base64.decodestring(file_name)
