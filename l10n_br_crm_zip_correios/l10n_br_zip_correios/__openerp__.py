@@ -25,7 +25,7 @@
     'license': 'AGPL-3',
     'author': 'KMEE',
     'maintainer': 'KMEE',
-    'version': '8.0',
+    'version': '8.1',
     'website': 'www.kmee.com.br',
     'depends': [
         'l10n_br_zip',

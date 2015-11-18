@@ -17,6 +17,11 @@ This module makes use of external python libraries to perform their search routi
 pip install suds
 ```
 
+Contributors
+------------
+
+* Carlos Alberto Cipriano Korovsky <carlos.korovsky@uktech.com.br>
+
 Credits
 -------
 Copyright (C) 2015 by KMEE <www.kmee.com.br>
