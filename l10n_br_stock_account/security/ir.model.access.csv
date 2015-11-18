@@ -5,8 +5,6 @@
 "l10n_br_account_document_serie","l10n_br_account.document.serie","l10n_br_account.model_l10n_br_account_document_serie","stock.group_stock_user",1,0,0,0
 "l10n_br_account_product_category","l10n_br_account.product.category","l10n_br_account.model_l10n_br_account_product_category","stock.group_stock_user",1,0,0,0
 "l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","stock.group_stock_user",1,0,0,0
-"l10n_br_tax_definition_template_user","l10n_br_tax.definition.template","l10n_br_account.model_l10n_br_tax_definition_template","stock.group_stock_user",1,0,0,0
-"l10n_br_tax_definition_user","l10n_br_tax.definition","l10n_br_account.model_l10n_br_tax_definition","stock.group_stock_user",1,0,0,0
 "l10n_br_tax_definition_sale_template_user","l10n_br_tax.definition.sale.template","l10n_br_account_product.model_l10n_br_tax_definition_sale_template","stock.group_stock_user",1,0,0,0
 "l10n_br_tax_definition_purchase_template_user","l10n_br_tax.definition.purchase.template","l10n_br_account_product.model_l10n_br_tax_definition_purchase_template","stock.group_stock_user",1,0,0,0
 "l10n_br_tax_definition_sale_user","l10n_br_tax.definition.sale","l10n_br_account_product.model_l10n_br_tax_definition_sale","stock.group_stock_user",1,0,0,0
