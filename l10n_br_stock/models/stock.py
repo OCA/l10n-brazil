@@ -31,4 +31,4 @@ class StockIncoterms(models.Model):
                                                ('9', u'Sem Frete')],
                                               'Frete por Conta',
                                               required=True,
-                                              default=False)
+                                              default='0')
