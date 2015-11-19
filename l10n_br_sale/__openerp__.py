@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Sale',
-    'description': 'Brazilian Localization for Sale',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
