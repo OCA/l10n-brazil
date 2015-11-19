@@ -100,7 +100,7 @@ class StockMove(models.Model):
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_picking', '=', True)})
-        
+
         partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
         obj_fp_rule = self.env['account.fiscal.position.rule']
         product_fc_id = obj_fp_rule.with_context(
@@ -113,7 +113,8 @@ class StockMove(models.Model):
             kwargs['fiscal_category_id'] = product_fc_id
             result['value']['fiscal_category_id'] = product_fc_id
         else:
-            result['value']['fiscal_category_id'] = kwargs['fiscal_category_id']
+            result['value']['fiscal_category_id'] = \
+                kwargs.get()'fiscal_category_id')
 
         return obj_fp_rule.with_context(ctx).apply_fiscal_mapping(result,
                                                                   **kwargs)
