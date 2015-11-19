@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class SaleAdvancePaymentInvoice(orm.Model):
+class SaleAdvancePaymentInvoice(models.Model):
     _inherit = 'sale.advance.payment.inv'
 
     def _get_line_qty(self, cr, uid, line, context=None):
@@ -47,7 +47,7 @@ class SaleAdvancePaymentInvoice(orm.Model):
         if context is None:
             context = {}
 
-        sale_obj = self.pool.get('sale.order')
+        sale_obj = self.pool['sale.order']
         wizard = self.browse(cr, uid, ids[0], context)
         # get invoice type
         payment_type = wizard.advance_payment_method
@@ -74,12 +74,12 @@ class SaleAdvancePaymentInvoice(orm.Model):
 
                     res_aux = {}
                     res_aux = (order_line_obj.
-                        l10n_br_sale_prepare_order_line_invoice_line(
-                            cr, uid, order_line, res_aux, context))
+                               l10n_br_sale_prepare_order_line_invoice_line(
+                                   cr, uid, order_line, res_aux, context))
 
-                    res_aux = (order_line_obj.
+                    res_aux = order_line_obj.\
                         l10n_br_sale_product_prepare_order_line_invoice_line(
-                            cr, uid, order_line, res_aux, context))
+                            cr, uid, order_line, res_aux, context)
 
                     tax_list_id = []
 
