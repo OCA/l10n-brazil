@@ -256,10 +256,9 @@ class SaleOrderLine(models.Model):
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
             taxes['total'])
-        self.price_gross = self._calc_price_gross()
+        self.price_gross = self._calc_price_gross(qty)
         self.discount_value = self.order_id.pricelist_id.currency_id.round(
             self.price_gross - (price * qty))
-
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
