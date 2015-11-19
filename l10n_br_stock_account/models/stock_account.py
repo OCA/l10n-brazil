@@ -113,11 +113,11 @@ class StockMove(models.Model):
             kwargs['fiscal_category_id'] = product_fc_id
             result['value']['fiscal_category_id'] = product_fc_id
         else:
-            result['value']['fiscal_category_id'] = \
-                kwargs.get()'fiscal_category_id')
+            result['value']['fiscal_category_id'] = kwargs.get(
+                'fiscal_category_id')
 
-        return obj_fp_rule.with_context(ctx).apply_fiscal_mapping(result,
-                                                                  **kwargs)
+        return obj_fp_rule.with_context(ctx).apply_fiscal_mapping(
+            result, **kwargs)
 
     @api.multi
     def onchange_product_id(self, product_id, location_id,
