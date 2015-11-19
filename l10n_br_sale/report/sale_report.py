@@ -20,7 +20,7 @@
 from openerp import models, fields
 
 
-class sale_report(models.Model):
+class SaleReport(models.Model):
     _inherit = "sale.report"
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category',
@@ -32,10 +32,10 @@ class sale_report(models.Model):
         readonly=True)
 
     def _select(self):
-        return super(sale_report, self)._select() + \
+        return super(SaleReport, self)._select() + \
             ", l.fiscal_category_id as fiscal_category_id, " \
             "l.fiscal_position as fiscal_position"
 
     def _group_by(self):
-        return super(sale_report, self)._group_by() + \
+        return super(SaleReport, self)._group_by() + \
             ", l.fiscal_category_id, l.fiscal_position"
