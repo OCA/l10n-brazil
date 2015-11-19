@@ -55,8 +55,8 @@ class SaleOrder(models.Model):
         self.amount_untaxed = self.pricelist_id.currency_id.round(
             amount_untaxed)
         self.amount_extra = self.pricelist_id.currency_id.round(amount_extra)
-        self.amount_total = self.amount_untaxed + \
-                            self.amount_tax + self.amount_extra
+        self.amount_total = (self.amount_untaxed +
+                             self.amount_tax + self.amount_extra)
         self.amount_discount = self.pricelist_id.currency_id.round(
             amount_discount)
         self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
@@ -180,7 +180,7 @@ class SaleOrder(models.Model):
             if line.fiscal_position and \
                     line.fiscal_position.inv_copy_note and \
                     line.fiscal_position.note:
-                if not line.fiscal_position.id in fp_ids:
+                if line.fiscal_position.id not in fp_ids:
                     fp_comment.append(line.fiscal_position.note)
                     fp_ids.append(line.fiscal_position.id)
 
@@ -253,15 +253,15 @@ class SaleOrderLine(models.Model):
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
         readonly=True, states={'draft': [('readonly', False)],
-            'sent': [('readonly', False)]})
+                               'sent': [('readonly', False)]})
     fiscal_position = fields.Many2one(
         'account.fiscal.position', 'Fiscal Position',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)],
-            'sent': [('readonly', False)]})
-    discount_value = fields.Float(
-         compute='_amount_line', string='Vlr. Desc. (-)',
-         digits=dp.get_precision('Sale Price'))
+                               'sent': [('readonly', False)]})
+    discount_value = fields.Float(compute='_amount_line',
+                                  string='Vlr. Desc. (-)',
+                                  digits=dp.get_precision('Sale Price'))
     price_gross = fields.Float(
         compute='_amount_line', string='Vlr. Bruto',
         digits=dp.get_precision('Sale Price'))
