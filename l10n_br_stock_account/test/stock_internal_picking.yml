@@ -1,0 +1,51 @@
+-
+  I prepare tunneling extra args in the context
+-
+  !python {model: stock.move}: |
+    context.update({'parent_fiscal_category_id': ref('l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a'), 'invoice_state': '2binvoiced'})
+-
+  Create a picking to be invoice from SP to SP fiscal contributor
+-
+  !record {model: stock.picking, id: stock_picking_sp, view: l10n_br_view_picking_form1}:
+    partner_id: l10n_br_base.res_partner_cliente1_sp
+    invoice_state: 2binvoiced
+    picking_type_id: stock.picking_type_internal
+    fiscal_category_id: l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a
+    fiscal_position: l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo
+    name: Outgoing picking
+    move_lines:
+      - product_id: product.product_product_10
+        product_uom_qty: 5.00
+        location_id: stock.stock_location_stock
+        location_dest_id: stock.stock_location_customers
+        invoice_state: 2binvoiced
+        fiscal_category_id: l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a
+        fiscal_position: l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo
+      - product_id: product.product_product_18
+        product_uom_qty: 10.00
+        location_id: stock.stock_location_stock
+        location_dest_id: stock.stock_location_customers
+        invoice_state: 2binvoiced
+        fiscal_category_id: l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a
+        fiscal_position: l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo
+- 
+  Assign and confirm
+- 
+  !python {model: stock.picking}: |
+    self.action_confirm(cr, uid, [ref('stock_picking_sp')], context=context)
+    self.action_assign(cr, uid, [ref('stock_picking_sp')])
+    self.do_prepare_partial(cr, uid, [ref('stock_picking_sp')])
+    self.do_transfer(cr, uid, [ref('stock_picking_sp')], context=context)
+-
+  I create a invoice
+-
+  !python {model: stock.invoice.onshipping}: |
+    context.update({"active_model": 'stock.picking', "active_ids": [ref("stock_picking_sp")]})
+    wizard_id = self.create(cr, uid, {'fiscal_category_journal': True}, context=context)
+    invoice_id = self.create_invoice(cr, uid, [wizard_id], context=context)
+    assert invoice_id, "Invoice refund not created!"
+    invoices = self.pool.get('account.invoice').browse(cr, uid, invoice_id)
+    for invoice in invoices:
+        assert invoice.fiscal_category_id.id == ref('l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a'), "Wrong refund fiscal category!"
+        for line in invoice.invoice_line:
+            assert line.cfop_id.code == '5949', "Wrong CFOP Code"
