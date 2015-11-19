@@ -38,6 +38,10 @@
         'security/ir.model.access.csv',
     ],
     'demo': [],
+    'test': [
+        'test/stock_internal_picking.yml',
+        'test/stock_return_internal_picking.yml',
+    ],
     'installable': True,
     'auto_install': True,
 }
