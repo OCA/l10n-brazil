@@ -20,6 +20,7 @@
 from openerp import SUPERUSER_ID
 from openerp import models, fields
 
+
 class SaleConfiguration(models.TransientModel):
     _inherit = 'sale.config.settings'
 
