@@ -1,0 +1,24 @@
+-
+  I create a reverse picking
+-
+  !python {model: stock.return.picking}: |
+    ctx = context.copy()
+    ctx.update({"active_model": 'stock.picking', "active_id": [ref("stock_picking_sp")]})
+    wizard_id = self.create(cr, uid, {'invoice_state': '2binvoiced'}, context=ctx)
+    wizard = self.browse(cr, uid, wizard_id, context=ctx)
+    for line in wizard.product_return_moves:
+        self.pool.get('stock.return.picking.line').write(cr, uid, line.id, {'quantity': line.move_id.product_uom_qty})
+    result = self.create_returns(cr, uid, [wizard_id], context=ctx)
+    from openerp.tools.safe_eval import safe_eval
+    if result['domain']:
+        domain = safe_eval(result['domain'])
+        picking_return_id = self.pool.get('stock.picking').search(cr, uid, domain)
+    assert picking_return_id, "Can't create return picking"
+    ctx.update({"active_model": 'stock.picking', "active_ids": picking_return_id})
+    wizard_id = self.pool.get('stock.invoice.onshipping').create(cr, uid, {'fiscal_category_journal': True}, context=ctx)
+    invoice_id = self.pool.get('stock.invoice.onshipping').create_invoice(cr, uid, [wizard_id], context=ctx)
+    assert invoice_id, "Invoice refund not created!"
+    invoices = self.pool.get('account.invoice').browse(cr, uid, invoice_id)
+    for invoice in invoices:
+        for line in invoice.invoice_line:
+            assert line.cfop_id.code == '1949', "Wrong CFOP Code"
