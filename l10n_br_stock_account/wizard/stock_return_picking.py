@@ -24,6 +24,7 @@ from openerp.exceptions import Warning as UserError
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
+    @api.model
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
         if ctx.get('fiscal_category_id'):
