@@ -43,8 +43,7 @@ class StockReturnPicking(models.TransientModel):
         context = dict(self.env.context)
         picking_obj = self.env['stock.picking']
         move_obj = self.env['stock.move']
-
-        for send_picking in picking_obj.browse(context.get('active_ids')):
+        for send_picking in picking_obj.browse(context.get('active_id')):
 
             result = super(StockReturnPicking, self).create_returns()
 
