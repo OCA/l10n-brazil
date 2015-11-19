@@ -25,8 +25,7 @@ class StockPicking(models.Model):
 
     @api.model
     def _default_fiscal_category(self):
-        company = self.env['res.company'].browse(self.env.user.company_id.id)
-        return company.stock_fiscal_category_id
+        return self.env.user.company_id.stock_fiscal_category_id
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
@@ -46,52 +45,20 @@ class StockPicking(models.Model):
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
-    @api.multi
-    def onchange_fiscal_category_id(self, fiscal_category_id, partner_id,
-                                    company_id):
-
-        result = {'value': {'fiscal_position': None}}
-
-        if not partner_id or not company_id or not fiscal_category_id:
-            return result
-
-        # TODO waiting migration super method to new api
-        partner_invoice_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['delivery'])['delivery']
-
-        kwargs = {
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'partner_shipping_id': partner_shipping_id,
-            'company_id': company_id,
-            'context': dict(self.env.context),
-            'fiscal_category_id': fiscal_category_id,
-        }
-        return self._fiscal_position_map(result, **kwargs)
-
-    def onchange_company_id(self, partner_id, company_id):
-
-        result = {'value': {'fiscal_position': False}}
-
-        if not partner_id or not company_id:
-            return result
-
-        # TODO waiting migration super method to new api
-        partner_invoice_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['delivery'])['delivery']
-
-        kwargs = {
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'partner_shipping_id': partner_shipping_id,
-            'company_id': company_id,
-            'context': self.env.context,
-        }
-        return self._fiscal_position_map(result, **kwargs)
+    @api.onchange('fiscal_category_id', 'company_id')
+    def onchange_fiscal(self):
+        if self.partner_id and self.company_id and self.fiscal_category_id:
+            result = {'value': {'fiscal_position': None}}
+            kwargs = {
+                'partner_id': self.partner_id.id,
+                'partner_invoice_id': self.partner_id.id,
+                'partner_shipping_id': self.partner_id.id,
+                'company_id': self.company_id.id,
+                'context': dict(self.env.context),
+                'fiscal_category_id': self.fiscal_category_id.id,
+            }
+            result = self._fiscal_position_map(result, **kwargs)
+            self.fiscal_position = result['value'].get('fiscal_position')
 
     @api.model
     def _create_invoice_from_picking(self, picking, vals):
@@ -129,12 +96,27 @@ class StockMove(models.Model):
         states={'draft': [('readonly', False)],
                 'sent': [('readonly', False)]})
 
+    @api.model
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
-        kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
         ctx.update({'use_domain': ('use_picking', '=', True)})
-        return self.env['account.fiscal.position.rule'].with_context(
-            ctx).apply_fiscal_mapping(result, **kwargs)
+        
+        partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+        product_fc_id = obj_fp_rule.with_context(
+            ctx).product_fiscal_category_map(
+                kwargs.get('product_id'),
+                kwargs.get('fiscal_category_id'),
+                partner.state_id.id)
+
+        if product_fc_id:
+            kwargs['fiscal_category_id'] = product_fc_id
+            result['value']['fiscal_category_id'] = product_fc_id
+        else:
+            result['value']['fiscal_category_id'] = kwargs['fiscal_category_id']
+
+        return obj_fp_rule.with_context(ctx).apply_fiscal_mapping(result,
+                                                                  **kwargs)
 
     @api.multi
     def onchange_product_id(self, product_id, location_id,
@@ -151,18 +133,9 @@ class StockMove(models.Model):
 
         if parent_fiscal_category_id and product_id and partner_id:
 
-            partner = self.env['res.partner'].browse(partner_id)
-            obj_fp_rule = self.env['account.fiscal.position.rule']
-            product_fc_id = obj_fp_rule.product_fiscal_category_map(
-                product_id, parent_fiscal_category_id, partner.state_id.id)
-
-            if product_fc_id:
-                parent_fiscal_category_id = product_fc_id
-
-            result['value']['fiscal_category_id'] = parent_fiscal_category_id
-
             kwargs = {
                 'partner_id': partner_id,
+                'product_id': product_id,
                 'partner_invoice_id': partner_id,
                 'partner_shipping_id': partner_id,
                 'fiscal_category_id': parent_fiscal_category_id,
@@ -181,30 +154,23 @@ class StockMove(models.Model):
             result_super.update(result)
         return result_super
 
-    @api.multi
-    def onchange_fiscal_category_id(self, fiscal_category_id, partner_id,
-                                    company_id):
-
-        result = {'value': {'fiscal_position': None}}
-
-        if not partner_id or not company_id or not fiscal_category_id:
-            return result
-
-        # TODO waiting migration super method to new api
-        partner_invoice_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['invoice'])['invoice']
-        partner_shipping_id = self.pool.get('res.partner').address_get(
-            self._cr, self._uid, [partner_id], ['delivery'])['delivery']
-
-        kwargs = {
-            'partner_id': partner_id,
-            'partner_invoice_id': partner_invoice_id,
-            'partner_shipping_id': partner_shipping_id,
-            'company_id': company_id,
-            'context': dict(self.env.context),
-            'fiscal_category_id': fiscal_category_id,
-        }
-        return self._fiscal_position_map(result, **kwargs)
+    @api.onchange('fiscal_category_id', 'fiscal_position')
+    def onchange_fiscal(self):
+        if self.picking_id.partner_id and self.picking_id.company_id \
+                and self.fiscal_category_id:
+            result = {'value': {'fiscal_position': None}}
+            kwargs = {
+                'partner_id': self.picking_id.partner_id.id,
+                'product_id': self.product_id.id,
+                'partner_invoice_id': self.picking_id.partner_id.id,
+                'partner_shipping_id': self.picking_id.partner_id.id,
+                'company_id': self.picking_id.company_id.id,
+                'context': dict(self.env.context),
+                'fiscal_category_id': self.fiscal_category_id.id,
+            }
+            result = self._fiscal_position_map(result, **kwargs)
+            self.fiscal_position = result['value'].get('fiscal_position')
+            self.fiscal_category_id = result['value'].get('fiscal_category_id')
 
     @api.model
     def _get_invoice_line_vals(self, move, partner, inv_type):
