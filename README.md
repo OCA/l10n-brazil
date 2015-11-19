@@ -84,6 +84,7 @@ addon | version | summary
 [l10n_br_data_account](l10n_br_data_account/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Account
 [l10n_br_data_account_product](l10n_br_data_account_product/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Product
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Base
+[l10n_br_sale](l10n_br_sale/) | 8.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
 
 Unported addons
@@ -99,7 +100,6 @@ addon | version | summary
 [l10n_br_hr_timesheet_invoice](l10n_br_hr_timesheet_invoice/) | 1.0 (unported) | Brazilian Invoice on Timesheets
 [l10n_br_product](l10n_br_product/) | 7.0 (unported) | Brazilian Localization Product
 [l10n_br_purchase](l10n_br_purchase/) | 7.0 (unported) | Brazilian Localization Purchase
-[l10n_br_sale](l10n_br_sale/) | 7.0 (unported) | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 7.0 (unported) | Brazilian Localization Sale Product
 [l10n_br_sale_service](l10n_br_sale_service/) | 7.0 (unported) | Brazilian Localization Sale Service
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 7.0 (unported) | Brazilian Localization Sales and Warehouse

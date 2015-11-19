@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# Copyright (C) 2009  Renato Lima - Akretion
+# Copyright (C) 2014  Renato Lima - Akretion
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -17,6 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from . import models
-from . import report
-from . import wizard
+from openerp import models, fields
+
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    sale_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        u'Categoria Fiscal Padrão Compras',
+        domain="[('journal_type', '=', 'sale')]")
