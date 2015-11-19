@@ -16,11 +16,6 @@
     company_id: base.main_company
     fiscal_category_id: fiscal_category_sale
 -
-  I configure automatically if the country is set on the company, mainly for online offers.
--
-  !python {model: account.installer}: |
-    print "passou!"
--
   Create Fiscal Position Rule
 -
   !record {model: account.fiscal.position.rule, id: fiscal_position_rule_sale}:
