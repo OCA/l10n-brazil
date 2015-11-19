@@ -64,9 +64,10 @@ class SaleOrder(models.Model):
     @api.one
     def _amount_line_tax(self, line):
         value = 0.0
+        price = line._calc_line_base_price()
+        qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
-                line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-                line.product_uom_qty, line.order_id.partner_invoice_id.id,
+                price, qty, line.order_id.partner_invoice_id.id,
                 line.product_id.id, line.order_id.partner_id,
                 fiscal_position=line.fiscal_position)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
@@ -233,21 +234,32 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    def _calc_line_base_price(self):
+        return self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+
+    def _calc_line_quantity(self):
+        return self.product_uom_qty
+
+    def _calc_price_gross(self, qty):
+        return self.price_unit * qty
+
     @api.one
     @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
     def _amount_line(self):
-        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+        price = self._calc_line_base_price()
+        qty = self._calc_line_quantity()
         taxes = self.tax_id.compute_all(price,
-                                        self.product_uom_qty,
+                                        qty,
                                         self.product_id.id,
                                         self.order_id.partner_invoice_id.id,
                                         fiscal_position=self.fiscal_position)
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
             taxes['total'])
-        self.price_gross = self.price_unit * self.product_uom_qty
+        self.price_gross = self._calc_price_gross()
         self.discount_value = self.order_id.pricelist_id.currency_id.round(
-            self.price_gross - (price * self.product_uom_qty))
+            self.price_gross - (price * qty))
+
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
