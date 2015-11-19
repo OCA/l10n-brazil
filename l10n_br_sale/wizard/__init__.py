@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import sale_make_invoice_advanced_percentage
+from . import sale_make_invoice_advanced_percentage
