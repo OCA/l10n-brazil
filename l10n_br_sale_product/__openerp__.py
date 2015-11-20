@@ -31,7 +31,6 @@
     ],
     'data': [
         'sale_view.xml',
-        'res_company_view.xml',
         'l10n_br_sale_product_data.xml',
     ],
     'test': [],
