@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 ###############################################################################
-#                                                                             #
+# #
 # Copyright (C) 2009  Renato Lima - Akretion                                  #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
@@ -21,14 +21,14 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 
 
-class stock_return_picking(orm.TransientModel):
+class StockReturnPicking(orm.TransientModel):
     _inherit = 'stock.return.picking'
 
     def _fiscal_position_map(self, cr, uid, result, **kwargs):
         kwargs['context'].update({'use_domain': ('use_picking', '=', True)})
         fp_rule_obj = self.pool.get('account.fiscal.position.rule')
         return fp_rule_obj.apply_fiscal_mapping(cr, uid, result, **kwargs)
-    
+
     def create_returns(self, cr, uid, ids, context=None):
         """
          Creates return picking.
@@ -39,68 +39,76 @@ class stock_return_picking(orm.TransientModel):
          @param context: A standard dictionary
          @return: A dictionary which of fields with values.
         """
+        result = super(StockReturnPicking, self).create_returns(
+            cr, uid, ids, context)
+
+        data = self.read(cr, uid, ids[0], ['invoice_state'], context=context)
+
+        if data['invoice_state'] == 'none':
+            return result
 
         picking_obj = self.pool.get('stock.picking')
         move_obj = self.pool.get('stock.move')
-        picking_type = context.get('default_type')        
-    
-        if not context:
-            context = {}
 
-        for send_picking in picking_obj.browse(cr, uid, context.get('active_ids'), context):        
+        result_domain = eval(result['domain'])
+        record_ids = result_domain and result_domain[0] and result_domain[0][2]
+        pickings = picking_obj.browse(cr, uid, record_ids, context=context)
 
-            result = super(stock_return_picking, self).create_returns(
-                cr, uid, ids, context)
+        for picking in pickings:
+            new_type = 'internal'
+            if picking.type == 'out':
+                new_type = 'in'
+            elif picking.type == 'in':
+                new_type = 'out'
+            fc_return_id = (
+                picking.fiscal_category_id
+                and picking.fiscal_category_id.refund_fiscal_category_id
+                and picking.fiscal_category_id.refund_fiscal_category_id.id)
 
-            result_domain = eval(result['domain'])
-            picking_ids = result_domain and result_domain[0] and result_domain[0][2]            
+            if not fc_return_id:
+                raise orm.except_orm(
+                    _('Error!'),
+                    _("""This Fiscal Operation does not has Fiscal Operation
+                    for Returns!"""))
 
-            for picking in picking_obj.browse(cr, uid, picking_ids, context=context):
-                
-                move_ids = move_obj.search(cr, uid, [('picking_id', '=', picking.id)])
-                
-    
-                fiscal_category_id = send_picking.fiscal_category_id \
-                    and send_picking.fiscal_category_id.refund_fiscal_category_id \
-                    and send_picking.fiscal_category_id.refund_fiscal_category_id.id
-        
-                if not fiscal_category_id:
-                    raise orm.except_orm(
-                        _('Error!'),
-                        _("""This Fiscal Operation does not has Fiscal Operation
-                        for Returns!"""))
-     
-                values = {
-                    'fiscal_category_id': fiscal_category_id,
-                    'fiscal_position': False}
-     
-                partner_invoice_id = self.pool.get('res.partner').address_get(
-                    cr, uid, [picking.partner_id.id], ['invoice'])['invoice']
-     
-                kwargs = {
-                   'partner_id': picking.partner_id.id,
-                   'partner_invoice_id': partner_invoice_id,
-                   'partner_shipping_id': picking.partner_id.id,
-                   'company_id': picking.company_id.id,
-                   'context': context,
-                   'fiscal_category_id': fiscal_category_id
-                }
-                
-                values.update(self._fiscal_position_map(
-                    cr, uid, {'value': {}}, **kwargs).get('value'))
+            values = {
+                'fiscal_category_id': fc_return_id,
+                'fiscal_position': False}
 
-                picking_obj.write(cr, uid, [picking.id], values)
-                               
-                for idx, send_move in enumerate(send_picking.move_lines):
-                     line_fiscal_category_id = send_move.fiscal_category_id.refund_fiscal_category_id.id                     
-                     context.update({'parent_fiscal_category_id':line_fiscal_category_id,
-                                     'picking_type' : picking_type,                                    
-                                    })
-                     
-                     line_onchange = move_obj.onchange_product_id(cr, uid, ids, send_move.product_id.id, send_move.location_id.id,
-                             send_move.location_dest_id.id, picking.partner_id.id, context)
-                     
-                     line_onchange['value']['fiscal_category_id'] = line_fiscal_category_id
-                     move_obj.write(cr, uid, move_ids[idx],line_onchange['value'],context)
-                     
-            return result
+            partner_invoice_id = self.pool.get('res.partner').address_get(
+                cr, uid, [picking.partner_id.id], ['invoice'])['invoice']
+
+            kwargs = {
+                'partner_id': picking.partner_id.id,
+                'partner_invoice_id': partner_invoice_id,
+                'partner_shipping_id': picking.partner_id.id,
+                'company_id': picking.company_id.id,
+                'context': context,
+                'fiscal_category_id': fc_return_id
+            }
+            values.update(self._fiscal_position_map(
+                cr, uid, {'value': {}}, **kwargs).get('value'))
+            picking_obj.write(cr, uid, picking.id, values)
+
+            for move in picking.move_lines:
+                parent = move.move_history_ids[0]
+
+                move_fc_return_id = (
+                    parent.fiscal_category_id
+                    and parent.fiscal_category_id.refund_fiscal_category_id
+                    and parent.fiscal_category_id.refund_fiscal_category_id.id)
+
+                context.update({'parent_fiscal_category_id': move_fc_return_id,
+                                'picking_type': new_type,
+                                })
+                fiscal_position = move_obj.onchange_product_id(
+                    cr, uid, ids, move.product_id.id, move.location_id.id,
+                    move.location_dest_id.id, picking.partner_id.id,
+                    context)['value'].get('fiscal_position') or False
+
+                fiscal_category_id = move_fc_return_id or False
+                move_obj.write(cr, uid, move.id,
+                               {'fiscal_position': fiscal_position,
+                                'fiscal_category_id': fiscal_category_id, },
+                               context)
+        return result
