@@ -22,7 +22,7 @@
 from openerp import models
 
 
-class SaleAdvancePaymentInvoice(models.Model):
+class SaleAdvancePaymentInvoice(models.TransientModel):
     _inherit = 'sale.advance.payment.inv'
 
     def _get_line_qty(self, cr, uid, line, context=None):
