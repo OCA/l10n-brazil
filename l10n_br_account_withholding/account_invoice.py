@@ -23,10 +23,32 @@ import time
 
 from openerp import api, fields, models
 from openerp.addons import decimal_precision as dp
+from openerp.exceptions import Warning
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    @api.multi
+    @api.depends('invoice_line', 'tax_line.amount')
+    def _amount_all(self):
+        for inv in self:
+            inv.amount_services = sum(
+                line.price_total for line in self.invoice_line)
+            inv.issqn_base = sum(line.issqn_base for line in self.invoice_line)
+            inv.issqn_value = sum(
+                line.issqn_value for line in self.invoice_line)
+            inv.service_pis_value = sum(
+                line.pis_value for line in self.invoice_line)
+            inv.service_cofins_value = sum(
+                line.cofins_value for line in self.invoice_line)
+            inv.csll_base = sum(line.csll_base for line in self.invoice_line)
+            inv.csll_value = sum(line.csll_value for line in self.invoice_line)
+            inv.ir_base = sum(line.ir_base for line in self.invoice_line)
+            inv.ir_value = sum(line.ir_value for line in self.invoice_line)
+
+            inv.amount_total = inv.amount_tax + \
+                inv.amount_untaxed + inv.amount_services
 
     issqn_wh = fields.Boolean(u'Retém ISSQN')
     issqn_value_wh = fields.Float(u'Valor da retenção do ISSQN',
@@ -52,9 +74,53 @@ class AccountInvoice(models.Model):
     inss_value_wh = fields.Float(u'Valor da Retenção da Previdência Social ',
                                  digits_compute=dp.get_precision('Account'))
 
-    def _whitholding_map(self, cr, uid, result, context=None, **kwargs):
-        # TODO: Implementar o mapeamento cliente x empresa.
+    csll_base = fields.Float(
+        string='Base CSLL',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    csll_value = fields.Float(
+        string='Valor CSLL',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    ir_base = fields.Float(
+        string='Base IR',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    ir_value = fields.Float(
+        string='Valor IR',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    amount_services = fields.Float(
+        string='Total dos serviços',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    issqn_base = fields.Float(
+        string='Base de Cálculo do ISSQN',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    issqn_value = fields.Float(
+        string='Valor do ISSQN',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    service_pis_value = fields.Float(
+        string='Valor do Pis sobre Serviços',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
+    service_cofins_value = fields.Float(
+        string='Valor do Cofins sobre Serviços',
+        compute='_amount_all',
+        digits_compute=dp.get_precision('Account'),
+        store=True)
 
+    def _whitholding_map(self, cr, uid, result, context=None, **kwargs):
         if not context:
             context = {}
 
@@ -64,17 +130,17 @@ class AccountInvoice(models.Model):
             cr, uid, kwargs.get('company_id', False))
 
         result['value'][
-            'issqn_wh'] = obj_company.issqn_wh and obj_partner.partner_fiscal_type_id.issqn_wh
+            'issqn_wh'] = obj_company.issqn_wh or obj_partner.partner_fiscal_type_id.issqn_wh
         result['value'][
-            'inss_wh'] = obj_company.inss_wh and obj_partner.partner_fiscal_type_id.inss_wh
+            'inss_wh'] = obj_company.inss_wh or obj_partner.partner_fiscal_type_id.inss_wh
         result['value'][
-            'pis_wh'] = obj_company.pis_wh and obj_partner.partner_fiscal_type_id.pis_wh
+            'pis_wh'] = obj_company.pis_wh or obj_partner.partner_fiscal_type_id.pis_wh
         result['value'][
-            'cofins_wh'] = obj_company.cofins_wh and obj_partner.partner_fiscal_type_id.cofins_wh
+            'cofins_wh'] = obj_company.cofins_wh or obj_partner.partner_fiscal_type_id.cofins_wh
         result['value'][
-            'csll_wh'] = obj_company.csll_wh and obj_partner.partner_fiscal_type_id.csll_wh
+            'csll_wh'] = obj_company.csll_wh or obj_partner.partner_fiscal_type_id.csll_wh
         result['value'][
-            'irrf_wh'] = obj_company.irrf_wh and obj_partner.partner_fiscal_type_id.irrf_wh
+            'irrf_wh'] = obj_company.irrf_wh or obj_partner.partner_fiscal_type_id.irrf_wh
 
         return result
 
@@ -92,134 +158,107 @@ class AccountInvoice(models.Model):
             partner_invoice_id=partner_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
-    def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
-        move_lines = super(
-            AccountInvoice,
-            self).finalize_invoice_move_lines(
-            cr,
-            uid,
-            invoice_browse,
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
+        invoice_browse = self
+        move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
             move_lines)
 
+        move_credit = {'analytic_account_id': None, 'tax_code_id': 10, 'analytic_lines': [], 'tax_amount': 10,
+                       'name': u'IR 1.05%', 'ref': False, 'currency_id': False, 'credit': 10,
+                       'product_id': False, 'date_maturity': False, 'debit': False, 'date': '2015-11-20',
+                       'amount_currency': 0, 'product_uom_id': False, 'quantity': 1, 'partner_id': 17, 'account_id': 123}
+
+        move_debit = {'analytic_account_id': None, 'tax_code_id': 10, 'analytic_lines': [], 'tax_amount': 10,
+                      'name': u'IR Recuperar 1.05% (Retenção)', 'ref': False, 'currency_id': False, 'credit': False,
+                      'product_id': False, 'date_maturity': False, 'debit': 10, 'date': '2015-11-20',
+                      'amount_currency': 0, 'product_uom_id': False, 'quantity': 1, 'partner_id': 17, 'account_id': 123}
+        # for move in move_lines:
+        #    print move
+        #move_lines.append((0, 0, move_credit))
+        #move_lines.append((0, 0, move_debit))
+        
         # veriricar se o cliente x empresa retem o imposto e chamar o metodo
         # correspondente
-     
-        self._compute_wh(cr, uid, invoice_browse)
+        for invoice in self:
+            self._compute_wh(invoice_browse)
         return move_lines
 
-    def _compute_wh(self, cr, uid, invoice_browse):
-        period_obj = self.pool.get('account.period')
-        line_obj = self.pool.get('account.invoice.line')
+    def _compute_wh(self, invoice_browse):
+        period_obj = self.env['account.period']
+        line_obj = self.env['account.invoice.line']
 
-        if invoice_browse.company_id.wh_type == '1':
-            raise osv.except_osv('Regime de Caixa Não implementado')
-        elif invoice_browse.company_id.wh_type == '2':
+        # if invoice_browse.company_id.wh_type == '1':
+        #    raise Warning("Atenção!", "Regime de Caixa não implementado")
+        # elif invoice_browse.company_id.wh_type == '2':
 
-            date_invoice = invoice_browse.date_invoice
-            if not date_invoice:
-                date_invoice = time.strftime('%Y-%m-%d')
-            period_select = """SELECT id from account_period p where '%s' BETWEEN p.date_start AND p.date_stop;""" % date_invoice
-            cr.execute(period_select)
-            period_result = cr.dictfetchall()
+        date_invoice = invoice_browse.date_invoice
+        if not date_invoice:
+            date_invoice = time.strftime('%Y-%m-%d')
+        result = {
+            'pis_value_wh': 0.00,
+            'cofins_value_wh': 0.00,
+            'csll_value_wh': 0.00,
+            'irrf_value_wh': 0.00,
+            'issqn_value_wh': 0.00,
+        }
+        witholded = {
+            'pis_value_wh': 0.00,
+            'cofins_value_wh': 0.00,
+            'csll_value_wh': 0.00,
+            'irrf_value_wh': 0.00,
+            'issqn_value_wh': 0.00,
+            'irrf_base_wh': 0.00,
+        }
+        invoice = {
+            'pis': 0.00,
+            'cofins': 0.00,
+            'csll': 0.00,
+            'ir': 0.00,
+        }
+        previous = {
+            'pis': 0.00,
+            'cofins': 0.00,
+            'csll': 0.00,
+            'ir': 0.00,
+        }
+        amount_previous = 0.00
 
-            inv_state = ['paid', 'open']  # Incluir o estado = sefaz_export?
-            inv_type = ['out_invoice']  # TODO: Tratar compras e devoluções
-            invoice_ids = self.search(cr, uid, [('partner_id', '=', invoice_browse.partner_id.id),
-                                                ('period_id',
-                                                 '=',
-                                                 period_result[0]['id']),
-                                                ('state', 'in', inv_state),
-                                                ('type', 'in', inv_type),
-                                                ])
-            result = {
-                'pis_value_wh': 0.00,
-                'cofins_value_wh': 0.00,
-                'csll_value_wh': 0.00,
-                'irrf_value_wh': 0.00,
-                'issqn_value_wh': 0.00,
-            }
-            witholded = {
-                'pis_value_wh': 0.00,
-                'cofins_value_wh': 0.00,
-                'csll_value_wh': 0.00,
-                'irrf_value_wh': 0.00,
-                'issqn_value_wh': 0.00,
-                'irrf_base_wh': 0.00,
-            }
-            invoice = {
-                'pis': 0.00,
-                'cofins': 0.00,
-                'csll': 0.00,
-                'ir': 0.00,
-            }
-            previous = {
-                'pis': 0.00,
-                'cofins': 0.00,
-                'csll': 0.00,
-                'ir': 0.00,
-            }
-            amount_previous = 0.00
+        for current_line in invoice_browse.invoice_line:
+            if current_line.product_type == 'service':
+                invoice['pis'] += current_line.pis_value
+                invoice['cofins'] += current_line.cofins_value
+                invoice['csll'] += current_line.csll_value
+                invoice['ir'] += current_line.ir_value
 
-            for inv in self.browse(cr, uid, invoice_ids):
-                amount_previous += inv.amount_services
-                witholded['pis_value_wh'] += inv.pis_value_wh
-                witholded['cofins_value_wh'] += inv.cofins_value_wh
-                witholded['csll_value_wh'] += inv.csll_value_wh
-                witholded['irrf_value_wh'] += inv.irrf_value_wh
-                witholded['irrf_base_wh'] += inv.irrf_base_wh
+       # PIS / COFINS / CSLL
+        if (amount_previous +
+                invoice_browse.amount_total) > invoice_browse.company_id.cofins_csll_pis_wh_base:
+            if invoice_browse.pis_wh:
+                result['pis_value_wh'] = invoice['pis'] + previous['pis']
+            if invoice_browse.cofins_wh:
+                result['cofins_value_wh'] = invoice[
+                    'cofins'] + previous['cofins']
+            if invoice_browse.csll_wh:
+                result['csll_value_wh'] = invoice['csll'] + previous['csll']
 
-                for line in inv.invoice_line:
-                    if not line.product_type == 'service':
-                        continue
-                    previous['pis'] += line.pis_value
-                    previous['cofins'] += line.cofins_value
-                    previous['csll'] += line.csll_value
-                    previous['ir'] += line.ir_value
+        # IR: Existem divergencias entre as normativas verificar melhor a legislação
+        # Pode ser que o total deva acumular para os proximos meses.
+        if invoice_browse.irrf_wh:
+            irrf_base = amount_previous + invoice_browse.amount_total
+            irrf_value_wh = irrf_base * \
+                invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / \
+                100
+            if irrf_value_wh > invoice_browse.company_id.irrf_wh_base:
+                result['irrf_value_wh'] = irrf_value_wh
+                result['irrf_base_wh'] = irrf_base
 
-            for current_line in invoice_browse.invoice_line:
-                if current_line.product_type == 'service':
-                    invoice['pis'] += current_line.pis_value
-                    invoice['cofins'] += current_line.cofins_value
-                    invoice['csll'] += current_line.csll_value
-                    invoice['ir'] += current_line.ir_value
-                    # ISSQN
-                    # TODO invoice_browse.issqn_wh ERROOOOOOO !!! só entra
-                    # quando
-                    if current_line.issqn_cst_id.code in (
-                            'R') and invoice_browse.issqn_wh:
-                        result['issqn_value_wh'] += current_line.issqn_value
+        # INSS
+        if invoice_browse.inss_wh:
+            pass
+            # TODO
 
-           # PIS / COFINS / CSLL
-            if (amount_previous +
-                    invoice_browse.amount_services) > invoice_browse.company_id.cofins_csll_pis_wh_base:
-                if invoice_browse.pis_wh:
-                    result['pis_value_wh'] = invoice['pis'] + \
-                        previous['pis'] - witholded['pis_value_wh']
-                if invoice_browse.cofins_wh:
-                    result['cofins_value_wh'] = invoice['cofins'] + \
-                        previous['cofins'] - witholded['cofins_value_wh']
-                if invoice_browse.csll_wh:
-                    result['csll_value_wh'] = invoice['csll'] + \
-                        previous['csll'] - witholded['csll_value_wh']
-
-            # IR: Existem divergencias entre as normativas verificar melhor a legislação
-            # Pode ser que o total deva acumular para os proximos meses.
-            if invoice_browse.irrf_wh:
-                irrf_base = amount_previous + \
-                    invoice_browse.amount_services - witholded['irrf_base_wh']
-                irrf_value_wh = irrf_base * \
-                    invoice_browse.partner_id.partner_fiscal_type_id.irrf_wh_percent / \
-                    100
-                if irrf_value_wh > invoice_browse.company_id.irrf_wh_base:
-                    result['irrf_value_wh'] = irrf_value_wh
-                    result['irrf_base_wh'] = irrf_base
-
-            # INSS
-            if invoice_browse.inss_wh:
-                pass
-                # TODO
-
-            self.write(cr, uid, [invoice_browse.id], result)
+        invoice_browse.write(result)
 
     # def compute_invoice_totals(self, cr, uid, inv, company_currency, ref, invoice_move_lines, context=None):
     #     total, total_currency, invoice_move_lines = super(AccountInvoice, self).compute_invoice_totals(cr, uid, inv,
@@ -230,8 +269,39 @@ class AccountInvoice(models.Model):
     #     return total, total_currency, invoice_move_lines
 
 
-# class AccountInvoiceLine(orm.Model):
-#     _inherit = 'account.invoice.line'
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+
+    csll_base = fields.Float('Base CSLL', required=True,
+                             digits_compute=dp.get_precision('Account'), default=0.0)
+    csll_value = fields.Float('Valor CSLL', required=True,
+                              digits_compute=dp.get_precision('Account'), default=0.0)
+    csll_percent = fields.Float('Perc CSLL', required=True,
+                                digits_compute=dp.get_precision('Discount'), default=0.0)
+    ir_base = fields.Float('Base IR', required=True,
+                           digits_compute=dp.get_precision('Account'), default=0.0)
+    ir_value = fields.Float('Valor IR', required=True,
+                            digits_compute=dp.get_precision('Account'), default=0.0)
+    ir_percent = fields.Float('Perc IR', required=True,
+                              digits_compute=dp.get_precision('Discount'), default=0.0)
+
+    def _amount_tax_csll(self, cr, uid, tax=False):
+        print "chamou"
+        result = {
+            'csll_base': tax.get('total_base', 0.0),
+            'csll_value': tax.get('amount', 0.0),
+            'csll_percent': tax.get('percent', 0.0) * 100,
+        }
+        return result
+
+    def _amount_tax_ir(self, cr, uid, tax=False):
+        result = {
+            'ir_base': tax.get('total_base', 0.0),
+            'ir_value': tax.get('amount', 0.0),
+            'ir_percent': tax.get('percent', 0.0) * 100,
+        }
+        return result
+
 #
 #     # _columns = {
 #     # TODO: Implmentar o calculo de retenção de ISS que varia por item.
@@ -265,4 +335,3 @@ class AccountInvoice(models.Model):
 #     def move_line_get(self, cr, uid, invoice_id):
 #         res = super(AccountInvoiceTax, self).move_line_get(cr, uid, invoice_id)
 #         return res
-
