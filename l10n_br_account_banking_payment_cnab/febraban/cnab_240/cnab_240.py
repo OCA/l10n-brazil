@@ -37,7 +37,6 @@ class Cnab240(Cnab):
     """
 
     """
-
     def __init__(self):
         super(Cnab, self).__init__()
 
@@ -52,9 +51,6 @@ class Cnab240(Cnab):
         elif bank == '104':
             from bancos.cef import Cef240
             return Cef240
-        elif bank == '033':
-            from bancos.santander import Santander240
-            return Santander240
         else:
             return Cnab240
 
@@ -72,17 +68,11 @@ class Cnab240(Cnab):
         :param:
         :return:
         """
-        data_de_geracao = (self.order.date_created[8:11] +
-                           self.order.date_created[5:7] +
-                           self.order.date_created[0:4])
-        t = datetime.datetime.now() - datetime.timedelta(hours=3)  # FIXME
-        hora_de_geracao = t.strftime("%H%M%S")
-
         return {
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
-            'arquivo_sequencia': 1,
+            'arquivo_sequencia': int(self.get_file_numeration()),
             'cedente_inscricao_tipo': self.inscricao_tipo,
             'cedente_inscricao_numero': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
@@ -98,6 +88,12 @@ class Cnab240(Cnab):
             'servico_operacao': u'R',
             'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
         }
+
+    def get_file_numeration(self):
+        numero = self.order.get_next_number()
+        if numero == False:
+            numero = 1
+        return numero
 
     def format_date(self, srt_date):
         return int(datetime.datetime.strptime(
