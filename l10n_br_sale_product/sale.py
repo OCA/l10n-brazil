@@ -73,20 +73,30 @@ class SaleOrder(orm.Model):
         return result
 
     def _amount_line_tax(self, cr, uid, line, context=None):
-        val = 0.0
+        value = 0.0
+        line_obj = self.pool['sale.order.line']
+        price = line_obj._calc_line_base_price(cr, uid, line, context=context)
+        qty = line_obj._calc_line_quantity(cr, uid, line, context=context)
+
         for c in self.pool.get('account.tax').compute_all(
-            cr, uid, line.tax_id,
-            line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-            line.product_uom_qty, line.order_id.partner_invoice_id.id,
-            line.product_id, line.order_id.partner_id,
-            fiscal_position=line.fiscal_position,
-            insurance_value=line.insurance_value,
-            freight_value=line.freight_value,
-            other_costs_value=line.other_costs_value)['taxes']:
+                cr,
+                uid,
+                line.tax_id,
+                price,
+                qty,
+                line.order_id.partner_invoice_id.id,
+                line.product_id,
+                line.order_id.partner_id,
+                fiscal_position=line.fiscal_position,
+                insurance_value=line.insurance_value,
+                freight_value=line.freight_value,
+                other_costs_value=line.other_costs_value)['taxes']:
+
             tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
+
             if not tax.tax_code_id.tax_discount:
-                val += c.get('amount', 0.0)
-        return val
+                value += c.get('amount', 0.0)
+        return value
 
     def _get_order(self, cr, uid, ids, context=None):
         result = {}
@@ -311,6 +321,12 @@ class SaleOrder(orm.Model):
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
 
+    def _calc_line_base_price(self, cr, uid, line, context=None):
+        return line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+
+    def _calc_line_quantity(self, cr, uid, line, context=None):
+        return line.product_uom_qty
+
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
@@ -324,18 +340,28 @@ class SaleOrderLine(orm.Model):
                 'price_gross': 0.0,
                 'discount_value': 0.0,
             }
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = tax_obj.compute_all(cr, uid, line.tax_id, price,
-                line.product_uom_qty, line.order_id.partner_invoice_id.id,
-                line.product_id, line.order_id.partner_id,
+            price = self._calc_line_base_price(cr, uid, line, context=context)
+            qty = self._calc_line_quantity(cr, uid, line, context=context)
+            taxes = tax_obj.compute_all(
+                cr,
+                uid,
+                line.tax_id,
+                price,
+                qty,
+                line.order_id.partner_invoice_id.id,
+                line.product_id,
+                line.order_id.partner_id,
                 fiscal_position=line.fiscal_position,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
                 other_costs_value=line.other_costs_value)
+
             cur = line.order_id.pricelist_id.currency_id
-            res[line.id]['price_subtotal'] = cur_obj.round(cr, uid, cur, taxes['total'])
-            res[line.id]['price_gross'] = line.price_unit * line.product_uom_qty
-            res[line.id]['discount_value'] = res[line.id]['price_gross']-(price * line.product_uom_qty)
+            res[line.id]['price_subtotal'] = cur_obj.round(
+                cr, uid, cur, taxes['total'])
+            res[line.id]['price_gross'] = price * qty
+            res[line.id]['discount_value'] = res[line.id]['price_gross']-\
+                                             (price * qty)
         return res
 
     _columns = {
