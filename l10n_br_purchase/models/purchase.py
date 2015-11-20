@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel               #
-# Copyright (C) 2012  Raphaël Valyi - Akretion                                #
-#                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
-#                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
-#                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+#
+# Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel
+# Copyright (C) 2012  Raphaël Valyi - Akretion
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
 from openerp import models, fields, api, _
@@ -32,12 +32,12 @@ class PurchaseOrder(models.Model):
     def _compute_amount(self):
         amount_untaxed = 0.0
         amount_tax = 0.0
-        amount_total = 0.0
 
         for line in self.order_line:
-            taxes = line.taxes_id.compute_all(line.price_unit, line.product_qty,
-            product=line.product_id.id, partner=self.partner_id,
-            fiscal_position=self.fiscal_position)
+            taxes = line.taxes_id.compute_all(
+                line.price_unit, line.product_qty,
+                product=line.product_id.id, partner=self.partner_id,
+                fiscal_position=self.fiscal_position)
 
             amount_untaxed += line.price_subtotal
 
@@ -46,7 +46,8 @@ class PurchaseOrder(models.Model):
                 if not tax_brw.tax_code_id.tax_discount:
                     amount_tax += tax.get('amount', 0.0)
 
-        self.amount_untaxed = self.pricelist_id.currency_id.round(amount_untaxed)
+        self.amount_untaxed = self.pricelist_id.currency_id.round(
+            amount_untaxed)
         self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
         self.amount_total = self.pricelist_id.currency_id.round(
             amount_untaxed + amount_tax)
@@ -99,7 +100,7 @@ class PurchaseOrder(models.Model):
         result = self._fiscal_position_map(result, **kwargs)
         self.fiscal_position = result['value'].get('fiscal_position')
 
-    #TODO migrate to new API
+    # TODO migrate to new API
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
 
         result = super(PurchaseOrder, self)._prepare_inv_line(
@@ -108,17 +109,21 @@ class PurchaseOrder(models.Model):
         order = order_line.order_id
 
         result['fiscal_category_id'] = order_line.fiscal_category_id and \
-        order_line.fiscal_category_id.id or order.fiscal_category_id and \
-        order.fiscal_category_id.id
+            order_line.fiscal_category_id.id or \
+            order.fiscal_category_id and \
+            order.fiscal_category_id.id
 
         result['fiscal_position'] = order_line.fiscal_position and \
-        order_line.fiscal_position.id or order.fiscal_position and \
-        order.fiscal_position.id
+            order_line.fiscal_position.id or \
+            order.fiscal_position and \
+            order.fiscal_position.id
 
         result['cfop_id'] = order.fiscal_position and \
-        order.fiscal_position.cfop_id and order.fiscal_position.cfop_id.id or \
-        order.fiscal_position and order.fiscal_position.cfop_id and \
-        order.fiscal_position.cfop_id.id
+            order.fiscal_position.cfop_id and \
+            order.fiscal_position.cfop_id.id or \
+            order.fiscal_position and \
+            order.fiscal_position.cfop_id and \
+            order.fiscal_position.cfop_id.id
 
         result['partner_id'] = order_line.partner_id.id
         result['company_id'] = order_line.company_id.id
@@ -142,8 +147,8 @@ class PurchaseOrder(models.Model):
                 _(u'Nenhuma Diário!'),
                 _(u"Categoria de operação fisca: '%s', não tem um \
                 diário contábil para a empresa %s") % (
-                order.fiscal_category_id.name,
-                order.company_id.name))
+                    order.fiscal_category_id.name,
+                    order.company_id.name))
 
         comment = []
         if order.fiscal_position.inv_copy_note and order.fiscal_position.note:
@@ -160,7 +165,7 @@ class PurchaseOrder(models.Model):
 
         return result
 
-    #TODO migrate to new API
+    # TODO migrate to new API
     def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id,
                                  group_id, context=None):
         result = super(PurchaseOrder, self)._prepare_order_line_move(
@@ -182,6 +187,7 @@ class PurchaseOrder(models.Model):
             picking = self.env['stock.picking'].browse(picking_id)
             picking.write(picking_values)
         return result
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
