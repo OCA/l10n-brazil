@@ -28,35 +28,19 @@ class PaymentOrder(models.Model):
     _inherit = 'payment.order'
 
     file_number = fields.Integer(u'Número sequencial do arquivo')
+    # TODO adicionar domain para permitir o modo de pagamento correspondente
+    # ao mode
     serie_id = fields.Many2one(
         'l10n_br_cnab_sequence', u'Sequencia interna')
 
-
-    def return_next_number(self):
-        pass
-
-    # def action_internal_number(self, cr, uid, ids, context=None):
-    #     if context is None:
-    #         context = {}
-    #     for inv in self.browse(cr, uid, ids):
-    #         sequence = self.pool.get('ir.sequence')
-    #         sequence_read = sequence.read(
-    #             cr, uid, inv.document_serie_id.internal_sequence_id.id,
-    #             ['number_next'])
-    #         invalid_number = self.pool.get(
-    #             'l10n_br_account.invoice.invalid.number').search(
-    #                 cr, uid, [
-    #                 ('number_start', '<=', sequence_read['number_next']),
-    #                 ('number_end', '>=', sequence_read['number_next']),
-    #                 ('state', '=', 'done')])
-    #
-    #         if invalid_number:
-    #             raise orm.except_orm(
-    #                 _(u'Número Inválido !'),
-    #                 _(u"O número: %s da série: %s, esta inutilizado") % (
-    #                     sequence_read['number_next'],
-    #                     inv.document_serie_id.name))
-    #
-    #             seq_no = sequence.get_id(cr, uid, inv.document_serie_id.internal_sequence_id.id, context=context)
-    #             self.write(cr, uid, inv.id, {'ref': seq_no, 'internal_number': seq_no})
-    #     return True
+    def get_next_number(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        for ord in self.browse(cr, uid, ids):
+            sequence = self.pool.get('ir.sequence')
+            sequence_read = sequence.read(
+                cr, uid, ord.serie_id.internal_sequence_id.id,
+                ['number_next'])
+            seq_no = sequence.get_id(cr, uid, ord.serie_id.internal_sequence_id.id, context=context)
+            self.write(cr, uid, ord.id, {'file_number': seq_no})
+        return seq_no

@@ -73,6 +73,7 @@ class Cef240(Cnab240):
         vals['identificacao_titulo'] = unicode(str(
             vals['numero_documento']), "utf-8")
         # TODO: campo 27.3P CEF. Código do juros de mora
+        vals['juros_cod_mora'] = 3
         vals['carteira_numero'] = int(carteira)
         vals['nosso_numero'] = int(nosso_numero)
         vals['nosso_numero_dv'] = int(digito)

@@ -82,7 +82,7 @@ class Cnab240(Cnab):
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
-            'arquivo_sequencia': 1,
+            'arquivo_sequencia': int(self.get_file_numeration()),
             'cedente_inscricao_tipo': self.inscricao_tipo,
             'cedente_inscricao_numero': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
@@ -97,6 +97,12 @@ class Cnab240(Cnab):
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
         }
+
+    def get_file_numeration(self):
+        numero = self.order.get_next_number()
+        if numero == False:
+            numero = 1
+        return numero
 
     def format_date(self, srt_date):
         return int(datetime.datetime.strptime(
@@ -182,6 +188,8 @@ class Cnab240(Cnab):
                 line.ml_date_created),
             # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
             # CEF/FEBRABAN e Itaú não tem.
+            'juros_mora_data': self.format_date(
+                line.ml_maturity_date),
             'juros_mora_taxa_dia': Decimal('0.00'),
 >>>>>>> Ajustes para Itau, Cef, Bradesco -- 240
             'valor_abatimento': Decimal('0.00'),
