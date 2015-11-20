@@ -25,7 +25,7 @@ class SaleReport(models.Model):
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category',
         'Fiscal Category',
-        readonly=True),
+        readonly=True)
     fiscal_position = fields.Many2one(
         'account.fiscal.position',
         'Fiscal Position',
