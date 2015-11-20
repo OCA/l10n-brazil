@@ -84,7 +84,7 @@ class SaleOrder(orm.Model):
             freight_value=line.freight_value,
             other_costs_value=line.other_costs_value)['taxes']:
             tax = self.pool.get('account.tax').browse(cr, uid, c['id'])
-            if not tax.tax_code_id.tax_discount:
+            if not tax.tax_discount:
                 val += c.get('amount', 0.0)
         return val
 
