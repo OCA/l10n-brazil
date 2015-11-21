@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,21 +17,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Warehouse',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
-    'depends': [
-        'stock',
-    ],
-    'data': [
-        'data/l10n_br_stock_data.xml',
-        'views/stock_view.xml',
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-}
+from . import stock
