@@ -86,7 +86,7 @@ addon | version | summary
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Base
 [l10n_br_sale](l10n_br_sale/) | 8.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 | Brazilian Localization Warehouse
-[l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.0 | Brazilian Localization Warehouse
+[l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.0 | Brazilian Localization WMS Accounting
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
 
 Unported addons
