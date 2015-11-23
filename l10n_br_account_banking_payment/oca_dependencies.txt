@@ -13,5 +13,8 @@
 #
 # To provide both the URL and a branch, use:
 # sale-workflow https://github.com/OCA/sale-workflow branchname
-bank-payment https://github.com/OCA/bank-payment.git 8.0
-l10n-brazil https://github.com/OCA/l10n-brazil.git 8.0
+account-payment
+bank-statement-reconcile
+bank-payment
+l10n-brazil
+
