@@ -25,15 +25,14 @@
 from ..cnab_240 import Cnab240
 import re
 import string
-from decimal import *
+from decimal import Decimal
 
 
-<<<<<<< HEAD
-class BradescoCnab240(Cnab240):
-=======
 class Bradesco240(Cnab240):
+<<<<<<< HEAD
+=======
 
->>>>>>> Ajustes para Itau, Cef, Bradesco -- 240
+>>>>>>> [FIX] pep8 and merge clear
     def __init__(self):
         super(Cnab240, self).__init__()
         from cnab240.bancos import bradesco

@@ -51,6 +51,9 @@ class Cnab240(Cnab):
         elif bank == '104':
             from bancos.cef import Cef240
             return Cef240
+        elif bank == '033':
+            from bancos.santander import Santander240
+            return Santander240
         else:
             return Cnab240
 
@@ -91,7 +94,7 @@ class Cnab240(Cnab):
 
     def get_file_numeration(self):
         numero = self.order.get_next_number()
-        if numero == False:
+        if not numero:
             numero = 1
         return numero
 
@@ -127,11 +130,9 @@ class Cnab240(Cnab):
             str(line.move_line_id.transaction_ref))  # TODO: Improve!
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
-        if self.order.mode. \
-                boleto_aceite == 'S':
+        aceite = 'N'
+        if not self.order.mode.boleto_aceite == 'S':
             aceite = 'A'
-        else:
-            aceite = 'N'
 
         return {
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),

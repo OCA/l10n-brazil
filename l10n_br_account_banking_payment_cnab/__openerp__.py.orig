@@ -36,10 +36,10 @@
         'l10n_br_account_payment_boleto',
         'l10n_br_account_payment_mode',
 <<<<<<< HEAD
-        'account_direct_debit',
-=======
         'l10n_br_account',
->>>>>>> Ajustes para Itau, Cef, Bradesco -- 240
+=======
+>>>>>>> [FIX] pep8 and merge clear
+        'account_direct_debit',
     ],
     'data': [
         'view/l10n_br_payment_cnab.xml',

@@ -24,11 +24,9 @@
 from ..pag_for500 import PagFor500
 import re
 import string
-from decimal import *
 
 
 class BradescoPagFor(PagFor500):
-
     def __init__(self):
         super(PagFor500, self).__init__()
         from cnab240.bancos import bradescoPagFor
@@ -52,11 +50,13 @@ class BradescoPagFor(PagFor500):
         vals = super(BradescoPagFor, self)._prepare_segmento(line)
 
         # TODO campo para informar a data do pagamento.
-        vals['data_para_efetivacao_pag'] = self.muda_campos_data(vals['vencimento_titulo'])
+        vals['data_para_efetivacao_pag'] = self.muda_campos_data(
+            vals['vencimento_titulo'])
 
         return vals
 
-    # Override cnab_240.nosso_numero. Diferentes números de dígitos entre CEF e Itau
+    # Override cnab_240.nosso_numero. Diferentes números de dígitos
+    #  entre CEF e Itau
     def nosso_numero(self, format):
         digito = format[-1:]
         carteira = format[:3]
