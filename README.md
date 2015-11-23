@@ -104,5 +104,9 @@ addon | version | summary
 [l10n_br_account_voucher](l10n_br_account_voucher/) | 7.0 (unported) | Brazilian Localization Account Voucher
 [l10n_br_delivery](l10n_br_delivery/) | 7.0 (unported) | Brazilian Localization Delivery
 [l10n_br_hr_timesheet_invoice](l10n_br_hr_timesheet_invoice/) | 1.0 (unported) | Brazilian Invoice on Timesheets
+[l10n_br_purchase](l10n_br_purchase/) | 7.0 (unported) | Brazilian Localization Purchase
+[l10n_br_sale_product](l10n_br_sale_product/) | 7.0 (unported) | Brazilian Localization Sale Product
+[l10n_br_sale_service](l10n_br_sale_service/) | 7.0 (unported) | Brazilian Localization Sale Service
+>>>>>>> changed version, add README.rst and README.md
 
 [//]: # (end addons)
