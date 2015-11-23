@@ -42,7 +42,7 @@ class PagFor500(Cnab):
     @staticmethod
     def get_bank(bank):
         if bank == '237':
-            from bancos.bradesco import BradescoPagFor
+            from .bancos.bradesco import BradescoPagFor
             return BradescoPagFor
         else:
             return PagFor500
@@ -121,8 +121,6 @@ class PagFor500(Cnab):
 
         prefixo, sulfixo = self.cep(line.partner_id.zip)
         return {
-            'vencimento_titulo': self.format_date(
-                line.ml_maturity_date),
             'especie_titulo': 8,
             # TODO: Código adotado para identificar o título de cobrança. 8
             # é Nota de cŕedito comercial

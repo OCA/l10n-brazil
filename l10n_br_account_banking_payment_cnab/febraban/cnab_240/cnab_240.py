@@ -43,16 +43,16 @@ class Cnab240(Cnab):
     @staticmethod
     def get_bank(bank):
         if bank == '341':
-            from bancos.itau import Itau240
+            from .bancos.itau import Itau240
             return Itau240
         elif bank == '237':
-            from bancos.bradesco import Bradesco240
+            from .bancos.bradesco import Bradesco240
             return Bradesco240
         elif bank == '104':
-            from bancos.cef import Cef240
+            from .bancos.cef import Cef240
             return Cef240
         elif bank == '033':
-            from bancos.santander import Santander240
+            from .bancos.santander import Santander240
             return Santander240
         else:
             return Cnab240
