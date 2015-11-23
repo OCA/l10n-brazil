@@ -64,6 +64,7 @@ class PaymentMode(models.Model):
         ('8', u'Não Negativar')
     ], string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
+
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',
                     'boleto_variacao', 'boleto_aceite')

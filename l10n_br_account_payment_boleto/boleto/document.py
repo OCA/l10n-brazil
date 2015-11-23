@@ -265,14 +265,15 @@ class BoletoCaixaSigcb(Boleto):
         Boleto.__init__(self, move_line, nosso_numero)
         self.boleto.nosso_numero = self.nosso_numero
 
-class BoletoSicredi(Boleto):
 
+class BoletoSicredi(Boleto):
     def __init__(self, move_line, nosso_numero):
         self.boleto = Boleto.getBoletoClass(move_line)()
         self.account_number = move_line.payment_mode_id.bank_id.acc_number
         self.branch_number = move_line.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, move_line, nosso_numero) 
+        Boleto.__init__(self, move_line, nosso_numero)
         self.boleto.nosso_numero = self.nosso_numero
+
 
 dict_boleto = {
     '1': (BoletoBB, 'Banco do Brasil 18'),
