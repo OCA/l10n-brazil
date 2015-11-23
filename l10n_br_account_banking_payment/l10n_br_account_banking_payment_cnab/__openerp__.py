@@ -35,7 +35,7 @@
     'depends': [
         'l10n_br_account_payment_boleto',
         'l10n_br_account_payment_mode',
-        'l10n_br_account',
+        'account_direct_debit',
     ],
     'data': [
         'view/l10n_br_payment_cnab.xml',

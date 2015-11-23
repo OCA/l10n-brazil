@@ -24,7 +24,7 @@
 from ..cnab_240 import Cnab240
 import re
 import string
-from decimal import *
+from decimal import Decimal
 
 
 class Cef240(Cnab240):

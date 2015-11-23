@@ -24,7 +24,6 @@ from openerp import models, fields
 
 
 class PaymentOrder(models.Model):
-
     _inherit = 'payment.order'
 
     file_number = fields.Integer(u'Número sequencial do arquivo')
@@ -38,9 +37,11 @@ class PaymentOrder(models.Model):
             context = {}
         for ord in self.browse(cr, uid, ids):
             sequence = self.pool.get('ir.sequence')
-            sequence_read = sequence.read(
-                cr, uid, ord.serie_id.internal_sequence_id.id,
-                ['number_next'])
-            seq_no = sequence.get_id(cr, uid, ord.serie_id.internal_sequence_id.id, context=context)
+            # sequence_read = sequence.read(
+            #     cr, uid, ord.serie_id.internal_sequence_id.id,
+            #     ['number_next'])
+            seq_no = sequence.get_id(cr, uid,
+                                     ord.serie_id.internal_sequence_id.id,
+                                     context=context)
             self.write(cr, uid, ord.id, {'file_number': seq_no})
         return seq_no

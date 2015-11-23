@@ -22,20 +22,20 @@
 
 from ..cnab import Cnab
 from cnab240.tipos import Arquivo
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
 import string
 import unicodedata
 import time
-from decimal import *
 
 
 class PagFor500(Cnab):
     """
 
     """
+
     def __init__(self):
         super(Cnab, self).__init__()
 
@@ -76,17 +76,17 @@ class PagFor500(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_agencia_conta_dv':
-                self.order.mode.bank_id.bra_number_dig,
+            self.order.mode.bank_id.bra_number_dig,
             'nome_empresa_pagadora': self.order.company_id.legal_name,
             'cedente_codigo_agencia_digito':
-                self.order.mode.bank_id.bra_number_dig,
+            self.order.mode.bank_id.bra_number_dig,
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
-
             'reservado_empresa': u'BRADESCO PAG FOR',
             # TODO: Sequencial crescente e nunca pode ser repetido
             'numero_lista_debito': 1,
-            # TODO: Sequencial crescente de 1 a 1 no arquivo. O primeiro header será sempre 000001
+            # TODO: Sequencial crescente de 1 a 1 no arquivo. O primeiro header
+            #  será sempre 000001
             'sequencial': 1
         }
 
@@ -123,8 +123,11 @@ class PagFor500(Cnab):
         return {
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
-            'especie_titulo': 8,  # TODO: Código adotado para identificar o título de cobrança. 8 é Nota de cŕedito comercial
-            'aceite_titulo': u'A',  # TODO: 'A' se título foi aceito pelo sacado. 'N' se não foi.
+            'especie_titulo': 8,
+            # TODO: Código adotado para identificar o título de cobrança. 8
+            # é Nota de cŕedito comercial
+            'aceite_titulo': u'A',
+            # TODO: 'A' se título foi aceito pelo sacado. 'N' se não foi.
             'tipo_inscricao': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'cnpj_cpf_base_forn': int(
@@ -137,13 +140,16 @@ class PagFor500(Cnab):
             'endereco_forn': (
                 line.partner_id.street + ' ' + line.partner_id.number),
             'cep_complemento_forn': int(sulfixo),
-            # TODO: código do banco. Para a Modalidade de Pagamento valor pode variar
+            # TODO: código do banco. Para a Modalidade de Pagamento valor
+            # pode variar
             'codigo_banco_forn': 237,
             'codigo_agencia_forn': int(self.order.mode.bank_id.bra_number),
             'digito_agencia_forn': self.order.mode.bank_id.bra_number_dig,
             'conta_corrente_forn': int(self.order.mode.bank_id.acc_number),
             'digito_conta_forn': self.order.mode.bank_id.acc_number_dig,
-            # TODO Gerado pelo cliente pagador quando do agendamento de pagamento por parte desse, exceto para a modalidade 30 - Títulos em Cobrança Bradesco
+            # TODO Gerado pelo cliente pagador quando do agendamento de
+            # pagamento por parte desse, exceto para a modalidade 30 -
+            # Títulos em Cobrança Bradesco
             'numero_pagamento': 1234321,
             'carteira': 31,  # FIXME
             'nosso_numero': 11,
@@ -160,11 +166,16 @@ class PagFor500(Cnab):
                 Decimal('1.00'), rounding=ROUND_DOWN),  # FIXME
             'valor_desconto': Decimal('02.00'),
             'valor_acrescimo': Decimal('00.00'),
-            'tipo_documento': 2,  # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
+            'tipo_documento': 2,
+            # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
             'numero_nf': 1621405338,
             'serie_documento': u'AB',
             'modalidade_pagamento': 1,  # TODO trazer o modo de pagamento
-            'tipo_movimento': 0,  # TODO Tipo de Movimento. 0 - Inclusão. 5 - Alteração. 9 - Exclusão. Wkf Odoo.
+            'tipo_movimento': 0,
+            # TODO Tipo de Movimento.
+            # 0 - Inclusão.
+            # 5 - Alteração.
+            # 9 - Exclusão. Wkf Odoo.
             'codigo_movimento': 0,  # FIXME
             'horario_consulta_saldo': u'5',  # FIXME
             'codigo_area_empresa': 0,
@@ -173,16 +184,18 @@ class PagFor500(Cnab):
             'sequencial': 3,  # FIXME
             # Trailer
             'totais_quantidade_registros': 0,
-            'total_valor_arq': Decimal('02.00'),  # FIXME: lib nao reconhece campo
+            'total_valor_arq': Decimal('02.00'),
+            # FIXME: lib nao reconhece campo
             'sequencial_trailer': 1,
 
-
-
-
-            'codigo_protesto': 3, # TODO: campo para identificar o protesto. '1' = Protestar, '3' = Não protestar, '9' = Cancelar protesto automático
+            'codigo_protesto': 3,
+            # TODO: campo para identificar o protesto.
+            # '1' = Protestar,
+            # '3' = Não protestar,
+            # '9' = Cancelar protesto automático
             'prazo_protesto': 0,
             'codigo_baixa': 2,
-            'prazo_baixa': 0, # De 5 a 120 dias.
+            'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
 
         }
@@ -206,4 +219,3 @@ class PagFor500(Cnab):
 
     def hora_agora(self):
         return (int(time.strftime("%H%M%S")))
-

@@ -24,7 +24,6 @@ from openerp import models, fields
 
 
 class L10n_br_CnabSequence(models.Model):
-
     _name = 'l10n_br_cnab_sequence'
 
     code = fields.Char(u'Código')
