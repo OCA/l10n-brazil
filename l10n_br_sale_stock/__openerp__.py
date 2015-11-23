@@ -20,12 +20,11 @@
 
 {
     'name': 'Brazilian Localization Sales and Warehouse',
-    'description': 'Brazilian Localization for sale_stock_module',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, OdooBrasil',
+    'author': 'Akretion, ,Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0',
+    'version': '8.0.1.0.0',
     'depends': [
         'sale_stock',
         'l10n_br_sale_product',
