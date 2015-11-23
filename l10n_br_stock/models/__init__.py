@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2011 - TODAY  Renato Lima - Akretion                          #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,26 +17,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization CRM',
-    'description': 'Brazilian Localization for CRM module',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
-    'depends': [
-        'l10n_br_base',
-        'crm',
-    ],
-    'data': [
-        'views/crm_lead_view.xml',
-        'views/crm_opportunity_view.xml',
-    ],
-    'demo': [],
-    'test': [
-        'test/crm_lead.yml',
-    ],
-    'installable': True,
-    'auto_install': True,
-}
+from . import stock

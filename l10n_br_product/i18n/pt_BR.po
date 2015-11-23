@@ -1,4 +1,0 @@
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_product
-msgid "Brazilian Localization Product"
-msgstr "Localização Brasileira - Módulo de Produtos"
