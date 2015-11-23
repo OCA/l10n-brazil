@@ -38,7 +38,6 @@ class Cnab(object):
         elif cnab_type == '500':
             from .pag_for.pag_for500 import PagFor500
             return PagFor500.get_bank(bank)
-            pass
         else:
             return False
 

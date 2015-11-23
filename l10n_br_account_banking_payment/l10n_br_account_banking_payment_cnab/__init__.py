@@ -21,5 +21,5 @@
 #
 ##############################################################################
 
-import wizard
+from . import wizard
 from . import model
