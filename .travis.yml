@@ -8,6 +8,7 @@ cache: pip
 addons:
   apt:
     packages:
+      - poppler-utils  # For pdftohtml
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
       - libxmlsec1-dev
@@ -23,7 +24,7 @@ virtualenv:
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
-  - pip install https://github.com/eduardocereto/pyboleto/archive/master.zip
+  - pip install pyboleto
   - pip install https://github.com/odoo-brazil/cnab240/archive/develop.zip
   - travis_install_nightly
   - pip install reportlab
