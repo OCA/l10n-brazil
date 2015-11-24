@@ -891,7 +891,7 @@ class AccountInvoiceTax(models.Model):
                 other_costs_value=line.other_costs_value)['taxes']:
                 val = {}
                 val['invoice_id'] = inv.id
-                val['name'] = tax['name']
+                val['name'] = tax['name'] or ''
                 val['amount'] = tax['amount']
                 val['manual'] = False
                 val['sequence'] = tax['sequence']
