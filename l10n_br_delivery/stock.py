@@ -48,6 +48,28 @@ class StockPicking(orm.Model):
             result['freight_value'] = move_line.sale_line_id.freight_value
         return result
 
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move,
+                          context=None):
+
+        inv_vals = super(StockPicking, self)._get_invoice_vals(
+            cr, uid, key, inv_type, journal_id, move, context=context)
+
+        picking = move.picking_id
+
+        values = {
+            'partner_shipping_id': picking.partner_id.id,
+            'carrier_id': picking.carrier_id and picking.carrier_id.id,
+            'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
+            'weight': picking.weight,
+            'weight_net': picking.weight_net,
+            'number_of_packages': picking.number_of_packages,
+            'incoterm': picking.sale_id.incoterm.id
+            if picking.sale_id and picking.sale_id.incoterm.id else False,
+        }
+
+        inv_vals.update(values)
+        return inv_vals
+
 
 class StockMove(orm.Model):
     _inherit = 'stock.move'
