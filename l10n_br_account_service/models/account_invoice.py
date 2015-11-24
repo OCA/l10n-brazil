@@ -25,8 +25,8 @@ from openerp.addons.l10n_br_account.models.account_invoice import (
 )
 
 
-class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
 
     @api.model
     def _default_fiscal_document(self):
@@ -37,6 +37,26 @@ class AccountInvoiceLine(models.Model):
     def _default_fiscal_document_serie(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.document_serie_service_id
+
+    @api.model
+    @api.returns('l10n_br_account.fiscal_category')
+    def _default_fiscal_category(self):
+        DEFAULT_FCATEGORY_SERVICE = {
+            'in_invoice': 'in_invoice_service_fiscal_category_id',
+            'out_invoice': 'out_invoice_service_fiscal_category_id',
+            'in_refund': 'out_invoice_service_fiscal_category_id',
+            'out_refund': 'in_invoice_service_fiscal_category_id'
+        }
+        default_fo_category = {'service': DEFAULT_FCATEGORY_SERVICE}
+        invoice_type = self._context.get('type', 'out_invoice')
+        invoice_fiscal_type = self._context.get('fiscal_type', 'service')
+        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        return company[default_fo_category[invoice_fiscal_type][invoice_type]]
+
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        readonly=True, states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category)
 
     fiscal_document_id = fields.Many2one(
         'l10n_br_account.fiscal.document', 'Documento', readonly=True,
@@ -50,6 +70,10 @@ class AccountInvoiceLine(models.Model):
         ('company_id','=',company_id)]", readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_fiscal_document_serie)
+
+
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
 
     # TODO migrate to new API
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,

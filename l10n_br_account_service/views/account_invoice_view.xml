@@ -27,7 +27,7 @@
 			<field name="domain">[('type','=','in_invoice'),('fiscal_type','=','service')]</field>
 			<field name="context">{'type':'in_invoice', 'journal_type': 'purchase','fiscal_type': 'service'}</field>
 			<field name="view_id" ref="account.invoice_form" />
-			<field name="search_view_id" ref="account.view_account_invoice_filter" />
+			<field name="search_view_id" ref="account.view_account_invoice_filter"/>
 			<field name="help">With Customer Invoices you can create and manage
 			sales invoices issued to your customers. OpenERP can also generate
 			draft invoices automatically from sales orders or deliveries. You
@@ -35,33 +35,20 @@
 		</record>
 
 		<record id="action_invoice_service_in_view" model="ir.actions.act_window.view">
-			<field eval="1" name="sequence" />
+			<field eval="1" name="sequence"/>
 			<field name="view_mode">tree</field>
-			<field name="act_window_id" ref="action_invoice_tree_service_in" />
+			<field name="act_window_id" ref="action_invoice_tree_service_in"/>
 		</record>
 
-		<menuitem id="menu_action_invoice_tree_service_in" action="action_invoice_tree_service_in" parent="account.menu_finance_payables" />
+		<menuitem id="menu_action_invoice_tree_service_in" action="action_invoice_tree_service_in" parent="account.menu_finance_payables"/>
 
 		<record id="action_invoice_service_out_view" model="ir.actions.act_window.view">
-			<field eval="1" name="sequence" />
+			<field eval="1" name="sequence"/>
 			<field name="view_mode">tree</field>
-			<field name="act_window_id" ref="action_invoice_tree_service_out" />
+			<field name="act_window_id" ref="action_invoice_tree_service_out"/>
 		</record>
 
-		<record id="l10n_br_account_service_invoice_form" model="ir.ui.view">
-			<field name="name">l10n_br_account.invoice.form</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_form"/>
-			<field name="arch" type="xml">
-				<field name="date_invoice" position="before">
-					<field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
-					<field name="fiscal_document_id" required="1" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)"/>
-					<field name="fiscal_document_electronic" invisible="1"/>
-				</field>
-			</field>
-		</record>
-
-		<menuitem id="menu_action_invoice_tree_service_out" action="action_invoice_tree_service_out" parent="account.menu_finance_receivables" />
+		<menuitem id="menu_action_invoice_tree_service_out" action="action_invoice_tree_service_out" parent="account.menu_finance_receivables"/>
 
 	</data>
 

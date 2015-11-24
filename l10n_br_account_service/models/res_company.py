@@ -19,6 +19,10 @@
 
 from openerp import models, fields, api
 
+from openerp.addons.l10n_br_account.models.l10n_br_account import (
+    L10n_brTaxDefinition
+)
+
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -64,8 +68,5 @@ class ResCompany(models.Model):
         ('state', '=', 'approved')]""")
 
 
-class L10n_brTaxDefinitionCompanyService(models.Model):
+class L10n_brTaxDefinitionCompanyService(L10n_brTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.service'
-    _inherit = 'l10n_br_tax.definition'
-
-    company_id = fields.Many2one('res.company', 'Company', select=True)

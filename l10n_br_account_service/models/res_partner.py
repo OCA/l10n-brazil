@@ -31,7 +31,7 @@ class AccountFiscalPosition(models.Model):
             context = {}
         if fposition_id and fposition_id.company_id and \
                 context.get('type_tax_use') in ('sale', 'all'):
-            if context.get('fiscal_type', 'product') == 'product':
+            if context.get('fiscal_type', 'service') == 'service':
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['service_tax_ids'],
                     context=context)['service_tax_ids']
@@ -71,7 +71,7 @@ class AccountFiscalPosition(models.Model):
         product = self.env['product.product'].browse(product_id)
         if self.company_id and\
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
-            if self.env.context.get('fiscal_type', 'product') == 'product':
+            if self.env.context.get('fiscal_type', 'service') == 'service':
                 company_taxes = self.company_id.service_tax_definition_line
                 for tax_def in company_taxes:
                     if tax_def.tax_id:
@@ -80,17 +80,6 @@ class AccountFiscalPosition(models.Model):
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
                         }
-            product_ncm_tax_def = product.ncm_id.sale_tax_definition_line
-
-        else:
-            product_ncm_tax_def = product.ncm_id.purchase_tax_definition_line
-
-        for ncm_tax_def in product_ncm_tax_def:
-            if ncm_tax_def.tax_id:
-                result[ncm_tax_def.tax_id.domain] = {
-                    'tax': ncm_tax_def.tax_id,
-                    'tax_code': ncm_tax_def.tax_code_id,
-                }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
@@ -99,18 +88,13 @@ class AccountFiscalPosition(models.Model):
                 if map.tax_src_id == tax or\
                        map.tax_code_src_id == tax.tax_code_id:
                     if map.tax_dest_id or tax.tax_code_id:
-                        if map.ncm_id == product.ncm_id:
-                            map_taxes_ncm |= map
-                        else:
                             map_taxes |= map
-            else:
-                if result.get(tax.domain):
-                    result[tax.domain].update({'tax': tax})
                 else:
-                    result[tax.domain] = {'tax': tax}
+                    if result.get(tax.domain):
+                        result[tax.domain].update({'tax': tax})
+                    else:
+                        result[tax.domain] = {'tax': tax}
 
-        result.update(self._map_tax_code(map_taxes))
-        result.update(self._map_tax_code(map_taxes_ncm))
         return result
 
     @api.v8
