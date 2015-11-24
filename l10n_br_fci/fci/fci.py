@@ -104,7 +104,7 @@ def import_fci(file_name):
 
     for registro5020 in arq_entrada._blocos['5'].registros:
         if registro5020.valores[01] == '5020':
-            list_default_code.append(registro5020.valores[05])
+            list_default_code.append(registro5020.valores[04])
             list_fci_codes.append(registro5020.valores[10])
     res['default_code'] = list_default_code
 

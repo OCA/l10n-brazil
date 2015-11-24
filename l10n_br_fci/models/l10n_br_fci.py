@@ -94,22 +94,25 @@ class L10nBrFci(models.Model):
         company_id = self.env['res.company'].search(
             [('partner_id.cnpj_cpf', '=', res_importados['cnpj_cpf'])])
         # SE AS EMPRESAS ESTIVEREM IGUAIS
-        if (self.company_id == company_id[0]):
-            # VERIFICA SE TEM PRODUTOS
-            for default_code, fci_code in zip(res_importados['default_code'],
-                                              res_importados['fci_codes']):
-                product_id = self.env['product.template'].search(
-                    [('default_code', '=', default_code)])
-                if product_id:
-                    product_id[0].fci = fci_code
+        if company_id:
+            if (self.company_id == company_id[0]):
+
+                # VERIFICA SE TEM PRODUTOS
+                for default_code, fci_code in zip(
+                        res_importados['default_code'],
+                        res_importados['fci_codes']):
+                    product_id = self.env['product.template'].search(
+                        [('default_code', '=', default_code)])
+                    if product_id:
+                        product_id[0].fci = fci_code
 
                 # CHECA SE PRODUTOS NO ARQUIVO SÃO IGUAIS AOS DA TELA
                 for produtos_tela in self.fci_line:
-                    if produtos_tela.default_code in \
-                            res_importados['default_code']:
-                        resp = True
-                    else:
-                        resp = False
+                        if produtos_tela.default_code in \
+                                res_importados['default_code']:
+                            resp = True
+                        else:
+                            resp = False
                 if resp:
                     self.partner_id = company_id[0]
                     self.hash_code = res_importados['hash_code']
@@ -117,24 +120,23 @@ class L10nBrFci(models.Model):
                     self.cod_recepcao = res_importados['cod_recepcao']
                     self.dt_validacao = res_importados['dt_validacao']
                     self.in_validacao = res_importados['in_validacao']
-                    self.cnpj_cpf = res_importados['cnpj_cpf']
 
-                    if product_id:
-                        for line in self.fci_line:
-                            if line.default_code in product_id.default_code:
-                                line.fci = product_id.fci
+                    for line, fci_code in zip(
+                            self.fci_line, res_importados['fci_codes']):
+                            line.fci = fci_code
+
                 # SE TUDO DER ERRADO
                 else:
                     raise Warning(('Error!'), (
                         'Arquivo FCI de retorno não corresponde ao esperado.\n'
                         'Os produtos contidos no arquivo de entrada diferem'
                         ' dos exibida na tela'))
-        else:
-            # SE EMPRESA NÃO OK
-            raise Warning(('Error!'), (
-                'Arquivo FCI de retorno não corresponde ao esperado.\n'
-                'A empresa do arquivo de entrada difere da exibida na'
-                ' tela'))
+            else:
+                # SE EMPRESA NÃO OK
+                raise Warning(('Error!'), (
+                    'Arquivo FCI de retorno não corresponde ao esperado.\n '
+                    'A empresa do arquivo de entrada difere da exibida na'
+                    ' tela'))
         self.write({'state': 'aproved'})
         return
 

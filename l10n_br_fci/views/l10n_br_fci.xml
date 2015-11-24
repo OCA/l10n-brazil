@@ -40,7 +40,7 @@
                                 position="before"
                                 type="object">
                         </button>
-                        <button name="importa_fci"
+                        <button name="import_fci"
                                 string="Importar FCI"
                                 type="object"
                                 states="waiting_fci"
