@@ -68,7 +68,6 @@ class AccountFiscalPosition(models.Model):
     @api.multi
     def _map_tax(self, product_id, taxes):
         result = {}
-        product = self.env['product.product'].browse(product_id)
         if self.company_id and\
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'service') == 'service':
@@ -82,13 +81,12 @@ class AccountFiscalPosition(models.Model):
                         }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
-        map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
-                if map.tax_src_id == tax or\
-                       map.tax_code_src_id == tax.tax_code_id:
+                if map.tax_src_id == tax or \
+                        map.tax_code_src_id == tax.tax_code_id:
                     if map.tax_dest_id or tax.tax_code_id:
-                            map_taxes |= map
+                        map_taxes |= map
                 else:
                     if result.get(tax.domain):
                         result[tax.domain].update({'tax': tax})

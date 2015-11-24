@@ -20,9 +20,9 @@
 from lxml import etree
 
 from openerp import models, fields, api
+
 from openerp.addons.l10n_br_account.models.account_invoice import (
-     OPERATION_TYPE
-)
+    OPERATION_TYPE)
 
 
 class AccountInvoice(models.Model):
