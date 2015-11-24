@@ -19,12 +19,11 @@
 
 {
     'name': 'Brazilian Localization Account Service',
-    'description': 'Brazilian Localization Account Service',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
+    'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0',
+    'version': '8.0.1.0.0',
     'depends': [
         'l10n_br_account',
     ],
@@ -39,8 +38,14 @@
     'demo': [
         'demo/account_tax_demo.xml',
         'demo/product_demo.xml',
+        'demo/l10n_br_account_service_demo.xml',
+        'demo/account_fiscal_position_rule_demo.xml',
     ],
-    'test': [],
+    'test': [
+        'test/account_customer_invoice.yml',
+        'test/account_supplier_invoice.yml',
+        'test/account_invoice_refund.yml',
+    ],
     'installable': True,
     'auto_install': False,
 }
