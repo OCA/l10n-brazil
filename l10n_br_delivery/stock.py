@@ -47,3 +47,22 @@ class StockPicking(orm.Model):
             result['other_costs_value'] = move_line.sale_line_id.other_costs_value
             result['freight_value'] = move_line.sale_line_id.freight_value
         return result
+
+
+class StockMove(orm.Model):
+    _inherit = 'stock.move'
+
+    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
+                               context=None):
+        res = super(StockMove, self)._get_invoice_line_vals(
+            cr, uid, move, partner, inv_type, context=context)
+        if move.procurement_id and move.procurement_id.sale_line_id:
+            sale_line = move.procurement_id.sale_line_id
+
+            res.update({
+                'insurance_value': sale_line.insurance_value,
+                'freight_value': sale_line.freight_value,
+                'other_costs_value': sale_line.other_costs_value,
+            })
+
+        return res
