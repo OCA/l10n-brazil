@@ -45,14 +45,4 @@
 -
   !assert {model: account.invoice, id: account_invoice_customer0}:
     - state == 'draft'
--
-  I create invoice by clicking on Create button
--
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_customer0}
--
-  I check that the invoice state is "Open"
--
-  !assert {model: account.invoice, id: account_invoice_customer0}:
-    - state == 'open'
-
-
+    - fiscal_position.id == ref('fiscal_position_sale')
