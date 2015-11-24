@@ -382,7 +382,6 @@ class PurchaseOrderLine(models.Model):
                 'fiscal_type': obj_product.fiscal_type,
                 'type_tax_use': 'purchase'
             }
-            kwargs['context'].update(ctx)
             taxes = obj_product.supplier_taxes_id or False
             taxes_ids = obj_fposition.map_tax(taxes)
             result['value']['taxes_id'] = taxes_ids
