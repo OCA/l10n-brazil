@@ -46,6 +46,12 @@
   !assert {model: account.invoice, id: account_invoice_supplier0}:
     - state == 'draft'
 -
+  I wait a bit to try to avoid Odoo heisenbugs
+-
+  !python {model: account.invoice}: |
+    import time
+    time.sleep(0.2)
+-
   I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier0}

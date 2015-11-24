@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# Copyright (C) 2009  Renato Lima - Akretion
+# Copyright (C) 2015  Renato Lima - Akretion
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -17,28 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Purchase',
-    'license': 'AGPL-3',
-    'category': 'Localisation',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
-    'depends': [
-        'l10n_br_stock_account',
-        'account_fiscal_position_rule_purchase',
-    ],
-    'data': [
-        'data/l10n_br_purchase_data.xml',
-        'views/purchase_view.xml',
-        'views/res_company_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_br_purchase_security.xml',
-    ],
-    'demo': [
-        # FIXME
-        # 'test/purchase_order_demo.yml'
-    ],
-    'installable': True,
-    'auto_install': False,
-}
+from . import res_company
+from . import purchase
+from . import procurement
