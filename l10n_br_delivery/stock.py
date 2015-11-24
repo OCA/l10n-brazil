@@ -47,23 +47,3 @@ class StockPicking(orm.Model):
             result['other_costs_value'] = move_line.sale_line_id.other_costs_value
             result['freight_value'] = move_line.sale_line_id.freight_value
         return result
-
-    def _invoice_hook(self, cr, uid, picking, invoice_id):
-        """Call after the creation of the invoice."""
-        context = {}
-
-        self.pool.get('account.invoice').write(
-            cr, uid, invoice_id, {
-                'partner_shipping_id': picking.partner_id.id,
-                'carrier_id': picking.carrier_id and picking.carrier_id.id,
-                'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
-                'incoterm': picking.incoterm.id,
-                'weight': picking.weight,
-                'weight_net': picking.weight_net,
-                'number_of_packages': picking.number_of_packages})
-
-        return super(StockPicking, self)._invoice_hook(
-            cr, uid, picking, invoice_id)
-
-
-
