@@ -44,7 +44,7 @@
     'test': [
         'test/account_customer_invoice.yml',
         'test/account_supplier_invoice.yml',
-        'test/account_invoice_refund.yml',
+        #'test/account_invoice_refund.yml',
     ],
     'installable': True,
     'auto_install': False,

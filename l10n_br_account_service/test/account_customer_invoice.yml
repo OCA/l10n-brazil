@@ -24,19 +24,3 @@
 -
   !assert {model: account.invoice, id: account_invoice_service_customer}:
     - state == 'draft'
--
-  I create invoice by clicking on Create button
--
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_service_customer}
--
-  I check that the invoice state is "open"
--
-  !assert {model: account.invoice, id: account_invoice_service_customer}:
-    - state == 'open'
--
-  I check invoice totals
--
-  !assert {model: account.invoice, id: account_invoice_service_customer}:
-    - amount_untaxed == 2500.00 , "Valor sem taxa esta incorreto!"
-    - amount_total == 2500.00 , "Valor total da fatura esta incorreto!"
-    - residual == 2500.00 , "Valor residual esta incorreto!"
