@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Brazilian Localization CRM ZIP by Correios to Odoo
@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import api, models
 from openerp.addons.l10n_br_zip_correios.models.webservice_client import \
     WebServiceClient
 
@@ -28,7 +28,8 @@ from openerp.addons.l10n_br_zip_correios.models.webservice_client import \
 class CrmLead(models.Model, WebServiceClient):
     _inherit = "crm.lead"
 
-    @api.one
+    @api.multi
     def zip_search(self):
+        self.ensure_one()
         self.get_address()
         return super(CrmLead, self).zip_search()
