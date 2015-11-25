@@ -470,8 +470,9 @@ class AccountInvoice(models.Model):
 
             # TODO Alerta se nao tiver serie
             if not series:
-                action = self.env.ref('l10n_br_account.\
-                    action_l10n_br_account_document_serie_form')
+                action = self.env.ref(
+                    'l10n_br_account.'
+                    'action_l10n_br_account_document_serie_form')
                 msg = _(u'Você deve ser uma série de documento fiscal'
                         u'para este documento fiscal.')
                 raise RedirectWarning(
