@@ -25,8 +25,10 @@ from .l10n_br_account_product_service import (
 
 
 class ProductTemplate(models.Model):
+    """Inherit class to change default value of fiscal_type field"""
     _inherit = 'product.template'
 
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
+                                   u'Tipo Fiscal',
+                                   required=True,
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)

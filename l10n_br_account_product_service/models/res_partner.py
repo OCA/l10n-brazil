@@ -21,10 +21,13 @@ from openerp import models, fields, api
 
 
 class AccountFiscalPosition(models.Model):
+    """Override class to implement custom mapping tax methods to
+    defini brazilian taxes using new fields"""
     _inherit = 'account.fiscal.position'
 
     @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
+        """Custom method called in old api"""
         result = []
         if not context:
             context = {}
@@ -72,7 +75,8 @@ class AccountFiscalPosition(models.Model):
     def _map_tax(self, product_id, taxes):
         result = {}
         product = self.env['product.product'].browse(product_id)
-        if self.company_id and self.env.context.get('type_tax_use') in ('sale', 'all'):
+        if self.company_id and \
+                self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'product') == 'product':
                 company_taxes = self.company_id.product_tax_definition_line
                 for tax_def in company_taxes:
@@ -107,7 +111,8 @@ class AccountFiscalPosition(models.Model):
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
-                if map.tax_src_id == tax or map.tax_code_src_id == tax.tax_code_id:
+                if map.tax_src_id == tax or \
+                        map.tax_code_src_id == tax.tax_code_id:
                     if map.tax_dest_id or tax.tax_code_id:
                         if map.ncm_id == product.ncm_id:
                             map_taxes_ncm |= map
@@ -125,76 +130,10 @@ class AccountFiscalPosition(models.Model):
 
     @api.v8
     def map_tax(self, taxes):
+        """Custom method called in new api"""
         result = self.env['account.tax'].browse()
         taxes_codes = self._map_tax(self.env.context.get('product_id'), taxes)
         for tax in taxes_codes:
             if taxes_codes[tax].get('tax'):
                 result |= taxes_codes[tax].get('tax')
         return result
-
-
-class AccountFiscalPositionTemplate(models.Model):
-    _inherit = 'account.fiscal.position.template'
-
-    # TODO migrate to new API
-    @api.v7
-    def generate_fiscal_position(self, cr, uid, chart_temp_id,
-                                 tax_template_ref, acc_template_ref,
-                                 company_id, context=None):
-        """
-        This method generate Fiscal Position, Fiscal Position Accounts and
-        Fiscal Position Taxes from templates.
-
-        :param chart_temp_id: Chart Template Id.
-        :param taxes_ids: Taxes templates reference for generating
-        account.fiscal.position.tax.
-        :param acc_template_ref: Account templates reference for generating
-        account.fiscal.position.account.
-        :param company_id: selected from wizard.multi.charts.accounts.
-        :returns: True
-        """
-        if context is None:
-            context = {}
-
-        obj_tax_fp = self.pool.get('account.fiscal.position.tax')
-        obj_ac_fp = self.pool.get('account.fiscal.position.account')
-        obj_fiscal_position = self.pool.get('account.fiscal.position')
-        obj_tax_code = self.pool.get('account.tax.code')
-        obj_tax_code_template = self.pool.get('account.tax.code.template')
-        tax_code_template_ref = {}
-        tax_code_ids = obj_tax_code.search(
-            cr, uid, [('company_id', '=', company_id)])
-
-        for tax_code in obj_tax_code.browse(cr, uid, tax_code_ids):
-            tax_code_template = obj_tax_code_template.search(
-                cr, uid, [('name', '=', tax_code.name)])
-            if tax_code_template:
-                tax_code_template_ref[tax_code_template[0]] = tax_code.id
-
-        fp_ids = self.search(cr, uid,
-            [('chart_template_id', '=', chart_temp_id)])
-        for position in self.browse(cr, uid, fp_ids, context=context):
-            new_fp = obj_fiscal_position.create(
-                cr, uid, {'company_id': company_id,
-                          'name': position.name,
-                          'note': position.note,
-                          'type': position.type,
-                          'type_tax_use': position.type_tax_use,
-                          'inv_copy_note': position.inv_copy_note,
-                          'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
-            for tax in position.tax_ids:
-                obj_tax_fp.create(cr, uid, {
-                    'tax_src_id': tax.tax_src_id and tax_template_ref.get(tax.tax_src_id.id, False),
-                    'tax_code_src_id': tax.tax_code_src_id and tax_code_template_ref.get(tax.tax_code_src_id.id, False),
-                    'tax_src_domain': tax.tax_src_domain,
-                    'tax_dest_id': tax.tax_dest_id and tax_template_ref.get(tax.tax_dest_id.id, False),
-                    'tax_code_dest_id': tax.tax_code_dest_id and tax_code_template_ref.get(tax.tax_code_dest_id.id, False),
-                    'position_id': new_fp
-                })
-            for acc in position.account_ids:
-                obj_ac_fp.create(cr, uid, {
-                    'account_src_id': acc_template_ref[acc.account_src_id.id],
-                    'account_dest_id': acc_template_ref[acc.account_dest_id.id],
-                    'position_id': new_fp
-                })
-        return True
