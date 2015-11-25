@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
-#                                                                             #
-#This program is free software: you can redistribute it and/or modify         #
-#it under the terms of the GNU Affero General Public License as published by  #
-#the Free Software Foundation, either version 3 of the License, or            #
-#(at your option) any later version.                                          #
-#                                                                             #
-#This program is distributed in the hope that it will be useful,              #
-#but WITHOUT ANY WARRANTY; without even the implied warranty of               #
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                #
-#GNU Affero General Public License for more details.                          #
-#                                                                             #
-#You should have received a copy of the GNU Affero General Public License     #
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
+#
+# Copyright (C) 2013  Renato Lima - Akretion
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import orm, fields, api
+from openerp import models, fields, api
 
 from .l10n_br_account_product_service import PRODUCT_FISCAL_TYPE
 
@@ -57,7 +57,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def _default_fiscal_document(self):
-        invoice_fiscal_type = context.get('fiscal_type', 'product')
+        invoice_fiscal_type = self.env.context.get('fiscal_type', 'product')
         fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
 
         company = self.env['res.company'].browse(self.env.user.company_id.id)
@@ -65,7 +65,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def _default_fiscal_document_serie(self):
-        invoice_fiscal_type = context.get('fiscal_type', 'product')
+        invoice_fiscal_type = self.env.context.get('fiscal_type', 'product')
         fiscal_document_serie = self.env['l10n_br_account.document.serie']
         company = self.env['res.company'].browse(self.env.user.company_id.id)
 
