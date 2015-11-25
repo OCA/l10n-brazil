@@ -18,14 +18,13 @@
 ###############################################################################
 
 from openerp import models, fields
-from openerp.addons.l10n_br_account_service.models.\
-    l10n_br_account_service import (PRODUCT_FISCAL_TYPE,
-                                    PRODUCT_FISCAL_TYPE_DEFAULT)
+from .l10n_br_account_service import (PRODUCT_FISCAL_TYPE,
+                                      PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', requeried=True,
+        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)

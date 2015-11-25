@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 ==========================================
-Módulo Informações Contabéis para Produtos
+Módulo Informações Contabéis para Serviços
 ==========================================
 
 This module was written to extend the functionality of ... to support ...
