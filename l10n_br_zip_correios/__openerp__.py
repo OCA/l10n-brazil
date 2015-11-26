@@ -30,6 +30,10 @@
     'depends': [
         'l10n_br_zip',
     ],
+    'test': [
+        'test/company_zip.yml',
+        'test/partner_zip.yml',
+    ],
     'category': 'Localization',
     'installable': True,
     'external_dependencies': {
