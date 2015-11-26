@@ -298,19 +298,10 @@ class AccountInvoice(models.Model):
             partner_invoice_id=partner_address_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
 
-    @api.multi
-    def onchange_fiscal_document_id(self, fiscal_document_id,
-                                    company_id, issuer, fiscal_type):
-        result = {'value': {'document_serie_id': False}}
-        company = self.env['res.company'].browse(company_id)
-
-        if issuer == '0':
-            serie = company.document_serie_service_id and \
-                company.document_serie_service_id.id or False
-            result['value']['document_serie_id'] = serie
-
-        return result
-
+    @api.onchange('fiscal_document_id')
+    def onchange_fiscal_document_id(self):
+        if self.issuer == '0':
+            self.document_serie_id = self.company_id.document_serie_service_id
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
