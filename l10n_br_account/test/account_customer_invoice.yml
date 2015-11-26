@@ -16,11 +16,6 @@
     company_id: base.main_company
     fiscal_category_id: fiscal_category_sale
 -
-  I configure automatically if the country is set on the company, mainly for online offers.
--
-  !python {model: account.installer}: |
-    print "passou!"
--
   Create Fiscal Position Rule
 -
   !record {model: account.fiscal.position.rule, id: fiscal_position_rule_sale}:
@@ -50,14 +45,4 @@
 -
   !assert {model: account.invoice, id: account_invoice_customer0}:
     - state == 'draft'
--
-  I create invoice by clicking on Create button
--
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_customer0}
--
-  I check that the invoice state is "Open"
--
-  !assert {model: account.invoice, id: account_invoice_customer0}:
-    - state == 'open'
-
-
+    - fiscal_position.id == ref('fiscal_position_sale')

@@ -83,10 +83,20 @@
 			<field name="state">approved</field>
 		</record>
 
+		<record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_account.fiscal.category">
+			<field name="code">Entrada de Remessa</field>
+			<field name="name">Entrada de Remessa</field>
+			<field name="type">input</field>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
+			<field name="state">approved</field>
+		</record>
+
 		<record id="fc_86d8c770fc2fb9d9fa242a3bdddd507a" model="l10n_br_account.fiscal.category">
 			<field name="code">SimplesRemessa</field>
 			<field name="name">Simples Remessa</field>
 			<field name="type">output</field>
+			<field name="refund_fiscal_category_id" ref="fc_d9132a81edff5374f33560f58666b792"/>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">sale</field>
 			<field name="state">approved</field>
