@@ -155,18 +155,18 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
-                <label for="comment" position="replace">
+				<label for="comment" position="replace">
 				</label>
 				<field name="comment" position="replace">
 				</field>
-        		<field name="date_invoice" position="after">
+				<field name="date_invoice" position="after">
 					<field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
-					<field name="fiscal_document_id" required="1" on_change="onchange_fiscal_document_id(fiscal_document_id, company_id, issuer, fiscal_type)"/>
+					<field name="fiscal_document_id" required="1"/>
 					<field name="date_hour_invoice" string="Data Emissão"/>
-        			<field name="date_in_out" string="Data de Entrada/Saida"/>
+					<field name="date_in_out" string="Data de Entrada/Saida"/>
 					<field name="fiscal_document_electronic" invisible="1"/>
 				</field>
-                <field name="date_invoice" position="attributes">
+				<field name="date_invoice" position="attributes">
 					<field name="date_invoice" invisible="1"/>
 				</field>
 				<notebook>
@@ -206,11 +206,11 @@
 							<page string="Documento Fiscal">
 								<group>
 									<field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" />
-                                    <field name="nfe_protocol_number" />
+									<field name="nfe_protocol_number" />
 									<field name="nfe_status" />
 									<field name="nfe_export_date" />
 									<field name="nfe_date" />
-                                    <field name="nfe_version"/>
+									<field name="nfe_version"/>
 								</group>
 								<group>
 									<field name="nfe_purpose" required="1"/>
@@ -231,7 +231,7 @@
 									<field name="amount_freight"/>
 									<field name="amount_insurance"/>
 									<field name="amount_costs"/>
-                                    <field name="amount_total_taxes"/>
+									<field name="amount_total_taxes"/>
 								</group>
 								<group name="package_info">
 									<field name="weight"/>
@@ -286,7 +286,7 @@
 			<field name="name">l10n_br_account.invoice.line.form</field>
 			<field name="model">account.invoice.line</field>
 			<field name="inherit_id" ref="account.view_invoice_line_form" />
-            <field name="priority">36</field>
+			<field name="priority">36</field>
 			<field name="arch" type="xml">
 			 	<form position="replace" string="Invoice Line">
 				 	<form string="Invoice Line">
@@ -323,9 +323,9 @@
 									<field name="name"/>
 							</page>
 							<page position="inside" string="Impostos">
-                                <group>
-                                    <field name="total_taxes"/>
-                                </group>
+								<group>
+									<field name="total_taxes"/>
+								</group>
 								<notebook>
 									<page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">
 										<group string="Detalhes do ICMS">
@@ -440,11 +440,11 @@
 									</page>
 								</notebook>
 							</page>
-                            <page string="Informações Adicionais">
-                                <group>
-                                    <field name="fiscal_comment" nolabel="1"/>
-                                </group>
-                            </page>
+							<page string="Informações Adicionais">
+								<group>
+									<field name="fiscal_comment" nolabel="1"/>
+								</group>
+							</page>
 							<page string="Declaração de Importação">
 								<group>
 									<field name="import_declaration_ids" colspan="4" nolabel="1">
