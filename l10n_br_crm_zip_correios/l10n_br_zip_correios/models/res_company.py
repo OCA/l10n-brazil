@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Address from Brazilian Localization ZIP by Correios to Odoo
@@ -21,13 +21,14 @@
 ##############################################################################
 
 from openerp import models, api
-from webservice_client import WebServiceClient
+from openerp.addons.l10n_br_zip_correios.models.webservice_client import \
+    WebServiceClient
 
 
 class ResCompany(models.Model, WebServiceClient):
     _inherit = 'res.company'
 
-    @api.one
+    @api.multi
     def zip_search(self):
         self.get_address()
         return super(ResCompany, self).zip_search()
