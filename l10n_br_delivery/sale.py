@@ -76,5 +76,4 @@ class SaleOrder(orm.Model):
 
             amount_freight = grid_obj.get_price(cr, uid, grid.id, order,
             time.strftime('%Y-%m-%d'), context)
-            self.onchange_amount_freight(cr, uid, ids, amount_freight)
         return self.write(cr, uid, ids, {'amount_freight': amount_freight})
