@@ -43,10 +43,13 @@ class ResCompany(models.Model):
         u'Valor mínimo COFINS/CSLL/PIS', default=0.0,
         digits_compute=dp.get_precision('Account'))
     irrf_wh_base = fields.Float(
-        u'Valor mínimo IRRF', default=0.0,
+        u'Valor mínimo IRRF', default=10.0,
+        digits_compute=dp.get_precision('Account'))
+    inss_wh_base = fields.Float(
+        u'Valor mínimo INSS', default=10.0,
         digits_compute=dp.get_precision('Account'))
     irrf_wh_percent = fields.Float(
-        u'Taxa de IR(%)', digits_compute=dp.get_precision('Discount'))
+        u'Taxa de IR(%)', digits_compute=dp.get_precision('Discount'), default=11.0)
     irrf_wh = fields.Boolean(u'Retém IRRF')
     issqn_wh = fields.Boolean(u'Retém ISSQN')
     inss_wh = fields.Boolean(u'Retém INSS')
