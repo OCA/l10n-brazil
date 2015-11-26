@@ -363,6 +363,15 @@ class PurchaseOrderLine(models.Model):
 
         ctx = dict(context or self._context)
 
+        kwargs.update({
+            'company_id': company_id,
+            'product_id': product_id,
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_id,
+            'fiscal_category_id': fiscal_category_id,
+            'context': ctx,
+        })
+
         result.update(self._fiscal_position_map(result, **kwargs))
         fiscal_position = result['value'].get('fiscal_position')
 
