@@ -6,8 +6,12 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
+				<field name="amount_tax" position="after">
+					<field name="amount_wh" widget="monetary" options="{'currency_field': 'currency_id'}" 
+						attrs="{'invisible': [('fiscal_type', '!=', 'service')]}" />
+				</field>
 				<notebook position="inside">
-					<page string="Retenções">
+					<page string="Retenções" attrs="{'invisible': [('fiscal_type', '!=', 'service')]}">
 						<group string="Retenção Impostos sobre serviços:">
 							<group>
 								<field name="issqn_wh" />
