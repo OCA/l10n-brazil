@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Address from Brazilian Localization ZIP by Correios to Odoo
@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-from . import webservice_client
 from . import res_company
 from . import res_partner
+from . import webservice_client

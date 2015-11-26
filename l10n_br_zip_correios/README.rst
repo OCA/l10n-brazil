@@ -6,15 +6,12 @@ inserted by user and fill address fields with the returned data.
 
 It provide this search button on view of partners and view of companies.
 
-Dependences
-___________
+External Dependencies
+_____________________
 
 This module makes use of external python libraries to perform their search routines:
 
-* suds:  
-```
-pip install suds
-```
+ * suds: `pip install suds`
 
 Contributors
 ------------

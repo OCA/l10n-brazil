@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Brazilian Localization CRM ZIP by Correios to Odoo
@@ -31,8 +31,10 @@
         'l10n_br_crm_zip',
         'l10n_br_zip_correios',
     ],
+    'test': [
+        'test/crm_zip.yml',
+    ],
     'category': 'Localization',
-    'active': False,
     'installable': True,
     'external_dependencies': {
         'python': ['suds'],

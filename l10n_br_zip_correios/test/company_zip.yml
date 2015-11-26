@@ -1,0 +1,9 @@
+-
+  I set the created zip code to company and check if it returns correctly
+-
+  !python {model: res.company, id: base.main_company }: |
+    self.zip = '12327001'
+    assert self.zip_search(), 'Zip search does not return true'
+    assert self.district == 'Centro', 'District value is wrong'
+    assert self.street == u'Rua Doutor Lúcio Malta', 'Street value is wrong'
+    assert self.l10n_br_city_id.id == ref('l10n_br_base.city_3524402')

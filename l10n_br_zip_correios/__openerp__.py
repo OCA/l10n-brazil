@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Address from Brazilian Localization ZIP by Correios to Odoo
@@ -30,8 +30,11 @@
     'depends': [
         'l10n_br_zip',
     ],
+    'test': [
+        'test/company_zip.yml',
+        'test/partner_zip.yml',
+    ],
     'category': 'Localization',
-    'active': False,
     'installable': True,
     'external_dependencies': {
         'python': ['suds'],
