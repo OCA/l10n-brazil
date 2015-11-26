@@ -25,6 +25,8 @@ from openerp import api, fields, models
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import Warning
 
+FIELD_STATE = {'draft': [('readonly', False)]}
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -34,91 +36,106 @@ class AccountInvoice(models.Model):
     def _amount_all(self):
         for inv in self:
             inv.amount_services = sum(
-                line.price_total for line in self.invoice_line)
-            inv.issqn_base = sum(line.issqn_base for line in self.invoice_line)
+                line.price_total for line in inv.invoice_line)
+            inv.issqn_base = sum(line.issqn_base for line in inv.invoice_line)
             inv.issqn_value = sum(
-                line.issqn_value for line in self.invoice_line)
+                line.issqn_value for line in inv.invoice_line)
             inv.service_pis_value = sum(
-                line.pis_value for line in self.invoice_line)
+                line.pis_value for line in inv.invoice_line)
             inv.service_cofins_value = sum(
-                line.cofins_value for line in self.invoice_line)
-            inv.csll_base = sum(line.csll_base for line in self.invoice_line)
-            inv.csll_value = sum(line.csll_value for line in self.invoice_line)
-            inv.ir_base = sum(line.ir_base for line in self.invoice_line)
-            inv.ir_value = sum(line.ir_value for line in self.invoice_line)
+                line.cofins_value for line in inv.invoice_line)
+            inv.csll_base = sum(line.csll_base for line in inv.invoice_line)
+            inv.csll_value = sum(line.csll_value for line in inv.invoice_line)
+            inv.ir_base = sum(line.ir_base for line in inv.invoice_line)
+            inv.ir_value = sum(line.ir_value for line in inv.invoice_line)
 
             inv.amount_total = inv.amount_tax + \
                 inv.amount_untaxed + inv.amount_services
 
-    issqn_wh = fields.Boolean(u'Retém ISSQN')
-    issqn_value_wh = fields.Float(u'Valor da retenção do ISSQN',
-                                  digits_compute=dp.get_precision('Account'))
-    pis_wh = fields.Boolean(u'Retém PIS')
-    pis_value_wh = fields.Float(u'Valor da retenção do PIS',
-                                digits_compute=dp.get_precision('Account'))
-    cofins_wh = fields.Boolean(u'Retém COFINS')
-    cofins_value_wh = fields.Float(u'Valor da retenção do Cofins',
-                                   digits_compute=dp.get_precision('Account'))
-    csll_wh = fields.Boolean(u'Retém CSLL')
-    csll_value_wh = fields.Float(u'Valor da retenção de CSLL',
-                                 digits_compute=dp.get_precision('Account'))
-    irrf_wh = fields.Boolean(u'Retém IRRF')
-    irrf_base_wh = fields.Float(u'Base de calculo retenção do IRRF',
-                                digits_compute=dp.get_precision('Account'))
-    irrf_value_wh = fields.Float(u'Valor da retenção de IRRF',
-                                 digits_compute=dp.get_precision('Account'))
-    inss_wh = fields.Boolean(u'Retém INSS')
+            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
+                                inv.cofins_value_wh + inv.csll_value_wh + \
+                                inv.irrf_value_wh + inv.inss_value_wh
+
+    issqn_wh = fields.Boolean(
+        u'Retém ISSQN', readonly=True, states=FIELD_STATE)
+
+    issqn_value_wh = fields.Float(
+        u'Valor da retenção do ISSQN', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    pis_wh = fields.Boolean(
+        u'Retém PIS', readonly=True, states=FIELD_STATE)
+
+    pis_value_wh = fields.Float(
+        u'Valor da retenção do PIS', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    cofins_wh = fields.Boolean(
+        u'Retém COFINS', readonly=True, states=FIELD_STATE)
+
+    cofins_value_wh = fields.Float(
+        u'Valor da retenção do Cofins', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    csll_wh = fields.Boolean(
+        u'Retém CSLL', readonly=True, states=FIELD_STATE)
+
+    csll_value_wh = fields.Float(
+        u'Valor da retenção de CSLL', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    irrf_wh = fields.Boolean(
+        u'Retém IRRF', readonly=True, states=FIELD_STATE)
+
+    irrf_base_wh = fields.Float(
+        u'Base de calculo retenção do IRRF', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    irrf_value_wh = fields.Float(
+        u'Valor da retenção de IRRF', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    inss_wh = fields.Boolean(
+        u'Retém INSS', readonly=True, states=FIELD_STATE)
+
     inss_base_wh = fields.Float(
-        u'Base de Cálculo da Retenção da Previdência Social',
-        digits_compute=dp.get_precision('Account'))
-    inss_value_wh = fields.Float(u'Valor da Retenção da Previdência Social ',
-                                 digits_compute=dp.get_precision('Account'))
+        u'Base de Cálculo da Retenção da Previdência Social', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+
+    inss_value_wh = fields.Float(
+        u'Valor da Retenção da Previdência Social ', readonly=True,
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
 
     csll_base = fields.Float(
-        string='Base CSLL',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Base CSLL', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     csll_value = fields.Float(
-        string='Valor CSLL',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Valor CSLL', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     ir_base = fields.Float(
-        string='Base IR',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Base IR', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     ir_value = fields.Float(
-        string='Valor IR',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
-    amount_services = fields.Float(
-        string='Total dos serviços',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Valor IR', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     issqn_base = fields.Float(
-        string='Base de Cálculo do ISSQN',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Base de Cálculo do ISSQN', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     issqn_value = fields.Float(
-        string='Valor do ISSQN',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Valor do ISSQN', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     service_pis_value = fields.Float(
-        string='Valor do Pis sobre Serviços',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Valor do Pis sobre Serviços', compute='_amount_all',
+        digits_compute=dp.get_precision('Account'), store=True)
     service_cofins_value = fields.Float(
-        string='Valor do Cofins sobre Serviços',
-        compute='_amount_all',
-        digits_compute=dp.get_precision('Account'),
-        store=True)
+        string=u'Valor do Cofins sobre Serviços', compute='_amount_all',
+        store=True, digits_compute=dp.get_precision('Account'))
+    amount_services = fields.Float(
+        string=u'Total dos serviços', compute='_amount_all', store=True,
+        digits_compute=dp.get_precision('Account'))
+    amount_wh = fields.Float(
+        string=u'Total de retenção', compute='_amount_all', store=True,
+        digits_compute=dp.get_precision('Account'))
 
     def _whitholding_map(self, cr, uid, result, context=None, **kwargs):
         if not context:
@@ -164,11 +181,6 @@ class AccountInvoice(models.Model):
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
             move_lines)
 
-        move_credit = {'analytic_account_id': None, 'tax_code_id': 10, 'analytic_lines': [], 'tax_amount': 10,
-                       'name': u'IR 1.05%', 'ref': False, 'currency_id': False, 'credit': 10,
-                       'product_id': False, 'date_maturity': False, 'debit': False, 'date': '2015-11-20',
-                       'amount_currency': 0, 'product_uom_id': False, 'quantity': 1, 'partner_id': 17, 'account_id': 123}
-
         move_debit = {'analytic_account_id': None, 'tax_code_id': 10, 'analytic_lines': [], 'tax_amount': 10,
                       'name': u'IR Recuperar 1.05% (Retenção)', 'ref': False, 'currency_id': False, 'credit': False,
                       'product_id': False, 'date_maturity': False, 'debit': 10, 'date': '2015-11-20',
@@ -176,8 +188,11 @@ class AccountInvoice(models.Model):
         # for move in move_lines:
         #    print move
         #move_lines.append((0, 0, move_credit))
-        #move_lines.append((0, 0, move_debit))
-        
+        move_lines.append((0, 0, move_debit))
+        for move in move_lines:
+            if move[2]['date_maturity']:
+                move[2]['debit'] = move[2]['debit'] - 10
+
         # veriricar se o cliente x empresa retem o imposto e chamar o metodo
         # correspondente
         for invoice in self:
