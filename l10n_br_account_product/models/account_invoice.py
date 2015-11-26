@@ -456,17 +456,14 @@ class AccountInvoice(models.Model):
                 invoice.write({'date_in_out': date_time_now})
         return result
 
-    @api.multi
-    def onchange_fiscal_document_id(self, fiscal_document_id,
-                                    company_id, issuer, fiscal_type):
-        result = {'value': {'document_serie_id': False}}
-        company = self.env['res.company'].browse(company_id)
+    @api.onchange('fiscal_document_id')
+    def onchange_fiscal_document_id(self):
 
-        if issuer == '0':
+        if self.issuer == '0':
             series = [doc_serie for doc_serie in
-                      company.document_serie_product_ids if
+                      self.company_id.document_serie_product_ids if
                       doc_serie.fiscal_document_id.id ==
-                      fiscal_document_id and doc_serie.active]
+                      self.fiscal_document_id.id and doc_serie.active]
 
             # TODO Alerta se nao tiver serie
             if not series:
@@ -477,8 +474,7 @@ class AccountInvoice(models.Model):
                         u'para este documento fiscal.')
                 raise RedirectWarning(
                     msg, action.id, _(u'Criar uma nova série'))
-            result['value']['document_serie_id'] = series[0].id
-        return result
+            self.document_serie_id = series[0]
 
     @api.multi
     def action_date_assign(self):
