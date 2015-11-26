@@ -31,6 +31,9 @@
         'l10n_br_crm_zip',
         'l10n_br_zip_correios',
     ],
+    'test': [
+        'test/crm_zip.yml',
+    ],
     'category': 'Localization',
     'installable': True,
     'external_dependencies': {
