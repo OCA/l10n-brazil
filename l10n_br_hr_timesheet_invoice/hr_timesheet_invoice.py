@@ -18,10 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+
+from openerp import models, api
 
 
-class AccountAnalyticLine(osv.osv):
+class AccountAnalyticLine(models.Model):
+
     _inherit = 'account.analytic.line'
 
     def invoice_cost_create(self, cr, uid, ids, data=None, context=None):
