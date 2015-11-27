@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import models
+from . import hr_timesheet_invoice
