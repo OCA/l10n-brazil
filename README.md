@@ -81,6 +81,7 @@ addon | version | summary
 [l10n_br_base](l10n_br_base/) | 8.0.1.0.0 | Brazilian Localization Base
 [l10n_br_crm](l10n_br_crm/) | 8.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_crm_zip](l10n_br_crm_zip/) | 8.0.1.0.0 | Brazilian Localization CRM Zip
+[l10n_br_crm_zip](l10n_br_crm_zip_correios/) | 8.0.0.0.0 | Brazilian Localization CRM Zip with Correios WebService
 [l10n_br_data_account](l10n_br_data_account/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Account
 [l10n_br_data_account_product](l10n_br_data_account_product/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Product
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Base
@@ -88,6 +89,7 @@ addon | version | summary
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.0 | Brazilian Localization WMS Accounting
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
+[l10n_br_zip_correios](l10n_br_zip_correios/) | 8.0.0.0.0 | Brazilian Localisation ZIP Codes with Correios WebService
 
 Unported addons
 ---------------

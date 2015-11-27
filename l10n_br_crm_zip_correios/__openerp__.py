@@ -37,5 +37,3 @@
     'installable': True,
     'auto_install': True,
 }
-
-
