@@ -303,6 +303,7 @@ class AccountInvoice(models.Model):
         if self.issuer == '0':
             self.document_serie_id = self.company_id.document_serie_service_id
 
+
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
