@@ -23,8 +23,19 @@
     'name': 'Brazilian Invoice on Timesheets',
     'version': '1.0',
     'category': 'Sales Management',
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
+    'description': """
+Generate your Invoices from Expenses, Timesheet Entries.
+========================================================
+
+Module to generate invoices based on costs (human resources, expenses, ...).
+
+With Brazilian Taxes
+
+You can define price lists in analytic account, make some theoretical revenue
+reports.""",
+    'author': 'KMEE, Odoo Community Association (OCA)',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0.0.0.0',
     'depends': ['l10n_br_account',
                 'hr_timesheet_invoice',
                 ],
