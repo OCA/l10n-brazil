@@ -145,8 +145,8 @@ class SaleOrder(models.Model):
             cr, uid, order, context)
 
         for line in order.order_line:
-            if line.product_id.ncm_id:
-                fc = line.product_id.ncm_id
+            if line.product_id.fiscal_classification_id:
+                fc = line.product_id.fiscal_classification_id
                 if fc.inv_copy_note and fc.note:
                     if fc.id not in fc_ids:
                         fc_comment.append(fc.note)
