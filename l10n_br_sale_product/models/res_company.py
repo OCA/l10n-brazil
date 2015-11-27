@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2014  Renato Lima - Akretion                                  #
+# Copyright (C) 2013  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,26 +17,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Sale Product',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0',
-    'depends': [
-        'l10n_br_sale',
-        'l10n_br_account_product',
-    ],
-    'data': [
-        'views/sale_view.xml',
-        'views/res_company_view.xml',
-        'data/l10n_br_sale_product_data.xml',
-    ],
-    'test': [],
-    'demo': [
-        'demo/product_demo.xml',
-    ],
-    'installable': True,
-    'auto_install': True,
-}
+from openerp import models, fields
+
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    default_ind_pres = fields.Selection([
+        ('0', u'Não se aplica'),
+        ('1', u'Operação presencial'),
+        ('2', u'Operação não presencial, pela Internet'),
+        ('3', u'Operação não presencial, Teleatendimento'),
+        ('4', u'NFC-e em operação com entrega em domicílio'),
+        ('9', u'Operação não presencial, outros'),
+        ], u'Tipo de operação',
+        help=u'Indicador de presença do comprador no \
+            \nestabelecimento comercial no momento \
+            \nda operação.')
+    account_freight_id = fields.Many2one(
+        'account.account', 'Freight Sale Tax Account')
+    account_insurance_id = fields.Many2one(
+        'account.account', 'Insurance Sale Tax Account')
+    account_other_costs = fields.Many2one(
+        'account.account', 'Other Costs Sale Tax Account')
