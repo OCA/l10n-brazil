@@ -32,7 +32,7 @@ class AccountFiscalPosition(models.Model):
         if not context:
             context = {}
         if fposition_id and fposition_id.company_id and \
-        context.get('type_tax_use') in ('sale', 'all'):
+                context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
                 company_tax_ids = self.pool.get('res.company').read(
                     cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
@@ -43,7 +43,7 @@ class AccountFiscalPosition(models.Model):
                     context=context)['service_tax_ids']
 
             company_taxes = self.pool.get('account.tax').browse(
-                    cr, uid, company_tax_ids, context=context)
+                cr, uid, company_tax_ids, context=context)
             if taxes:
                 all_taxes = taxes + company_taxes
             else:
@@ -95,10 +95,12 @@ class AccountFiscalPosition(models.Model):
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
                         }
-            product_ncm_tax_def = product.ncm_id.sale_tax_definition_line
+            product_ncm_tax_def = (product.fiscal_classification_id.
+                                   sale_tax_definition_line)
 
         else:
-            product_ncm_tax_def = product.ncm_id.purchase_tax_definition_line
+            product_ncm_tax_def = (product.fiscal_classification_id.
+                                   purchase_tax_definition_line)
 
         for ncm_tax_def in product_ncm_tax_def:
             if ncm_tax_def.tax_id:
@@ -114,7 +116,8 @@ class AccountFiscalPosition(models.Model):
                 if map.tax_src_id == tax or \
                         map.tax_code_src_id == tax.tax_code_id:
                     if map.tax_dest_id or tax.tax_code_id:
-                        if map.ncm_id == product.ncm_id:
+                        if map.fiscal_classification_id.id == \
+                                product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
                         else:
                             map_taxes |= map

@@ -24,6 +24,10 @@ from openerp import models, fields, api
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE)
 
+from .l10n_br_account_service import (
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_DEFAULT)
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -53,6 +57,10 @@ class AccountInvoice(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company[default_fo_category[invoice_fiscal_type][invoice_type]]
 
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
+                                   'Tipo Fiscal',
+                                   required=True,
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, states={'draft': [('readonly', False)]},

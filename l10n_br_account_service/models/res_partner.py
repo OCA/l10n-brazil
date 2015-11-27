@@ -20,7 +20,6 @@
 from openerp import models, api
 
 
-# TODO migrate to new API
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 

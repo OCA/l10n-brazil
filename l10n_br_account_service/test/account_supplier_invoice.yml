@@ -9,6 +9,7 @@
     internal_number: '2001'
     vendor_serie: '1'
     reference_type: none
+    fiscal_type: 'service'
     name: 'NFe Invoice Test'
     invoice_line:
       - product_id: product.product_product_consultant

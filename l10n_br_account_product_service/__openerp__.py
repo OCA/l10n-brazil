@@ -21,7 +21,7 @@
     'name': 'Brazilian Localization Account Product and Service',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
+    'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoobrasil.org',
     'version': '8.0.1.0.0',
     'depends': [
