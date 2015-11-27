@@ -23,10 +23,9 @@
 {
     'name': 'Address from Brazilian Localization CRM ZIP by Correios',
     'license': 'AGPL-3',
-    'author': 'KMEE',
-    'maintainer': 'KMEE',
-    'version': '8.0',
-    'website': 'www.kmee.com.br',
+    'author': 'KMEE, Odoo Community Association (OCA)',
+    'version': '8.0.1.0.0',
+    'website': 'http://odoo-brasil.org',
     'depends': [
         'l10n_br_crm_zip',
         'l10n_br_zip_correios',
@@ -36,7 +35,7 @@
     ],
     'category': 'Localization',
     'installable': True,
-    'external_dependencies': {
-        'python': ['suds'],
-    }
+    'auto_install': True,
 }
+
+
