@@ -25,21 +25,17 @@ from openerp import models, api
 class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
-    def invoice_cost_create(self, cr, uid, ids, data=None, context=None):
-
-        inv_obj = self.pool.get('account.invoice')
-        line_obj = self.pool.get('account.invoice.line')
-
-        context.update({'type': 'out_invoice'})
+    @api.multi
+    def invoice_cost_create(self):
 
         invoice_ids = super(
-            AccountAnalyticLine, self).invoice_cost_create(
-            cr, uid, ids, data, context)
+            AccountAnalyticLine, self.with_context(type='out_invoice')
+        ).create()
 
-        for invoice in inv_obj.browse(cr, uid, invoice_ids, context=context):
+        for invoice in self.env['account.invoice'].browse(invoice_ids):
 
-            line_ids = line_obj.search(cr, uid,
-                                       [('invoice_id', '=', invoice.id)])
+            invoice_lines = invoice.invoice_line.search(
+                [('invoice_id', '=', invoice.id)]).ids
 
             if invoice.payment_term:
                 payment_term = invoice.payment_term.id
@@ -55,26 +51,23 @@ class AccountAnalyticLine(models.Model):
             else:
                 fiscal_category_id = False
 
-            onchange = inv_obj.onchange_partner_id(
-                cr, uid, [invoice.id], 'out_invoice', invoice.partner_id.id,
+            invoice_onchange = invoice.onchange_partner_id(
+                [invoice.id], 'out_invoice', invoice.partner_id.id,
                 invoice.date_invoice, payment_term, bank,
                 invoice.company_id.id, fiscal_category_id)
 
-            parent_fposition_id = onchange['value']['fiscal_position']
+            parent_fposition_id = invoice_onchange['value']['fiscal_position']
 
-            for line in invoice.invoice_line:
-                result = line_obj.product_id_change(
-                    cr, uid, ids, line.product_id.id, line.uos_id.id,
+            for line in invoice_lines:
+                line_onchange = line.product_id_change(
+                    line.product_id.id, line.uos_id.id,
                     line.quantity, line.name,
                     'out_invoice', invoice.partner_id.id,
                     fposition_id=False, price_unit=line.price_unit,
-                    currency_id=invoice.currency_id.id, context=context,
+                    currency_id=invoice.currency_id.id,
                     company_id=invoice.company_id.id,
                     parent_fiscal_category_id=fiscal_category_id,
                     parent_fposition_id=parent_fposition_id)
-
-                line_obj.write(
-                    cr, uid, [line.id], result['value'], context)
-            inv_obj.write(
-                cr, uid, [invoice.id], onchange['value'], context=context)
+                line.write(line_onchange['value'])
+            invoice.write(invoice_onchange['value'])
         return invoice_ids
