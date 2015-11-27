@@ -351,3 +351,28 @@ class L10nBrIcmsRelief(models.Model):
 
     code = fields.Char(u'Código', size=2, required=True)
     name = fields.Char('Nome', size=256, required=True)
+
+
+class L10nBrIPIRelief(models.Model):
+
+    _name = 'l10n_br_account_product.ipi_guideline'
+    _description = 'IPI Guideline'
+
+    code = fields.Char(
+        u'Código', size=3, required=True)
+    cst_group = fields.Selection([
+            ('imunidade', u'Imunidade'),
+            ('suspensao', u'Suspensão'),
+            ('isencao', u'Isenção'),
+            ('reducao', u'Redução'),
+            ('reducao', u'Redução'),
+            ('outros', u'Outros'),
+    ],
+        string='Grupo CST',
+        required=True
+    )
+    name = fields.Char(
+        u'Descrição Enquadramento Legal do IPI',
+        size=256,
+        required=True
+    )
