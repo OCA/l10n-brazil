@@ -1,15 +1,24 @@
+<<<<<<< HEAD
 language: python
 
 python:
   - "2.7"
 
 cache: pip
+=======
+sudo: false
+language: python
+
+python:
+  - "2.7_with_system_site_packages"
+>>>>>>> 4c105b0b6ce49df64cd2fe193f96e9b7c16870b5
 
 addons:
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
+<<<<<<< HEAD
       - libxml2-dev
       - libxmlsec1-dev
       - libxslt-dev
@@ -21,10 +30,18 @@ env:
 
 virtualenv:
   system_site_packages: true
+=======
+
+env:
+  - VERSION="8.0" LINT_CHECK="1"
+  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+
+>>>>>>> 4c105b0b6ce49df64cd2fe193f96e9b7c16870b5
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+<<<<<<< HEAD
   - pip install reportlab
   - pip install unidecode
   - pip install http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz
@@ -38,6 +55,14 @@ before_script:
 
 script:
   - ./configure_locale.sh
+=======
+  - pip install unidecode
+  - pip install python-ldap
+  - pip install suds
+  - travis_install_nightly
+
+script:
+>>>>>>> 4c105b0b6ce49df64cd2fe193f96e9b7c16870b5
   - travis_run_tests
 
 after_success:
