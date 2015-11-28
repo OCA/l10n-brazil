@@ -86,6 +86,11 @@ class AccountProductFiscalClassificationTemplate(models.Model):
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
 
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da Substituição Tributária ")
+
 
 class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     """Model for tax definition template"""
@@ -211,6 +216,13 @@ class AccountProductFiscalClassification(models.Model):
     tax_estimate_ids = fields.One2many(
         'l10n_br_tax.estimate', 'fiscal_classification_id',
         'Impostos Estimados')
+
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da "
+                            u"Substituição Tributária ")
+
 
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
