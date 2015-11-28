@@ -418,9 +418,6 @@ class NFe200(FiscalDocument):
             self.det.imposto.ICMS.vICMSST.valor = str(
                 "%.2f" % invoice_line.icms_st_value)
 
-
-
-
             # IPI
             self.det.imposto.IPI.CST.valor = invoice_line.ipi_cst_id.code
             if invoice_line.ipi_type == 'percent' or '':
