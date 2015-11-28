@@ -37,6 +37,10 @@ class AccountFiscalPositionTaxTemplate(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template', 'NCM')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
 
 class AccountFiscalPosition(models.Model):
@@ -177,3 +181,7 @@ class AccountFiscalPositionTax(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'NCM')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
