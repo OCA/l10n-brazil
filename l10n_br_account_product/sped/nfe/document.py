@@ -340,7 +340,8 @@ class NFe200(FiscalDocument):
         self.det.prod.xProd.valor = invoice_line.product_id.name[:120] or ''
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')[:8]
-        self.det.prod.EXTIPI.valor = ''
+        self.det.prod.EXTIPI.valor = punctuation_rm(
+            invoice_line.fiscal_classification_id.code or '')[8:]
         self.det.prod.nFCI.valor = invoice_line.fci or ''
         self.det.prod.CFOP.valor = invoice_line.cfop_id.code
         self.det.prod.uCom.valor = invoice_line.uos_id.name or ''
@@ -384,6 +385,8 @@ class NFe200(FiscalDocument):
                 "%.2f" % invoice_line.icms_percent)
             self.det.imposto.ICMS.vICMS.valor = str(
                 "%.2f" % invoice_line.icms_value)
+            self.det.imposto.ICMS.motDesICMS.valor = (
+                invoice_line.icms_relief_id.code or '')
 
             # ICMS ST
             self.det.imposto.ICMS.modBCST.valor = (
@@ -398,6 +401,9 @@ class NFe200(FiscalDocument):
                 "%.2f" % invoice_line.icms_st_percent)
             self.det.imposto.ICMS.vICMSST.valor = str(
                 "%.2f" % invoice_line.icms_st_value)
+
+
+
 
             # IPI
             self.det.imposto.IPI.CST.valor = invoice_line.ipi_cst_id.code
@@ -416,6 +422,8 @@ class NFe200(FiscalDocument):
                         "%.2f" % invoice_line.ipi_percent)
             self.det.imposto.IPI.vIPI.valor = str(
                 "%.2f" % invoice_line.ipi_value)
+            self.det.imposto.IPI.cEnq = (
+                invoice_line.ipi_guideline_id.code or '999')
 
         else:
             # ISSQN
