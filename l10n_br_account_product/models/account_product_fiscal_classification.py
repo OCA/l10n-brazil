@@ -227,10 +227,7 @@ class AccountProductFiscalClassification(models.Model):
     cest = fields.Char(
         string='CEST',
         size=9,
-        help=u"Código Especificador da "
-                            u"Substituição Tributária ")
-
-
+        help=u"Código Especificador da Substituição Tributária ")
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
