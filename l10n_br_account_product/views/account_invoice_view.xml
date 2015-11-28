@@ -309,6 +309,7 @@
 									<group>
 										<field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
 										<field name="fiscal_classification_id" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
+										<field name="cest"/>
 										<field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
 										<field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]" on_change="onchange_fiscal_category_id(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, context)"/>
 										<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" on_change="onchange_fiscal_position(parent.partner_id, parent.company_id, product_id, fiscal_category_id, account_id, quantity, price_unit, discount, insurance_value, freight_value, other_costs_value, context)"/>
@@ -338,6 +339,7 @@
 												<field name="icms_percent_reduction"/>
 											</group>
 											<group>
+												<field name="icms_relief_id"/>
 												<field name="icms_base_other"/>
 												<field name="icms_percent"/>
 												<field name="icms_value"/>
@@ -376,6 +378,7 @@
 												<field name="ipi_base"/>
 											</group>
 											<group>
+												<field name="ipi_guideline_id"/>
 												<field name="ipi_base_other"/>
 												<field name="ipi_percent"/>
 												<field name="ipi_value"/>
