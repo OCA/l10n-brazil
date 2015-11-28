@@ -154,6 +154,27 @@
 
 		<menuitem id="menu_action_service_type_structure" name="Estrutura de Tipo de Serviço" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_structure" sequence="60" />
 
+        <act_window id="action_l10n_br_account_product_icms_relief_form"
+                    name="Desoneração de ICMS"
+                    res_model="l10n_br_account_product.icms_relief"
+                    view_mode="tree,form" />
+
+		<menuitem id="menu_action_icms_relief_form"
+                  name="Desoneração de ICMS"
+                  parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
+                  action="action_l10n_br_account_product_icms_relief_form"
+                  sequence="61" />
+
+        <act_window id="action_l10n_br_account_product_ipi_guideline_form"
+                    name="Enquadramento Ipi"
+                    res_model="l10n_br_account_product.ipi_guideline"
+                    view_mode="tree,form" />
+
+        <menuitem id="menu_action_ipi_guideline"
+                  name="Enquadramento Ipi"
+                  parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
+                  action="action_l10n_br_account_product_ipi_guideline_form"
+                  sequence="62"  />
 
 	</data>
 </openerp>
