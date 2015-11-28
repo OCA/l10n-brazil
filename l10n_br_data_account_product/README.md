@@ -62,6 +62,7 @@ Contributors
 ------------
 
 * Renato Lima <renato.lima@akretion.com>
+* Luis Felipe Miléo <mileo@kmee.com.br>
 
 Maintainer
 ----------
