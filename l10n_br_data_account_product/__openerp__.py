@@ -29,7 +29,7 @@
     ],
     'data': [
         'data/account.product.fiscal.classification.template.csv',
-        'data/l10n_br_account_product.icms_relief',
+        'data/l10n_br_account_product.icms_relief.csv',
         'data/l10n_br_account_product.ipi_guideline.csv',
     ],
     'demo': [
