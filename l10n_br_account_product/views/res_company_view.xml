@@ -42,6 +42,8 @@
 							<page string="NFe">
 								<group>
 									<field name="nfe_version" required="1" />
+									<field name="accountant_cnpj_cpf" required="1"/>
+                                    <field name="nfe_root_folder"/>
 									<field name="nfe_import_folder"/>
 									<field name="nfe_export_folder"/>
 									<field name="nfe_backup_folder"/>
