@@ -93,6 +93,7 @@ class ResCompany(models.Model):
     other_costs_tax_id = fields.Many2one(
         'account.tax', string='Other Costs Sale Tax',
         domain=[('domain', '=', 'other_costs')])
+    accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
