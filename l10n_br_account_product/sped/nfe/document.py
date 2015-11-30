@@ -131,8 +131,7 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.tpAmb.valor = nfe_environment
         self.nfe.infNFe.ide.finNFe.valor = invoice.nfe_purpose
         self.nfe.infNFe.ide.procEmi.valor = 0
-        self.nfe.infNFe.ide.verProc.valor = 'OpenERP Brasil v8'
-        self.nfe.infNFe.compra.xPed.valor = invoice.name or ''
+        self.nfe.infNFe.ide.verProc.valor = 'Odoo Brasil v8'
 
         if invoice.cfop_ids[0].type in ("input"):
             self.nfe.infNFe.ide.tpNF.valor = 0
@@ -439,8 +438,8 @@ class NFe200(FiscalDocument):
                         "%.2f" % invoice_line.ipi_percent)
             self.det.imposto.IPI.vIPI.valor = str(
                 "%.2f" % invoice_line.ipi_value)
-            self.det.imposto.IPI.cEnq = (
-                invoice_line.ipi_guideline_id.code or '999')
+            self.det.imposto.IPI.cEnq.valor = str(
+                invoice_line.ipi_guideline_id.code or '999').zfill(3)
 
         else:
             # ISSQN
@@ -721,6 +720,10 @@ class NFe310(NFe200):
             invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S')
         self.nfe.infNFe.ide.dhSaiEnt.valor = datetime.strptime(
             invoice.date_in_out, '%Y-%m-%d %H:%M:%S')
+        self.aut_xml = self._get_AutXML()
+        self.aut_xml.CNPJ.valor = punctuation_rm(
+            invoice.company_id.accountant_cnpj_cpf)
+        self.nfe.infNFe.autXML.append(self.aut_xml)
 
     def _receiver(self, invoice, company, nfe_environment):
         super(NFe310, self)._receiver(
@@ -792,3 +795,11 @@ class NFe310(NFe200):
             raise UserError(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return DI_310()
+
+    def _get_AutXML(self):
+        try:
+            from pysped.nfe.leiaute import AutXML_310
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return AutXML_310()
