@@ -85,6 +85,7 @@ class ResCompany(models.Model):
         " ('type','=','input')]")
     nfe_a1_file = fields.Binary('Arquivo NFe A1')
     nfe_a1_password = fields.Char('Senha NFe A1', size=64)
+    accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
 
 
 class L10n_brTaxDefinitionCompanyProduct(L10n_brTaxDefinition, models.Model):
