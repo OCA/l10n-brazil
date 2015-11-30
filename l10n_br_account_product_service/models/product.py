@@ -17,20 +17,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Account Product and Service',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoobrasil.org',
-    'version': '8.0.1.0.0',
-    'depends': [
-        'l10n_br_account_product',
-        'l10n_br_account_service',
-    ],
-    'data': [],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'auto_install': True,
-}
+from openerp import models, fields
+
+from .l10n_br_account_product_service import (
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_DEFAULT)
+
+
+class ProductTemplate(models.Model):
+    """Inherit class to change default value of fiscal_type field"""
+    _inherit = 'product.template'
+
+    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
+                                   u'Tipo Fiscal',
+                                   required=True,
+                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
