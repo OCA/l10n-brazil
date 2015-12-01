@@ -37,6 +37,10 @@ class AccountFiscalPositionTaxTemplate(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template', 'NCM')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
 
 class AccountFiscalPosition(models.Model):
@@ -91,13 +95,19 @@ class AccountFiscalPosition(models.Model):
 
         return list(set(result))
 
+    def _prepare_result_tax(self, result, tax_def):
+        result[tax_def.tax_id.domain] = {
+            'tax': tax_def.tax_id,
+            'tax_code': tax_def.tax_code_id,
+            'icms_relief': tax_def.tax_icms_relief_id,
+            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
+        }
+        return result
+
     def _map_tax_code(self, map_tax):
         result = {}
         for map in map_tax:
-            result[map.tax_dest_id.domain] = {
-                'tax': map.tax_dest_id,
-                'tax_code': map.tax_code_dest_id,
-            }
+            result = self._prepare_result_tax(result, map)
         return result
 
     @api.multi
@@ -112,10 +122,7 @@ class AccountFiscalPosition(models.Model):
                 for tax_def in company_taxes:
                     if tax_def.tax_id:
                         taxes |= tax_def.tax_id
-                        result[tax_def.tax_id.domain] = {
-                            'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
-                        }
+                        result = self._prepare_result_tax(result,tax_def)
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.sale_tax_definition_line
@@ -126,10 +133,7 @@ class AccountFiscalPosition(models.Model):
 
         for ncm_tax_def in product_ncm_tax_def:
             if ncm_tax_def.tax_id:
-                result[ncm_tax_def.tax_id.domain] = {
-                    'tax': ncm_tax_def.tax_id,
-                    'tax_code': ncm_tax_def.tax_code_id,
-                }
+                result = self._prepare_result_tax(result, ncm_tax_def)
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
@@ -160,6 +164,15 @@ class AccountFiscalPosition(models.Model):
         for code in taxes_codes:
             if taxes_codes[code].get('tax_code'):
                 result.update({code: taxes_codes[code].get('tax_code').id})
+            # TODO: Make this dynamic to get any columns from tax def
+            if taxes_codes[code].get('ipi_guideline'):
+                result.update({
+                    'ipi_guideline': taxes_codes[code].get('ipi_guideline').id
+                })
+            if taxes_codes[code].get('icms_relief'):
+                result.update({
+                    'icms_relief': taxes_codes[code].get('icms_relief').id
+                })
         return result
 
     @api.v8
@@ -177,3 +190,7 @@ class AccountFiscalPositionTax(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'NCM')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
