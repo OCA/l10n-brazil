@@ -67,17 +67,15 @@
 			  	<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
 			  	</xpath>
 			  	<xpath expr="/form/sheet/group[3]" position="replace">
-		            		<notebook>
-		                		<page string="Impostos">
-		                    			<group name="taxes" colspan="4">
-								<group string="Sale Taxes">
-									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-								</group>
-								<group string="Purchase Taxes">
-									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-								</group>
-							</group>
-						</page>
+                    <notebook>
+                        <page string="Impostos">
+                            <group name="taxes" colspan="2">
+                                <separator string="Sale Taxes"/>
+                                <field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                <separator string="Purchase Taxes"/>
+                                <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                            </group>
+                        </page>
 						<page string="Impostos Estimados">
 							<div class="oe_right oe_button_box" name="buttons">
 								<button class="oe_inline oe_stat_button" type="object"
@@ -129,6 +127,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</form>
 			</field>
 		</record>
@@ -141,6 +141,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</tree>
 			</field>
 		</record>
@@ -153,6 +155,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</form>
 			</field>
 		</record>
@@ -165,6 +169,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</tree>
 			</field>
 		</record>
@@ -186,17 +192,15 @@
 				<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
 			  	</xpath>
 			  	<xpath expr="/form/sheet/group[2]" position="replace">
-		            		<notebook>
-		                		<page string="Impostos">
-		                    			<group name="taxes" colspan="4">
-								<group string="Sale Taxes">
-									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-								</group>
-								<group string="Purchase Taxes">
-									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-								</group>
-							</group>
-						</page>
+                    <notebook>
+                        <page string="Impostos">
+                            <group name="taxes" colspan="2">
+                                <separator string="Sale Taxes"/>
+                                <field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                <separator string="Purchase Taxes"/>
+                                <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                            </group>
+                        </page>
 						<page string="Impostos Estimados">
 							<div class="oe_right oe_button_box" name="buttons">
 								<button class="oe_inline oe_stat_button" type="object"
