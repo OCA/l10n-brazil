@@ -26,17 +26,13 @@ class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     @api.multi
-    def invoice_cost_create(self):
+    def invoice_cost_create(self, data):
 
-        invoice_ids = super(
-            AccountAnalyticLine, self.with_context(type='out_invoice')
-        ).create()
+        invoice_ids = super(AccountAnalyticLine,
+                            self.with_context(type='out_invoice')
+                            ).invoice_cost_create(data)
 
         for invoice in self.env['account.invoice'].browse(invoice_ids):
-
-            invoice_lines = invoice.invoice_line.search(
-                [('invoice_id', '=', invoice.id)]).ids
-
             if invoice.payment_term:
                 payment_term = invoice.payment_term.id
             else:
@@ -51,23 +47,48 @@ class AccountAnalyticLine(models.Model):
             else:
                 fiscal_category_id = False
 
-            invoice_onchange = invoice.onchange_partner_id(
-                [invoice.id], 'out_invoice', invoice.partner_id.id,
+            ctx_invoice = dict(self.env.context)
+            ctx_invoice['fiscal_category_id'] = fiscal_category_id
+
+            invoice_onchange = invoice.with_context(
+                ctx_invoice).onchange_partner_id(
+                'out_invoice', invoice.partner_id.id,
                 invoice.date_invoice, payment_term, bank,
-                invoice.company_id.id, fiscal_category_id)
+                invoice.company_id.id)
 
-            parent_fposition_id = invoice_onchange['value']['fiscal_position']
-
-            for line in invoice_lines:
-                line_onchange = line.product_id_change(
-                    line.product_id.id, line.uos_id.id,
-                    line.quantity, line.name,
-                    'out_invoice', invoice.partner_id.id,
-                    fposition_id=False, price_unit=line.price_unit,
-                    currency_id=invoice.currency_id.id,
-                    company_id=invoice.company_id.id,
-                    parent_fiscal_category_id=fiscal_category_id,
-                    parent_fposition_id=parent_fposition_id)
-                line.write(line_onchange['value'])
+            ctx_line = dict(self.env.context)
+            ctx_line['parent_fiscal_category_id'] = fiscal_category_id
+            ctx_line['type'] = 'out_invoice'
             invoice.write(invoice_onchange['value'])
         return invoice_ids
+
+    @api.v7
+    def _prepare_cost_invoice_line(self, cr, uid, invoice_id, product_id, uom,
+                                   user_id,
+                                   factor_id, account, analytic_lines,
+                                   journal_type, data, context=None):
+
+        result = super(AccountAnalyticLine, self)._prepare_cost_invoice_line(
+            cr, uid, invoice_id, product_id, uom, user_id, factor_id, account,
+            analytic_lines, journal_type, data)
+        invoice = self.pool.get('account.invoice').browse(
+            cr, uid, [invoice_id], context)
+
+        ctx_line = dict(context)
+        ctx_line['parent_fiscal_category_id'] = invoice.fiscal_category_id.id
+        ctx_line['type'] = 'out_invoice'
+
+        line_onchange = invoice.invoice_line.with_context(
+            ctx_line).product_id_change(
+            product_id, uom,
+            result['quantity'], result['name'],
+            'out_invoice', invoice.partner_id.id,
+            fposition_id=False, price_unit=result['price_unit'],
+            currency_id=invoice.currency_id.id,
+            company_id=invoice.company_id.id)
+
+        result['invoice_line_tax_id'][0] = (
+            6, 0, line_onchange['value']['invoice_line_tax_id'])
+        result['fiscal_position'] = line_onchange['value']['fiscal_position']
+
+        return result

@@ -27,7 +27,7 @@
     'version': '8.0.0.0.0',
     'depends': [
         'l10n_br_account',
-        'hr_timesheet_invoice',
+        'account_analytic_analysis',
     ],
     'data': [
     ],

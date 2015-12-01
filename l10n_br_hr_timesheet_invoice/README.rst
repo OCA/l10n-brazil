@@ -65,6 +65,7 @@ Contributors
 ------------
 
 * Luis Felipe Mileo <mileo@kmee.com.br> 
+* Bianca Tella <bianca.tella@kmee.com.br>
 
 Maintainer
 ----------
