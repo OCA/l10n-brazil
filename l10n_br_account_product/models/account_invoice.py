@@ -248,7 +248,7 @@ class AccountInvoice(models.Model):
         string='Untaxed',
         store=True,
         digits=dp.get_precision('Account'),
-        compapply_fiscal_mappingute='_compute_amount')
+        compute='_compute_amount')
     amount_tax = fields.Float(
         string='Tax',
         store=True,
