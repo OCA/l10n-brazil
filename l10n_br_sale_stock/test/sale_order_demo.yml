@@ -6,10 +6,11 @@
 -
   In order to test fiscal parameters of Sale Order inside the same state, I create sale order
 -
-  !record {model: sale.order, id: sale_order_test1}:
+  !record {model: sale.order, id: sale_order_test1, view: l10n_br_sale.l10n_br_sale_order_form}:
     partner_id: l10n_br_base.res_partner_akretion
+    fiscal_category_id: l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12
     order_line:
-      - product_id: product.product_product_8
+      - product_id: product.product_product_10
         product_uom_qty: 8
 -
   I verify that the onchange was correctly triggered
@@ -17,7 +18,7 @@
   !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test1, string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
-    - order_line[0].product_id.id == ref('product.product_product_8')
+    - order_line[0].product_id.id == ref('product.product_product_10')
     - order_line[0].fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - order_line[0].fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
     - len(order_line[0].tax_id) == 3
@@ -31,11 +32,13 @@
 -
   I create another sale order
 -
-  !record {model: sale.order, id: sale_order_test2}:
+  !record {model: sale.order, id: sale_order_test2, view: l10n_br_sale.l10n_br_sale_order_form}:
     partner_id: l10n_br_base.res_partner_address_ak2
+    fiscal_category_id: l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12
+    fiscal_position: l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo
     order_policy: picking
     order_line:
-      - product_id: product.product_product_8
+      - product_id: product.product_product_19
         product_uom: product.product_uom_unit
         product_uom_qty: 16
 -
@@ -44,7 +47,7 @@
   !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test2, string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
-    - order_line[0].product_id.id == ref('product.product_product_8')
+    - order_line[0].product_id.id == ref('product.product_product_19')
     - order_line[0].fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - order_line[0].fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
     - len(order_line[0].tax_id) == 3
