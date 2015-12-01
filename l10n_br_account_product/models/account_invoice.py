@@ -345,7 +345,7 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_freight = fields.Float(
         string='Valor do Seguro', store=True,
-        digits=dp.get_precision('Account'), cfiscal_ompute='_compute_amount2')
+        digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
