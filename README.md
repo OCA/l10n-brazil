@@ -78,8 +78,8 @@ addon | version | summary
 --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 8.0.1.0.0 | Brazilian Localization Account
 [l10n_br_account_product](l10n_br_account_product/) | 8.0.2.0.0 | Brazilian Localization Account Product
-[l10n_br_account_service](l10n_br_account_service/) | 8.0.1.0.0 | Brazilian Localization Account Service
 [l10n_br_account_product_service](l10n_br_account_product_service/) | 8.0.1.0.0 | Brazilian Localization Account Product and Service
+[l10n_br_account_service](l10n_br_account_service/) | 8.0.1.0.0 | Brazilian Localization Account Service
 [l10n_br_base](l10n_br_base/) | 8.0.1.0.0 | Brazilian Localization Base
 [l10n_br_crm](l10n_br_crm/) | 8.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_crm_zip](l10n_br_crm_zip/) | 8.0.1.0.0 | Brazilian Localization CRM Zip
@@ -88,7 +88,7 @@ addon | version | summary
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.0 | Brazilian Localisation Data Extension for Base
 [l10n_br_purchase](l10n_br_purchase/) | 8.0.1.0.0 | Brazilian Localization Purchase
 [l10n_br_sale](l10n_br_sale/) | 8.0.1.0.0 | Brazilian Localization Sale
-[l10n_br_sale_product](l10n_br_sale_product/) | 8.0 | Brazilian Localization Sale Product
+[l10n_br_sale_product](l10n_br_sale_product/) | 8.0.1.0.0 | Brazilian Localization Sale Product
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.0 | Brazilian Localization WMS Accounting
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
