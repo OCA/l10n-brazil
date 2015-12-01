@@ -78,19 +78,41 @@
 							</group>
 						</page>
 						<page string="Impostos Estimados">
+							<div class="oe_right oe_button_box" name="buttons">
+								<button class="oe_inline oe_stat_button" type="object"
+										name="get_ibpt" icon="fa-search">
+									<div>Consultar<br/>IBPT</div>
+								</button>
+							</div>
 							<field name="tax_estimate_ids" nolabel="1">
 								<tree>
 									<field name="state_id"/>
-									<field name="date_start"/>
-									<field name="date_end"/>
-									<field name="key"/>
-									<field name="version"/>
-									<field name="origin"/>
 									<field name="federal_taxes_national"/>
 									<field name="federal_taxes_import"/>
 									<field name="state_taxes"/>
 									<field name="municipal_taxes"/>
+									<field name="origin"/>
 								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="fiscal_classification_id"/>
+											<field name="origin"/>
+											<field name="version"/>
+											<field name="state_id"/>
+											<field name="date_start"/>
+											<field name="date_end"/>
+										</group>
+										<group>
+											<field name="active"/>
+											<field name="key"/>
+											<field name="federal_taxes_national"/>
+											<field name="federal_taxes_import"/>
+											<field name="state_taxes"/>
+											<field name="municipal_taxes"/>
+										</group>
+									</group>
+								</form>
 							</field>
 						</page>
 					</notebook>
@@ -174,19 +196,41 @@
 							</group>
 						</page>
 						<page string="Impostos Estimados">
+							<div class="oe_right oe_button_box" name="buttons">
+								<button class="oe_inline oe_stat_button" type="object"
+										name="get_ibpt" icon="fa-search">
+									<div>Consultar<br/>IBPT</div>
+								</button>
+							</div>
 							<field name="tax_estimate_ids" nolabel="1">
 								<tree>
 									<field name="state_id"/>
-									<field name="date_start"/>
-									<field name="date_end"/>
-									<field name="key"/>
-									<field name="version"/>
-									<field name="origin"/>
 									<field name="federal_taxes_national"/>
 									<field name="federal_taxes_import"/>
 									<field name="state_taxes"/>
 									<field name="municipal_taxes"/>
+									<field name="origin"/>
 								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="fiscal_classification_id"/>
+											<field name="origin"/>
+											<field name="version"/>
+											<field name="state_id"/>
+											<field name="date_start"/>
+											<field name="date_end"/>
+										</group>
+										<group>
+											<field name="active"/>
+											<field name="key"/>
+											<field name="federal_taxes_national"/>
+											<field name="federal_taxes_import"/>
+											<field name="state_taxes"/>
+											<field name="municipal_taxes"/>
+										</group>
+									</group>
+								</form>
 							</field>
 						</page>
 					</notebook>
