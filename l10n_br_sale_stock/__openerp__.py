@@ -31,14 +31,13 @@
         'l10n_br_stock_account',
     ],
     'data': [
-        'data/l10n_br_sale_stock_data.xml',
         'views/sale_stock_view.xml',
     ],
     'demo': [
-        'l10n_br_sale_stock_demo.xml',
-        #'test/sale_order_demo.yml'
+        'demo/l10n_br_sale_stock_demo.xml',
     ],
     'test': [
+        'test/sale_order_demo.yml'
     ],
     'installable': True,
     'auto_install': True,
