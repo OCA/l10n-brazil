@@ -6,7 +6,7 @@
 -
   In order to test fiscal parameters of Sale Order inside the same state, I create sale order
 -
-  !record {model: sale.order, id: sale_order_test1}:
+  !record {model: sale.order, id: l10n_br_sale_stock_test1}:
     partner_id: l10n_br_base.res_partner_akretion
     order_line:
       - product_id: product.product_product_8
@@ -14,7 +14,7 @@
 -
   I verify that the onchange was correctly triggered
 -
-  !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test1, string: The onchange function of product was not correctly triggered}:
+  !assert {model: sale.order, id: l10n_br_sale_stock_test1, string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
     - order_line[0].product_id.id == ref('product.product_product_8')
@@ -31,7 +31,7 @@
 -
   I create another sale order
 -
-  !record {model: sale.order, id: sale_order_test2}:
+  !record {model: sale.order, id: l10n_br_sale_stock_test2 }:
     partner_id: l10n_br_base.res_partner_address_ak2
     order_policy: picking
     order_line:
@@ -41,7 +41,7 @@
 -
   I verify that the onchange was correctly triggered
 -
-  !assert {model: sale.order, id: l10n_br_sale_stock.sale_order_test2, string: The onchange function of product was not correctly triggered}:
+  !assert {model: sale.order, id: l10n_br_sale_stock_test2 , string: The onchange function of product was not correctly triggered}:
     - fiscal_category_id.id == ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12')
     - fiscal_position.id == ref('l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
     - order_line[0].product_id.id == ref('product.product_product_8')
@@ -53,12 +53,12 @@
 -
   I confirm order_test2
 -
-  !workflow {model: sale.order, action: order_confirm, ref: sale_order_test2}
+  !workflow {model: sale.order, action: order_confirm, ref: l10n_br_sale_stock_test2}
 -
   I check the details of delivery order after confirmed quotation.
 -
   !python {model: sale.order}: |
-    sale_order = self.browse(cr, uid, ref("sale_order_test2"))
+    sale_order = self.browse(cr, uid, ref("l10n_br_sale_stock_test2"))
     assert sale_order.picking_ids, "Delivery order is not created."
     for picking in sale_order.picking_ids:
       assert picking.state == "auto" or "confirmed", "Delivery order should be in 'Waitting Availability' state."
@@ -69,7 +69,7 @@
 -
   !python {model: stock.invoice.onshipping}: |
     sale = self.pool.get('sale.order')
-    sale_order = sale.browse(cr, uid, ref("sale_order_test2"))
+    sale_order = sale.browse(cr, uid, ref("l10n_br_sale_stock_test2"))
     ship_ids = [picking.id for picking in sale_order.picking_ids if picking.invoice_state == '2binvoiced']
     if ship_ids:
       wiz_id = self.create(cr, uid, {'journal_id': ref('account.sales_journal')},
@@ -79,7 +79,7 @@
   I check the invoice details after dispatched delivery.
 -
   !python {model: sale.order}: |
-    order = self.browse(cr, uid, ref("sale_order_test2"))
+    order = self.browse(cr, uid, ref("l10n_br_sale_stock_test2"))
     assert order.invoice_ids, "Invoice is not created."
     journal_ids = self.pool.get('account.journal').search(cr, uid, [('type', '=', 'sale'), ('company_id', '=', order.company_id.id)])
     for invoice in order.invoice_ids:
