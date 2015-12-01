@@ -1,0 +1,27 @@
+-
+  Create a sale customer invoice
+-
+  !record {model: account.invoice, id: account_invoice_service_customer, view: l10n_br_account.view_l10n_br_account_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente1_sp
+    fiscal_category_id: fc_00255d8d158663217906abb312aa0759
+    reference_type: none
+    name: 'Invoice Test'
+    fiscal_type: 'service'
+    invoice_line:
+      - product_id: product.product_product_consultant
+        fiscal_category_id: fc_00255d8d158663217906abb312aa0759
+        quantity: 10.0
+        price_unit: 250.00
+-
+  I check if found fisal position, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_service_customer}:
+    - fiscal_position.id == ref('fp_00255d8d158663217906abb312aa0759_demo')
+    - fiscal_document_id.id == company_id.service_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_service_customer}:
+    - state == 'draft'

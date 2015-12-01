@@ -4,8 +4,7 @@
 	<data>
 
 		<!-- product.product -->
-		<!-- Onsite Intervention -->
-		<record id="product.product_product_1" model="product.product">
+		<record id="product.product_product_consultant" model="product.product">
 			<field name="fiscal_type">service</field>
 		</record>
 

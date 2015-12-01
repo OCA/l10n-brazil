@@ -17,4 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from . import models
+PRODUCT_FISCAL_TYPE = [
+    ('service', u'Serviço')
+]
+
+PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
