@@ -97,8 +97,10 @@ class AccountFiscalPosition(models.Model):
 
     def _prepare_result_tax(self, result, tax_def):
         result[tax_def.tax_id.domain] = {
-                'tax': tax_def.tax_id,
-                'tax_code': tax_def.tax_code_id,
+            'tax': tax_def.tax_id,
+            'tax_code': tax_def.tax_code_id,
+            'icms_relief': tax_def.tax_icms_relief_id,
+            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
         }
         return result
 
@@ -162,6 +164,15 @@ class AccountFiscalPosition(models.Model):
         for code in taxes_codes:
             if taxes_codes[code].get('tax_code'):
                 result.update({code: taxes_codes[code].get('tax_code').id})
+            # TODO: Make this dynamic to get any columns from tax def
+            if taxes_codes[code].get('ipi_guideline'):
+                result.update({
+                    'ipi_guideline': taxes_codes[code].get('ipi_guideline').id
+                })
+            if taxes_codes[code].get('icms_relief'):
+                result.update({
+                    'icms_relief': taxes_codes[code].get('icms_relief').id
+                })
         return result
 
     @api.v8
