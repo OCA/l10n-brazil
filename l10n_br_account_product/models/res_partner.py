@@ -122,7 +122,7 @@ class AccountFiscalPosition(models.Model):
                 for tax_def in company_taxes:
                     if tax_def.tax_id:
                         taxes |= tax_def.tax_id
-                        result = self._prepare_result_tax(result,tax_def)
+                        result = self._prepare_result_tax(result, tax_def)
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.sale_tax_definition_line
