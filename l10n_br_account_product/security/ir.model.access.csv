@@ -25,3 +25,9 @@
 "l10n_br_account_service_type","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_manager",1,1,1,1
 "l10n_br_account_service_type_user","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_user",1,0,0,0
 "l10n_br_account_service_type_invoice","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_invoice",1,0,0,0
+"l10n_br_account_product_icms_relif","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relif","account.group_account_invoice",1,1,1,1
+"l10n_br_account_product_icms_relif_user","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relif","account.group_account_invoice",1,0,0,0
+"l10n_br_account_product_icms_relif_invoice","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relif","account.group_account_invoice",1,0,0,0
+"l10n_br_account_product_ipi_guideline","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,1,1,1
+"l10n_br_account_product_ipi_guideline_user","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
+"l10n_br_account_product_ipi_guideline_invoice","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
