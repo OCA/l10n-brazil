@@ -223,34 +223,34 @@ class AccountProductFiscalClassification(models.Model):
 
     @api.multi
     def get_ibpt(self):
-
-        brazil = self.env['res.country'].search([('code', '=', 'BR')])
-        states = self.env['res.country.state'].search([('country_id', '=',
-                                                        brazil.id)])
-        company = self.env.user.company_id
-        config = DeOlhoNoImposto(company.ipbt_token,
-                                 punctuation_rm(company.cnpj_cpf),
-                                 company.state_id.code)
-        tax_estimate = self.env['l10n_br_tax.estimate']
-        for state in states:
-            result = get_ibpt_product(
-                config,
-                punctuation_rm(self.code or ''),
-                ex='0')
-            update = tax_estimate.search([('state_id', '=', state.id),
-                                          ('origin', '=', 'IBPT-WS')])
-            vals = {
-                'fiscal_classification_id': self.id,
-                'origin': 'IBPT-WS',
-                'state_id': state.id,
-                'state_taxes': result.estadual,
-                'federal_taxes_national': result.nacional,
-                'federal_taxes_import': result.importado,
-                }
-            if update:
-                update.write(vals)
-            else:
-                tax_estimate.create(vals)
+        for item in self:
+            brazil = item.env['res.country'].search([('code', '=', 'BR')])
+            states = item.env['res.country.state'].search([('country_id', '=',
+                                                            brazil.id)])
+            company = item.env.user.company_id
+            config = DeOlhoNoImposto(company.ipbt_token,
+                                     punctuation_rm(company.cnpj_cpf),
+                                     company.state_id.code)
+            tax_estimate = item.env['l10n_br_tax.estimate']
+            for state in states:
+                result = get_ibpt_product(
+                    config,
+                    punctuation_rm(item.code or ''),
+                    ex='0')
+                update = tax_estimate.search([('state_id', '=', state.id),
+                                              ('origin', '=', 'IBPT-WS')])
+                vals = {
+                    'fiscal_classification_id': item.id,
+                    'origin': 'IBPT-WS',
+                    'state_id': state.id,
+                    'state_taxes': result.estadual,
+                    'federal_taxes_national': result.nacional,
+                    'federal_taxes_import': result.importado,
+                    }
+                if update:
+                    update.write(vals)
+                else:
+                    tax_estimate.create(vals)
         return True
 
 
