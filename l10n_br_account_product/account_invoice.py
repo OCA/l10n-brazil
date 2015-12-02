@@ -173,12 +173,26 @@ class AccountInvoice(models.Model):
         'l10n_br_account_product.document.related', 'invoice_id',
         'Fiscal Document Related', readonly=True,
         states={'draft': [('readonly', False)]})
-    carrier_name = fields.Char('Nome Transportadora', size=32)
-    vehicle_plate = fields.Char('Placa do Veiculo', size=7)
+    freight_responsibility = fields.Selection(
+        selection=[('0', u'Emitente'),
+                   ('1', u'Destinatário'),
+                   ('2', u'Terceiros'),
+                   ('9', u'Sem Frete')],
+        string=u'Frete por Conta',
+        required=True, default='9', readonly=True,
+        states={'draft': [('readonly', False)]})
+    partner_carrier_id = fields.Many2one(
+        'res.partner', u'Transportadora', readonly=True,
+        states={'draft': [('readonly', False)]},
+        domain=[('is_carrier', '=', True)])
+    vehicle_plate = fields.Char('Placa do Veiculo', size=7, readonly=True,
+                                states={'draft': [('readonly', False)]})
     vehicle_state_id = fields.Many2one(
-        'res.country.state', 'UF da Placa')
+        'res.country.state', 'UF da Placa', readonly=True,
+        states={'draft': [('readonly', False)]})
     vehicle_l10n_br_city_id = fields.Many2one('l10n_br_base.city',
-        'Municipio', domain="[('state_id', '=', vehicle_state_id)]")
+        'Municipio', domain="[('state_id', '=', vehicle_state_id)]",
+        readonly=True, states={'draft': [('readonly', False)]})
     amount_gross = fields.Float(
         string='Vlr. Bruto', digits=dp.get_precision('Account'),  store=True,
         readonly=True, compute='_compute_amount')

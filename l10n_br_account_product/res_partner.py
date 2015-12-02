@@ -17,12 +17,20 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
+
 from openerp.osv import orm, fields
 
 FISCAL_POSITION_COLUMNS = {
     'cfop_id': fields.many2one('l10n_br_account_product.cfop', 'CFOP'),
 }
 
+class ResPartner(orm.Model):
+    _inherit = 'res.partner'
+    
+    _columns = {
+        'is_carrier': fields.boolean("Transportadora?", 
+                                     help="O parceiro é uma transportadora?")
+    }
 
 class AccountFiscalPositionTemplate(orm.Model):
     _inherit = 'account.fiscal.position.template'
