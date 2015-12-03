@@ -33,7 +33,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     @api.depends('invoice_line', 'tax_line.amount')
-    def _amount_all(self):
+    def _amount_all_service(self):
         for inv in self:
             inv.amount_services = sum(
                 line.price_total for line in inv.invoice_line)
@@ -109,40 +109,40 @@ class AccountInvoice(models.Model):
         states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
 
     csll_base = fields.Float(
-        string=u'Base CSLL', compute='_amount_all',
+        string=u'Base CSLL', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     csll_value = fields.Float(
-        string=u'Valor CSLL', compute='_amount_all',
+        string=u'Valor CSLL', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     ir_base = fields.Float(
-        string=u'Base IR', compute='_amount_all',
+        string=u'Base IR', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     ir_value = fields.Float(
-        string=u'Valor IR', compute='_amount_all',
+        string=u'Valor IR', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     issqn_base = fields.Float(
-        string=u'Base de Cálculo do ISSQN', compute='_amount_all',
+        string=u'Base de Cálculo do ISSQN', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     issqn_value = fields.Float(
-        string=u'Valor do ISSQN', compute='_amount_all',
+        string=u'Valor do ISSQN', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     inss_base = fields.Float(
-        string=u'Valor do INSS', compute='_amount_all',
+        string=u'Valor do INSS', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     inss_value = fields.Float(
-        string=u'Valor do INSS', compute='_amount_all',
+        string=u'Valor do INSS', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     service_pis_value = fields.Float(
-        string=u'Valor do Pis sobre Serviços', compute='_amount_all',
+        string=u'Valor do Pis sobre Serviços', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
     service_cofins_value = fields.Float(
-        string=u'Valor do Cofins sobre Serviços', compute='_amount_all',
+        string=u'Valor do Cofins sobre Serviços', compute='_amount_all_service',
         store=True, digits_compute=dp.get_precision('Account'))
     amount_services = fields.Float(
-        string=u'Total dos serviços', compute='_amount_all', store=True,
+        string=u'Total dos serviços', compute='_amount_all_service', store=True,
         digits_compute=dp.get_precision('Account'))
     amount_wh = fields.Float(
-        string=u'Total de retenção', compute='_amount_all', store=True,
+        string=u'Total de retenção', compute='_amount_all_service', store=True,
         digits_compute=dp.get_precision('Account'))
 
     def whitholding_map(self, cr, uid, **kwargs):
