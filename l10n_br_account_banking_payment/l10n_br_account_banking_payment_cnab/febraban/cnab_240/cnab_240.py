@@ -53,9 +53,9 @@ class Cnab240(Cnab):
     @staticmethod
     def get_bank(bank):
         '''
-        FunÃ§Ã£o chamada na criaÃ§Ã£o do CNAB que dado o cÃ³digo do banco,
+        Função chamada na criação do CNAB que dado o código do banco,
         instancia o objeto do banco e retorna o obj ao CNAB que sera criado.
-        :param bank: str - CÃ³digo do banco
+        :param bank: str - Código do banco
         :return:
         '''
         if bank == '341':
@@ -88,27 +88,69 @@ class Cnab240(Cnab):
         Preparar o header do arquivo do CNAB
         :return: dict - Header do arquivo
         """
-        return {
+        header_arquivo = {
+            # CONTROLE
+            # 01.0
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
+            # 02.0 # Sequencia para o Arquivo
+            'controle_lote': 1,
+            # 03.0  0- Header do Arquivo
+            'controle_registro': 0,
+            # 04.0
+            # CNAB - Uso Exclusivo FEBRABAN / CNAB
+
+            # EMPRESA
+            # 05.0 - 1 - CPF / 2 - CNPJ
+            'cedente_inscricao_tipo':
+                self.get_inscricao_tipo(self.order.company_id.partner_id),
+            # 06.0
+            'cedente_inscricao_numero':
+                int(punctuation_rm(self.order.company_id.cnpj_cpf)),
+            # 07.0
+            'cedente_convenio': '0001222130126',
+            # 08.0
+            'cedente_agencia':
+                int(self.order.mode.bank_id.bra_number),
+            # 09.0
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            # 10.0
+            'cedente_conta':
+                int(punctuation_rm(self.order.mode.bank_id.acc_number)),
+            # 11.0
+            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
+            # 12.0
+            'cedente_agencia_conta_dv':
+                self.order.mode.bank_id.acc_number_dig[1]
+                if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
+            # 13.0
+            'cedente_nome':
+                self.order.mode.bank_id.partner_id.legal_name[:30]
+                if self.order.mode.bank_id.partner_id.legal_name
+                else self.order.mode.bank_id.partner_id.name[:30],
+            # 14.0
+            'nome_banco': self.order.mode.bank_id.bank_name,
+            # 15.0
+            #   CNAB - Uso Exclusivo FEBRABAN / CNAB
+
+            # ARQUIVO
+            # 16.0 Código Remessa = 1 / Retorno = 2
+            'arquivo_codigo': '1',
+            # 17.0
             'arquivo_data_de_geracao': self.data_hoje(),
             # 18.0
             'arquivo_hora_de_geracao': self.hora_agora(),
-            # 19.0 TODO: NÃºmero sequencial de arquivo
+            # 19.0 TODO: Número sequencial de arquivo
             'arquivo_sequencia': int(self.get_file_numeration()),
-            'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(
-                self.order.company_id.cnpj_cpf)),
-            'cedente_agencia': int(
-                self.order.mode.bank_id.bra_number),
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_agencia_dv':
-            self.order.mode.bank_id.bra_number_dig,
-            'cedente_nome': self.order.company_id.legal_name,
-            # DV ag e conta
-            'cedente_dv_ag_cc': u"5",  # FIXME
-            'arquivo_codigo': 1,  # Remessa/Retorno
-            'servico_operacao': u'R',
-            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+            # 20.0
+            'arquivo_layout': 103,
+            # 21.0
+            'arquivo_densidade': 0,
+            # 22.0
+            'reservado_banco': '',
+            # 23.0
+            'reservado_empresa': 'EMPRESA 100',
+            # 24.0
+            # CNAB - Uso Exclusivo FEBRABAN / CNAB
         }
 
         return header_arquivo
@@ -199,7 +241,7 @@ class Cnab240(Cnab):
         return header_arquivo_lote
 
     def get_file_numeration(self):
-        # FunÃ§Ã£o para retornar a numeraÃ§Ã£o sequencial do arquivo
+        # Função para retornar a numeração sequencial do arquivo
         return 1
 
     def _prepare_cobranca(self, line):
@@ -213,47 +255,44 @@ class Cnab240(Cnab):
         if not self.order.mode.boleto_aceite == 'S':
             aceite = u'A'
 
-        # CÃ³digo agencia do cedente
+        # Código agencia do cedente
         # cedente_agencia = cedente_agencia
 
-        # DÃ­gito verificador da agÃªncia do cedente
+        # Dígito verificador da agência do cedente
         # cedente_agencia_conta_dv = cedente_agencia_dv
 
-        # CÃ³digo da conta corrente do cedente
+        # Código da conta corrente do cedente
         # cedente_conta = cedente_conta
 
-        # DÃ­gito verificador da conta corrente do cedente
+        # Dígito verificador da conta corrente do cedente
         # cedente_conta_dv = cedente_conta_dv
 
-        # DÃ­gito verificador de agencia e conta
-        # Era cedente_agencia_conta_dv agora Ã© cedente_dv_ag_cc
+        # Dígito verificador de agencia e conta
+        # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
 
         return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_dv':
-            self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': u"5",  # FIXME
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
-            'identificacao_titulo_empresa': line.move_line_id.move_id.name,  # Check this
+            'identificacao_titulo_empresa': line.move_line_id.move_id.name,
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
-            # TODO: fÃ©pefwfwe
-            # TODO: CÃ³digo adotado para identificar o tÃ­tulo de cobranÃ§a.
-            # 8 Ã© Nota de cÅ•edito comercial
+            # TODO: fépefwfwe
+            # TODO: Código adotado para identificar o título de cobrança.
+            # 8 é Nota de credito comercial
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
             # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
-            # CEF/FEBRABAN e ItaÃº nÃ£o tem.
+            # CEF/FEBRABAN e Itaú não tem.
             'juros_mora_data': self.format_date(
                 line.ml_maturity_date),
             'juros_mora_taxa_dia': Decimal('0.00'),
@@ -275,24 +314,16 @@ class Cnab240(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
-<<<<<<< 2b58fb4c74cafabb11b6896c4be16135fbfc99d9
-<<<<<<< a3be3fe12e9aabbe1e29308e212450b6ec44b36b
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
-=======
-            'cobranca_carteira': 1,
->>>>>>> renomeacao de campos e adicao de informacoes
-=======
-            'cobranca_carteira': int(self.order.mode.boleto_carteira),
->>>>>>> mudanca da origem de algumas variaveis
         }
 
     def _prepare_pagamento(self, line):
         """
         Prepara um dict para preencher os valores do segmento A e B apartir de
-        uma linha da payment.order e insere informaÃ§Ãµes que irÃ£o compor o
+        uma linha da payment.order e insere informações que irão compor o
         header do lote
         :param line: payment.line - linha que sera base para evento
-        :return: dict - Dict contendo todas informaÃ§Ãµes dos segmentos
+        :return: dict - Dict contendo todas informações dos segmentos
         """
         vals = {
 
@@ -306,11 +337,11 @@ class Cnab240(Cnab):
             'controle_registro': 3,
 
             # SERVICO
-            # 04.3A - NÂº SeqÃ¼encial do Registro - Inicia em 1 em cada novo lote
+            # 04.3A - Nº Seqüencial do Registro - Inicia em 1 em cada novo lote
             # TODO: Contador para o sequencial do lote
             'servico_numero_registro': 1,
             # 05.3A
-            #   Segmento CÃ³digo de Segmento do Reg.Detalhe
+            #   Segmento Código de Segmento do Reg.Detalhe
             # 06.3A
             'servico_tipo_movimento': self.order.tipo_movimento,
             # 07.3A
@@ -355,7 +386,7 @@ class Cnab240(Cnab):
             # 23.3A
             # 'credito_valor_real': '',
 
-            # INFORMAÃ‡Ã”ES
+            # INFORMAÇÔES
             # 24.3A
             # 'outras_informacoes': '',
             # 25.3A
@@ -423,7 +454,7 @@ class Cnab240(Cnab):
             # 22.3B
             'pagamento_multa': Decimal('0.00'),
             # 23.3B
-            # TODO: Verificar se este campo Ã© retornado no retorno
+            # TODO: Verificar se este campo é retornado no retorno
             # 'cod_documento_favorecido': '',
             # 24.3B - Informado No SegmentoA
             # 'aviso_ao_favorecido': '0',
@@ -458,7 +489,6 @@ class Cnab240(Cnab):
 
         # Preparar Header do Arquivo
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
-<<<<<<< 83dcbf0306a0cd20ae0fc280b53567b7ca8d3157
 
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
@@ -493,12 +523,6 @@ class Cnab240(Cnab):
             #     Decimal(cobrancasimples_valor_titulos).quantize(
             #         Decimal('1.00'))
 
-=======
-        for line in order.line_ids:
-            self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
-            self.arquivo.lotes[0].header.servico_servico = 1
-            # self.arquivo.
->>>>>>> FIX lote reinicia a cada segmentos P e Q.
         remessa = unicode(self.arquivo)
         return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')
 
@@ -539,7 +563,7 @@ class Cnab240(Cnab):
 
     def nosso_numero(self, format):
         """
-        Hook para ser sobrescrito e adicionar informaÃ§Ã£o
+        Hook para ser sobrescrito e adicionar informação
         :param format:
         :return:
         """
