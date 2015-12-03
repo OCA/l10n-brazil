@@ -19,7 +19,7 @@
 
 from openerp.osv import orm
 from openerp.tools.translate import _
-from ..sped.nfe.processing.xml import check_key_nfe
+from openerp.addons.nfe.sped.nfe.processing.xml import check_key_nfe
 
 
 class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):

@@ -20,10 +20,7 @@
 ###############################################################################
 
 from openerp.osv import fields, orm
-from openerp.addons.nfe_attach.account_invoice import AccountInvoice
-from nfe.sped.nfe.processing.xml import send_correction_letter
-from datetime import datetime
-import os
+from openerp.addons.nfe.sped.nfe.processing.xml import send_correction_letter
 
 
 class NfeInvoiceCce(orm.TransientModel):

@@ -20,10 +20,12 @@
 import os
 import logging
 import datetime
+
 from openerp.osv import orm
 from openerp.tools.translate import _
-from .sped.nfe.nfe_factory import NfeFactory
-from .sped.nfe.validator.xml import XMLValidator
+
+from openerp.addons.nfe.sped.nfe.nfe_factory import NfeFactory
+from openerp.addons.nfe.sped.nfe.validator.xml import XMLValidator
 from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
 from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
 from openerp.addons.nfe.sped.nfe.validator.config_check import \
