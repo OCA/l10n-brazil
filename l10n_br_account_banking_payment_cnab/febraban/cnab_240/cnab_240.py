@@ -72,6 +72,7 @@ class Cnab240(Cnab):
         :return:
         """
         return {
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
@@ -82,13 +83,14 @@ class Cnab240(Cnab):
             'cedente_agencia': int(
                 self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_agencia_conta_dv': int(
-                self.order.mode.bank_id.acc_number_dig),
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
-            'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
+            # DV ag e conta
+            'cedente_dv_ag_cc': u"5",  # FIXME
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
-            'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
         }
 
     def get_file_numeration(self):
@@ -134,6 +136,7 @@ class Cnab240(Cnab):
             aceite = 'A'
 
         return {
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),

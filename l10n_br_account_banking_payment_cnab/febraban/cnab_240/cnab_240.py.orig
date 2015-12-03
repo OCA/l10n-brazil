@@ -23,20 +23,20 @@
 
 from ..cnab import Cnab
 from cnab240.tipos import Arquivo
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
 import string
 import unicodedata
 import time
-from decimal import *
 
 
 class Cnab240(Cnab):
     """
 
     """
+
     def __init__(self):
         super(Cnab, self).__init__()
 
@@ -72,6 +72,7 @@ class Cnab240(Cnab):
         :return:
         """
         return {
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
@@ -82,26 +83,13 @@ class Cnab240(Cnab):
             'cedente_agencia': int(
                 self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-<<<<<<< HEAD
             'cedente_agencia_conta_dv': int(
                 self.order.mode.bank_id.acc_number_dig),
             'cedente_nome': self.order.company_id.legal_name,
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
-=======
-            'cedente_agencia_dv':
-            self.order.mode.bank_id.bra_number_dig,
-            'cedente_nome': self.order.company_id.legal_name,
-            # DV ag e conta
-            'cedente_dv_ag_cc': u"5",  # FIXME
->>>>>>> renomeacao de campos e adicao de informacoes
             'arquivo_codigo': 1,  # Remessa/Retorno
-            'reservado_cedente_campo': u'REMESSA-TESTE',
             'servico_operacao': u'R',
-<<<<<<< HEAD
             'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
-=======
-            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
->>>>>>> renomeacao de campos e adicao de informacoes
         }
 
     def get_file_numeration(self):
@@ -142,52 +130,36 @@ class Cnab240(Cnab):
             str(line.move_line_id.transaction_ref))  # TODO: Improve!
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
-        aceite = u'N'
+        aceite = 'N'
         if not self.order.mode.boleto_aceite == 'S':
-            aceite = u'A'
-
-        # Código agencia do cedente
-        # cedente_agencia = cedente_agencia
-
-        # Dígito verificador da agência do cedente
-        # cedente_agencia_conta_dv = cedente_agencia_dv
-
-        # Código da conta corrente do cedente
-        # cedente_conta = cedente_conta
-
-        # Dígito verificador da conta corrente do cedente
-        # cedente_conta_dv = cedente_conta_dv
-
-        # Dígito verificador de agencia e conta
-        # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
+            aceite = 'A'
 
         return {
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-<<<<<<< HEAD
             'cedente_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'carteira_numero': int(carteira),
             'nosso_numero': int(nosso_numero),
             'nosso_numero_dv': int(digito),
             'identificacao_titulo': u'%s' % str(line.move_line_id.move_id.id),
-=======
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_dv':
-            self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': u"5",  # FIXME
-            'identificacao_titulo': u'0000000',  # TODO
-            'identificacao_titulo_banco': u'0000000',  # TODO
-            'identificacao_titulo_empresa': line.move_line_id.move_id.name,  # Check this
->>>>>>> renomeacao de campos e adicao de informacoes
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
+<<<<<<< HEAD
             'valor_titulo': Decimal("{0:,.2f}".format(
                 line.move_line_id.debit)),
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': u'%s' % aceite,
+=======
+            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
+                Decimal('1.00'), rounding=ROUND_DOWN),
+            # TODO: Código adotado para identificar o título de cobrança.
+            # 8 é Nota de cŕedito comercial
+            'especie_titulo': int(self.order.mode.boleto_especie),
+            'aceite_titulo': aceite,
+>>>>>>> mudanca da origem de algumas variaveis
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
             'juros_mora_taxa_dia': Decimal(
@@ -206,21 +178,21 @@ class Cnab240(Cnab):
             'sacado_cep_sufixo': int(sulfixo),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
+<<<<<<< HEAD
             # TODO: campo para identificar o protesto. '1' = Protestar,
             # '3' = Não protestar, '9' = Cancelar protesto automático
-<<<<<<< HEAD
             'codigo_protesto': int(self.order.mode.boleto_protesto),
             'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 0,
             'prazo_baixa': 0,
 =======
-            'codigo_protesto': 3,
-            'prazo_protesto': 0,
+            'codigo_protesto': int(self.order.mode.boleto_protesto),
+            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
-            'cobranca_carteira': 1,
->>>>>>> renomeacao de campos e adicao de informacoes
+            'cobranca_carteira': int(self.order.mode.boleto_carteira),
+>>>>>>> mudanca da origem de algumas variaveis
         }
 
     def remessa(self, order):
