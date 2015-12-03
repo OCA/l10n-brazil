@@ -88,54 +88,8 @@ class Cnab240(Cnab):
         Preparar o header do arquivo do CNAB
         :return: dict - Header do arquivo
         """
-        header_arquivo = {
-            # CONTROLE
-            # 01.0
+        return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
-            # 02.0 # Sequencia para o Arquivo
-            'controle_lote': 1,
-            # 03.0  0- Header do Arquivo
-            'controle_registro': 0,
-            # 04.0
-            # CNAB - Uso Exclusivo FEBRABAN / CNAB
-
-            # EMPRESA
-            # 05.0 - 1 - CPF / 2 - CNPJ
-            'cedente_inscricao_tipo':
-                self.get_inscricao_tipo(self.order.company_id.partner_id),
-            # 06.0
-            'cedente_inscricao_numero':
-                int(punctuation_rm(self.order.company_id.cnpj_cpf)),
-            # 07.0
-            'cedente_convenio': '0001222130126',
-            # 08.0
-            'cedente_agencia':
-                int(self.order.mode.bank_id.bra_number),
-            # 09.0
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            # 10.0
-            'cedente_conta':
-                int(punctuation_rm(self.order.mode.bank_id.acc_number)),
-            # 11.0
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
-            # 12.0
-            'cedente_agencia_conta_dv':
-                self.order.mode.bank_id.acc_number_dig[1]
-                if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
-            # 13.0
-            'cedente_nome':
-                self.order.mode.bank_id.partner_id.legal_name[:30]
-                if self.order.mode.bank_id.partner_id.legal_name
-                else self.order.mode.bank_id.partner_id.name[:30],
-            # 14.0
-            'nome_banco': self.order.mode.bank_id.bank_name,
-            # 15.0
-            #   CNAB - Uso Exclusivo FEBRABAN / CNAB
-
-            # ARQUIVO
-            # 16.0 Código Remessa = 1 / Retorno = 2
-            'arquivo_codigo': '1',
-            # 17.0
             'arquivo_data_de_geracao': self.data_hoje(),
             # 18.0
             'arquivo_hora_de_geracao': self.hora_agora(),
@@ -328,11 +282,15 @@ class Cnab240(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
+<<<<<<< 2b58fb4c74cafabb11b6896c4be16135fbfc99d9
 <<<<<<< a3be3fe12e9aabbe1e29308e212450b6ec44b36b
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
 =======
             'cobranca_carteira': 1,
 >>>>>>> renomeacao de campos e adicao de informacoes
+=======
+            'cobranca_carteira': int(self.order.mode.boleto_carteira),
+>>>>>>> mudanca da origem de algumas variaveis
         }
 
     def _prepare_pagamento(self, line):
