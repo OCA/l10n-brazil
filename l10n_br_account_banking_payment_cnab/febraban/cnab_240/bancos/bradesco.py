@@ -41,7 +41,9 @@ class Bradesco240(Cnab240):
         :param order:
         :return:
         """
+
         vals = super(Bradesco240, self)._prepare_header()
+        vals['servico_servico'] = 1
         return vals
 
     def _prepare_segmento(self, line):

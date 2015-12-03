@@ -188,6 +188,8 @@ class Cnab240(Cnab):
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
         for line in order.line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
+            self.arquivo.lotes[0].header.servico_servico = 1
+            # self.arquivo.
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
