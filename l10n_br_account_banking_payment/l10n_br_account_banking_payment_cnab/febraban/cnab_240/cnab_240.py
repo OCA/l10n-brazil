@@ -233,12 +233,6 @@ class Cnab240(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-<<<<<<< a3be3fe12e9aabbe1e29308e212450b6ec44b36b
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            'identificacao_titulo': u'0000000',  # TODO
-            'identificacao_titulo_banco': u'0000000',  # TODO
-            'identificacao_titulo_empresa': line.move_line_id.move_id.name,
-=======
             'cedente_agencia_dv':
             self.order.mode.bank_id.bra_number_dig,
             # DV ag e cc
@@ -246,7 +240,6 @@ class Cnab240(Cnab):
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,  # Check this
->>>>>>> renomeacao de campos e adicao de informacoes
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
@@ -465,6 +458,7 @@ class Cnab240(Cnab):
 
         # Preparar Header do Arquivo
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
+<<<<<<< 83dcbf0306a0cd20ae0fc280b53567b7ca8d3157
 
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
@@ -499,6 +493,12 @@ class Cnab240(Cnab):
             #     Decimal(cobrancasimples_valor_titulos).quantize(
             #         Decimal('1.00'))
 
+=======
+        for line in order.line_ids:
+            self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
+            self.arquivo.lotes[0].header.servico_servico = 1
+            # self.arquivo.
+>>>>>>> FIX lote reinicia a cada segmentos P e Q.
         remessa = unicode(self.arquivo)
         return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')
 
