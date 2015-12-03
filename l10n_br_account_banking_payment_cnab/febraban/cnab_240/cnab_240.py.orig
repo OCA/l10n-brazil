@@ -23,13 +23,14 @@
 
 from ..cnab import Cnab
 from cnab240.tipos import Arquivo
-from decimal import Decimal, ROUND_DOWN
+from decimal import Decimal
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
 import string
 import unicodedata
 import time
+from decimal import *
 
 
 class Cnab240(Cnab):
@@ -42,14 +43,17 @@ class Cnab240(Cnab):
     @staticmethod
     def get_bank(bank):
         if bank == '341':
-            from bancos.itau import Itau240
+            from .bancos.itau import Itau240
             return Itau240
         elif bank == '237':
-            from bancos.bradesco import Bradesco240
+            from .bancos.bradesco import Bradesco240
             return Bradesco240
         elif bank == '104':
-            from bancos.cef import Cef240
+            from .bancos.cef import Cef240
             return Cef240
+        elif bank == '033':
+            from .bancos.santander import Santander240
+            return Santander240
         else:
             return Cnab240
 
@@ -84,19 +88,20 @@ class Cnab240(Cnab):
             'cedente_nome': self.order.company_id.legal_name,
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
 =======
-            'cedente_agencia_conta_dv':
+            'cedente_agencia_dv':
             self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
-            'cedente_codigo_agencia_digito':
-            self.order.mode.bank_id.bra_number_dig,
->>>>>>> [FIX] pep8 and merge clear
+            # DV ag e conta
+            'cedente_dv_ag_cc': u"5",  # FIXME
+>>>>>>> renomeacao de campos e adicao de informacoes
             'arquivo_codigo': 1,  # Remessa/Retorno
             'reservado_cedente_campo': u'REMESSA-TESTE',
             'servico_operacao': u'R',
 <<<<<<< HEAD
             'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
 =======
->>>>>>> [FIX] pep8 and merge clear
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+>>>>>>> renomeacao de campos e adicao de informacoes
         }
 
     def get_file_numeration(self):
@@ -133,27 +138,49 @@ class Cnab240(Cnab):
         :param line:
         :return:
         """
-<<<<<<< HEAD
         carteira, nosso_numero, digito = self.nosso_numero(
             str(line.move_line_id.transaction_ref))  # TODO: Improve!
-=======
->>>>>>> [FIX] pep8 and merge clear
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
-        aceite = 'N'
+        aceite = u'N'
         if not self.order.mode.boleto_aceite == 'S':
-            aceite = 'A'
+            aceite = u'A'
+
+        # Código agencia do cedente
+        # cedente_agencia = cedente_agencia
+
+        # Dígito verificador da agência do cedente
+        # cedente_agencia_conta_dv = cedente_agencia_dv
+
+        # Código da conta corrente do cedente
+        # cedente_conta = cedente_conta
+
+        # Dígito verificador da conta corrente do cedente
+        # cedente_conta_dv = cedente_conta_dv
+
+        # Dígito verificador de agencia e conta
+        # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
 
         return {
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
-<<<<<<< HEAD
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
+<<<<<<< HEAD
             'cedente_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'carteira_numero': int(carteira),
             'nosso_numero': int(nosso_numero),
             'nosso_numero_dv': int(digito),
             'identificacao_titulo': u'%s' % str(line.move_line_id.move_id.id),
+=======
+            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
+            # DV ag e cc
+            'cedente_dv_ag_cc': u"5",  # FIXME
+            'identificacao_titulo': u'0000000',  # TODO
+            'identificacao_titulo_banco': u'0000000',  # TODO
+            'identificacao_titulo_empresa': line.move_line_id.move_id.name,  # Check this
+>>>>>>> renomeacao de campos e adicao de informacoes
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
@@ -166,43 +193,14 @@ class Cnab240(Cnab):
             'juros_mora_taxa_dia': Decimal(
                 "{0:,.2f}".format(line.move_line_id.debit * 0.00066666667)),
             # FIXME
-=======
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_conta_dv':
-            self.order.mode.bank_id.bra_number_dig,
-            'identificacao_titulo': u'0000000',  # TODO
-            'numero_documento': line.name,
-            'vencimento_titulo': self.format_date(
-                line.ml_maturity_date),
-            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00'), rounding=ROUND_DOWN),
-            # TODO: Código adotado para identificar o título de cobrança.
-            # 8 é Nota de cŕedito comercial
-            'especie_titulo': 8,
-            # TODO: 'A' se título foi aceito pelo sacado. 'N' se não foi.
-            'aceite_titulo': aceite,
-            'data_emissao_titulo': self.format_date(
-                line.ml_date_created),
-            # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
-            # CEF/FEBRABAN e Itaú não tem.
-            'juros_mora_data': self.format_date(
-                line.ml_maturity_date),
-            'juros_mora_taxa_dia': Decimal('0.00'),
->>>>>>> [FIX] pep8 and merge clear
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
-<<<<<<< HEAD
             'sacado_endereco': (line.partner_id.street + ',' +
                                 line.partner_id.number)[:40],
-=======
-            'sacado_endereco': (
-                line.partner_id.street + ' ' + line.partner_id.number),
->>>>>>> [FIX] pep8 and merge clear
             'sacado_bairro': line.partner_id.district,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
@@ -221,7 +219,8 @@ class Cnab240(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
->>>>>>> [FIX] pep8 and merge clear
+            'cobranca_carteira': 1,
+>>>>>>> renomeacao de campos e adicao de informacoes
         }
 
     def remessa(self, order):

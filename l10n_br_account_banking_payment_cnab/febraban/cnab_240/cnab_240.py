@@ -23,20 +23,20 @@
 
 from ..cnab import Cnab
 from cnab240.tipos import Arquivo
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
 import string
 import unicodedata
 import time
-from decimal import *
 
 
 class Cnab240(Cnab):
     """
 
     """
+
     def __init__(self):
         super(Cnab, self).__init__()
 
@@ -87,7 +87,6 @@ class Cnab240(Cnab):
             'cedente_nome': self.order.company_id.legal_name,
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'arquivo_codigo': 1,  # Remessa/Retorno
-            'reservado_cedente_campo': u'REMESSA-TESTE',
             'servico_operacao': u'R',
             'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
         }
