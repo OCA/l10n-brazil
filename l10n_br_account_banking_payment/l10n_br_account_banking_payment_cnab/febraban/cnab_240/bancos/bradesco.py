@@ -42,6 +42,7 @@ class Bradesco240(Cnab240):
         :return:
         """
         vals = super(Bradesco240, self)._prepare_header()
+        vals['controle_banco'] = int(self.order.mode.bank_id.bank_bic),
         return vals
 
     def _prepare_segmento(self, line):
@@ -56,6 +57,10 @@ class Bradesco240(Cnab240):
         vals['desconto1_percentual'] = Decimal('0.00')
         vals['valor_iof'] = Decimal('0.00')
         vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
+        # DV da agencia/conta
+        vals['cedente_dv'] = u"5"
+        vals['identificacao_titulo_banco'] = int(
+            vals['identificacao_titulo_banco'])
         return vals
 
     # Override cnab_240.nosso_numero. Diferentes números de dígitos entre

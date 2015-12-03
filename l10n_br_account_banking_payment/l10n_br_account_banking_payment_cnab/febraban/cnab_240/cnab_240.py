@@ -141,16 +141,20 @@ class Cnab240(Cnab):
             'arquivo_hora_de_geracao': self.hora_agora(),
             # 19.0 TODO: Número sequencial de arquivo
             'arquivo_sequencia': int(self.get_file_numeration()),
-            # 20.0
-            'arquivo_layout': 103,
-            # 21.0
-            'arquivo_densidade': 0,
-            # 22.0
-            'reservado_banco': '',
-            # 23.0
-            'reservado_empresa': 'EMPRESA 100',
-            # 24.0
-            # CNAB - Uso Exclusivo FEBRABAN / CNAB
+            'cedente_inscricao_tipo': self.inscricao_tipo,
+            'cedente_inscricao_numero': int(punctuation_rm(
+                self.order.company_id.cnpj_cpf)),
+            'cedente_agencia': int(
+                self.order.mode.bank_id.bra_number),
+            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
+            'cedente_nome': self.order.company_id.legal_name,
+            # DV ag e conta
+            'cedente_dv_ag_cc': u"5",  # FIXME
+            'arquivo_codigo': 1,  # Remessa/Retorno
+            'servico_operacao': u'R',
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
         }
 
         return header_arquivo
@@ -275,10 +279,20 @@ class Cnab240(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
+<<<<<<< a3be3fe12e9aabbe1e29308e212450b6ec44b36b
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
+=======
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
+            # DV ag e cc
+            'cedente_dv_ag_cc': u"5",  # FIXME
+            'identificacao_titulo': u'0000000',  # TODO
+            'identificacao_titulo_banco': u'0000000',  # TODO
+            'identificacao_titulo_empresa': line.move_line_id.move_id.name,  # Check this
+>>>>>>> renomeacao de campos e adicao de informacoes
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
@@ -314,7 +328,11 @@ class Cnab240(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
+<<<<<<< a3be3fe12e9aabbe1e29308e212450b6ec44b36b
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
+=======
+            'cobranca_carteira': 1,
+>>>>>>> renomeacao de campos e adicao de informacoes
         }
 
     def _prepare_pagamento(self, line):

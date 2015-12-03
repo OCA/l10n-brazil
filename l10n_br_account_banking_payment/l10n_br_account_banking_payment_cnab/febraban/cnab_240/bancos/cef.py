@@ -39,10 +39,10 @@ class Cef240(Cnab240):
         :return:
         """
         vals = super(Cef240, self)._prepare_header()
-        vals['cedente_agencia_conta_dv'] = unicode(str(
-            vals['cedente_agencia_conta_dv']), "utf-8")
-        vals['cedente_codigo_agencia_digito'] = unicode(str(
-            vals['cedente_codigo_agencia_digito']), "utf-8")
+        vals['cedente_dv_ag_cc'] = unicode(str(
+            vals['cedente_dv_ag_cc']), "utf-8")
+        vals['cedente_agencia_dv'] = unicode(str(
+            vals['cedente_agencia_dv']), "utf-8")
         # TODO: adicionar campo para preencher o codigo do cedente no
         # cadastro da conta bancária
         vals['cedente_codigo_codCedente'] = 6088
@@ -66,8 +66,8 @@ class Cef240(Cnab240):
         carteira, nosso_numero, digito = self.nosso_numero(
             line.move_line_id.transaction_ref)
 
-        vals['cedente_agencia_conta_dv'] = unicode(str(
-            vals['cedente_agencia_conta_dv']), "utf-8")
+        vals['cedente_dv_ag_cc'] = unicode(str(
+            vals['cedente_dv_ag_cc']), "utf-8")
         # Informar o Número do Documento - Seu Número (mesmo das posições
         # 63-73 do Segmento P)
         vals['identificacao_titulo'] = unicode(str(
