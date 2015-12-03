@@ -57,7 +57,7 @@ class Bradesco240(Cnab240):
             vals['prazo_baixa']), "utf-8")
         vals['desconto1_percentual'] = Decimal('0.00')
         vals['valor_iof'] = Decimal('0.00')
-        vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
+        # vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
         vals['identificacao_titulo_banco'] = int(
             vals['identificacao_titulo_banco'])
         return vals

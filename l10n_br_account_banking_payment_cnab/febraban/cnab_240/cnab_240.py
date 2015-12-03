@@ -189,7 +189,12 @@ class Cnab240(Cnab):
         for line in order.line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
             self.arquivo.lotes[0].header.servico_servico = 1
-            # self.arquivo.
+            # TODO: tratar soma de tipos de cobranca
+            cobrancasimples_valor_titulos += line.amount_currency
+            self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
+                Decimal(cobrancasimples_valor_titulos).quantize(
+                    Decimal('1.00'), rounding=ROUND_DOWN)
+
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')

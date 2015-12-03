@@ -83,13 +83,14 @@ class Cnab240(Cnab):
             'cedente_agencia': int(
                 self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_agencia_conta_dv': int(
-                self.order.mode.bank_id.acc_number_dig),
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
-            'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
+            # DV ag e conta
+            'cedente_dv_ag_cc': u"5",  # FIXME
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
-            'codigo_transmissao': int(self.order.mode.boleto_cnab_code),
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
         }
 
     def get_file_numeration(self):
@@ -139,27 +140,29 @@ class Cnab240(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
+<<<<<<< HEAD
             'cedente_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'carteira_numero': int(carteira),
             'nosso_numero': int(nosso_numero),
             'nosso_numero_dv': int(digito),
             'identificacao_titulo': u'%s' % str(line.move_line_id.move_id.id),
+=======
+            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
+            'cedente_agencia_dv':
+            self.order.mode.bank_id.bra_number_dig,
+            # DV ag e cc
+            'cedente_dv_ag_cc': u"5",  # FIXME
+            'identificacao_titulo': u'0000000',  # TODO
+            'identificacao_titulo_banco': u'0000000',  # TODO
+            'identificacao_titulo_empresa': line.move_line_id.move_id.name,
+>>>>>>> soma dos valores dos titulos
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
-<<<<<<< HEAD
             'valor_titulo': Decimal("{0:,.2f}".format(
                 line.move_line_id.debit)),
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': u'%s' % aceite,
-=======
-            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00'), rounding=ROUND_DOWN),
-            # TODO: Código adotado para identificar o título de cobrança.
-            # 8 é Nota de cŕedito comercial
-            'especie_titulo': int(self.order.mode.boleto_especie),
-            'aceite_titulo': aceite,
->>>>>>> mudanca da origem de algumas variaveis
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
             'juros_mora_taxa_dia': Decimal(
@@ -178,21 +181,12 @@ class Cnab240(Cnab):
             'sacado_cep_sufixo': int(sulfixo),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
-<<<<<<< HEAD
             # TODO: campo para identificar o protesto. '1' = Protestar,
             # '3' = Não protestar, '9' = Cancelar protesto automático
             'codigo_protesto': int(self.order.mode.boleto_protesto),
             'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 0,
             'prazo_baixa': 0,
-=======
-            'codigo_protesto': int(self.order.mode.boleto_protesto),
-            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
-            'codigo_baixa': 2,
-            'prazo_baixa': 0,  # De 5 a 120 dias.
-            'controlecob_data_gravacao': self.data_hoje(),
-            'cobranca_carteira': int(self.order.mode.boleto_carteira),
->>>>>>> mudanca da origem de algumas variaveis
         }
 
     def remessa(self, order):
@@ -201,10 +195,19 @@ class Cnab240(Cnab):
         :param order:
         :return:
         """
+        cobrancasimples_valor_titulos = 0
+
         self.order = order
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
         for line in order.line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
+            self.arquivo.lotes[0].header.servico_servico = 1
+            # TODO: tratar soma de tipos de cobranca
+            cobrancasimples_valor_titulos += line.amount_currency
+            self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
+                Decimal(cobrancasimples_valor_titulos).quantize(
+                    Decimal('1.00'), rounding=ROUND_DOWN)
+
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
