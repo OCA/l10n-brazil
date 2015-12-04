@@ -95,19 +95,15 @@ class AccountFiscalPosition(models.Model):
 
         return list(set(result))
 
-    def _prepare_result_tax(self, result, tax_def):
-        result[tax_def.tax_id.domain] = {
-            'tax': tax_def.tax_id,
-            'tax_code': tax_def.tax_code_id,
-            'icms_relief': tax_def.tax_icms_relief_id,
-            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
-        }
-        return result
-
     def _map_tax_code(self, map_tax):
         result = {}
         for map in map_tax:
-            result = self._prepare_result_tax(result, map)
+            result[map.tax_dest_id.domain] = {
+                'tax': map.tax_dest_id,
+                'tax_code': map.tax_code_dest_id,
+                'icms_relief': map.tax_icms_relief_id,
+                'ipi_guideline':  map.tax_ipi_guideline_id,
+            }
         return result
 
     @api.multi
@@ -122,7 +118,12 @@ class AccountFiscalPosition(models.Model):
                 for tax_def in company_taxes:
                     if tax_def.tax_id:
                         taxes |= tax_def.tax_id
-                        result = self._prepare_result_tax(result,tax_def)
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                            'icms_relief': tax_def.tax_icms_relief_id,
+                            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
+                        }
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.sale_tax_definition_line
@@ -133,7 +134,12 @@ class AccountFiscalPosition(models.Model):
 
         for ncm_tax_def in product_ncm_tax_def:
             if ncm_tax_def.tax_id:
-                result = self._prepare_result_tax(result, ncm_tax_def)
+                result[ncm_tax_def.tax_id.domain] = {
+                    'tax': ncm_tax_def.tax_id,
+                    'tax_code': ncm_tax_def.tax_code_id,
+                    'icms_relief': ncm_tax_def.tax_icms_relief_id,
+                    'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
+                }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
@@ -164,7 +170,6 @@ class AccountFiscalPosition(models.Model):
         for code in taxes_codes:
             if taxes_codes[code].get('tax_code'):
                 result.update({code: taxes_codes[code].get('tax_code').id})
-            # TODO: Make this dynamic to get any columns from tax def
             if taxes_codes[code].get('ipi_guideline'):
                 result.update({
                     'ipi_guideline': taxes_codes[code].get('ipi_guideline').id
