@@ -16,12 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-from openerp.osv import osv, fields
+
+from openerp import models, fields
 
 
-class res_company(osv.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    _columns = {
-        'nfe_email': fields.text('Observação em Email NFe'),
-    }
+    nfe_email = fields.Text('Observação em Email NFe')
