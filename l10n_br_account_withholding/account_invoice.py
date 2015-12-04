@@ -189,50 +189,82 @@ class AccountInvoice(models.Model):
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
             move_lines)
 
-        move_debit = {'analytic_account_id': None, 'tax_code_id': 10, 'analytic_lines': [], 'tax_amount': 10,
-                      'name': u'IR Recuperar 1.05% (Retenção)', 'ref': False, 'currency_id': False, 'credit': False,
-                      'product_id': False, 'date_maturity': False, 'debit': 10, 'date': '2015-11-20',
-                      'amount_currency': 0, 'product_uom_id': False, 'quantity': 1, 'partner_id': 17, 'account_id': 123}
-        # for move in move_lines:
-        #    print move
-        #move_lines.append((0, 0, move_credit))
-        move_lines.append((0, 0, move_debit))
-        for move in move_lines:
-            if move[2]['date_maturity']:
-                move[2]['debit'] = move[2]['debit'] - 10
-
-        # veriricar se o cliente x empresa retem o imposto e chamar o metodo
-        # correspondente
-
         self.compute_with_holding()
-        return move_lines
 
+        move_to_debit = None
+        value_to_debit = 0.0
+
+        move_lines_new = []
+
+        # Just keep move lines that are
+        for move in move_lines:
+            keep_move = True
+            tax_code = self.env['account.tax.code'].browse(
+                move[2]['tax_code_id'])
+
+            if tax_code.domain == 'issqn' and self.issqn_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if tax_code.domain == 'pis' and self.pis_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if tax_code.domain == 'cofins' and self.cofins_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if tax_code.domain == 'inss' and self.inss_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if tax_code.domain == 'csll' and self.csll_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if tax_code.domain == 'irpj' and self.irrf_wh:
+                value_to_debit += move[2]['credit']
+                keep_move = False
+
+            if move[2]['date_maturity']:
+                move_to_debit = move
+
+            if keep_move:
+                move_lines_new.append(move)
+
+        if move_to_debit:
+            move_to_debit[2]['debit'] = move_to_debit[
+                2]['debit'] - value_to_debit
+
+        return move_lines_new
 
     @api.multi
-    def compute_with_holding(self):        
+    def compute_with_holding(self):
         for inv in self:
             date_invoice = inv.date_invoice
             if not date_invoice:
                 date_invoice = time.strftime('%Y-%m-%d')
                 amount_previous = 0.00
 
-            if inv.pis_value > inv.company_id.cofins_csll_pis_wh_base and inv.pis_wh:
+            if inv.pis_base > inv.company_id.cofins_csll_pis_wh_base and inv.pis_wh:
                 inv.pis_value_wh = inv.pis_value
 
-            if inv.cofins_value > inv.company_id.cofins_csll_pis_wh_base and inv.cofins_wh:
+            if inv.cofins_base > inv.company_id.cofins_csll_pis_wh_base and inv.cofins_wh:
                 inv.cofins_value_wh = inv.cofins_value
 
-            if inv.csll_value > inv.company_id.cofins_csll_pis_wh_base and inv.csll_wh:
+            if inv.csll_base > inv.company_id.cofins_csll_pis_wh_base and inv.csll_wh:
                 inv.csll_value_wh = inv.csll_value
 
             if inv.issqn_wh:
                 inv.issqn_value_wh = inv.issqn_value
 
-            ir_value = inv.ir_value * (inv.company_id.irrf_wh_percent / 100.0)
-            if ir_value > inv.company_id.irrf_wh_base and inv.irrh_wh:
-                inv.irrf_value_wh = ir_value
+            if inv.ir_base > inv.company_id.irrf_wh_base and inv.irrf_wh:
+                inv.irrf_value_wh = inv.ir_base * \
+                    (inv.company_id.irrf_wh_percent / 100.0)
+                inv.irrf_base_wh = inv.ir_base
 
-            if inv.inss_value > inv.company_id.inss_wh_base and inv.inss_wh:
+            if inv.inss_base > inv.company_id.inss_wh_base and inv.inss_wh:
+                inv.inss_base_wh = inv.inss_base
                 inv.inss_value_wh = inv.inss_value
 
 
