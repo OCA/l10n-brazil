@@ -57,6 +57,12 @@ class AccountInvoice(models.Model):
             inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
                 inv.cofins_value_wh + inv.csll_value_wh + \
                 inv.irrf_value_wh + inv.inss_value_wh
+                
+    @api.multi
+    @api.depends('amount_total', 'amount_wh')    
+    def _amount_net(self):
+        for inv in self:
+            inv.amount_net = inv.amount_total - inv.amount_wh
 
     issqn_wh = fields.Boolean(
         u'Retém ISSQN', readonly=True, states=FIELD_STATE)
@@ -144,6 +150,10 @@ class AccountInvoice(models.Model):
     amount_wh = fields.Float(
         string=u'Total de retenção', compute='_amount_all_service', store=True,
         digits_compute=dp.get_precision('Account'))
+    amount_net = fields.Float(
+        string=u'Total Líquido', compute='_amount_net',
+        digits_compute=dp.get_precision('Account'))
+    
 
     def whitholding_map(self, cr, uid, **kwargs):
         result = {}
@@ -177,9 +187,7 @@ class AccountInvoice(models.Model):
             partner_bank_id, company_id, fiscal_category_id)
 
         result['value'].update(self.whitholding_map(
-            cr, uid, partner_id=partner_id,
-            partner_invoice_id=partner_id, company_id=company_id,
-            fiscal_category_id=fiscal_category_id))
+            cr, uid, partner_id=partner_id, company_id=company_id))
 
         return result
 
@@ -196,45 +204,59 @@ class AccountInvoice(models.Model):
 
         move_lines_new = []
 
+        move_lines_tax = [move for move in move_lines if not move[
+            2]['product_id'] and not move[2]['date_maturity']]
+        move_lines_payment = [move for move in move_lines if not move[
+            2]['product_id'] and move[2]['date_maturity']]
+        move_lines_products = [move for move in move_lines if move[
+            2]['product_id'] and not move[2]['date_maturity']]
+
+        move_lines_new.extend(move_lines_products)
+
+        def copy_move(move):
+            copy = (0, 0, move[2].copy())
+            copy[2]['debit'] = move[2]['credit']
+            copy[2]['credit'] = 0.0
+            copy[2]['name'] = copy[2]['name'] + u'- Retenção'
+            return copy
+
         # Just keep move lines that are
-        for move in move_lines:
-            keep_move = True
+        for move in move_lines_tax:
+            move_lines_new.append(move)
+
             tax_code = self.env['account.tax.code'].browse(
                 move[2]['tax_code_id'])
 
             if tax_code.domain == 'issqn' and self.issqn_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
             if tax_code.domain == 'pis' and self.pis_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
             if tax_code.domain == 'cofins' and self.cofins_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
             if tax_code.domain == 'inss' and self.inss_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
             if tax_code.domain == 'csll' and self.csll_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
             if tax_code.domain == 'irpj' and self.irrf_wh:
                 value_to_debit += move[2]['credit']
-                keep_move = False
+                move_lines_new.append(copy_move(move))
 
-            if move[2]['date_maturity']:
-                move_to_debit = move
+        move_lines_new.extend(move_lines_payment)
 
-            if keep_move:
-                move_lines_new.append(move)
-
-        if move_to_debit:
-            move_to_debit[2]['debit'] = move_to_debit[
-                2]['debit'] - value_to_debit
+        if value_to_debit > 0.0:
+            value_item = value_to_debit / float(len(move_lines_payment))
+            for move in move_lines_payment:
+                move[2]['debit'] = move[2]['debit'] - value_item
 
         return move_lines_new
 
@@ -246,26 +268,39 @@ class AccountInvoice(models.Model):
                 date_invoice = time.strftime('%Y-%m-%d')
                 amount_previous = 0.00
 
-            if inv.pis_base > inv.company_id.cofins_csll_pis_wh_base and inv.pis_wh:
+            if inv.pis_value > inv.company_id.cofins_csll_pis_wh_base and inv.pis_wh:
                 inv.pis_value_wh = inv.pis_value
+            else:
+                inv.pis_wh = False
 
-            if inv.cofins_base > inv.company_id.cofins_csll_pis_wh_base and inv.cofins_wh:
+            if inv.cofins_value > inv.company_id.cofins_csll_pis_wh_base and inv.cofins_wh:
                 inv.cofins_value_wh = inv.cofins_value
+            else:
+                inv.cofins_wh = False
 
-            if inv.csll_base > inv.company_id.cofins_csll_pis_wh_base and inv.csll_wh:
+            if inv.csll_value > inv.company_id.cofins_csll_pis_wh_base and inv.csll_wh:
                 inv.csll_value_wh = inv.csll_value
+            else:
+                inv.csll_wh = False
 
             if inv.issqn_wh:
                 inv.issqn_value_wh = inv.issqn_value
 
-            if inv.ir_base > inv.company_id.irrf_wh_base and inv.irrf_wh:
-                inv.irrf_value_wh = inv.ir_base * \
-                    (inv.company_id.irrf_wh_percent / 100.0)
+            if inv.ir_value > inv.company_id.irrf_wh_base and inv.irrf_wh:
+                inv.irrf_value_wh = inv.ir_value
                 inv.irrf_base_wh = inv.ir_base
+            else:
+                inv.irrf_wh = False
 
-            if inv.inss_base > inv.company_id.inss_wh_base and inv.inss_wh:
+            if inv.inss_value > inv.company_id.inss_wh_base and inv.inss_wh:
                 inv.inss_base_wh = inv.inss_base
                 inv.inss_value_wh = inv.inss_value
+            else:
+                inv.inss_wh = False
+
+            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
+                inv.cofins_value_wh + inv.csll_value_wh + \
+                inv.irrf_value_wh + inv.inss_value_wh
 
 
 class AccountInvoiceLine(models.Model):

@@ -6,7 +6,7 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
-				<field name="amount_tax" position="after">
+				<field name="amount_total" position="after">
 					<field name="amount_wh" widget="monetary" options="{'currency_field': 'currency_id'}" 
 						attrs="{'invisible': [('fiscal_type', '!=', 'service')]}" />
 				</field>
