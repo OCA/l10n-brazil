@@ -57,9 +57,9 @@ class AccountInvoice(models.Model):
             inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
                 inv.cofins_value_wh + inv.csll_value_wh + \
                 inv.irrf_value_wh + inv.inss_value_wh
-                
+
     @api.multi
-    @api.depends('amount_total', 'amount_wh')    
+    @api.depends('amount_total', 'amount_wh')
     def _amount_net(self):
         for inv in self:
             inv.amount_net = inv.amount_total - inv.amount_wh
@@ -153,7 +153,6 @@ class AccountInvoice(models.Model):
     amount_net = fields.Float(
         string=u'Total Líquido', compute='_amount_net',
         digits_compute=dp.get_precision('Account'))
-    
 
     def whitholding_map(self, cr, uid, **kwargs):
         result = {}
@@ -193,23 +192,22 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
-        invoice_browse = self
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
             move_lines)
 
         self.compute_with_holding()
 
-        move_to_debit = None
         value_to_debit = 0.0
-
         move_lines_new = []
-
-        move_lines_tax = [move for move in move_lines if not move[
-            2]['product_id'] and not move[2]['date_maturity']]
-        move_lines_payment = [move for move in move_lines if not move[
-            2]['product_id'] and move[2]['date_maturity']]
-        move_lines_products = [move for move in move_lines if move[
-            2]['product_id'] and not move[2]['date_maturity']]
+        move_lines_tax = [move for move in move_lines
+                          if not move[2]['product_id']
+                          and not move[2]['date_maturity']]
+        move_lines_payment = [move for move in move_lines
+                              if not move[2]['product_id']
+                              and move[2]['date_maturity']]
+        move_lines_products = [move for move in move_lines
+                               if move[2]['product_id']
+                               and not move[2]['date_maturity']]
 
         move_lines_new.extend(move_lines_products)
 
@@ -263,40 +261,42 @@ class AccountInvoice(models.Model):
     @api.multi
     def compute_with_holding(self):
         for inv in self:
-            date_invoice = inv.date_invoice
-            if not date_invoice:
-                date_invoice = time.strftime('%Y-%m-%d')
-                amount_previous = 0.00
-
             if inv.pis_value > inv.company_id.cofins_csll_pis_wh_base and inv.pis_wh:
                 inv.pis_value_wh = inv.pis_value
             else:
                 inv.pis_wh = False
+                inv.pis_value_wh = 0.0
 
             if inv.cofins_value > inv.company_id.cofins_csll_pis_wh_base and inv.cofins_wh:
                 inv.cofins_value_wh = inv.cofins_value
             else:
                 inv.cofins_wh = False
+                inv.cofins_value_wh = 0.0
 
             if inv.csll_value > inv.company_id.cofins_csll_pis_wh_base and inv.csll_wh:
                 inv.csll_value_wh = inv.csll_value
             else:
                 inv.csll_wh = False
+                inv.csll_value_wh = 0.0
 
             if inv.issqn_wh:
                 inv.issqn_value_wh = inv.issqn_value
+            else:
+                inv.issqn_value_wh = 0.0
 
             if inv.ir_value > inv.company_id.irrf_wh_base and inv.irrf_wh:
                 inv.irrf_value_wh = inv.ir_value
                 inv.irrf_base_wh = inv.ir_base
             else:
                 inv.irrf_wh = False
+                inv.irrf_value_wh = 0.0
 
             if inv.inss_value > inv.company_id.inss_wh_base and inv.inss_wh:
                 inv.inss_base_wh = inv.inss_base
                 inv.inss_value_wh = inv.inss_value
             else:
                 inv.inss_wh = False
+                inv.inss_value_wh = 0.0
 
             inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
                 inv.cofins_value_wh + inv.csll_value_wh + \
