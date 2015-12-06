@@ -1,0 +1,6 @@
+---Fields in module 'l10n_br_crm'---
+---XML records in module 'l10n_br_crm'---
+NEW ir.ui.view: l10n_br_crm.l10n_br_crm_leads_form
+NEW ir.ui.view: l10n_br_crm.l10n_br_crm_opportunities_form
+DEL ir.ui.view: l10n_br_crm.l10n_br_crm_case_form_view_leads1
+DEL ir.ui.view: l10n_br_crm.l10n_br_crm_case_form_view_oppor1
