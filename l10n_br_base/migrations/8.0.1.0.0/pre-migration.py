@@ -33,3 +33,8 @@ xmlid_renames = [
 @openupgrade.migrate()
 def migrate(cr, version):
     openupgrade.rename_xmlids(cr, xmlid_renames)
+
+    openupgrade.logged_query(cr,
+        """update ir_module_module set state='to remove'
+        where name='l10n_br_product'
+        and state in ('installed', 'to install', 'to upgrade')""")
