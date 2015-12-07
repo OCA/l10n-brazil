@@ -28,8 +28,8 @@ logger = logging.getLogger('OpenUpgrade.l10n_br_account')
 
 
 def load_data(cr):
-    openupgrade.load_data(cr, 'product',
-                          'migrations/8.0.1.1/modified_data.xml',
+    openupgrade.load_data(cr, 'l10n_br_account',
+                          'migrations/8.0.1.0.0/modified_data.xml',
                           mode='init')
 
 @openupgrade.migrate()
