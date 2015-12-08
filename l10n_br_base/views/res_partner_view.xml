@@ -138,12 +138,28 @@
             <field name="inherit_id" ref="base.view_partner_bank_form" />
             <field name="arch" type="xml">
                 <field name="acc_number" position="replace">
-                    <newline />
-                    <field name="acc_number" select="1" />
-                    <field name="acc_number_dig" select="1" />
-                    <newline />
-                    <field name="bra_number" select="1" />
-                    <field name="bra_number_dig" select="1" />
+                        <newline />
+                        <field name="acc_number" select="1" />
+                        <field name="acc_number_dig" select="1" />
+                        <newline />
+                        <field name="bra_number" select="1" />
+                        <field name="bra_number_dig" select="1" />
+                </field>
+                <field name="company_id" position="after">
+                    <group>
+                        <group string="Endereço">
+                            <div class="o_address_format">
+                                <field name="zip" placeholder="CEP" style="width:50%" />
+                                <field name="street" placeholder="Logradouro" />
+                                <field name="number" placeholder="Número"/>
+                                <field name="street2" placeholder="Complemento"/>
+                                <field name="district" placeholder="Bairro"/>
+                                <field name="country_id" placeholder="País" />
+                                <field name="state_id" domain="[('country_id','=',country_id)]" style="width:100%" placeholder="Estado"/>
+                                <field name="l10n_br_city_id" placeholder="Cidade"/>
+                            </div>
+                        </group>
+                    </group>
                 </field>
             </field>
         </record>
