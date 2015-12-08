@@ -65,7 +65,7 @@ class ResPartner(models.Model):
         help="Nome utilizado em documentos fiscais")
 
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', 'Municipio',
+        'l10n_br_base.city', u'Município',
         domain="[('state_id','=',state_id)]")
 
     district = fields.Char('Bairro', size=32)
@@ -198,8 +198,12 @@ class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
     number = fields.Char(u'Número', size=10)
+    street = fields.Char('Street', size=128)
     street2 = fields.Char('Street2', size=128)
     district = fields.Char('Bairro', size=32)
+    state_id = fields.Many2one(
+        "res.country.state", 'Fed. State',
+        change_default=True, domain="[('country_id','=',country_id)]")
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
@@ -208,21 +212,8 @@ class ResPartnerBank(models.Model):
     acc_number_dig = fields.Char('Digito Conta', size=8)
     bra_number = fields.Char(u'Agência', size=8)
     bra_number_dig = fields.Char(u'Dígito Agência', size=8)
-
-    @api.onchange('l10n_br_city_id')
-    def _onchange_l10n_br_city_id(self):
-        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
-        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
-        do município para o campo city que é o campo nativo do módulo base
-        para manter a compatibilidade entre os demais módulos que usam o
-        campo city.
-
-        param int l10n_br_city_id: id do l10n_br_city_id digitado.
-
-        return: dicionário com o nome e id do município.
-        """
-        if self.l10n_br_city_id:
-            self.city = self.l10n_br_city_id.name
+    zip = fields.Char('CEP', size=24, change_default=True)
+    country_id = fields.Many2one('res.country', 'País', ondelete='restrict')
 
     @api.multi
     def onchange_partner_id(self, partner_id):
@@ -232,3 +223,10 @@ class ResPartnerBank(models.Model):
         result['value']['district'] = partner.district
         result['value']['l10n_br_city_id'] = partner.l10n_br_city_id.id
         return result
+
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        if self.zip:
+            val = re.sub('[^0-9]', '', self.zip)
+            if len(val) == 8:
+                self.zip = "%s-%s" % (val[0:5], val[5:8])
