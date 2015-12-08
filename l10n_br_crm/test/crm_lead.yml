@@ -21,7 +21,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write(cr, uid, [ref("crm_lead_company")],{'stage_id':ref("crm.stage_lead1")})
+     self.write(cr, uid, [ref("crm_lead_company")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -47,7 +47,7 @@
     obj_crm_lead = self.browse(cr, uid, ref("crm_lead_company"))
     partner_id = self._create_lead_partner(cr, uid , obj_crm_lead)
     obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
-    assert obj_partner.name, 'The creation of the partner have problems.'
+    assert obj_partner.name, 'The field Name not was filled.'
     assert obj_partner.legal_name, 'The field Razão Social not was filled.'
     assert obj_partner.cnpj_cpf, 'The field CNPJ not was filled.'
     assert obj_partner.inscr_est, 'The field Inscrição Estadual not was filled'
@@ -79,7 +79,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write(cr, uid, [ref("crm_lead_contact")],{'stage_id':ref("crm.stage_lead1")})
+     self.write(cr, uid, [ref("crm_lead_contact")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
