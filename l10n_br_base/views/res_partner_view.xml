@@ -72,9 +72,9 @@
                 </field>
                 <field name="city" position="replace">
                     <field name="city" invisible="1" />
-                </field>                
+                </field>
                 <notebook>
-                    <page position="inside" string="Outros Dados">
+                    <page position="inside" name="Outros Dados">
                         <group string="Dados Fiscais">
                             <group>
                                 <div>
@@ -90,41 +90,41 @@
                         </group>
                     </page>
                 </notebook>
-                <xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street']" position="after">
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='street']" position="after">
                     <field name="number" placeholder="Número"/>
                 </xpath>
-                <xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street2']" position="attributes">
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='street2']" position="attributes">
                     <attribute name="placeholder">Complemento</attribute>
                 </xpath>
-                <xpath expr="//field[@name='child_ids']/form/sheet/group/div/field[@name='street2']" position="after">
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='street2']" position="after">
                     <field name="district" placeholder="Bairro"/>
                 </xpath>
-                <xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='state_id']" position="after">
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='state_id']" position="after">
                     <field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
                 </xpath>
-                <xpath expr="//field[@name='child_ids']/form/sheet/group/div/div/field[@name='city']" position="attributes">
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='city']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 
                 
                 <xpath expr="//div[@name='div_address']" position="replace">
                     <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
-                        <field name="zip" placeholder="CEP" style="width: 20%"/>                        
+                        <field name="zip" placeholder="CEP" style="width: 20%"/>
                          <div class="address_format">
                             <field name="street" placeholder="Logradouro" style="width: 70%"/>
-                            <field name="number" placeholder="Número" style="width: 20%"/>                         
-                        </div>  
+                            <field name="number" placeholder="Número" style="width: 20%"/>
+                        </div>
                         <div class="address_format">
                             <field name="street2" placeholder="Complemento" style="width: 45%"/>
-                            <field name="district" placeholder="Bairro" style="width: 45%"/>                            
-                        </div>                      
+                            <field name="district" placeholder="Bairro" style="width: 45%"/>
+                        </div>
                         <div class="address_format">
                             <field name="country_id" placeholder="País" class="oe_no_button" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" style="width: 30%"/>
                             <field name="state_id" class="oe_no_button" placeholder="Estado" 
                                     style="width: 30%" options="{&quot;no_open&quot;: True}" 
                                     on_change="onchange_state(state_id)" domain="[('country_id','=',country_id)]"/>
-                            <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>                                                     
-                        </div>                      
+                            <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
+                        </div>
                     </div>
                 </xpath>
                 
@@ -144,33 +144,6 @@
                     <newline />
                     <field name="bra_number" select="1" />
                     <field name="bra_number_dig" select="1" />
-                </field>
-                <field name="owner_name" position="replace"/>
-                <field name="partner_id" position="replace">
-                    <field name="partner_id"/>
-                    <field name="owner_name"/>
-                </field>
-                <field name="zip" position="replace"/>
-                <field name="street" position="replace">
-                    <field name="zip" placeholder="CEP" style="width:50%" />
-                    <field name="street" placeholder="Logradouro" />
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
-                </field>
-                <field name="state_id" position="attributes">
-                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                    <attribute name="style">width:100%</attribute>
-                </field>
-                <field name="country_id" position="replace"/>
-                <field name="state_id" position="before">
-                    <field name="country_id" placeholder="País" />
-                </field>
-                <field name="state_id" position="after">
-                    <field name="l10n_br_city_id" placeholder="Cidade"/>
-                </field>
-                <field name="city" position="replace">
-                    <field name="city" invisible="1" />
                 </field>
             </field>
         </record>
