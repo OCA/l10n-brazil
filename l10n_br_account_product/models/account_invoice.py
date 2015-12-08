@@ -861,8 +861,10 @@ class AccountInvoiceLine(models.Model):
         freight_value = values.get('freight_value', 0.0) or self.freight_value
         other_costs_value = values.get(
             'other_costs_value', 0.0) or self.other_costs_value
-        tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-            0][2] or self.invoice_line_tax_id.ids
+        tax_ids = []
+        if values.get('invoice_line_tax_id'):
+            tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+                0][2] or self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -957,25 +959,22 @@ class AccountInvoiceLine(models.Model):
             if kwargs.get('product_id'):
                 product = self.env['product.product'].browse(
                     kwargs['product_id'])
+                taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
-                        taxes = product.taxes_id
+                        taxes |= product.taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = [(6, 0, [])]
+                        taxes |= account_obj.browse(account_id).tax_ids
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     if product.supplier_taxes_id:
-                        taxes = product.supplier_taxes_id
+                        taxes |= product.supplier_taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = [(6, 0, [])]
+                        taxes |= account_obj.browse(account_id).tax_ids
                 tax_ids = fp.with_context(ctx).map_tax(taxes)
                 result_rule['value']['invoice_line_tax_id'] = tax_ids.ids
                 result['value'].update(self._get_tax_codes(
