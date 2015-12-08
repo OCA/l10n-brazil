@@ -8,7 +8,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.1',
+    'version': '9.0.1.0.0',
     'depends': [
         'base',
         'base_setup',
@@ -35,7 +35,7 @@
         'test/res_partner_test.yml',
         'test/res_company_test.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'external_dependencies': {
         'python': ['num2words'],
