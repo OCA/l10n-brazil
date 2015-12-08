@@ -6,9 +6,9 @@
         <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set"/>
 
         <!-- Default bank account description -->
-        <record id="fund" model="res.partner.bank.type">
+        <!--<record id="fund" model="res.partner.bank.type">
             <field name="name">Conta Corrente</field>
-            <field name="code">fund</field>
+            <<field name="code">fund</field>
         </record>
 
         <record id="fund_acc_number_field" model="res.partner.bank.type.field">
@@ -76,6 +76,7 @@
             <field eval="True" name="required"/>
             <field name="bank_type_id" ref="base.bank_normal"/>
         </record>
+        -->
 
 
         <record id="base.ad" model="res.country">
