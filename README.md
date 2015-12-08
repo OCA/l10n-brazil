@@ -91,6 +91,7 @@ addon | version | summary
 [l10n_br_sale](l10n_br_sale/) | 8.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 8.0.1.0.0 | Brazilian Localization Sale Product
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 8.0.1.0.0 | Brazilian Localization Sales and Warehouse
+[l10n_br_sale_service](l10n_br_sale_service/) | 8.0.1.0.0 | Brazilian Localization Sale Service
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.0 | Brazilian Localization WMS Accounting
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.0 | Brazilian Localisation ZIP Codes
@@ -103,6 +104,5 @@ addon | version | summary
 [l10n_br_account_voucher](l10n_br_account_voucher/) | 7.0 (unported) | Brazilian Localization Account Voucher
 [l10n_br_delivery](l10n_br_delivery/) | 7.0 (unported) | Brazilian Localization Delivery
 [l10n_br_hr_timesheet_invoice](l10n_br_hr_timesheet_invoice/) | 1.0 (unported) | Brazilian Invoice on Timesheets
-[l10n_br_sale_service](l10n_br_sale_service/) | 7.0 (unported) | Brazilian Localization Sale Service
 
 [//]: # (end addons)
