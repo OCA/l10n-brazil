@@ -20,7 +20,8 @@
 import datetime
 import logging
 from openerp import netsvc
-from openerp.osv import orm, fields
+from openerp import models, fields, api
+from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
 from openerp.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_nfe_invalidate_number
@@ -29,21 +30,21 @@ from openerp.addons.nfe.sped.nfe.processing.xml import invalidate
 _logger = logging.getLogger(__name__)
 
 
-class L10n_brAccountInvoiceInvalidNumber(orm.Model):
+class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'
-    _columns = {
-        'state': fields.selection([
+
+    state = fields.Selection([
             ('draft', 'Rascunho'),
             ('not_authorized', 'Não autorizado'),
-            ('done', u'Autorizado Sefaz')], 'Status', required=True),
-        'status': fields.char('Status', size=10, readonly=True),
-        'message': fields.char('Mensagem', size=200, readonly=True),
-        'invalid_number_document_event_ids': fields.one2many(
+            ('done', u'Autorizado Sefaz')], 'Status', required=True)
+    status = fields.Char('Status', size=10, readonly=True)
+    message = fields.Char('Mensagem', size=200, readonly=True)
+    invalid_number_document_event_ids = fields.One2many(
             'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos', states={'done': [('readonly', True)]}),
-    }
+            u'Eventos', states={'done': [('readonly', True)]})
 
-    def attach_file_event(self, cr, uid, ids, seq, att_type, ext, context):
+    @api.multi
+    def attach_file_event(self, seq, att_type, ext):
         """
         Implemente esse metodo na sua classe de manipulação de arquivos
         :param cr:
@@ -57,9 +58,10 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
         """
         return False
 
-    def action_draft_done(self, cr, uid, ids, context=None, *args):
+    @api.multi
+    def action_draft_done(self):
         try:
-            processo = self.send_request_to_sefaz(cr, uid, ids, args)
+            processo = self.send_request_to_sefaz()
             values = {
                 'message': processo.resposta.infInut.xMotivo.valor,
             }
@@ -67,45 +69,35 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
             if processo.resposta.infInut.cStat.valor == '102':
                 values['state'] = 'done'
                 values['status'] = '102'
-                self.write(cr, uid, ids, values, context=context)
+                self.write(values)
                 # context['caminho'] = processo.arquivos[0]['arquivo']
-                self.attach_file_event(
-                    cr,
-                    uid,
-                    ids,
-                    None,
-                    'inu',
-                    'xml',
-                    context)
+                self.attach_file_event(None, 'inu', 'xml')
             else:
                 values['state'] = 'not_authorized'
                 values['status'] = processo.resposta.infInut.cStat.valor
-                self.write(cr, uid, ids, values, context=context)
+                self.write(values)
 
-        except orm.except_orm as ex:
-            raise ex
         except Exception as e:
-            raise orm.except_orm(_('Error !'), e.message)
+            raise RedirectWarning(_(u'Erro!'), e.message)
         return True
 
-    def send_request_to_sefaz(self, cr, uid, ids, *args):
-        for item in self.browse(cr, uid, ids):
-            company_pool = self.pool.get('res.company')
-            company = company_pool.browse(cr, uid, item.company_id.id)
+    @api.multi
+    def send_request_to_sefaz(self):
+        for item in self:
 
-            event_obj = self.pool.get('l10n_br_account.document_event')
+            event_obj = self.env['l10n_br_account.document_event']
 
-            validate_nfe_configuration(company)
-            validate_nfe_invalidate_number(company, item)
+            validate_nfe_configuration(item.company_id)
+            validate_nfe_invalidate_number(item.company_id, item)
 
             results = []
             try:
-                processo = invalidate(company, item)
+                processo = invalidate(item.company_id, item)
                 vals = {
                     'type': str(processo.webservice),
                     'status': processo.resposta.infInut.cStat.valor,
                     'response': '',
-                    'company_id': company.id,
+                    'company_id': item.company_id.id,
                     'origin': '[INU] {0} - {1}'.format(str(item.number_start),
                                                        str(item.number_end)),
                     #    'file_sent': processo.arquivos[0]['arquivo'],
@@ -121,7 +113,7 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
                     'type': '-1',
                     'status': '000',
                     'response': 'response',
-                    'company_id': company.id,
+                    'company_id': item.company_id.id,
                     'origin': '[INU] {0} - {1}'.format(str(item.number_start),
                                                        str(item.number_end)),
                     'file_sent': 'False',
@@ -133,34 +125,36 @@ class L10n_brAccountInvoiceInvalidNumber(orm.Model):
                 results.append(vals)
             finally:
                 for result in results:
-                    event_obj.create(cr, uid, result)
+                    event_obj.create(result)
             return processo
 
 
-class L10n_brAccountInvoiceCancel(orm.Model):
+class L10n_brAccountInvoiceCancel(models.Model):
     _inherit = 'l10n_br_account.invoice.cancel'
 
-    def action_draft_done(self, cr, uid, ids, *args):
-        if len(ids) == 1:
-            record = self.browse(cr, uid, ids[0])
+    @api.multi
+    def action_draft_done(self):
+        if len(self.ids) == 1:
+            record = self.browse(self.id)
             wf_service = netsvc.LocalService('workflow')
-            wf_service.trg_validate(uid, 'account.invoice',
-                                    record.invoice_id.id, 'invoice_cancel', cr)
+            wf_service.trg_validate('account.invoice',
+                                    record.invoice_id.id, 'invoice_cancel')
 
-            self.write(cr, uid, ids, {'state': 'done'})
+            self.write({'state': 'done'})
         else:
-            raise orm.except_orm(
-                _('Error !'),
-                u'Você pode cancelar apenas uma fatura por vez.')
+            raise RedirectWarning(_(u'Erro!'), _(u'Você pode cancelar '
+                                                 u'apenas uma fatura por vez.'))
+
         return True
 
 
-class L10n_brDocumentEvent(orm.Model):
+class L10n_brDocumentEvent(models.Model):
     _inherit = 'l10n_br_account.document_event'
 
-    def set_done(self, cr, uid, ids, context=None):
-        if context is None:
+    @api.multi
+    def set_done(self):
+        if self is None:
             context = {}
         values = {'state': 'done', 'end_date': datetime.datetime.now()}
-        self.write(cr, uid, ids, values, context=context)
+        self.write(values)
         return True
