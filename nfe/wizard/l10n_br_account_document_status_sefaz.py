@@ -17,29 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
+from openerp import models, api
 from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.addons.nfe.sped.nfe.processing.xml import check_key_nfe
 
 
-class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
+class L10n_brAccountDocumentStatusSefaz(models.TransientModel):
 
     _inherit = 'l10n_br_account_product.document_status_sefaz'
 
-    def get_document_status(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
-        # Call some method from l10n_br_account to check chNFE
-        if context.get('company_id', False):
-            company = context['company_id']
-        else:
-            company = self.pool.get('res.users').browse(
-                cr, uid, uid,
-                context=context).company_id
-
-        chave_nfe = str(data['chNFe'])
+    @api.multi
+    def get_document_status(self):
+        chave_nfe = self.chNFe
 
         try:
-            processo = check_key_nfe(company, chave_nfe)
+            processo = check_key_nfe(self.write_uid.company_id, chave_nfe)
 
             call_result = {
                 'version': processo.resposta.versao.txt,
@@ -55,17 +48,18 @@ class L10n_brAccountDocumentStatusSefaz(orm.TransientModel):
                 'state': 'done',
             }
 
-            self.write(cr, uid, ids, call_result)
+            self.write(call_result)
         except Exception as e:
+            # fixme:
             raise orm.except_orm(
                 _(u'Erro na consulta da chave!'), e)
 
-        mod_obj = self.pool.get('ir.model.data')
-        act_obj = self.pool.get('ir.actions.act_window')
-        result = mod_obj.get_object_reference(
-            cr, uid, 'l10n_br_account_product',
-            'action_l10n_br_account_product_document_status_sefaz')
+        mod_obj = self.env['ir.model.data']
+        act_obj = self.env['ir.actions.act_window']
+        result = mod_obj.get_object_reference('l10n_br_account_product',
+                                              'action_l10n_br_account_product'
+                                              '_document_status_sefaz')
         res_id = result and result[1] or False
-        result = act_obj.read(cr, uid, res_id, context=context)
-        result['res_id'] = ids[0]
+        result = act_obj.browse(res_id)
+        result['res_id'] = self.id
         return result
