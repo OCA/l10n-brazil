@@ -19,35 +19,27 @@
 
 import xml.etree.ElementTree as ET
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
-
 from openerp.addons.nfe.sped.nfe.processing.xml import check_partner
 from openerp.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration
+import xml.etree.ElementTree as ET
+from openerp.osv import orm
+from openerp.tools.translate import _
+from openerp import models, fields, api
 
 
-class ResPartner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    _columns = {
-        'habilitado_sintegra': fields.boolean('Habilitado no Sintegra',
-                                              readonly=True),
-    }
+    habilitado_sintegra = fields.Boolean('Habilitado no Sintegra',
+                                         readonly=True)
 
-    def sefaz_check(self, cr, uid, ids, context=False):
+    @api.multi
+    def sefaz_check(self):
 
-        if context.get('company_id', False):
-            company = context['company_id']
-        else:
-            company = self.pool.get('res.users').browse(
-                cr, uid, uid,
-                context=context
-            ).company_id
+        validate_nfe_configuration(self.company_id)
 
-        validate_nfe_configuration(company)
-
-        for partner in self.browse(cr, uid, ids, context):
+        for partner in self:
             if partner.cnpj_cpf:
                 cnpj_cpf = partner.cnpj_cpf
 
@@ -55,7 +47,7 @@ class ResPartner(orm.Model):
                 ie = partner.inscr_est or None
                 ie = ie if ie != 'ISENTO' else None
 
-                processo = check_partner(company, cnpj_cpf, estato, ie)
+                processo = check_partner(self.company_id, cnpj_cpf, estato, ie)
 
                 (company, partner.state_id.code, partner.inscr_est, )
                 xml = processo.resposta.xml.encode('utf-8')
@@ -73,6 +65,7 @@ class ResPartner(orm.Model):
                                 info[end.tag[36:]] = end.text
 
                 if info['cStat'] not in ('111', '112'):
+                    # fixme:
                     raise orm.except_orm(
                         _("Erro ao se comunicar com o SEFAZ"),
                         _("%s - %s") % (info.get('cStat', ''),
@@ -82,10 +75,10 @@ class ResPartner(orm.Model):
                         _("Situação Cadastral Vigente:"),
                         _("NÃO HABILITADO"))
 
-                city_id = self.pool.get('l10n_br_base.city').search(
-                    cr, uid, [('ibge_code', '=', info['cMun'][2:])])[0]
-                state_id = self.pool.get('res.country.state').search(
-                    cr, uid, [('ibge_code', '=', info['cMun'][:2])])[0]
+                city_id = self.env['l10n_br_base.city'].search(
+                    [('ibge_code', '=', info['cMun'][2:])])
+                state_id = self.env['res.country.state'].search(
+                    [('ibge_code', '=', info['cMun'][:2])])
 
                 result = {
                     'district': info.get('xBairro', ''),
@@ -99,5 +92,5 @@ class ResPartner(orm.Model):
                     'state_id': state_id,
                     'habilitado_sintegra': info['cSit'],
                 }
-                self.write(cr, uid, [partner.id], result, context)
+                partner.write(result)
         return
