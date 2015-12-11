@@ -25,7 +25,7 @@ from openerp.addons import decimal_precision as dp
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.one
+    @api.multi
     @api.depends('order_line.price_unit', 'order_line.tax_id',
                  'order_line.discount', 'order_line.product_uom_qty')
     def _amount_all_wrapper(self):
@@ -33,35 +33,34 @@ class SaleOrder(models.Model):
         as parameter for function fields """
         return self._amount_all()
 
-    @api.one
+    @api.multi
     def _amount_all(self):
-        self.amount_untaxed = 0.0
-        self.amount_tax = 0.0
-        self.amount_total = 0.0
-        self.amount_extra = 0.0
-        self.amount_discount = 0.0
-        self.amount_gross = 0.0
+        for order in self:
+            order.amount_untaxed = 0.0
+            order.amount_tax = 0.0
+            order.amount_total = 0.0
+            order.amount_discount = 0.0
+            order.amount_gross = 0.0
+            amount_tax = amount_untaxed = \
+                amount_discount = amount_gross = 0.0
+            for line in order.order_line:
+                amount_tax += self._amount_line_tax(line)
+                amount_untaxed += line.price_subtotal
+                amount_discount += line.discount_value
+                amount_gross += line.price_gross
 
-        amount_tax = amount_untaxed = amount_extra = \
-            amount_discount = amount_gross = 0.0
-        for line in self.order_line:
-            amount_tax += sum(tax_value for tax_value in
-                              self._amount_line_tax(line))
-            amount_untaxed += line.price_subtotal
-            amount_discount += line.discount_value
-            amount_gross += line.price_gross
+            order.amount_tax = order.pricelist_id.currency_id.round(
+                amount_tax)
+            order.amount_untaxed = order.pricelist_id.currency_id.round(
+                amount_untaxed)
+            order.amount_total = (order.amount_untaxed +
+                                  order.amount_tax)
+            order.amount_discount = order.pricelist_id.currency_id.round(
+                amount_discount)
+            order.amount_gross = order.pricelist_id.currency_id.round(
+                amount_gross)
 
-        self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
-        self.amount_untaxed = self.pricelist_id.currency_id.round(
-            amount_untaxed)
-        self.amount_extra = self.pricelist_id.currency_id.round(amount_extra)
-        self.amount_total = (self.amount_untaxed +
-                             self.amount_tax + self.amount_extra)
-        self.amount_discount = self.pricelist_id.currency_id.round(
-            amount_discount)
-        self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
-
-    @api.one
+    @api.model
     def _amount_line_tax(self, line):
         value = 0.0
         price = line._calc_line_base_price()
@@ -110,7 +109,7 @@ class SaleOrder(models.Model):
         'account.fiscal.position', 'Fiscal Position',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
-    invoiced_rate = fields.Float(function=_invoiced_rate, string='Invoiced')
+    invoiced_rate = fields.Float(compute='_invoiced_rate', string='Invoiced')
     copy_note = fields.Boolean(u'Copiar Observação no documentos fiscal')
     amount_untaxed = fields.Float(
         compute='_amount_all_wrapper', string='Untaxed Amount',
@@ -122,10 +121,6 @@ class SaleOrder(models.Model):
     amount_total = fields.Float(
         compute='_amount_all_wrapper', string='Total', store=True,
         digits=dp.get_precision('Account'), help="The total amount.")
-    amount_extra = fields.Float(
-        compute='_amount_all_wrapper', string='Extra',
-        digits=dp.get_precision('Account'),
-        store=True, help="The total amount.")
     amount_discount = fields.Float(
         compute='_amount_all_wrapper', string='Desconto (-)',
         digits=dp.get_precision('Account'), store=True,
@@ -140,7 +135,8 @@ class SaleOrder(models.Model):
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
-        kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
+        if not kwargs.get('fiscal_category_id'):
+            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
         ctx.update({
             'use_domain': ('use_sale', '=', True),
             'fiscal_category_id': ctx.get('fiscal_category_id')})
@@ -364,6 +360,7 @@ class SaleOrderLine(models.Model):
                 'company_id': self.order_id.company_id.id,
                 'partner_id': self.order_id.partner_id.id,
                 'partner_invoice_id': self.order_id.partner_invoice_id.id,
+                'product_id': self.product_id.id,
                 'fiscal_category_id': self.fiscal_category_id.id,
                 'context': self.env.context
             }
