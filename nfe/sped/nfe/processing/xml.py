@@ -24,13 +24,12 @@ import os
 import base64
 import re
 import string
-
-from pysped.nfe import ProcessadorNFe
-
-
 from PIL import Image
 from StringIO import StringIO
 from pyPdf import PdfFileReader, PdfFileWriter
+
+from pysped.nfe import ProcessadorNFe
+from pysped.nfe.danfe import DANFE
 
 
 def __processo(company):
@@ -39,11 +38,12 @@ def __processo(company):
     p.ambiente = int(company.nfe_environment)
     #p.versao = company.nfe_version
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
+
     p.certificado.stream_certificado = base64.decodestring(company.nfe_a1_file)
     p.certificado.senha = company.nfe_a1_password
     p.salvar_arquivos = True
     p.contingencia_SCAN = False
-    p.caminho = company.nfe_export_folder
+    p.caminho = company.nfe_root_folder
     return p
 
 
@@ -90,17 +90,7 @@ def send(company, nfe):
     p = __processo(company)
     # Busca a versão da NF a ser emitida, não a do cadastro da empresa
     p.versao = str(nfe[0].infNFe.versao.valor)
-
-    logo = company.logo
-    logo_image = Image.open(StringIO(logo.decode('base64')))
-    image_path = os.path.join(company.nfe_export_folder, 'company_logo.jpg')
-    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
-    bg.paste(logo_image, logo_image)
-    bg.save(image_path)
-
-    # logo_image.convert('RGB').save(image_path, 'jpeg')
-    # logo_image.save(image_path, '')
-    p.danfe.logo = image_path
+    p.danfe.logo = add_backgound_to_logo_image(company)
     p.danfe.leiaute_logo_vertical = True
     p.danfe.nome_sistema = company.nfe_email or \
         u"""Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto
@@ -110,7 +100,6 @@ def send(company, nfe):
 
 
 def cancel(company, nfe_access_key, nfe_protocol_number, justificative):
-    p = processo(company)
 
     p = __processo(company)
     return p.cancelar_nota_evento(
@@ -159,6 +148,7 @@ def print_danfe(inv):
         file_xml = os.path.join(file_xml, 'tmp/')
     procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
     danfe = DANFE()
+    danfe.logo = add_backgound_to_logo_image(inv.company_id)
     danfe.NFe = procnfe.NFe
     danfe.protNFe = procnfe.protNFe
     danfe.caminho = "/tmp/"
@@ -182,3 +172,14 @@ def print_danfe(inv):
 
     return str_pdf
 
+
+def add_backgound_to_logo_image(company):
+    logo = company.logo
+    logo_image = Image.open(StringIO(logo.decode('base64')))
+    image_path = os.path.join(company.nfe_root_folder, 'company_logo.png')
+
+    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
+    bg.paste(logo_image, logo_image)
+    bg.save(image_path)
+
+    return image_path

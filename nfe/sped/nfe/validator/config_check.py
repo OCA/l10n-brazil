@@ -59,9 +59,7 @@ def validate_nfe_configuration(company):
         error += u'Empresa - Arquivo NF-e A1\n'
     if not company.nfe_a1_password:
         error += u'Empresa - Senha NF-e A1\n'
-    if not company.nfe_export_folder:
+    if not company.nfe_root_folder:
         error += u'Empresa - Pasta de exportação\n'
-    if not company.nfe_import_folder:
-        error += u'Empresa - Pasta de importação\n'
     if error != u'As seguintes configurações estão faltando:\n':
         raise orm.except_orm(_(u'Validação !'), _(error))
