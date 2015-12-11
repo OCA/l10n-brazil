@@ -19,7 +19,6 @@
 
 from openerp import models, api, _
 from openerp.exceptions import Warning as UserError
-from openerp.addons import decimal_precision as dp
 
 
 class SaleOrder(models.Model):
