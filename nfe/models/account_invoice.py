@@ -123,9 +123,8 @@ class AccountInvoice(models.Model):
 
             event_obj = self.env['l10n_br_account.document_event']
             event = max(
-                event_obj.search([
-                        ('document_event_ids', '=', inv.id),
-                        ('type', '=', '0')]))
+                event_obj.search([('document_event_ids', '=', inv.id),
+                                  ('type', '=', '0')]))
             arquivo = event.file_sent
             nfe_obj = self._get_nfe_factory(inv.nfe_version)
 
@@ -262,19 +261,19 @@ class AccountInvoice(models.Model):
                                               '155'):  # Cancelamento
                                               # homologado fora de prazo
                             # Fixme:
-                            result = super(AccountInvoice, self).action_cancel()
+                            result = super(AccountInvoice, self)\
+                                .action_cancel()
                             if result:
-                                self.write({
-                                        'state': 'sefaz_cancelled',
-                                        'nfe_status': vals["status"] +
-                                        ' - ' + vals["message"]
-                                    })
+                                self.write({'state': 'sefaz_cancelled',
+                                            'nfe_status': vals["status"] +
+                                            ' - ' + vals["message"]
+                                            })
                                 obj_cancel = self.env[
                                     'l10n_br_account.invoice.cancel']
                                 obj_cancel.create({
-                                     'invoice_id': inv.id,
-                                     'justificative': justificative,
-                                     })
+                                    'invoice_id': inv.id,
+                                    'justificative': justificative,
+                                })
                     results.append(vals)
                 except Exception as e:
                     _logger.error(e.message, exc_info=True)

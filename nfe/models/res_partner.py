@@ -17,8 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-import xml.etree.ElementTree as ET
-
 from openerp.addons.nfe.sped.nfe.processing.xml import check_partner
 from openerp.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration

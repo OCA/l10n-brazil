@@ -33,15 +33,17 @@ _logger = logging.getLogger(__name__)
 class L10n_brAccountInvoiceInvalidNumber(models.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'
 
-    state = fields.Selection([
-            ('draft', 'Rascunho'),
-            ('not_authorized', 'Não autorizado'),
-            ('done', u'Autorizado Sefaz')], 'Status', required=True)
+    state = fields.Selection([('draft', 'Rascunho'),
+                              ('not_authorized', 'Não autorizado'),
+                              ('done', u'Autorizado Sefaz')],
+                             'Status', required=True)
     status = fields.Char('Status', size=10, readonly=True)
     message = fields.Char('Mensagem', size=200, readonly=True)
     invalid_number_document_event_ids = fields.One2many(
-            'l10n_br_account.document_event', 'document_event_ids',
-            u'Eventos', states={'done': [('readonly', True)]})
+        'l10n_br_account.document_event',
+        'document_event_ids', u'Eventos',
+        states={'done': [('readonly', True)]}
+    )
 
     @api.multi
     def attach_file_event(self, seq, att_type, ext):
@@ -143,7 +145,8 @@ class L10n_brAccountInvoiceCancel(models.Model):
             self.write({'state': 'done'})
         else:
             raise RedirectWarning(_(u'Erro!'), _(u'Você pode cancelar '
-                                                 u'apenas uma fatura por vez.'))
+                                                 u'apenas uma fatura por vez.')
+                                  )
 
         return True
 
@@ -154,7 +157,6 @@ class L10n_brDocumentEvent(models.Model):
     @api.multi
     def set_done(self):
         if self is None:
-            context = {}
-        values = {'state': 'done', 'end_date': datetime.datetime.now()}
+            values = {'state': 'done', 'end_date': datetime.datetime.now()}
         self.write(values)
         return True
