@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="action_cobranca_cnab_tree" model="ir.actions.act_window">
+            <field name="name">Cobrança CNAB</field>
+            <field name="res_model">payment.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('payment_order_type', '=', 'debit') ]</field>
+            <field name="context">{'search_payment_order_type': 'debit'}</field>
+            <field name="help">Criação de Cobranças CNAB 240 posições</field>
+        </record>
+
+        <record id="view_cobranca_cnab_form" model="ir.ui.view">
+            <field name="name">payment.order.form</field>
+            <field name="model">payment.order</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+            <field name="priority" eval="13"/>
+            <field name="arch" type="xml">
+                <data>
+
+                    <field name="mode" position="attributes">
+                        <attribute name="domain"></attribute>
+                    </field>
+
+                </data>
+            </field>
+        </record>
+
+
+        <menuitem action="action_cobranca_cnab_tree" id="menu_action_cobranca_cnab_form" parent="account_payment.menu_main_payment" sequence="5"/>
+
+    </data>
+</openerp>

@@ -44,6 +44,7 @@ class Bradesco240(Cnab240):
 
         vals = super(Bradesco240, self)._prepare_header()
         vals['servico_servico'] = 1
+        # FIXME: dígitos verificadores alfanuméricos
         return vals
 
     def _prepare_segmento(self, line):

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="payment_mode_cnab240_order_type" model="ir.ui.view">
+            <field name="name">payment.mode.form.cnab240</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_direct_debit.view_payment_mode_form_inherit"/>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <data>
+
+                    <xpath expr="//field[@name='payment_order_type']" position="attributes">
+                        <attribute name="invisible">False</attribute>
+                        <attribute name="readonly">False</attribute>
+                        <attribute name="domain"></attribute>
+                    </xpath>
+
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
