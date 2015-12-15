@@ -595,7 +595,7 @@ class AccountInvoiceLine(models.Model):
         'Perc Redução de Base ICMS ST',
         digits=dp.get_precision('Discount'), default=0.00)
     icms_st_mva = fields.Float(
-        'MVA ICMS ST', digits=dp.get_precision('Discount'), default=0.00)
+        'MVA Ajustado ICMS ST', digits=dp.get_precision('Discount'), default=0.00)
     icms_st_base_other = fields.Float(
         'Base ICMS ST Outras', required=True,
         digits=dp.get_precision('Account'), default=0.00)
