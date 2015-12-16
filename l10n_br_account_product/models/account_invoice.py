@@ -248,7 +248,7 @@ class AccountInvoice(models.Model):
         string='Untaxed',
         store=True,
         digits=dp.get_precision('Account'),
-        compapply_fiscal_mappingute='_compute_amount')
+        compute='_compute_amount')
     amount_tax = fields.Float(
         string='Tax',
         store=True,
@@ -345,7 +345,7 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_freight = fields.Float(
         string='Valor do Seguro', store=True,
-        digits=dp.get_precision('Account'), cfiscal_ompute='_compute_amount2')
+        digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
@@ -456,28 +456,24 @@ class AccountInvoice(models.Model):
                 invoice.write({'date_in_out': date_time_now})
         return result
 
-    @api.multi
-    def onchange_fiscal_document_id(self, fiscal_document_id,
-                                    company_id, issuer, fiscal_type):
-        result = {'value': {'document_serie_id': False}}
-        company = self.env['res.company'].browse(company_id)
+    @api.onchange('fiscal_document_id')
+    def onchange_fiscal_document_id(self):
+        if self.fiscal_type == 'product':
+            if self.issuer == '0':
+                series = [doc_serie for doc_serie in
+                          self.company_id.document_serie_product_ids if
+                          doc_serie.fiscal_document_id.id ==
+                          self.fiscal_document_id.id and doc_serie.active]
 
-        if issuer == '0':
-            series = [doc_serie for doc_serie in
-                      company.document_serie_product_ids if
-                      doc_serie.fiscal_document_id.id ==
-                      fiscal_document_id and doc_serie.active]
-
-            # TODO Alerta se nao tiver serie
-            if not series:
-                action = self.env.ref('l10n_br_account.\
-                    action_l10n_br_account_document_serie_form')
-                msg = _(u'Você deve ser uma série de documento fiscal'
-                        u'para este documento fiscal.')
-                raise RedirectWarning(
-                    msg, action.id, _(u'Criar uma nova série'))
-            result['value']['document_serie_id'] = series[0].id
-        return result
+                if not series:
+                    action = self.env.ref(
+                        'l10n_br_account.'
+                        'action_l10n_br_account_document_serie_form')
+                    msg = _(u'Você deve ser uma série de documento fiscal'
+                            u'para este documento fiscal.')
+                    raise RedirectWarning(
+                        msg, action.id, _(u'Criar uma nova série'))
+                self.document_serie_id = series[0]
 
     @api.multi
     def action_date_assign(self):
@@ -876,8 +872,10 @@ class AccountInvoiceLine(models.Model):
         freight_value = values.get('freight_value', 0.0) or self.freight_value
         other_costs_value = values.get(
             'other_costs_value', 0.0) or self.other_costs_value
-        tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-            0][2] or self.invoice_line_tax_id.ids
+        tax_ids = []
+        if values.get('invoice_line_tax_id'):
+            tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+                0][2] or self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -972,25 +970,22 @@ class AccountInvoiceLine(models.Model):
             if kwargs.get('product_id'):
                 product = self.env['product.product'].browse(
                     kwargs['product_id'])
+                taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
-                        taxes = product.taxes_id
+                        taxes |= product.taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = False
+                        taxes |= account_obj.browse(account_id).tax_ids
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     if product.supplier_taxes_id:
-                        taxes = product.supplier_taxes_id
+                        taxes |= product.supplier_taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = False
+                        taxes |= account_obj.browse(account_id).tax_ids
                 tax_ids = fp.with_context(ctx).map_tax(taxes)
                 result_rule['value']['invoice_line_tax_id'] = tax_ids.ids
                 result['value'].update(self._get_tax_codes(

@@ -1,0 +1,29 @@
+-
+  Create a sale supplier service invoice
+-
+  !record {model: account.invoice, id: account_invoice_service_supplier, view: l10n_br_account.l10n_br_account_invoice_supplier_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_akretion
+    fiscal_category_id: fc_997850a05a6268f08afbe822383557d8
+    issuer: '1'
+    internal_number: '2001'
+    vendor_serie: '1'
+    reference_type: none
+    fiscal_type: 'service'
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_consultant
+        fiscal_category_id: fc_997850a05a6268f08afbe822383557d8
+        quantity: 20.0
+        price_unit: 140.00
+-
+  I check if found fisal position, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_service_supplier}:
+    - fiscal_position.id == ref('fp_997850a05a6268f08afbe822383557d8_demo')
+    - fiscal_document_id.id == company_id.service_invoice_id.id
+-
+  I check that Initially supplier invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_service_supplier}:
+    - state == 'draft'
