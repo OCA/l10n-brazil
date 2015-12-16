@@ -19,7 +19,7 @@
 
 from openerp import models, api
 from openerp.tools.translate import _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 
 class CrmLead(models.Model):
@@ -61,4 +61,4 @@ class CrmLead(models.Model):
                     zip_ids=[z.id for z in zip_ids],
                 )
             else:
-                raise Warning(_('No records found!'))
+                raise UserError(_('No records found!'))

@@ -21,7 +21,7 @@
 import datetime
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 TYPE = [
     ('input', u'Entrada'),
@@ -118,7 +118,7 @@ class L10n_brDocumentEvent(models.Model):
          ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
         'Status', select=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
-        'account.invoice', 'Documentos', ondelete='cascade')
+        'account.invoice', 'Documentos')
     cancel_document_event_id = fields.Many2one(
         'l10n_br_account.invoice.cancel', 'Cancelamento')
     invalid_number_document_event_id = fields.Many2one(
@@ -329,7 +329,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
     @api.constrains('justificative')
     def _check_justificative(self):
         if len(self.justificative) < 15:
-            raise Warning(
+            raise UserError(
                 _('Justificativa deve ter tamanho minimo de 15 caracteres.'))
         return True
 
@@ -353,7 +353,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
             AND state = 'done' \
             AND id <> %s" % (self.document_serie_id.id, self.id))
         if self._cr.fetchall() or (self.number_start > self.number_end):
-            raise Warning(_(u'Não é permitido faixas sobrepostas!'))
+            raise UserError(_(u'Não é permitido faixas sobrepostas!'))
         return True
 
     _constraints = [
@@ -375,7 +375,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
             if invalid_number['state'] in ('draft'):
                 unlink_ids.append(invalid_number['id'])
             else:
-                raise Warning(_(
+                raise UserError(_(
                     u'Você não pode excluir uma sequência concluída.'))
         return super(L10n_brAccountInvoiceInvalidNumber, self).unlink()
 
@@ -401,7 +401,7 @@ class L10n_brAccountPartnerFiscalType(models.Model):
     def _check_default(self):
         if self.default:
             if len(self.search([('default', '=', 'True')])) > 1:
-                raise Warning(_(u'Mantenha apenas um tipo fiscal padrão!'))
+                raise UserError(_(u'Mantenha apenas um tipo fiscal padrão!'))
         return True
 
 
