@@ -86,6 +86,11 @@ class AccountProductFiscalClassificationTemplate(models.Model):
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
 
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da Substituição Tributária ")
+
 
 class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     """Model for tax definition template"""
@@ -93,6 +98,10 @@ class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template',
         'Fiscal Classification', select=True)
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_template_tax_template_id_uniq', 'unique \
@@ -212,6 +221,10 @@ class AccountProductFiscalClassification(models.Model):
         'l10n_br_tax.estimate', 'fiscal_classification_id',
         'Impostos Estimados')
 
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da Substituição Tributária ")
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
@@ -223,6 +236,10 @@ class L10n_brTaxDefinitionModel(L10n_brTaxDefinition):
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification',
         'Parent Fiscal Classification', select=True)
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
