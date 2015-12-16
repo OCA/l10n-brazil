@@ -19,10 +19,7 @@
 
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
-
-
-def calc_price_ratio(price_gross, amount_calc, amount_total):
-    return price_gross * amount_calc / amount_total
+from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 
 
 class SaleOrder(models.Model):
@@ -99,6 +96,57 @@ class SaleOrder(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.default_ind_pres
 
+    @api.one
+    def _get_costs_value(self):
+        """ Read the l10n_br specific functional fields. """
+        freight = costs = insurance = 0.0
+        for line in self.order_line:
+            freight += line.freight_value
+            insurance += line.insurance_value
+            costs += line.other_costs_value
+        self.amount_freight = freight
+        self.amount_costs = costs
+        self.amount_insurance = insurance
+
+    @api.one
+    def _set_amount_freight(self):
+        for line in self.order_line:
+            if not self.amount_gross:
+                break
+            line.write({
+                'freight_value': calc_price_ratio(
+                    line.price_gross,
+                    self.amount_freight,
+                    line.order_id.amount_gross),
+                })
+        return True
+
+    @api.one
+    def _set_amount_insurance(self):
+        for line in self.order_line:
+            if not self.amount_gross:
+                break
+            line.write({
+                'insurance_value': calc_price_ratio(
+                    line.price_gross,
+                    self.amount_insurance,
+                    line.order_id.amount_gross),
+                })
+        return True
+
+    @api.one
+    def _set_amount_costs(self):
+        for line in self.order_line:
+            if not self.amount_gross:
+                break
+            line.write({
+                'other_costs_value': calc_price_ratio(
+                    line.price_gross,
+                    self.amount_costs,
+                    line.order_id.amount_gross),
+                })
+        return True
+
     ind_pres = fields.Selection([
         ('0', u'Não se aplica'),
         ('1', u'Operação presencial'),
@@ -133,13 +181,17 @@ class SaleOrder(models.Model):
         digits=dp.get_precision('Account'),
         store=True, help="The discount amount.")
     amount_freight = fields.Float(
-        'Frete', default=0.00, digits=dp.get_precision('Account'),
+        compute=_get_costs_value, inverse=_set_amount_freight,
+        string='Frete', default=0.00, digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
     amount_costs = fields.Float(
-        'Outros Custos', default=0.00, digits=dp.get_precision('Account'),
+        compute=_get_costs_value, inverse=_set_amount_costs,
+        string='Outros Custos', default=0.00,
+        digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
     amount_insurance = fields.Float(
-        'Seguro', default=0.00, digits=dp.get_precision('Account'),
+        compute=_get_costs_value, inverse=_set_amount_insurance,
+        string='Seguro', default=0.00, digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
 
     def _fiscal_comment(self, cr, uid, order, context=None):
