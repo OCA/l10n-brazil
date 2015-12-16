@@ -88,7 +88,7 @@ class Cnab240(Cnab):
                 self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
             # DV ag e conta
-            'cedente_dv_ag_cc': u"5",  # FIXME
+            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'nome_banco': unicode(self.order.mode.bank_id.bank_name),
