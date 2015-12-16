@@ -208,45 +208,6 @@ class SaleOrder(models.Model):
                                }, context=context)
         return invoice_id
 
-    def onchange_amount_freight(self, cr, uid, ids, amount_freight=False):
-        result = {}
-        if (amount_freight is False) or not ids:
-            return {'value': {'amount_freight': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                vals = {'freight_value': calc_price_ratio(
-                    line.price_gross, amount_freight, order.amount_gross)}
-                line_obj.write(cr, uid, [line.id], vals, context=None)
-        return result
-
-    def onchange_amount_insurance(self, cr, uid, ids, amount_insurance=False):
-        result = {}
-        if (amount_insurance is False) or not ids:
-            return {'value': {'amount_insurance': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                vals = {'insurance_value': calc_price_ratio(
-                    line.price_gross, amount_insurance, order.amount_gross)}
-                line_obj.write(cr, uid, [line.id], vals, context=None)
-        return result
-
-    def onchange_amount_costs(self, cr, uid, ids, amount_costs=False):
-        result = {}
-        if (amount_costs is False) or not ids:
-            return {'value': {'amount_costs': 0.00}}
-
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context=None):
-            for line in order.order_line:
-                vals = {'other_costs_value': calc_price_ratio(
-                    line.price_gross, amount_costs, order.amount_gross)}
-                line_obj.write(cr, uid, [line.id], vals, context=None)
-        return result
-
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
