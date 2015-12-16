@@ -26,14 +26,29 @@ from openerp import models, fields
 class PaymentMode(models.Model):
     _inherit = "payment.mode"
 
-    # FIXME: não consegui adicionar o item de selection.
-    # Consegui mudar a string do campo, mas o selection não.
-    payment_order_type = fields.Selection(string="Order Type",
-        selection=[
-            ('payment', 'Payment'), ('debit', 'Debit'),
-            ('cobranca240', u'Cobrança CNAB 240')],
-        help="This field, that comes from export type, determines if this "
-             "mode can be selected for customers or suppliers.")
+    payment_order_type = fields.Selection(
+        selection_add=[
+        ('cobranca', u'Cobrança'),
+    ])
 
     # A exportação CNAB não se encaixa somente nos parâmetros de
     # débito e crédito.
+
+
+class PaymentModeType(models.Model):
+    _inherit = 'payment.mode.type'
+    _description = 'Payment Mode Type'
+
+    payment_order_type = fields.Selection(
+        selection_add=[
+        ('cobranca', u'Cobrança'),
+    ])
+
+
+class PaymentOrder(models.Model):
+    _inherit = 'payment.order'
+
+    payment_order_type = fields.Selection(
+        selection_add=[
+        ('cobranca', u'Cobrança'),
+    ])

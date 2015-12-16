@@ -13,7 +13,6 @@
                     <xpath expr="//field[@name='payment_order_type']" position="attributes">
                         <attribute name="invisible">False</attribute>
                         <attribute name="readonly">False</attribute>
-                        <attribute name="domain"></attribute>
                     </xpath>
 
                 </data>

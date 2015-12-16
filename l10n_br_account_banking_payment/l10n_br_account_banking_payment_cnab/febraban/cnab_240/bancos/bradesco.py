@@ -28,6 +28,7 @@ import string
 from decimal import Decimal
 
 
+
 class Bradesco240(Cnab240):
 
     def __init__(self):
@@ -44,7 +45,6 @@ class Bradesco240(Cnab240):
 
         vals = super(Bradesco240, self)._prepare_header()
         vals['servico_servico'] = 1
-        # FIXME: dígitos verificadores alfanuméricos
         return vals
 
     def _prepare_segmento(self, line):
@@ -61,6 +61,12 @@ class Bradesco240(Cnab240):
         # vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
         vals['identificacao_titulo_banco'] = int(
             vals['identificacao_titulo_banco'])
+        vals['cedente_conta_dv'] = unicode(str(
+            vals['cedente_conta_dv']), "utf-8")
+        vals['cedente_agencia_dv'] = unicode(str(
+            vals['cedente_agencia_dv']), "utf-8")
+        vals['cedente_dv_ag_cc'] = unicode(str(
+            vals['cedente_dv_ag_cc']), "utf-8")
         return vals
 
     # Override cnab_240.nosso_numero. Diferentes números de dígitos entre
@@ -71,3 +77,8 @@ class Bradesco240(Cnab240):
         nosso_numero = re.sub(
             '[%s]' % re.escape(string.punctuation), '', format[3:-1] or '')
         return carteira, nosso_numero, digito
+
+
+def str_to_unicode(inp_str):
+    inp_str = unicode(inp_str, "utf-8")
+    return inp_str

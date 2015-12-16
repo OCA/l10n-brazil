@@ -53,9 +53,9 @@ class Cnab240(Cnab):
     @staticmethod
     def get_bank(bank):
         '''
-        Função chamada na criação do CNAB que dado o código do banco,
+        FunÃ§Ã£o chamada na criaÃ§Ã£o do CNAB que dado o cÃ³digo do banco,
         instancia o objeto do banco e retorna o obj ao CNAB que sera criado.
-        :param bank: str - Código do banco
+        :param bank: str - CÃ³digo do banco
         :return:
         '''
         if bank == '341':
@@ -133,13 +133,13 @@ class Cnab240(Cnab):
             #   CNAB - Uso Exclusivo FEBRABAN / CNAB
 
             # ARQUIVO
-            # 16.0 Código Remessa = 1 / Retorno = 2
+            # 16.0 CÃ³digo Remessa = 1 / Retorno = 2
             'arquivo_codigo': '1',
             # 17.0
             'arquivo_data_de_geracao': self.data_hoje(),
             # 18.0
             'arquivo_hora_de_geracao': self.hora_agora(),
-            # 19.0 TODO: Número sequencial de arquivo
+            # 19.0 TODO: NÃºmero sequencial de arquivo
             'arquivo_sequencia': int(self.get_file_numeration()),
             # 20.0
             'arquivo_layout': 103,
@@ -241,7 +241,7 @@ class Cnab240(Cnab):
         return header_arquivo_lote
 
     def get_file_numeration(self):
-        # Função para retornar a numeração sequencial do arquivo
+        # FunÃ§Ã£o para retornar a numeraÃ§Ã£o sequencial do arquivo
         return 1
 
     def _prepare_cobranca(self, line):
@@ -255,20 +255,20 @@ class Cnab240(Cnab):
         if not self.order.mode.boleto_aceite == 'S':
             aceite = u'A'
 
-        # Código agencia do cedente
+        # CÃ³digo agencia do cedente
         # cedente_agencia = cedente_agencia
 
-        # Dígito verificador da agência do cedente
+        # DÃ­gito verificador da agÃªncia do cedente
         # cedente_agencia_conta_dv = cedente_agencia_dv
 
-        # Código da conta corrente do cedente
+        # CÃ³digo da conta corrente do cedente
         # cedente_conta = cedente_conta
 
-        # Dígito verificador da conta corrente do cedente
+        # DÃ­gito verificador da conta corrente do cedente
         # cedente_conta_dv = cedente_conta_dv
 
-        # Dígito verificador de agencia e conta
-        # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
+        # DÃ­gito verificador de agencia e conta
+        # Era cedente_agencia_conta_dv agora Ã© cedente_dv_ag_cc
 
         return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -284,15 +284,15 @@ class Cnab240(Cnab):
                 line.ml_maturity_date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
-            # TODO: fépefwfwe
-            # TODO: Código adotado para identificar o título de cobrança.
-            # 8 é Nota de credito comercial
+            # TODO: fÃ©pefwfwe
+            # TODO: CÃ³digo adotado para identificar o tÃ­tulo de cobranÃ§a.
+            # 8 Ã© Nota de cÅ•edito comercial
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
             # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
-            # CEF/FEBRABAN e Itaú não tem.
+            # CEF/FEBRABAN e ItaÃº nÃ£o tem.
             'juros_mora_data': self.format_date(
                 line.ml_maturity_date),
             'juros_mora_taxa_dia': Decimal('0.00'),
@@ -320,10 +320,10 @@ class Cnab240(Cnab):
     def _prepare_pagamento(self, line):
         """
         Prepara um dict para preencher os valores do segmento A e B apartir de
-        uma linha da payment.order e insere informações que irão compor o
+        uma linha da payment.order e insere informaÃ§Ãµes que irÃ£o compor o
         header do lote
         :param line: payment.line - linha que sera base para evento
-        :return: dict - Dict contendo todas informações dos segmentos
+        :return: dict - Dict contendo todas informaÃ§Ãµes dos segmentos
         """
         vals = {
 
@@ -337,11 +337,11 @@ class Cnab240(Cnab):
             'controle_registro': 3,
 
             # SERVICO
-            # 04.3A - Nº Seqüencial do Registro - Inicia em 1 em cada novo lote
+            # 04.3A - NÂº SeqÃ¼encial do Registro - Inicia em 1 em cada novo lote
             # TODO: Contador para o sequencial do lote
             'servico_numero_registro': 1,
             # 05.3A
-            #   Segmento Código de Segmento do Reg.Detalhe
+            #   Segmento CÃ³digo de Segmento do Reg.Detalhe
             # 06.3A
             'servico_tipo_movimento': self.order.tipo_movimento,
             # 07.3A
@@ -386,7 +386,7 @@ class Cnab240(Cnab):
             # 23.3A
             # 'credito_valor_real': '',
 
-            # INFORMAÇÔES
+            # INFORMAÃ‡Ã”ES
             # 24.3A
             # 'outras_informacoes': '',
             # 25.3A
@@ -454,7 +454,7 @@ class Cnab240(Cnab):
             # 22.3B
             'pagamento_multa': Decimal('0.00'),
             # 23.3B
-            # TODO: Verificar se este campo é retornado no retorno
+            # TODO: Verificar se este campo Ã© retornado no retorno
             # 'cod_documento_favorecido': '',
             # 24.3B - Informado No SegmentoA
             # 'aviso_ao_favorecido': '0',
@@ -563,7 +563,7 @@ class Cnab240(Cnab):
 
     def nosso_numero(self, format):
         """
-        Hook para ser sobrescrito e adicionar informação
+        Hook para ser sobrescrito e adicionar informaÃ§Ã£o
         :param format:
         :return:
         """
