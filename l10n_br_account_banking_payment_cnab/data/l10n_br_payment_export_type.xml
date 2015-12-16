@@ -7,6 +7,7 @@
             <field name="code">240</field>
             <field name="name">Cnab240</field>
             <field name="active">True</field>
+            <field name="payment_order_type">cobranca</field>
             <field name="ir_model_id"
                    ref="l10n_br_account_banking_payment_cnab.model_payment_cnab"/>
             <field name="suitable_bank_types"
@@ -31,6 +32,7 @@
             <field name="code">500</field>
             <field name="name">Cnab500</field>
             <field name="active">True</field>
+            <field name="payment_order_type">payment</field>
             <field name="ir_model_id"
                    ref="l10n_br_account_banking_payment_cnab.model_payment_cnab"/>
             <field name="suitable_bank_types"

@@ -32,7 +32,7 @@ class PaymentOrderCreate(models.TransientModel):
     def extend_payment_order_domain(self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
-        if payment_order.mode.type.code == 'cnab':
+        if payment_order.mode.type.code == '240':
             # TODO: Refactory this
             index = domain.index(('invoice.payment_mode_id', '=', False))
             del domain[index - 1]
