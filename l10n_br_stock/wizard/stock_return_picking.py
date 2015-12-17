@@ -102,8 +102,8 @@ class StockReturnPicking(models.TransientModel):
                      
                     line_onchange = move_obj.onchange_product_id(
                         send_move.product_id.id,
-                        send_move.location_id.id,
                         send_move.location_dest_id.id,
+                        send_move.location_id.id,
                         picking.partner_id.id)
                      
                     line_onchange['value']['fiscal_category_id'] = \
