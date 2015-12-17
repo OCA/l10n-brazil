@@ -56,17 +56,15 @@ class SaleOrder(models.Model):
     #    result['incoterm'] = order.incoterm and order.incoterm.id or False
     #    return result
 
-    # TODO migrate to new API
-    def delivery_set(self, cr, uid, ids, context=None):
+    @api.multi
+    def delivery_set(self):
         # Copia do modulo delivery
         # Exceto pelo final que adiciona ao campo total do frete.
-        grid_obj = self.pool.get('delivery.grid')
-        carrier_obj = self.pool.get('delivery.carrier')
 
-        for order in self.browse(cr, uid, ids, context=context):
-            grid_id = carrier_obj.grid_get(cr, uid, [order.carrier_id.id],
-                                           order.partner_shipping_id.id)
-
+        carrier_obj = self.env['delivery.carrier']
+        for order in self:
+            carrier = carrier_obj.browse(order.carrier_id.id)
+            grid_id = carrier.grid_get(contact_id=order.partner_shipping_id.id)
             if not grid_id:
                 raise except_orm(_('No Grid Available!'),
                                  _('No grid matching for this carrier!'))
@@ -75,11 +73,7 @@ class SaleOrder(models.Model):
                 raise except_orm(_('Order not in Draft State!'),
                                  _('The order state have to be draft \
                                    to add delivery lines.'))
+            grid = self.env['delivery.grid'].browse(grid_id)
 
-            grid = grid_obj.browse(cr, uid, grid_id, context=context)
-
-            amount_freight = grid_obj.get_price(cr, uid, grid.id, order,
-                                                time.strftime('%Y-%m-%d'),
-                                                context)
-            self.onchange_amount_freight(cr, uid, ids, amount_freight)
-        return self.write(cr, uid, ids, {'amount_freight': amount_freight})
+            order.amount_freight = grid.get_price(
+                order, time.strftime('%Y-%m-%d'))[0]
