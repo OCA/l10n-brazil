@@ -37,63 +37,56 @@ class StockPicking(models.Model):
         # TODO: Calcular o valor correto em caso de alteração da quantidade
         return False
 
-    @api.model
-    def _create_invoice_from_picking(self, picking, vals):
+    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
+                              invoice_id, invoice_vals, context=None):
+        result = super(StockPicking, self)._prepare_invoice_line(
+            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
+            context)
+        #TODO: Calcular o valor correto em caso de alteração da quantidade
+        if move_line.sale_line_id:
+            result['insurance_value'] = move_line.sale_line_id.insurance_value
+            result['other_costs_value'] = move_line.sale_line_id.other_costs_value
+            result['freight_value'] = move_line.sale_line_id.freight_value
+        return result
 
-        invoice_vals = {
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move,
+                          context=None):
+
+        inv_vals = super(StockPicking, self)._get_invoice_vals(
+            cr, uid, key, inv_type, journal_id, move, context=context)
+
+        picking = move.picking_id
+
+        values = {
             'partner_shipping_id': picking.partner_id.id,
             'carrier_id': picking.carrier_id and picking.carrier_id.id,
             'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
-            'incoterm': picking.incoterm.id,
             'weight': picking.weight,
             'weight_net': picking.weight_net,
             'number_of_packages': picking.number_of_packages,
+            'incoterm': picking.sale_id.incoterm.id
+            if picking.sale_id and picking.sale_id.incoterm.id else False,
         }
 
-        vals.update(invoice_vals)
-        invoice_id = super(StockPicking, self)._create_invoice_from_picking(
-            picking, vals)
-
-        invoice = self.env['account.invoice'].browse(invoice_id)
-        company = self.env['res.company'].browse(self.env.user.company_id.id)
-        costs = [
-            ('Frete', company.account_freight_id, invoice.amount_freight),
-            ('Seguro', company.account_insurance_id, invoice.amount_insurance),
-            ('Outros Custos',
-             company.account_other_costs,
-             invoice.amount_costs)
-        ]
-
-        ait_obj = self.env['account.invoice.tax']
-        for cost in costs:
-            if cost[2] > 0:
-                tax_values = {
-                    'invoice_id': invoice.id,
-                    'name': cost[0],
-                    'account_id': cost[1].id,
-                    'amount': cost[2],
-                    'base': cost[2],
-                    'manual': True,
-                    'company_id': company.id,
-                }
-
-                ait_obj.create(tax_values)
-        return invoice_id
+        inv_vals.update(values)
+        return inv_vals
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
     @api.model
-    def _get_invoice_line_vals(self, move, partner, inv_type):
+    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
+                               context=None):
         result = super(StockMove, self)._get_invoice_line_vals(
-            move, partner, inv_type)
+            cr, uid, move, partner, inv_type, context=context)
+        if move.procurement_id and move.procurement_id.sale_line_id:
+            sale_line = move.procurement_id.sale_line_id
 
-        if move.procurement_id.sale_line_id:
-            proc = move.procurement_id
-            result['insurance_value'] = proc.sale_line_id.insurance_value
-            result[
-                'other_costs_value'] = proc.sale_line_id.other_costs_value
-            result['freight_value'] = proc.sale_line_id.freight_value
+            result.update({
+                'insurance_value': sale_line.insurance_value,
+                'freight_value': sale_line.freight_value,
+                'other_costs_value': sale_line.other_costs_value,
+            })
 
         return result
