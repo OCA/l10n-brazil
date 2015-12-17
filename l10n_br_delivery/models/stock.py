@@ -76,10 +76,9 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     @api.model
-    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
-                               context=None):
+    def _get_invoice_line_vals(self, move, partner, inv_type):
         result = super(StockMove, self)._get_invoice_line_vals(
-            cr, uid, move, partner, inv_type, context=context)
+            move, partner, inv_type)
         if move.procurement_id and move.procurement_id.sale_line_id:
             sale_line = move.procurement_id.sale_line_id
 
