@@ -17,25 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Delivery',
-    'description': 'Extend delivery module for Brazilian Localization',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Brasil',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0',
-    'depends': [
-        'l10n_br_sale_stock',
-        'delivery',
-    ],
-    'data': [
-        'views/account_invoice_view.xml',
-        'views/delivery_view.xml',
-        'views/stock_view.xml',
-        'views/l10n_br_delivery_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo': [],
-    'category': 'Localisation',
-    'installable': True,
-}
+from openerp import models, fields
+
+
+class DeliveryCarrier(models.Model):
+    _inherit = 'delivery.carrier'
+
+    antt_code = fields.Char('Codigo ANTT', size=32)
+    vehicle_ids = fields.One2many(
+        'l10n_br_delivery.carrier.vehicle', 'carrier_id', u'Veículos')

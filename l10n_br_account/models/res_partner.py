@@ -307,6 +307,7 @@ class AccountFiscalPositionTax(models.Model):
             )
 
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
