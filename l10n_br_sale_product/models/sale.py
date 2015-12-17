@@ -212,54 +212,6 @@ class SaleOrder(models.Model):
 
         return fp_comment + fc_comment
 
-    @api.model
-    def _prepare_invoice(self, order, lines):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
-
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(order, lines)
-        result['ind_final'] = order.fiscal_position.ind_final
-        return result
-
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
-                              date_invoice=False, context=None):
-        invoice_id = super(SaleOrder, self).action_invoice_create(
-            cr, uid, ids, grouped, states, date_invoice, context)
-
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-
-        inv = self.pool.get("account.invoice").browse(
-            cr, uid, invoice_id, context=context)
-        vals = [
-            ('Frete', company.account_freight_id, inv.amount_freight),
-            ('Seguro', company.account_insurance_id, inv.amount_insurance),
-            ('Outros Custos', company.account_other_costs, inv.amount_costs)
-        ]
-
-        ait_obj = self.pool.get('account.invoice.tax')
-        for tax in vals:
-            if tax[2] > 0:
-                ait_obj.create(cr, uid,
-                               {
-                                   'invoice_id': invoice_id,
-                                   'name': tax[0],
-                                   'account_id': tax[1].id,
-                                   'amount': tax[2],
-                                   'base': tax[2],
-                                   'manual': 1,
-                                   'company_id': company.id,
-                               }, context=context)
-        return invoice_id
-
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
