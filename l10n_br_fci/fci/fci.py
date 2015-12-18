@@ -51,7 +51,7 @@ def create_fci(fci):
             raise Warning(('Error!'), (
                 'O campo Valor parcela importada nao pode ser zero'))
         else:
-            line.ncm_id_numbers = punctuation_rm(line.ncm_id)
+            line.ncm_id_numbers = punctuation_rm(line.fiscal_classification_id)
             input5020 = ('5020|' +
                          line.name + '|' +
                          str(line.ncm_id_numbers) + '|' +

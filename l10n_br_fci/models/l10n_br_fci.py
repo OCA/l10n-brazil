@@ -179,7 +179,7 @@ class L10nBrFciLine(models.Model):
                               readonly=True)
     product_uom = fields.Many2one('product.uom', required=True,
                                   readonly=True)
-    ncm_id = fields.Char('NCM', related='product_id.ncm_id.name',
+    fiscal_classification_id = fields.Char('NCM', related='product_id.fiscal_classification_id.name',
                          readonly=True)
     fci = fields.Char('FCI', readonly=True)
     valor_parcela_importada = fields.Float(u'Valor parcela importação')
