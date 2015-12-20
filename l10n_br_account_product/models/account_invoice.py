@@ -143,10 +143,11 @@ class AccountInvoice(models.Model):
         select=True, help="Deixe em branco para usar a data atual")
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
-    ], u'Operação com Consumidor final', readonly=True,
+        ('1', u'Sim')
+    ], u'Consumidor final', readonly=True,
+        related='fiscal_position.ind_final',
         states={'draft': [('readonly', False)]}, required=False,
-        help=u'Indica operação com Consumidor final.', default='0')
+        help=u'Indica operação com Consumidor final.')
     ind_pres = fields.Selection([
         ('0', u'Não se aplica'),
         ('1', u'Operação presencial'),
