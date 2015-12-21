@@ -28,11 +28,15 @@ from openerp import models, api
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
-    @api.model
+    @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
         if payment_order.mode.type.code == '240':
+            if payment_order.mode.payment_order_type == 'cobranca':
+                domain += [
+                       ('debit', '>', 0)
+                ]
             # TODO: Refactory this
             index = domain.index(('invoice.payment_mode_id', '=', False))
             del domain[index - 1]
