@@ -65,7 +65,7 @@ class PagFor500(Cnab):
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
-            'numero_remessa': 1,
+            'numero_remessa': int(self.get_file_numeration()),
             'cedente_inscricao_tipo': self.inscricao_tipo,
             'cnpj_cpf_base': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)[0:8]),
@@ -89,6 +89,12 @@ class PagFor500(Cnab):
             #  será sempre 000001
             'sequencial': 1
         }
+
+    def get_file_numeration(self):
+        numero = self.order.get_next_number()
+        if not numero:
+            numero = 1
+        return numero
 
     def format_date(self, srt_date):
         return int(datetime.datetime.strptime(
@@ -184,14 +190,9 @@ class PagFor500(Cnab):
             'totais_quantidade_registros': 0,
             'total_valor_arq': Decimal('02.00'),
             # FIXME: lib nao reconhece campo
-            'sequencial_trailer': 1,
-
-            'codigo_protesto': 3,
-            # TODO: campo para identificar o protesto.
-            # '1' = Protestar,
-            # '3' = Não protestar,
-            # '9' = Cancelar protesto automático
-            'prazo_protesto': 0,
+            'sequencial_trailer': int(self.get_file_numeration()),
+            'codigo_protesto': int(self.order.mode.boleto_protesto),
+            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),

@@ -141,27 +141,23 @@ class Cnab240(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_agencia_dv': int(self.order.mode.bank_id.bra_number_dig),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
-<<<<<<< HEAD
             'cedente_conta_dv': int(self.order.mode.bank_id.acc_number_dig),
             'carteira_numero': int(carteira),
             'nosso_numero': int(nosso_numero),
             'nosso_numero_dv': int(digito),
             'identificacao_titulo': u'%s' % str(line.move_line_id.move_id.id),
-=======
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_dv':
-                self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
-            'identificacao_titulo': u'0000000',  # TODO
-            'identificacao_titulo_banco': u'0000000',  # TODO
-            'identificacao_titulo_empresa': line.move_line_id.move_id.name,
->>>>>>> dígito verificador agencia/conta
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
+<<<<<<< HEAD
             'valor_titulo': Decimal("{0:,.2f}".format(
                 line.move_line_id.debit)),
+=======
+            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
+                Decimal('1.00')),
+            # TODO: Código adotado para identificar o título de cobrança.
+            # 8 é Nota de cŕedito comercial
+>>>>>>> ajuste no domain para selecionar apenas faturas
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': u'%s' % aceite,
             'data_emissao_titulo': self.format_date(
@@ -205,7 +201,7 @@ class Cnab240(Cnab):
             cobrancasimples_valor_titulos += line.amount_currency
             self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
                 Decimal(cobrancasimples_valor_titulos).quantize(
-                    Decimal('1.00'), rounding=ROUND_DOWN)
+                    Decimal('1.00'))
 
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
