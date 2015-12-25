@@ -26,7 +26,7 @@ class AccountFiscalPositionTemplate(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
@@ -45,7 +45,7 @@ class AccountFiscalPosition(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
