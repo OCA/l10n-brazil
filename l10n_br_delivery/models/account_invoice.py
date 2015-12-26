@@ -19,6 +19,7 @@
 
 from openerp import api, fields, models
 from openerp.tools.translate import _
+from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoice(models.Model):
@@ -78,7 +79,7 @@ class AccountInvoice(models.Model):
                     strErro = u'Transportadora / Veículo - RNTC\n'
 
         if strErro:
-            raise orm.except_orm(
+            raise UserError(
                 _('Error!'),
                 _(u"Validação da Nota fiscal:\n '%s'") % (strErro))
 
