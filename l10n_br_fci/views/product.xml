@@ -19,7 +19,7 @@
                                 <field name="name" invisible="1"/>
                                 <field name="ean13" invisible="1"/>
                                 <field name="product_uom"/>
-                                <field name="ncm_id"/>
+                                <field name="fiscal_classification_id"/>
                                 <field name="list_price"/>
                                 <field name="valor_parcela_importada"/>
                                 <field name="conteudo_importacao"/>
