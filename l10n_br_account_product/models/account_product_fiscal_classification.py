@@ -82,6 +82,10 @@ class AccountProductFiscalClassificationTemplate(models.Model):
         'l10n_br_tax.estimate.template', 'fiscal_classification_id',
         'Impostos Estimados')
 
+    tax_fcp_ids = fields.One2many(
+        'l10n_br_tax.fcp.template', 'fiscal_classification_id',
+        string=u'Fundo de Combate a Pobreza')
+
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
@@ -211,6 +215,10 @@ class AccountProductFiscalClassification(models.Model):
     tax_estimate_ids = fields.One2many(
         'l10n_br_tax.estimate', 'fiscal_classification_id',
         'Impostos Estimados')
+
+    tax_fcp_ids = fields.One2many(
+        'l10n_br_tax.fcp', 'fiscal_classification_id',
+        string=u'Fundo de Combate a Pobreza')
 
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
@@ -353,3 +361,37 @@ class WizardAccountProductFiscalClassification(models.TransientModel):
                             'purchase')
 
         return True
+
+
+class L10nBrTaxFcpModel(models.AbstractModel):
+    _name = 'l10n_br_tax.fcp.model'
+    _auto = False
+
+    fcp_tax_id = fields.Many2one(
+        'account.tax', string=u"% Fundo de Combate à Pobreza (FCP)",
+        help=u"Percentual adicional inserido na alíquota interna"
+        u" da UF de destino, relativo ao Fundo de Combate à"
+        u" Pobreza (FCP) em operações interestaduais com o "
+        u"consumidor com esta UF. "
+        u"Nota: Percentual máximo de 2%,"
+        u" conforme a legislação")
+    to_state_id = fields.Many2one(
+        'res.country.state', 'Estado Destino')
+
+
+class L10nBrTaxFcpTemplate(models.Model):
+    _name = 'l10n_br_tax.fcp.template'
+    _inherit = 'l10n_br_tax.fcp.model'
+
+    fiscal_classification_id = fields.Many2one(
+        'account.product.fiscal.classification.template',
+        'Fiscal Classification', select=True)
+
+
+class L10nBrTaxFcp(models.Model):
+    _name = 'l10n_br_tax.fcp'
+    _inherit = 'l10n_br_tax.fcp.model'
+
+    fiscal_classification_id = fields.Many2one(
+        'account.product.fiscal.classification',
+        'Fiscal Classification', select=True)
