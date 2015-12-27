@@ -30,6 +30,7 @@
     ],
     'data': [
         'data/account.product.fiscal.classification.template.csv',
+        'data/l10n_br_tax.icms_partition.csv',
     ],
     'demo': [
         'demo/l10n_br_data_account_product_demo.xml',
