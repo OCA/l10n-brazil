@@ -1102,6 +1102,10 @@ class AccountInvoiceLine(models.Model):
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
                         taxes |= account_obj.browse(account_id).tax_ids
+                    if product.fiscal_classification_id:
+                        taxes |= obj_fp_rule.with_context(
+                            ctx).product_fcp_map(
+                            kwargs.get('product_id'), partner.state_id)
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     if product.supplier_taxes_id:
