@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2015  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Luis Felipe Miléo - KMEE                                #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,12 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from . import res_company
-from . import l10n_br_account_product
-from . import l10n_br_account
-from . import account_product_fiscal_classification
-from . import account_invoice
-from . import account
-from . import product
-from . import res_partner
-from . import res_country
+from openerp import models, fields
+
+
+class ResCountryState(models.Model):
+    _inherit = 'res.country.state'
+
+    fcp_tax_id = fields.Many2one(
+        'account.tax', string=u"% Fundo de Combate à Pobreza (FCP)",
+        help=u"Percentual adicional inserido na alíquota interna"
+        u" da UF de destino, relativo ao Fundo de Combate à"
+        u" Pobreza (FCP) em operações interestaduais com o "
+        u"consumidor com esta UF. "
+        u"Nota: Percentual máximo de 2%,"
+        u" conforme a legislação")
