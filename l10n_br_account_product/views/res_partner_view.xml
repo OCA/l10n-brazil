@@ -37,7 +37,6 @@
                     <field name="tax_ipi_guideline_id" />
                     <field name="tax_icms_relief_id" />
                 </xpath>
-
             </field>
         </record>
 
