@@ -3,6 +3,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
+from openerp.addons.l10n_br_account_product.models.product import \
+    PRODUCT_ORIGIN
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -26,7 +28,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
         'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
-
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
 
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
@@ -185,3 +187,4 @@ class AccountFiscalPositionTax(models.Model):
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
         'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
