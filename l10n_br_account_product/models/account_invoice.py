@@ -43,6 +43,9 @@ class AccountInvoice(models.Model):
         self.cofins_value = sum(
             line.cofins_value for line in self.invoice_line)
         self.ii_value = sum(line.ii_value for line in self.invoice_line)
+        self.vFCPUFDest = sum(line.vFCPUFDest for line in self.invoice_line)
+        self.vICMSUFDest = sum(line.vICMSUFDest for line in self.invoice_line)
+        self.vICMSUFRemet = sum(line.vICMSUFRemet for line in self.invoice_line)
         self.amount_discount = sum(
             line.discount_value for line in self.invoice_line)
         self.amount_insurance = sum(
@@ -317,6 +320,20 @@ class AccountInvoice(models.Model):
         readonly=True)
     ii_value = fields.Float(
         string='Valor II', store=True,
+        digits=dp.get_precision('Account'), compute='_compute_amount',
+        readonly=True)
+    vFCPUFDest = fields.Float(
+        string='Valor total do Fundo de Combate à Pobreza (FCP)', store=True,
+        digits=dp.get_precision('Account'), compute='_compute_amount',
+        readonly=True)
+    vICMSUFDest = fields.Float(
+        string='Valor total do ICMS Interestadual para a UF de destino',
+        store=True,
+        digits=dp.get_precision('Account'), compute='_compute_amount',
+        readonly=True)
+    vICMSUFRemet = fields.Float(
+        string='Valor total do ICMS Interestadual para a UF do remetente',
+        store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
         readonly=True)
     weight = fields.Float(
@@ -786,6 +803,39 @@ class AccountInvoiceLine(models.Model):
                 _(u"Customer Order Line must "
                   "be a number with up to six digits")
             )
+    vBCUFDest = fields.Float(
+        string=u'Valor da BC do ICMS na UF de destino',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    pFCPUFDest = fields.Float(
+        string=u'% Fundo de Combate à Pobreza (FCP)',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    pICMSUFDest = fields.Float(
+        string=u'Alíquota interna da UF de destino',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    pICMSInter = fields.Float(
+        string=u'Alíquota interestadual das UF envolvidas',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    pICMSInterPart = fields.Float(
+        string=u'Percentual provisório de partilha do ICMS Interestadual',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    vFCPUFDest = fields.Float(
+        string=(u'Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)'
+                u' da UF de destino'),
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    vICMSUFDest = fields.Float(
+        string=u'Valor do ICMS Interestadual para a UF de destino',
+        digits=dp.get_precision('Account'),
+        default=0.00)
+    vICMSUFRemet = fields.Float(
+        string=u'Valor do ICMS Interestadual para a UF do remetente',
+        digits=dp.get_precision('Account'),
+        default=0.00)
 
     def _amount_tax_icms(self, tax=None):
         result = {
@@ -795,6 +845,14 @@ class AccountInvoiceLine(models.Model):
             'icms_percent': tax.get('percent', 0.0) * 100,
             'icms_percent_reduction': tax.get('base_reduction') * 100,
             'icms_base_type': tax.get('icms_base_type', '0'),
+            'vBCUFDest': tax.get('vBCUFDest', 0.0),
+            'pFCPUFDest': tax.get('pFCPUFDest', 0.0) * 100,
+            'pICMSUFDest': tax.get('pICMSUFDest', 0.0) * 100,
+            'pICMSInter': tax.get('pICMSInter', 0.0) * 100,
+            'pICMSInterPart': tax.get('pICMSInterPart', 0.0) * 100,
+            'vFCPUFDest': tax.get('vFCPUFDest', 0.0),
+            'vICMSUFDest': tax.get('vICMSUFDest', 0.0),
+            'vICMSUFRemet': tax.get('vICMSUFRemet', 0.0),
         }
         return result
 
