@@ -2,17 +2,16 @@
 <openerp>
     <data>
 
-        <record id="payment_mode_cnab240_order_type" model="ir.ui.view">
-            <field name="name">payment.mode.form.cnab240</field>
-            <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_direct_debit.view_payment_mode_form_inherit"/>
-            <field name="priority" eval="15"/>
+        <record id="payment_mode_cnab240_type_payment_form" model="ir.ui.view">
+            <field name="name">payment.mode.type_payment.form.cnab240</field>
+            <field name="model">payment.mode.type</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form"/>
+            <field name="priority" eval="14"/>
             <field name="arch" type="xml">
                 <data>
 
-                    <xpath expr="//field[@name='payment_order_type']" position="attributes">
-                        <attribute name="invisible">False</attribute>
-                        <attribute name="readonly">False</attribute>
+                    <xpath expr="//field[@name='ir_model_id']" position="after">
+                            <field name="payment_order_type"/>
                     </xpath>
 
                 </data>
