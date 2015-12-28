@@ -130,15 +130,24 @@ class AccountFiscalPosition(models.Model):
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
                 if (map.tax_src_id.id == tax.id or
                         map.tax_dest_id == tax or
                         map.tax_code_src_id.id == tax.tax_code_id.id):
                     if map.tax_dest_id.id or tax.tax_code_id.id:
+                        map_taxes |= map
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
+                        if map.origin == product.origin:
+                            map_taxes_origin |= map
+                        if (map.fiscal_classification_id.id ==
+                                product.fiscal_classification_id.id and
+                                    map.origin == product.origin):
+                            map_taxes_origin_ncm |= map
                         else:
                             map_taxes |= map
             else:
@@ -148,7 +157,9 @@ class AccountFiscalPosition(models.Model):
                     result[tax.domain] = {'tax': tax}
 
         result.update(self._map_tax_code(map_taxes))
+        result.update(self._map_tax_code(map_taxes_origin))
         result.update(self._map_tax_code(map_taxes_ncm))
+        result.update(self._map_tax_code(map_taxes_origin_ncm))
         return result
 
     @api.v8
