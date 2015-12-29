@@ -28,7 +28,6 @@ from openerp.addons.account_bank_statement_import.parserlib import (
 
 try:
     import cnab240
-    from cnab240.bancos import itau
     from cnab240.tipos import Arquivo
     import codecs
 except:
@@ -45,7 +44,21 @@ class Cnab240Parser(object):
         """
         return parser_name == 'cnab240_so'
 
-    def parse(self, data):
+    @staticmethod
+    def determine_bank(nome_impt):
+        if nome_impt == 'bradesco_pag_for':
+            from cnab240.bancos import bradescoPagFor
+            return bradescoPagFor
+        elif nome_impt == 'bradesco_cobranca_240':
+            from cnab240.bancos import bradesco
+            return bradesco
+        elif nome_impt == 'itau_cobranca_240':
+            from cnab240.bancos import itau
+            return itau
+        else:
+            raise Warning(_('Modo de importação não encontrado.'))
+
+    def parse(self, data, banco_impt):
         """Launch the parsing itself."""
         cnab240_file = tempfile.NamedTemporaryFile()
         cnab240_file.seek(0)
@@ -53,7 +66,9 @@ class Cnab240Parser(object):
         cnab240_file.flush()
         ret_file = codecs.open(cnab240_file.name, encoding='ascii')
 
-        arquivo = Arquivo(itau, arquivo=ret_file)
+        # Nome_modo_impt é o nome da pasta do json. Código do banco é inválido
+        # nessa situação
+        arquivo = Arquivo((self.determine_bank(banco_impt)), arquivo=ret_file)
 
         cnab240_file.close()
 

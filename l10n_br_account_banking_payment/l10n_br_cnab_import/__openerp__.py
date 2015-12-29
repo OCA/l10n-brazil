@@ -34,6 +34,7 @@
         'account_bank_statement_import',
     ],
     'data': [
+        'view/cnab_import_view.xml',
     ],
     'active': False,
     "installable": True,
