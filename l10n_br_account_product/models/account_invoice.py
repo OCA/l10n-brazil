@@ -62,11 +62,11 @@ class AccountInvoice(models.Model):
             line.insurance_value for line in self.invoice_line)
         self.amount_costs = sum(
             line.other_costs_value for line in self.invoice_line)
+        self.amount_freight = sum(
+            line.freight_value for line in self.invoice_line)
         self.amount_total_taxes = sum(
             line.total_taxes for line in self.invoice_line)
         self.amount_gross = sum(line.price_gross for line in self.invoice_line)
-        self.amount_freight = sum(
-            line.freight_value for line in self.invoice_line)
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
             line.price_total for line in self.invoice_line)
@@ -344,7 +344,7 @@ class AccountInvoice(models.Model):
         string='Valor do Seguro', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_freight = fields.Float(
-        string='Valor do Seguro', store=True,
+        string='Valor do Frete', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
@@ -488,6 +488,45 @@ class AccountInvoice(models.Model):
                 invoice.write(result['value'])
         return True
 
+    @api.multi
+    def button_reset_taxes(self):
+        result = super(AccountInvoice, self).button_reset_taxes()
+        ait = self.env['account.invoice.tax']
+        for invoice in self:
+            invoice.read()
+            costs = []
+            company = invoice.company_id
+            if invoice.amount_insurance:
+                costs.append((company.insurance_tax_id,
+                              invoice.amount_insurance))
+            if invoice.amount_freight:
+                costs.append((company.freight_tax_id,
+                              invoice.amount_freight))
+            if invoice.amount_costs:
+                costs.append((company.other_costs_tax_id,
+                              invoice.amount_costs))
+            for tax, cost in costs:
+                ait_id = ait.search([
+                    ('invoice_id', '=', invoice.id),
+                    ('tax_code_id', '=', tax.id),
+                ])
+                vals = {
+                    'invoice_id': invoice.id,
+                    'name': tax.name,
+                    'amount': cost,
+                    'manual': True,
+                    'base': cost,
+                    'account_analytic_id':
+                    tax.account_analytic_collected_id.id,
+                    'tax_code_id': tax.id,
+                    'account_id': tax.account_paid_id.id,
+                }
+                if ait_id:
+                    ait_id.write(vals)
+                else:
+                    ait.create(vals)
+        return result
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -495,7 +534,7 @@ class AccountInvoiceLine(models.Model):
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_id', 'quantity',
                  'product_id', 'invoice_id.partner_id', 'freight_value',
-                 'insurance_value', 'freight_value', 'other_costs_value',
+                 'insurance_value', 'other_costs_value',
                  'invoice_id.currency_id')
     def _compute_price(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
@@ -869,11 +908,14 @@ class AccountInvoiceLine(models.Model):
         discount = values.get('discount', 0.0)
         insurance_value = values.get(
             'insurance_value', 0.0) or self.insurance_value
-        freight_value = values.get('freight_value', 0.0) or self.freight_value
+        freight_value = values.get(
+            'freight_value', 0.0) or self.freight_value
         other_costs_value = values.get(
             'other_costs_value', 0.0) or self.other_costs_value
-        tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-            0][2] or self.invoice_line_tax_id.ids
+        tax_ids = []
+        if values.get('invoice_line_tax_id'):
+            tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+                0][2] or self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -968,25 +1010,22 @@ class AccountInvoiceLine(models.Model):
             if kwargs.get('product_id'):
                 product = self.env['product.product'].browse(
                     kwargs['product_id'])
+                taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
-                        taxes = product.taxes_id
+                        taxes |= product.taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = [(6, 0, [])]
+                        taxes |= account_obj.browse(account_id).tax_ids
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     if product.supplier_taxes_id:
-                        taxes = product.supplier_taxes_id
+                        taxes |= product.supplier_taxes_id
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
-                        taxes = account_obj.browse(account_id).tax_ids
-                    else:
-                        taxes = [(6, 0, [])]
+                        taxes |= account_obj.browse(account_id).tax_ids
                 tax_ids = fp.with_context(ctx).map_tax(taxes)
                 result_rule['value']['invoice_line_tax_id'] = tax_ids.ids
                 result['value'].update(self._get_tax_codes(

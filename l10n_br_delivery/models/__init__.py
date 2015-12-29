@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,20 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp import models, fields
-
-
-class ResCompany(models.Model):
-    _inherit = 'res.company'
-
-    default_ind_pres = fields.Selection([
-        ('0', u'Não se aplica'),
-        ('1', u'Operação presencial'),
-        ('2', u'Operação não presencial, pela Internet'),
-        ('3', u'Operação não presencial, Teleatendimento'),
-        ('4', u'NFC-e em operação com entrega em domicílio'),
-        ('9', u'Operação não presencial, outros'),
-        ], u'Tipo de operação',
-        help=u'Indicador de presença do comprador no \
-            \nestabelecimento comercial no momento \
-            \nda operação.')
+from . import account_invoice
+from . import delivery
+from . import l10n_br_delivery
+from . import sale
+from . import stock

@@ -22,35 +22,34 @@ import logging
 from openerp.openupgrade import openupgrade
 
 
-logger = logging.getLogger('OpenUpgrade.l10n_br_account_product')
-
-
-#   account.fiscal.position.tax.template object
-# - replace ncm_id to fiscal_classification_id in account.fiscal.position.tax
-# - Drop table l10n_br_tax_definition_template
-# - Drop table l10n_br_tax_definition
+logger = logging.getLogger('OpenUpgrade.l10n_br_stock')
 
 column_renames = {
-    'l10n_br_tax_definition_sale_template': [
-        ('tax_id', 'tax_template_id'),
-        ('tax_code_id', 'tax_code_template_id'),
+    'stock_picking': [
+        ('id_dest', None),
+        ('fiscal_category_id', None),
     ],
-    'l10n_br_tax_definition_purchase_template': [
-        ('tax_id', 'tax_template_id'),
-        ('tax_code_id', 'tax_code_template_id'),
+    'stock_move': [
+        ('fiscal_position', None),
+        ('fiscal_category_id', None),
     ],
-    'product_template': [
-        ('ncm_id', 'fiscal_classification_id'),
-    ],
+    # 'res_company': [
+    #     ('stock_out_fiscal_category_id', None),
+    #     ('stock_in_fiscal_category_id', None),
+    #     ('stock_fiscal_category_id', None),
+    # ],
 }
+
+xmlid_renames = [
+    ('l10n_br_stock.l10n_br_view_move_picking_tree', 'l10n_br_stock_account.l10n_br_view_move_picking_tree'),
+    ('l10n_br_stock.l10n_br_view_picking_form', 'l10n_br_stock_account.l10n_br_stock_move_form'),
+    ('l10n_br_stock.l10n_br_view_picking_form1', 'l10n_br_stock_account.l10n_br_view_picking_form1'),
+    ('l10n_br_stock.view_l10n_br_stock_company_form', 'l10n_br_stock_account.view_l10n_br_stock_company_form'),
+    ('l10n_br_stock.view_l10n_br_stock_invoice_onshipping', 'l10n_br_stock_account.view_l10n_br_stock_invoice_onshipping'),
+]
 
 
 @openupgrade.migrate()
 def migrate(cr, version):
     openupgrade.rename_columns(cr, column_renames)
-
-    cr.execute(
-    "delete from ir_ui_view v "
-    "using ir_model_data d where "
-    "v.id=d.res_id and d.model='ir.ui.view' and "
-    "d.name='l10n_br_account_product_fiscal_classification_template_form'")
+    openupgrade.rename_xmlids(cr, xmlid_renames)

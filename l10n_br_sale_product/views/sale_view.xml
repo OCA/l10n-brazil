@@ -9,9 +9,9 @@
 			<field name="priority">46</field>
 			<field name="arch" type="xml">
 				<field name="amount_untaxed" position="after">
-					<field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_freight(amount_freight)"/>
-					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_insurance(amount_insurance)"/>
-					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" on_change="onchange_amount_costs(amount_costs)"/>
+					<field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" />
+					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
+					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
 				</field>
                 		<field name="invoiced" position="before">
 					<field name="ind_pres"/>

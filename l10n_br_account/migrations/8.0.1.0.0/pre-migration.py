@@ -22,25 +22,14 @@ import logging
 from openerp.openupgrade import openupgrade
 
 
-logger = logging.getLogger('OpenUpgrade.l10n_br_account_product')
-
-
-#   account.fiscal.position.tax.template object
-# - replace ncm_id to fiscal_classification_id in account.fiscal.position.tax
-# - Drop table l10n_br_tax_definition_template
-# - Drop table l10n_br_tax_definition
+logger = logging.getLogger('OpenUpgrade.l10n_br_account')
 
 column_renames = {
-    'l10n_br_tax_definition_sale_template': [
-        ('tax_id', 'tax_template_id'),
-        ('tax_code_id', 'tax_code_template_id'),
+    'account_fiscal_position': [
+        ('id_dest', None),
     ],
-    'l10n_br_tax_definition_purchase_template': [
-        ('tax_id', 'tax_template_id'),
-        ('tax_code_id', 'tax_code_template_id'),
-    ],
-    'product_template': [
-        ('ncm_id', 'fiscal_classification_id'),
+    'account_fiscal_position_template': [
+        ('id_dest', None),
     ],
 }
 
@@ -48,9 +37,3 @@ column_renames = {
 @openupgrade.migrate()
 def migrate(cr, version):
     openupgrade.rename_columns(cr, column_renames)
-
-    cr.execute(
-    "delete from ir_ui_view v "
-    "using ir_model_data d where "
-    "v.id=d.res_id and d.model='ir.ui.view' and "
-    "d.name='l10n_br_account_product_fiscal_classification_template_form'")
