@@ -65,11 +65,11 @@ class AccountInvoice(models.Model):
             line.insurance_value for line in self.invoice_line)
         self.amount_costs = sum(
             line.other_costs_value for line in self.invoice_line)
+        self.amount_freight = sum(
+            line.freight_value for line in self.invoice_line)
         self.amount_total_taxes = sum(
             line.total_taxes for line in self.invoice_line)
         self.amount_gross = sum(line.price_gross for line in self.invoice_line)
-        self.amount_freight = sum(
-            line.freight_value for line in self.invoice_line)
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
             line.price_total for line in self.invoice_line)
@@ -362,7 +362,7 @@ class AccountInvoice(models.Model):
         string='Valor do Seguro', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_freight = fields.Float(
-        string='Valor do Seguro', store=True,
+        string='Valor do Frete', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_costs = fields.Float(
         string='Outros Custos', store=True,
@@ -506,6 +506,45 @@ class AccountInvoice(models.Model):
                 invoice.write(result['value'])
         return True
 
+    @api.multi
+    def button_reset_taxes(self):
+        result = super(AccountInvoice, self).button_reset_taxes()
+        ait = self.env['account.invoice.tax']
+        for invoice in self:
+            invoice.read()
+            costs = []
+            company = invoice.company_id
+            if invoice.amount_insurance:
+                costs.append((company.insurance_tax_id,
+                              invoice.amount_insurance))
+            if invoice.amount_freight:
+                costs.append((company.freight_tax_id,
+                              invoice.amount_freight))
+            if invoice.amount_costs:
+                costs.append((company.other_costs_tax_id,
+                              invoice.amount_costs))
+            for tax, cost in costs:
+                ait_id = ait.search([
+                    ('invoice_id', '=', invoice.id),
+                    ('tax_code_id', '=', tax.id),
+                ])
+                vals = {
+                    'invoice_id': invoice.id,
+                    'name': tax.name,
+                    'amount': cost,
+                    'manual': True,
+                    'base': cost,
+                    'account_analytic_id':
+                    tax.account_analytic_collected_id.id,
+                    'tax_code_id': tax.id,
+                    'account_id': tax.account_paid_id.id,
+                }
+                if ait_id:
+                    ait_id.write(vals)
+                else:
+                    ait.create(vals)
+        return result
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -513,7 +552,7 @@ class AccountInvoiceLine(models.Model):
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_id', 'quantity',
                  'product_id', 'invoice_id.partner_id', 'freight_value',
-                 'insurance_value', 'freight_value', 'other_costs_value',
+                 'insurance_value', 'other_costs_value',
                  'invoice_id.currency_id')
     def _compute_price(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
@@ -549,6 +588,9 @@ class AccountInvoiceLine(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'Classificação Fiscal')
+    cest = fields.Char(
+        string="CEST",
+        related='fiscal_classification_id.cest')
     fci = fields.Char('FCI do Produto', size=36)
     import_declaration_ids = fields.One2many(
         'l10n_br_account_product.import.declaration',
@@ -619,6 +661,9 @@ class AccountInvoiceLine(models.Model):
         digits=dp.get_precision('Account'), default=0.00)
     icms_cst_id = fields.Many2one(
         'account.tax.code', 'CST ICMS', domain=[('domain', '=', 'icms')])
+    icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief',
+        string=u'Desoneração ICMS')
     issqn_manual = fields.Boolean('ISSQN Manual?', default=False)
     issqn_type = fields.Selection(
         [('N', 'Normal'), ('R', 'Retida'),
@@ -653,6 +698,9 @@ class AccountInvoiceLine(models.Model):
         default=0.00)
     ipi_cst_id = fields.Many2one(
         'account.tax.code', 'CST IPI', domain=[('domain', '=', 'ipi')])
+    ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline',
+        string=u'Enquadramento Legal IPI')
     pis_manual = fields.Boolean('PIS Manual?', default=False)
     pis_type = fields.Selection(
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
@@ -904,6 +952,8 @@ class AccountInvoiceLine(models.Model):
         result['ipi_cst_id'] = tax_codes.get('ipi')
         result['pis_cst_id'] = tax_codes.get('pis')
         result['cofins_cst_id'] = tax_codes.get('cofins')
+        result['icms_relief_id'] = tax_codes.get('icms_relief')
+        result['ipi_guideline_id'] = tax_codes.get('ipi_guideline')
         return result
 
     # TODO
@@ -917,7 +967,8 @@ class AccountInvoiceLine(models.Model):
         discount = values.get('discount', 0.0)
         insurance_value = values.get(
             'insurance_value', 0.0) or self.insurance_value
-        freight_value = values.get('freight_value', 0.0) or self.freight_value
+        freight_value = values.get(
+            'freight_value', 0.0) or self.freight_value
         other_costs_value = values.get(
             'other_costs_value', 0.0) or self.other_costs_value
         tax_ids = []

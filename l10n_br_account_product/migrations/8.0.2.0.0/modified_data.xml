@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<openerp>
+  <data>
+		<record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_account.fiscal.category">
+			<field name="code">Entrada de Remessa</field>
+			<field name="name">Entrada de Remessa</field>
+			<field name="type">input</field>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">sale</field>
+			<field name="state">approved</field>
+		</record>
+  </data>
+</openerp>
+

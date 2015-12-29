@@ -15,6 +15,10 @@
 					<field name="fiscal_classification_id" />
 					<field name="origin" />
 				</xpath>
+				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="before">
+					<field name="tax_ipi_guideline_id" />
+					<field name="tax_icms_relief_id" />
+				</xpath>
 			</field>
 		</record>
 
@@ -31,6 +35,11 @@
 					<field name="fiscal_classification_id" />
 					<field name="origin" />
 				</xpath>
+				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="after">
+					<field name="tax_ipi_guideline_id" />
+					<field name="tax_icms_relief_id" />
+				</xpath>
+
 			</field>
 		</record>
 

@@ -56,6 +56,7 @@
 			<field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_form"/>
 			<field name="arch" type="xml">
 				<field name="code" position="after">
+					<field name="cest"/>
 					<field name="type"/>
 					<field name="parent_id"/>
 				</field>
@@ -86,19 +87,41 @@
 						</field>
 						</page>
 						<page string="Impostos Estimados">
+							<div class="oe_right oe_button_box" name="buttons">
+								<button class="oe_inline oe_stat_button" type="object"
+										name="get_ibpt" icon="fa-search">
+									<div>Consultar<br/>IBPT</div>
+								</button>
+							</div>
 							<field name="tax_estimate_ids" nolabel="1">
 								<tree>
 									<field name="state_id"/>
-									<field name="date_start"/>
-									<field name="date_end"/>
-									<field name="key"/>
-									<field name="version"/>
-									<field name="origin"/>
 									<field name="federal_taxes_national"/>
 									<field name="federal_taxes_import"/>
 									<field name="state_taxes"/>
 									<field name="municipal_taxes"/>
+									<field name="origin"/>
 								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="fiscal_classification_id"/>
+											<field name="origin"/>
+											<field name="version"/>
+											<field name="state_id"/>
+											<field name="date_start"/>
+											<field name="date_end"/>
+										</group>
+										<group>
+											<field name="active"/>
+											<field name="key"/>
+											<field name="federal_taxes_national"/>
+											<field name="federal_taxes_import"/>
+											<field name="state_taxes"/>
+											<field name="municipal_taxes"/>
+										</group>
+									</group>
+								</form>
 							</field>
 						</page>
 					</notebook>
@@ -114,6 +137,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</form>
 			</field>
 		</record>
@@ -126,6 +151,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</tree>
 			</field>
 		</record>
@@ -138,6 +165,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</form>
 			</field>
 		</record>
@@ -150,6 +179,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
 					<field name="tax_domain"  invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</tree>
 			</field>
 		</record>
@@ -160,6 +191,7 @@
 			<field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_template_form"/>
 			<field name="arch" type="xml">
 				<field name="code" position="after">
+					<field name="cest"/>
 					<field name="type"/>
 					<field name="parent_id"/>
 				</field>
@@ -190,21 +222,43 @@
                         </field>
                         </page>
                         <page string="Impostos Estimados">
-                            <field name="tax_estimate_ids" nolabel="1">
-                                <tree>
-                                    <field name="state_id"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
-                                    <field name="key"/>
-                                    <field name="version"/>
-                                    <field name="origin"/>
-                                    <field name="federal_taxes_national"/>
-                                    <field name="federal_taxes_import"/>
-                                    <field name="state_taxes"/>
-                                    <field name="municipal_taxes"/>
-                                </tree>
-                            </field>
-                        </page>
+							<div class="oe_right oe_button_box" name="buttons">
+								<button class="oe_inline oe_stat_button" type="object"
+										name="get_ibpt" icon="fa-search">
+									<div>Consultar<br/>IBPT</div>
+								</button>
+							</div>
+							<field name="tax_estimate_ids" nolabel="1">
+								<tree>
+									<field name="state_id"/>
+									<field name="federal_taxes_national"/>
+									<field name="federal_taxes_import"/>
+									<field name="state_taxes"/>
+									<field name="municipal_taxes"/>
+									<field name="origin"/>
+								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="fiscal_classification_id"/>
+											<field name="origin"/>
+											<field name="version"/>
+											<field name="state_id"/>
+											<field name="date_start"/>
+											<field name="date_end"/>
+										</group>
+										<group>
+											<field name="active"/>
+											<field name="key"/>
+											<field name="federal_taxes_national"/>
+											<field name="federal_taxes_import"/>
+											<field name="state_taxes"/>
+											<field name="municipal_taxes"/>
+										</group>
+									</group>
+								</form>
+							</field>
+						</page>
 					</notebook>
 				</xpath>
 			</field>

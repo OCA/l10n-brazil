@@ -24,6 +24,11 @@ from openerp.addons.l10n_br_account.models.l10n_br_account import (
     L10n_brTaxDefinition,
     L10n_brTaxDefinitionTemplate
 )
+from openerp.addons.l10n_br_account.sped.ibpt.deolhonoimposto import (
+    DeOlhoNoImposto,
+    get_ibpt_product
+)
+from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 class AccountProductFiscalClassificationTemplate(models.Model):
@@ -90,6 +95,11 @@ class AccountProductFiscalClassificationTemplate(models.Model):
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
 
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da Substituição Tributária ")
+
 
 class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     """Model for tax definition template"""
@@ -97,6 +107,10 @@ class L10n_brTaxDefinitionTemplateModel(L10n_brTaxDefinitionTemplate):
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template',
         'Fiscal Classification', select=True)
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_template_tax_template_id_uniq', 'unique \
@@ -220,9 +234,46 @@ class AccountProductFiscalClassification(models.Model):
         'l10n_br_tax.fcp', 'fiscal_classification_id',
         string=u'Fundo de Combate a Pobreza')
 
+    cest = fields.Char(
+        string='CEST',
+        size=9,
+        help=u"Código Especificador da Substituição Tributária ")
+
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
+
+    @api.multi
+    def get_ibpt(self):
+        for item in self:
+            brazil = item.env['res.country'].search([('code', '=', 'BR')])
+            states = item.env['res.country.state'].search([('country_id', '=',
+                                                            brazil.id)])
+            company = item.env.user.company_id
+            config = DeOlhoNoImposto(company.ipbt_token,
+                                     punctuation_rm(company.cnpj_cpf),
+                                     company.state_id.code)
+            tax_estimate = item.env['l10n_br_tax.estimate']
+            for state in states:
+                result = get_ibpt_product(
+                    config,
+                    punctuation_rm(item.code or ''),
+                    ex='0')
+                update = tax_estimate.search([('state_id', '=', state.id),
+                                              ('origin', '=', 'IBPT-WS')])
+                vals = {
+                    'fiscal_classification_id': item.id,
+                    'origin': 'IBPT-WS',
+                    'state_id': state.id,
+                    'state_taxes': result.estadual,
+                    'federal_taxes_national': result.nacional,
+                    'federal_taxes_import': result.importado,
+                    }
+                if update:
+                    update.write(vals)
+                else:
+                    tax_estimate.create(vals)
+        return True
 
 
 class L10n_brTaxDefinitionModel(L10n_brTaxDefinition):
@@ -231,6 +282,10 @@ class L10n_brTaxDefinitionModel(L10n_brTaxDefinition):
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification',
         'Parent Fiscal Classification', select=True)
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
@@ -252,7 +307,7 @@ class L10n_brTaxEstimate(models.Model):
     _inherit = 'l10n_br_tax.estimate.model'
 
     fiscal_classification_id = fields.Many2one(
-        'account.product.fiscal.classification.template',
+        'account.product.fiscal.classification',
         'Fiscal Classification', select=True)
 
 

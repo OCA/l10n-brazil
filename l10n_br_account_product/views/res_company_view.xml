@@ -42,6 +42,7 @@
 							<page string="NFe">
 								<group>
 									<field name="nfe_version" required="1" />
+									<field name="accountant_cnpj_cpf" required="1"/>
                                     <field name="nfe_root_folder"/>
 									<field name="nfe_import_folder"/>
 									<field name="nfe_export_folder"/>
@@ -50,6 +51,13 @@
 									<field name="file_type"/>
 									<field name="sign_xml"/>
 									<field name="export_folder"/>
+								</group>
+							</page>
+							<page string="Custos entrega">
+								<group>
+									<field name="freight_tax_id" />
+									<field name="insurance_tax_id"/>
+									<field name="other_costs_tax_id"/>
 								</group>
 							</page>
 						</notebook>
@@ -66,6 +74,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</form>
 			</field>
 		</record>
@@ -78,6 +88,8 @@
 					<field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
 					<field name="tax_domain" invisible="1"/>
 					<field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+					<field name="tax_ipi_guideline_id"/>
+					<field name="tax_icms_relief_id"/>
 				</tree>
 			</field>
 		</record>
