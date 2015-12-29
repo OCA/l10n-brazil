@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Luis Felipe Miléo - KMEE                                #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,27 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localisation Data Extension for Product',
-    'description': 'Brazilian Localisation Data Extension for Product',
-    'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
-    'depends': [
-        'l10n_br_account_product',
-        'l10n_br_data_account',
-    ],
-    'data': [
-        'data/account.product.fiscal.classification.template.csv',
-        'data/l10n_br_tax.icms_partition.csv',
-        'data/l10n_br_account_product.icms_relief.csv',
-        'data/l10n_br_account_product.ipi_guideline.csv',
-    ],
-    'demo': [
-        'demo/l10n_br_data_account_product_demo.xml',
-    ],
-    'category': 'Localisation',
-    'installable': True,
-    'auto_install': True,
-}
+from openerp import models, fields
+
+
+class ResCountryState(models.Model):
+    _inherit = 'res.country.state'
+
+    fcp_tax_id = fields.Many2one(
+        'account.tax', string=u"% Fundo de Combate à Pobreza (FCP)",
+        help=u"Percentual adicional inserido na alíquota interna"
+        u" da UF de destino, relativo ao Fundo de Combate à"
+        u" Pobreza (FCP) em operações interestaduais com o "
+        u"consumidor com esta UF. "
+        u"Nota: Percentual máximo de 2%,"
+        u" conforme a legislação")

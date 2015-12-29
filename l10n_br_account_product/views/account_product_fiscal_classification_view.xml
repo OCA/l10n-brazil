@@ -69,13 +69,23 @@
 			  	<xpath expr="/form/sheet/group[3]" position="replace">
                     <notebook>
                         <page string="Impostos">
-                            <group name="taxes" colspan="2">
-                                <separator string="Sale Taxes"/>
-                                <field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-                                <separator string="Purchase Taxes"/>
-                                <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                            <group name="taxes" colspan="4">
+                                <group string="Sale Taxes">
+                                    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                </group>
+                                <group string="Purchase Taxes">
+                                    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                                </group>
                             </group>
-                        </page>
+						</page>
+						<page string="Fundo de Combate a Probreza">
+						<field colspan="4" nolabel="1" name="tax_fcp_ids">
+							<tree editable="top">
+								<field name="to_state_id" required="0" />
+								<field name="fcp_tax_id" required="1" />
+							</tree>
+						</field>
+						</page>
 						<page string="Impostos Estimados">
 							<div class="oe_right oe_button_box" name="buttons">
 								<button class="oe_inline oe_stat_button" type="object"
@@ -194,14 +204,24 @@
 			  	<xpath expr="/form/sheet/group[2]" position="replace">
                     <notebook>
                         <page string="Impostos">
-                            <group name="taxes" colspan="2">
-                                <separator string="Sale Taxes"/>
-                                <field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-                                <separator string="Purchase Taxes"/>
-                                <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                            <group name="taxes" colspan="4">
+                                <group string="Sale Taxes">
+                                    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                </group>
+                                <group string="Purchase Taxes">
+                                    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                                </group>
                             </group>
                         </page>
-						<page string="Impostos Estimados">
+                        <page string="Fundo de Combate a Probreza">
+                        <field colspan="4" nolabel="1" name="tax_fcp_ids">
+                            <tree editable="top">
+                                <field name="to_state_id" required="0" />
+                                <field name="fcp_tax_id" required="1" />
+                            </tree>
+                        </field>
+                        </page>
+                        <page string="Impostos Estimados">
 							<div class="oe_right oe_button_box" name="buttons">
 								<button class="oe_inline oe_stat_button" type="object"
 										name="get_ibpt" icon="fa-search">

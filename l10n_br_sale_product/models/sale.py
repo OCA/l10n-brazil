@@ -253,6 +253,49 @@ class SaleOrderLine(models.Model):
         compute='_amount_line', string='Subtotal',
         digits=dp.get_precision('Sale Price'))
 
+    @api.model
+    def _fiscal_position_map(self, result, **kwargs):
+        context = dict(self.env.context)
+        context.update({'use_domain': ('use_sale', '=', True)})
+        fp_rule_obj = self.env['account.fiscal.position.rule']
+
+        partner_invoice = self.env['res.partner'].browse(
+            kwargs.get('partner_invoice_id'))
+
+        product_fc_id = fp_rule_obj.with_context(
+            context).product_fiscal_category_map(
+                kwargs.get('product'),
+                kwargs.get('parent_fiscal_category_id'),
+                partner_invoice.state_id.id)
+
+        if product_fc_id:
+            kwargs['fiscal_category_id'] = product_fc_id
+
+        result['value']['fiscal_category_id'] = kwargs.get(
+            'fiscal_category_id')
+
+        result.update(fp_rule_obj.with_context(context).apply_fiscal_mapping(
+            result, **kwargs))
+        fiscal_position = result['value'].get('fiscal_position')
+        product_id = kwargs.get('product_id')
+
+        if product_id and fiscal_position:
+            obj_fposition = self.env['account.fiscal.position'].browse(
+                fiscal_position)
+            obj_product = self.env['product.product'].browse(product_id)
+            context.update({
+                'fiscal_type': obj_product.fiscal_type,
+                'type_tax_use': 'sale', 'product_id': product_id})
+            taxes = obj_product.taxes_id
+            if obj_product.fiscal_classification_id:
+                taxes |= fp_rule_obj.with_context(
+                    context).product_fcp_map(
+                    kwargs.get('product_id'), partner_invoice.state_id)
+            tax_ids = obj_fposition.with_context(context).map_tax(taxes)
+            result['value']['tax_id'] = tax_ids
+
+        return result
+
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(

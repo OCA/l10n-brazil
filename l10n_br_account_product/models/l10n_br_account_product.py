@@ -337,6 +337,16 @@ class ImportDeclarationLine(models.Model):
                                    default=0.00)
 
 
+class L10nBrTaxIcmsPartition(models.Model):
+
+    _name = 'l10n_br_tax.icms_partition'
+    _description = 'Icms Partition'
+
+    date = fields.Date(u'Ano', required=True)
+    rate_percentual = fields.Float(u'Percentual Interestadual de Rateio',
+                                   required=True)
+
+
 class L10nBrIcmsRelief(models.Model):
 
     _name = 'l10n_br_account_product.icms_relief'
@@ -364,3 +374,4 @@ class L10nBrIPIGuideline(models.Model):
         'account.tax.code.template', string=u'CST Entrada')
     tax_code_out_id = fields.Many2one(
         'account.tax.code.template', string=u'CST Saída')
+
