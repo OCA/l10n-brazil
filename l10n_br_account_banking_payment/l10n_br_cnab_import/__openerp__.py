@@ -32,6 +32,7 @@
     },
     'depends': [
         'account_bank_statement_import',
+        'l10n_br_account',
     ],
     'data': [
         'view/cnab_import_view.xml',

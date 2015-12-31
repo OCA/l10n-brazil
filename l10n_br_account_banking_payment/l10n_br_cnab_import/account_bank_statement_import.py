@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-"""Add process_camt method to account.bank.statement.import."""
 ##############################################################################
 #
 #    Author: Fernando Marcato Rodrigues
@@ -64,6 +63,39 @@ class AccountBankStatementImport(models.TransientModel):
             if bank_account_ids:
                 bank_account_id = bank_account_ids[0].id
         return bank_account_id
+
+    @api.model
+    def _complete_statement(self, stmt_vals, journal_id, account_number):
+        """Complete statement from information passed.
+            unique_import_id is assumed to already be unique at the moment of
+            CNAB exportation."""
+        stmt_vals['journal_id'] = journal_id
+        for line_vals in stmt_vals['transactions']:
+            unique_import_id = line_vals.get('unique_import_id', False)
+            if unique_import_id:
+                line_vals['unique_import_id'] = unique_import_id
+            if not line_vals.get('bank_account_id'):
+                # Find the partner and his bank account or create the bank
+                # account. The partner selected during the reconciliation
+                # process will be linked to the bank when the statement is
+                # closed.
+                partner_id = False
+                bank_account_id = False
+                partner_account_number = line_vals.get('account_number')
+                if partner_account_number:
+                    bank_model = self.env['res.partner.bank']
+                    banks = bank_model.search(
+                        [('acc_number', '=', partner_account_number)], limit=1)
+                    if banks:
+                        bank_account_id = banks[0].id
+                        partner_id = banks[0].partner_id.id
+                    else:
+                        bank_obj = self._create_bank_account(
+                            partner_account_number)
+                        bank_account_id = bank_obj and bank_obj.id or False
+                line_vals['partner_id'] = partner_id
+                line_vals['bank_account_id'] = bank_account_id
+        return stmt_vals
 
     @api.multi
     def _parse_file(self, data_file):
