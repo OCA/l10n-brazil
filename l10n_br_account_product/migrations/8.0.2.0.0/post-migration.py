@@ -35,3 +35,4 @@ def load_data(cr):
 @openupgrade.migrate()
 def migrate(cr, version):
     load_data(cr)
+    cr.execute("UPDATE product_template SET fiscal_classification_id=ncm_id")
