@@ -76,6 +76,7 @@
 								<group name="shipping_info" string="Informações de Exportação">
 									<field name="shipping_state_id"/>
 									<field name="shipping_location"/>
+									<field name="expedition_location"/>
 								</group>
 								<group name="delivery_info">
 									<field name="carrier_name"/>
