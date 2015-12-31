@@ -212,6 +212,7 @@ class AccountInvoice(models.Model):
     shipping_state_id = fields.Many2one(
         'res.country.state', 'Estado de Embarque')
     shipping_location = fields.Char('Local de Embarque', size=32)
+    expedition_location = fields.Char('Local de Despacho', size=32)
     nfe_purpose = fields.Selection(
         [('1', 'Normal'),
          ('2', 'Complementar'),
