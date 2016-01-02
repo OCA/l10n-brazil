@@ -629,12 +629,10 @@ class NFe200(FiscalDocument):
 
     def _export(self, invoice):
         "Informações de exportação"
-        self.nfe.infNFe.exporta.UFSaidaPais.valor = (
+        self.nfe.infNFe.exporta.UFEmbarq.valor = (
             invoice.shipping_state_id.code or '')
         self.nfe.infNFe.exporta.xLocEmbarq.valor = (
             invoice.shipping_location or '')
-        self.nfe.infNFe.exporta.xLocDespacho.valor = (
-            invoice.expedition_location or '')
 
     def get_NFe(self):
 
@@ -761,7 +759,8 @@ class NFe310(NFe200):
             invoice.shipping_state_id.code or '')
         self.nfe.infNFe.exporta.xLocExporta.valor = (
             invoice.shipping_location or '')
-        self.nfe.infNFe.exporta.xLocDespacho.valor = ''  # TODO
+        self.nfe.infNFe.exporta.xLocDespacho.valor = (
+            invoice.expedition_location or '')
 
     def get_NFe(self):
         try:
