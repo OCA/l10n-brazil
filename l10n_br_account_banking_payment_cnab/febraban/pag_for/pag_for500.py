@@ -83,8 +83,8 @@ class PagFor500(Cnab):
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'reservado_empresa': u'BRADESCO PAG FOR',
-            # TODO: Sequencial crescente e nunca pode ser repetido
-            'numero_lista_debito': 1,
+            # Sequencial crescente e nunca pode ser repetido
+            'numero_lista_debito': int(self.get_file_numeration()),
             # TODO: Sequencial crescente de 1 a 1 no arquivo. O primeiro header
             #  será sempre 000001
             'sequencial': 1
@@ -126,12 +126,16 @@ class PagFor500(Cnab):
         """
 
         prefixo, sulfixo = self.cep(line.partner_id.zip)
+
+        aceite = u'N'
+        if not self.order.mode.boleto_aceite == 'S':
+            aceite = u'A'
+
         return {
             'especie_titulo': 8,
             # TODO: Código adotado para identificar o título de cobrança. 8
             # é Nota de cŕedito comercial
-            'aceite_titulo': u'A',
-            # TODO: 'A' se título foi aceito pelo sacado. 'N' se não foi.
+            'aceite_titulo': aceite,
             'tipo_inscricao': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'cnpj_cpf_base_forn': int(
@@ -154,8 +158,8 @@ class PagFor500(Cnab):
             # TODO Gerado pelo cliente pagador quando do agendamento de
             # pagamento por parte desse, exceto para a modalidade 30 -
             # Títulos em Cobrança Bradesco
-            'numero_pagamento': 1234321,
-            'carteira': 31,  # FIXME
+            'numero_pagamento': int(line.move_line_id.move_id.name),
+            'carteira': int(self.order.mode.boleto_carteira),
             'nosso_numero': 11,
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
@@ -163,32 +167,35 @@ class PagFor500(Cnab):
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
             'desconto1_data': 0,
-            'fator_vencimento': 1122,  # FIXME
+            'fator_vencimento': 0,  # FIXME
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00'), rounding=ROUND_DOWN),
+                Decimal('1.00')),
             'valor_pagto': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00'), rounding=ROUND_DOWN),  # FIXME
-            'valor_desconto': Decimal('02.00'),
-            'valor_acrescimo': Decimal('00.00'),
+                Decimal('1.00')),
+            'valor_desconto': Decimal('0.00'),
+            'valor_acrescimo': Decimal('0.00'),
             'tipo_documento': 2,
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
-            'numero_nf': 1621405338,
-            'serie_documento': u'AB',
-            'modalidade_pagamento': 1,  # TODO trazer o modo de pagamento
+            'numero_nf': int(line.ml_inv_ref.internal_number),
+            # 'serie_documento': u'AB',
+            'modalidade_pagamento': int(self.order.mode.boleto_especie),
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
             # 0 - Inclusão.
             # 5 - Alteração.
             # 9 - Exclusão. Wkf Odoo.
             'codigo_movimento': 0,  # FIXME
-            'horario_consulta_saldo': u'5',  # FIXME
+            # 'horario_consulta_saldo': u'5',  # FIXME
             'codigo_area_empresa': 0,
-            'codigo_lancamento': 22334,
+            'codigo_lancamento': 0,  # FIXME
             'tipo_conta_fornecedor': 1,  # FIXME
+            # O Primeiro registro de transação sempre será o registro
+            # “000002”, e assim sucessivamente.
             'sequencial': 3,  # FIXME
+
             # Trailer
             'totais_quantidade_registros': 0,
-            'total_valor_arq': Decimal('02.00'),
+            'total_valor_arq': Decimal('0.00'),
             # FIXME: lib nao reconhece campo
             'sequencial_trailer': int(self.get_file_numeration()),
             'codigo_protesto': int(self.order.mode.boleto_protesto),
@@ -205,10 +212,16 @@ class PagFor500(Cnab):
         :param order:
         :return:
         """
+
+        pag_valor_titulos = 0
+
         self.order = order
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
         for line in order.line_ids:
             self.arquivo.incluir_pagamento(**self._prepare_segmento(line))
+            pag_valor_titulos += line.amount_currency
+            self.arquivo.trailer.total_valor_arq = \
+                Decimal(pag_valor_titulos).quantize(Decimal('1.00'))
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
