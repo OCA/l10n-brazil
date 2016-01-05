@@ -35,14 +35,14 @@
     'depends': [
         'l10n_br_account_payment_boleto',
         'l10n_br_account_payment_mode',
-        'l10n_br_account',
-        'account_direct_debit',
+        'account_banking_payment_export',
     ],
     'data': [
         'view/l10n_br_payment_cnab.xml',
         'view/payment_order.xml',
         'view/l10n_br_cnab_sequence.xml',
         'view/l10n_br_cobranca_cnab.xml',
+        'view/res_partner_bank.xml',
         'view/payment_mode.xml',
         'data/l10n_br_payment_export_type.xml',
         # 'data/l10n_br_payment_mode.xml',
