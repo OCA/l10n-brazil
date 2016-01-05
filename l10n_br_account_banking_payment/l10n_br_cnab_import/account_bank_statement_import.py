@@ -41,7 +41,7 @@ class AccountBankStatementImport(models.TransientModel):
 
     import_modes = fields.Selection(
         MODOS_IMPORTACAO_CNAB,
-        string = u'Opções de importação', select=True, required=True)
+        string=u'Opções de importação', select=True, required=True)
 
     @api.model
     def _check_cnab(self, data_file):

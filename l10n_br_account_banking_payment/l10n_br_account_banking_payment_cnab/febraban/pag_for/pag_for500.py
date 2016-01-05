@@ -22,7 +22,7 @@
 
 from ..cnab import Cnab
 from cnab240.tipos import Arquivo
-from decimal import Decimal, ROUND_DOWN
+from decimal import Decimal
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re

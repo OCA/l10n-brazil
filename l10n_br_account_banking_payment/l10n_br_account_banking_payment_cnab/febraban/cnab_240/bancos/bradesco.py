@@ -28,7 +28,6 @@ import string
 from decimal import Decimal
 
 
-
 class Bradesco240(Cnab240):
 
     def __init__(self):

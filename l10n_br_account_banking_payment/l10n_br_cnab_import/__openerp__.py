@@ -44,6 +44,6 @@
     Allows to import CNAB (Centro Nacional de Automação Bancária) statement
      files.
 
-    It requires python pyCNAB library to work.
+    It requires python PyCNAB library to work.
     """,
 }

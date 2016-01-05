@@ -99,7 +99,7 @@ class Cnab240Parser(object):
                     # nosso numero
                     'commission_amount': evento.valor_tarifas,
 
-                    'currency_code': u'BRL', # Código da moeda
+                    'currency_code': u'BRL',  # Código da moeda
                     'account_number': evento.cedente_agencia,
                     'transactions': transacoes,
                 })

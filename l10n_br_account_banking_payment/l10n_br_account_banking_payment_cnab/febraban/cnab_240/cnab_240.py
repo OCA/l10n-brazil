@@ -21,8 +21,10 @@
 #
 ##############################################################################
 
-from __future__ import division, print_function, unicode_literals
-
+from ..cnab import Cnab
+from cnab240.tipos import Arquivo
+from decimal import Decimal
+from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import logging
 import re
@@ -148,8 +150,7 @@ class Cnab240(Cnab):
                 self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
-            'cedente_agencia_dv':
-                self.order.mode.bank_id.bra_number_dig,
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
             # DV ag e conta
             'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
@@ -280,8 +281,7 @@ class Cnab240(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_dv':
-                self.order.mode.bank_id.bra_number_dig,
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             # DV ag e cc
             'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'identificacao_titulo': u'0000000',  # TODO

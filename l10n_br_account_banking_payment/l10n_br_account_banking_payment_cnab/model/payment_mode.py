@@ -28,8 +28,8 @@ class PaymentMode(models.Model):
 
     payment_order_type = fields.Selection(
         selection_add=[
-        ('cobranca', u'Cobrança'),
-    ])
+            ('cobranca', u'Cobrança'),
+        ])
 
     # A exportação CNAB não se encaixa somente nos parâmetros de
     # débito e crédito.
@@ -41,8 +41,8 @@ class PaymentModeType(models.Model):
 
     payment_order_type = fields.Selection(
         selection_add=[
-        ('cobranca', u'Cobrança'),
-    ])
+            ('cobranca', u'Cobrança'),
+        ])
 
 
 class PaymentOrder(models.Model):
@@ -50,5 +50,5 @@ class PaymentOrder(models.Model):
 
     payment_order_type = fields.Selection(
         selection_add=[
-        ('cobranca', u'Cobrança'),
-    ])
+            ('cobranca', u'Cobrança'),
+        ])
