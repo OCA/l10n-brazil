@@ -35,7 +35,7 @@ class PaymentOrderCreate(models.TransientModel):
         if payment_order.mode.type.code == '240':
             if payment_order.mode.payment_order_type == 'cobranca':
                 domain += [
-                       ('debit', '>', 0)
+                    ('debit', '>', 0)
                 ]
             # TODO: Refactory this
             index = domain.index(('invoice.payment_mode_id', '=', False))
