@@ -291,8 +291,8 @@ class SaleOrderLine(models.Model):
 
         product_fc_id = fp_rule_obj.with_context(
             context).product_fiscal_category_map(
-                kwargs.get('product'),
-                kwargs.get('parent_fiscal_category_id'),
+                kwargs.get('product_id'),
+                kwargs.get('fiscal_category_id'),
                 partner_invoice.state_id.id)
 
         if product_fc_id:
