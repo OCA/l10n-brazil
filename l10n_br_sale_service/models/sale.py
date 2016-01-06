@@ -68,9 +68,9 @@ class SaleOrder(models.Model):
         if inv_id_product and inv_id_service:
             self._cr.execute(
                 'insert into sale_order_invoice_rel '
-                '(order_id,invoice_id) values (%s,%s)', (order.id, inv_id_service))
+                '(order_id,invoice_id) values (%s,%s)', (
+                    order.id, inv_id_service))
 
         inv_id = inv_id_product or inv_id_service
 
         return inv_id
-
