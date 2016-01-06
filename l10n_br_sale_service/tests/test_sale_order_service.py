@@ -20,10 +20,10 @@
 from openerp.tests import common
 
 
-class TestCreateInvoice(common.TransactionCase):
+class TestSaleOrderService(common.TransactionCase):
 
     def setUp(self):
-        super(TestCreateInvoice, self).setUp()
+        super(TestSaleOrderService, self).setUp()
         cr, uid = self.cr, self.uid
         # Usefull models
         self.ir_model_data = self.registry('ir.model.data')
@@ -53,14 +53,16 @@ class TestCreateInvoice(common.TransactionCase):
         obj_sale_order.onchange_fiscal()
 
         self.sale_order_line.create(
-            cr, uid, values={
+            cr, uid,
+            values={
                 'order_id': so_id,
                 'product_id': self.product_id,
                 'product_uom_qty': 1,
                 'fiscal_category_id': obj_sale_order.fiscal_category_id.id},
             context=context)
         self.sale_order_line.create(
-            cr, uid, values={
+            cr, uid,
+            values={
                 'order_id': so_id,
                 'product_id': self.product_service_id,
                 'product_uom_qty': 1,
@@ -82,4 +84,3 @@ class TestCreateInvoice(common.TransactionCase):
         for order in obj_sale_order.invoice_ids:
             count_invoice += 1
         self.assertTrue(count_invoice == 2)
-
