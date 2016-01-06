@@ -512,16 +512,20 @@ class AccountInvoice(models.Model):
                     ('tax_code_id', '=', tax.id),
                 ])
                 vals = {
-                    'invoice_id': invoice.id,
+                    'tax_amount': cost,
                     'name': tax.name,
-                    'amount': cost,
+                    'sequence': 1,
+                    'invoice_id': invoice.id,
                     'manual': True,
+                    'base_amount': cost,
+                    'base_code_id': tax.base_code_id.id,
+                    'tax_code_id': tax.tax_code_id.id,
+                    'amount': cost,
                     'base': cost,
                     'account_analytic_id':
-                    tax.account_analytic_collected_id.id,
-                    'tax_code_id': tax.id,
-                    'account_id': tax.account_paid_id.id,
-                }
+                        tax.account_analytic_collected_id.id or False,
+                    'account_id': tax.account_paid_id.id
+                 }
                 if ait_id:
                     ait_id.write(vals)
                 else:
