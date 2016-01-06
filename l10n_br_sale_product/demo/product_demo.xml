@@ -2,11 +2,6 @@
 <openerp>
     <data noupdate="1">
 
-        <!-- Consultant -->
-        <record id="product.product_product_consultant" model="product.product">
-            <field name="fiscal_type">product</field>
-            </record>
-
         <!-- On Site Monitoring -->
             <record id="product.product_product_1" model="product.product">
             <field name="fiscal_type">product</field>
