@@ -35,8 +35,9 @@ class PurchaseOrder(models.Model):
 
         for line in self.order_line:
             price = line._calc_line_base_price(line)
+            qty = line._calc_line_quantity(line)
             taxes = line.taxes_id.compute_all(
-                price, line.product_qty,
+                price, qty,
                 product=line.product_id.id, partner=self.partner_id,
                 fiscal_position=self.fiscal_position)
 
