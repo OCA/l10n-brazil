@@ -32,10 +32,13 @@ class SaleOrder(models.Model):
 
     @api.model
     def _make_invoice(self, order, lines):
+
         context = dict(self.env.context)
         obj_invoice_line = self.env['account.invoice.line']
         lines_service = []
         lines_product = []
+        inv_id_product = 0
+        inv_id_service = 0
 
         def call_make_invoice(self, lines):
             self = self.with_context(context)
@@ -56,9 +59,18 @@ class SaleOrder(models.Model):
 
         if lines_product:
             context['fiscal_type'] = 'product'
-            inv_id = call_make_invoice(self, lines_product)
+            inv_id_product = call_make_invoice(self, lines_product)
 
         if lines_service:
             context['fiscal_type'] = 'service'
-            inv_id = call_make_invoice(self, lines_service)
+            inv_id_service = call_make_invoice(self, lines_service)
+
+        if inv_id_product and inv_id_service:
+            self._cr.execute(
+                'insert into sale_order_invoice_rel '
+                '(order_id,invoice_id) values (%s,%s)', (order.id, inv_id_service))
+
+        inv_id = inv_id_product or inv_id_service
+
         return inv_id
+
