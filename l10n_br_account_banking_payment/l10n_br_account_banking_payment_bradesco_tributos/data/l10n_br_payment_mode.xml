@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- payment.mode cobrança Bradesco240 -->
+        <record id="payment_mode_cobranca_bradesco240" model="payment.mode">
+            <field name="name">Cobrança Bradesco240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="l10n_br_account_banking_payment_cnab.payment_mode_type_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">3</field>
+            <field name="boleto_convenio">06</field>
+            <field name="boleto_carteira">03</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">19</field>
+            <field name="aceite">S</field>
+        </record>
+
+        <!-- payment.mode cobrança Itau240 -->
+        <record id="payment_mode_cobranca_itau240" model="payment.mode">
+            <field name="name">Cobrança Itau240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="l10n_br_account_banking_payment_cnab.payment_mode_type_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">6</field>
+            <field name="boleto_convenio">06</field>
+            <field name="boleto_carteira">03</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">19</field>
+            <field name="aceite">S</field>
+        </record>
+
+        <!-- payment.mode cobrança Cef240 -->
+        <record id="payment_mode_cobranca_cef240" model="payment.mode">
+            <field name="name">Cobrança Cef240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id" ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="l10n_br_account_banking_payment_cnab.payment_mode_type_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">06</field>
+            <field name="boleto_carteira">03</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">19</field>
+            <field name="aceite">S</field>
+        </record>
+
+    </data>
+</openerp>
