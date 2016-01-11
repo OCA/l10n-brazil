@@ -937,6 +937,8 @@ class AccountInvoiceLine(models.Model):
         if values.get('invoice_line_tax_id'):
             tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
                 0][2] or self.invoice_line_tax_id.ids
+        else:
+            tax_ids = self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -1327,10 +1329,10 @@ class AccountInvoiceLine(models.Model):
 
     # TODO comentado por causa deste bug
     # https://github.com/odoo/odoo/issues/2197
-    # @api.multi
-    # def write(self, vals):
-    #    vals.update(self._validate_taxes(vals))
-    #    return super(AccountInvoiceLine, self).write(vals)
+    @api.multi
+    def write(self, vals):
+       vals.update(self._validate_taxes(vals))
+       return super(AccountInvoiceLine, self).write(vals)
 
 
 class AccountInvoiceTax(models.Model):
