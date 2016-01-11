@@ -45,4 +45,22 @@ class PaymentOrderCreate(models.TransientModel):
             del domain[index - 1]
             domain.remove(('date_maturity', '=', False))
             domain.remove(('date_maturity', '<=', self.duedate))
+
+        elif payment_order.mode.type.code == '500':
+            if payment_order.mode.payment_order_type == 'payment':
+                domain += [
+                    ('credit', '>', 0)
+                ]
+            # index = domain.index(('invoice.payment_mode_id', '=', False))
+            # del domain[index - 1]
+            # domain.remove(('invoice.payment_mode_id', '=', False))
+            # index = domain.index(('date_maturity', '<=', self.duedate))
+            # del domain[index - 1]
+            # domain.remove(('date_maturity', '=', False))
+            # domain.remove(('date_maturity', '<=', self.duedate))
+
+            index = domain.index(('account_id.type', '=', 'receivable'))
+            del domain[index - 1]
+            domain.remove(('account_id.type', '=', 'receivable'))
+
         return True
