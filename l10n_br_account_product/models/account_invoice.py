@@ -76,8 +76,7 @@ class AccountInvoice(models.Model):
         self.amount_tax = sum(tax.amount
                               for tax in self.tax_line
                               if not tax.tax_code_id.tax_discount)
-        self.amount_total = self.amount_tax + self.amount_untaxed + \
-            self.amount_costs + self.amount_insurance + self.amount_freight
+        self.amount_total = self.amount_tax + self.amount_untaxed
 
         for line in self.invoice_line:
             if line.icms_cst_id.code not in (
@@ -506,49 +505,6 @@ class AccountInvoice(models.Model):
             if result and result.get('value'):
                 invoice.write(result['value'])
         return True
-
-    @api.multi
-    def button_reset_taxes(self):
-        result = super(AccountInvoice, self).button_reset_taxes()
-        ait = self.env['account.invoice.tax']
-        for invoice in self:
-            invoice.read()
-            costs = []
-            company = invoice.company_id
-            if invoice.amount_insurance:
-                costs.append((company.insurance_tax_id,
-                              invoice.amount_insurance))
-            if invoice.amount_freight:
-                costs.append((company.freight_tax_id,
-                              invoice.amount_freight))
-            if invoice.amount_costs:
-                costs.append((company.other_costs_tax_id,
-                              invoice.amount_costs))
-            for tax, cost in costs:
-                ait_id = ait.search([
-                    ('invoice_id', '=', invoice.id),
-                    ('tax_code_id', '=', tax.id),
-                ])
-                vals = {
-                    'tax_amount': cost,
-                    'name': tax.name,
-                    'sequence': 1,
-                    'invoice_id': invoice.id,
-                    'manual': True,
-                    'base_amount': cost,
-                    'base_code_id': tax.base_code_id.id,
-                    'tax_code_id': tax.tax_code_id.id,
-                    'amount': cost,
-                    'base': cost,
-                    'account_analytic_id':
-                        tax.account_analytic_collected_id.id or False,
-                    'account_id': tax.account_paid_id.id
-                 }
-                if ait_id:
-                    ait_id.write(vals)
-                else:
-                    ait.create(vals)
-        return result
 
 
 class AccountInvoiceLine(models.Model):
