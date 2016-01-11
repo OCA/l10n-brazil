@@ -54,8 +54,7 @@ class SaleOrder(models.Model):
             order.amount_extra = order.pricelist_id.currency_id.round(
                 amount_extra)
             order.amount_total = (order.amount_untaxed +
-                                  order.amount_tax +
-                                  order.amount_extra)
+                                  order.amount_tax)
             order.amount_discount = order.pricelist_id.currency_id.round(
                 amount_discount)
             order.amount_gross = order.pricelist_id.currency_id.round(
