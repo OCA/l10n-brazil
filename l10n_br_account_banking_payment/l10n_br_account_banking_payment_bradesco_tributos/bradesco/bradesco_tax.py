@@ -152,36 +152,36 @@ class BradescoGnre(BradescoTaxLine):
             "valor_do_principal": {
                 "type": "string",
                 "start_pos": 157,
-                "padding": " ",
+                "padding": "0",
                 "end_pos": 171,
-                "alignment": "left",
+                "alignment": "right",
                 "required": False
             },
 
             "valor_de_juros": {
                 "type": "string",
                 "start_pos": 172,
-                "padding": " ",
+                "padding": "0",
                 "end_pos": 186,
-                "alignment": "left",
+                "alignment": "right",
                 "required": False
             },
 
             "valor_de_multa": {
                 "type": "string",
                 "start_pos": 187,
-                "padding": " ",
+                "padding": "0",
                 "end_pos": 201,
-                "alignment": "left",
+                "alignment": "right",
                 "required": False
             },
 
             "valor_atualizacao_monetaria": {
                 "type": "string",
                 "start_pos": 202,
-                "padding": " ",
+                "padding": "0",
                 "end_pos": 216,
-                "alignment": "left",
+                "alignment": "right",
                 "required": False
             },
 
@@ -224,9 +224,9 @@ class BradescoGnre(BradescoTaxLine):
             "num_doc_origem": {
                 "type": "string",
                 "start_pos": 281,
-                "padding": " ",
+                "padding": "0",
                 "end_pos": 293,
-                "alignment": "left",
+                "alignment": "right",
                 "required": False
             },
 

@@ -39,6 +39,7 @@
         'view/l10n_br_payment_tax.xml',
         'view/l10n_br_cobranca_tax.xml',
         'view/payment_mode.xml',
+        'view/guia_recolhimento.xml',
     ],
     "installable": True,
     "auto_install": False,
