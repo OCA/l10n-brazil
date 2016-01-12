@@ -244,6 +244,18 @@ class AccountProductFiscalClassification(models.Model):
          u'Já existe um classificação fiscal com esse código!')]
 
     @api.multi
+    def write(self, vals):
+        res = super(AccountProductFiscalClassification, self).write(vals)
+        pt_obj = self.env['product.template']
+        if ('purchase_tax_definition_line' in vals or
+                'sale_tax_definition_line' in vals):
+            for fc in self:
+                pt_lst = pt_obj.browse([x.id for x in fc.product_tmpl_ids])
+                if pt_lst:
+                    pt_lst.write({'fiscal_classification_id': fc.id})
+        return res
+
+    @api.multi
     def get_ibpt(self):
         for item in self:
             brazil = item.env['res.country'].search([('code', '=', 'BR')])
