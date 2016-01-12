@@ -51,6 +51,9 @@ class L10nPaymentCnab(models.TransientModel):
             if order.mode.type.code == '240':
                 self.name = 'CB%s%s.REM' % (
                     time.strftime('%d%m'), str(order.file_number))
+            elif order.mode.type.code == '400':
+                self.name = 'CB%s%s.REM' % (
+                    time.strftime('%d%m'), str(order.file_number))
             elif order.mode.type.code == '500':
                 self.name = 'PG%s%s.REM' % (
                     time.strftime('%d%m'), str(order.file_number))
