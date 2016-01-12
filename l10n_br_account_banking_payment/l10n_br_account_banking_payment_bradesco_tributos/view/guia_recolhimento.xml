@@ -58,5 +58,17 @@
 			</field>
         </record>
 
+		<record id="view_icmsst_account_invoice_form" model="ir.ui.view">
+			<field name="name">icmsst.account.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='payment_term']" position="after">
+					<field name="gerar_gnre" invisible="1"/>
+					<field name="icms_st_value_total" readonly="True" attrs="{'invisible': [('gerar_gnre', '=', False)]}"/>
+				</xpath>
+			</field>
+        </record>
+
 	</data>
 </openerp>
