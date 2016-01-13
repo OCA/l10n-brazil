@@ -63,7 +63,8 @@ class PaymentOrderCreate(models.TransientModel):
         elif payment_order.mode.type.code == '500':
             if payment_order.mode.payment_order_type == 'payment':
                 domain += [
-                    ('credit', '>', 0)
+                    '&', ('credit', '>', 0),
+                    ('account_id.type', '=', 'payable')
                 ]
             # index = domain.index(('invoice.payment_mode_id', '=', False))
             # del domain[index - 1]
