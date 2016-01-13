@@ -1,7 +1,8 @@
 # coding: utf-8
 # ###########################################################################
 #
-#    Ainda não implementado!
+#    Author: Fernando Marcato Rodrigues
+#    Copyright 2015 KMEE - www.kmee.com.br
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -86,7 +87,7 @@ class Cnab400(Cnab):
 
     def format_date(self, srt_date):
         return int(datetime.datetime.strptime(
-            srt_date, '%Y-%m-%d').strftime('%d%m%y'))
+            srt_date, '%y-%m-%d').strftime('%d%m%y'))
 
     def nosso_numero(self, format):
         pass
@@ -134,6 +135,7 @@ class Cnab400(Cnab):
         # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
 
         return {
+
             'percentual_multa': Decimal('0.00'),
             'valor_desconto': Decimal('0.00'),
             'valor_abatimento_concedido_cancelado': Decimal('0.00'),
