@@ -31,6 +31,7 @@ class BradescoPagFor(PagFor500):
         super(PagFor500, self).__init__()
         from cnab240.bancos import bradescoPagFor
         self.bank = bradescoPagFor
+        self.controle_linha = 2
 
     def _prepare_header(self):
         """
@@ -52,6 +53,7 @@ class BradescoPagFor(PagFor500):
         # TODO campo para informar a data do pagamento.
         vals['data_para_efetivacao_pag'] = self.muda_campos_data(
             vals['vencimento_titulo'])
+        self.controle_linha += 1
 
         return vals
 

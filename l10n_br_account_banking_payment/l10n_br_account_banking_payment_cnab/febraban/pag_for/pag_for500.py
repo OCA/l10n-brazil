@@ -198,6 +198,7 @@ class PagFor500(Cnab):
             'total_valor_arq': Decimal('0.00'),
             # FIXME: lib nao reconhece campo
             'sequencial_trailer': int(self.get_file_numeration()),
+            'sequencial_transacao': self.controle_linha,
             'codigo_protesto': int(self.order.mode.boleto_protesto),
             'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 2,
@@ -217,11 +218,17 @@ class PagFor500(Cnab):
 
         self.order = order
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
+        cont_lote = 0
+
         for line in order.line_ids:
             self.arquivo.incluir_pagamento(**self._prepare_segmento(line))
             pag_valor_titulos += line.amount_currency
             self.arquivo.trailer.total_valor_arq = \
                 Decimal(pag_valor_titulos).quantize(Decimal('1.00'))
+            self.arquivo.trailer.sequencial_transacao = self.controle_linha
+
+
+            cont_lote += 1
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
