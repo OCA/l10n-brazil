@@ -66,16 +66,44 @@ class Bradesco400(Cnab400):
             vals['cedente_agencia_dv']), "utf-8")
         vals['cedente_dv_ag_cc'] = unicode(str(
             vals['cedente_dv_ag_cc']), "utf-8")
+
+        vals['sacado_cc_dv'] = u'0'
+        vals['identificacao_empresa_beneficiaria_banco'] = \
+            self.retorna_id_empr_benef()
+        vals['digito_conferencia_numero_bancario'] = u'0'
+        vals['condicao_emissao_papeleta'] = 1
+        vals['identificacao_operacao_banco'] = u""
+        vals['indicador_rateio_credito'] = u""
+        vals['identificacao_ocorrencia'] = 1
+
         return vals
 
-    # Override cnab_240.nosso_numero. Diferentes números de dígitos entre
-    # CEF e Itau
     def nosso_numero(self, format):
         digito = format[-1:]
         carteira = format[:3]
         nosso_numero = re.sub(
             '[%s]' % re.escape(string.punctuation), '', format[3:-1] or '')
         return carteira, nosso_numero, digito
+
+    def retorna_id_empr_benef(self):
+        dig_cart = 3
+        dig_ag = 5
+        dig_conta = 7
+
+        carteira = self.adiciona_digitos(
+            self.order.mode.boleto_carteira, dig_cart)
+        agencia = self.adiciona_digitos(
+            self.order.mode.bank_id.bra_number, dig_ag)
+        conta = self.adiciona_digitos(
+            self.order.mode.bank_id.acc_number, dig_conta)
+
+        ident = u'0' + (carteira) + (agencia) + (conta) + \
+                (self.order.mode.bank_id.acc_number_dig)
+        return ident
+
+    def adiciona_digitos(self, campo, num_digitos):
+        chars_faltantes = num_digitos - len(campo)
+        return (u'0' * chars_faltantes) + campo
 
 
 def str_to_unicode(inp_str):
