@@ -262,6 +262,8 @@ class AccountTax(models.Model):
             quantity,
             precision,
             base_tax)
+        if difa:
+            result_icms['taxes'][0].update(difa)
         totaldc += result_icms['tax_discount']
         calculed_taxes += result_icms['taxes']
         if result_icms['taxes']:
