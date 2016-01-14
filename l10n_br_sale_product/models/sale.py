@@ -83,8 +83,10 @@ class SaleOrder(models.Model):
         qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
                 price,
-                qty, line.order_id.partner_invoice_id.id,
-                line.product_id.id, line.order_id.partner_id,
+                qty,
+                partner=line.order_id.partner_invoice_id,
+                product=line.product_id,
+                # line.order_id.partner_id,
                 fiscal_position=line.fiscal_position,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
@@ -227,8 +229,8 @@ class SaleOrderLine(models.Model):
         taxes = self.tax_id.compute_all(
             price,
             qty,
-            self.product_id.id,
-            self.order_id.partner_invoice_id.id,
+            product=self.product_id,
+            partner=self.order_id.partner_invoice_id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
             freight_value=self.freight_value,
