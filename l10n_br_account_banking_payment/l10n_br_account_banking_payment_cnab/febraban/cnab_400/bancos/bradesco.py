@@ -72,7 +72,7 @@ class Bradesco400(Cnab400):
             self.retorna_id_empr_benef()
         vals['digito_conferencia_numero_bancario'] = u'0'
         vals['condicao_emissao_papeleta'] = 1
-        vals['identificacao_operacao_banco'] = u""
+
         vals['indicador_rateio_credito'] = u""
         vals['identificacao_ocorrencia'] = 1
 
