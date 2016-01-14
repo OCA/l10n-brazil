@@ -108,6 +108,9 @@ class Cnab400(Cnab):
         return re.sub('[%s]' % re.escape(string.punctuation), '',
                       format or '')
 
+    def concatena_endereco(self):
+        pass
+
     def _prepare_segmento(self, line):
         """
         :param line:
@@ -150,7 +153,7 @@ class Cnab400(Cnab):
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
-            # 'numero_documento': line.name,
+            'numero_documento': (line.name),
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
@@ -173,7 +176,8 @@ class Cnab400(Cnab):
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
-                line.partner_id.street + ' ' + line.partner_id.number),
+                line.partner_id.street +
+                ' ' + str(line.partner_id.number) ),
             'sacado_bairro': line.partner_id.district,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
@@ -185,6 +189,8 @@ class Cnab400(Cnab):
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
+
+            'primeira_mensagem': u''
         }
 
     def remessa(self, order):
