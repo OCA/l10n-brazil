@@ -33,6 +33,11 @@
                             </tree>
                         </field>
 					</page>
+					<page string="Observações">
+						<group string="Observações Fiscais">
+							<field name="fiscal_comment" nolabel="1"/>
+						</group>
+					</page>
 				</page>
 				<field position="attributes" name="journal_id">
 					<attribute name="on_change">onchange_journal_id(journal_id, context)</attribute>
