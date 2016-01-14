@@ -77,6 +77,8 @@ class AccountInvoice(models.Model):
                               for tax in self.tax_line
                               if not tax.tax_code_id.tax_discount)
         self.amount_total = self.amount_tax + self.amount_untaxed
+        self.amount_total_gnre = sum(
+            line.gnre_value for line in self.invoice_line)
 
         for line in self.invoice_line:
             if line.icms_cst_id.code not in (
@@ -369,6 +371,11 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'), compute='_compute_amount')
     amount_total_taxes = fields.Float(
         string='Total de Tributos',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount')
+    amount_total_gnre = fields.Float(
+        string='Total de Tributos a recolher via GNRE',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
@@ -776,6 +783,11 @@ class AccountInvoiceLine(models.Model):
         string=u'Valor do ICMS Interestadual para a UF do remetente',
         digits=dp.get_precision('Account'),
         default=0.00)
+    gnre_value = fields.Float(
+        string=u'Valor do recolhimento via GNRE',
+        digits=dp.get_precision('Account'),
+        default=0.00
+    )
 
     def _amount_tax_icms(self, tax=None):
         result = {
@@ -957,8 +969,12 @@ class AccountInvoiceLine(models.Model):
 
         if self:
             partner = self.invoice_id.partner_id
-        else:
+        elif partner_id:
             partner = self.env['res.partner'].browse(partner_id)
+        else:
+            partner = self.env['account.invoice'].browse(
+                values.get('invoice_id')).partner_id
+
 
         taxes = self.env['account.tax'].browse(tax_ids)
         fiscal_position = self.env['account.fiscal.position'].browse(
@@ -990,6 +1006,7 @@ class AccountInvoiceLine(models.Model):
             freight_value=freight_value,
             other_costs_value=other_costs_value)
 
+        result['gnre_value'] = taxes_calculed['total_gnre']
         result['total_taxes'] = taxes_calculed['total_taxes']
 
         for tax in taxes_calculed['taxes']:

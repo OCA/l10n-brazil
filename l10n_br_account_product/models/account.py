@@ -339,8 +339,10 @@ class AccountTax(models.Model):
             result_icmsst['taxes'][0][
                 'icms_st_base_other'] = icms_st_base_other
 
-            if result_icmsst['taxes'][0]['percent']:
+            if result_icmsst['taxes'][0]['percent'] and not partner.has_gnre:
                 calculed_taxes += result_icmsst['taxes']
+            elif result_icmsst['taxes'][0]['percent']:
+                result['total_gnre'] = result_icmsst['taxes'][0]['amount']
 
         # Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
@@ -382,6 +384,7 @@ class AccountTax(models.Model):
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes,
             'total_taxes': result.get('total_taxes', 0.00),
+            'total_gnre': result.get('total_gnre', 0.00),
         }
 
     @api.v8

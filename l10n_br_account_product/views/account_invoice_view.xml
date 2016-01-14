@@ -15,6 +15,9 @@
 						</button>
 					</div>
 				</xpath>
+				<xpath expr="//field[@name='payment_term']" position="after">
+					<field name="amount_total_gnre"/>
+				</xpath>
 				<label for="comment" position="replace">
 				</label>
 				<field name="comment" position="replace">
@@ -164,6 +167,9 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+				<xpath expr="//field[@name='payment_term']" position="after">
+					<field name="amount_total_gnre"/>
+				</xpath>
 				<label for="comment" position="replace">
 				</label>
 				<field name="comment" position="replace">
@@ -365,6 +371,11 @@
 												<field name="icms_st_percent"/>
 												<field name="icms_st_mva"/>
 												<field name="icms_st_value"/>
+											</group>
+										</group>
+										<group string="GNRE">
+											<group>
+												<field name="gnre_value"/>
 											</group>
 										</group>
 									</page>
