@@ -42,21 +42,7 @@
                   parent="l10n_br_account.menu_l10n_br_account_configuration_fiscal"
                   action="action_guia_recolhimento_form"/>
 
-        <record id="view_guia_recolhimento_partner_form" model="ir.ui.view">
-			<field name="name">guia.recolhimento.partner.form</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="base.view_partner_form" />
-			<field name="arch" type="xml">
-				<notebook>
-					<page position="inside" string="Guia Recolhimento">
-                        <group>
-                            <field name="gerar_gnre" string="Gerar GNRE"/>
-                            <field name="prazo_gnre" string="Prazo em dias da GNRE"/>
-                        </group>
-					</page>
-				</notebook>
-			</field>
-        </record>
+
 
 		<record id="view_icmsst_account_invoice_form" model="ir.ui.view">
 			<field name="name">icmsst.account.invoice.form</field>

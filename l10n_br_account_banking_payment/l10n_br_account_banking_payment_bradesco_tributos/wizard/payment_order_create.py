@@ -111,196 +111,28 @@ class PaymentOrderCreate(models.TransientModel):
         return True
 
 
-class GnrePartner(models.Model):
-    _inherit = "res.partner"
-
-    gerar_gnre = fields.Boolean("Gera GNRE")
-    prazo_gnre = fields.Integer("Prazo de GNRE")
 
 
-class GuiaRecolhimento(models.Model):
-    _name = "guia.recolhimento"
+#
+#
+# class AccountInvoiceSeparetedTaxes(models.Model):
+#     _inherit = 'account.invoice'
+#
+#     icms_st_value_total = fields.Float(
+#         'Total de Subsituição Tributária antecipada em nome do cliente',
+#         digits=dp.get_precision('Account'), default=0.00)
+#     gerar_gnre = fields.Boolean("Gerar GNRE", related='partner_id.gerar_gnre',
+#                                 store=True)
 
-    codigo = fields.Char("Codigo de recolhimento")
-    descricao = fields.Text(u"Descrição")
-
-
-class AccountInvoiceSeparetedTaxes(models.Model):
-    _inherit = 'account.invoice'
-
-    icms_st_value_total = fields.Float(
-        'Total de Subsituição Tributária antecipada em nome do cliente',
-        digits=dp.get_precision('Account'), default=0.00)
-    gerar_gnre = fields.Boolean("Gerar GNRE", related='partner_id.gerar_gnre',
-                                store=True)
-
-    @api.multi
-    @api.depends('invoice_line', 'tax_line.amount')
-    def _compute_amount(self):
-        super(AccountInvoiceSeparetedTaxes, self)._compute_amount()
-
-        self.amount_total = self.amount_untaxed + \
-            self.amount_costs + self.amount_insurance + self.amount_freight
-
-        self.write({'icms_st_value_total': self.icms_st_value})
-
-class AccountInvoiceProductIcmsst(models.Model):
-    _inherit = 'account.invoice.line'
-
-class AccountInvoiceTaxes(models.Model):
-    _inherit = 'account.tax'
-
-    @api.v7
-    def compute_all(self, cr, uid, taxes, price_unit, quantity,
-                    product=None, partner=None, force_excluded=False,
-                    fiscal_position=False, insurance_value=0.0,
-                    freight_value=0.0, other_costs_value=0.0, base_tax=0.0):
-
-        obj_precision = self.pool.get('decimal.precision')
-        precision = obj_precision.precision_get(cr, uid, 'Account')
-        result = super(AccountInvoiceTaxes, self).compute_all(cr, uid, taxes,
-                                                              price_unit,
-                                                              quantity, product,
-                                                              partner,
-                                                              force_excluded)
-        totaldc = icms_value = 0.0
-        ipi_value = 0.0
-        calculed_taxes = []
-
-        for tax in result['taxes']:
-            tax_list = [tx for tx in taxes if tx.id == tax['id']]
-            if tax_list:
-                tax_brw = tax_list[0]
-            tax['domain'] = tax_brw.domain
-            tax['type'] = tax_brw.type
-            tax['percent'] = tax_brw.amount
-            tax['base_reduction'] = tax_brw.base_reduction
-            tax['amount_mva'] = tax_brw.amount_mva
-            tax['tax_discount'] = tax_brw.base_code_id.tax_discount
-
-            if tax.get('domain') == 'icms':
-                tax['icms_base_type'] = tax_brw.icms_base_type
-
-            if tax.get('domain') == 'icmsst':
-                tax['icms_st_base_type'] = tax_brw.icms_st_base_type
-
-        common_taxes = [tx for tx in result['taxes'] if tx[
-            'domain'] not in ['icms', 'icmsst', 'ipi']]
-        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
-                                       product, quantity, precision, base_tax)
-        totaldc += result_tax['tax_discount']
-        calculed_taxes += result_tax['taxes']
-
-        # Calcula o IPI
-        specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
-                                       product, quantity, precision, base_tax)
-        totaldc += result_ipi['tax_discount']
-        calculed_taxes += result_ipi['taxes']
-        for ipi in result_ipi['taxes']:
-            ipi_value += ipi['amount']
-
-        # Calcula ICMS
-        specific_icms = [tx for tx in result['taxes']
-                         if tx['domain'] == 'icms']
-        if fiscal_position and fiscal_position.asset_operation:
-            total_base = result['total'] + insurance_value + \
-                freight_value + other_costs_value + ipi_value
-        else:
-            total_base = result['total'] + insurance_value + \
-                freight_value + other_costs_value
-
-        result_icms = self._compute_tax(
-            cr,
-            uid,
-            specific_icms,
-            total_base,
-            product,
-            quantity,
-            precision,
-            base_tax)
-        totaldc += result_icms['tax_discount']
-        calculed_taxes += result_icms['taxes']
-        if result_icms['taxes']:
-            icms_value = result_icms['taxes'][0]['amount']
-
-        # Calcula ICMS ST
-        specific_icmsst = [tx for tx in result['taxes']
-                           if tx['domain'] == 'icmsst']
-        result_icmsst = self._compute_tax(cr, uid, specific_icmsst,
-                                          result['total'], product,
-                                          quantity, precision, base_tax)
-        totaldc += result_icmsst['tax_discount']
-        if result_icmsst['taxes']:
-            icms_st_percent = result_icmsst['taxes'][0]['percent']
-            icms_st_percent_reduction = result_icmsst[
-                'taxes'][0]['base_reduction']
-            icms_st_base = round(((result['total'] + ipi_value) *
-                                 (1 - icms_st_percent_reduction)) *
-                                 (1 + result_icmsst['taxes'][0]['amount_mva']),
-                                 precision)
-            icms_st_base_other = round(
-                ((result['total'] + ipi_value) * (
-                    1 + result_icmsst['taxes'][0]['amount_mva'])),
-                precision) - icms_st_base
-            result_icmsst['taxes'][0]['total_base'] = icms_st_base
-            result_icmsst['taxes'][0]['amount'] = round(
-                (icms_st_base * icms_st_percent) - icms_value, precision)
-            result_icmsst['taxes'][0]['icms_st_percent'] = icms_st_percent
-            result_icmsst['taxes'][0][
-                'icms_st_percent_reduction'] = icms_st_percent_reduction
-            result_icmsst['taxes'][0][
-                'icms_st_base_other'] = icms_st_base_other
-
-            if result_icmsst['taxes'][0]['percent'] and not partner.gerar_gnre:
-                calculed_taxes += result_icmsst['taxes']
-            elif result_icmsst['taxes'][0]['percent']:
-                result['total_st'] = result_icmsst['taxes']
-
-        # Estimate Taxes
-        if fiscal_position and fiscal_position.asset_operation:
-            obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
-            date = datetime.now().strftime('%Y-%m-%d')
-            tax_estimate_ids = obj_tax_estimate.search(
-                cr, uid, [('fiscal_classification_id', '=',
-                           product.fiscal_classification_id.id),
-                          '|', ('date_start', '=', False),
-                          ('date_start', '<=', date),
-                          '|', ('date_end', '=', False),
-                          ('date_end', '>=', date),
-                          ('active', '=', True)])
-
-            if tax_estimate_ids:
-                tax_estimate = obj_tax_estimate.browse(
-                    cr, uid, tax_estimate_ids)[0]
-                tax_estimate_percent = 0.00
-                if product.origin in ('1', '2', '6', '7'):
-                    tax_estimate_percent += tax_estimate.federal_taxes_import
-                else:
-                    tax_estimate_percent += tax_estimate.federal_taxes_national
-
-                tax_estimate_percent += tax_estimate.state_taxes
-                tax_estimate_percent /= 100
-                total_taxes = ((result['total_included'] - totaldc) *
-                               tax_estimate_percent)
-                result['total_taxes'] = round(total_taxes, precision)
-
-        return {
-            'total': result['total'],
-            'total_included': result.get('total_included', 0.00),
-            'total_tax_discount': totaldc,
-            'taxes': calculed_taxes,
-            'total_taxes': result.get('total_taxes', 0.00),
-        }
-
-    @api.v8
-    def compute_all(self, price_unit, quantity, product=None, partner=None,
-                    force_excluded=False, fiscal_position=False,
-                    insurance_value=0.0, freight_value=0.0,
-                    other_costs_value=0.0, base_tax=0.00):
-        return self._model.compute_all(
-            self._cr, self._uid, self, price_unit, quantity,
-            product=product, partner=partner, force_excluded=force_excluded,
-            fiscal_position=fiscal_position, insurance_value=insurance_value,
-            freight_value=freight_value, other_costs_value=other_costs_value,
-            base_tax=base_tax)
+#     @api.multi
+#     @api.depends('invoice_line', 'tax_line.amount')
+#     def _compute_amount(self):
+#         super(AccountInvoiceSeparetedTaxes, self)._compute_amount()
+#
+#         self.amount_total = self.amount_untaxed + \
+#             self.amount_costs + self.amount_insurance + self.amount_freight
+#
+#         self.write({'icms_st_value_total': self.icms_st_value})
+#
+# class AccountInvoiceProductIcmsst(models.Model):
+#     _inherit = 'account.invoice.line'
