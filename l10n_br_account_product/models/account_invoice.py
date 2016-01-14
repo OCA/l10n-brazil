@@ -992,7 +992,7 @@ class AccountInvoiceLine(models.Model):
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
-            price, quantity, product, partner,
+            price, quantity, product=product, partner=partner,
             fiscal_position=fiscal_position,
             insurance_value=insurance_value,
             freight_value=freight_value,
@@ -1352,7 +1352,8 @@ class AccountInvoiceTax(models.Model):
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
-                line.quantity, line.product_id, invoice.partner_id,
+                line.quantity, product=line.product_id,
+                partner=invoice.partner_id,
                 fiscal_position=line.fiscal_position,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
