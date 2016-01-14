@@ -272,7 +272,8 @@ class AccountTax(models.Model):
                     other_costs_value=0.0, base_tax=0.00):
         return self._model.compute_all(
             self._cr, self._uid, self, price_unit, quantity,
-            product=product, partner=partner, force_excluded=force_excluded,
+            product=product, partner=partner,
+            force_excluded=force_excluded,
             fiscal_position=fiscal_position, insurance_value=insurance_value,
             freight_value=freight_value, other_costs_value=other_costs_value,
             base_tax=base_tax)
