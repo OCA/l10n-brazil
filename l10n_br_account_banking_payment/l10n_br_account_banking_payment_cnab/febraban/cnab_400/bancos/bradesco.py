@@ -34,6 +34,7 @@ class Bradesco400(Cnab400):
         super(Cnab400, self).__init__()
         from cnab240.bancos import bradesco_cobranca_400
         self.bank = bradesco_cobranca_400
+        self.controle_linha = 2
 
     def _prepare_header(self):
         """
@@ -75,6 +76,7 @@ class Bradesco400(Cnab400):
 
         vals['indicador_rateio_credito'] = u""
         vals['identificacao_ocorrencia'] = 1
+        self.controle_linha += 1
 
         return vals
 

@@ -108,8 +108,8 @@ class Cnab400(Cnab):
         return re.sub('[%s]' % re.escape(string.punctuation), '',
                       format or '')
 
-    def concatena_endereco(self):
-        pass
+    def codificar(self, texto):
+        return texto.encode('utf-8')
 
     def _prepare_segmento(self, line):
         """
@@ -121,6 +121,21 @@ class Cnab400(Cnab):
         aceite = u'N'
         if not self.order.mode.boleto_aceite == 'S':
             aceite = u'A'
+
+        codigo_protesto = 0
+        dias_protestar = 0
+        if self.order.mode.boleto_protesto == '3' \
+                or self.order.mode.boleto_protesto == '0':
+            codigo_protesto = 0
+            dias_protestar = 0
+        elif self.order.mode.boleto_protesto == '1' \
+                or self.order.mode.boleto_protesto == '2':
+            codigo_protesto = 6
+            if (int(self.order.mode.boleto_protesto_prazo)) < 5:
+                dias_protestar = 5
+            else:
+                dias_protestar = int(self.order.mode.boleto_protesto_prazo)
+
 
         # Código agencia do cedente
         # cedente_agencia = cedente_agencia
@@ -142,6 +157,12 @@ class Cnab400(Cnab):
             'percentual_multa': Decimal('0.00'),
             'valor_desconto': Decimal('0.00'),
             'valor_abatimento_concedido_cancelado': Decimal('0.00'),
+            'primeira_instrucao': codigo_protesto,
+            'segunda_instrucao': dias_protestar,
+            'sacado_cep': int(prefixo),
+            'sacado_cep_sufixo': int(sulfixo),
+            'sacador_avalista': line.communication,
+            'num_seq_registro': self.controle_linha,
 
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
@@ -177,20 +198,19 @@ class Cnab400(Cnab):
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
                 line.partner_id.street +
-                ' ' + str(line.partner_id.number) ),
+                ' ' + str(line.partner_id.number)
+            ),
+
             'sacado_bairro': line.partner_id.district,
-            'sacado_cep': int(prefixo),
-            'sacado_cep_sufixo': int(sulfixo),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
-            'codigo_protesto': int(self.order.mode.boleto_protesto),
-            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
 
             'primeira_mensagem': u''
+
         }
 
     def remessa(self, order):
@@ -205,7 +225,7 @@ class Cnab400(Cnab):
         self.arquivo = ArquivoCobranca400(self.bank, **self._prepare_header())
         for line in order.line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
-            # self.arquivo.lotes[0].header.servico_servico = 1
+            self.arquivo.trailer.num_seq_registro = self.controle_linha
 
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
