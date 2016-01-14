@@ -2,6 +2,7 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2015  Luis Felipe Miléo - KMEE                                #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -374,4 +375,13 @@ class L10nBrIPIGuideline(models.Model):
         'account.tax.code.template', string=u'CST Entrada')
     tax_code_out_id = fields.Many2one(
         'account.tax.code.template', string=u'CST Saída')
+
+
+class L10nBrTaxGnre(models.Model):
+
+    _name = 'l10n_br_tax.gnre'
+    _description = 'Guia de Recolhimento'
+
+    code = fields.Char(u'Código', required=True)
+    name = fields.Text(u'Descrição', required=True)
 

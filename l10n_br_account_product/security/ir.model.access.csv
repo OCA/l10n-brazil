@@ -34,3 +34,6 @@
 "l10n_br_tax_fcp_manager","access_l10n_br_tax_fcp","model_l10n_br_tax_fcp","account.group_account_manager",1,1,1,1
 "l10n_br_tax_fcp_invoice_invoice","access_l10n_br_tax_fcp","model_l10n_br_tax_fcp","account.group_account_invoice",1,1,1,0
 "l10n_br_tax_fcp_user","access_l10n_br_tax_fcp","model_l10n_br_tax_fcp","account.group_account_user",1,0,0,0
+"l10n_br_tax_gnre_manager","access_l10n_br_tax_gnre","model_l10n_br_tax_gnre","account.group_account_manager",1,1,1,1
+"l10n_br_tax_gnre_invoice_invoice","access_l10n_br_tax_gnre","model_l10n_br_tax_gnre","account.group_account_invoice",1,1,1,0
+"l10n_br_tax_gnre_user","access_l10n_br_tax_gnre","model_l10n_br_tax_gnre","account.group_account_user",1,0,0,0

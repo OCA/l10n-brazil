@@ -215,3 +215,15 @@ class AccountFiscalPositionTax(models.Model):
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
         'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    has_gnre = fields.Boolean(
+        string=u"Recolhe imposto antecipadamente atraves de GNRE")
+    gnre_id = fields.Many2one(
+        'l10n_br_tax.gnre',
+        string=u'Código de recolhimento')
+    gnre_due_days = fields.Integer(
+        string="Dias para vencimento duplicata cobrança")
