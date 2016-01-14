@@ -223,10 +223,9 @@ class PagFor500(Cnab):
         for line in order.line_ids:
             self.arquivo.incluir_pagamento(**self._prepare_segmento(line))
             pag_valor_titulos += line.amount_currency
-            self.arquivo.trailer.total_valor_arq = \
-                Decimal(pag_valor_titulos).quantize(Decimal('1.00'))
+            self.arquivo.trailer.total_valor_arq = Decimal(
+                pag_valor_titulos).quantize(Decimal('1.00'))
             self.arquivo.trailer.sequencial_transacao = self.controle_linha
-
 
             cont_lote += 1
         remessa = unicode(self.arquivo)
