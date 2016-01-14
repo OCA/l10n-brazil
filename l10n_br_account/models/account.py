@@ -102,8 +102,8 @@ class AccountTax(models.Model):
         precision = obj_precision.precision_get(cr, uid, 'Account')
         result = super(
             AccountTax, self).compute_all(
-            cr, uid, taxes, price_unit, quantity, product,
-            partner, force_excluded)
+            cr, uid, taxes, price_unit, quantity, product=product,
+            partner=partner, force_excluded=force_excluded)
         totaldc = 0.0
         calculed_taxes = []
 
