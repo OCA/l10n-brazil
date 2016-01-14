@@ -306,6 +306,13 @@ class AccountInvoice(models.Model):
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
+    
+    @api.model
+    #set price_total in move line instead of subtotal
+    def move_line_get_item(self, line):
+        result = super(AccountInvoiceLine,self).move_line_get_item(line)
+        result['price'] = line.price_total
+        return result
 
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_id',

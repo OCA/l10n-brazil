@@ -34,6 +34,19 @@ class AccountTaxComputation(models.Model):
 
 class AccountTax(models.Model):
     _inherit = 'account.tax'
+    
+    account_deduced_id = fields.Many2one('account.account', string='Tax Account for Deduction')
+    account_paid_deduced_id = fields.Many2one('account.account', string='Tax Refund Account for Deduction')
+
+    @api.model
+    def _unit_compute(self, taxes, price_unit, product=None, partner=None, quantity=0):
+        data = super(AccountTax, self)._unit_compute(taxes, price_unit, product, partner, quantity)
+        for dict in data:
+            if 'id' in dict:
+                tax = self.browse(dict['id'])
+                if tax:
+                    dict.update({'account_deduced_id':tax.account_deduced_id and tax.account_deduced_id.id or False, 'account_paid_deduced_id' : tax.account_paid_deduced_id and tax.account_paid_deduced_id.id or False})
+        return data
 
     def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
                      precision):
