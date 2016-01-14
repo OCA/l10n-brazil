@@ -502,17 +502,16 @@ class AccountInvoiceTax(models.Model):
             (invoice_id,)
         )
         for row in self._cr.dictfetchall():
-            if not (row['amount'] or row['tax_code_id'] or row['tax_amount']):
-                continue
-            res.append({
-                'type': 'tax',
-                'name': row['name'],
-                'price_unit': row['amount'],
-                'quantity': 1,
-                'price': -row['amount'] or 0.0,
-                'account_id': row['deduction_account_id'],
-                'tax_code_id': False,
-                'tax_amount': False,
-                'account_analytic_id': row['account_analytic_id'],
-            })
+            if row['amount'] and row['tax_code_id'] and row['tax_amount'] and row['deduction_account_id']:
+                res.append({
+                    'type': 'tax',
+                    'name': row['name'],
+                    'price_unit': row['amount'],
+                    'quantity': 1,
+                    'price': -row['amount'] or 0.0,
+                    'account_id': row['deduction_account_id'],
+                    'tax_code_id': False,
+                    'tax_amount': False,
+                    'account_analytic_id': row['account_analytic_id'],
+                })
         return res
