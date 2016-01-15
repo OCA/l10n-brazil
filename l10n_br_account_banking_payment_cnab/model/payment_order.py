@@ -30,7 +30,7 @@ class PaymentOrder(models.Model):
     # TODO adicionar domain para permitir o modo de pagamento correspondente
     # ao mode
     serie_id = fields.Many2one(
-        'l10n_br_cnab_sequence', u'Sequencia interna')
+        'l10n_br_cnab.sequence', u'Sequencia interna')
 
     def get_next_number(self, cr, uid, ids, context=None):
         if context is None:
