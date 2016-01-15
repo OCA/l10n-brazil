@@ -33,3 +33,12 @@ class ResPartnerBank(models.Model):
         u'Código da empresa', size=20,
         help=u"Será informado pelo banco depois do cadastro do beneficiário "
              u"na agência")
+    tipo_de_conta = fields.Selection(
+        [('01', u'Conta corrente individual'),
+         ('02', u'Conta poupança individual'),
+         ('03', u'Conta depósito judicial/Depósito em consignação individual'),
+         ('11', u'Conta corrente conjunta'),
+         ('12', u'Conta poupança conjunta'),
+         ('13', u'Conta depósito judicial/Depósito em consignação conjunta'),],
+            u'Tipo de Conta'
+    )
