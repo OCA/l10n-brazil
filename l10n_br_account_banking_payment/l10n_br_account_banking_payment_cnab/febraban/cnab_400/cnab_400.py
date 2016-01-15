@@ -77,6 +77,7 @@ class Cnab400(Cnab):
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+            'codigo_empresa': int(self.order.mode.boleto_convenio),
         }
 
     def get_file_numeration(self):
