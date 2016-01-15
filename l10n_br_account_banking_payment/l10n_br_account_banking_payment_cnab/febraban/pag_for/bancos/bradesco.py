@@ -40,7 +40,7 @@ class BradescoPagFor(PagFor500):
         :return:
         """
         vals = super(BradescoPagFor, self)._prepare_header()
-        vals['codigo_comunicacao'] = self.order.mode.bank_id.codigo_da_empresa
+        vals['codigo_comunicacao'] = self.order.mode.bank_id.boleto_convenio
         return vals
 
     def _prepare_segmento(self, line):
