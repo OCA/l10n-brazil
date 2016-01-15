@@ -40,5 +40,5 @@ class ResPartnerBank(models.Model):
          ('11', u'Conta corrente conjunta'),
          ('12', u'Conta poupança conjunta'),
          ('13', u'Conta depósito judicial/Depósito em consignação conjunta'),],
-            u'Tipo de Conta'
+            u'Tipo de Conta', default='01'
     )
