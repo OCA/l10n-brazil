@@ -10,6 +10,10 @@
 			<field name="priority" eval="15"/>
             <field name="arch" type="xml">
                 <data>
+                    <field name="state" position="after">
+                        <field name="tipo_de_conta"/>
+				    </field>
+
                     <field name="bra_number_dig" position="after">
                         <field name="bra_acc_dig"/>
                         <field name="codigo_da_empresa"/>

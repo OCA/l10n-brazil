@@ -5,7 +5,7 @@
 
         <record id="l10n_br_cnab_sequence_form_view" model="ir.ui.view">
             <field name="name">l10n_br_cnab_sequence.form.view</field>
-            <field name="model">l10n_br_cnab_sequence</field>
+            <field name="model">l10n_br_cnab.sequence</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <form>
@@ -23,7 +23,7 @@
 
         <record id="l10n_br_cnab_sequence_tree_view" model="ir.ui.view">
             <field name="name">l10n_br_cnab_sequence.tree.view</field>
-            <field name="model">l10n_br_cnab_sequence</field>
+            <field name="model">l10n_br_cnab.sequence</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree>
@@ -34,7 +34,7 @@
 
         <act_window id="action_l10n_br_cnab_sequence_form"
                     name="Sequencias CNAB"
-                    res_model="l10n_br_cnab_sequence"
+                    res_model="l10n_br_cnab.sequence"
                     view_mode="tree,form"/>
 
         <menuitem id="menu_cnab_sequence"
