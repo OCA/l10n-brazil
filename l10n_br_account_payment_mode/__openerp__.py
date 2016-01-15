@@ -22,7 +22,7 @@
 
 
 {
-    'name': 'Odoo Brazil Account Payment Mode',
+    'name': 'Odoo Brazil Account Banking Payment Infrastructure',
     'version': '0.1',
     'category': 'Banking addons',
     'license': 'AGPL-3',
@@ -33,11 +33,9 @@
     'depends': [
         'l10n_br_account',
         'l10n_br_data_base',
-        'account_payment_partner',
-        'account_due_list',
+        'account_due_list_payment_mode',
     ],
     'data': [
-        'views/payment_view.xml',
         'views/payment_mode_view.xml',
     ],
     'demo': [
