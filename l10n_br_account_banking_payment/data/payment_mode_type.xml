@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--&lt;!&ndash; Add manual bank transfer as default payment option &ndash;&gt;-->
+        <!--<record model="payment.mode.type" id="manual_bank_tranfer">-->
+            <!--<field name="name">Pagamento/Transferência Manual</field>-->
+            <!--<field name="code">BANKMAN</field>-->
+            <!--<field name="suitable_bank_types"-->
+                <!--eval="[(6,0,[ref('base.bank_normal')])]" />-->
+            <!--<field name="ir_model_id"-->
+                   <!--ref="model_payment_manual"/>-->
+            <!--<field name="payment_order_type">payment</field>-->
+        <!--</record>-->
+    </data>
+</openerp>
