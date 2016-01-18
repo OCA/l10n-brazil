@@ -257,7 +257,7 @@ class PagFor500(Cnab):
             'especie_titulo': 8,
             # TODO: Código adotado para identificar o título de cobrança. 8
             # é Nota de cŕedito comercial
-            'aceite_titulo': aceite,
+
             'tipo_inscricao': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'cnpj_cpf_base_forn': int(
@@ -270,19 +270,15 @@ class PagFor500(Cnab):
             'endereco_forn': (
                 line.partner_id.street + ' ' + line.partner_id.number),
             'cep_complemento_forn': int(sulfixo),
-            # TODO: código do banco. Para a Modalidade de Pagamento valor
-            # pode variar
-            'codigo_banco_forn': 237,
-            'codigo_agencia_forn': int(self.order.mode.bank_id.bra_number),
-            'digito_agencia_forn': self.order.mode.bank_id.bra_number_dig,
-            'conta_corrente_forn': int(self.order.mode.bank_id.acc_number),
-            'digito_conta_forn': self.order.mode.bank_id.acc_number_dig,
-            # TODO Gerado pelo cliente pagador quando do agendamento de
-            # pagamento por parte desse, exceto para a modalidade 30 -
-            # Títulos em Cobrança Bradesco
-            'numero_pagamento': int(line.move_line_id.move_id.name),
+
+            # FIXME block: não esqueça de adicionar nas outras modalidades
+            'digito_agencia_forn_transacao': 0,
+            'digito_conta_forn_transacao': 0,
+            # FIXME block
+
+
             'carteira': int(self.order.mode.boleto_carteira),
-            'nosso_numero': 11,
+            'nosso_numero': 11,  # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date_ano_mes_dia(
                 line.ml_maturity_date),
@@ -296,7 +292,7 @@ class PagFor500(Cnab):
                 Decimal('1.00')),
             'valor_desconto': Decimal('0.00'),
             'valor_acrescimo': Decimal('0.00'),
-            'tipo_documento': 2,
+            'tipo_documento': 2, # NF, Fatura, Duplicata...
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
             'numero_nf': int(line.ml_inv_ref.internal_number),
             # 'serie_documento': u'AB',
@@ -345,7 +341,7 @@ class PagFor500(Cnab):
         cont_lote = 0
 
         for line in order.line_ids:
-            self.arquivo.incluir_pagamento(**self._prepare_segmento(line))
+            self.arquivo.incluir_pagamento(**self.incluir_pagamento_for(line))
             pag_valor_titulos += line.amount_currency
             self.arquivo.trailer.total_valor_arq = Decimal(
                 pag_valor_titulos).quantize(Decimal('1.00'))
@@ -369,7 +365,7 @@ class PagFor500(Cnab):
     def modulo11(num, base, r):
         return BoletoData.modulo11(num, base=9, r=0)
 
-    def incluir_pagamento(self, line):
+    def incluir_pagamento_for(self, line):
         mode = line.order_id.mode.type_purchase_payment
         if mode in ('01'):
             return self.lancamento_credito_bradesco(line)
@@ -391,56 +387,36 @@ class PagFor500(Cnab):
     def lancamento_ted(self, line):
         # TODO:
 
-
         vals =  {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
             'especie_titulo': line.order_id.mode.type_purchase_payment,
-            # TODO: Código adotado para identificar o título de cobrança. 8
-            # é Nota de cŕedito comercial
-            'aceite_titulo': aceite,
-            'tipo_inscricao': int(
-                self.sacado_inscricao_tipo(line.partner_id)),
-            'cnpj_cpf_base_forn': int(
-                self.rmchar(line.partner_id.cnpj_cpf)[0:8]),
-            'cnpj_cpf_filial_forn': int(
-                self.rmchar(line.partner_id.cnpj_cpf)[9:12]),
-            'cnpj_cpf_forn_sufixo': int(
-                self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
-            'nome_forn': line.partner_id.legal_name,
-            'endereco_forn': (
-                line.partner_id.street + ' ' + line.partner_id.number),
-            'cep_complemento_forn': int(sulfixo),
+
+
             # TODO: código do banco. Para a Modalidade de Pagamento valor
             # pode variar
-            'codigo_banco_forn': 237,
-            'codigo_agencia_forn': int(self.order.mode.bank_id.bra_number),
-            'digito_agencia_forn': self.order.mode.bank_id.bra_number_dig,
-            'conta_corrente_forn': int(self.order.mode.bank_id.acc_number),
-            'digito_conta_forn': self.order.mode.bank_id.acc_number_dig,
+            'codigo_banco_forn': int(line.bank_id.bank.bic),
+            'codigo_agencia_forn': int(line.bank_id.bra_number),
+            'digito_agencia_forn_transacao': line.bank_id.bra_number_dig,
+            'conta_corrente_forn': int(line.bank_id.acc_number),
+            'digito_conta_forn_transacao': line.bank_id.acc_number_dig,
             # TODO Gerado pelo cliente pagador quando do agendamento de
             # pagamento por parte desse, exceto para a modalidade 30 -
             # Títulos em Cobrança Bradesco
+            # communication
             'numero_pagamento': int(line.move_line_id.move_id.name),
+
             'carteira': int(self.order.mode.boleto_carteira),
-            'nosso_numero': 11,
+
+
+            'nosso_numero': 11, # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
             'numero_documento': line.name,
-            'vencimento_titulo': self.format_date_ano_mes_dia(
-                line.ml_maturity_date),
-            'data_emissao_titulo': self.format_date_ano_mes_dia(
-                line.ml_date_created),
-            'desconto1_data': 0,
+
+
             'fator_vencimento': 0,  # FIXME
-            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00')),
-            'valor_pagto': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00')),
-            'valor_desconto': Decimal('0.00'),
-            'valor_acrescimo': Decimal('0.00'),
-            'tipo_documento': 2,
-            # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
-            'numero_nf': int(line.ml_inv_ref.internal_number),
-            # 'serie_documento': u'AB',
+
             'modalidade_pagamento': int(self.order.mode.boleto_especie),
+
+
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
             # 0 - Inclusão.
@@ -451,21 +427,6 @@ class PagFor500(Cnab):
             'codigo_area_empresa': 0,
             'codigo_lancamento': 0,  # FIXME
             'tipo_conta_fornecedor': 1,  # FIXME
-            # O Primeiro registro de transação sempre será o registro
-            # “000002”, e assim sucessivamente.
-            'sequencial': 3,  # FIXME
-
-            # Trailer
-            'totais_quantidade_registros': 0,
-            'total_valor_arq': Decimal('0.00'),
-            # FIXME: lib nao reconhece campo
-            'sequencial_trailer': int(self.get_file_numeration()),
-            'sequencial_transacao': self.controle_linha,
-            'codigo_protesto': int(self.order.mode.boleto_protesto),
-            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
-            'codigo_baixa': 2,
-            'prazo_baixa': 0,  # De 5 a 120 dias.
-            'controlecob_data_gravacao': self.data_hoje(),
 
         }
 
