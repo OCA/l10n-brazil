@@ -214,6 +214,10 @@ class PagFor500(Cnab):
         return int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
 
+    def format_date_ano_mes_dia(self, srt_date):
+        return int(datetime.datetime.strptime(
+            srt_date, '%Y-%m-%d').strftime('%Y%m%d'))
+
     def nosso_numero(self, format):
         pass
 
@@ -246,6 +250,7 @@ class PagFor500(Cnab):
             aceite = u'A'
 
         return {
+            'conta_complementar': int(self.order.mode.bank_id.acc_number),
             'especie_titulo': 8,
             # TODO: Código adotado para identificar o título de cobrança. 8
             # é Nota de cŕedito comercial
@@ -256,7 +261,7 @@ class PagFor500(Cnab):
                 self.rmchar(line.partner_id.cnpj_cpf)[0:8]),
             'cnpj_cpf_filial_forn': int(
                 self.rmchar(line.partner_id.cnpj_cpf)[9:12]),
-            'controle_cnpj_cpf_forn': int(
+            'cnpj_cpf_forn_sufixo': int(
                 self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
@@ -276,9 +281,9 @@ class PagFor500(Cnab):
             'carteira': int(self.order.mode.boleto_carteira),
             'nosso_numero': 11,
             'numero_documento': line.name,
-            'vencimento_titulo': self.format_date(
+            'vencimento_titulo': self.format_date_ano_mes_dia(
                 line.ml_maturity_date),
-            'data_emissao_titulo': self.format_date(
+            'data_emissao_titulo': self.format_date_ano_mes_dia(
                 line.ml_date_created),
             'desconto1_data': 0,
             'fator_vencimento': 0,  # FIXME
