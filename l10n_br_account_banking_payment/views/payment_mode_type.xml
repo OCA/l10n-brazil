@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--<record id="view_payment_mode_tree_inherit" model="ir.ui.view">-->
+            <!--<field name="name">payment.mode.tree.inherit</field>-->
+            <!--<field name="model">payment.mode</field>-->
+            <!--<field name="inherit_id" ref="account_payment.view_payment_mode_tree"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="company_id" position="after">-->
+                    <!--<field name="type"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--&lt;!&ndash; basic view for payment mode type &ndash;&gt;-->
+        <!--<record model="ir.ui.view" id="view_payment_mode_type_form">-->
+            <!--<field name="name">view.payment.mode.type.form</field>-->
+            <!--<field name="model">payment.mode.type</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form string="Payment Type" version="7.0">-->
+                    <!--<group name="main">-->
+                        <!--<group>-->
+                            <!--<field name="name"/>-->
+                            <!--<field name="ir_model_id"/>-->
+                        <!--</group>-->
+                        <!--<group>-->
+                            <!--<field name="code"/>-->
+                            <!--<field name="active"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
+                    <!--<group string="Suitable bank types">-->
+                        <!--<field name="suitable_bank_types"-->
+                               <!--nolabel="1"/>-->
+                    <!--</group>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_payment_mode_type_tree" model="ir.ui.view">-->
+            <!--<field name="name">view.payment.mode.type.tree</field>-->
+            <!--<field name="model">payment.mode.type</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree string="Payment Types">-->
+                    <!--<field name="name"/>-->
+                    <!--<field name="code"/>-->
+                    <!--<field name="active"/>-->
+                    <!--<field name="ir_model_id"/>-->
+                <!--</tree>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="action_payment_mode_type" model="ir.actions.act_window">-->
+            <!--<field name="name">Payment Export Types</field>-->
+            <!--<field name="res_model">payment.mode.type</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="context">{'active_test': False}</field>-->
+        <!--</record>-->
+
+        <!--<menuitem id="menu_payment_mode_type"-->
+            <!--action="action_payment_mode_type"-->
+            <!--parent="account.menu_configuration_misc" />-->
+
+    </data>
+</openerp>

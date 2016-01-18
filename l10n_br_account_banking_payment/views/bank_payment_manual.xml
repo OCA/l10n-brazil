@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--<record id="view_payment_manual_form" model="ir.ui.view">-->
+            <!--<field name="name">Form for manual payment wizard</field>-->
+            <!--<field name="model">payment.manual</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form string="Manual payment" version="7.0">-->
+                    <!--<label string="Please execute payment order manually, and click OK when succesfully sent."/>-->
+                    <!--<footer>-->
+	                    <!--<button name="button_ok" type="object" string="OK" class="oe_highlight"/>-->
+	                    <!--<button special="cancel" string="Cancel" class="oe_link"/>-->
+                    <!--</footer>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+    </data>
+</openerp>
