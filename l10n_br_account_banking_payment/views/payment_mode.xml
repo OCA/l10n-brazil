@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+             Add the payment mode type settings
+        -->
+        <!--<record id="view_payment_mode_form_inherit" model="ir.ui.view">-->
+            <!--<field name="name">payment.mode.form.inherit</field>-->
+            <!--<field name="model">payment.mode</field>-->
+            <!--<field name="inherit_id" ref="account_payment.view_payment_mode_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="company_id" position="after">-->
+                    <!--<field name="active"/>-->
+                    <!--<field name="type"/>-->
+                    <!--<field name="purchase_ok"/>-->
+                    <!--<field name="sale_ok"/>-->
+                <!--</field>-->
+                <!--<form position="inside">-->
+                    <!--<group string="Note" col="4">-->
+                        <!--<field name="note" nolabel="1"/>-->
+                    <!--</group>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+
+    </data>
+</openerp>
