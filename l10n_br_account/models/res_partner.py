@@ -146,7 +146,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
     tax_code_src_id = fields.Many2one(
         'account.tax.code.template', string=u'Código Taxa Origem')
     tax_src_domain = fields.Char(
-        related='tax_src_id.domain', string='Tax Domain')
+        compute="compute_tax_src_id", string="Domain")
     tax_code_dest_id = fields.Many2one(
         'account.tax.code.template', string='Replacement Tax Code')
 
@@ -159,8 +159,9 @@ class AccountFiscalPositionTaxTemplate(models.Model):
             tax_domain = tax_code_src_id.domain
         return tax_domain
 
-    @api.onchange('tax_src_id', 'tax_code_src_id')
-    def onchange_tax_src_id(self):
+    @api.one
+    @api.depends('tax_src_id', 'tax_code_src_id')
+    def compute_tax_src_id(self):
         if self.tax_code_src_id or self.tax_src_id:
             self.tax_src_domain = self._tax_domain(
                 self.tax_src_id,
@@ -285,7 +286,8 @@ class AccountFiscalPositionTax(models.Model):
         'account.tax', string='Tax Source', required=False)
     tax_code_src_id = fields.Many2one(
         'account.tax.code', u'Código Taxa Origem')
-    tax_src_domain = fields.Char(related='tax_src_id.domain')
+    tax_src_domain = fields.Char(
+        compute="compute_tax_src_id", string="Domain")
     tax_code_dest_id = fields.Many2one(
         'account.tax.code', 'Replacement Tax Code')
 
@@ -298,8 +300,9 @@ class AccountFiscalPositionTax(models.Model):
             tax_domain = tax_code_src_id.domain
         return tax_domain
 
-    @api.onchange('tax_src_id', 'tax_code_src_id')
-    def onchange_tax_src_id(self):
+    @api.one
+    @api.depends('tax_src_id', 'tax_code_src_id')
+    def compute_tax_src_id(self):
         if self.tax_code_src_id or self.tax_src_id:
             self.tax_src_domain = self._tax_domain(
                 self.tax_src_id,
