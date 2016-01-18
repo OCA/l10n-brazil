@@ -30,7 +30,7 @@ import re
 import string
 import unicodedata
 import time
-
+from openerp.exceptions import Warning as UserError
 
 TIPO_CONTA_FORNECEDOR = [
     ('1', u'Conta corrente'),
@@ -236,12 +236,15 @@ class PagFor500(Cnab):
     def rmchar(self, format):
         return re.sub('[%s]' % re.escape(string.punctuation), '', format or '')
 
-    def _prepare_segmento(self, line):
+    def _prepare_segmento(self, line, vals):
         """
 
         :param line:
         :return:
         """
+        segmento = {}
+
+        vals.update(segmento)
 
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
@@ -249,7 +252,7 @@ class PagFor500(Cnab):
         if not self.order.mode.boleto_aceite == 'S':
             aceite = u'A'
 
-        return {
+        segmento =  {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
             'especie_titulo': 8,
             # TODO: Código adotado para identificar o título de cobrança. 8
@@ -325,6 +328,8 @@ class PagFor500(Cnab):
             'controlecob_data_gravacao': self.data_hoje(),
 
         }
+        segmento.update(vals)
+        return segmento
 
     def remessa(self, order):
         """
@@ -363,3 +368,126 @@ class PagFor500(Cnab):
     @staticmethod
     def modulo11(num, base, r):
         return BoletoData.modulo11(num, base=9, r=0)
+
+    def incluir_pagamento(self, line):
+        mode = line.order_id.mode.type_purchase_payment
+        if mode in ('01'):
+            return self.lancamento_credito_bradesco(line)
+        elif mode in ('02'):
+            raise UserError('Operação não suportada')
+        elif mode in ('03'):
+            return self.lancamento_doc(line)
+        elif mode in ('05'):
+            raise UserError('Operação não suportada')
+        elif mode in ('08'):
+            return self.lancamento_ted(line)
+        elif mode in ('30'):
+            raise UserError('Operação não suportada')
+        elif mode in ('31'):
+            return self.lancamento_titulos(line)
+        raise UserError('Operação não suportada')
+
+
+    def lancamento_ted(self, line):
+        # TODO:
+
+
+        vals =  {
+            'conta_complementar': int(self.order.mode.bank_id.acc_number),
+            'especie_titulo': line.order_id.mode.type_purchase_payment,
+            # TODO: Código adotado para identificar o título de cobrança. 8
+            # é Nota de cŕedito comercial
+            'aceite_titulo': aceite,
+            'tipo_inscricao': int(
+                self.sacado_inscricao_tipo(line.partner_id)),
+            'cnpj_cpf_base_forn': int(
+                self.rmchar(line.partner_id.cnpj_cpf)[0:8]),
+            'cnpj_cpf_filial_forn': int(
+                self.rmchar(line.partner_id.cnpj_cpf)[9:12]),
+            'cnpj_cpf_forn_sufixo': int(
+                self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
+            'nome_forn': line.partner_id.legal_name,
+            'endereco_forn': (
+                line.partner_id.street + ' ' + line.partner_id.number),
+            'cep_complemento_forn': int(sulfixo),
+            # TODO: código do banco. Para a Modalidade de Pagamento valor
+            # pode variar
+            'codigo_banco_forn': 237,
+            'codigo_agencia_forn': int(self.order.mode.bank_id.bra_number),
+            'digito_agencia_forn': self.order.mode.bank_id.bra_number_dig,
+            'conta_corrente_forn': int(self.order.mode.bank_id.acc_number),
+            'digito_conta_forn': self.order.mode.bank_id.acc_number_dig,
+            # TODO Gerado pelo cliente pagador quando do agendamento de
+            # pagamento por parte desse, exceto para a modalidade 30 -
+            # Títulos em Cobrança Bradesco
+            'numero_pagamento': int(line.move_line_id.move_id.name),
+            'carteira': int(self.order.mode.boleto_carteira),
+            'nosso_numero': 11,
+            'numero_documento': line.name,
+            'vencimento_titulo': self.format_date_ano_mes_dia(
+                line.ml_maturity_date),
+            'data_emissao_titulo': self.format_date_ano_mes_dia(
+                line.ml_date_created),
+            'desconto1_data': 0,
+            'fator_vencimento': 0,  # FIXME
+            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
+                Decimal('1.00')),
+            'valor_pagto': Decimal(str(line.amount_currency)).quantize(
+                Decimal('1.00')),
+            'valor_desconto': Decimal('0.00'),
+            'valor_acrescimo': Decimal('0.00'),
+            'tipo_documento': 2,
+            # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
+            'numero_nf': int(line.ml_inv_ref.internal_number),
+            # 'serie_documento': u'AB',
+            'modalidade_pagamento': int(self.order.mode.boleto_especie),
+            'tipo_movimento': 0,
+            # TODO Tipo de Movimento.
+            # 0 - Inclusão.
+            # 5 - Alteração.
+            # 9 - Exclusão. Wkf Odoo.
+            'codigo_movimento': 0,  # FIXME
+            # 'horario_consulta_saldo': u'5',  # FIXME
+            'codigo_area_empresa': 0,
+            'codigo_lancamento': 0,  # FIXME
+            'tipo_conta_fornecedor': 1,  # FIXME
+            # O Primeiro registro de transação sempre será o registro
+            # “000002”, e assim sucessivamente.
+            'sequencial': 3,  # FIXME
+
+            # Trailer
+            'totais_quantidade_registros': 0,
+            'total_valor_arq': Decimal('0.00'),
+            # FIXME: lib nao reconhece campo
+            'sequencial_trailer': int(self.get_file_numeration()),
+            'sequencial_transacao': self.controle_linha,
+            'codigo_protesto': int(self.order.mode.boleto_protesto),
+            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
+            'codigo_baixa': 2,
+            'prazo_baixa': 0,  # De 5 a 120 dias.
+            'controlecob_data_gravacao': self.data_hoje(),
+
+        }
+
+        return self._prepare_segmento(line, vals)
+
+    def lancamento_doc(self):
+        # TODO:
+
+        vals =  {}
+
+        return self._prepare_segmento(vals)
+
+    def lancamento_titulo(self):
+        # TODO:
+
+        vals =  {}
+
+        return self._prepare_segmento(vals)
+
+    def lancamento_credito_bradesco(self):
+        # TODO:
+
+        vals =  {}
+
+        return self._prepare_segmento(vals)
