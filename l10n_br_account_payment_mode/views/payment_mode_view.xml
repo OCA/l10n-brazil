@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="view_payment_mode_form_inherit" model="ir.ui.view">
-            <field name="name">payment.mode.form.inherit</field>
+        <record id="view_payment_mode_form_inherit_l10n_br_payment" model="ir.ui.view">
+            <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
             <field name="model">payment.mode</field>
-            <field name="inherit_id"
-                   ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+            <field name="priority" eval="14"/>
             <field name="arch" type="xml">
+                <data>
                 <field name="type" position="after">
                     <field name="payment_order_type"/>
                 </field>
                 <xpath expr="//form/group[@string='Note']" position="before">
-                    <group string="Configurações" col="4">
+                    <group string="Configurações" name='l10n-br-config' col="4">
                         <notebook colspan="4">
                             <page string="Cobrança" attrs="{'invisible': [('sale_ok', '!=', True)]}">
                                 <group>
@@ -47,6 +48,7 @@
                         </notebook>
                     </group>
                 </xpath>
+
             </field>
         </record>
 
