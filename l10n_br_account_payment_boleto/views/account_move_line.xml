@@ -6,12 +6,12 @@
 -->
 <openerp>
     <data>
-        <record id="l10n_br_view_payments_tree" model="ir.ui.view">
+        <record id="l10n_br_payment_boleto_view_payments_tree" model="ir.ui.view">
             <field name="name">Payments</field>
             <field name="model">account.move.line</field>
             <field name="field_parent">partner_id</field>
             <field name="inherit_id"
-                   ref="l10n_br_account_payment_mode.l10n_br_view_payments_tree"/>
+                   ref="account_due_list.view_payments_tree"/>
             <field name="arch" type="xml">
                 <field name="date_maturity" position="before">
                     <field name="date_payment_created" readonly="1"/>
