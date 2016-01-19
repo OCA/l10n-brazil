@@ -216,8 +216,8 @@ class Cnab400(Cnab):
             'segunda_instrucao': dias_protestar,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-            'sacador_avalista': line.communication2,
-            # 'sacador_avalista': u'Protestar após 5 dias',
+            # 'sacador_avalista': line.communication2,
+            'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro': self.controle_linha,
 
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -246,7 +246,7 @@ class Cnab400(Cnab):
             'juros_mora_data': self.format_date(
                 line.ml_maturity_date),
             'juros_mora_taxa_dia':
-                self.calcula_juros_dia(line.amount_interest),
+                Decimal('0.20'),  # FIXME
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),

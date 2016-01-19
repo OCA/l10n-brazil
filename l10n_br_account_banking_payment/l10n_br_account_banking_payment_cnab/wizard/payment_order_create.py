@@ -51,7 +51,9 @@ class PaymentOrderCreate(models.TransientModel):
                 domain += [
                     ('debit', '>', 0),
                     ('account_id.type', '=', 'receivable'),
-                    ('payment_mode_id', '=', payment_order.mode.id)
+                    ('payment_mode_id', '=', payment_order.mode.id),
+                     '|', ('state_cnab', '=', 'draft'),
+                    ('state_cnab', '=', 'not_accepted'),
                 ]
             # TODO: Refactory this
             # index = domain.index(('invoice.payment_mode_id', '=', False))
