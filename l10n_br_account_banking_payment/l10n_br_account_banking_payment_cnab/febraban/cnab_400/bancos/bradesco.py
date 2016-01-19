@@ -75,7 +75,6 @@ class Bradesco400(Cnab400):
         vals['condicao_emissao_papeleta'] = 1
 
         vals['indicador_rateio_credito'] = u""
-        vals['identificacao_ocorrencia'] = 1
         self.controle_linha += 1
 
         return vals

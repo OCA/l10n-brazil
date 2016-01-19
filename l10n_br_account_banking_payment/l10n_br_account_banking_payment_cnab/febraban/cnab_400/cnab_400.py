@@ -29,6 +29,60 @@ import string
 import unicodedata
 import time
 
+IDENTIFICACAO_DA_OCORRENCIA = [
+    ('01', u'Remessa'),
+    ('02', u'Pedido de baixa'),
+    ('03', u'Pedido de Protesto Falimentar'),
+    ('04', u'Concessão de abatimento'),
+    ('05', u'Cancelamento de abatimento concedido'),
+    ('06', u'Alteração de vencimento'),
+    ('07', u'Alteração do controle do participante'),
+    ('08', u'Alteração de seu número'),
+    ('09', u'Pedido de protesto'),
+    ('18', u'Sustar protesto e baixar Título'),
+    ('19', u'Sustar protesto e manter em carteira'),
+    ('22', u'Transferência Cessão crédito ID. Prod.10'),
+    ('23', u'Transferência entre Carteiras'),
+    ('24', u'Dev. Transferência entre Carteiras'),
+    ('31', u'Alteração de outros dados'),
+    ('45', u'Pedido de Negativação (NOVO)'),
+    ('46', u'Excluir Negativação com baixa (NOVO)'),
+    ('47', u'Excluir negativação e manter pendente (NOVO)'),
+    ('68', u'Acerto nos dados do rateio de Crédito'),
+    ('69', u'Cancelamento do rateio de crédito'),
+]
+
+ESPECIE_DE_TITULO = [
+    ('01', u'Duplicata'),
+    ('02', u'Nota Promissória'),
+    ('03', u'Nota de Seguro'),
+    ('04', u'Cobrança Seriada'),
+    ('05', u'Recibo'),
+    ('10', u'Letras de Câmbio'),
+    ('11', u'Nota de Débito'),
+    ('12', u'Duplicata de Serv'),
+    ('30', u'Boleto de Proposta'),
+    ('99', u'Outros'),
+]
+
+# Essas instruções deverão ser enviadas no Arquivo-Remessa, quando da entrada, desde que código de ocorrência na posição 109 a 110 do registro de transação, seja “01”, para as instruções de protesto/negativação, o CNPJ / CPF e o endereço do Pagador deverão ser informados corretamente
+LISTA_PRIMEIRA_INSTRUCAO = [
+    ('05', u'Protesto Falimentar'),
+    ('06', u'Protestar'),
+    ('07', u'Negativar'),
+    ('18', u'Decurso de prazo'),
+
+    ('08', u'Não cobrar juros de mora'),
+    ('09', u'Não receber após o vencimento'),
+    ('10', u'Multas de 10% após o 4o dia do Vencimento'),
+    ('11', u'Não receber após o 8o dia do vencimento.'),
+    ('12', u'Cobrar encargos após o 5o dia do vencimento'),
+    ('13', u'Cobrar encargos após o 10o dia do vencimento'),
+    ('14', u'Cobrar encargos após o 15o dia do vencimento'),
+    ('15', u'Conceder desconto mesmo se pago após o vencimento'),
+]
+
+
 
 class Cnab400(Cnab):
 
@@ -162,7 +216,8 @@ class Cnab400(Cnab):
             'segunda_instrucao': dias_protestar,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-            'sacador_avalista': line.communication,
+            'sacador_avalista': line.communication2,
+            # 'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro': self.controle_linha,
 
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -175,7 +230,7 @@ class Cnab400(Cnab):
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
-            'numero_documento': (line.name),
+
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
@@ -210,7 +265,10 @@ class Cnab400(Cnab):
             'controlecob_data_gravacao': self.data_hoje(),
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
 
-            'primeira_mensagem': u''
+            'primeira_mensagem': u'',
+
+            'identificacao_ocorrencia': 1, # Trazer da nova tela do payment_mode
+            'numero_documento': (line.communication),
 
         }
 
