@@ -1138,7 +1138,8 @@ class AccountInvoiceLine(models.Model):
 
         if not fiscal_category_id or not product:
             return result
-
+        product_obj = self.env['product.product'].browse(product)
+        result['value']['name'] = product_obj.display_name
         result = self._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
