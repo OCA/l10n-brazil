@@ -996,6 +996,8 @@ class AccountInvoiceLine(models.Model):
 
             if product.fci:
                 result['fci'] = product.fci
+                result['fiscal_comment'] = u'Resolução do Senado Federal ' \
+                                           u'nº 13/12 FCI: ' + product.fci
 
             result['icms_origin'] = product.origin
 
