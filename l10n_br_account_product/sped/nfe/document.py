@@ -317,6 +317,9 @@ class NFe200(FiscalDocument):
                     invoice.partner_id.cnpj_cpf)
                 self.nfe.infNFe.dest.indIEDest.valor = '9'
 
+        if self.nfe.infNFe.ide.indFinal.valor == '1':
+            self.nfe.infNFe.dest.indIEDest.valor = '9'
+
         self.nfe.infNFe.dest.enderDest.xLgr.valor = (
             invoice.partner_id.street or '')
         self.nfe.infNFe.dest.enderDest.nro.valor = (
