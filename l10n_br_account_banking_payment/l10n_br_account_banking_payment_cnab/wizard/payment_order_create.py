@@ -49,16 +49,19 @@ class PaymentOrderCreate(models.TransientModel):
         elif payment_order.mode.type.code == '400':
             if payment_order.mode.payment_order_type == 'cobranca':
                 domain += [
-                    ('debit', '>', 0)
+                    ('debit', '>', 0),
+                    ('account_id.type', '=', 'receivable'),
+                    ('payment_mode_id', '=', payment_order.mode.id)
                 ]
             # TODO: Refactory this
-            index = domain.index(('invoice.payment_mode_id', '=', False))
-            del domain[index - 1]
-            domain.remove(('invoice.payment_mode_id', '=', False))
-            index = domain.index(('date_maturity', '<=', self.duedate))
-            del domain[index - 1]
-            domain.remove(('date_maturity', '=', False))
-            domain.remove(('date_maturity', '<=', self.duedate))
+            # index = domain.index(('invoice.payment_mode_id', '=', False))
+            # del domain[index - 1]
+            # domain.removemove(('invoice.payment_mode_id', '=', False))
+            # index = domain.index(('date_maturity', '<=', self.duedate))
+            # del domain[index - 1]
+            # domain.remove(('date_maturity', '=', False))
+            # domain.remove(('date_maturity', '<=', self.duedate))
+
 
         elif payment_order.mode.type.code == '500':
             if payment_order.mode.payment_order_type == 'payment':
@@ -79,3 +82,11 @@ class PaymentOrderCreate(models.TransientModel):
             domain.remove(('account_id.type', '=', 'receivable'))
 
         return True
+
+    @api.multi
+    def _prepare_payment_line(self, payment, line):
+        res = super(PaymentOrderCreate, self)._prepare_payment_line(
+            payment, line)
+
+        res['percent_interest'] = line.payment_mode_id.cnab_percent_interest
+        return res
