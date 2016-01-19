@@ -245,7 +245,8 @@ class Cnab400(Cnab):
             # CEF/FEBRABAN e Itaú não tem.
             'juros_mora_data': self.format_date(
                 line.ml_maturity_date),
-            'juros_mora_taxa_dia': Decimal('0.00'),
+            'juros_mora_taxa_dia':
+                self.calcula_juros_dia(line.amount_interest),
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
