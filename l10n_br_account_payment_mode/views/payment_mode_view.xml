@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
             <field name="priority" eval="14"/>
             <field name="arch" type="xml">
-                <data>
+
                 <field name="type" position="after">
                     <field name="payment_order_type"/>
                 </field>
