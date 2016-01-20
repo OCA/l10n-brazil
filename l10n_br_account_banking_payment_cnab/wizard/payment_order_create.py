@@ -90,5 +90,6 @@ class PaymentOrderCreate(models.TransientModel):
         res = super(PaymentOrderCreate, self)._prepare_payment_line(
             payment, line)
 
+        # res['communication2'] = line.payment_mode_id.comunicacao_2
         res['percent_interest'] = line.payment_mode_id.cnab_percent_interest
         return res
