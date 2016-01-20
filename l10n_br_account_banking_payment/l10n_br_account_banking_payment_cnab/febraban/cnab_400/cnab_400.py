@@ -216,8 +216,8 @@ class Cnab400(Cnab):
             'segunda_instrucao': dias_protestar,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-            # 'sacador_avalista': line.communication2,
-            'sacador_avalista': u'Protestar após 5 dias',
+            'sacador_avalista': self.order.mode.comunicacao_2,
+            # 'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro': self.controle_linha,
 
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -245,8 +245,12 @@ class Cnab400(Cnab):
             # CEF/FEBRABAN e Itaú não tem.
             'juros_mora_data': self.format_date(
                 line.ml_maturity_date),
+
+            # 'juros_mora_taxa_dia': Decimal('0.20'),
             'juros_mora_taxa_dia':
-                Decimal('0.20'),  # FIXME
+                self.calcula_valor_juros_dia(
+                    line.amount_currency, line.percent_interest),
+
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
@@ -269,7 +273,11 @@ class Cnab400(Cnab):
             'primeira_mensagem': u'',
 
             'identificacao_ocorrencia': 1, # Trazer da nova tela do payment_mode
-            'numero_documento': (line.communication),
+
+            # numero fatura esta copiando para communication
+            'numero_documento':
+                self.adiciona_digitos_num_doc(line.communication),
+            # 'numero_documento': str(line.move_line_id.invoice.number),
 
         }
 
@@ -296,3 +304,14 @@ class Cnab400(Cnab):
 
     def hora_agora(self):
         return (int(time.strftime("%H%M%S")))
+
+    def calcula_valor_juros_dia(self, total_titulo, percent_juros):
+        valor_juros = 0
+        valor_juros = (total_titulo * (percent_juros / 100))
+        return (Decimal(valor_juros).quantize(Decimal('1.00')))
+
+    def adiciona_digitos_num_doc(self, campo):
+        num_digitos = 10
+        campo = str(campo)
+        chars_faltantes = num_digitos - len(campo)
+        return (u' ' * chars_faltantes) + campo

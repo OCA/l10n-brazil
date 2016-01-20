@@ -31,6 +31,9 @@ class PaymentOrder(models.Model):
     # ao mode
     serie_id = fields.Many2one(
         'l10n_br_cnab.sequence', u'Sequencia interna')
+    sufixo_arquivo = fields.Integer(u'Sufixo do arquivo')
+    serie_sufixo_arquivo = fields.Many2one(
+        'l10n_br_cnab_file_sufix.sequence', u'Série do Sufixo do arquivo')
 
     def get_next_number(self, cr, uid, ids, context=None):
         if context is None:
@@ -44,4 +47,19 @@ class PaymentOrder(models.Model):
                                      ord.serie_id.internal_sequence_id.id,
                                      context=context)
             self.write(cr, uid, ord.id, {'file_number': seq_no})
+        return seq_no
+
+    def get_next_sufixo(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        for ord in self.browse(cr, uid, ids):
+            sequence = self.pool.get('ir.sequence')
+            # sequence_read = sequence.read(
+            #     cr, uid, ord.serie_id.internal_sequence_id.id,
+            #     ['number_next'])
+            seq_no = sequence.get_id(
+                cr, uid,
+                ord.serie_sufixo_arquivo.internal_sequence_id.id,
+                context=context)
+            self.write(cr, uid, ord.id, {'sufixo_arquivo': seq_no})
         return seq_no
