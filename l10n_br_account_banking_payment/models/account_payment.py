@@ -65,7 +65,7 @@ class PaymentLine(models.Model):
     def _compute_interest(self):
         precision = self.env['decimal.precision'].precision_get('Account')
         self.amount_interest = round(self.amount_currency *
-                                     self.percent_interest,
+                                     (self.percent_interest / 100),
                                      precision)
         #self.line.mode.percent_interest
 
