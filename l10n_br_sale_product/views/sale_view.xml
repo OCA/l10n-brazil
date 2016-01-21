@@ -13,9 +13,18 @@
 					<field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
 					<field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
 				</field>
-                		<field name="invoiced" position="before">
+				<field name="invoiced" position="before">
 					<field name="ind_pres"/>
 				</field>
+				<field name="note" position="before">
+					<group>
+						<label for="amount_total_gnre"/>
+						<div>
+							<field name="amount_total_gnre"/>
+						</div>
+					</group>
+				</field>
+
 			</field>
 		</record>
 

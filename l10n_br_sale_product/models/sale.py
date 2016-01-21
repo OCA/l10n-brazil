@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line.price_unit', 'order_line.tax_id',
                  'order_line.discount', 'order_line.product_uom_qty',
                  'order_line.freight_value', 'order_line.insurance_value',
-                 'order_line.other_costs_value')
+                 'order_line.other_costs_value', 'order_line.gnre_value')
     def _amount_all_wrapper(self):
         """
         Wrapper because of direct method passing as parameter
@@ -45,9 +45,10 @@ class SaleOrder(models.Model):
         self.amount_extra = 0.0
         self.amount_discount = 0.0
         self.amount_gross = 0.0
+        self.amount_total_gnre = 0.0
 
         amount_tax = amount_untaxed = amount_extra = \
-            amount_discount = amount_gross = 0.0
+            amount_discount = amount_gross = amount_gnre = 0.0
         for line in self.order_line:
             amount_tax += sum(amount for amount in self._amount_line_tax(line))
             amount_extra += (line.insurance_value +
@@ -55,7 +56,9 @@ class SaleOrder(models.Model):
             amount_untaxed += line.price_subtotal
             amount_discount += line.discount_value
             amount_gross += line.price_gross
+            amount_gnre += line.gnre_value
 
+        self.amount_total_gnre = amount_gnre
         self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
         self.amount_untaxed = self.pricelist_id.currency_id.round(
             amount_untaxed)
@@ -188,6 +191,11 @@ class SaleOrder(models.Model):
         compute=_get_costs_value, inverse=_set_amount_insurance,
         string='Seguro', default=0.00, digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
+    amount_total_gnre = fields.Float(
+        string='Total de Tributos a recolher via GNRE',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_amount_all_wrapper')
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
@@ -225,7 +233,7 @@ class SaleOrderLine(models.Model):
             insurance_value=self.insurance_value,
             freight_value=self.freight_value,
             other_costs_value=self.other_costs_value)
-
+        self.gnre_value = taxes['total_gnre']
         self.price_subtotal = (self.order_id.pricelist_id
                                .currency_id.round(taxes['total']))
         self.price_gross = self._calc_price_gross(qty)
@@ -253,6 +261,12 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Float(
         compute='_amount_line', string='Subtotal',
         digits=dp.get_precision('Sale Price'))
+    has_gnre = fields.Boolean('')
+    gnre_value = fields.Float(
+        compute='_amount_line',
+        string=u'Valor do recolhimento via GNRE',
+        digits=dp.get_precision('Sale Price'))
+
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
