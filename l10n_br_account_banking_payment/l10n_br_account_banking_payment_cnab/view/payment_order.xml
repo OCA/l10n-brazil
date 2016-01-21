@@ -14,9 +14,9 @@
                     <xpath expr="//field[@name='date_scheduled']"
                            position="after">
                         <field name="file_number"/>
-                        <field name="serie_id"/>
+                        <field name="serie_id" domain="[('parent_payment_mode', '=', mode)]"/>
                         <field name="sufixo_arquivo"/>
-                        <field name="serie_sufixo_arquivo"/>
+                        <field name="serie_sufixo_arquivo" domain="[('parent_payment_mode_suf', '=', mode)]"/>
                     </xpath>
 
                 </data>

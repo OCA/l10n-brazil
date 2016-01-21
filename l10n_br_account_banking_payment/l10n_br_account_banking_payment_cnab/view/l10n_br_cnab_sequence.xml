@@ -14,6 +14,7 @@
                             <field name="name"/>
                             <field name="code"/>
                             <field name="internal_sequence_id"/>
+                            <field name="parent_payment_mode"/>
                         </group>
                     </sheet>
                 </form>
