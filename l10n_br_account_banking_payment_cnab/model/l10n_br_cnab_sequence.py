@@ -30,3 +30,7 @@ class L10nBrCnabSequence(models.Model):
     name = fields.Char(u'Nome')
     internal_sequence_id = fields.Many2one(
         'ir.sequence', u'Sequência Interna')
+    parent_payment_mode = fields.Many2one(
+        'payment.mode', "Conta de exportação", select=True)
+
+    # 'parent_id': fields.many2one('res.partner.category', 'Parent Category', select=True, ondelete='cascade')

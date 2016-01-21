@@ -30,3 +30,5 @@ class L10nBrCnabFileSufixSequence(models.Model):
     name = fields.Char(u'Nome')
     internal_sequence_id = fields.Many2one(
         'ir.sequence', u'Sequência Interna')
+    parent_payment_mode_suf = fields.Many2one(
+        'payment.mode', "Conta de exportação", select=True)
