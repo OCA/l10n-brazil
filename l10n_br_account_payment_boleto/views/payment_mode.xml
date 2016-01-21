@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <!--<data>-->
                 <xpath
-                        expr="//group[@name='l10n-br-config']/notebook/page[@string='Boleto']"
+                        expr="//group[@name='l10n-br-config']/notebook/page/notebook/page[@string='Boleto']"
                         position="inside">
                     <group>
                         <field name="boleto_type"/>
