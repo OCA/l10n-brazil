@@ -144,8 +144,6 @@ class SaleOrder(models.Model):
         ctx.update({
             'use_domain': ('use_sale', '=', True),
             'fiscal_category_id': ctx.get('fiscal_category_id')})
-        print " PRINT ", self.env['account.fiscal.position.rule'].with_context(
-            ctx).apply_fiscal_mapping(result, **kwargs)
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
