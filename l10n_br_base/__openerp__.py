@@ -36,7 +36,6 @@
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'security/ir.model.access.csv',
-        'security/l10n_br_base_security.xml',
     ],
     'demo': [
         'demo/base_demo.xml',

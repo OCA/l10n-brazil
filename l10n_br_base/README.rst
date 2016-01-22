@@ -2,12 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==========================================
-Módulo Base da localização
-==========================================
+=====================================
+Módulo Base da localização Brasileira
+=====================================
 
-This module was written to extend the functionality of Company and Partner
-and allow you to fill fields like: CNPJ, IE and etc.
+This module was written to extend the functionality of ... to support ...
+and allow you to ...
 
 Installation
 ============
@@ -60,7 +60,10 @@ Credits
 Contributors
 ------------
 
-* Contributors list...
+* Renato Lima <renato.lima@akretion.com.br>
+* Raphaël Valyi <raphael.valyi@akretion.com.br>
+* Luis Felipe Mileo <mileo@kmee.com.br> 
+* Michell Stuttgart <michell.stuttgart@kmee.com.br> 
 
 Maintainer
 ----------
