@@ -1,0 +1,13 @@
+-
+  I create a invoice refund
+-
+  !python {model: account.invoice.refund}: |
+    ctx = context.copy()
+    ctx.update({"active_model": 'account.invoice', "active_ids": [ref("account_invoice_service_customer")]})
+    wizard_id = self.create(cr, uid, {'description': 'Test refund invoice'})
+    result = self.invoice_refund(cr, uid, [wizard_id], context=ctx)
+    domain_ids = [x for x in result['domain'] if x[0] == 'id'][0]
+    invoice = self.pool.get('account.invoice').browse(cr, uid, ref("account_invoice_service_customer"))
+    if domain_ids:
+        invoice_refund_id = domain_ids[2][0]
+        assert invoice_refund_id, "Invoice refund not created!"
