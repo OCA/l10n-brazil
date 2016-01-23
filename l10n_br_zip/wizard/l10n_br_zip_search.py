@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #
 # Copyright (C) 2011  Renato Lima - Akretion
@@ -20,7 +20,7 @@
 from openerp import models, fields, api
 
 
-class L10n_brZipSearch(models.TransientModel):
+class L10nBrZipSearch(models.TransientModel):
     _name = 'l10n_br.zip.search'
     _description = 'Zipcode Search'
 
@@ -44,14 +44,14 @@ class L10n_brZipSearch(models.TransientModel):
     object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
 
     def create(self, cr, uid, vals, context):
-        result = super(L10n_brZipSearch, self).create(cr, uid, vals, context)
+        result = super(L10nBrZipSearch, self).create(cr, uid, vals, context)
         context.update({'search_id': result})
         return result
 
     def default_get(self, cr, uid, fields_list, context=None):
         if context is None:
             context = {}
-        data = super(L10n_brZipSearch, self).default_get(
+        data = super(L10nBrZipSearch, self).default_get(
             cr, uid, fields_list, context)
 
         data['zip'] = context.get('zip', False)
@@ -119,7 +119,7 @@ class L10n_brZipSearch(models.TransientModel):
         }
 
 
-class L10n_brZipResult(models.TransientModel):
+class L10nBrZipResult(models.TransientModel):
     _name = 'l10n_br.zip.result'
     _description = 'Zipcode result'
 

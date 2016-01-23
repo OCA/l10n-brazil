@@ -84,7 +84,7 @@ class L10nbrAccountCFOP(models.Model):
                  (x['name'] and ' - ' + x['name'] or '')) for x in reads]
 
 
-class L10n_brAccountServiceType(models.Model):
+class L10nBrAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
 
@@ -150,8 +150,8 @@ class L10nbrAccountDocumentRelated(models.Model):
             elif not fiscal.validate_cpf(self.cnpj_cpf):
                 check_cnpj_cpf = False
         if not check_cnpj_cpf:
-            raise UserError(_(u'CNPJ/CPF do documento relacionado'
-                              u' é invalido!'))
+            raise UserError(
+                _(u'CNPJ/CPF do documento relacionado é invalido!'))
 
     @api.one
     @api.constrains('inscr_est')

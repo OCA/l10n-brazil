@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2010  Renato Lima - Akretion                                  #
@@ -19,7 +19,6 @@
 
 {
     'name': 'Brazilian Localization Delivery',
-    'description': 'Extend delivery module for Brazilian Localization',
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',

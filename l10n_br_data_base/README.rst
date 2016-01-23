@@ -2,12 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=====================================
-Módulo Base da localização Brasileira
-=====================================
+==========================================
+Módulo Data Base
+==========================================
 
-This module was written to extend the functionality of Company and Partner
-and allow you to fill fields like: CNPJ, IE and etc.
+This module was written to insert data in the l10n_br_base:
+ * res.bank
 
 Installation
 ============
@@ -50,7 +50,7 @@ Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed feedback `here <https://github.com/OCA/
 l10n-brazil/issues/new?body=module:%20
-l10n_br_base%0Aversion:%20
+l10n_br_data_base%0Aversion:%20
 8.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 
@@ -60,10 +60,7 @@ Credits
 Contributors
 ------------
 
-* Renato Lima <renato.lima@akretion.com.br>
-* Raphaël Valyi <raphael.valyi@akretion.com.br>
-* Luis Felipe Mileo <mileo@kmee.com.br> 
-* Michell Stuttgart <michell.stuttgart@kmee.com.br> 
+* Contributors list...
 
 Maintainer
 ----------

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2011  Fabio Negrini                                           #
@@ -23,7 +23,7 @@
     'license': 'AGPL-3',
     'author': 'Fabio Negrini, Odoo Community Association (OCA)',
     'website': 'http://odoobrasil.org',
-    'version': '8.0.1.0.0',
+    'version': '8.0.1.0.1',
     'depends': [
         'l10n_br_zip',
         'l10n_br_crm',
