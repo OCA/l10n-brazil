@@ -14,6 +14,7 @@
 			<field name="fiscal_category_id" ref="fc_00255d8d158663217906abb312aa0759"/>
 			<field name="use_picking">True</field>
 			<field name="use_invoice">True</field>
+			<field name="use_sale">True</field>
 			<field name="fiscal_type">3</field>
 		</record>
 
@@ -28,6 +29,7 @@
 			<field name="fiscal_category_id" ref="fc_997850a05a6268f08afbe822383557d8"/>
 			<field name="use_picking">True</field>
 			<field name="use_invoice">True</field>
+			<field name="use_purchase">True</field>
 			<field name="fiscal_type">3</field>
 		</record>
 
