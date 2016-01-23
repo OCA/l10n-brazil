@@ -325,7 +325,6 @@ class SaleOrderLine(models.Model):
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
                           fiscal_position=False, flag=False):
-
         context = dict(self.env.context)
         self = self.with_context(context)
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
