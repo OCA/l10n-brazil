@@ -28,7 +28,7 @@ def calc_price_ratio(price_gross, amount_calc, amount_total):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.one
+    @api.multi
     @api.depends('order_line.price_unit', 'order_line.tax_id',
                  'order_line.discount', 'order_line.product_uom_qty',
                  'order_line.freight_value', 'order_line.insurance_value',
@@ -40,37 +40,43 @@ class SaleOrder(models.Model):
         """
         return self._amount_all()
 
-    @api.one
+    @api.multi
     def _amount_all(self):
-        self.amount_untaxed = 0.0
-        self.amount_tax = 0.0
-        self.amount_total = 0.0
-        self.amount_extra = 0.0
-        self.amount_discount = 0.0
-        self.amount_gross = 0.0
+        for order in self:
+            order.amount_untaxed = 0.0
+            order.amount_tax = 0.0
+            order.amount_total = 0.0
+            order.amount_extra = 0.0
+            order.amount_discount = 0.0
+            order.amount_gross = 0.0
 
-        amount_tax = amount_untaxed = amount_extra = \
-            amount_discount = amount_gross = 0.0
-        for line in self.order_line:
-            amount_tax += sum(amount for amount in self._amount_line_tax(line))
-            amount_extra += (line.insurance_value +
-                             line.freight_value + line.other_costs_value)
-            amount_untaxed += line.price_subtotal
-            amount_discount += line.discount_value
-            amount_gross += line.price_gross
+            amount_tax = amount_untaxed = \
+                amount_discount = amount_gross = \
+                amount_extra = 0.0
+            for line in order.order_line:
+                amount_tax += self._amount_line_tax(line)
+                amount_extra += (line.insurance_value +
+                                 line.freight_value +
+                                 line.other_costs_value)
+                amount_untaxed += line.price_subtotal
+                amount_discount += line.discount_value
+                amount_gross += line.price_gross
 
-        self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
-        self.amount_untaxed = self.pricelist_id.currency_id.round(
-            amount_untaxed)
-        self.amount_extra = self.pricelist_id.currency_id.round(amount_extra)
-        self.amount_total = (self.amount_untaxed +
-                             self.amount_tax +
-                             self.amount_extra)
-        self.amount_discount = self.pricelist_id.currency_id.round(
-            amount_discount)
-        self.amount_gross = self.pricelist_id.currency_id.round(amount_gross)
+            order.amount_tax = order.pricelist_id.currency_id.round(
+                amount_tax)
+            order.amount_untaxed = order.pricelist_id.currency_id.round(
+                amount_untaxed)
+            order.amount_extra = order.pricelist_id.currency_id.round(
+                amount_extra)
+            order.amount_total = (order.amount_untaxed +
+                                  order.amount_tax +
+                                  order.amount_extra)
+            order.amount_discount = order.pricelist_id.currency_id.round(
+                amount_discount)
+            order.amount_gross = order.pricelist_id.currency_id.round(
+                amount_gross)
 
-    @api.one
+    @api.model
     def _amount_line_tax(self, line):
         value = 0.0
         price = line._calc_line_base_price()
@@ -153,6 +159,22 @@ class SaleOrder(models.Model):
                         fc_ids.append(fc.id)
 
         return fp_comment + fc_comment
+
+    @api.model
+    def _prepare_invoice(self, order, lines):
+        """Prepare the dict of values to create the new invoice for a
+           sale order. This method may be overridden to implement custom
+           invoice generation (making sure to call super() to establish
+           a clean extension chain).
+
+           :param browse_record order: sale.order record to invoice
+           :param list(int) line: list of invoice line IDs that must be
+                                  attached to the invoice
+           :return: dict of value to create() the invoice
+        """
+        result = super(SaleOrder, self)._prepare_invoice(order, lines)
+        result['ind_final'] = order.fiscal_position.ind_final
+        return result
 
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=None,
                               date_invoice=False, context=None):
@@ -250,27 +272,24 @@ class SaleOrderLine(models.Model):
         self.discount_value = self.order_id.pricelist_id.currency_id.round(
             self.price_gross - (price * qty))
 
-    insurance_value = fields.Float(
-        'Insurance',
-        default=0.0,
-        digits=dp.get_precision('Account'))
-    other_costs_value = fields.Float(
-        'Other costs',
-        default=0.0,
-        digits_compute=dp.get_precision('Account'))
-    freight_value = fields.Float(
-        'Freight',
-        default=0.0,
-        digits_compute=dp.get_precision('Account'))
-    discount_value = fields.Float(
-        compute='_amount_line', string='Vlr. Desc. (-)',
-        digits=dp.get_precision('Sale Price'))
-    price_gross = fields.Float(
-        compute='_amount_line', string='Vlr. Bruto',
-        digits=dp.get_precision('Sale Price'))
-    price_subtotal = fields.Float(
-        compute='_amount_line', string='Subtotal',
-        digits=dp.get_precision('Sale Price'))
+    insurance_value = fields.Float('Insurance',
+                                   default=0.0,
+                                   digits=dp.get_precision('Account'))
+    other_costs_value = fields.Float('Other costs',
+                                     default=0.0,
+                                     digits=dp.get_precision('Account'))
+    freight_value = fields.Float('Freight',
+                                 default=0.0,
+                                 digits=dp.get_precision('Account'))
+    discount_value = fields.Float(compute='_amount_line',
+                                  string='Vlr. Desc. (-)',
+                                  digits=dp.get_precision('Sale Price'))
+    price_gross = fields.Float(compute='_amount_line',
+                               string='Vlr. Bruto',
+                               digits=dp.get_precision('Sale Price'))
+    price_subtotal = fields.Float(compute='_amount_line',
+                                  string='Subtotal',
+                                  digits=dp.get_precision('Sale Price'))
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
@@ -295,5 +314,4 @@ class SaleOrderLine(models.Model):
                     context=context)
                 if cfop[0]['cfop_id']:
                     result['cfop_id'] = cfop[0]['cfop_id'][0]
-                result['ind_final'] = line.fiscal_position.ind_final
         return result
