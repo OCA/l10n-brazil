@@ -20,191 +20,177 @@
 
 import time
 import base64
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 
-class L10n_brAccountNfeExportInvoice(orm.TransientModel):
+class L10nBrAccountNfeExportInvoice(models.TransientModel):
     """ Export fiscal eletronic file from invoice"""
     _name = 'l10n_br_account_product.nfe_export_invoice'
     _description = 'Export eletronic invoice for Emissor de NFe SEFAZ SP'
-    _columns = {
-        'name': fields.char('Nome', size=255),
-        'file': fields.binary('Arquivo', readonly=True),
-        'file_type': fields.selection(
-            [('xml', 'XML'), ('txt', ' TXT')], 'Tipo do Arquivo'),
-        'state': fields.selection(
-            [('init', 'init'), ('done', 'done')], 'state', readonly=True),
-        'nfe_environment': fields.selection(
-            [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente'),
-        'sign_xml': fields.boolean('Assinar XML'),
-        'nfe_export_result': fields.one2many(
-            'l10n_br_account_product.nfe_export_invoice_result', 'wizard_id',
-            'NFe Export Result'),
-        'export_folder': fields.boolean(u'Salvar na Pasta de Exportação'),
-    }
 
-    def _default_file_type(self, cr, uid, context):
-        file_type = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-        file_type = company.file_type
-        return file_type
+    def _default_file_type(self):
+        company_id = self.env['res.company']._company_default_get(
+            'l10n_br_account_product.nfe_export_invoice')
+        return self.env['res.company'].browse(company_id).file_type
 
-    def _default_nfe_environment(self, cr, uid, context):
-        nfe_environment = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-        nfe_environment = company.nfe_environment
-        return nfe_environment
+    def _default_nfe_environment(self):
+        company_id = self.env['res.company']._company_default_get(
+            'l10n_br_account_product.nfe_export_invoice')
+        return self.env['res.company'].browse(company_id).nfe_environment
 
-    def _default_sign_xml(self, cr, uid, context):
-        sign_xml = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-        sign_xml = company.sign_xml
-        return sign_xml
+    def _default_export_folder(self):
+        company_id = self.env['res.company']._company_default_get(
+            'l10n_br_account_product.nfe_export_invoice')
+        return self.env['res.company'].browse(company_id).export_folder
 
-    def _default_export_folder(self, cr, uid, context):
-        export_folder = False
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-        company = self.pool.get('res.company').browse(
-            cr, uid, user.company_id.id, context=context)
-        export_folder = company.export_folder
-        return export_folder
+    def _default_sign_xml(self):
+        company_id = self.env['res.company']._company_default_get(
+            'l10n_br_account_product.nfe_export_invoice')
+        return self.env['res.company'].browse(company_id).sign_xml
 
-    _defaults = {
-        'state': 'init',
-        'file_type': _default_file_type,
-        'nfe_environment': _default_nfe_environment,
-        'sign_xml': _default_sign_xml,
-        'export_folder': _default_export_folder,
-    }
+    name = fields.Char('Nome', size=255)
+    file = fields.Binary('Arquivo', readonly=True)
+    file_type = fields.Selection(
+        selection=[
+            (u'xml', 'XML'),
+            (u'txt', ' TXT')
+        ],
+        string='Tipo do Arquivo',
+        default=_default_file_type)
+    state = fields.Selection(
+        selection=[
+            ('init', 'init'),
+            ('done', 'done')
+        ],
+        string='state',
+        readonly=True,
+        default='init')
+    nfe_environment = fields.Selection(
+        selection=[
+            ('1', u'Produção'),
+            ('2', u'Homologação')
+        ],
+        string='Ambiente',
+        default=_default_nfe_environment)
+    sign_xml = fields.Boolean(
+        string='Assinar XML',
+        default=_default_sign_xml)
+    nfe_export_result = fields.One2many(
+        comodel_name='l10n_br_account_product.nfe_export_invoice_result',
+        inverse_name='wizard_id',
+        string='NFe Export Result')
+    export_folder = fields.Boolean(
+        string=u'Salvar na Pasta de Exportação',
+        default=_default_export_folder)
 
-    def _get_invoice_ids(self, cr, uid, data, context=None):
-        if not context:
-            context = {}
-        return context.get('active_ids', [])
+    @api.multi
+    def nfe_export(self):
+        for data in self:
+            active_ids = self._context.get('active_ids', [])
 
-    def nfe_export(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
-        inv_obj = self.pool.get('account.invoice')
-        active_ids = self._get_invoice_ids(cr, uid, data, context)
-        export_inv_ids = []
-        export_inv_numbers = []
-        company_ids = []
-        err_msg = ''
+            if not active_ids:
+                err_msg = (u'Não existe nenhum documento fiscal para ser'
+                           u' exportado!')
+            export_inv_ids = []
+            export_inv_numbers = []
+            company_ids = []
+            err_msg = ''
 
-        if not active_ids:
-            err_msg = u'Não existe nenhum documento fiscal para ser exportado!'
+            for inv in self.env['account.invoice'].browse(active_ids):
+                if inv.state not in ('sefaz_export'):
+                    err_msg += (u"O Documento Fiscal %s não esta definida para"
+                                u" ser exportação "
+                                u"para a SEFAZ.\n") % inv.internal_number
+                elif not inv.issuer == '0':
+                    err_msg += (u"O Documento Fiscal %s é do tipo externa e "
+                                u"não pode ser exportada para a "
+                                u"receita.\n") % inv.internal_number
+                else:
+                    inv.write({
+                        'nfe_export_date': False,
+                        'nfe_access_key': False,
+                        'nfe_status': False,
+                        'nfe_date': False
+                    })
 
-        for inv in inv_obj.browse(cr, uid, active_ids, context=context):
-            if inv.state not in ('sefaz_export'):
-                err_msg += u"O Documento Fiscal %s não esta definida para ser \
-                exportação para a SEFAZ.\n" % inv.internal_number
-            elif not inv.issuer == '0':
-                err_msg += u"O Documento Fiscal %s é do tipo externa e não \
-                pode ser exportada para a receita.\n" % inv.internal_number
-            else:
-                inv_obj.write(cr, uid, [inv.id], {'nfe_export_date': False,
-                                                  'nfe_access_key': False,
-                                                  'nfe_status': False,
-                                                  'nfe_date': False})
+                    message = "O Documento Fiscal %s foi \
+                        exportado." % inv.internal_number
+                    inv.log(message)
+                    export_inv_ids.append(inv.id)
+                    company_ids.append(inv.company_id.id)
 
-                message = "O Documento Fiscal %s foi \
-                    exportado." % inv.internal_number
-                inv_obj.log(cr, uid, inv.id, message)
-                export_inv_ids.append(inv.id)
-                company_ids.append(inv.company_id.id)
+                export_inv_numbers.append(inv.internal_number)
 
-            export_inv_numbers.append(inv.internal_number)
+            if len(set(company_ids)) > 1:
+                err_msg += (u'Não é permitido exportar Documentos Fiscais de '
+                            u'mais de uma empresa, por favor selecione '
+                            u'Documentos Fiscais da mesma empresa.')
 
-        if len(set(company_ids)) > 1:
-            err_msg += u'Não é permitido exportar Documentos \
-            Fiscais de mais de uma empresa, por favor selecione Documentos \
-            Fiscais da mesma empresa.'
+            if export_inv_ids:
+                if len(export_inv_numbers) > 1:
+                    name = 'nfes%s-%s.%s' % (
+                        time.strftime('%d-%m-%Y'),
+                        self.env['ir.sequence'].get('nfe.export'),
+                        data.file_type)
+                else:
+                    name = 'nfe%s.%s' % (export_inv_numbers[0],
+                                         data.file_type)
 
-        if export_inv_ids:
-            if len(export_inv_numbers) > 1:
-                name = 'nfes%s-%s.%s' % (
-                    time.strftime('%d-%m-%Y'),
-                    self.pool.get('ir.sequence').get(cr, uid, 'nfe.export'),
-                    data['file_type'])
-            else:
-                name = 'nfe%s.%s' % (export_inv_numbers[0], data['file_type'])
+                mod_serializer = __import__(
+                    ('openerp.addons.l10n_br_account_product'
+                     '.sped.nfe.serializer.') +
+                    data.file_type, globals(), locals(), data.file_type)
 
-            mod_serializer = __import__(
-                'openerp.addons.l10n_br_account_product.sped.nfe.serializer.' +
-                data['file_type'], globals(), locals(), data['file_type'])
+                func = getattr(mod_serializer, 'nfe_export')
 
-            func = getattr(mod_serializer, 'nfe_export')
+                str_nfe_version = inv.nfe_version
 
-            company_pool = self.pool.get('res.company')
-            company = company_pool.browse(cr, uid, inv.company_id.id)
+                nfes = func(self._cr, self._uid, export_inv_ids,
+                            data.nfe_environment, str_nfe_version,
+                            self._context)
 
-            str_nfe_version = inv.nfe_version
+                for nfe in nfes:
+                    nfe_file = nfe['nfe'].encode('utf8')
 
-            nfes = func(
-                cr, uid, export_inv_ids, data['nfe_environment'],
-                str_nfe_version, context)
+                data.write({
+                    'file': base64.b64encode(nfe_file),
+                    'state': 'done',
+                    'name': name,
+                })
 
-            for nfe in nfes:
-                # if nfe['message']:
-                    # status = 'error'
-                # else:
-                    # status = 'success'
+            if err_msg:
+                raise UserError(_('Error!'), _("'%s'") % _(err_msg, ))
 
-                # self.pool.get(self._name + '_result').create(
-                    # cr, uid, {'document': nfe['key'],
-                        # 'message': nfe['message'],
-                        # 'status': status,
-                        # 'wizard_id': data['id']})
+            view_rec = self.env['ir.model.data'].get_object_reference(
+                'l10n_br_account_product',
+                'l10n_br_account_product_nfe_export_invoice_form')
+            view_id = view_rec and view_rec[1] or False
 
-                nfe_file = nfe['nfe'].encode('utf8')
-
-            self.write(
-                cr, uid, ids,
-                {'file': base64.b64encode(nfe_file),
-                 'state': 'done',
-                 'name': name},
-                context=context)
-
-        if err_msg:
-            raise orm.except_orm(_('Error!'), _("'%s'") % _(err_msg, ))
-
-        mod_obj = self.pool.get('ir.model.data')
-        model_data_ids = mod_obj.search(
-            cr, uid, [('model', '=', 'ir.ui.view'),
-                      ('name',
-                       '=',
-                       'l10n_br_account_product_nfe_export_invoice_form')],
-            context=context)
-        resource_id = mod_obj.read(
-            cr, uid, model_data_ids,
-            fields=['res_id'], context=context)[0]['res_id']
-
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': data['id'],
-            'views': [(resource_id, 'form')],
-            'target': 'new',
-        }
+            return {
+                'view_type': 'form',
+                'view_id': [view_id],
+                'view_mode': 'form',
+                'res_model': 'l10n_br_account_product.nfe_export_invoice',
+                'res_id': data.id,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'context': data.env.context,
+            }
 
 
-class L10n_brAccountNfeExportInvoiceResult(orm.TransientModel):
+class L10nBrAccountNfeExportInvoiceResult(models.TransientModel):
     _name = 'l10n_br_account_product.nfe_export_invoice_result'
-    _columns = {
-        'wizard_id': fields.many2one(
-            'l10n_br_account_product.nfe_export_invoice', 'Wizard ID',
-            ondelete='cascade', select=True),
-        'document': fields.char('Documento', size=255),
-        'status': fields.selection(
-            [('success', 'Sucesso'), ('error', 'Erro')], 'Status'),
-        'message': fields.char('Mensagem', size=255),
-    }
+
+    wizard_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.nfe_export_invoice',
+        string='Wizard ID',
+        ondelete='cascade', select=True)
+    document = fields.Char(string='Documento', size=255)
+    status = fields.Selection(
+        selection=[
+            ('success', 'Sucesso'),
+            ('error', 'Erro')
+        ],
+        string='Status')
+    message = fields.Char(string='Mensagem', size=255)
