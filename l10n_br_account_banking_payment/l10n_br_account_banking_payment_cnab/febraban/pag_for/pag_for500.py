@@ -277,36 +277,55 @@ class PagFor500(Cnab):
             # FIXME block
 
 
-            'carteira': int(self.order.mode.boleto_carteira),
-            'nosso_numero': 11,  # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
-            'numero_documento': line.name,
+            # 'nosso_numero': 11,  # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
+
+            # 'numero_documento': line.name,
             'vencimento_titulo': self.format_date_ano_mes_dia(
                 line.ml_maturity_date),
+
             'data_emissao_titulo': self.format_date_ano_mes_dia(
                 line.ml_date_created),
+
             'desconto1_data': 0,
             'fator_vencimento': 0,  # FIXME
+
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
+
             'valor_pagto': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
+
             'valor_desconto': Decimal('0.00'),
+
             'valor_acrescimo': Decimal('0.00'),
+
+            # FIXME
             'tipo_documento': 2, # NF, Fatura, Duplicata...
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
             'numero_nf': int(line.ml_inv_ref.internal_number),
-            # 'serie_documento': u'AB',
-            'modalidade_pagamento': int(self.order.mode.boleto_especie),
+
+            'modalidade_pagamento': line.order_id.mode.type_purchase_payment,
+
+            'data_para_efetivacao_pag': 0,  # Quando não informada o sistema assume a data constante do campo Vencimento
+
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
             # 0 - Inclusão.
             # 5 - Alteração.
-            # 9 - Exclusão. Wkf Odoo.
-            'codigo_movimento': 0,  # FIXME
-            # 'horario_consulta_saldo': u'5',  # FIXME
+            # 9 - Exclusão.
+
+            'codigo_movimento': 0,  # Autoriza agendamento
+
+            # 'horario_consulta_saldo': u'5',  # Quando não informado consulta em todos processamentos
+
+
+
             'codigo_area_empresa': 0,
+
             'codigo_lancamento': 0,  # FIXME
+
             'tipo_conta_fornecedor': 1,  # FIXME
+
             # O Primeiro registro de transação sempre será o registro
             # “000002”, e assim sucessivamente.
             'sequencial': 3,  # FIXME
@@ -380,12 +399,36 @@ class PagFor500(Cnab):
         elif mode in ('30'):
             raise UserError('Operação não suportada')
         elif mode in ('31'):
-            return self.lancamento_titulos(line)
+            raise UserError('Operação não suportada')
         raise UserError('Operação não suportada')
+
+    def lancamento_credito_bradesco(self, line):
+        # TODO:
+        # modalidade 01.
+
+        vals = {
+            'codigo_banco_forn': 237,
+            'codigo_agencia_forn': int(line.bank_id.bra_number),
+            'digito_agencia_forn_transacao': line.bank_id.bra_number_dig,
+            'conta_corrente_forn': int(line.bank_id.acc_number),
+            'digito_conta_forn_transacao': line.bank_id.acc_number_dig,
+
+            'numero_pagamento':
+                self.adiciona_digitos_num_pag(line.communication),
+
+            'carteira': int(self.order.mode.boleto_carteira),
+
+            'nosso_numero': 0,
+
+            'informacoes_complementares': u'',
+        }
+
+        return self._prepare_segmento(vals)
 
 
     def lancamento_ted(self, line):
         # TODO:
+        # modalidade 08.
 
         vals =  {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
@@ -403,13 +446,12 @@ class PagFor500(Cnab):
             # pagamento por parte desse, exceto para a modalidade 30 -
             # Títulos em Cobrança Bradesco
             # communication
-            'numero_pagamento': int(line.move_line_id.move_id.name),
+            'numero_pagamento':
+                self.adiciona_digitos_num_pag(line.communication),
 
-            'carteira': int(self.order.mode.boleto_carteira),
+            'carteira': 0,
 
-
-            'nosso_numero': 11, # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
-            'numero_documento': line.name,
+            'nosso_numero': 0,
 
 
             'fator_vencimento': 0,  # FIXME
@@ -424,7 +466,11 @@ class PagFor500(Cnab):
             # 9 - Exclusão. Wkf Odoo.
             'codigo_movimento': 0,  # FIXME
             # 'horario_consulta_saldo': u'5',  # FIXME
+
+            'informacoes_complementares': self.montar_info_comple_ted(),
+
             'codigo_area_empresa': 0,
+
             'codigo_lancamento': 0,  # FIXME
             'tipo_conta_fornecedor': 1,  # FIXME
 
@@ -446,9 +492,19 @@ class PagFor500(Cnab):
 
         return self._prepare_segmento(vals)
 
-    def lancamento_credito_bradesco(self):
-        # TODO:
+    def adiciona_digitos_num_pag(self, campo):
+        num_digitos = 16
+        campo = str(campo)
+        chars_faltantes = num_digitos - len(campo)
+        return (u' ' * chars_faltantes) + campo
 
-        vals =  {}
-
-        return self._prepare_segmento(vals)
+    def montar_info_comple_ted(self):
+        tipo_doc_compe = TIPO_DOC[0][0]
+        num_doc_ted = '000000'
+        finalidade_doc_compe = FINALIDADE_DOC_TED[2][0] # pagamento duplicatas. Ou será 01?
+        tipo_conta_doc_ted = '01'
+        codigo_identif_transf = '0000000000000000000000000'
+        fim_do_campo = '    '
+        info_comple = tipo_doc_compe + num_doc_ted + finalidade_doc_compe + \
+                      tipo_conta_doc_ted + codigo_identif_transf + fim_do_campo
+        return info_comple

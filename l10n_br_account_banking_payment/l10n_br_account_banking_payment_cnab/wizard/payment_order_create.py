@@ -92,3 +92,8 @@ class PaymentOrderCreate(models.TransientModel):
         # res['communication2'] = line.payment_mode_id.comunicacao_2
         res['percent_interest'] = line.payment_mode_id.cnab_percent_interest
         return res
+
+    @api.multi
+    def write_state_on_move_line(self):
+
+        pass

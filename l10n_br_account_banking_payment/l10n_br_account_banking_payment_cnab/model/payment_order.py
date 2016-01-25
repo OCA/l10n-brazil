@@ -22,6 +22,9 @@
 
 from openerp import models, fields
 
+# TODO: funcao a ser chamada por ação automatizada para resetar o sufixo
+#     diariamente
+
 
 class PaymentOrder(models.Model):
     _inherit = 'payment.order'
