@@ -37,7 +37,7 @@ def consulta_cnpj(partner, company):
     documento_consultado = "%015d" % int(document)
     documento_consultor = "%014d" % int(company_document)
     login = str("%08d" % int(company.logon_serasa))
-    senha = str("%08d" % int(company.senha_serasa))
+    senha = str("%08s" % str(company.senha_serasa))
 
     # Objeto que gerencia todas as funções de parsing
     parser = parserStringDados.ParserStringDados()
@@ -54,9 +54,8 @@ def consulta_cnpj(partner, company):
     arquivo = parser.parser_string_dados_retorno(string_dados, arquivo)
 
     if len(arquivo.blocos) == 4:
+        print string_dados
         return "Usuario ou senha do serasa invalidos"
-    elif arquivo.T999.codigo != u'000':
-        return arquivo.T999.mensagem
 
     retorno_consulta = {
             'status': '',
