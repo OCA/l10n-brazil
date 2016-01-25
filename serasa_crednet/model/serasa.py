@@ -163,10 +163,10 @@ class SerasaCheque(models.Model):
     _name = 'serasa.cheque'
 
     num_cheque = fields.Integer(u'Número do Cheque')
-    alinea = fields.Integer(u'Alínea')
+    alinea = fields.Integer(u'Alínea', default=0)
     serasa_id = fields.Many2one('consulta.serasa', required=True)
     name_bank = fields.Char('Nome do Banco')
     city = fields.Char('Cidade')
     uf = fields.Char('UF')
     date = fields.Date('Data')
-    value = fields.Float('Valor')
+    value = fields.Float('Valor', default=0.00)

@@ -146,16 +146,17 @@ def retorna_cheques(retorno_consulta, bloco):
     if len(bloco.blocos) > 0:
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
-                cheque_dic = {
-                    'num_cheque': registro.campos.campos[3]._valor,
-                    'alinea': int(registro.campos.campos[4]._valor),
-                    'name_bank': registro.campos.campos[8]._valor,
-                    'date': registro.campos.campos[2]._valor,
-                    'city': registro.campos.campos[10]._valor,
-                    'uf': registro.campos.campos[11]._valor,
-                    'value': registro.campos.campos[6]._valor,
-                }
-                cheque.append(cheque_dic)
+                if registro.campos.campos[6]._valor.replace(" ","") != "":
+                    cheque_dic = {
+                        'num_cheque': registro.campos.campos[3]._valor,
+                        'alinea': registro.campos.campos[4]._valor,
+                        'name_bank': registro.campos.campos[8]._valor,
+                        'date': registro.campos.campos[2]._valor,
+                        'city': registro.campos.campos[10]._valor,
+                        'uf': registro.campos.campos[11]._valor,
+                        'value': registro.campos.campos[6]._valor,
+                    }
+                    cheque.append(cheque_dic)
 
     retorno_consulta['cheque'] = cheque
     cheque = []
