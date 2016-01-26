@@ -43,13 +43,13 @@ class BradescoPagFor(PagFor500):
         vals['codigo_comunicacao'] = int(self.order.mode.boleto_convenio)
         return vals
 
-    def _prepare_segmento(self, line):
+    def _prepare_segmento(self, line, vals):
         """
 
         :param line:
         :return:
         """
-        vals = super(BradescoPagFor, self)._prepare_segmento(line)
+        vals = super(BradescoPagFor, self)._prepare_segmento(line, vals)
 
         # TODO campo para informar a data do pagamento.
         vals['data_para_efetivacao_pag'] = self.muda_campos_data(

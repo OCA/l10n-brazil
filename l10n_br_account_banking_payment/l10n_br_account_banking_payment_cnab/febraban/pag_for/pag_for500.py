@@ -304,7 +304,7 @@ class PagFor500(Cnab):
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
             'numero_nf': int(line.ml_inv_ref.internal_number),
 
-            'modalidade_pagamento': line.order_id.mode.type_purchase_payment,
+            'modalidade_pagamento': int(line.order_id.mode.type_purchase_payment),
 
             'data_para_efetivacao_pag': 0,  # Quando não informada o sistema assume a data constante do campo Vencimento
 
@@ -423,7 +423,7 @@ class PagFor500(Cnab):
             'informacoes_complementares': u'',
         }
 
-        return self._prepare_segmento(vals)
+        return self._prepare_segmento(line, vals)
 
 
     def lancamento_ted(self, line):
@@ -456,8 +456,7 @@ class PagFor500(Cnab):
 
             'fator_vencimento': 0,  # FIXME
 
-            'modalidade_pagamento': int(self.order.mode.boleto_especie),
-
+            # 'modalidade_pagamento': int(self.order.mode.boleto_especie),
 
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
@@ -467,9 +466,8 @@ class PagFor500(Cnab):
             'codigo_movimento': 0,  # FIXME
             # 'horario_consulta_saldo': u'5',  # FIXME
 
-            'informacoes_complementares': self.montar_info_comple_ted(),
-
-            'codigo_area_empresa': 0,
+            # 'informacoes_complementares': self.montar_info_comple_ted(),
+            'informacoes_complementares': u'',
 
             'codigo_lancamento': 0,  # FIXME
             'tipo_conta_fornecedor': 1,  # FIXME
@@ -507,4 +505,4 @@ class PagFor500(Cnab):
         fim_do_campo = '    '
         info_comple = tipo_doc_compe + num_doc_ted + finalidade_doc_compe + \
                       tipo_conta_doc_ted + codigo_identif_transf + fim_do_campo
-        return info_comple
+        return (info_comple.encode('utf-8'))
