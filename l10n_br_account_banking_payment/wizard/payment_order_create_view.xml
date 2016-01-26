@@ -14,6 +14,7 @@
             <field name="arch" type="xml">
                 <field name="duedate" position="after">
                     <field name="schedule_date"/>
+                    <field name="all_posted_moves"/>
                 </field>
             </field>
         </record>
