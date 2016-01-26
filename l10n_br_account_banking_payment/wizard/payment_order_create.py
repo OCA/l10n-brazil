@@ -30,6 +30,7 @@ class PaymentOrderCreate(models.TransientModel):
     _inherit = 'payment.order.create'
 
     schedule_date = fields.Date('Data Programada')
+    all_posted_moves = fields.Boolean(u'Títulos em aberto', default=True)
 
     @api.model
     def default_get(self, field_list):
@@ -43,6 +44,12 @@ class PaymentOrderCreate(models.TransientModel):
     @api.multi
     def extend_payment_order_domain(self, payment_order, domain):
         self.ensure_one()
+
+        # Search for all posted moves
+        if self.all_posted_moves == True:
+            index = domain.index(('date_maturity', '<=', self.duedate))
+            domain[index + 1] = ('date_maturity', '>', self.duedate)
+
         if payment_order.payment_order_type == 'payment':
             # For payables, propose all unreconciled credit lines,
             # including partially reconciled ones.
