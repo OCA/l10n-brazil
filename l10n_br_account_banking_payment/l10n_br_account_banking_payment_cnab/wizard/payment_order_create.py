@@ -32,6 +32,7 @@ class PaymentOrderCreate(models.TransientModel):
     def extend_payment_order_domain(self, payment_order, domain):
         super(PaymentOrderCreate, self).extend_payment_order_domain(
             payment_order, domain)
+
         if payment_order.mode.type.code == '240':
             if payment_order.mode.payment_order_type == 'cobranca':
                 domain += [
