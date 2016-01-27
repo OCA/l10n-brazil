@@ -36,8 +36,8 @@ class StockPicking(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
-    invoice_aux_internal_number = fields.Char('Aux Invoice Number', size=32)
-
+    invoice_aux_internal_number = fields.Char('Numero reservado da fatura',
+                                              size=32)
 
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
