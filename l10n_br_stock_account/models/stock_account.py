@@ -81,9 +81,9 @@ class StockPicking(models.Model):
         result['fiscal_category_id'] = picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position.id
         if picking.fiscal_category_id.set_invoice_number:
-            serie_id = inv_obj.get_default('document_serie_id')
+            serie_id = inv_obj._default_fiscal_document_serie()
             seq_number = sequence_obj.get_id(serie_id.internal_sequence_id.id)
-            self.invoice_aux_internal_number = seq_number
+            picking.invoice_aux_internal_number = seq_number
             result['aux_internal_number'] = seq_number
 
         vals.update(result)
