@@ -52,7 +52,9 @@ class PaymentOrderCreate(models.TransientModel):
                 domain += [
                     ('debit', '>', 0),
                     ('account_id.type', '=', 'receivable'),
-                    ('payment_mode_id', '=', payment_order.mode.id)
+                    # '&',
+                    ('payment_mode_id', '=', payment_order.mode.id),
+                    # ('is_cnab_rejected', '=', True)
                 ]
             # TODO: Refactory this
             # TODO: domain do state da move_line.
@@ -92,9 +94,42 @@ class PaymentOrderCreate(models.TransientModel):
 
         # res['communication2'] = line.payment_mode_id.comunicacao_2
         res['percent_interest'] = line.payment_mode_id.cnab_percent_interest
+
+        # if payment.mode.type.code == '400':
+            # write state = added to move_line to avoid it being added on cnab again
+            # self.write_state_on_move_line(line)
+         #   pass
+
         return res
 
     @api.multi
-    def write_state_on_move_line(self):
+    def filter_lines(self, lines):
+        """ Filter move lines before proposing them for inclusion
+            in the payment order.
 
-        pass
+        This implementation filters out move lines that are already
+        included in draft or open payment orders. This prevents the
+        user to include the same line in two different open payment
+        orders. When the payment order is sent, it is assumed that
+        the move will be reconciled soon (or immediately with
+        account_banking_payment_transfer), so it will not be
+        proposed anymore for payment.
+
+        See also https://github.com/OCA/bank-payment/issues/93.
+
+        :param lines: recordset of move lines
+        :returns: list of move line ids
+        """
+
+        self.ensure_one()
+        payment_lines = self.env['payment.line'].\
+            search([('order_id.state', 'in', ('draft', 'open', 'done')),
+                    ('move_line_id', 'in', lines.ids)])
+        to_exclude = set([l.move_line_id.id for l in payment_lines
+                          if not l.move_line_id.is_cnab_rejected])
+        return [l.id for l in lines if l.id not in to_exclude]
+
+    # @api.multi
+    # def write_state_on_move_line(self, line):
+    #     line.write({'state_cnab': 'added'})
+    #     a = 0
