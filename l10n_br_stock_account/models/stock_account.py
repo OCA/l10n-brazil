@@ -36,7 +36,7 @@ class StockPicking(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
-    invoice_aux_internal_number = fields.Char('Numero reservado da fatura',
+    invoice_reserved_number = fields.Char('Numero reservado da fatura',
                                               size=32)
 
     def _fiscal_position_map(self, result, **kwargs):
@@ -83,7 +83,7 @@ class StockPicking(models.Model):
         if picking.fiscal_category_id.set_invoice_number:
             serie_id = inv_obj._default_fiscal_document_serie()
             seq_number = sequence_obj.get_id(serie_id.internal_sequence_id.id)
-            picking.invoice_aux_internal_number = seq_number
+            picking.invoice_reserved_number = seq_number
             result['aux_internal_number'] = seq_number
 
         vals.update(result)
