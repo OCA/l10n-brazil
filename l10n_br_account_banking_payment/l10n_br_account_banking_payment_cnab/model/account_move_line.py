@@ -22,17 +22,21 @@
 
 from openerp import models, fields
 
-ESTADOS_CNAB = [
-    ('draft', u'Inicial'),
-    ('added', u'Adicionada à ordem de pagamento'),
-    ('exported', u'Exportada'),
-    ('accepted', u'Aceita'),
-    ('not_accepted', u'Não aceita pelo banco'),
-]
+
+# ESTADOS_CNAB = [
+#     ('draft', u'Inicial'),
+#     ('added', u'Adicionada à ordem de pagamento'),
+#     ('exported', u'Exportada'),
+#     ('accepted', u'Aceita'),
+#     ('not_accepted', u'Não aceita pelo banco'), # importar novamente
+# ]
 
 
 class AccounMoveLine(models.Model):
     _inherit = "account.move.line"
+    #
+    # state_cnab = fields.Selection(
+    #     ESTADOS_CNAB, u'Estados CNAB', default='draft')
 
-    state_cnab = fields.Selection(
-        ESTADOS_CNAB, u'Estados CNAB', default='draft')
+    is_cnab_rejected = fields.Boolean(u'CNAB Rejeitado', default=False)
+    cnab_rejected_code = fields.Char(u'Rejeição')

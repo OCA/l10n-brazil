@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 # TODO: funcao a ser chamada por ação automatizada para resetar o sufixo
 #     diariamente
@@ -66,3 +66,16 @@ class PaymentOrder(models.Model):
                 context=context)
             self.write(cr, uid, ord.id, {'sufixo_arquivo': seq_no})
         return seq_no
+
+    # @api.multi
+    # def set_to_draft(self, *args):
+    #     super(PaymentOrder, self).set_to_draft(*args)
+    #
+    #     for order in self:
+    #         for line in order.line_ids:
+    #             self.write_added_state_to_move_line(line.move_line_id)
+    #     return True
+
+    # @api.multi
+    # def write_added_state_to_move_line(self, mov_line):
+    #     mov_line.state_cnab = 'added'
