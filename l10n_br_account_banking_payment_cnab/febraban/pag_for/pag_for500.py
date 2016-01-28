@@ -246,6 +246,7 @@ class PagFor500(Cnab):
 
         vals.update(segmento)
 
+        # TODO this zip code
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
         aceite = u'N'
@@ -254,9 +255,7 @@ class PagFor500(Cnab):
 
         segmento =  {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
-            'especie_titulo': 8,
-            # TODO: Código adotado para identificar o título de cobrança. 8
-            # é Nota de cŕedito comercial
+            # 'especie_titulo': 8,
 
             'tipo_inscricao': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
@@ -269,19 +268,15 @@ class PagFor500(Cnab):
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
                 line.partner_id.street + ' ' + line.partner_id.number),
+            'cep_forn': int(prefixo),
             'cep_complemento_forn': int(sulfixo),
-
-            # FIXME block: não esqueça de adicionar nas outras modalidades
-            'digito_agencia_forn_transacao': 0,
-            'digito_conta_forn_transacao': 0,
-            # FIXME block
 
 
             # 'nosso_numero': 11,  # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
 
             # 'numero_documento': line.name,
-            'vencimento_titulo': self.format_date_ano_mes_dia(
-                line.ml_maturity_date),
+            # 'vencimento_titulo': self.format_date_ano_mes_dia(
+            #     line.ml_maturity_date),
 
             'data_emissao_titulo': self.format_date_ano_mes_dia(
                 line.ml_date_created),
@@ -399,7 +394,8 @@ class PagFor500(Cnab):
         elif mode in ('30'):
             raise UserError('Operação não suportada')
         elif mode in ('31'):
-            raise UserError('Operação não suportada')
+            # titulos de terceiros
+            return self.lancamento_titulos_terceiros(line)
         raise UserError('Operação não suportada')
 
     def lancamento_credito_bradesco(self, line):
@@ -407,6 +403,8 @@ class PagFor500(Cnab):
         # modalidade 01.
 
         vals = {
+            'especie_titulo': line.order_id.mode.type_purchase_payment,
+
             'codigo_banco_forn': 237,
             'codigo_agencia_forn': int(line.bank_id.bra_number),
             'digito_agencia_forn_transacao': line.bank_id.bra_number_dig,
@@ -419,6 +417,9 @@ class PagFor500(Cnab):
             'carteira': int(self.order.mode.boleto_carteira),
 
             'nosso_numero': 0,
+
+            'vencimento_titulo': self.format_date_ano_mes_dia(
+                line.ml_maturity_date),
 
             'informacoes_complementares': u'',
         }
@@ -453,6 +454,8 @@ class PagFor500(Cnab):
 
             'nosso_numero': 0,
 
+            'vencimento_titulo': self.format_date_ano_mes_dia(
+                line.ml_maturity_date),
 
             'fator_vencimento': 0,  # FIXME
 
@@ -483,10 +486,28 @@ class PagFor500(Cnab):
 
         return self._prepare_segmento(vals)
 
-    def lancamento_titulo(self):
+    def lancamento_titulos_terceiros(self, line):
         # TODO:
 
-        vals =  {}
+        res_cods_ag_cc = \
+            self.ler_linha_digitavel_codigos_ag_cc(line.linha_digitavel)
+
+        vals = {
+            'conta_complementar': int(self.order.mode.bank_id.acc_number),
+            'especie_titulo': line.order_id.mode.type_purchase_payment,
+
+            # extrair do código de barras
+            'codigo_banco_forn': res_cods_ag_cc['codigo_banco_forn'],
+            'codigo_agencia_forn': res_cods_ag_cc['codigo_agencia_forn'],
+            'digito_agencia_forn_transacao':
+                res_cods_ag_cc['digito_agencia_forn_transacao'],
+            'conta_corrente_forn': res_cods_ag_cc['conta_corrente_forn'],
+            'digito_conta_forn_transacao':
+                res_cods_ag_cc['digito_conta_forn_transacao'],
+
+            'carteira': res_cods_ag_cc['carteira']
+
+        }
 
         return self._prepare_segmento(vals)
 
@@ -506,3 +527,37 @@ class PagFor500(Cnab):
         info_comple = tipo_doc_compe + num_doc_ted + finalidade_doc_compe + \
                       tipo_conta_doc_ted + codigo_identif_transf + fim_do_campo
         return (info_comple.encode('utf-8'))
+
+    def ler_linha_digitavel_codigos_ag_cc(self, linha_digitavel):
+        linha_completa = linha_digitavel
+
+        codigo_banco_fornecedor = linha_digitavel[:3]
+        res = {}
+
+        # para banco = 237, bradesco
+        if (codigo_banco_fornecedor == '237'):
+            res = {
+                'codigo_banco_forn': int(codigo_banco_fornecedor),
+                'codigo_agencia_forn': int(linha_digitavel[4:8]),
+                'digito_agencia_forn_transacao': u'',  # Calcular usando modulo 11 base 7
+                'conta_corrente_forn': int(linha_digitavel[23:30]),
+                'digito_conta_forn_transacao': u'',  # Calcular usando modulo 11 base 7
+
+                'carteira': int(linha_digitavel[8:10]),
+
+                'nosso_numero': int(linha_digitavel[11:21])
+            }
+        # para outros bancos
+        else:
+            res = {
+                'codigo_banco_forn': int(codigo_banco_fornecedor),
+                'codigo_agencia_forn': 0,
+                'digito_agencia_forn_transacao': u'',
+                'conta_corrente_forn': 0,
+                'digito_conta_forn_transacao': u'',
+
+                'carteira': 0,
+
+                'nosso_numero': 0,
+            }
+        return res
