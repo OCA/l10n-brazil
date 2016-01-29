@@ -60,4 +60,4 @@ class AccountMoveLine(models.Model):
 
     has_gnre = fields.Boolean(
         related='stored_invoice_id.has_gnre',
-        string="Tem GNRE", store=True)
+        string="Tem GNRE")
