@@ -76,7 +76,7 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         help="""Unique number of the invoice, computed
             automatically when the invoice is created.""")
-    aux_internal_number = fields.Char('Aux Invoice Number', size=32)
+    invoice_reserved_number = fields.Char('Aux Invoice Number', size=32)
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
