@@ -53,3 +53,11 @@ class PaymentOrder(models.Model):
         selection_add=[
             ('tax', u'Tributos'),
         ])
+
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+
+    has_gnre = fields.Boolean(
+        related='stored_invoice_id.has_gnre',
+        string="Tem GNRE", store=True)
