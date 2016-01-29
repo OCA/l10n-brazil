@@ -1070,7 +1070,7 @@ class AccountInvoiceLine(models.Model):
         ctx.update({'product_id': kwargs.get('product_id')})
         account_obj = self.env['account.account']
         obj_fp_rule = self.env['account.fiscal.position.rule']
-        parTruetner = self.env['res.partner'].browse(kwargs.get('partner_id'))
+        partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
 
         product_fiscal_category_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
