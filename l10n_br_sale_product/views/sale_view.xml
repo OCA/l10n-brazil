@@ -16,15 +16,23 @@
 				<field name="invoiced" position="before">
 					<field name="ind_pres"/>
 				</field>
-				<field name="note" position="before">
-					<group>
+				<field name="note" position="after">
+                    <field name="has_gnre" invisible="1"/>
+					<group string="GNRE" attrs="{'invisible': [('has_gnre','!=', True)]}">
+						<label for="gnre_due_days"/>
+						<div>
+							<field name="gnre_due_days"/>
+						</div>
+						<label for="gnre_response"/>
+						<div>
+							<field name="gnre_response"/>
+						</div>
 						<label for="amount_total_gnre"/>
 						<div>
 							<field name="amount_total_gnre"/>
 						</div>
 					</group>
 				</field>
-
 			</field>
 		</record>
 

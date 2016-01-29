@@ -49,9 +49,9 @@
 			<field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
 			 <field name="arch" type="xml">
 					<group string="Dados Fiscais"  position="after">
-						<group string=" Recolhimento">
+						<group string="Recolhimento GNRE">
 							<field name="has_gnre"/>
-							<field name="gnre_id"  attrs="{'invisible': [('has_gnre','!=', True)]}"/>
+							<field name="gnre_response"  attrs="{'invisible': [('has_gnre','!=', True)]}"/>
 							<field name="gnre_due_days" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
                         </group>
 					</group>

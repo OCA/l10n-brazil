@@ -20,6 +20,9 @@
 from openerp import models, fields, api
 from openerp.addons.l10n_br_account_product.models.product import \
     PRODUCT_ORIGIN
+from openerp.addons.l10n_br_account_product.models.l10n_br_account_product\
+    import (GNRE_RESPONSE,
+            GNRE_RESPONSE_DEFAULT)
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -222,8 +225,10 @@ class ResPartner(models.Model):
 
     has_gnre = fields.Boolean(
         string=u"Recolhe imposto antecipadamente atraves de GNRE")
-    gnre_id = fields.Many2one(
-        'l10n_br_tax.gnre',
-        string=u'Código de recolhimento')
     gnre_due_days = fields.Integer(
-        string="Dias para vencimento duplicata cobrança")
+        string=u"Vencimento (em dias)")
+    gnre_response= fields.Selection(
+        selection=GNRE_RESPONSE,
+        default=GNRE_RESPONSE_DEFAULT,
+        string=u'Responsabilidade'
+    )

@@ -377,6 +377,13 @@ class L10nBrIPIGuideline(models.Model):
         'account.tax.code.template', string=u'CST Saída')
 
 
+GNRE_RESPONSE = [
+        ('emmiter','Emitente'),
+        ('receiver','Remetente'),
+        ('none','Isento'),
+    ]
+GNRE_RESPONSE_DEFAULT = 'none'
+
 class L10nBrTaxGnre(models.Model):
 
     _name = 'l10n_br_tax.gnre'
@@ -384,4 +391,8 @@ class L10nBrTaxGnre(models.Model):
 
     code = fields.Char(u'Código', required=True)
     name = fields.Text(u'Descrição', required=True)
-
+    gnre_response= fields.Selection(
+        selection=GNRE_RESPONSE,
+        default=GNRE_RESPONSE_DEFAULT,
+        string='Responsabilidade'
+    )

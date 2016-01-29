@@ -12,6 +12,7 @@
 						<page string="ICMS">
 							<group>
 								<field name="fcp_tax_id"/>
+								<field name="gnre_id"/>
 							</group>
 						</page>
 					</notebook>
