@@ -30,9 +30,10 @@ class PaymentMode(models.Model):
         selection_add=[
             ('tax', u'Tributos'),
         ])
-
-    # A exportação CNAB não se encaixa somente nos parâmetros de
-    # débito e crédito.
+    gnre_value_field = fields.Many2one(
+        'ir.model.fields', 'Value field',
+        domain=[('model_id', '=', 'account.invoice')])
+    gnre_type = fields.Many2one('l10n_br_tax.gnre')
 
 
 class PaymentModeType(models.Model):

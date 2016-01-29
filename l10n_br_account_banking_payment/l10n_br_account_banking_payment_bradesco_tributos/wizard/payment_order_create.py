@@ -23,7 +23,7 @@
 
 from openerp import fields, models, api
 from ..bradesco import bradesco_tax
-from datetime import datetime
+from datetime import datetime, timedelta
 from openerp.addons import decimal_precision as dp
 
 
@@ -37,14 +37,15 @@ class PaymentOrderCreate(models.TransientModel):
         if payment_order.mode.type.code == 'gnre':
             if payment_order.mode.payment_order_type == 'tributos':
                 domain += [
-                    ('debit', '>', 0)
+                    ('debit', '>', 0),
+                    ('account_id.type', '=', 'receivable'),
                 ]
             # for i in domain:
             #     del i
-            tax_code_ids = self.env[
-                'account.tax.code'].search([('domain', '=', 'icms')])
+            # tax_code_ids = self.env[
+            #     'account.tax.code'].search([('domain', '=', 'icms')])
 
-            domain.append(('tax_code_id', 'in', tax_code_ids.ids))
+            # domain.append(('tax_code_id', 'in', tax_code_ids.ids))
         return True
 
     @api.multi
@@ -52,63 +53,68 @@ class PaymentOrderCreate(models.TransientModel):
         res = super(PaymentOrderCreate, self)._prepare_payment_line(
             payment, line
         )
-        res['amount_currency'] = line.tax_amount
-        res['date'] = line.date
-        res.update({'ml_maturity_date': line.date})
+        if payment.mode.type.code == 'gnre':
+            value = getattr(line.invoice, payment.mode.gnre_value_field.name)
+            res['amount_currency'] = value
+            res['date'] = line.invoice.date_invoice
+            res['ml_maturity_date'] = (
+                datetime.strptime(
+                    line.invoice.date_invoice, "%Y-%m-%d") +
+                timedelta(days=line.invoice.gnre_due_days))
         return res
 
-    @api.multi
-    def create_payment(self):
-        super(PaymentOrderCreate, self).create_payment()
-
-        parser_gnre = bradesco_tax.BradescoGnre()
-
-        arq = open('/tmp/testeGNRE', 'w')
-
-        texto = ''
-
-        for line in self.entries:
-            if line.partner_id.is_company:
-                tipo_inscricao = '2'
-            else:
-                tipo_inscricao = '1'
-
-            if str(line.credit)[-2] == '.':
-                valor_tributo = str(line.credit).replace('.', '') + '0'
-
-            endereco01 = str(line.partner_id.street)
-            # endereco02 = str(line.partner_id.street2.replace('º', ''))
-            endereco_cliente = endereco01
-            vals = {
-                'identificador_tributo': 'G',
-                'nome_cliente': str(line.partner_id.name),
-                'endereco_cliente': endereco_cliente,
-                'cep_cliente': str(line.partner_id.zip.replace('-', '')),
-                'uf_cliente': str(line.partner_id.state_id.code),
-                'autoriza_pagamento': 'S',
-                'tipo_inscricao': tipo_inscricao,
-                'uf_favorecida': str(line.partner_id.state_id.code),
-                'telefone_cliente': str(line.partner_id.phone
-                                        .replace('(', '').replace(')', '')
-                                        .replace('-', '').replace(' ', '')),
-                'numero_inscricao': str(line.partner_id.cnpj_cpf
-                                        .replace('.', '').replace('/', '')
-                                        .replace('-', '')),
-                'valor_do_principal': valor_tributo,
-                'data_pagamento_tributo': line.date.replace('-', ''),
-                'data_vencimento_tributo': line.date.replace('-', ''),
-                'num_doc_origem': str(line.invoice.display_name),
-            }
-
-            linha_arquivo = parser_gnre.remessa(**vals)
-            texto += linha_arquivo
-            texto += '\n'
-            print linha_arquivo
-
-        arq.write(texto)
-        arq.close()
-
-        return True
+    # @api.multi
+    # def create_payment(self):
+    #     super(PaymentOrderCreate, self).create_payment()
+    #
+    #     parser_gnre = bradesco_tax.BradescoGnre()
+    #
+    #     arq = open('/tmp/testeGNRE', 'w')
+    #
+    #     texto = ''
+    #
+    #     for line in self.entries:
+    #         if line.partner_id.is_company:
+    #             tipo_inscricao = '2'
+    #         else:
+    #             tipo_inscricao = '1'
+    #
+    #         if str(line.credit)[-2] == '.':
+    #             valor_tributo = str(line.credit).replace('.', '') + '0'
+    #
+    #         endereco01 = str(line.partner_id.street)
+    #         # endereco02 = str(line.partner_id.street2.replace('º', ''))
+    #         endereco_cliente = endereco01
+    #         vals = {
+    #             'identificador_tributo': 'G',
+    #             'nome_cliente': str(line.partner_id.name),
+    #             'endereco_cliente': endereco_cliente,
+    #             'cep_cliente': str(line.partner_id.zip.replace('-', '')),
+    #             'uf_cliente': str(line.partner_id.state_id.code),
+    #             'autoriza_pagamento': 'S',
+    #             'tipo_inscricao': tipo_inscricao,
+    #             'uf_favorecida': str(line.partner_id.state_id.code),
+    #             'telefone_cliente': str(line.partner_id.phone
+    #                                     .replace('(', '').replace(')', '')
+    #                                     .replace('-', '').replace(' ', '')),
+    #             'numero_inscricao': str(line.partner_id.cnpj_cpf
+    #                                     .replace('.', '').replace('/', '')
+    #                                     .replace('-', '')),
+    #             'valor_do_principal': valor_tributo,
+    #             'data_pagamento_tributo': line.date.replace('-', ''),
+    #             'data_vencimento_tributo': line.date.replace('-', ''),
+    #             'num_doc_origem': str(line.invoice.display_name),
+    #         }
+    #
+    #         linha_arquivo = parser_gnre.remessa(**vals)
+    #         texto += linha_arquivo
+    #         texto += '\n'
+    #         print linha_arquivo
+    #
+    #     arq.write(texto)
+    #     arq.close()
+    #
+    #     return True
 
 
 

@@ -33,7 +33,7 @@
     },
     'depends': [
         'l10n_br_account_payment_mode',
-        'account_banking_payment_export',
+        'l10n_br_account_banking_payment',
     ],
     'data': [
         'view/l10n_br_payment_tax.xml',
