@@ -34,9 +34,30 @@ from .l10n_br_account_product import (
 from .product import PRODUCT_ORIGIN
 from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
+from openerp.addons.l10n_br_account_product.models.l10n_br_account_product\
+    import (GNRE_RESPONSE,
+            GNRE_RESPONSE_DEFAULT)
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    @api.multi
+    def onchange_partner_id(self, type, partner_id, date_invoice=False,
+                            payment_term=False, partner_bank_id=False,
+                            company_id=False):
+
+        result = super(AccountInvoice, self).onchange_partner_id(
+            type, partner_id, date_invoice, payment_term,
+            partner_bank_id, company_id)
+
+        if not partner_id or not company_id:
+            return result
+        partner = self.env['res.partner'].browse(partner_id)
+        result['value']['has_gnre'] = partner.has_gnre
+        result['value']['gnre_due_days'] = partner.gnre_due_days
+        result['value']['gnre_response'] = partner.gnre_response
+        return result
 
     @api.one
     @api.depends('invoice_line', 'tax_line.amount')
@@ -384,6 +405,18 @@ class AccountInvoice(models.Model):
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
+    has_gnre = fields.Boolean(
+        string=u"Recolhe imposto antecipadamente atraves de GNRE")
+    gnre_due_days = fields.Integer(
+        string=u"Vencimento (em dias)")
+    gnre_response = fields.Selection(
+        selection=GNRE_RESPONSE,
+        default=GNRE_RESPONSE_DEFAULT,
+        string=u'Responsabilidade'
+    )
+    has_gnre_paid = fields.Boolean(
+        string=u"Guia paga")
+
 
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
@@ -1037,7 +1070,7 @@ class AccountInvoiceLine(models.Model):
         ctx.update({'product_id': kwargs.get('product_id')})
         account_obj = self.env['account.account']
         obj_fp_rule = self.env['account.fiscal.position.rule']
-        partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
+        parTruetner = self.env['res.partner'].browse(kwargs.get('partner_id'))
 
         product_fiscal_category_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(

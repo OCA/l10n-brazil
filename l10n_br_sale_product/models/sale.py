@@ -20,10 +20,26 @@
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
+from openerp.addons.l10n_br_account_product.models.l10n_br_account_product \
+    import (GNRE_RESPONSE,
+            GNRE_RESPONSE_DEFAULT)
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    @api.multi
+    def onchange_partner_id(self, partner_id):
+        result = super(SaleOrder, self).onchange_partner_id(partner_id)
+
+        if not partner_id:
+            return result
+        partner = self.env['res.partner'].browse(partner_id)
+        result['value']['has_gnre'] = partner.has_gnre
+        result['value']['gnre_due_days'] = partner.gnre_due_days
+        result['value']['gnre_response'] = partner.gnre_response
+
+        return result
 
     @api.one
     @api.depends('order_line.price_unit', 'order_line.tax_id',
@@ -196,6 +212,16 @@ class SaleOrder(models.Model):
         store=True,
         digits=dp.get_precision('Account'),
         compute='_amount_all_wrapper')
+    has_gnre = fields.Boolean(
+        string=u"Recolhe imposto antecipadamente atraves de GNRE")
+    gnre_due_days = fields.Integer(
+        string=u"Vencimento (em dias)")
+    gnre_response = fields.Selection(
+        selection=GNRE_RESPONSE,
+        default=GNRE_RESPONSE_DEFAULT,
+        string=u'Responsabilidade'
+    )
+
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
@@ -261,12 +287,10 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Float(
         compute='_amount_line', string='Subtotal',
         digits=dp.get_precision('Sale Price'))
-    has_gnre = fields.Boolean('')
     gnre_value = fields.Float(
         compute='_amount_line',
         string=u'Valor do recolhimento via GNRE',
         digits=dp.get_precision('Sale Price'))
-
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
