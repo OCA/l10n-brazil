@@ -22,7 +22,7 @@
 
 from openerp import models, api, workflow, fields
 import base64
-from ..bradesco.bradesco_tax import BradescoTax
+from ..bradesco.bradesco_tax import BradescoGnre
 
 
 class L10nPaymentTax(models.TransientModel):
@@ -39,24 +39,25 @@ class L10nPaymentTax(models.TransientModel):
 
     @api.multi
     def export(self):
-        for order_id in self.env.context.get('active_ids', []):
-            # order vem como dicionário?
-            order = self.env['payment.order'].browse(order_id)
-            # cnab = BradescoTax.remessa()
-            # remessa = cnab.remessa(order)
-            # self.state = 'done'
-            # self.cnab_file = base64.b64encode(remessa)
-            # workflow.trg_validate(self.env.uid, 'payment.order', order_id,
-            #                       'done', self.env.cr)
+        order_id = self.env.context.get('active_ids', [])[0]
 
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': self._name,
-                'view_mode': 'form',
-                'view_type': 'form',
-                'res_id': self.id,
-                'target': 'new',
-            }
+        # TODO: Corrigir lista retornando dentro do FOR
+        order = self.env['payment.order'].browse(order_id)
+        gnre = BradescoGnre()
+        remessa = gnre.remessa(order)
+        self.state = 'done'
+        self.tax_file = base64.b64encode(remessa)
+        workflow.trg_validate(self.env.uid, 'payment.order', order_id, 'done',
+                              self.env.cr)
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'target': 'new',
+        }
 
     @api.multi
     def done(self):

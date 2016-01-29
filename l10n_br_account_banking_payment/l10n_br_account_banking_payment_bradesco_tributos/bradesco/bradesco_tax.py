@@ -21,6 +21,13 @@
 ##############################################################################
 
 from fixedwidth.fixedwidth import FixedWidth
+from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+from decimal import Decimal
+import unicodedata
+
+def strip_accents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s)
+                  if unicodedata.category(c) != 'Mn')
 
 class BradescoTax(object):
     def __init__(self):
@@ -339,12 +346,47 @@ class BradescoGnre(BradescoTaxLine):
             },
         }
 
-    def remessa(self, **kwargs):
+
+    def remessa(self, order):
+        result = ''
+        for line in order.line_ids:
+            if line.partner_id.is_company:
+                tipo_inscricao = '2'
+            else:
+                tipo_inscricao = '1'
+
+            endereco01 = strip_accents(line.partner_id.street)
+            # endereco02 = str(line.partner_id.street2.replace('º', ''))
+            endereco_cliente = endereco01
+            vals = {
+                'identificador_tributo': 'G',
+                'nome_cliente': str(line.partner_id.name),
+                'endereco_cliente': endereco_cliente,
+                'cep_cliente': str(punctuation_rm(line.partner_id.zip)),
+                'uf_cliente': str(line.partner_id.state_id.code),
+                'autoriza_pagamento': 'S',
+                'tipo_inscricao': tipo_inscricao,
+                'uf_favorecida': str(line.partner_id.state_id.code),
+                'telefone_cliente': str(punctuation_rm(line.partner_id.phone)),
+                'numero_inscricao': str(
+                    punctuation_rm(line.partner_id.cnpj_cpf)
+                                        ),
+                'valor_do_principal': str(Decimal(
+                    str(line.amount_currency)).quantize(
+                    Decimal('1.00'))),
+                'data_pagamento_tributo': punctuation_rm(line.date),
+                'data_vencimento_tributo': punctuation_rm(line.date),
+                'num_doc_origem': str(punctuation_rm(line.ml_inv_ref.internal_number)),
+            }
+            result += "%s\n" % self._remessa(**vals)
+        return result
+
+    def _remessa(self, **kwargs):
         fw_obj = FixedWidth(self.LAYOUT_GNRE)
         fw_obj.update(**kwargs)
         return fw_obj.line
 
-    def returno(self, line):
+    def _retorno(self, line):
         fw_obj = FixedWidth(self.LAYOUT_GNRE)
         fw_obj.line = line
         return fw_obj.data
