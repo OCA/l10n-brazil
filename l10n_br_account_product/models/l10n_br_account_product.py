@@ -379,7 +379,7 @@ class L10nBrIPIGuideline(models.Model):
 
 GNRE_RESPONSE = [
         ('emmiter','Emitente'),
-        ('receiver','Remetente'),
+        ('receiver','Destinatário'),
         ('none','Isento'),
     ]
 GNRE_RESPONSE_DEFAULT = 'none'
