@@ -371,11 +371,11 @@ class BradescoGnre(BradescoTaxLine):
                 'numero_inscricao': str(
                     punctuation_rm(line.partner_id.cnpj_cpf)
                                         ),
-                'valor_do_principal': str(Decimal(
-                    str(line.amount_currency)).quantize(
-                    Decimal('1.00'))),
+                'valor_do_principal': punctuation_rm(str(line.amount_currency)),
                 'data_pagamento_tributo': punctuation_rm(line.date),
                 'data_vencimento_tributo': punctuation_rm(line.date),
+                'codigo_de_receita': str(punctuation_rm(
+                    line.order_id.mode.gnre_type.code)),
                 'num_doc_origem': str(punctuation_rm(line.ml_inv_ref.internal_number)),
             }
             result += "%s\n" % self._remessa(**vals)
