@@ -36,6 +36,8 @@ class StockPicking(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
+    invoice_reserved_number = fields.Char('Numero reservado da fatura',
+                                              size=32)
 
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
@@ -76,10 +78,25 @@ class StockPicking(models.Model):
         result['comment'] = comment
         result['fiscal_category_id'] = picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position.id
+        result['aux_internal_number'] = picking.invoice_reserved_number
 
         vals.update(result)
         return super(StockPicking, self)._create_invoice_from_picking(
             picking, vals)
+
+    @api.multi
+    def do_transfer(self):
+        inv_obj = self.env['account.invoice']
+        sequence_obj = self.env['ir.sequence']
+
+        for picking in self:
+            if picking.fiscal_category_id.set_invoice_number and \
+                    picking.invoice_state == '2binvoiced':
+                serie_id = inv_obj._default_fiscal_document_serie()
+                seq_number = sequence_obj.get_id(serie_id.internal_sequence_id.id)
+                picking.invoice_reserved_number = seq_number
+
+        return super(StockPicking, self).do_transfer()
 
 
 class StockMove(models.Model):

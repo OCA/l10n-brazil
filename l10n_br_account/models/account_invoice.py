@@ -76,6 +76,7 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         help="""Unique number of the invoice, computed
             automatically when the invoice is created.""")
+    invoice_reserved_number = fields.Char('Aux Invoice Number', size=32)
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
@@ -217,6 +218,11 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for invoice in self:
+            if invoice.aux_internal_number:
+                aux_number = invoice.aux_internal_number
+                invoice.write({'internal_number': aux_number,
+                               'number': aux_number})
+                return True
             if invoice.issuer == '0':
                 sequence_obj = self.env['ir.sequence']
                 sequence = sequence_obj.browse(
