@@ -7,6 +7,12 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form"/>
 			<field name="arch" type="xml">
+                <field name="number" position="after">
+                    <group>
+                    <label options='{"no_open": True}' class="oe_inline" string="Atenção: Operação c/ GNRE"
+                           attrs="{'invisible':[('amount_total_gnre','=',0)]}"/>
+                    </group>
+                </field>
 				<xpath expr="//sheet[@string='Invoice']/h1" position="before">
 					<div class="oe_right oe_button_box" name="buttons">
 						<button class="oe_inline oe_stat_button" type="action"
@@ -173,6 +179,12 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+                <field name="number" position="after">
+                    <group>
+                    <label options='{"no_open": True}' class="oe_inline" string="Atenção: Operação c/ GNRE"
+                           attrs="{'invisible':[('amount_total_gnre','=',0)]}"/>
+                    </group>
+                </field>
 				<xpath expr="//field[@name='payment_term']" position="after">
 					<field name="has_gnre" invisible="1"/>
 					<field name="gnre_due_days" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
