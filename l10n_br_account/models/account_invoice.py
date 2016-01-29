@@ -218,8 +218,8 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for invoice in self:
-            if invoice.aux_internal_number:
-                aux_number = invoice.aux_internal_number
+            if invoice.invoice_reserved_number:
+                aux_number = invoice.invoice_reserved_number
                 invoice.write({'internal_number': aux_number,
                                'number': aux_number})
                 return True
