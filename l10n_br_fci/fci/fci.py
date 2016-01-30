@@ -62,7 +62,7 @@ def create_fci(fci):
                          replace('.', ',') + '|' +
                          str("{0:.2f}".
                              format(round(line.valor_parcela_importada, 2))).
-                         replace('.',',') + '|' +
+                         replace('.', ',') + '|' +
                          str("{0:.2f}".
                              format(round(line.conteudo_importacao, 2))).
                          replace('.', ','))
@@ -87,12 +87,12 @@ def import_fci(file_name):
     list_default_code = []
     list_fci_codes = []
     res = {
-        'hash_code': arq_entrada._registro_abertura.valores[05],
+        'hash_code': arq_entrada._registro_abertura.valores[5],
         'dt_recepcao': arq_entrada._registro_abertura.valores[6],
         'cod_recepcao': arq_entrada._registro_abertura.valores[7],
         'dt_validacao': arq_entrada._registro_abertura.valores[8],
         'in_validacao': arq_entrada._registro_abertura.valores[9],
-        'cnpj_cpf': arq_entrada._registro_abertura.valores[02],
+        'cnpj_cpf': arq_entrada._registro_abertura.valores[2],
         'default_code': list_default_code,
         'fci_codes': list_fci_codes
     }
@@ -103,8 +103,8 @@ def import_fci(file_name):
     res['cnpj_cpf'] = a
 
     for registro5020 in arq_entrada._blocos['5'].registros:
-        if registro5020.valores[01] == '5020':
-            list_default_code.append(registro5020.valores[04])
+        if registro5020.valores[0o1] == '5020':
+            list_default_code.append(registro5020.valores[4])
             list_fci_codes.append(registro5020.valores[10])
     res['default_code'] = list_default_code
 

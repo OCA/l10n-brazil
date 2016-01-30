@@ -108,11 +108,11 @@ class L10nBrFci(models.Model):
 
                 # CHECA SE PRODUTOS NO ARQUIVO SÃO IGUAIS AOS DA TELA
                 for produtos_tela in self.fci_line:
-                        if produtos_tela.default_code in \
-                                res_importados['default_code']:
-                            resp = True
-                        else:
-                            resp = False
+                    if produtos_tela.default_code in \
+                            res_importados['default_code']:
+                        resp = True
+                    else:
+                        resp = False
                 if resp:
                     self.partner_id = company_id[0]
                     self.hash_code = res_importados['hash_code']
@@ -123,7 +123,7 @@ class L10nBrFci(models.Model):
 
                     for line, fci_code in zip(
                             self.fci_line, res_importados['fci_codes']):
-                            line.fci = fci_code
+                        line.fci = fci_code
 
                 # SE TUDO DER ERRADO
                 else:
@@ -179,8 +179,9 @@ class L10nBrFciLine(models.Model):
                               readonly=True)
     product_uom = fields.Many2one('product.uom', required=True,
                                   readonly=True)
-    fiscal_classification_id = fields.Char('NCM', related='product_id.fiscal_classification_id.name',
-                         readonly=True)
+    fiscal_classification_id = fields.Char(
+        'NCM', related='product_id.fiscal_classification_id.name',
+        readonly=True)
     fci = fields.Char('FCI', readonly=True)
     valor_parcela_importada = fields.Float(u'Valor parcela importação')
     conteudo_importacao = fields.Float(u'Conteúdo importação',
