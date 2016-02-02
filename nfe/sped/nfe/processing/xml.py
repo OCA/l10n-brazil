@@ -135,32 +135,33 @@ def send_correction_letter(company, chave_nfe, numero_sequencia, correcao):
         p.ambiente, chave_nfe, numero_sequencia, correcao)
 
 
-def print_danfe(inv):
+def print_danfe(invoices):
     str_pdf = ""
     paths = []
 
-    if inv.nfe_version == '1.10':
-        from pysped.nfe.leiaute import ProcNFe_110
-        procnfe = ProcNFe_110()
-    elif inv.nfe_version == '2.00':
-        from pysped.nfe.leiaute import ProcNFe_200
-        procnfe = ProcNFe_200()
-    elif inv.nfe_version == '3.10':
-        from pysped.nfe.leiaute import ProcNFe_310
-        procnfe = ProcNFe_310()
+    for inv in invoices:
+        if inv.nfe_version == '1.10':
+            from pysped.nfe.leiaute import ProcNFe_110
+            procnfe = ProcNFe_110()
+        elif inv.nfe_version == '2.00':
+            from pysped.nfe.leiaute import ProcNFe_200
+            procnfe = ProcNFe_200()
+        elif inv.nfe_version == '3.10':
+            from pysped.nfe.leiaute import ProcNFe_310
+            procnfe = ProcNFe_310()
 
-    file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
-    if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
-        file_xml = os.path.join(file_xml, 'tmp/')
-    procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
-    danfe = DANFE()
-    danfe.logo = add_backgound_to_logo_image(inv.company_id)
-    danfe.NFe = procnfe.NFe
-    danfe.leiaute_logo_vertical = inv.company_id.nfe_logo_vertical
-    danfe.protNFe = procnfe.protNFe
-    danfe.caminho = "/tmp/"
-    danfe.gerar_danfe()
-    paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
+        file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
+        if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
+            file_xml = os.path.join(file_xml, 'tmp/')
+        procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
+        danfe = DANFE()
+        danfe.logo = add_backgound_to_logo_image(inv.company_id)
+        danfe.NFe = procnfe.NFe
+        danfe.leiaute_logo_vertical = inv.company_id.nfe_logo_vertical
+        danfe.protNFe = procnfe.protNFe
+        danfe.caminho = "/tmp/"
+        danfe.gerar_danfe()
+        paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
     inv.is_danfe_printed = True
 
     output = PdfFileWriter()

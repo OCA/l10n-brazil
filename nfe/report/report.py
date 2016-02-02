@@ -43,15 +43,17 @@ class report_custom(report_int):
     def create(self, cr, uid, ids, datas, context={}):
         active_ids = context.get('active_ids')
         pool = pooler.get_pool(cr.dbname)
-        list_account_invoice = []
+        # list_account_invoice = []
 
         ai_obj = pool.get('account.invoice')
-        for account_invoice in ai_obj.browse(cr, uid, active_ids):
-            list_account_invoice.append(account_invoice.id)
+        account_invoice = ai_obj.browse(cr, uid, active_ids)
+        # for account_invoice in ai_obj.browse(cr, uid, active_ids):
+        #     list_account_invoice.append(account_invoice.id)
 
         pdf_string = print_danfe(account_invoice)
 
         self.obj = external_pdf(pdf_string)
+
         self.obj.render()
         return (self.obj.pdf, 'pdf')
 
