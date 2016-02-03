@@ -52,9 +52,10 @@ class PaymentOrderCreate(models.TransientModel):
                 domain += [
                     ('debit', '>', 0),
                     ('account_id.type', '=', 'receivable'),
-                    # '&',
+                    '&',
                     ('payment_mode_id', '=', payment_order.mode.id),
                     # ('is_cnab_rejected', '=', True)
+                    ('invoice.state', '=', 'open')
                 ]
             # TODO: Refactory this
             # TODO: domain do state da move_line.
