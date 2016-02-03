@@ -339,7 +339,8 @@ class AccountTax(models.Model):
             result_icmsst['taxes'][0][
                 'icms_st_base_other'] = icms_st_base_other
 
-            if result_icmsst['taxes'][0]['percent'] and not partner.has_gnre:
+            if result_icmsst['taxes'][0]['percent'] and not \
+                    fiscal_position.icms_st_extract:
                 calculed_taxes += result_icmsst['taxes']
             elif result_icmsst['taxes'][0]['percent']:
                 result['total_gnre'] = result_icmsst['taxes'][0]['amount']

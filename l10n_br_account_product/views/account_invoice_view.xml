@@ -24,6 +24,7 @@
 				<xpath expr="//field[@name='payment_term']" position="after">
                     <field name="has_gnre" invisible="1"/>
                     <group string="GNRE" attrs="{'invisible': [('has_gnre','!=', True)]}">
+                        <field name="gnre_state" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
                         <field name="gnre_due_days" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
 					    <field name="gnre_response" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
 					    <field name="amount_total_gnre" attrs="{'invisible': [('has_gnre','!=', True)]}"/>
@@ -169,6 +170,7 @@
 			<field name="arch" type="xml">
 				<filter name="proforma" position="before">
 					<filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]" />
+					<filter icon="terp-check" string="Tem GNRE" domain="[('has_gnre','=','True')]" />
 				</filter>
 			</field>
 		</record>
@@ -562,6 +564,17 @@
 				</form>
 			</field>
 		</record>
+
+    <record model="ir.ui.view" id="l10n_br_account_product_invoice_tree_custom">
+      <field name="name">l10n_br_account_product.invoice.tree.inherit</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_tree"/>
+      <field name="arch" type="xml">
+        <field name="state" position="after">
+          <field name="gnre_state" string="GNRE"/>
+        </field>
+      </field>
+    </record>
 
 		<record id="account.action_invoice_tree" model="ir.actions.act_window">
 			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'product')]</field>

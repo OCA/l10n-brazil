@@ -416,6 +416,13 @@ class AccountInvoice(models.Model):
     )
     has_gnre_paid = fields.Boolean(
         string=u"Guia paga")
+    gnre_state = fields.Selection(
+        [('isento', 'Isento'),
+         ('sujeito', 'Sujeito'),
+         ('gerada', 'Gerada'),
+         ('pago', 'Pago')],
+        u'GNRE STATUS', readonly=True,
+        states={'draft': [('readonly', False)]})
 
 
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
@@ -549,6 +556,9 @@ class AccountInvoice(models.Model):
                 invoice.payment_term.id, invoice.date_invoice)
             if result and result.get('value'):
                 invoice.write(result['value'])
+            if not invoice.gnre_state:
+                if invoice.has_gnre and invoice.amount_total_gnre > 0:
+                    invoice.gnre_state = 'sujeito'
         return True
 
 

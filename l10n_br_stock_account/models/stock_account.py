@@ -69,7 +69,7 @@ class StockPicking(models.Model):
         comment = ''
         if picking.fiscal_position.inv_copy_note:
             comment += picking.fiscal_position.note or ''
-
+        comment += picking.sale_id.note or ''
         if picking.note:
             comment += ' - ' + picking.note
 
