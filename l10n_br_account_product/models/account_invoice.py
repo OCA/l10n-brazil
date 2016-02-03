@@ -988,7 +988,7 @@ class AccountInvoiceLine(models.Model):
         context = self.env.context
 
         price_unit = values.get('price_unit', 0.0) or self.price_unit
-        discount = values.get('discount', 0.0)
+        discount = values.get('discount', 0.0) or self.discount
         insurance_value = values.get(
             'insurance_value', 0.0) or self.insurance_value
         freight_value = values.get(
