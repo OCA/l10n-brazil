@@ -161,6 +161,7 @@ def print_danfe(inv):
     danfe.caminho = "/tmp/"
     danfe.gerar_danfe()
     paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
+    inv.is_danfe_printed = True
 
     output = PdfFileWriter()
     s = StringIO()
