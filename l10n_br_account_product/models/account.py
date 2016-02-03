@@ -346,7 +346,7 @@ class AccountTax(models.Model):
                 result['total_gnre'] = result_icmsst['taxes'][0]['amount']
 
         # Estimate Taxes
-        if fiscal_position and fiscal_position.asset_operation:
+        if fiscal_position and fiscal_position.tax_estimate:
             obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
             date = datetime.now().strftime('%Y-%m-%d')
             tax_estimate_ids = obj_tax_estimate.search(

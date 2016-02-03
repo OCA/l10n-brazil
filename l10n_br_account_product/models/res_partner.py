@@ -40,7 +40,11 @@ class AccountFiscalPositionTemplate(models.Model):
         states={'draft': [('readonly', False)]},
         default=False
     )
-
+    tax_estimate = fields.Boolean(
+        string=u'Calcular total dos tributos',
+        states={'draft': [('readonly', False)]},
+        default=True
+    )
 
 class AccountFiscalPositionTaxTemplate(models.Model):
     _inherit = 'account.fiscal.position.tax.template'
@@ -69,6 +73,11 @@ class AccountFiscalPosition(models.Model):
         string=u'Remover Substituição Tributária dos totais',
         states={'draft': [('readonly', False)]},
         default=False
+    )
+    tax_estimate = fields.Boolean(
+        string=u'Calcular total dos tributos',
+        states={'draft': [('readonly', False)]},
+        default=True
     )
 
     @api.v7
