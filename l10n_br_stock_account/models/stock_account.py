@@ -79,7 +79,7 @@ class StockPicking(models.Model):
         result['comment'] = comment
         result['fiscal_category_id'] = picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position.id
-        result['aux_internal_number'] = picking.invoice_reserved_number
+        result['invoice_reserved_number'] = picking.invoice_reserved_number
 
         vals.update(result)
         return super(StockPicking, self)._create_invoice_from_picking(
