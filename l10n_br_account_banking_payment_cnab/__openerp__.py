@@ -42,6 +42,7 @@
         'view/payment_order.xml',
         'view/l10n_br_cnab_sequence.xml',
         'view/l10n_br_cobranca_cnab.xml',
+        'view/l10n_br_cobranca_cnab_lines.xml',
         'view/res_partner_bank.xml',
         'view/payment_mode.xml',
         'data/l10n_br_payment_export_type.xml',
