@@ -96,10 +96,9 @@ class PaymentOrderCreate(models.TransientModel):
         # res['communication2'] = line.payment_mode_id.comunicacao_2
         res['percent_interest'] = line.payment_mode_id.cnab_percent_interest
 
-        # if payment.mode.type.code == '400':
-            # write state = added to move_line to avoid it being added on cnab again
-            # self.write_state_on_move_line(line)
-         #   pass
+        if payment.mode.type.code == '400':
+            # write bool to move_line to avoid it being added on cnab again
+            self.write_cnab_rejected_bool(line)
 
         return res
 
@@ -126,11 +125,12 @@ class PaymentOrderCreate(models.TransientModel):
         payment_lines = self.env['payment.line'].\
             search([('order_id.state', 'in', ('draft', 'open', 'done')),
                     ('move_line_id', 'in', lines.ids)])
+        # Se foi exportada e o cnab_rejeitado dela for true, pode adicionar
+        # de novo
         to_exclude = set([l.move_line_id.id for l in payment_lines
                           if not l.move_line_id.is_cnab_rejected])
         return [l.id for l in lines if l.id not in to_exclude]
 
-    # @api.multi
-    # def write_state_on_move_line(self, line):
-    #     line.write({'state_cnab': 'added'})
-    #     a = 0
+    @api.multi
+    def write_cnab_rejected_bool(self, line):
+        line.write({'is_cnab_rejected': False})
