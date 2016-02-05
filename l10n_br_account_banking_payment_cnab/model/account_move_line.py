@@ -38,5 +38,8 @@ class AccounMoveLine(models.Model):
     # state_cnab = fields.Selection(
     #     ESTADOS_CNAB, u'Estados CNAB', default='draft')
 
-    is_cnab_rejected = fields.Boolean(u'CNAB Rejeitado', default=False)
+    is_cnab_rejected = fields.Boolean(
+        u'Pode ser exportada novamente', default=False,
+        help='Marque esse campo para indicar um título que pode ser '
+             'exportado novamente pelo CNAB')
     cnab_rejected_code = fields.Char(u'Rejeição')
