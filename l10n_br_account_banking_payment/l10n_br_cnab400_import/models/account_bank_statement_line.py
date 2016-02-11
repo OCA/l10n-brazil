@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-# ###########################################################################
+# #############################################################################
 #
-#    Author: Fernando Marcato Rodrigues
-#    Copyright 2015 KMEE - www.kmee.com.br
+#
+#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
+#    @author Fernando Marcato Rodrigues
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,5 +20,17 @@
 #
 ##############################################################################
 
-from . import account_bank_statement_import
-from . import models
+from openerp import models, fields
+
+
+class AccountBankStatementLine(models.Model):
+    """Extend model account.bank.statement.line."""
+    _inherit = "account.bank.statement.line"
+
+    # CNAB transactions can be imported more than once.
+    _sql_constraints = [
+        ('unique_import_id',
+         'CHECK(1=1)',
+         'A bank account transactions can be imported only once !')
+    ]
+

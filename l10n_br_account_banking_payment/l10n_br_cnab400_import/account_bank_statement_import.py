@@ -64,8 +64,7 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _complete_statement(self, stmt_vals, journal_id, account_number):
         """Complete statement from information passed.
-            unique_import_id is assumed to already be unique at the moment of
-            CNAB exportation."""
+            unique_import_id can be imported more than 1 time."""
         stmt_vals['journal_id'] = journal_id
         for line_vals in stmt_vals['transactions']:
             unique_import_id = line_vals.get('unique_import_id', False)
