@@ -348,51 +348,60 @@ class Cnab400Parser(object):
 
         res = []
         transacoes = []
+        transactions_cnab_result = []
         for lote in arquivo.lotes:
             for evento in lote.eventos:
 
-                if (evento.identificacao_ocorrencia ==
-                        CODIGO_MOTIVOS_OCORRENCIA['02']['codigo_ocorrencia']):
+                identif_ocorr = self.adiciona_digitos_identif_ocorrencia(
+                    evento.identificacao_ocorrencia)
+                a = 0
+
+
                     # entrada confirmada
                     # escrever em outro modelo com o aceite dessa linha
-                    pass
-                elif (evento.identificacao_ocorrencia ==
-                          CODIGO_MOTIVOS_OCORRENCIA['03']
-                          ['codigo_ocorrencia']):
-                    # entrada rejeitada
-                    # procurar pela move_line e escrever no boolean
-                    pass
 
-                transacoes.append({
-                    'name': '',
-                    'date': datetime.datetime.strptime(
-                        str(evento.data_vencimento_titulo), '%d%m%Y'),
-                    'amount': evento.valor_titulo,
-                    'ref': evento.numero_documento,
-                    'identificacao_titulo_banco':
-                        evento.identificacao_titulo_banco,
-                    'label': evento.sacado_inscricao_numero,  # cnpj
-                    'transaction_id': evento.numero_documento,
-                    # nosso numero, Alfanumérico
-                    'unique_import_id': evento.numero_documento,
-                })
+                # elif (identif_ocorr ==
+                #           CODIGO_MOTIVOS_OCORRENCIA['03']
+                #           ['codigo_ocorrencia']):
+                #     # entrada rejeitada
+                #     # procurar pela move_line e escrever no boolean
+                #     pass
+                if (identif_ocorr ==
+                        CODIGO_MOTIVOS_OCORRENCIA['06']['codigo_ocorrencia']):
+                    transacoes.append({
+                        'name': 'Teste',
+                        'date': datetime.datetime.strptime(
+                            str(evento.data_vencimento_titulo).zfill(6)
+                            , '%d%m%y'),
+                        'amount': evento.valor_titulo,
+                        'ref': evento.numero_documento,
+                        'identificacao_titulo_banco':
+                            evento.identificacao_titulo_banco,
+                        # 'label': evento.sacado_inscricao_numero,  # cnpj
+                        'transaction_id': evento.numero_documento,
+                        # nosso numero, Alfanumérico
+                        'unique_import_id': evento.numero_documento,
+                    })
+                else:
+                    pass
 
                 res.append({
-                    'name': evento.sacado_nome,
+                    'name': 'Teste',
                     'date': datetime.datetime.strptime(
-                        str(evento.vencimento_titulo), '%d%m%Y'),
+                        str(evento.data_vencimento_titulo).zfill(6), '%d%m%y'),
                     'amount': evento.valor_titulo,
                     'ref': evento.numero_documento,
                     'identificacao_titulo_banco':
                         evento.identificacao_titulo_banco,
-                    'label': evento.sacado_inscricao_numero,  # cnpj
+                    # 'label': evento.sacado_inscricao_numero,  # cnpj
                     'transaction_id': evento.numero_documento,
                     # nosso numero
-                    'commission_amount': evento.valor_tarifas,
+                    # 'commission_amount': evento.valor_tarifas,
 
                     'currency_code': u'BRL',  # Código da moeda
-                    'account_number': evento.cedente_agencia,
+                    'account_number': '0076828',
                     'transactions': transacoes,
+                    'transactions_cnab_result': transactions_cnab_result,
                 })
                 transacoes = []
 
@@ -418,3 +427,15 @@ class Cnab400Parser(object):
             'transaction_id': line.get('transaction_id', '/'),
             'commission_amount': line.get('commission_amount', 0.0)
         }
+
+    def adiciona_digitos_identif_ocorrencia(self, campo):
+        num_digitos = 2
+        campo = str(campo)
+        chars_faltantes = num_digitos - len(campo)
+        if chars_faltantes > 0:
+            return (u'0' * chars_faltantes) + campo
+        else:
+            return campo
+
+    # def write_numero_bancario_on_move_line(self):
+    #

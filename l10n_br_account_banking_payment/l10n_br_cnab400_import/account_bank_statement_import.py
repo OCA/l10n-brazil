@@ -107,3 +107,14 @@ class AccountBankStatementImport(models.TransientModel):
                           exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(
                 data_file)
+
+
+    @api.model
+    def _complete_statement(self, stmt_vals, journal_id, account_number):
+        """Complete statement from information passed."""
+        for line_vals in stmt_vals['transactions_cnab_result']:
+            pass
+
+        return super(self, AccountBankStatementImport)._complete_statement(
+            stmt_vals, journal_id, account_number
+        )
