@@ -45,6 +45,7 @@
         'views/res_company_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
+        'report/account_invoice_report_view.xml',
     ],
     'demo': [
         'demo/account.account.csv',
