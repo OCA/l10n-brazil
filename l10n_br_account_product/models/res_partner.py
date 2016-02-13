@@ -23,6 +23,7 @@ from openerp.addons.l10n_br_account_product.models.product import \
 from openerp.addons.l10n_br_account_product.models.l10n_br_account_product\
     import (GNRE_RESPONSE,
             GNRE_RESPONSE_DEFAULT)
+from operator import attrgetter
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -132,10 +133,55 @@ class AccountFiscalPosition(models.Model):
             }
         return result
 
+    def _map_analysis(self, result, product, taxes):
+        temp = result
+        tax_match = self.env['account.fiscal.position.tax'].browse()
+        for domain, value in temp.iteritems():
+            tax_in_domain = self.tax_ids.filtered(
+                lambda r: r.tax_src_domain == domain and r.tax_dest_id)
+
+            tax_ncm_origin = tax_in_domain.filtered(lambda ncm_origin: (
+                ncm_origin.fiscal_classification_id and
+                ncm_origin.fiscal_classification_id.id ==
+                product.fiscal_classification_id.id and
+                ncm_origin.origin and ncm_origin.origin ==
+                product.origin))
+            if tax_ncm_origin:
+                tax_match |= tax_ncm_origin
+            else:
+                tax_ncm = tax_in_domain.filtered(lambda ncm_origin: (
+                    ncm_origin.fiscal_classification_id and
+                    ncm_origin.fiscal_classification_id.id ==
+                    product.fiscal_classification_id.id))
+                if tax_ncm:
+                    tax_match |= tax_ncm
+                else:
+                    tax_origin = tax_in_domain.filtered(lambda ncm_origin: (
+                        ncm_origin.origin and ncm_origin.origin ==
+                        product.origin))
+                    if tax_origin:
+                        tax_match |= tax_origin
+                    else:
+                        tax_only = tax_in_domain.filtered(lambda ncm_origin: (
+                            not ncm_origin.fiscal_classification_id and
+                            not ncm_origin.origin))
+                        tax_match |= tax_only
+
+        tax_to_remove = self.tax_ids - tax_match
+
+        for remove in tax_to_remove:
+            if result.has_key(remove.tax_src_domain):
+                result.pop(remove.tax_src_domain)
+        result.update(self._map_tax_code(tax_match))
+        return result
+
     @api.multi
     def _map_tax(self, product_id, taxes):
         result = {}
+        if not product_id:
+            return result
         product = self.env['product.product'].browse(product_id)
+
         product_fc = product.fiscal_classification_id
         if self.company_id and \
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
@@ -159,6 +205,7 @@ class AccountFiscalPosition(models.Model):
             product_ncm_tax_def = product_fc.purchase_tax_definition_line
 
         for ncm_tax_def in product_ncm_tax_def:
+            # Sobrescreve as taxas da empresa com as da ncm
             if ncm_tax_def.tax_id:
                 result[ncm_tax_def.tax_id.domain] = {
                     'tax': ncm_tax_def.tax_id,
@@ -166,38 +213,7 @@ class AccountFiscalPosition(models.Model):
                     'icms_relief': ncm_tax_def.tax_icms_relief_id,
                     'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
                 }
-
-        map_taxes = self.env['account.fiscal.position.tax'].browse()
-        map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
-        map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
-        map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
-        for tax in taxes:
-            for map in self.tax_ids:
-                if map.tax_src_id.id == tax.id or \
-                        map.tax_code_src_id.id == tax.tax_code_id.id:
-                    if map.tax_dest_id.id or tax.tax_code_id.id:
-                        map_taxes |= map
-                        if map.fiscal_classification_id.id == \
-                                product.fiscal_classification_id.id:
-                            map_taxes_ncm |= map
-                        if map.origin == product.origin:
-                            map_taxes_origin |= map
-                        if (map.fiscal_classification_id.id ==
-                                product.fiscal_classification_id.id and
-                                    map.origin == product.origin):
-                            map_taxes_origin_ncm |= map
-                        else:
-                            map_taxes |= map
-            else:
-                if result.get(tax.domain):
-                    result[tax.domain].update({'tax': tax})
-                else:
-                    result[tax.domain] = {'tax': tax}
-
-        result.update(self._map_tax_code(map_taxes))
-        result.update(self._map_tax_code(map_taxes_origin))
-        result.update(self._map_tax_code(map_taxes_ncm))
-        result.update(self._map_tax_code(map_taxes_origin_ncm))
+        result = self._map_analysis(result, product, taxes)
         return result
 
     @api.v8
