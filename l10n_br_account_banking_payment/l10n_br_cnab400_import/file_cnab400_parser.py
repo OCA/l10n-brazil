@@ -25,6 +25,7 @@ import datetime
 from openerp.tools.translate import _
 from openerp.addons.account_bank_statement_import.parserlib import (
     BankStatement)
+from decimal import Decimal
 
 try:
     import cnab240
@@ -32,23 +33,6 @@ try:
     import codecs
 except:
     raise Exception(_('Please install python lib PyCNAB'))
-
-CODIGOS_DE_OCORRENCIA = [
-    ('02', u'Entrada confirmada'),
-    ('03', u'Entrada Rejeitada'),
-    ('06', u'Liquidação'),
-    ('09', u'Baixado Automaticamente via Arquivo'),
-    ('10', u'Baixado pelo Banco'),
-    ('15', u'Liquidação em cartório'),
-    ('17', u'Liquidação após baixa ou Título não registrado'),
-    ('24', u'Entrada Rejeitada por CEP irregular'),
-    ('27', u'Baixa Rejeitada'),
-    ('28', u'Débito de Tarifas/Custas'),
-    ('29', u'Ocorrência do Pagador'),
-    ('30', u'Alteração de Outros Dados Rejeitados'),
-    ('32', u'Instrução Rejeitada'),
-    ('35', u'Desagendamento do Débito Automático'),
-]
 
 CODIGO_MOTIVOS_OCORRENCIA = {
     '02': {
@@ -88,6 +72,7 @@ CODIGO_MOTIVOS_OCORRENCIA = {
     '03': {
         'codigo_ocorrencia': '03',
         'texto': 'entrada rejeitada',
+        '00': 'N/A',
         '02': 'Código do registro detalhe inválido',
         '03': 'Código da ocorrência inválida',
         '04': 'Código de ocorrência não permitida para a carteira',
@@ -158,6 +143,7 @@ CODIGO_MOTIVOS_OCORRENCIA = {
     '28': {
         'codigo_ocorrencia': '28',
         'texto': 'Débito de tarifas/custas',
+        '00': 'N/A',
         '02': 'Tarifa de permanência título cadastrado (NOVO)',
         '03': 'Tarifa de sustação/Excl Negativação (ALTERADO)',
         '04': 'Tarifa de protesto/Incl Negativação (ALTERADO)',
@@ -262,6 +248,7 @@ CODIGO_MOTIVOS_OCORRENCIA = {
     '32': {
         'codigo_ocorrencia': '32',
         'texto': 'Instrução Rejeitada',
+        '00': 'N/A',
         '01': 'Código do Banco inválido',
         '02': 'Código do registro detalhe inválido',
         '04': 'Código de ocorrência não permitido para a carteira',
@@ -348,24 +335,24 @@ class Cnab400Parser(object):
 
         res = []
         transacoes = []
-        transactions_cnab_result = []
+        transactions_cnab_return = []
         for lote in arquivo.lotes:
             for evento in lote.eventos:
 
                 identif_ocorr = self.adiciona_digitos_identif_ocorrencia(
                     evento.identificacao_ocorrencia)
-                a = 0
+                motivos_rejeicao = str(
+                    evento.motivo_rejeicao_ocorrencia_109_110)
+                motiv_a = motivos_rejeicao[0:2]
+                motiv_b = motivos_rejeicao[2:4]
+                motiv_c = motivos_rejeicao[4:6]
+                motiv_d = motivos_rejeicao[6:8]
+                motiv_e = motivos_rejeicao[8:10]
 
+                valor_titulo = self.poe_virgula(evento.valor_titulo)
+                numero_conta = self.retorna_numero_conta(
+                    evento.identificacao_empresa_cedente_banco)
 
-                    # entrada confirmada
-                    # escrever em outro modelo com o aceite dessa linha
-
-                # elif (identif_ocorr ==
-                #           CODIGO_MOTIVOS_OCORRENCIA['03']
-                #           ['codigo_ocorrencia']):
-                #     # entrada rejeitada
-                #     # procurar pela move_line e escrever no boolean
-                #     pass
                 if (identif_ocorr ==
                         CODIGO_MOTIVOS_OCORRENCIA['06']['codigo_ocorrencia']):
                     transacoes.append({
@@ -373,7 +360,7 @@ class Cnab400Parser(object):
                         'date': datetime.datetime.strptime(
                             str(evento.data_vencimento_titulo).zfill(6)
                             , '%d%m%y'),
-                        'amount': evento.valor_titulo,
+                        'amount': valor_titulo,
                         'ref': evento.numero_documento,
                         'identificacao_titulo_banco':
                             evento.identificacao_titulo_banco,
@@ -381,15 +368,32 @@ class Cnab400Parser(object):
                         'transaction_id': evento.numero_documento,
                         # nosso numero, Alfanumérico
                         'unique_import_id': evento.numero_documento,
+                        'identificacao_titulo_no_banco':
+                            evento.identificacao_titulo_banco
                     })
                 else:
-                    pass
+                    transactions_cnab_return.append({
+                        'name': 'Teste',
+                        'date': datetime.datetime.strptime(
+                            str(evento.data_vencimento_titulo).zfill(6)
+                            , '%d%m%y'),
+                        'amount': valor_titulo,
+                        'ref': evento.numero_documento,
+                        'identificacao_titulo_banco':
+                            evento.identificacao_titulo_banco,
+                        # 'label': evento.sacado_inscricao_numero,  # cnpj
+                        'transaction_id': evento.numero_documento,
+                        # nosso numero, Alfanumérico
+                        'unique_import_id': evento.numero_documento,
+                        'identificacao_titulo_no_banco':
+                            evento.identificacao_titulo_banco
+                    })
 
                 res.append({
                     'name': 'Teste',
                     'date': datetime.datetime.strptime(
                         str(evento.data_vencimento_titulo).zfill(6), '%d%m%y'),
-                    'amount': evento.valor_titulo,
+                    'amount': valor_titulo,
                     'ref': evento.numero_documento,
                     'identificacao_titulo_banco':
                         evento.identificacao_titulo_banco,
@@ -399,11 +403,12 @@ class Cnab400Parser(object):
                     # 'commission_amount': evento.valor_tarifas,
 
                     'currency_code': u'BRL',  # Código da moeda
-                    'account_number': '0076828',
+                    'account_number': numero_conta,
                     'transactions': transacoes,
-                    'transactions_cnab_result': transactions_cnab_result,
+                    'transactions_cnab_return': transactions_cnab_return,
                 })
                 transacoes = []
+                transactions_cnab_return = []
 
         self.result_row_list = res
         return res
@@ -437,5 +442,9 @@ class Cnab400Parser(object):
         else:
             return campo
 
-    # def write_numero_bancario_on_move_line(self):
-    #
+    def poe_virgula(self, campo):
+        return float(campo) / 100 * 1.1
+
+    def retorna_numero_conta(self, campo):
+        campo = str(campo)
+        return str(campo[9:16])
