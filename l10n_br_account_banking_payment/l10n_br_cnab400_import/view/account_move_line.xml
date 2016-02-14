@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="cnab_return_view_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">cnab.return.account.move.line.form.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <data>
+
+                    <xpath expr="//group[@string='States']" position="after">
+                        <group string="Retorno CNAB" name="cnab_return">
+                            <field name="str_ocorrencia" readonly="True"/>
+                            <field name="str_motiv_a" readonly="True"/>
+                            <field name="str_motiv_b" readonly="True"/>
+                            <field name="str_motiv_c" readonly="True"/>
+                            <field name="str_motiv_d" readonly="True"/>
+                            <field name="str_motiv_e" readonly="True"/>
+                        </group>
+                    </xpath>
+
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

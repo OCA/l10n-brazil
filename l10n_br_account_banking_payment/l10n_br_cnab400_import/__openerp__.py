@@ -36,6 +36,7 @@
     ],
     'data': [
         'view/cnab_import_view.xml',
+        'view/account_move_line.xml',
     ],
     'active': False,
     "installable": True,

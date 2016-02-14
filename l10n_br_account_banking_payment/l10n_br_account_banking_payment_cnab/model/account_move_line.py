@@ -43,3 +43,7 @@ class AccounMoveLine(models.Model):
         help='Marque esse campo para indicar um título que pode ser '
              'exportado novamente pelo CNAB')
     cnab_rejected_code = fields.Char(u'Rejeição')
+    # transaction_ref = fields.char('Transaction Ref.',
+    #                               select=True,
+    #                               store=True,
+    #                               related='name')

@@ -37,7 +37,7 @@ except:
 CODIGO_MOTIVOS_OCORRENCIA = {
     '02': {
         'codigo_ocorrencia': '02',
-        'texto': 'entrada confirmada',
+        'texto': 'Entrada confirmada',
         '00': 'Ocorrência aceita',
         '01': 'Código do Banco inválido',
         '04': 'Código do movimento não permitido para a carteira (NOVO)',
@@ -341,6 +341,9 @@ class Cnab400Parser(object):
 
                 identif_ocorr = self.adiciona_digitos_identif_ocorrencia(
                     evento.identificacao_ocorrencia)
+                str_identif_ocorr = (
+                    CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr]['texto'])
+
                 motivos_rejeicao = str(
                     evento.motivo_rejeicao_ocorrencia_109_110)
                 motiv_a = motivos_rejeicao[0:2]
@@ -349,6 +352,12 @@ class Cnab400Parser(object):
                 motiv_d = motivos_rejeicao[6:8]
                 motiv_e = motivos_rejeicao[8:10]
 
+                motiv_a = CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr][motiv_a]
+                motiv_b = CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr][motiv_b]
+                motiv_c = CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr][motiv_c]
+                motiv_d = CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr][motiv_d]
+                motiv_e = CODIGO_MOTIVOS_OCORRENCIA[identif_ocorr][motiv_e]
+
                 valor_titulo = self.poe_virgula(evento.valor_titulo)
                 numero_conta = self.retorna_numero_conta(
                     evento.identificacao_empresa_cedente_banco)
@@ -356,7 +365,7 @@ class Cnab400Parser(object):
                 if (identif_ocorr ==
                         CODIGO_MOTIVOS_OCORRENCIA['06']['codigo_ocorrencia']):
                     transacoes.append({
-                        'name': 'Teste',
+                        'name': str(evento.numero_documento),
                         'date': datetime.datetime.strptime(
                             str(evento.data_vencimento_titulo).zfill(6)
                             , '%d%m%y'),
@@ -369,11 +378,17 @@ class Cnab400Parser(object):
                         # nosso numero, Alfanumérico
                         'unique_import_id': evento.numero_documento,
                         'identificacao_titulo_no_banco':
-                            evento.identificacao_titulo_banco
+                            evento.identificacao_titulo_banco,
+                        'str_ocorrencia': str_identif_ocorr,
+                        'str_motiv_a': motiv_a,
+                        'str_motiv_b': motiv_b,
+                        'str_motiv_c': motiv_c,
+                        'str_motiv_d': motiv_d,
+                        'str_motiv_e': motiv_e,
                     })
                 else:
                     transactions_cnab_return.append({
-                        'name': 'Teste',
+                        'name': str(evento.numero_documento),
                         'date': datetime.datetime.strptime(
                             str(evento.data_vencimento_titulo).zfill(6)
                             , '%d%m%y'),
@@ -386,11 +401,17 @@ class Cnab400Parser(object):
                         # nosso numero, Alfanumérico
                         'unique_import_id': evento.numero_documento,
                         'identificacao_titulo_no_banco':
-                            evento.identificacao_titulo_banco
+                            evento.identificacao_titulo_banco,
+                        'str_ocorrencia': str_identif_ocorr,
+                        'str_motiv_a': motiv_a,
+                        'str_motiv_b': motiv_b,
+                        'str_motiv_c': motiv_c,
+                        'str_motiv_d': motiv_d,
+                        'str_motiv_e': motiv_e,
                     })
 
                 res.append({
-                    'name': 'Teste',
+                    'name': str(evento.numero_documento),
                     'date': datetime.datetime.strptime(
                         str(evento.data_vencimento_titulo).zfill(6), '%d%m%y'),
                     'amount': valor_titulo,
@@ -443,7 +464,7 @@ class Cnab400Parser(object):
             return campo
 
     def poe_virgula(self, campo):
-        return float(campo) / 100 * 1.1
+        return float(campo) / 100
 
     def retorna_numero_conta(self, campo):
         campo = str(campo)
