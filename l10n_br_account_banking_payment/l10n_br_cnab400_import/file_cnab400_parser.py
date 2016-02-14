@@ -385,6 +385,9 @@ class Cnab400Parser(object):
                         'str_motiv_c': motiv_c,
                         'str_motiv_d': motiv_d,
                         'str_motiv_e': motiv_e,
+                        'data_ocorrencia': datetime.datetime.strptime(
+                            str(evento.data_ocorrencia_banco).zfill(6),
+                            '%d%m%y'),
                     })
                 else:
                     transactions_cnab_return.append({
@@ -408,6 +411,9 @@ class Cnab400Parser(object):
                         'str_motiv_c': motiv_c,
                         'str_motiv_d': motiv_d,
                         'str_motiv_e': motiv_e,
+                        'data_ocorrencia': datetime.datetime.strptime(
+                            str(evento.data_ocorrencia_banco).zfill(6),
+                            '%d%m%y'),
                     })
 
                 res.append({

@@ -138,16 +138,21 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_model = self.env['account.move.line']
         move_line_item = move_line_model.search(
             [('name', '=', move_line_name)], limit=1)
-
+        move_line_item.transaction_ref = data['ref']
         move_line_item.ml_identificacao_titulo_no_banco = data[
             'identificacao_titulo_no_banco']
-        move_line_item.transaction_ref = data['ref']
-        move_line_item.str_ocorrencia = data['str_ocorrencia']
-        move_line_item.str_motiv_a = data['str_motiv_a']
-        move_line_item.str_motiv_b = data['str_motiv_b']
-        move_line_item.str_motiv_c = data['str_motiv_c']
-        move_line_item.str_motiv_d = data['str_motiv_d']
-        move_line_item.str_motiv_e = data['str_motiv_e']
+
+        cnab_move = self.env['l10n_br_cnab.move']
+        cnab_move.create({
+            'move_line_id': move_line_item.id,
+            'str_ocorrencia': data['str_ocorrencia'],
+            'str_motiv_a': data['str_motiv_a'],
+            'str_motiv_b': data['str_motiv_b'],
+            'str_motiv_c': data['str_motiv_c'],
+            'str_motiv_d': data['str_motiv_d'],
+            'str_motiv_e': data['str_motiv_e'],
+            'data_ocorrencia': data['data_ocorrencia'],
+        })
 
     @api.multi
     def write_data_on_paid_move_line(self, data):
@@ -157,12 +162,17 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_model = self.env['account.move.line']
         move_line_item = move_line_model.search(
             [('name', '=', move_line_name)], limit=1)
-        move_line_item.str_ocorrencia = data['str_ocorrencia']
-        move_line_item.str_motiv_a = data['str_motiv_a']
-        move_line_item.str_motiv_b = data['str_motiv_b']
-        move_line_item.str_motiv_c = data['str_motiv_c']
-        move_line_item.str_motiv_d = data['str_motiv_d']
-        move_line_item.str_motiv_e = data['str_motiv_e']
+        cnab_move = self.env['l10n_br_cnab.move']
+        cnab_move.create({
+            'move_line_id': move_line_item.id,
+            'str_ocorrencia': data['str_ocorrencia'],
+            'str_motiv_a': data['str_motiv_a'],
+            'str_motiv_b': data['str_motiv_b'],
+            'str_motiv_c': data['str_motiv_c'],
+            'str_motiv_d': data['str_motiv_d'],
+            'str_motiv_e': data['str_motiv_e'],
+            'data_ocorrencia': data['data_ocorrencia'],
+        })
 
     # Overrides temporarily
     @api.model

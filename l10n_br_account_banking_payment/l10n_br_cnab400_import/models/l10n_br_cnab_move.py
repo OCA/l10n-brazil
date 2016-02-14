@@ -23,15 +23,15 @@
 from openerp import models, fields
 
 
-class AccounMoveLine(models.Model):
-    _inherit = "account.move.line"
+class L10nBrCnabMove(models.Model):
+    _name = "l10n_br_cnab.move"
 
-    cnab_move_ids = fields.One2many(
-        'l10n_br_cnab.move', 'move_line_id', u'Detalhes de retorno CNAB')
-    ml_identificacao_titulo_no_banco = fields.Char(
-        u'Identificação do título no banco')
-
+    move_line_id = fields.Many2one(
+        'account.move.line',
+        u'Movimentação')
+    data_ocorrencia = fields.Char(u'Data da Ocorrência no Banco')
     str_ocorrencia = fields.Char(u'Identificação de Ocorrência')
+    cod_ocorrencia = fields.Char(u'Código Ocorrência')
     str_motiv_a = fields.Char(u'Motivo da ocorrência 01')
     str_motiv_b = fields.Char(u'Motivo de ocorrência 02')
     str_motiv_c = fields.Char(u'Motivo de ocorrência 03')
