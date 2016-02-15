@@ -19,6 +19,7 @@
 
 from openerp import models, api, _
 from openerp.exceptions import Warning as UserError
+from openerp.tools.safe_eval import safe_eval
 
 
 class StockReturnPicking(models.TransientModel):
@@ -47,7 +48,7 @@ class StockReturnPicking(models.TransientModel):
 
             result = super(StockReturnPicking, self).create_returns()
 
-            result_domain = eval(result['domain'])
+            result_domain = safe_eval(result['domain'])
             picking_ids = result_domain and result_domain[0] and \
                 result_domain[0][2]
 
