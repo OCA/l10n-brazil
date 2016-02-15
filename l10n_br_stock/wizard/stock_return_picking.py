@@ -19,6 +19,7 @@
 
 from openerp.osv import orm
 from openerp.tools.translate import _
+from openerp.tools.safe_eval import safe_eval
 
 
 class stock_return_picking(orm.TransientModel):
@@ -52,7 +53,7 @@ class stock_return_picking(orm.TransientModel):
             result = super(stock_return_picking, self).create_returns(
                 cr, uid, ids, context)
 
-            result_domain = eval(result['domain'])
+            result_domain = safe_eval(result['domain'])
             picking_ids = result_domain and result_domain[0] and result_domain[0][2]            
 
             for picking in picking_obj.browse(cr, uid, picking_ids, context=context):
