@@ -45,7 +45,7 @@ class L10nPaymentCnab(models.TransientModel):
     @api.multi
     def export(self):
         for order_id in self.env.context.get('active_ids', []):
-            # order vem como dicionário?
+
             order = self.env['payment.order'].browse(order_id)
             cnab = Cnab.get_cnab(order.mode.bank_id.bank_bic,
                                  order.mode_type.code)()
