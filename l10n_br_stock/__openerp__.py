@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '0.6',
+    'version': '7.0.0.6.1',
     'depends': [
         'account_fiscal_position_rule_stock',
         'l10n_br_account',
