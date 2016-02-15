@@ -22,6 +22,7 @@
 from ..cnab import Cnab
 from cnab240.tipos import ArquivoCobranca400
 from decimal import Decimal
+from openerp import api, models, fields, _
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
@@ -191,6 +192,8 @@ class Cnab400(Cnab):
             else:
                 dias_protestar = int(self.order.mode.boleto_protesto_prazo)
 
+        # sacado_endereco = self.retorna_endereco(line.partner_id.id)
+
 
         # Código agencia do cedente
         # cedente_agencia = cedente_agencia
@@ -260,7 +263,7 @@ class Cnab400(Cnab):
             'sacado_endereco': (
                 line.partner_id.street +
                 ' ' + str(line.partner_id.number)
-            ),
+            ), # TODO substituir por chamada de função
 
             'sacado_bairro': line.partner_id.district,
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
@@ -315,3 +318,22 @@ class Cnab400(Cnab):
         campo = str(campo)
         chars_faltantes = num_digitos - len(campo)
         return (u' ' * chars_faltantes) + campo
+
+    # @api.multi
+    def retorna_endereco(self, id_parceiro, context=None):
+        # self.ensure_one()
+        # workaround to get env
+        env = api.Environment(self.order._cr, 1, {})
+        res_partner_model = self.env['res.partner']
+        res_partner_end_cobranca = res_partner_model.search(
+            [('parent_id', '=', id_parceiro), ('type', '=', 'cnab_cobranca')],
+            limit=1)
+        if res_partner_end_cobranca:
+            str_endereco = res_partner_end_cobranca.street
+        else:
+            res_partner_end_cobranca = res_partner_model.search(
+                [('id', '=', id_parceiro)]
+            )
+            str_endereco = res_partner_end_cobranca.street
+
+        return str_endereco
