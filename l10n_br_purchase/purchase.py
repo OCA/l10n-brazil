@@ -361,29 +361,32 @@ class PurchaseOrderLine(models.Model):
         if not company_id or not partner_id:
             return result
 
+        ctx = dict(context or self._context)
+
         kwargs.update({
             'company_id': company_id,
             'product_id': product_id,
             'partner_id': partner_id,
             'partner_invoice_id': partner_id,
             'fiscal_category_id': fiscal_category_id,
-            'context': context,
+            'context': ctx,
         })
 
         result.update(self._fiscal_position_map(result, **kwargs))
         fiscal_position = result['value'].get('fiscal_position')
 
         if product_id and fiscal_position:
-            obj_fposition = self.env['account.fiscal.position'].browse(
-                fiscal_position)
             obj_product = self.env['product.product'].browse(
                 product_id)
-            context = {'fiscal_type': obj_product.fiscal_type,
-                       'type_tax_use': 'purchase'}
+            ctx.update({
+                'fiscal_type': obj_product.fiscal_type,
+                'type_tax_use': 'purchase'
+            })
+            obj_fiscal_position = \
+                self.env['account.fiscal.position'].with_context(ctx).browse(
+                    fiscal_position)
             taxes = obj_product.supplier_taxes_id or False
-            taxes_ids = self.env['account.fiscal.position'].map_tax(
-                obj_fposition, taxes, context=context)
-
+            taxes_ids = obj_fiscal_position.map_tax(taxes)
             result['value']['taxes_id'] = taxes_ids
 
         return result
