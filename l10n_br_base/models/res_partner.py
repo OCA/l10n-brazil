@@ -21,7 +21,7 @@
 
 import re
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.exceptions import ValidationError
 
@@ -88,8 +88,8 @@ class ResPartner(models.Model):
     _sql_constraints = [
         ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
          u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-        ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
-         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
+        # ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
+        #  u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
 
     @api.one
@@ -134,12 +134,32 @@ class ResPartner(models.Model):
         :Parameters:
         """
         result = True
-        if self.inscr_est == 'ISENTO' or self.is_company:
+        if ((self.inscr_est and self.inscr_est != 'ISENTO')
+                and (self.inscr_est.upper() == 'ISENTA' or
+                self.inscr_est.upper() == 'ISENTO')):
+            self.inscr_est = 'ISENTO'
+
+        if self.inscr_est != 'ISENTO' or self.is_company:
             state_code = self.state_id.code or ''
             uf = state_code.lower()
             result = self._validate_ie_param(uf, self.inscr_est)
         if not result:
             raise ValidationError(u"Inscrição Estadual Invalida!")
+
+    @api.one
+    @api.constrains('inscr_est')
+    def _check_ie_duplicated(self):
+        """ Check if the field inscr_est has duplicated value
+        """
+        if (not self.inscr_est or self.inscr_est == 'ISENTO'):
+            return True
+        partner_ids = self.search(
+            ['&', ('inscr_est', '=', self.inscr_est), ('id', '!=', self.id)])
+
+        if len(partner_ids) > 0:
+            raise Warning(_(u'Já existe um parceiro cadastrado com'
+                            u' esta Inscrição Estadual/RG!'))
+        return True
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
