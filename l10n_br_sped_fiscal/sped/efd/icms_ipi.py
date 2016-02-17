@@ -7,6 +7,6 @@ registro_abertura = efd._registro_abertura
 
 blocos = efd._blocos
 
-escrita = efd.readfile('/home/mileo/sped.txt')
+escrita = efd.readfile('/home/sadamo/Desktop/sped-ex-escrita.txt')
 
 efd._blocos

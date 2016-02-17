@@ -40,9 +40,9 @@ class L10nBrSpedFiscalPartner(models.Model):
 
 class L10nBrSpedFiscalUom(models.Model):
     _name = 'l10n_br.sped.fiscal.uom'
-    _description = u"Informações referentes aos parceiros"
+    _description = u"Informações referentes as unidades de medida"
 
-    partner_id = fields.Many2one("product.uom", string="Parceiros")
+    uom_id = fields.Many2one("product.uom", string="UOM")
     partner_type = fields.Selection([
         ('Registro0000', 'Registro0000'),
         ('Registro0001', 'Registro0001'),
@@ -87,6 +87,14 @@ class L10nBrSpedFiscalBlocoK(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.k'
     _description = u"Controle da Produção e do Estoque"
     name = fields.Char(string='teste')
+
+
+class L10nBrSpedFiscalBlocoZero(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero'
+    _description = u"Abertura"
+
+    registros_ids = fields.One2Many(
+        'l10n_br.sped.fiscal.bloco.zero.registro000', string='Registros')
 
 
 class L10nBrSpedFiscalBloco1(models.Model):
@@ -163,12 +171,12 @@ class L10nBrSpedFiscal(models.Model):
         column1="in_invoice_id",
         string="In Invoices")
 
-    bloco_zero = fields.Many2many(
-        comodel_name="l10n_br.sped.fiscal.bloco.zero",
-        relation="l10n_br_sped_fiscal_zero_rel",
-        column1="bloco_zero_id",
-        string="Bloco Zero"
-    )
+    # bloco_zero = fields.Many2many(
+    #     comodel_name="l10n_br.sped.fiscal.bloco.zero",
+    #     relation="l10n_br_sped_fiscal_zero_rel",
+    #     column1="bloco_zero_id",
+    #     string="Bloco Zero"
+    # )
     bloco_c = fields.Many2many(
         comodel_name="l10n_br.sped.fiscal.bloco.c",
         relation="l10n_br_sped_fiscal_c_rel",

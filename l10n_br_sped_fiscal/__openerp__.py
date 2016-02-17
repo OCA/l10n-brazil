@@ -29,7 +29,8 @@
     'data': [
         # "security/ir.model.access.csv",
         # "wizard/wiz_create_invoice_view.xml",
-        "views/account_treasury_forecast_view.xml",
+        # "views/account_treasury_forecast_view.xml",
+        "views/l10n_br_sped_fiscal_view.xml",
         # "views/account_treasury_forecast_template_view.xml",
     ],
     'demo': [],
