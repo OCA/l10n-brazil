@@ -111,15 +111,41 @@ class Serasa(models.Model):
                 'string_retorno': retorno_consulta['texto'],
                 'partner_fundation': retorno_consulta['fundacao'],
                 'partner_identification': self.partner_id.cnpj_cpf,
+            })
+
+        if retorno_consulta['total_pefin']:
+            self.write({
                 'pefin_num_ocorrencias': retorno_consulta['total_pefin'][
                     'num_ocorrencias'],
                 'pefin_valor_total': retorno_consulta['total_pefin']['total'],
+            })
+        else:
+            self.write({
+                'pefin_num_ocorrencias': 0,
+                'pefin_valor_total': 0,
+            })
+
+        if retorno_consulta['total_protesto']:
+            self.write({
                 'protesto_num_ocorrencias': retorno_consulta['total_protesto'][
-                    'num_ocorrencias'],
+                        'num_ocorrencias'],
                 'protesto_valor_total': retorno_consulta['total_protesto'][
-                    'total'],
+                        'total'],
+            })
+        else:
+            self.write({
+                'protesto_num_ocorrencias': 0,
+                'protesto_valor_total': 0,
+            })
+
+        if retorno_consulta['total_cheque']:
+            self.write({
                 'cheque_num_ocorrencias': retorno_consulta['total_cheque'][
                     'num_ocorrencias'],
+            })
+        else:
+            self.write({
+                'cheque_num_ocorrencias': 0,
             })
 
         pefin_obj = self.env['serasa.pefin']
