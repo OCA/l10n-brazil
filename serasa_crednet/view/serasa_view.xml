@@ -42,6 +42,10 @@
                                         <field name="value"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <group><field name="protesto_num_ocorrencias"/></group>
+                                    <group><field name="protesto_valor_total" string="Total"/></group>
+                                </group>
                                 <separator string="Pendências Financeiras"/>
                                 <field name="pefin_ids" sum="valor">
                                     <tree>
@@ -49,9 +53,14 @@
                                         <field name="modalidade"/>
                                         <field name="origem" />
                                         <field name="avalista" />
+                                        <field name="contrato" />
                                         <field name="value"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <group><field name="pefin_num_ocorrencias"/></group>
+                                    <group><field name="pefin_valor_total" string="Total"/></group>
+                                </group>
                                 <separator string="Cheques"/>
                                 <field name="cheque_ids" sum="valor">
                                     <tree>
@@ -64,6 +73,9 @@
                                         <field name="value"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <group><field name="cheque_num_ocorrencias"/></group>
+                                </group>
                             </page>
                             <page string="Retorno">
                                 <field name="string_retorno" string="String Retorno"/>
@@ -111,14 +123,23 @@
                                 string="Consultar"
                                 position="right" />
                         <field name="consulta_serasa" readonly="1">
+                            <!--<tree>-->
+                                <!--<field name="data_consulta"/>-->
+                                <!--<field name="protesto_count"/>-->
+                                <!--<field name="protesto_sum"/>-->
+                                <!--<field name="pefin_count"/>-->
+                                <!--<field name="pefin_sum"/>-->
+                                <!--<field name="cheque_count"/>-->
+                                <!--<field name="cheque_sum"/>-->
+                                <!--<field name="status"/>-->
+                            <!--</tree>-->
                             <tree>
                                 <field name="data_consulta"/>
-                                <field name="protesto_count"/>
-                                <field name="protesto_sum"/>
-                                <field name="pefin_count"/>
-                                <field name="pefin_sum"/>
-                                <field name="cheque_count"/>
-                                <field name="cheque_sum"/>
+                                <field name="protesto_num_ocorrencias" string="Protesto ocorrências"/>
+                                <field name="protesto_valor_total" string="Total"/>
+                                <field name="pefin_num_ocorrencias" string="Pefin ocorrências"/>
+                                <field name="pefin_valor_total" string="Total"/>
+                                <field name="cheque_num_ocorrencias" string="Cheques ocorrências"/>
                                 <field name="status"/>
                             </tree>
                         </field>

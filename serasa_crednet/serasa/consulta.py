@@ -43,9 +43,11 @@ def consulta_cnpj(partner, company):
     parser = parserStringDados.ParserStringDados()
 
     # Variavel que recebe o a string de retorno do Serasa
+    # string_teste_completa = 'B49C      006343654000102JC     FI0001000000000000000N99SFIMAN                            SS              N                                            14201058000108  000000000               00  2016021615580200000025    0026                                                                        0000                    3#                                                                             P002RE02                                                                                                           N00100PPX2PJN0    776593                       FEX                                                                 N00300                     RS                                                                                      N20000MARCIO SANTOS DA ROSA                                                 240620042 13022016                     N20001                                                                                                             N21099NAO CONSTAM OCORRENCIAS                                                                                      N23099NAO CONSTAM OCORRENCIAS                                                                                      N2400016062015DUPLICATA                     NR$ 0000000000465192102163340001014GETNET S/A                    NHO   N24001                                                                             V1758223121                     N2409000001062015062015000000000046519V                                                                            N2500018012016R$ 000000000072204UNSANTA MARIA                   RS                                                 N25001N                                                                            A0225920010                     N2500014012016R$ 000000000058437UNSANTA MARIA                   RS                                                 N25001N                                                                            A0225784271                     N2500014012016R$ 000000000022300UNSANTA MARIA                   RS                                                 N25001N                                                                            A0225784260                     N2500012012016R$ 000000000055300UNSANTA MARIA                   RS                                                 N25001N                                                                            A0225645901                     N2500018122015R$ 000000000072204UNSANTA MARIA                   RS                                                 N25001N                                                                            A0224751641                     N2509000088052014012016R$ 000000006986166                                                                          N2700017122015CCF-BB         00003               041BANRISUL      0377SANTA MARIA                   RS0119225042   N270900000330102015171220150410377BANRISUL                                                                         N44003008000000000                                                                                                 T999000PROCESSO ENCERRADO NORMALMENTE'
+    # string_dados = string_teste_completa
     string_dados = parser.realizar_busca_serasa(parser.gerar_string_envio(
         documento_consultado, tipo_pessoa_busca, documento_consultor,
-        login, senha))
+        partner.state_id.code,login, senha))
 
     arquivo = crednet.Crednet()
 
@@ -62,8 +64,11 @@ def consulta_cnpj(partner, company):
             'fundacao': '',
             'texto': '',
             'pefin': '',
+            'total_pefin': '',
             'protesto': '',
+            'total_protesto': '',
             'cheque': '',
+            'total_cheque': '',
         }
 
     retorno_consulta = retorna_pefin(
@@ -98,11 +103,17 @@ def retorna_pefin(retorno_consulta, bloco):
                     'modalidade': registro.campos.campos[3]._valor,
                     'origem': registro.campos.campos[8]._valor,
                     'avalista': 'Não' if registro.campos.campos[4] else 'Sim',
+                    'contrato': registro.campos.campos[7]._valor,
                     'date': registro.campos.campos[2]._valor,
                     'value': registro.campos.campos[6]._valor,
                 }
                 pefin.append(pefin_dic)
-
+            if registro.campos.campos[1]._valor == u'90':
+                pefin_total = {
+                    'num_ocorrencias': registro.campos.campos[2]._valor,
+                    'total': registro.campos.campos[5]._valor,
+                }
+                retorno_consulta['total_pefin'] = pefin_total
     retorno_consulta['pefin'] = pefin
     pefin = []
 
@@ -128,7 +139,12 @@ def retorna_protesto(retorno_consulta, bloco):
                     'value': registro.campos.campos[4]._valor,
                 }
                 protesto.append(protesto_dic)
-
+            if registro.campos.campos[1]._valor == u'90':
+                protesto_total = {
+                    'num_ocorrencias': registro.campos.campos[2]._valor,
+                    'total': registro.campos.campos[6]._valor,
+                }
+                retorno_consulta['total_protesto'] = protesto_total
         retorno_consulta['protestosEstados'] = protesto
         protesto = []
 
@@ -149,7 +165,9 @@ def retorna_cheques(retorno_consulta, bloco):
                 if registro.campos.campos[6]._valor.replace(" ","") != "":
                     cheque_dic = {
                         'num_cheque': registro.campos.campos[3]._valor,
-                        'alinea': registro.campos.campos[4]._valor,
+                        'alinea': int(registro.campos.campos[4]._valor)
+                        if registro.campos.campos[4]._valor.replace(" ", "") !=
+                           '' else 0,
                         'name_bank': registro.campos.campos[8]._valor,
                         'date': registro.campos.campos[2]._valor,
                         'city': registro.campos.campos[10]._valor,
@@ -157,7 +175,24 @@ def retorna_cheques(retorno_consulta, bloco):
                         'value': registro.campos.campos[6]._valor,
                     }
                     cheque.append(cheque_dic)
-
+                else:
+                    cheque_dic = {
+                        'num_cheque': registro.campos.campos[3]._valor,
+                        'alinea': int(registro.campos.campos[4]._valor)
+                        if registro.campos.campos[4]._valor.replace(" ", "") !=
+                           '' else 0,
+                        'name_bank': registro.campos.campos[8]._valor,
+                        'date': registro.campos.campos[2]._valor,
+                        'city': registro.campos.campos[10]._valor,
+                        'uf': registro.campos.campos[11]._valor,
+                        'value': 0.00,
+                    }
+                    cheque.append(cheque_dic)
+            if registro.campos.campos[1]._valor == u'90':
+                cheque_total = {
+                    'num_ocorrencias': registro.campos.campos[2]._valor,
+                }
+                retorno_consulta['total_cheque'] = cheque_total
     retorno_consulta['cheque'] = cheque
     cheque = []
 
