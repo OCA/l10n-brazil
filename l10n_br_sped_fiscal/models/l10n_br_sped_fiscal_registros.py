@@ -23,6 +23,7 @@
 import openerp.addons.decimal_precision as dp
 from openerp import models, fields, api, exceptions, _
 
+
 _IND_MOV = [('0', u'Bloco com dados informados'),
             ('1', u'Bloco sem dados informados')]
 _S_N = [('S', u'Sim'),
@@ -35,6 +36,13 @@ _COD_DISP = [
     ('04', u'Blocos'),
     ('05', u'Jogos Soltos'),
 ]
+_IND_OPER = [('0', u'Entrada'),
+            ('1', u'Saída')]
+_IND_EMIT = [('0', u'Emissão própria'),
+            ('1', u'Terceiros')]
+_IND_PGTO = [('0', u'À vista'),
+             ('1', u'A prazo'),
+             ('2', u'Outros')]
 
 
 class L10nBrSpedFiscalBlocoZeroRegistroTemplate(models.Model):
@@ -81,9 +89,6 @@ class L10nBrSpedFiscalBlocoZeroRegistro0000(models.Model):
                                   selection=_IND_PERFIL, readonly=True)
     IND_ATIV = fields.Selection(string='Tipo de atividade',
                                 selection=_IND_ATIV, readonly=True)
-
-_IND_MOV = [('0', 'Bloco com dados informados'),
-             ('1', 'Bloco sem dados informados')]
 
 
 class L10nBrSpedFiscalBlocoZeroRegistro0001(models.Model):
@@ -292,18 +297,101 @@ class L10nBrSpedFiscalBlocoNoveRegistro9001(models.Model):
         selection=_IND_MOV, string=u'Indicador de movimento')
 
 
+class L10nBrSpedFiscalBlocoNoveRegistro9900(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.nove.registro9900'
+    _description = u"Registros  do  arquivo"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='9900')
+    REG_BLC = fields.Char(string=u'Registro Totalizado no Próximo Campo')
+    QTD_REG_BLC = fields.Char(string=u'Total de registros do tipo informado no campo anterior')
+
+
+class L10nBrSpedFiscalBlocoNoveRegistro9990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.nove.registro9990'
+    _description = u""
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='9990')
+    QTD_LIN_9 = fields.Char(string=u'Quantidade total de linhas do Bloco 9')
+
+
+class L10nBrSpedFiscalBlocoNoveRegistro9999(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.nove.registro9999'
+    _description = u""
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='9999')
+    QTD_LIN = fields.Char(string=u'Quantidade total de linhas do arquivo digital')
+
+
+class L10nBrSpedFiscalBlocoCRegistroC001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.c.registroC001'
+    _description = u"Abertura do Bloco C"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.c', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='C001')
+    IND_MOV = fields.Selection(
+        selection=_IND_MOV, string=u'Indicador de movimento')
+
+
+class L10nBrSpedFiscalBlocoCRegistroC100(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.c.registroC100'
+    _description = u""
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.c', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='C100')
+    IND_OPER = fields.Selection(
+        selection=_IND_OPER, string=u'Indicador de operação')
+    IND_EMIT = fields.Selection(
+        selection=_IND_EMIT, string=u'Indicador do emitente do documento fiscal')
+    COD_PART = fields.Char(string=u'Cód do participante')
+    COD_MOD = fields.Char(string=u'Cód do modelo do documento fiscal')
+    COD_SIT = fields.Char(string=u'Cód da situação do documento fiscal')
+    SER = fields.Char(string=u'Série documento fiscal')
+    NUM_DOC = fields.Char(string=u'Número documento fiscal')
+    CHV_NFE = fields.Char(string=u'Chave da NF-e')
+    DT_DOC = fields.Char(string=u'Data emissão documento fiscal')
+    DT_E_S = fields.Char(string=u'Data de entrada ou saída')
+    VL_DOC = fields.Char(string=u'Valor total documento fiscal')
+    IND_PGTO = fields.Selection(
+        selection=_IND_PGTO, string=u'Indicador do tipo de pagamento')
+    VL_DESC = fields.Char(string=u'Valor total do desconto')
+    VL_ABAT_NT = fields.Char(string=u'Abatimento não tributado e não comercial')
+    VL_MERC = fields.Char(string=u'Valor total mercadorias e serviços')
+    IND_FRT = fields.Char(string=u'Indicador do tipo de frete')
+    VL_FRT = fields.Char(string=u'')
+    VL_SEG = fields.Char(string=u'')
+    VL_OUT_DA = fields.Char(string=u'')
+    VL_BC_ICMS = fields.Char(string=u'')
+    VL_ICMS = fields.Char(string=u'')
+    VL_BC_ICMS_ST = fields.Char(string=u'')
+    VL_IPI = fields.Char(string=u'')
+    VL_PIS = fields.Char(string=u'')
+    VL_COFINS = fields.Char(string=u'')
+    VL_PIS_ST = fields.Char(string=u'')
+    VL_COFINS_ST = fields.Char(string=u'')
+
+
+
+
 
 
 
 
 
 # Classe base para copiar e colar
-# class L10nBrSpedFiscalBlocoNoveRegistro(models.Model):
-#     _name = 'l10n_br.sped.fiscal.bloco.nove.registro'
+# class L10nBrSpedFiscalBlocoCRegistro(models.Model):
+#     _name = 'l10n_br.sped.fiscal.bloco.c.registro'
 #     _description = u""
 #
 #     bloco_id = fields.Many2one(
-#         'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+#         'l10n_br.sped.fiscal.bloco.c', string=u'Bloco')
 #     REG = fields.Char(string='REG', readonly=True, default='')
 #     campo = fields.Char(string=u'')
 #     campo = fields.Char(string=u'')
