@@ -93,8 +93,9 @@ class L10nBrSpedFiscalBlocoZero(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.zero'
     _description = u"Abertura"
 
-    registros_ids = fields.One2Many(
-        'l10n_br.sped.fiscal.bloco.zero.registro000', string='Registros')
+    registros_ids = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0000', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBloco1(models.Model):

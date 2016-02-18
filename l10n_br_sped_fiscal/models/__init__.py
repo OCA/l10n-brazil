@@ -17,3 +17,4 @@
 ##############################################################################
 
 from . import l10n_br_sped_fiscal
+from . import l10n_br_sped_fiscal_registros

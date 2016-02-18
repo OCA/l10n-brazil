@@ -42,12 +42,14 @@ _IND_PERFIL = [('A', 'Perfil A'),
 _IND_ATIV = [('0', 'Industrial ou equiparado a industrial'),
              ('1', 'Outros')]
 
-class L10nBrSpedFiscalBlocoZeroRegistro000(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro000'
+
+class L10nBrSpedFiscalBlocoZeroRegistro0000(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0000'
     _description = u"Abertura  do  Arquivo  Digital  e " \
                    u"Identificação da Entidade"
 
-    bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string=u'Bloco')
     REG = fields.Char(string='REG', readonly=True, default='0000')
     COD_VER = fields.Char(string=u'Versão do Leiaute', readonly=True)
     COD_FIN = fields.Selection(
@@ -70,18 +72,20 @@ class L10nBrSpedFiscalBlocoZeroRegistro000(models.Model):
 _IND_MOV = [('0', 'Bloco com dados informados'),
              ('1', 'Bloco sem dados informados')]
 
-class L10nBrSpedFiscalBlocoZeroRegistro001(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro001'
+
+class L10nBrSpedFiscalBlocoZeroRegistro0001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0001'
     _description = u"Abertura  do  Bloco  0"
 
-    bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string='Bloco')
     REG = fields.Char(string='REG', readonly=True, default='0001')
     IND_ATIV = fields.Selection(string='Tipo de atividade',
                                 selection=_IND_MOV, readonly=True)
 
 
-class L10nBrSpedFiscalBlocoZeroRegistro005(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro005'
+class L10nBrSpedFiscalBlocoZeroRegistro0005(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0005'
     _description = u"Dados  Complementares  da Entidade"
 
     bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
@@ -97,8 +101,8 @@ class L10nBrSpedFiscalBlocoZeroRegistro005(models.Model):
     EMAIL = fields.Char(string='Email', )
 
 
-class L10nBrSpedFiscalBlocoZeroRegistro150(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro150'
+class L10nBrSpedFiscalBlocoZeroRegistro0150(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0150'
     _description = u"Tabela  de  cadastro  do participante"
 
     bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
@@ -117,8 +121,8 @@ class L10nBrSpedFiscalBlocoZeroRegistro150(models.Model):
     BAIRRO = fields.Char(string='Bairro', )
 
 
-class L10nBrSpedFiscalBlocoZeroRegistro175(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro175'
+class L10nBrSpedFiscalBlocoZeroRegistro0175(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0175'
     _description = u"Alteração  da  Tabela  de Cadastro de Participante"
 
     bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
@@ -128,8 +132,9 @@ class L10nBrSpedFiscalBlocoZeroRegistro175(models.Model):
                                   u'(Somente campos 03 a 13, exceto 07).')
     CONT_ANT = fields.Char(string=u'Conteúdo anterior do campo')
 
-class L10nBrSpedFiscalBlocoZeroRegistro190(models.Model):
-    _name = 'l10n_br.sped.fiscal.bloco.zero.registro190'
+
+class L10nBrSpedFiscalBlocoZeroRegistro0190(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0190'
     _description = u"Identificação das Unidades de Medida"
 
     bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
@@ -138,5 +143,70 @@ class L10nBrSpedFiscalBlocoZeroRegistro190(models.Model):
     DESCR = fields.Char(string=u'Descrição da UM')
 
 
+class L10nBrSpedFiscalBlocoZeroRegistro0200(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0200'
+    _description = u"Informar mercadorias serviços e produtos"
 
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string=u'Bloco')
+    REG = fields.Char(string=u'REG', readonly=True, default='0200')
+    COD_ITEM = fields.Char(string=u'Código do item')
+    DESCR_ITEM = fields.Char(string=u'Descrição do item')
+    COD_BARRA = fields.Char(
+        string=u'Representação alfanumérico do código de barra do produto')
+    COD_ANT_ITEM = fields.Char(
+        string=u'Código anterior do item com relação à última informação '
+               u'apresentada')
+    UNID_INV = fields.Char(
+        string=u'Unidade de medida utilizada na quantificação de estoques')
+
+
+class L10nBrSpedFiscalBlocoZeroRegistro0205(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0205'
+    _description = u"Alteração do item"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='0205')
+    DESCR_ANT_ITEM = fields.Char(string=u'Descrição anterior do item')
+    DT_INI = fields.Char(
+        string=u'Data inicial de utilização da descrição do item')
+    DT_FIM = fields.Char(
+        string=u'Data final de utilização da descrição do item')
+    COD_ANT_ITEM = fields.Char(
+        string=u'Código anterior do item com relação à última'
+               u'informação apresentada')
+
+
+class L10nBrSpedFiscalBlocoZeroRegistro0400(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0400'
+    _description = u"Tabela de Natureza da Operação/Prestação"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string='Bloco')
+    REG = fields.Char(string=u'REG', readonly=True, default='0400')
+    COD_NAT = fields.Char(string=u'Código da natureza da operação/prestação')
+    DESCR_NAT = fields.Char(
+        string=u'Descrição da natureza da operação/prestação')
+
+
+class L10nBrSpedFiscalBlocoZeroRegistro0450(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0450'
+    _description = u"Tabela de Informação Complementar do Documento Fiscal"
+
+    bloco_id = fields.Many2one('l10n_br.sped.fiscal.bloco.zero', string='Bloco')
+    REG = fields.Char(string=u'REG', readonly=True, default='0450')
+    COD_INF = fields.Char(
+        string=u'Código da informação complementar do documento fiscal')
+    TXT = fields.Char(string=u'Informação complementar de documento fiscal')
+
+
+class L10nBrSpedFiscalBlocoZeroRegistro0990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.zero.registro0990'
+    _description = u"Encerramento do Bloco 0"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.zero', string=u'Bloco')
+    REG = fields.Char(string=u'REG', readonly=True, default='0990')
+    QTD_LIN_0 = fields.Char(string=u'Quantidade total de linhas do Bloco 0.')
 
