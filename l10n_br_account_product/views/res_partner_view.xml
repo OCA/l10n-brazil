@@ -12,6 +12,7 @@
 					<field name="ind_final"/>
 					<field name="icms_st_extract"/>
 					<field name="tax_estimate"/>
+					<field name="suframa"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="fiscal_classification_id" />
@@ -34,6 +35,7 @@
 					<field name="ind_final"/>
 					<field name="icms_st_extract"/>
 					<field name="tax_estimate"/>
+					<field name="suframa"/>
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="fiscal_classification_id" />

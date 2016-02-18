@@ -382,6 +382,7 @@
 												<field name="icms_base_other"/>
 												<field name="icms_percent"/>
 												<field name="icms_value"/>
+												<field name="icms_relief_value"/>
 											</group>
 										</group>
 										<group string="Substituição Tributária ICMS">

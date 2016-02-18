@@ -107,6 +107,7 @@ class AccountInvoice(models.Model):
                 self.icms_base += line.icms_base
                 self.icms_base_other += line.icms_base_other
                 self.icms_value += line.icms_value
+                self.icms_relief_value += line.icms_relief_value
             else:
                 self.icms_base += 0.00
                 self.icms_base_other += 0.00
@@ -423,6 +424,9 @@ class AccountInvoice(models.Model):
          ('pago', 'Pago')],
         u'GNRE STATUS', readonly=True,
         states={'draft': [('readonly', False)]})
+    icms_relief_value = fields.Float(
+        string='Valor ICMS Desoneração', digits=dp.get_precision('Account'),
+        compute='_compute_amount', store=True)
 
 
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
@@ -838,8 +842,15 @@ class AccountInvoiceLine(models.Model):
         digits=dp.get_precision('Account'),
         default=0.00
     )
+    icms_relief_value = fields.Float(
+        string=(u'Valor da Desoneração do ICMS'
+                u' da UF de destino'),
+        digits=dp.get_precision('Account'),
+        default=0.00)
+
 
     def _amount_tax_icms(self, tax=None):
+
         result = {
             'icms_base': tax.get('total_base', 0.0),
             'icms_base_other': tax.get('total_base_other', 0.0),
@@ -1060,6 +1071,9 @@ class AccountInvoiceLine(models.Model):
 
         result['gnre_value'] = taxes_calculed['total_gnre']
         result['total_taxes'] = taxes_calculed['total_taxes']
+
+        result['icms_relief_value'] = taxes_calculed[
+            'icms_relief_value']
 
         for tax in taxes_calculed['taxes']:
             try:

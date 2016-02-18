@@ -306,11 +306,11 @@ class NFe200(FiscalDocument):
             if invoice.partner_id.is_company:
                 self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
                     invoice.partner_id.cnpj_cpf)
+                self.nfe.infNFe.dest.ISUF.valor = punctuation_rm(
+                    invoice.partner_id.suframa)
                 if invoice.partner_id.inscr_est != 'ISENTO':
                     self.nfe.infNFe.dest.IE.valor = punctuation_rm(
                         invoice.partner_id.inscr_est)
-                self.nfe.infNFe.dest.ISUF.valor = punctuation_rm(
-                    invoice.partner_id.suframa)
                 if (invoice.partner_id.inscr_est
                         and invoice.partner_id.inscr_est != 'ISENTO'):
                     self.nfe.infNFe.dest.indIEDest.valor = '1'
@@ -397,6 +397,8 @@ class NFe200(FiscalDocument):
                 "%.2f" % invoice_line.icms_percent)
             self.det.imposto.ICMS.vICMS.valor = str(
                 "%.2f" % invoice_line.icms_value)
+            self.det.imposto.ICMS.vICMSDeson.valor = str(
+                "%.2f" % invoice_line.icms_relief_value)
             self.det.imposto.ICMS.motDesICMS.valor = (
                 invoice_line.icms_relief_id.code or '')
 
@@ -601,6 +603,8 @@ class NFe200(FiscalDocument):
             "%.2f" % invoice.icms_base)
         self.nfe.infNFe.total.ICMSTot.vICMS.valor = str(
             "%.2f" % invoice.icms_value)
+        self.nfe.infNFe.total.ICMSTot.vICMSDeson.valor = str(
+            "%.2f" % invoice.icms_relief_value)
         self.nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(
             "%.2f" % invoice.vFCPUFDest)
         self.nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(
