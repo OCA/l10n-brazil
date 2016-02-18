@@ -241,7 +241,7 @@ class L10nBrSpedFiscalBlocoUmRegistro1010(models.Model):
 
     bloco_id = fields.Many2one(
         'l10n_br.sped.fiscal.bloco.um', string=u'Bloco')
-    REG = fields.Selection(string='REG', readonly=True, default='1010')
+    REG = fields.Char(string='REG', readonly=True, default='1010')
     IND_EXP = fields.Selection(selection=_S_N, string=u'Ocorreu  averbação de exportação no período')
     IND_CCRF = fields.Selection(selection=_S_N, string=u'Existe info a cerca de crédito de ICMS')
     IND_COMB = fields.Selection(selection=_S_N, string=u'É comércio varejista de combustíveis')
