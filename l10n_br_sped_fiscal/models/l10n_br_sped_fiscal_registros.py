@@ -23,6 +23,19 @@
 import openerp.addons.decimal_precision as dp
 from openerp import models, fields, api, exceptions, _
 
+_IND_MOV = [('0', u'Bloco com dados informados'),
+            ('1', u'Bloco sem dados informados')]
+_S_N = [('S', u'Sim'),
+        ('N', u'Não')]
+_COD_DISP = [
+    ('00', u'Formulário de Segurança (FS) ­ impressor autônomo'),
+    ('01', u'FS­DA ­ Formulário de Segurança para Impressão de Danfe'),
+    ('02', u'Formulário de segurança ­ NF­e'),
+    ('03', u'Formulário Contínuo'),
+    ('04', u'Blocos'),
+    ('05', u'Jogos Soltos'),
+]
+
 
 class L10nBrSpedFiscalBlocoZeroRegistroTemplate(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.zero.registro.template'
@@ -210,3 +223,95 @@ class L10nBrSpedFiscalBlocoZeroRegistro0990(models.Model):
     REG = fields.Char(string=u'REG', readonly=True, default='0990')
     QTD_LIN_0 = fields.Char(string=u'Quantidade total de linhas do Bloco 0.')
 
+
+class L10nBrSpedFiscalBlocoUmRegistro1001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.um.registro1001'
+    _description = u"Abertura do Bloco 1"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.um', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='1001')
+    IND_MOV = fields.Selection(
+        selection=_IND_MOV, string=u'Indicador de movimento')
+
+
+class L10nBrSpedFiscalBlocoUmRegistro1010(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.um.registro1010'
+    _description = u"Obrigatoriedade Registros Bloco 1"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.um', string=u'Bloco')
+    REG = fields.Selection(string='REG', readonly=True, default='1010')
+    IND_EXP = fields.Selection(selection=_S_N, string=u'Ocorreu  averbação de exportação no período')
+    IND_CCRF = fields.Selection(selection=_S_N, string=u'Existe info a cerca de crédito de ICMS')
+    IND_COMB = fields.Selection(selection=_S_N, string=u'É comércio varejista de combustíveis')
+    IND_USINA = fields.Selection(selection=_S_N, string=u'Usina de açúcar/álcool')
+    IND_VA = fields.Selection(selection=_S_N, string=u'Existe info a ser prestada nesse registro')
+    IND_EE = fields.Selection(selection=_S_N, string=u'É distribuidora de energia')
+    IND_CART = fields.Selection(selection=_S_N, string=u'Realizou vendas com cartão de crédito/débito')
+    IND_FORM = fields.Selection(selection=_S_N, string=u'Emitiu documento fiscal em papel em UF que exige controle')
+    IND_AER = fields.Selection(selection=_S_N, string=u'Prestou serviço de transporte aéreo')
+
+
+class L10nBrSpedFiscalBlocoUmRegistro1700(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.um.registro1700'
+    _description = u"Documentos fiscais utilizados no período a que se refere o arquivo Sped­Fiscal"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.um', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='1700')
+    COD_DISP = fields.Selection(
+        selection=_COD_DISP, string=u'Código dispositivo autorizado')
+    COD_MOD = fields.Char(string=u'Código do modelo do dispositivo')
+    SER = fields.Char(string=u'Série do dispositivo')
+    SUB = fields.Char(string=u'Subsérie do dispositivo')
+    NUM_DOC_INI = fields.Char(string=u'Número do dispositivo inicial')
+    NUM_DOC_FIN = fields.Char(string=u'Número do dispositivo final')
+    NUM_AUT = fields.Char(string=u'Número da autorização')
+
+
+class L10nBrSpedFiscalBlocoUmRegistro1990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.um.registro1990'
+    _description = u"Encerramento  do  Bloco  1"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.um', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='1990')
+    QTD_LIN_1 = fields.Char(string=u'Quantidade total de linhas do Bloco 1')
+
+
+# Bloco 9
+class L10nBrSpedFiscalBlocoNoveRegistro9001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.nove.registro'
+    _description = u"Abertura do Bloco 9"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='9001')
+    IND_MOV = fields.Selection(
+        selection=_IND_MOV, string=u'Indicador de movimento')
+
+
+
+
+
+
+
+# Classe base para copiar e colar
+# class L10nBrSpedFiscalBlocoNoveRegistro(models.Model):
+#     _name = 'l10n_br.sped.fiscal.bloco.nove.registro'
+#     _description = u""
+#
+#     bloco_id = fields.Many2one(
+#         'l10n_br.sped.fiscal.bloco.nove', string=u'Bloco')
+#     REG = fields.Char(string='REG', readonly=True, default='')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
+#     campo = fields.Char(string=u'')
