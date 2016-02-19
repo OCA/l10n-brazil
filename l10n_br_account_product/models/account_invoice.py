@@ -88,19 +88,6 @@ class AccountInvoice(models.Model):
             line.other_costs_value for line in self.invoice_line)
         self.amount_freight = sum(
             line.freight_value for line in self.invoice_line)
-        self.amount_total_taxes = sum(
-            line.total_taxes for line in self.invoice_line)
-        self.amount_gross = sum(line.price_gross for line in self.invoice_line)
-        self.amount_tax_discount = 0.0
-        self.amount_untaxed = sum(
-            line.price_total for line in self.invoice_line)
-        self.amount_tax = sum(tax.amount
-                              for tax in self.tax_line
-                              if not tax.tax_code_id.tax_discount)
-        self.amount_total = self.amount_tax + self.amount_untaxed
-        self.amount_total_gnre = sum(
-            line.gnre_value for line in self.invoice_line)
-
         for line in self.invoice_line:
             if line.icms_cst_id.code not in (
                     '101', '102', '201', '202', '300', '500'):
@@ -118,7 +105,20 @@ class AccountInvoice(models.Model):
             else:
                 self.icms_st_base += 0.00
                 self.icms_st_value += 0.00
-
+        self.amount_total_taxes = sum(
+            line.total_taxes for line in self.invoice_line)
+        self.amount_gross = sum(line.price_gross for line in self.invoice_line)
+        self.amount_tax_discount = 0.0
+        self.amount_untaxed = sum(
+            line.price_total for line in self.invoice_line)
+        self.amount_tax = sum(tax.amount
+                              for tax in self.tax_line
+                              if not tax.tax_code_id.tax_discount)
+        self.amount_total = (self.amount_tax +
+                             self.amount_untaxed -
+                             self.icms_relief_value)
+        self.amount_total_gnre = sum(
+            line.gnre_value for line in self.invoice_line)
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
