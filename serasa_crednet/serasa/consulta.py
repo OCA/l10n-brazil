@@ -60,7 +60,7 @@ def consulta_cnpj(partner, company):
         return "Usuario ou senha do serasa invalidos"
 
     retorno_consulta = {
-            'status': '',
+            'status': 'Aprovado',
             'fundacao': '',
             'texto': '',
             'pefin': '',
@@ -91,8 +91,6 @@ def consulta_cnpj(partner, company):
 def retorna_pefin(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
         retorno_consulta['status'] = "Não aprovado"
-    else:
-        retorno_consulta['status'] = "Aprovado"
 
     pefin = []
 
@@ -123,8 +121,6 @@ def retorna_pefin(retorno_consulta, bloco):
 def retorna_protesto(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
         retorno_consulta['status'] = "Não aprovado"
-    else:
-        retorno_consulta['status'] = "Aprovado"
 
     protesto = []
 
@@ -154,8 +150,6 @@ def retorna_protesto(retorno_consulta, bloco):
 def retorna_cheques(retorno_consulta, bloco):
     if len(bloco.blocos) > 1:
         retorno_consulta['status'] = "Não aprovado"
-    else:
-        retorno_consulta['status'] = "Aprovado"
 
     cheque = []
 
