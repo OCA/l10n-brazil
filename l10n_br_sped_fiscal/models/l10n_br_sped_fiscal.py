@@ -59,32 +59,32 @@ class L10nBrSpedFiscalBlocoC(models.Model):
 
     name = fields.Char(string='teste')
     registroC001 = fields.One2many(
-        'l10n_br.sped.fiscal.bloco.c.registroC001', 'bloco_id',
+        'l10n_br.sped.fiscal.bloco.c.registroc001', 'bloco_id',
         string=u'Registros')
     registroC100 = fields.One2many(
-        'l10n_br.sped.fiscal.bloco.c.registroC100', 'bloco_id',
+        'l10n_br.sped.fiscal.bloco.c.registroc100', 'bloco_id',
         string=u'Registros')
-    # registroC110 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC110', 'bloco_id',
-    #     string=u'Registros')
-    # registroC113 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC113', 'bloco_id',
-    #     string=u'Registros')
-    # registroC170 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC170', 'bloco_id',
-    #     string=u'Registros')
-    # registroC190 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC190', 'bloco_id',
-    #     string=u'Registros')
-    # registroC500 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC500', 'bloco_id',
-    #     string=u'Registros')
-    # registroC590 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC590', 'bloco_id',
-    #     string=u'Registros')
-    # registroC990 = fields.One2many(
-    #     'l10n_br.sped.fiscal.bloco.c.registroC990', 'bloco_id',
-    #     string=u'Registros')
+    registroC110 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc110', 'bloco_id',
+        string=u'Registros')
+    registroC113 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc113', 'bloco_id',
+        string=u'Registros')
+    registroC170 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc170', 'bloco_id',
+        string=u'Registros')
+    registroC190 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc190', 'bloco_id',
+        string=u'Registros')
+    registroC500 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc500', 'bloco_id',
+        string=u'Registros')
+    registroC590 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc590', 'bloco_id',
+        string=u'Registros')
+    registroC990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.c.registroc990', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBlocoD(models.Model):
@@ -130,19 +130,19 @@ class L10nBrSpedFiscalBloco1(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.um'
     _description = u"Outras Informações"
 
-    # REG = fields.Char(string='REG', readonly=True)
-    # COD_PART = fields.Char(string='COD_PART')
-    # NOME = fields.Char(string='NOME')
-    # COD_PAIS = fields.Char(string='COD_PAIS')
-    # CNPJ = fields.Char(string='CNPJ')
-    # CPF = fields.Char(string='CPF')
-    # IE = fields.Char(string='IE')
-    # COD_MUN = fields.Char(string='COD_MUN')
-    # SUFRAMA = fields.Char(string='SUFRAMA')
-    # END = fields.Char(string='END')
-    # NUM = fields.Char(string='NUM')
-    # COMPL = fields.Char(string='COMPL')
-    # BAIRRO = fields.Char(string='BAIRRO')
+    REG = fields.Char(string='REG', readonly=True)
+    COD_PART = fields.Char(string='COD_PART')
+    NOME = fields.Char(string='NOME')
+    COD_PAIS = fields.Char(string='COD_PAIS')
+    CNPJ = fields.Char(string='CNPJ')
+    CPF = fields.Char(string='CPF')
+    IE = fields.Char(string='IE')
+    COD_MUN = fields.Char(string='COD_MUN')
+    SUFRAMA = fields.Char(string='SUFRAMA')
+    END = fields.Char(string='END')
+    NUM = fields.Char(string='NUM')
+    COMPL = fields.Char(string='COMPL')
+    BAIRRO = fields.Char(string='BAIRRO')
     registro1001 = fields.One2many(
         'l10n_br.sped.fiscal.bloco.um.registro1001', 'bloco_id',
         string=u'Registros')
