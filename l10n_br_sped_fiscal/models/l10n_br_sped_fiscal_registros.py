@@ -26,8 +26,10 @@ from openerp import models, fields, api, exceptions, _
 
 _IND_MOV = [('0', u'Bloco com dados informados'),
             ('1', u'Bloco sem dados informados')]
+
 _S_N = [('S', u'Sim'),
         ('N', u'Não')]
+
 _COD_DISP = [
     ('00', u'Formulário de Segurança (FS) ­ impressor autônomo'),
     ('01', u'FS­DA ­ Formulário de Segurança para Impressão de Danfe'),
@@ -686,23 +688,23 @@ class L10nBrSpedFiscalBlocoDRegistroD500(models.Model):
     TP_ASSINANTE = fields.Selection(selection=_TP_ASSINANTE, string=u'Código do tipo do assinante')
 
 
-# class L10nBrSpedFiscalBlocoDRegistroD590(models.Model):
-#     _name = 'l10n_br.sped.fiscal.bloco.d.registrod590'
-#     _description = u""
-#
-#     bloco_id = fields.Many2one(
-#         'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
-#     REG = fields.Char(string='REG', readonly=True, default='D590')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
+class L10nBrSpedFiscalBlocoDRegistroD590(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.d.registrod590'
+    _description = u"Registro Analítico do Documento"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='D590')
+    CST_ICMS = fields.Char(string=u'CST')
+    CFOP = fields.Char(string=u'CFOP')
+    ALIQ_ICMS = fields.Char(string=u'Alíquota do ICMS')
+    VL_OPR = fields.Char(string=u'Valor da operação comb CST_ICMS, CFOP, e alíquota do ICMS')
+    VL_BC_ICMS = fields.Char(string=u'Valor da Base de Cálculo (BC) do ICMS')
+    VL_ICMS = fields.Char(string=u'Valor do ICMS.')
+    VL_BC_ICMS_UF = fields.Char(string=u'Parcela correspondente ao valor da BC do ICMS de outras UFs')
+    VL_ICMS_UF = fields.Char(string=u'Parcela correspondente ao valor do ICMS de outras UFs')
+    VL_RED_BC = fields.Char(string=u'Valor não tributado em função da redução da BC do ICMS')
+    COD_OBS = fields.Char(string=u'Código da observação')
 
 
 class L10nBrSpedFiscalBlocoDRegistroD990(models.Model):
@@ -715,27 +717,61 @@ class L10nBrSpedFiscalBlocoDRegistroD990(models.Model):
     QTD_LIN_D = fields.Char(string=u'Quantidade total de linhas do Bloco D')
 
 
+class L10nBrSpedFiscalBlocoERegistroE001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.e.registroe001'
+    _description = u""
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.e', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='E001')
+    IND_MOV = fields.Selection(selection=_IND_MOV, string=u'Indicador de movimento')
 
 
+class L10nBrSpedFiscalBlocoERegistroE990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.e.registroe990'
+    _description = u"Encerramento do Bloco E"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.e', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='E990')
+    QTD_LIN_E = fields.Char(string=u'Quantidade total de linhas do Bloco E')
 
 
+class L10nBrSpedFiscalBlocoGRegistroG001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.g.registrog001'
+    _description = u"Abertura do Bloco G"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.g', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='G001')
+    IND_MOV = fields.Selection(selection=_IND_MOV, string=u'Indicador de movimento')
 
 
-# Classe base para copiar e colar
-# class L10nBrSpedFiscalBlocoDRegistroD(models.Model):
-#     _name = 'l10n_br.sped.fiscal.bloco.d.registrod'
-#     _description = u""
-#
-#     bloco_id = fields.Many2one(
-#         'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
-#     REG = fields.Char(string='REG', readonly=True, default='D')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
+class L10nBrSpedFiscalBlocoGRegistroG990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.g.registrog990'
+    _description = u"Encerramento do Bloco G"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.g', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='G990')
+    QTD_LIN_G = fields.Char(string=u'Quantidade total de linhas do Bloco G')
+
+
+class L10nBrSpedFiscalBlocoHRegistroH001(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.h.registroh001'
+    _description = u"Abertura do bloco H"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.h', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='H001')
+    IND_MOV = fields.Selection(selection=_IND_MOV, string=u'Indicador de movimento')
+
+
+class L10nBrSpedFiscalBlocoHRegistroH990(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.h.registroh990'
+    _description = u"Encerramento do bloco H"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.h', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='H990')
+    QTD_LIN_H = fields.Char(string=u'Quantidade total de linhas do Bloco H')

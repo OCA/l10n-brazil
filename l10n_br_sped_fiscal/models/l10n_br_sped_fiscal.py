@@ -90,25 +90,65 @@ class L10nBrSpedFiscalBlocoC(models.Model):
 class L10nBrSpedFiscalBlocoD(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.d'
     _description = u"Documentos Fiscais II – Serviços (ICMS)"
+
     name = fields.Char(string='teste')
+    registroD001 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod001', 'bloco_id',
+        string=u'Registros')
+    registroD100 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod100', 'bloco_id',
+        string=u'Registros')
+    registroD190 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod190', 'bloco_id',
+        string=u'Registros')
+    registroD500 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod500', 'bloco_id',
+        string=u'Registros')
+    registroD590 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod590', 'bloco_id',
+        string=u'Registros')
+    registroD990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.d.registrod990', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBlocoE(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.e'
     _description = u"Apuração do ICMS e do IPI"
+
     name = fields.Char(string='teste')
+    registroE001 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.e.registroe001', 'bloco_id',
+        string=u'Registros')
+    registroE990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.e.registroe990', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBlocoG(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.g'
     _description = u"Controle do Crédito de ICMS do Ativo Permanente – CIAP"
+
     name = fields.Char(string='teste')
+    registroG001 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.g.registrog001', 'bloco_id',
+        string=u'Registros')
+    registroG990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.g.registrog990', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBlocoH(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.h'
     _description = u"Inventário Físico"
+
     name = fields.Char(string='teste')
+    registroH001 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.h.registroh001', 'bloco_id',
+        string=u'Registros')
+    registroH990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.h.registroh990', 'bloco_id',
+        string=u'Registros')
 
 
 class L10nBrSpedFiscalBlocoK(models.Model):
