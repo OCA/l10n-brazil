@@ -24,25 +24,17 @@ class AccountInvoiceReport(models.Model):
 
     _inherit = "account.invoice.report"
 
-    fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
-        'Fiscal Category', readonly=True)
-    state = fields.Selection(
-        selection_add=[
-            ('sefaz_export', u'Enviar para Receita'),
-            ('sefaz_exception', u'Erro de autorização da Receita'),
-            ('sefaz_cancelled', u'Cancelado no Sefaz'),
-            ('sefaz_denied', u'Denegada no Sefaz'),
-        ])
+    cfop_id = fields.Many2one(
+        'l10n_br_account_product.cfop', 'CFOP', readonly=True)
 
     def _select(self):
         return super(AccountInvoiceReport, self)._select() + \
-            ", sub.fiscal_category_id as fiscal_category_id"
+            ", sub.cfop_id as cfop_id"
 
     def _sub_select(self):
         return super(AccountInvoiceReport, self)._sub_select() + \
-            ", ail.fiscal_category_id as fiscal_category_id"
+            ", ail.cfop_id as cfop_id"
 
     def _group_by(self):
         return super(AccountInvoiceReport, self)._group_by() + \
-            ", ail.fiscal_category_id"
+            ", ail.cfop_id"
