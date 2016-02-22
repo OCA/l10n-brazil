@@ -92,6 +92,13 @@ _COD_GRUPO_TENSAO = [
 _IND_OPER_D100 = [('0', u'Aquisição'),
             ('1', u'Prestação')]
 
+_TP_ASSINANTE = [('1', u'Comercial/Industrial'),
+                 ('2', u'Poder Público'),
+                 ('3', u'Residencial/Pessoa Física'),
+                 ('4', u'Público'),
+                 ('5', u'Semi-Público'),
+                 ('6', u'Outros'),]
+
 
 class L10nBrSpedFiscalBlocoZeroRegistroTemplate(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.zero.registro.template'
@@ -630,42 +637,53 @@ class L10nBrSpedFiscalBlocoDRegistroD100(models.Model):
     COD_CTA = fields.Char(string=u'Código da conta analítica contábil debitada/creditada')
 
 
-# class L10nBrSpedFiscalBlocoDRegistroD190(models.Model):
-#     _name = 'l10n_br.sped.fiscal.bloco.d.registrod190'
-#     _description = u""
-#
-#     bloco_id = fields.Many2one(
-#         'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
-#     REG = fields.Char(string='REG', readonly=True, default='D190')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
+class L10nBrSpedFiscalBlocoDRegistroD190(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.d.registrod190'
+    _description = u"Notas Fiscais de Serviço de Transporte"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='D190')
+    CST_ICMS = fields.Char(string=u'Código da Situação Tributária')
+    CFOP = fields.Char(string=u'Código Fiscal de Operação e Prestação')
+    ALIQ_ICMS = fields.Char(string=u'Alíquota do ICMS')
+    VL_OPR = fields.Char(string=u'Valor da operação correspondente à combinação de CST_ICMS, CFOP, e alíquota do ICMS')
+    VL_BC_ICMS = fields.Char(string=u'Parcela correspondente ao Valor da Base de Cálculo (BC) do ICMS')
+    VL_ICMS = fields.Char(string=u'Parcela correspondente ao Valor do ICMS')
+    VL_RED_BC = fields.Char(string=u'Valor não tributado em função da redução da BC do ICMS')
+    COD_OBS = fields.Char(string=u'Código da observação do lançamento fiscal')
 
 
-# class L10nBrSpedFiscalBlocoDRegistroD500(models.Model):
-#     _name = 'l10n_br.sped.fiscal.bloco.d.registrod500'
-#     _description = u""
-#
-#     bloco_id = fields.Many2one(
-#         'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
-#     REG = fields.Char(string='REG', readonly=True, default='D500')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
-#     campo = fields.Char(string=u'')
+class L10nBrSpedFiscalBlocoDRegistroD500(models.Model):
+    _name = 'l10n_br.sped.fiscal.bloco.d.registrod500'
+    _description = u"Nota Fiscal de Serviço de Comunicação"
+
+    bloco_id = fields.Many2one(
+        'l10n_br.sped.fiscal.bloco.d', string=u'Bloco')
+    REG = fields.Char(string='REG', readonly=True, default='D500')
+    IND_OPER = fields.Selection(selection=_IND_OPER_D100, string=u'Indicador do tipo de operação')
+    IND_EMIT = fields.Selection(selection=_IND_EMIT, string=u'Indicador do emitente do documento fiscal')
+    COD_PART = fields.Char(string=u'Código do participante')
+    COD_MOD = fields.Char(string=u'Código do modelo do documento fiscal')
+    COD_SIT = fields.Char(string=u'Código da situação do documento fiscal')
+    SER = fields.Char(string=u'Série do documento fiscal')
+    SUB = fields.Char(string=u'Subsérie do documento fiscal')
+    NUM_DOC = fields.Char(string=u'Número do documento fiscal')
+    DT_DOC = fields.Char(string=u'Data da emissão do documento fiscal.')
+    DT_A_P = fields.Char(string=u'Data da entrada (aquisição) ou da saída (prestação do serviço)')
+    VL_DOC = fields.Char(string=u'Valor total do documento fiscal')
+    VL_DESC = fields.Char(string=u'Valor total do desconto.')
+    VL_SERV = fields.Char(string=u'Valor da prestação de serviços.')
+    VL_SERV_NT = fields.Char(string=u'Valor total dos serviços não­tributados pelo ICMS.')
+    VL_TERC = fields.Char(string=u'Valores cobrados em nome de terceiros.')
+    VL_DA = fields.Char(string=u'Valor de outras despesas')
+    VL_BC_ICMS = fields.Char(string=u'Valor da Base de Cálculo (BC) do ICMS')
+    VL_ICMS = fields.Char(string=u'Valor do ICMS.')
+    COD_INF = fields.Char(string=u'Código da informação complementar')
+    VL_PIS = fields.Char(string=u'Valor do PIS/Pasep.')
+    VL_COFINS = fields.Char(string=u'Valor da Cofins.')
+    COD_CTA = fields.Char(string=u'Código da conta analítica contábil')
+    TP_ASSINANTE = fields.Selection(selection=_TP_ASSINANTE, string=u'Código do tipo do assinante')
 
 
 # class L10nBrSpedFiscalBlocoDRegistroD590(models.Model):
