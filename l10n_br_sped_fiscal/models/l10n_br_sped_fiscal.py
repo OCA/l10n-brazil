@@ -161,8 +161,38 @@ class L10nBrSpedFiscalBlocoZero(models.Model):
     _name = 'l10n_br.sped.fiscal.bloco.zero'
     _description = u"Abertura"
 
-    registros_ids = fields.One2many(
+    registro0000 = fields.One2many(
         'l10n_br.sped.fiscal.bloco.zero.registro0000', 'bloco_id',
+        string=u'Registros')
+    registro0001 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0001', 'bloco_id',
+        string=u'Registros')
+    registro0005 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0005', 'bloco_id',
+        string=u'Registros')
+    registro0150 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0150', 'bloco_id',
+        string=u'Registros')
+    registro0175 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0175', 'bloco_id',
+        string=u'Registros')
+    registro0190 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0190', 'bloco_id',
+        string=u'Registros')
+    registro0200 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0200', 'bloco_id',
+        string=u'Registros')
+    registro0205 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0205', 'bloco_id',
+        string=u'Registros')
+    registro0400 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0400', 'bloco_id',
+        string=u'Registros')
+    registro0450 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0450', 'bloco_id',
+        string=u'Registros')
+    registro0990 = fields.One2many(
+        'l10n_br.sped.fiscal.bloco.zero.registro0990', 'bloco_id',
         string=u'Registros')
 
 
@@ -264,13 +294,13 @@ class L10nBrSpedFiscal(models.Model):
         # column1="treasury_id",
         column1="in_invoice_id",
         string="In Invoices")
-
-    # bloco_zero = fields.Many2many(
-    #     comodel_name="l10n_br.sped.fiscal.bloco.zero",
-    #     relation="l10n_br_sped_fiscal_zero_rel",
-    #     column1="bloco_zero_id",
-    #     string="Bloco Zero"
-    # )
+    bloco_zero = fields.Many2many(
+        comodel_name="l10n_br.sped.fiscal.bloco.zero",
+        relation="l10n_br_sped_fiscal_zero_rel",
+        column1="bloco_zero_id",
+        column2="sped_fiscal_id",
+        string="Bloco Zero"
+    )
     bloco_c = fields.Many2many(
         comodel_name="l10n_br.sped.fiscal.bloco.c",
         relation="l10n_br_sped_fiscal_c_rel",

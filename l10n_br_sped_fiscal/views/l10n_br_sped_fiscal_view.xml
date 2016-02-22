@@ -121,9 +121,9 @@
                         <page string="In invoices">
                             <field name="in_invoice_ids" nolabel="1" />
                         </page>
-                        <!--<page string="Bloco 0">-->
-                            <!--<field name="bloco_zero" nolabel="1" />-->
-                        <!--</page>-->
+                        <page string="Bloco 0">
+                            <field name="bloco_zero" nolabel="1" />
+                        </page>
                         <page string="Bloco C">
                             <field name="bloco_c" nolabel="1" />
                         </page>
