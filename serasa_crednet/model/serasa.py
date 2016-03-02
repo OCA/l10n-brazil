@@ -101,7 +101,11 @@ class Serasa(models.Model):
 
         retorno_consulta = consulta.consulta_cnpj(self.partner_id, company)
 
-        if retorno_consulta == 'Usuario ou senha do serasa invalidos':
+        if retorno_consulta == 'Usuario ou senha do serasa invalidos' \
+                or retorno_consulta == u"Há inconsistencias nos " \
+                                       u"dados enviados, verificar " \
+                                       u"o cpf/cnpj e se o cliente é " \
+                                       u"empresa ou pessoa fisica":
             from openerp.exceptions import Warning
             raise Warning(retorno_consulta)
 
