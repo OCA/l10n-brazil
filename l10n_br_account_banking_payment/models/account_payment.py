@@ -61,6 +61,7 @@ class PaymentLine(models.Model):
         return partner_record.legal_name + "\n" + cnpj + "\n" + st + ", " \
                + n + "  " + st1 + "\n" + zip_city + "\n" + cntry
 
+    @api.one
     @api.depends('percent_interest', 'amount_currency')
     def _compute_interest(self):
         precision = self.env['decimal.precision'].precision_get('Account')
