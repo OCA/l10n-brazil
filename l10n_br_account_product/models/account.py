@@ -305,12 +305,12 @@ class AccountTax(models.Model):
             precision,
             base_tax)
 
-        if difa:
-            result_icms['taxes'][0].update(difa)
-        elif result_icms['taxes'] and fiscal_position and \
+        if result_icms['taxes'] and fiscal_position and \
                 fiscal_position.suframa:
             result['icms_relief_value'] = result_icms['taxes'][0]['amount']
         else:
+            if difa:
+                result_icms['taxes'][0].update(difa)
             totaldc += result_icms['tax_discount']
             calculed_taxes += result_icms['taxes']
 
