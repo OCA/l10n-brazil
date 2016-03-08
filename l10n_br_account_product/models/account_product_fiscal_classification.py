@@ -84,11 +84,13 @@ class AccountProductFiscalClassificationTemplate(models.Model):
         compute='_compute_taxes')
 
     tax_estimate_ids = fields.One2many(
-        'l10n_br_tax.estimate.template', 'fiscal_classification_id',
-        'Impostos Estimados')
+        comodel_name='l10n_br_tax.estimate.template',
+        inverse_name='fiscal_classification_id',
+        string=u'Impostos Estimados')
 
     tax_fcp_ids = fields.One2many(
-        'l10n_br_tax.fcp.template', 'fiscal_classification_id',
+        comodel_name='l10n_br_tax.fcp.template',
+        inverse_name='fiscal_classification_id',
         string=u'Fundo de Combate a Pobreza')
 
     _sql_constraints = [
@@ -227,11 +229,13 @@ class AccountProductFiscalClassification(models.Model):
         compute='_compute_taxes', store=True)
 
     tax_estimate_ids = fields.One2many(
-        'l10n_br_tax.estimate', 'fiscal_classification_id',
-        'Impostos Estimados')
+        comodel_name='l10n_br_tax.estimate',
+        inverse_name='fiscal_classification_id',
+        string=u'Impostos Estimados')
 
     tax_fcp_ids = fields.One2many(
-        'l10n_br_tax.fcp', 'fiscal_classification_id',
+        comodel_name='l10n_br_tax.fcp',
+        inverse_name='fiscal_classification_id',
         string=u'Fundo de Combate a Pobreza')
 
     cest = fields.Char(
@@ -261,7 +265,7 @@ class AccountProductFiscalClassification(models.Model):
             brazil = item.env['res.country'].search([('code', '=', 'BR')])
             states = item.env['res.country.state'].search([('country_id', '=',
                                                             brazil.id)])
-            company = item.env.user.company_id
+            company = item.company_id or item.env.user.company_id
             config = DeOlhoNoImposto(company.ipbt_token,
                                      punctuation_rm(company.cnpj_cpf),
                                      company.state_id.code)
