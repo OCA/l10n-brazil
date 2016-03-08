@@ -394,6 +394,10 @@ def validate_ie_sp(inscr_est):
 def validate_ie_to(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
+    #TODO: ALTERAR O ALGORITMO DE VALIDACAO, ESTA DESATUALIZADO!
+    return True
+
+
     # verificando o tamanho da inscrição estadual
     if len(inscr_est) != 11:
         return False
