@@ -240,7 +240,9 @@ class AccountProductFiscalClassification(models.Model):
                     punctuation_rm(item.code or ''),
                     ex='0')
                 update = tax_estimate.search([('state_id', '=', state.id),
-                                              ('origin', '=', 'IBPT-WS')])
+                                              ('origin', '=', 'IBPT-WS'),
+                                              ('fiscal_classification_id',
+                                               '=', item.id)])
                 vals = {
                     'fiscal_classification_id': item.id,
                     'origin': 'IBPT-WS',
