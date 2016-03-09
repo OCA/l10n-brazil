@@ -122,58 +122,57 @@
         quantity: 5.0
         price_unit: 110.00
 -
-  I check if found fisal position and CFOP, document type and document serie
+  Check Invoice Line from SP to RS fiscal contributor
 -
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
-    - fiscal_position != False
-    - fiscal_document_id.id == company_id.product_invoice_id.id
-    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
-    - invoice_line[0].fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo')
-    - invoice_line[0].cfop_id.code == '6101'
--
-  I check tax values ICMS
--
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
-    - invoice_line[0].icms_cst_id.code == '00'
-    - invoice_line[0].icms_base == 550.00
-    - invoice_line[0].icms_base_other == 0.00
-    - invoice_line[0].icms_value == 66.00
-    - invoice_line[0].icms_percent == 12.00
-    - invoice_line[0].icms_percent_reduction == 0.00
--
-  I check tax values ICMS ST
--
-  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
-    - invoice_line[0].icms_st_base == 0.00
-    - invoice_line[0].icms_st_base_other == 0.00
-    - invoice_line[0].icms_st_value == 0.00
-    - invoice_line[0].icms_st_percent == 0.00
-    - invoice_line[0].icms_st_percent_reduction == 0.00
--
-  I check tax values IPI
--
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
-    - invoice_line[0].ipi_cst_id.code == '50'
-    - invoice_line[0].ipi_base == 550.00
-    - invoice_line[0].ipi_base_other == 0.00
-    - invoice_line[0].ipi_value == 82.50
-    - invoice_line[0].ipi_percent == 15.00
--
-  I check tax values PIS
--
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
-    - invoice_line[0].pis_cst_id.code == '01'
-    - invoice_line[0].pis_base == 550.00
-    - invoice_line[0].pis_value == 3.58
-    - invoice_line[0].pis_percent == 0.65
--
-  I check tax values COFINS
--
-  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
-    - invoice_line[0].cofins_cst_id.code == '01'
-    - invoice_line[0].cofins_base == 550.00
-    - invoice_line[0].cofins_value == 16,50
-    - invoice_line[0].cofins_percent == 3.00
+  !python {model: account.invoice}: |
+    from openerp.tools import float_compare
+
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs'), context=context)
+
+    # I check if found fiscal position and CFOP, document type and document serie
+    assert invoice.fiscal_position != False, "Wrong value in Fiscal Position"
+    assert invoice.fiscal_document_id.id == invoice.company_id.product_invoice_id.id, "Wrong value in Fiscal Document"
+
+    for line in invoice.invoice_line:
+
+        if line.product_id.id == ref('product.product_product_9'):
+
+            assert line.fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo'), "Wrong value in Fiscal Position in line"
+            assert line.cfop_id.code == '6101', "Wrong value in CFOP in line"
+
+            # I check tax values ICMS
+            assert line.icms_cst_id.code == '00', "Wrong value in CST of ICMS in line"
+            assert line.icms_base == 550.00, "Wrong value in Base of ICMS in line"
+            assert line.icms_base_other == 0.00, "Wrong value in Other Base of ICMS in line"
+            assert line.icms_value == 66.00, "Wrong value in ICMS in line"
+            assert line.icms_percent == 12.00, "Wrong value in Percent of ICMS in line"
+            assert line.icms_percent_reduction == 0.00, "Wrong value in Percent Reduction of ICMS in line"
+
+            # I check tax values ICMS ST
+            assert line.icms_st_base == 0.00, "Wrong value in Base ST of ICMS in line"
+            assert line.icms_st_base_other == 0.00, "Wrong value in Other Base of ICMS ST in line"
+            assert line.icms_st_value == 0.00, "Wrong value in Value of ICMS ST in line"
+            assert line.icms_st_percent == 0.00, "Wrong value to Percent of ICMS ST in line"
+            assert line.icms_st_percent_reduction == 0.00, "Wrong value to REduction Percent of ICMS ST in line"
+
+            # I check tax values IPI
+            assert line.ipi_cst_id.code == '50', "Wrong value in Code of IPI in line"
+            assert line.ipi_base == 550.00, "Wrong value in Base of IPI in line"
+            assert line.ipi_base_other == 0.00, "Wrong value in Other Base of IPI in line"
+            assert line.ipi_value == 82.50, "Wrong value in Value of IPI in line"
+            assert line.ipi_percent == 15.00, "Wrong value in Percent of IPI in line"
+
+            # I check tax values PIS
+            assert line.pis_cst_id.code == '01', "Wrong value in Code of PIS in line"
+            assert line.pis_base == 550.00, "Wrong value in Base of PIS in line"
+            assert float_compare(line.pis_value, 3.57, 2) == 0, "Wrong value in Value of PIS in line"
+            assert line.pis_percent == 0.65, "Wrong value in Percent of PIS in line"
+
+            # I check tax values COFINS
+            assert line.cofins_cst_id.code == '01', "Wrong value in CST of COFINS in line"
+            assert line.cofins_base == 550.00, "Wrong value in Base of COFINS in line"
+            assert line.cofins_value == 16.50, "Wrong value in Value of COFINS in line"
+            assert line.cofins_percent == 3.00, "Wrong value in Percent of COFINS in line"
 -
   I check that Initially customer invoice is in the "Draft" state
 -
@@ -202,17 +201,25 @@
   I check invoice tax_lines
 -
   !python {model: account.invoice}: |
+
+    from openerp.tools import float_compare
+
     invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs'), context=context)
+
     for tax in invoice.tax_line:
+
       if tax.base_code_id.domain == 'ipi':
         assert tax.base == 550.00 , "Base de ipi incorreta"
         assert tax.amount == 82.50 , "Total do ipi incorreto"
+
       if tax.base_code_id.domain == 'icms':
         assert tax.base_amount == 550.00 , "Base de icms incorreta"
         assert tax.tax_amount == 66.00 , "Total do icms incorreto"
+
       if tax.base_code_id.domain == 'pis':
         assert tax.base_amount == 550.00 , "Base de pis incorreta"
-        assert tax.tax_amount == 3.58  , "Total do pis incorreto"
+        assert float_compare(tax.tax_amount, 3.57, 2) == 0  , "Total do pis incorreto"
+
       if tax.base_code_id.domain == 'cofins':
         assert tax.base_amount == 550.00 , "Base de cofins incorreta"
         assert tax.tax_amount == 16.50,  "Total do cofins incorreto"
