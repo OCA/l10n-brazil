@@ -388,6 +388,8 @@ class Cnab400Parser(object):
                         'data_ocorrencia': datetime.datetime.strptime(
                             str(evento.data_ocorrencia_banco).zfill(6),
                             '%d%m%y'),
+                        'bank_title_name': evento.identificacao_titulo_banco,
+                        'title_name_at_company': evento.numero_documento
                     })
                 else:
                     transactions_cnab_return.append({
@@ -414,6 +416,8 @@ class Cnab400Parser(object):
                         'data_ocorrencia': datetime.datetime.strptime(
                             str(evento.data_ocorrencia_banco).zfill(6),
                             '%d%m%y'),
+                        'bank_title_name': evento.identificacao_titulo_banco,
+                        'title_name_at_company': evento.numero_documento
                     })
 
                 res.append({

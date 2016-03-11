@@ -138,13 +138,16 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_model = self.env['account.move.line']
         move_line_item = move_line_model.search(
             [('name', '=', move_line_name)], limit=1)
-        move_line_item.transaction_ref = data['ref']
-        move_line_item.ml_identificacao_titulo_no_banco = data[
+
+        if move_line_item:
+            move_line_item.transaction_ref = data['ref']
+            move_line_item.ml_identificacao_titulo_no_banco = data[
             'identificacao_titulo_no_banco']
+
 
         cnab_move = self.env['l10n_br_cnab.move']
         cnab_move.create({
-            'move_line_id': move_line_item.id,
+            'move_line_id': move_line_item and move_line_item.id or False,
             'str_ocorrencia': data['str_ocorrencia'],
             'str_motiv_a': data['str_motiv_a'],
             'str_motiv_b': data['str_motiv_b'],
@@ -152,6 +155,8 @@ class AccountBankStatementImport(models.TransientModel):
             'str_motiv_d': data['str_motiv_d'],
             'str_motiv_e': data['str_motiv_e'],
             'data_ocorrencia': data['data_ocorrencia'],
+            'bank_title_name': data['bank_title_name'],
+            'title_name_at_company': data['title_name_at_company']
         })
 
     @api.multi
@@ -162,9 +167,11 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_model = self.env['account.move.line']
         move_line_item = move_line_model.search(
             [('name', '=', move_line_name)], limit=1)
+
+
         cnab_move = self.env['l10n_br_cnab.move']
         cnab_move.create({
-            'move_line_id': move_line_item.id,
+            'move_line_id':  move_line_item and move_line_item.id or False,
             'str_ocorrencia': data['str_ocorrencia'],
             'str_motiv_a': data['str_motiv_a'],
             'str_motiv_b': data['str_motiv_b'],
@@ -172,6 +179,8 @@ class AccountBankStatementImport(models.TransientModel):
             'str_motiv_d': data['str_motiv_d'],
             'str_motiv_e': data['str_motiv_e'],
             'data_ocorrencia': data['data_ocorrencia'],
+            'bank_title_name': data['bank_title_name'],
+            'title_name_at_company': data['title_name_at_company']
         })
 
     # Overrides temporarily

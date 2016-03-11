@@ -29,6 +29,8 @@ class L10nBrCnabMove(models.Model):
     move_line_id = fields.Many2one(
         'account.move.line',
         u'Movimentação')
+    bank_title_name = fields.Char(u'Identificação do título no banco')
+    title_name_at_company = fields.Char(u'Identificação do título na empresa')
     data_ocorrencia = fields.Char(u'Data da Ocorrência no Banco')
     str_ocorrencia = fields.Char(u'Identificação de Ocorrência')
     cod_ocorrencia = fields.Char(u'Código Ocorrência')
