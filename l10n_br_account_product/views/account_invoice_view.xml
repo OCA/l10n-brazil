@@ -336,6 +336,7 @@
                             <page position="inside" string="Impostos">
                                 <group>
                                     <field name="total_taxes"/>
+                                    <field name="gnre_value"/>
                                 </group>
                                 <notebook>
                                     <page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">

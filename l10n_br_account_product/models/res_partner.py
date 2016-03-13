@@ -17,6 +17,11 @@ class AccountFiscalPositionTemplate(models.Model):
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
+    icms_st_extract = fields.Boolean(
+        string=u'Remover Substituição Tributária dos totais',
+        states={'draft': [('readonly', False)]},
+        default=False
+    )
 
 
 class AccountFiscalPositionTaxTemplate(models.Model):
@@ -41,6 +46,11 @@ class AccountFiscalPosition(models.Model):
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
+    icms_st_extract = fields.Boolean(
+        string=u'Remover Substituição Tributária dos totais',
+        states={'draft': [('readonly', False)]},
+        default=False
+    )
 
     @api.v7
     def map_tax(self, cr, uid, fposition_id, taxes, context=None):
