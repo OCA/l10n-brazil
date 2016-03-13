@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
-
+# © 2016 Thomas Binsfeld
+# © 2016 ACSONE SA/NV (<http://acsone.eu>)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 """
-Provides the AccountingNone singleton
+Provides the AccountingNone singleton.
 
 AccountingNone is a null value that dissolves in basic arithmetic operations,
 as illustrated in the examples below. In comparisons, AccountingNone behaves
@@ -81,6 +82,8 @@ True
 >>> AccountingNone == None
 True
 """
+
+__all__ = ['AccountingNone']
 
 
 class AccountingNoneType(object):
