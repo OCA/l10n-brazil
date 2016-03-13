@@ -455,6 +455,5 @@
             <field name="is_company" eval="0"/>
             <field name="active" eval="1"/>
         </record>
-
     </data>
 </openerp>

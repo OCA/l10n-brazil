@@ -12,7 +12,7 @@
             <field name="district">Bela Vista</field>
             <field name="state_id" ref="l10n_br_base.br_sp"/>
             <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
-            <field name="zip">01311-000</field> 
+            <field name="zip">01311-000</field>
             <field name="country_id" ref="base.br"/>
             <field name="rml_header1">Slogan da Sua Empresa</field>
             <field name="website">www.suaempresa.com.br</field>
