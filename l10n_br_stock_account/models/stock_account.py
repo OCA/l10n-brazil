@@ -150,7 +150,6 @@ class StockMove(models.Model):
             prod_id=prod_id, loc_id=loc_id,
             loc_dest_id=loc_dest_id, partner_id=partner_id)
 
-
         if result_super.get('value'):
             result_super.get('value').update(result['value'])
         else:
