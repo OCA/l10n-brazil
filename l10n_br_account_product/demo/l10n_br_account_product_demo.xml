@@ -61,6 +61,11 @@
             <field name="property_journal" ref="account.sales_journal"/>
         </record>
 
+		<!-- Venda ST -->
+        <record id="fc_9ca6c34b77a2c78171252551db171ff7" model="l10n_br_account.fiscal.category">
+			<field name="property_journal" ref="account.sales_journal"/>
+		</record>
+
         <!-- Devolução de Venda -->
         <record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
             <field name="property_journal" ref="account.refund_sales_journal" />
@@ -471,7 +476,7 @@
 			<field name="position_id" ref="fp_external_icmsst_extract_mg_demo"/>
 			<field name="tax_code_src_id" ref="l10n_br_account_product.tax_code_demo_icms"/>
 			<field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_icms_externo12"/>
-			<field name="tax_code_dest_id" ref="l10n_br_account_product.tax_code_demo_icms_10"/>
+			<field name="tax_code_dest_id" ref="l10n_br_account_product.tax_code_demo_icms_00"/>
 			<field name="tax_src_domain">icms</field>
 		</record>
 
