@@ -27,6 +27,8 @@ AccountingNone
 -1
 >>> 1 - AccountingNone
 1
+>>> abs(AccountingNone)
+AccountingNone
 >>> AccountingNone - None
 AccountingNone
 >>> AccountingNone / 2
@@ -114,6 +116,9 @@ class AccountingNoneType(object):
         if other is None:
             return AccountingNone
         return -other
+
+    def __abs__(self):
+        return self
 
     def __pos__(self):
         return self
