@@ -63,6 +63,8 @@ class Serasa(models.Model):
     cheque_count = fields.Integer('Cheques', compute='_count_serasa')
     cheque_sum = fields.Float('Valor', compute='_count_serasa')
     cheque_ids = fields.One2many('serasa.cheque', 'serasa_id')
+    pefin_data_inicio = fields.Char("Data Ocorrencia Antiga")
+    pefin_data_fim = fields.Char("Data Ultima Ocorrencia")
     pefin_num_ocorrencias = fields.Integer(
         'Total de ocorrências Pendências Financeiras',
         readonly=True
@@ -72,6 +74,8 @@ class Serasa(models.Model):
         readonly=True,
         digits_compute=dp.get_precision('Account')
     )
+    protesto_data_inicio = fields.Char("Data Ocorrencia Antiga")
+    protesto_data_fim = fields.Char("Data Ultima Ocorrencia")
     protesto_num_ocorrencias = fields.Integer(
         'Total de ocorrências Protestos Estaduais',
         readonly=True
@@ -119,6 +123,9 @@ class Serasa(models.Model):
 
         if retorno_consulta['total_pefin']:
             self.write({
+                'pefin_data_inicio': retorno_consulta['total_pefin']
+                ['pefin_inicio'],
+                'pefin_data_fim': retorno_consulta['total_pefin']['pefin_fim'],
                 'pefin_num_ocorrencias': retorno_consulta['total_pefin'][
                     'num_ocorrencias'],
                 'pefin_valor_total': retorno_consulta['total_pefin']['total'],
@@ -131,6 +138,10 @@ class Serasa(models.Model):
 
         if retorno_consulta['total_protesto']:
             self.write({
+                'protesto_data_inicio': retorno_consulta['total_protesto']
+                ['protesto_inicio'],
+                'protesto_data_fim': retorno_consulta['total_protesto']
+                ['protesto_fim'],
                 'protesto_num_ocorrencias': retorno_consulta['total_protesto'][
                         'num_ocorrencias'],
                 'protesto_valor_total': retorno_consulta['total_protesto'][

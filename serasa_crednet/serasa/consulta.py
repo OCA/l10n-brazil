@@ -98,6 +98,7 @@ def retorna_pefin(retorno_consulta, bloco):
     pefin = []
 
     if len(bloco.blocos) > 0:
+        pefin_total = {}
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
                 pefin_dic = {
@@ -110,11 +111,14 @@ def retorna_pefin(retorno_consulta, bloco):
                 }
                 pefin.append(pefin_dic)
             if registro.campos.campos[1]._valor == u'90':
-                pefin_total = {
-                    'num_ocorrencias': registro.campos.campos[2]._valor,
-                    'total': registro.campos.campos[5]._valor,
-                }
-                retorno_consulta['total_pefin'] = pefin_total
+                if not pefin_total:
+                    pefin_total = {
+                        'pefin_inicio': registro.campos.campos[3]._valor,
+                        'pefin_fim': registro.campos.campos[4]._valor,
+                        'num_ocorrencias': registro.campos.campos[2]._valor,
+                        'total': registro.campos.campos[5]._valor,
+                    }
+                    retorno_consulta['total_pefin'] = pefin_total
     retorno_consulta['pefin'] = pefin
     pefin = []
 
@@ -128,6 +132,7 @@ def retorna_protesto(retorno_consulta, bloco):
     protesto = []
 
     if len(bloco.blocos) > 0:
+        protesto_total = {}
         for registro in bloco.blocos:
             if registro.campos.campos[1]._valor == u'00':
                 protesto_dic = {
@@ -139,11 +144,14 @@ def retorna_protesto(retorno_consulta, bloco):
                 }
                 protesto.append(protesto_dic)
             if registro.campos.campos[1]._valor == u'90':
-                protesto_total = {
-                    'num_ocorrencias': registro.campos.campos[2]._valor,
-                    'total': registro.campos.campos[6]._valor,
-                }
-                retorno_consulta['total_protesto'] = protesto_total
+                if not protesto_total:
+                    protesto_total = {
+                        'protesto_inicio': registro.campos.campos[3]._valor,
+                        'protesto_fim': registro.campos.campos[4]._valor,
+                        'num_ocorrencias': registro.campos.campos[2]._valor,
+                        'total': registro.campos.campos[6]._valor,
+                    }
+                    retorno_consulta['total_protesto'] = protesto_total
         retorno_consulta['protestosEstados'] = protesto
         protesto = []
 

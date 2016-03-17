@@ -43,6 +43,8 @@
                                     </tree>
                                 </field>
                                 <group>
+                                    <group><field name="protesto_data_inicio" string="Primeira Ocorrência"/></group>
+                                    <group><field name="protesto_data_fim" string="Ultima Ocorrência"/></group>
                                     <group><field name="protesto_num_ocorrencias"/></group>
                                     <group><field name="protesto_valor_total" string="Total"/></group>
                                 </group>
@@ -58,6 +60,8 @@
                                     </tree>
                                 </field>
                                 <group>
+                                    <group><field name="pefin_data_inicio" string="Primeira Ocorrência"/></group>
+                                    <group><field name="pefin_data_fim" string="Ultima Ocorrência"/></group>
                                     <group><field name="pefin_num_ocorrencias"/></group>
                                     <group><field name="pefin_valor_total" string="Total"/></group>
                                 </group>
