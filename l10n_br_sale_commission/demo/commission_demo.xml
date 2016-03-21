@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+      <record id="commission_notax" model="sale.commission">
+        <field name="name">10% s/ IPI</field>
+        <field name="commission_type">fixed</field>
+        <field name="active">True</field>
+        <field name="fix_qty">10.0</field>
+        <field name="base">notax</field>
+      </record>
+    </data>
+</openerp>

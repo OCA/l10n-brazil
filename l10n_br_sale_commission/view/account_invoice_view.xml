@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="sale_commission.invoice_line_form_agent" model="ir.ui.view">
+ 			<field name="active">False</field>
+		</record>
+		<record model="ir.ui.view" id="view_l10n_br_account_invoice_line_commission_form">
+			<field name="name">l10n_br_account.invoice.line.form</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_invoice_line_form" />
+			<field name="priority">36</field>
+			<field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Comissão">
+                        <group>
+                            <group>
+                                <field name="commission_free"/>
+                                <field name="agents"
+                                    attrs="{'readonly': [('commission_free', '=', True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+		</record>
+	</data>
+</openerp>
