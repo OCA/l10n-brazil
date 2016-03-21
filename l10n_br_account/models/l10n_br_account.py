@@ -138,7 +138,10 @@ class L10nBrAccountFiscalCategory(models.Model):
     _description = 'Categoria Fiscal'
 
     code = fields.Char(u'Código', size=254, required=True)
-    name = fields.Char(u'Descrição', size=254)
+    name = fields.Char(
+        string=u'Descrição',
+        size=254,
+        help="Natureza da operação informada no XML")
     type = fields.Selection(TYPE, 'Tipo', default='output')
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
