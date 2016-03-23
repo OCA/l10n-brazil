@@ -67,6 +67,6 @@
         'test/account_invoice_refund.yml',
         'test/nfe_export.yml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

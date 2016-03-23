@@ -34,6 +34,6 @@
         'demo/base_demo.xml',
     ],
     'category': 'Localisation',
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }
