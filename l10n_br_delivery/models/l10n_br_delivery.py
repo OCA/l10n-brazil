@@ -1,4 +1,4 @@
-    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2010  Renato Lima - Akretion                                  #
@@ -21,7 +21,6 @@ from openerp import models, fields
 
 
 class L10n_brDeliveryCarrierVehicle(models.Model):
-
     _name = 'l10n_br_delivery.carrier.vehicle'
     _description = 'Veiculos das transportadoras'
 
@@ -47,7 +46,6 @@ class L10n_brDeliveryCarrierVehicle(models.Model):
 
 
 class L10n_brDeliveryShipment(models.Model):
-
     _name = 'l10n_br_delivery.shipment'
 
     code = fields.Char('Nome', size=32)
@@ -84,4 +82,3 @@ class L10n_brDeliveryShipment(models.Model):
                 cr, uid, ids, context=context):
             result[line.picking_id.id] = True
         return list(result.keys())
-

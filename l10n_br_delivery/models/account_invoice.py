@@ -19,34 +19,35 @@
 
 from openerp import api, fields, models
 from openerp.tools.translate import _
+from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    
+
     carrier_id = fields.Many2one(
-            'delivery.carrier', 'Método de transporte', readonly=True,
-            states={'draft': [('readonly', False)]})
+        'delivery.carrier', 'Método de transporte', readonly=True,
+        states={'draft': [('readonly', False)]})
     vehicle_id = fields.Many2one(
-            'l10n_br_delivery.carrier.vehicle', u'Veículo', readonly=True,
-            states={'draft': [('readonly', False)]})
+        'l10n_br_delivery.carrier.vehicle', u'Veículo', readonly=True,
+        states={'draft': [('readonly', False)]})
     incoterm = fields.Many2one(
-            'stock.incoterms', 'Tipo do Frete', readonly=True,
-            states={'draft': [('readonly', False)]},
-            help="Incoterm which stands for 'International Commercial terms' "
-            "implies its a series of sales terms which are used in the "
-            "commercial transaction.")    
-    
+        'stock.incoterms', 'Tipo do Frete', readonly=True,
+        states={'draft': [('readonly', False)]},
+        help="Incoterm which stands for 'International Commercial terms' "
+             "implies its a series of sales terms which are used in the "
+             "commercial transaction.")
+
     @api.onchange('carrier_id')
     def onchange_carrier_id(self):
         self.partner_carrier_id = self.carrier_id.partner_id
-        
+
     @api.onchange('vehicle_id')
     def onchange_vehicle_id(self):
         self.vehicle_plate = self.vehicle_id.plate
         self.vehicle_state_id = self.vehicle_id.state_id
         self.vehicle_l10n_br_city_id = self.vehicle_id.l10n_br_city_id
-        
+
     @api.onchange('incoterm')
     def onchange_incoterm(self):
         self.freight_responsibility = self.incoterm.freight_responsibility
@@ -78,7 +79,7 @@ class AccountInvoice(models.Model):
                     strErro = u'Transportadora / Veículo - RNTC\n'
 
         if strErro:
-            raise orm.except_orm(
+            raise UserError (
                 _('Error!'),
                 _(u"Validação da Nota fiscal:\n '%s'") % (strErro))
 

@@ -42,10 +42,11 @@ class StockPicking(models.Model):
         result = super(StockPicking, self)._prepare_invoice_line(
             cr, uid, group, picking, move_line, invoice_id, invoice_vals,
             context)
-        #TODO: Calcular o valor correto em caso de alteração da quantidade
+        # TODO: Calcular o valor correto em caso de alteração da quantidade
         if move_line.sale_line_id:
             result['insurance_value'] = move_line.sale_line_id.insurance_value
-            result['other_costs_value'] = move_line.sale_line_id.other_costs_value
+            result['other_costs_value'] = \
+                move_line.sale_line_id.other_costs_value
             result['freight_value'] = move_line.sale_line_id.freight_value
         return result
 
