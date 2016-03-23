@@ -505,8 +505,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_cancel_draft(self):
         result = super(AccountInvoice, self).action_cancel_draft()
-        if not self.invoice_reserved_number and self.internal_number:
-            self.invoice_reserved_number = self.internal_number
         self.write({
             'internal_number': False,
             'nfe_access_key': False,
