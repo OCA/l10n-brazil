@@ -524,8 +524,8 @@ class AccountInvoice(models.Model):
                     'base': cost,
                     'account_analytic_id':
                         tax.account_analytic_collected_id.id or False,
-                    'account_id': tax.account_paid_id.id
-                 }
+                    'account_id': tax.account_paid_id.id,
+                }
                 if ait_id:
                     ait_id.write(vals)
                 else:
