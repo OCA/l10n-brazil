@@ -236,9 +236,7 @@ class AccountTax(models.Model):
             if fiscal_position and fiscal_position.cfop_id.id_dest == '2':
                 specific_icms_inter = [tx for tx in result['taxes']
                                  if tx['domain'] == 'icmsinter']
-                try:
-                # Devido as operações com redução de base devemos verificar os
-                # totais da operação
+                if specific_icms_inter:
                     if (specific_icms_inter[0]['amount'] == \
                             specific_icms[0]['amount']):
                         pass
@@ -257,8 +255,10 @@ class AccountTax(models.Model):
                         #ICMS interno Destino = [BC x ALQ intra]
                         difa['pICMSInter'] = specific_icms[0]['percent']
                         #ICMS destino = [BC x ALQ intra] - ICMS origem
-                        icms_difa = ((difa['vBCUFDest'] * difa['pICMSUFDest'])-
-                                     (difa['vBCUFDest'] * difa['pICMSInter']))
+                        icms_difa = (
+                            (difa['vBCUFDest'] * difa['pICMSUFDest']) -
+                            (difa['vBCUFDest'] * difa['pICMSInter'])
+                        )
                         if result_fcp['taxes']:
                             # % Fundo pobreza
                             difa['pFCPUFDest'] = \
@@ -286,11 +286,6 @@ class AccountTax(models.Model):
                             base_tax)
                         totaldc += result_icms_inter['tax_discount']
                         calculed_taxes += result_icms_inter['taxes']
-
-                except:
-                    raise UserError(u'Tributação do ICMS para a UF de destino',
-                              u'Configurada incorretamente')
-
         else:
             total_base = result['total'] + insurance_value + \
                 freight_value + other_costs_value
@@ -313,7 +308,6 @@ class AccountTax(models.Model):
                 result_icms['taxes'][0].update(difa)
             totaldc += result_icms['tax_discount']
             calculed_taxes += result_icms['taxes']
-
 
         if result_icms['taxes']:
             icms_value = result_icms['taxes'][0]['amount']
