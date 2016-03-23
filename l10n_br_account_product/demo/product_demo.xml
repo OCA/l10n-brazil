@@ -689,5 +689,40 @@
 			<field name="to_state_id" ref="l10n_br_base.br_pe"/>
 		</record>
 
+        <record id="product_10_category_mg_demo" model="l10n_br_account.product.category">
+			<field name="product_tmpl_id" ref="product.product_product_10_product_template"/>
+			<field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+			<field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="to_state_id" ref="l10n_br_base.br_mg"/>
+		</record>
+
+		<record id="product_12_category_mg_demo" model="l10n_br_account.product.category">
+			<field name="product_tmpl_id" ref="product.product_product_12_product_template"/>
+			<field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+			<field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="to_state_id" ref="l10n_br_base.br_mg"/>
+		</record>
+
+		<record id="product_17_category_mg_demo" model="l10n_br_account.product.category">
+			<field name="product_tmpl_id" ref="product.product_product_17_product_template"/>
+			<field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+			<field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="to_state_id" ref="l10n_br_base.br_mg"/>
+		</record>
+
+		<record id="product_18_category_mg_demo" model="l10n_br_account.product.category">
+			<field name="product_tmpl_id" ref="product.product_product_18_product_template"/>
+			<field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+			<field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="to_state_id" ref="l10n_br_base.br_mg"/>
+		</record>
+
+		<record id="product_19_category_mg_demo" model="l10n_br_account.product.category">
+			<field name="product_tmpl_id" ref="product.product_product_19_product_template"/>
+			<field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+			<field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+			<field name="to_state_id" ref="l10n_br_base.br_mg"/>
+		</record>
+
 	</data>
 </openerp>
