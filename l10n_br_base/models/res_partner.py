@@ -38,9 +38,11 @@ class ResPartner(models.Model):
                 address, without_company=False)
         else:
             address_format = (
-                address.country_id and address.country_id.address_format
-                or "%(street)s\n%(street2)s\n%(city)s"
-                " %(state_code)s%(zip)s\n%(country_name)s")
+                address.country_id and
+                address.country_id.address_format or
+                ("%(street)s\n%(street2)s\n%(city)s"
+                 " %(state_code)s%(zip)s\n%(country_name)s")
+            )
             args = {
                 'state_code': address.state_id and
                 address.state_id.code or '',
