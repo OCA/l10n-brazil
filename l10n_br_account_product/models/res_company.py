@@ -85,12 +85,17 @@ class ResCompany(models.Model):
         " ('type','=','input')]")
     nfe_a1_file = fields.Binary('Arquivo NFe A1')
     nfe_a1_password = fields.Char('Senha NFe A1', size=64)
+    accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.product'
 
     company_id = fields.Many2one('res.company', 'Empresa')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq',

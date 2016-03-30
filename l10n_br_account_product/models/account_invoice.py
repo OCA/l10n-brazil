@@ -531,6 +531,9 @@ class AccountInvoiceLine(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'Classificação Fiscal')
+    cest = fields.Char(
+        string="CEST",
+        related='fiscal_classification_id.cest')
     fci = fields.Char('FCI do Produto', size=36)
     import_declaration_ids = fields.One2many(
         'l10n_br_account_product.import.declaration',
@@ -599,6 +602,9 @@ class AccountInvoiceLine(models.Model):
         digits=dp.get_precision('Account'), default=0.00)
     icms_cst_id = fields.Many2one(
         'account.tax.code', 'CST ICMS', domain=[('domain', '=', 'icms')])
+    icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief',
+        string=u'Desoneração ICMS')
     issqn_manual = fields.Boolean('ISSQN Manual?', default=False)
     issqn_type = fields.Selection(
         [('N', 'Normal'), ('R', 'Retida'),
@@ -633,6 +639,9 @@ class AccountInvoiceLine(models.Model):
         default=0.00)
     ipi_cst_id = fields.Many2one(
         'account.tax.code', 'CST IPI', domain=[('domain', '=', 'ipi')])
+    ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline',
+        string=u'Enquadramento Legal IPI')
     pis_manual = fields.Boolean('PIS Manual?', default=False)
     pis_type = fields.Selection(
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
@@ -843,6 +852,8 @@ class AccountInvoiceLine(models.Model):
         result['ipi_cst_id'] = tax_codes.get('ipi')
         result['pis_cst_id'] = tax_codes.get('pis')
         result['cofins_cst_id'] = tax_codes.get('cofins')
+        result['icms_relief_id'] = tax_codes.get('icms_relief')
+        result['ipi_guideline_id'] = tax_codes.get('ipi_guideline')
         return result
 
     # TODO
