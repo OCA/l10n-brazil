@@ -10,10 +10,10 @@
             <field name="arch" type="xml">
                 <data>
 
-                    <field name="journal_id" position="after">
-                        <label for="import_modes"/>
-                        <field name="import_modes"/>
-                    </field>
+                    <!--<field name="journal_id" position="after">-->
+                        <!--<label for="import_modes"/>-->
+                        <!--<field name="import_modes"/>-->
+                    <!--</field>-->
 
                 </data>
             </field>

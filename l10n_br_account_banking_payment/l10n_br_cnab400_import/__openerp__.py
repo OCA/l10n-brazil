@@ -33,6 +33,7 @@
     'depends': [
         'account_bank_statement_import',
         'l10n_br_account',
+        'account_bank_statement_import_bradesco_cnab',
     ],
     'data': [
         'view/cnab_import_view.xml',
