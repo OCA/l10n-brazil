@@ -20,17 +20,19 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class L10nBrCnabMove(models.Model):
     _name = "l10n_br_cnab.move"
+    _rec_name = 'meu_numero'
 
-    move_line_id = fields.Many2one(
-        'account.move.line',
-        u'Movimentação')
+    # move_line_id = fields.Many2one(
+    #     'account.move.line',
+    #     u'Movimentação')
     bank_title_name = fields.Char(u'Identificação do título no banco')
     title_name_at_company = fields.Char(u'Identificação do título na empresa')
+    meu_numero = fields.Char(u'Meu numero')
     data_ocorrencia = fields.Char(u'Data da Ocorrência no Banco')
     str_ocorrencia = fields.Char(u'Identificação de Ocorrência')
     cod_ocorrencia = fields.Char(u'Código Ocorrência')
@@ -39,3 +41,4 @@ class L10nBrCnabMove(models.Model):
     str_motiv_c = fields.Char(u'Motivo de ocorrência 03')
     str_motiv_d = fields.Char(u'Motivo de ocorrência 04')
     str_motiv_e = fields.Char(u'Motivo de ocorrência 05')
+    valor = fields.Float(u'Valor')

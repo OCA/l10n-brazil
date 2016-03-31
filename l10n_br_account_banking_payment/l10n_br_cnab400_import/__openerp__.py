@@ -36,8 +36,7 @@
         'account_bank_statement_import_bradesco_cnab',
     ],
     'data': [
-        'view/cnab_import_view.xml',
-        'view/account_move_line.xml',
+        'view/l10n_br_cnab_move_view.xml',
     ],
     'active': False,
     "installable": True,
