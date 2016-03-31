@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_cnab_move_form_view" model="ir.ui.view">
+            <field name="name">CNAB Move</field>
+            <field name="model">l10n_br_cnab.move</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <separator string="Dados do Boleto"/>
+                    <group>
+                        <field name="bank_title_name" />
+                        <field name="title_name_at_company" />
+                        <field name="meu_numero" />
+                        <field name="data_ocorrencia" />
+                        <field name="str_ocorrencia" />
+                        <field name="cod_ocorrencia" />
+                        <field name="valor" />
+                    </group>
+                    <separator string="Motivos das Rejeições"/>
+                    <group>
+                        <field name="str_motiv_a" />
+                        <field name="str_motiv_b" />
+                        <field name="str_motiv_c" />
+                        <field name="str_motiv_d" />
+                        <field name="str_motiv_e" />
+                    </group>
+                </form>
+
+            </field>
+        </record>
+
+        <record	id="l10n_br_cnab_move_tree_view" model="ir.ui.view">
+            <field	name="name">CNAB Move</field>
+            <field	name="model">l10n_br_cnab.move</field>
+            <field	name="arch"	type="xml">
+                <tree>
+                    <field name="bank_title_name" />
+                    <field name="title_name_at_company" />
+                    <field name="meu_numero"/>
+                    <field name="data_ocorrencia" />
+                    <field name="str_ocorrencia" />
+                    <field name="valor" />
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_l10n_br_account_cnab" name="CNAB" parent="l10n_br_account.menu_l10n_br_account" sequence="99"/>
+
+        <act_window id="action_cnab_move_form"
+                    name="CNAB Move"
+                    res_model="l10n_br_cnab.move"
+                    view_mode="tree,form" />
+
+        <menuitem id="menu_l10n_br_cnab_move"
+                  name="CNAB Moves"
+                  parent="menu_l10n_br_account_cnab"
+                  sequence="20"
+                  action="action_cnab_move_form" />
+
+    </data>
+</openerp>
