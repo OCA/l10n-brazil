@@ -1,0 +1,5 @@
+id,date,rate_percentual
+l10n_br_tax_icms_partition_1,2016-01-01,40.0
+l10n_br_tax_icms_partition_2,2017-01-01,60.0
+l10n_br_tax_icms_partition_3,2018-01-01,80.0
+l10n_br_tax_icms_partition_4,2019-01-01,100.0
