@@ -409,8 +409,8 @@ class AccountBankStatementImport(models.TransientModel):
                         vals_bank_statement = {
                             'name': name,
                             'transactions': {},
-                            'balance_end_real': cnab.trailer
-                                .valor_registros_ocorrencia_02_confirmacao,
+                            'balance_end_real': float(cnab.trailer
+                                .valor_registros_ocorrencia_02_confirmacao)/100,
                             'date': dia_criacao + "-" + mes_criacao + "-" + ano_criacao,
                         }
 
@@ -442,7 +442,7 @@ class AccountBankStatementImport(models.TransientModel):
                                         'date': dia + "-" + mes + "-" + ano,
                                         'name': evento.identificacao_titulo_banco,
                                         'ref': evento.numero_documento,
-                                        'amount': evento.valor_titulo,
+                                        'amount': float(evento.valor_titulo)/100,
                                         'unique_import_id':
                                             evento.identificacao_titulo_banco,
                                         # 'partner_id': partner and partner.id or
@@ -494,7 +494,7 @@ class AccountBankStatementImport(models.TransientModel):
             'str_motiv_c': motivos[2],
             'str_motiv_d': motivos[3],
             'str_motiv_e': motivos[4],
-            'valor': evento.valor_titulo,
+            'valor': float(evento.valor_titulo)/100,
         }
         cnab_move = self.env['l10n_br_cnab.move']
 
