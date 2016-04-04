@@ -12,7 +12,7 @@
                     <group>
                         <field name="bank_title_name" />
                         <field name="title_name_at_company" />
-                        <field name="nosso_numero" />
+                        <!--<field name="nosso_numero" />-->
                         <field name="data_ocorrencia" />
                         <field name="str_ocorrencia" />
                         <field name="cod_ocorrencia" />
@@ -37,8 +37,8 @@
             <field	name="arch"	type="xml">
                 <tree>
                     <field name="bank_title_name" />
-                    <field name="title_name_at_company" />
-                    <field name="nosso_numero"/>
+                    <field name="title_name_at_company"/>
+                    <field name="sequencia_no_titulo" />
                     <field name="data_ocorrencia" />
                     <field name="str_ocorrencia" />
                     <field name="valor" />
@@ -51,6 +51,7 @@
         <act_window id="action_cnab_move_form"
                     name="CNAB Move"
                     res_model="l10n_br_cnab.move"
+                    context="{'group_by': 'title_name_at_company'}"
                     view_mode="tree,form" />
 
         <menuitem id="menu_l10n_br_cnab_move"
@@ -58,6 +59,26 @@
                   parent="menu_l10n_br_account_cnab"
                   sequence="20"
                   action="action_cnab_move_form" />
+
+        <record id="view_l10n_br_cnab_move_list_search" model="ir.ui.view">
+            <field name="name">Lista de títulos Search</field>
+            <field name="model">l10n_br_cnab.move</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                 <search string="Busque títulos do sistema">
+
+                     <!-- Opções para busca -->
+                     <field name="title_name_at_company"/>
+                     <field name="bank_title_name"/>
+
+                     <group string="Agrupar por">
+                         <filter name="title_name_at_company" string="Titulos" context="{'group_by': 'title_name_at_company'}"/>
+
+                     </group>
+
+                 </search>
+            </field>
+        </record>
 
     </data>
 </openerp>

@@ -37,6 +37,7 @@
     ],
     'data': [
         'view/l10n_br_cnab_move_view.xml',
+        'view/account_move_line_view.xml',
     ],
     'active': False,
     "installable": True,

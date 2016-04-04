@@ -417,7 +417,7 @@ class AccountBankStatementImport(models.TransientModel):
                         for evento in lote.eventos:
                             is_created = self.create_cnab_move(evento, cnab.header.nome_banco)
                             if is_created:
-                                if evento.identificacao_ocorrencia == 2:
+                                if evento.identificacao_ocorrencia == 6:
                                     data = str(evento.data_ocorrencia_banco)
                                     if len(data) < 6:
                                         data = '0' + data
@@ -482,10 +482,21 @@ class AccountBankStatementImport(models.TransientModel):
 
         motivos = retorna_motivios_ocorrencia(identificacao_ocorrencia, id_motivos)
 
+        move_line_name = evento.numero_documento[:-2]
+        move_line_model = self.env['account.move.line']
+        move_line_item = move_line_model.search(
+            [('name', '=', move_line_name)], limit=1)
+
+        if move_line_item:
+            move_line_item.transaction_ref = evento.numero_documento[:-2]
+            move_line_item.ml_identificacao_titulo_no_banco = evento.identificacao_titulo_banco
+
         vals = {
-            'bank_title_name': nome_banco,
-            'title_name_at_company': evento.numero_documento,
-            'meu_numero': evento.identificacao_titulo_banco,
+            'move_line_id': move_line_item and move_line_item.id or False,
+            'bank_title_name': evento.identificacao_titulo_banco,
+            'title_name_at_company': evento.numero_documento[:-2],
+            #'nosso_numero': evento.identificacao_titulo_banco,
+            'sequencia_no_titulo': evento.numero_documento[-1:],
             'data_ocorrencia': dia + '/' + mes + '/' + ano,
             'str_ocorrencia': retorna_ocorrencia(identificacao_ocorrencia),
             'cod_ocorrencia': evento.identificacao_ocorrencia,
