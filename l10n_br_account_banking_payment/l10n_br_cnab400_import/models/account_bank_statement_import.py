@@ -178,11 +178,17 @@ class AccountBankStatementImport(models.TransientModel):
             move_line_item.ml_identificacao_titulo_no_banco = \
                 evento.identificacao_titulo_banco
 
+        try:
+            referencia = evento.numero_documento.split("/")
+            num_sequencia_parcela = referencia[1]
+        except:
+            num_sequencia_parcela = evento.numero_documento[-4:-2]
+
         vals = {
             'move_line_id': move_line_item and move_line_item.id or False,
             'bank_title_name': evento.identificacao_titulo_banco,
             'title_name_at_company': evento.numero_documento[:-2],
-            'sequencia_no_titulo': evento.numero_documento[-1:],
+            'sequencia_no_titulo': num_sequencia_parcela,
             'data_ocorrencia': dia + '/' + mes + '/' + ano,
             'str_ocorrencia': retorna_ocorrencia(identificacao_ocorrencia),
             'cod_ocorrencia': evento.identificacao_ocorrencia,

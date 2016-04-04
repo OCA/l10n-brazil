@@ -12,7 +12,7 @@
                     <group>
                         <field name="bank_title_name" />
                         <field name="title_name_at_company" />
-                        <!--<field name="nosso_numero" />-->
+                        <field name="sequencia_no_titulo" />
                         <field name="data_ocorrencia" />
                         <field name="str_ocorrencia" />
                         <field name="cod_ocorrencia" />
