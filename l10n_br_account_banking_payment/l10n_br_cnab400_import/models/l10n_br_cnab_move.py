@@ -33,7 +33,6 @@ class L10nBrCnabMove(models.Model):
         u'Movimentação')
     bank_title_name = fields.Char(u'Identificação do título no banco')
     title_name_at_company = fields.Char(u'Identificação do título na empresa')
-    # nosso_numero = fields.Char(u'Número bancário')
     sequencia_no_titulo = fields.Char(u'Sequência no título')
     data_ocorrencia = fields.Char(u'Data da Ocorrência no Banco')
     str_ocorrencia = fields.Char(u'Identificação de Ocorrência')

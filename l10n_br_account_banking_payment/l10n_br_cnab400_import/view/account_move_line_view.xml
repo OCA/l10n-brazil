@@ -22,7 +22,6 @@
                                 <tree string="Detalhes de retorno CNAB" editable="bottom">
                                     <field name="data_ocorrencia"/>
                                     <field name="str_ocorrencia"/>
-                                    <!--<field name="cod_ocorrencia"/>-->
                                     <field name="str_motiv_a"/>
                                     <field name="str_motiv_b"/>
                                     <field name="str_motiv_c"/>
