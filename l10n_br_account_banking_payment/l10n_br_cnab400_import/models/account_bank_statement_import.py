@@ -121,7 +121,7 @@ class AccountBankStatementImport(models.TransientModel):
                                     bank_account = \
                                         self.env['res.partner.bank'].search([
                                             (
-                                                'acc_number', '=', evento.identificacao_empresa_cedente_banco[11:16]
+                                                'acc_number', '=', evento.identificacao_empresa_cedente_banco[9:16]
                                             )
                                         ])
                                     vals_line = {
@@ -147,7 +147,7 @@ class AccountBankStatementImport(models.TransientModel):
 
                 return False, str(
                            cnab.lotes[0].eventos[0]
-                               .identificacao_empresa_cedente_banco[11:16]
+                               .identificacao_empresa_cedente_banco[9:16]
                        ), [vals_bank_statement]
         except:
             return super(AccountBankStatementImport, self)._parse_file(

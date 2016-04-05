@@ -37,43 +37,6 @@
             </field>
         </record>
 
-
-        <!-- Linhas de controle para account_move_line -->
-        <!--<record id="view_move_lines_l10n_br_list_tree" model="ir.ui.view">-->
-            <!--<field name="name">Linhas de Cobrança</field>-->
-            <!--<field name="model">account.move.line</field>-->
-            <!--<field name="field_parent">order_id</field>-->
-            <!--<field name="view_type">tree</field>-->
-            <!--<field name="priority" eval="20"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<tree string="Linhas de cobrança">-->
-
-                    <!--&lt;!&ndash;<field name="ml_inv_ref" readonly="1"/>&ndash;&gt;-->
-
-                    <!--&lt;!&ndash;<field name="debit" readonly="1" sum="Total Debit"/>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<field name="credit" readonly="1" sum="Total Credit"/>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<field name="maturity_residual" sum="Total Residual"/>&ndash;&gt;-->
-
-
-                    <!--<field name="order_id"/>-->
-                    <!--<field name="move_line_id"/>-->
-                    <!--<field name="partner_id"/>-->
-                    <!--<field name="ml_maturity_date"/>-->
-                    <!--<field name="amount" sum="Total"/>-->
-                    <!--<field name="ml_inv_ref"/>-->
-                    <!--<field name="communication"/>-->
-                    <!--<field name="bank_id"/>-->
-
-
-                    <!--<field name="create_date" invisible="1"/>-->
-
-                <!--</tree>-->
-            <!--</field>-->
-        <!--</record>-->
-
-
-
-
         <record id="view_move_lines_l10n_br_list_search" model="ir.ui.view">
             <field name="name">Lista de títulos Search</field>
             <field name="model">account.move.line</field>
@@ -87,19 +50,13 @@
                      <field name="date_maturity"/>
                      <field name="partner_id"/>
                      <field name="invoice"/>
-                     <!--<field name="state"/>-->
 
                      <filter name="open_invoice" string="Faturas Abertas" domain="[('invoice.state', '=', 'open')]"/>
                      <filter name="paid_invoice" string="Faturas Pagas" domain="[('invoice.state', '=', 'paid')]"/>
-                     <!--<filter name="open_order" string="Ordens Confirmadas" domain="[('order_id.state', '=', 'open')]"/>-->
-                     <!--<filter name="emmited_order" string="Ordens Emitidas" domain="[('order_id.state', '=', 'done')]"/>-->
-                     <!--<filter name="cancelled_order" string="Ordens Canceladas" domain="[('order_id.state', '=', 'cancel')]"/>-->
 
                      <group string="Agrupar por">
                          <filter name="period_id" string="Período" context="{'group_by': 'period_id'}"/>
                          <filter name="move_id" string="Fatura" context="{'group_by': 'move_id'}"/>
-                         <!--<filter name="group_by_move_line_id" string="Fatura" context="{'group_by': 'move_line_id'}"/>-->
-                         <!--<filter name="group_by_move_bank_id" string="Conta Bancária" context="{'group_by': 'bank_id'}"/>-->
 
                      </group>
 
