@@ -122,7 +122,7 @@ class AccountTax(models.Model):
                     'name': tax.name,
                     'account_collected_id': tax.account_collected_id.id,
                     'amount': costs[tax],
-                    'tax_sign':tax.tax_sign,
+                    'tax_sign': tax.tax_sign,
                 })
                 total_included += costs[tax]
         return result, total_included
@@ -335,7 +335,6 @@ class AccountTax(models.Model):
                 total_taxes = ((result['total_included'] - totaldc) *
                                product.estd_national_taxes_perct/100)
             result['total_taxes'] = round(total_taxes, precision)
-
 
         costs, costs_values = self._compute_costs(
             cr, uid, insurance_value, freight_value, other_costs_value)
