@@ -38,6 +38,7 @@
     'data': [
         'view/l10n_br_cnab_move_view.xml',
         'view/account_move_line_view.xml',
+        # 'data/l10n_br_res_partner_bank_type.xml',
     ],
     'active': False,
     "installable": True,

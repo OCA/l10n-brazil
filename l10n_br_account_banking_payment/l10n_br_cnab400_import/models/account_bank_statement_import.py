@@ -96,8 +96,7 @@ class AccountBankStatementImport(models.TransientModel):
                             'name': name,
                             'transactions': {},
                             'balance_end_real': float(
-                                cnab.trailer
-                                    .valor_registros_ocorrencia_02_confirmacao
+                                cnab.trailer.valor_registros_ocorrencia_06_liquidacao
                             )/100,
                             'date':
                                 dia_criacao + "-" + mes_criacao + "-" +
@@ -126,8 +125,9 @@ class AccountBankStatementImport(models.TransientModel):
                                         ])
                                     vals_line = {
                                         'date': dia + "-" + mes + "-" + ano,
-                                        'name':
-                                            evento.identificacao_titulo_banco,
+                                        'name': str(evento.numero_documento),
+                                        #'name':
+                                        #    evento.identificacao_titulo_banco,
                                         'ref': evento.numero_documento,
                                         'amount': float(
                                             evento.valor_titulo)/100,
