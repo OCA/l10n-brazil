@@ -117,10 +117,16 @@ class AccountBankStatementImport(models.TransientModel):
                                         self.buscar_account_move_line(
                                             evento.numero_documento
                                         )
+                                    # bank_account = \
+                                    #     self.env['res.partner.bank'].search([
+                                    #         (
+                                    #             'acc_number', '=', evento.identificacao_empresa_cedente_banco[9:16]
+                                    #         )
+                                    #     ])
                                     bank_account = \
                                         self.env['res.partner.bank'].search([
                                             (
-                                                'acc_number', '=', evento.identificacao_empresa_cedente_banco[9:16]
+                                                'acc_number', '=', str(cnab.header.codigo_empresa)
                                             )
                                         ])
                                     vals_line = {
@@ -144,10 +150,9 @@ class AccountBankStatementImport(models.TransientModel):
                         "Erro!\n "
                         "Mensagem:\n\n %s" % e.message
                     ))
-
+                #str(cnab.lotes[0].eventos[0].identificacao_empresa_cedente_banco[9:16])
                 return False, str(
-                           cnab.lotes[0].eventos[0]
-                               .identificacao_empresa_cedente_banco[9:16]
+                            cnab.header.codigo_empresa
                        ), [vals_bank_statement]
         except:
             return super(AccountBankStatementImport, self)._parse_file(
