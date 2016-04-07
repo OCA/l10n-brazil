@@ -144,7 +144,7 @@ class WizardAccountFiscalPositionRule(models.TransientModel):
         company_id = obj_wizard.company_id.id
         pfr_ids = obj_fpr_templ.search([])
 
-        for fpr_template in obj_fpr_templ.browse(pfr_ids):
+        for fpr_template in pfr_ids:
 
             from_country = fpr_template.from_country.id or False
             from_state = fpr_template.from_state.id or False
