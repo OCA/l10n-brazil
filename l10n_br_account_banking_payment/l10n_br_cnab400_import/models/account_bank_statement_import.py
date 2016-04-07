@@ -24,6 +24,7 @@ import StringIO
 from openerp import api, models, fields
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
+from contextlib import contextmanager
 
 try:
     import cnab240
@@ -37,6 +38,22 @@ except:
 
 
 _logger = logging.getLogger(__name__)
+
+@contextmanager
+def commit(cr):
+    """
+    Commit the cursor after the ``yield``, or rollback it if an
+    exception occurs.
+
+    Warning: using this method, the exceptions are logged then discarded.
+    """
+    try:
+        yield
+    except Exception:
+        cr.rollback()
+        _logger.exception('Error during an automatic workflow action.')
+    else:
+        cr.commit()
 
 
 class AccountBankStatementImport(models.TransientModel):
@@ -104,7 +121,8 @@ class AccountBankStatementImport(models.TransientModel):
                         }
 
                         for evento in lote.eventos:
-                            is_created = self.create_cnab_move(evento)
+                            with commit(self.env.cr):
+                                is_created = self.create_cnab_move(evento)
                             if is_created:
                                 if evento.identificacao_ocorrencia == 6:
                                     data = str(evento.data_ocorrencia_banco)
