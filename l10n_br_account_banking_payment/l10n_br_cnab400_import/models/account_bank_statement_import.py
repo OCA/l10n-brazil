@@ -154,7 +154,7 @@ class AccountBankStatementImport(models.TransientModel):
                                         #    evento.identificacao_titulo_banco,
                                         'ref': evento.numero_documento,
                                         'amount': float(
-                                            evento.valor_titulo)/100,
+                                            evento.valor_pago)/100,
                                         'unique_import_id':
                                             evento.identificacao_titulo_banco,
                                         'partner_id':
