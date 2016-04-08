@@ -39,6 +39,7 @@ except:
 
 _logger = logging.getLogger(__name__)
 
+
 @contextmanager
 def commit(cr):
     """
@@ -113,7 +114,8 @@ class AccountBankStatementImport(models.TransientModel):
                             'name': name,
                             'transactions': {},
                             'balance_end_real': float(
-                                cnab.trailer.valor_registros_ocorrencia_06_liquidacao
+                                cnab.trailer
+                                    .valor_registros_ocorrencia_06_liquidacao
                             )/100,
                             'date':
                                 dia_criacao + "-" + mes_criacao + "-" +
@@ -124,7 +126,9 @@ class AccountBankStatementImport(models.TransientModel):
                             with commit(self.env.cr):
                                 is_created = self.create_cnab_move(evento)
                             if is_created:
-                                if evento.identificacao_ocorrencia == 6:
+                                if evento.identificacao_ocorrencia == 6 or \
+                                                evento.identificacao_ocorrencia\
+                                                == 15:
                                     data = str(evento.data_ocorrencia_banco)
                                     if len(data) < 6:
                                         data = '0' + data
@@ -135,23 +139,17 @@ class AccountBankStatementImport(models.TransientModel):
                                         self.buscar_account_move_line(
                                             evento.numero_documento
                                         )
-                                    # bank_account = \
-                                    #     self.env['res.partner.bank'].search([
-                                    #         (
-                                    #             'acc_number', '=', evento.identificacao_empresa_cedente_banco[9:16]
-                                    #         )
-                                    #     ])
+
                                     bank_account = \
                                         self.env['res.partner.bank'].search([
                                             (
-                                                'acc_number', '=', str(cnab.header.codigo_empresa)
+                                                'acc_number', '=', str(
+                                                    cnab.header.codigo_empresa)
                                             )
                                         ])
                                     vals_line = {
                                         'date': dia + "-" + mes + "-" + ano,
                                         'name': str(evento.numero_documento),
-                                        #'name':
-                                        #    evento.identificacao_titulo_banco,
                                         'ref': evento.numero_documento,
                                         'amount': float(
                                             evento.valor_pago)/100,
@@ -168,7 +166,7 @@ class AccountBankStatementImport(models.TransientModel):
                         "Erro!\n "
                         "Mensagem:\n\n %s" % e.message
                     ))
-                #str(cnab.lotes[0].eventos[0].identificacao_empresa_cedente_banco[9:16])
+
                 return False, str(
                             cnab.header.codigo_empresa
                        ), [vals_bank_statement]
