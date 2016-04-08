@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="retorno_cnab" model="res.partner.bank.type">
+            <field name="name">Retorno CNAB</field>
+            <field name="code">cnab</field>
+            <field name="format_layout">Retorno CNAB</field>
+            <field name="create_uid" eval="1" />
+            <field name="write_uid" eval="1" />
+        </record>
+
+        <record id="cnab_type_fields_acc_number" model="res.partner.bank.type.field">
+            <field name="name">acc_number</field>
+            <field name="required" eval="True"/>
+            <field name="readonly" eval="False"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+        <record id="cnab_type_fields_bank" model="res.partner.bank.type.field">
+            <field name="name">bank</field>
+            <field name="required" eval="False"/>
+            <field name="readonly" eval="True"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+        <record id="cnab_type_fields_country_id" model="res.partner.bank.type.field">
+            <field name="name">country_id</field>
+            <field name="required" eval="False"/>
+            <field name="readonly" eval="True"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+        <record id="cnab_type_fields_acc_number_dig" model="res.partner.bank.type.field">
+            <field name="name">acc_number_dig</field>
+            <field name="required" eval="False"/>
+            <field name="readonly" eval="True"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+        <record id="cnab_type_fields_bra_number" model="res.partner.bank.type.field">
+            <field name="name">bra_number</field>
+            <field name="required" eval="False"/>
+            <field name="readonly" eval="True"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+        <record id="cnab_type_fields_bra_number_dig" model="res.partner.bank.type.field">
+            <field name="name">bra_number_dig</field>
+            <field name="required" eval="False"/>
+            <field name="readonly" eval="True"/>
+            <field name="bank_type_id" ref="retorno_cnab"/>
+        </record>
+
+    </data>
+</openerp>
