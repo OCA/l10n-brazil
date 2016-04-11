@@ -26,18 +26,18 @@ import string
 from PIL import Image
 from StringIO import StringIO
 from pyPdf import PdfFileReader, PdfFileWriter
-from .certificado import CertificadoDigital
-from pysped.nfe import ProcessadorNFe
+from .certificado import Certificado
+from .processor import ProcessadorNFe
 from pysped.nfe.danfe import DANFE
 
 
 def __processo(company):
 
-    p = ProcessadorNFe()
+    p = ProcessadorNFe(company)
     p.ambiente = int(company.nfe_environment)
     #p.versao = company.nfe_version
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
-    p.certificado = CertificadoDigital(company)
+    p.certificado = Certificado(company)
     p.salvar_arquivos = True
     p.contingencia_SCAN = False
     p.caminho = company.nfe_root_folder

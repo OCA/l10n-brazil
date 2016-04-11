@@ -2,7 +2,6 @@
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2015  Luis Felipe Mileo - KMEE - www.kmee.com.br              #
-# Copyright (C) 2015  Rafael da Silva Lima - KMEE - www.kmee.com.br           #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -18,27 +17,48 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from pysped.xml_sped.certificado import Certificado as PySpedCertificado
-import tempfile
-import base64
+
+from pysped.nfe import ProcessadorNFe as ProcessadorNFePySped
+from pysped.nfe.danfe import DANFE as DanfePySped
+from pysped.nfe.danfe import DAEDE
+
+from .certificado import Certificado
 
 
-class Certificado(PySpedCertificado):
+class DANFE(DanfePySped):
+
+    def __init__(self):
+        super(DANFE, self).__init__()
+
+
+    def gerar_danfe(self):
+        """
+        Remove a geração automática do DANFE para deixar o processo + leve
+        :return:
+        """
+        self.conteudo_pdf = ''
+        return
+
+
+class ProcessadorNFe(ProcessadorNFePySped):
 
     def __init__(self, company):
-        super(Certificado, self).__init__()
-        self.certificado_file = self._caminho_certificado(company.nfe_a1_file)
-        self.senha = company.nfe_a1_password
+        super(ProcessadorNFe, self).__init__()
+        self.ambiente = int(company.nfe_environment) or 2
+        self.estado = company.partner_id.l10n_br_city_id.state_id.code
+        self.versao = company.nfe_version
+        self.certificado = Certificado(company)
+        self.caminho = company.nfe_root_folder
+        self.salvar_arquivos = False
+        self.contingencia_SCAN = False
+        self.contingencia = False
+        self.danfe = DANFE()
+        self.daede = DAEDE()
+        self.caminho_temporario = ''
+        self.maximo_tentativas_consulta_recibo = 5
+        self.consulta_servico_ao_enviar = False
 
-    def _caminho_certificado(self, nfe_a1_file):
-        """
-
-        :return: caminho do certificado
-        """
-        certificado_file = tempfile.NamedTemporaryFile()
-        certificado_file.seek(0)
-        certificado_file.write(
-            base64.decodestring(nfe_a1_file))
-        certificado_file.flush()
-        self.arquivo = certificado_file.name
-        return certificado_file
+        self._servidor     = ''
+        self._url          = ''
+        self._soap_envio   = None
+        self._soap_retorno = None
