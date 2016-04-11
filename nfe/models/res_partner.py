@@ -63,7 +63,6 @@ class ResPartner(models.Model):
                                 info[end.tag[36:]] = end.text
 
                 if info['cStat'] not in ('111', '112'):
-                    # fixme:
                     raise orm.except_orm(
                         _("Erro ao se comunicar com o SEFAZ"),
                         _("%s - %s") % (info.get('cStat', ''),
@@ -73,10 +72,13 @@ class ResPartner(models.Model):
                         _("Situação Cadastral Vigente:"),
                         _("NÃO HABILITADO"))
 
-                city_id = self.env['l10n_br_base.city'].search(
-                    [('ibge_code', '=', info['cMun'][2:])])
-                state_id = self.env['res.country.state'].search(
-                    [('ibge_code', '=', info['cMun'][:2])])
+                city_id = state_id = None
+                if "cMun" in info:
+                    city_id = self.env['l10n_br_base.city'].search(
+                        [('ibge_code', '=', info['cMun'][2:])])[0]
+                    state_id = self.env['res.country.state'].search(
+                        [('ibge_code', '=', info['cMun'][:2]),
+                         ('country_id.code', '=', 'BR')])[0]
 
                 result = {
                     'district': info.get('xBairro', ''),
@@ -84,7 +86,6 @@ class ResPartner(models.Model):
                     'zip': info.get('CEP', ''),
                     'street2': info.get('xCpl', ''),
                     'legal_name': info.get('xNome', ''),
-                    'cnpj_cpf': info.get('CNPJ', ''),
                     'number': info.get('nro', ''),
                     'l10n_br_city_id': city_id,
                     'state_id': state_id,
