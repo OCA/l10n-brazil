@@ -26,10 +26,8 @@ from .certificado import Certificado
 
 
 class DANFE(DanfePySped):
-
     def __init__(self):
         super(DANFE, self).__init__()
-
 
     def gerar_danfe(self):
         """
@@ -41,7 +39,6 @@ class DANFE(DanfePySped):
 
 
 class ProcessadorNFe(ProcessadorNFePySped):
-
     def __init__(self, company):
         super(ProcessadorNFe, self).__init__()
         self.ambiente = int(company.nfe_environment) or 2
@@ -58,7 +55,7 @@ class ProcessadorNFe(ProcessadorNFePySped):
         self.maximo_tentativas_consulta_recibo = 5
         self.consulta_servico_ao_enviar = False
 
-        self._servidor     = ''
-        self._url          = ''
-        self._soap_envio   = None
+        self._servidor = ''
+        self._url = ''
+        self._soap_envio = None
         self._soap_retorno = None
