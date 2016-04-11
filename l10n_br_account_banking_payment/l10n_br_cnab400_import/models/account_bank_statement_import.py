@@ -149,14 +149,13 @@ class AccountBankStatementImport(models.TransientModel):
                                         ])
                                     vals_line = {
                                         'date': dia + "-" + mes + "-" + ano,
-                                        'name': str(evento.numero_documento),
-                                        'ref': evento.numero_documento,
+                                        'name': str(evento.identificacao_titulo_banco),
+
                                         'amount': float(
                                             evento.valor_pago)/100,
                                         'unique_import_id':
                                             evento.identificacao_titulo_banco,
-                                        'partner_id':
-                                            partner and partner.id or False,
+
                                         'bank_account_id': bank_account.id,
                                     }
                                     event_list.append(vals_line)
@@ -195,7 +194,7 @@ class AccountBankStatementImport(models.TransientModel):
         )
 
         if move_line_item:
-            move_line_item.transaction_ref = evento.numero_documento
+            move_line_item.transaction_ref = evento.identificacao_titulo_banco
             move_line_item.ml_identificacao_titulo_no_banco = \
                 evento.identificacao_titulo_banco
 
