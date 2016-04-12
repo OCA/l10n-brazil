@@ -150,7 +150,7 @@ class AccountBankStatementImport(models.TransientModel):
                                     vals_line = {
                                         'date': dia + "-" + mes + "-" + ano,
                                         'name': str(evento.identificacao_titulo_banco),
-
+                                        'ref': evento.numero_documento,
                                         'amount': float(
                                             evento.valor_pago)/100,
                                         'unique_import_id':

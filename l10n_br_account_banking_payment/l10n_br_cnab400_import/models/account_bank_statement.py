@@ -27,20 +27,13 @@ from openerp.exceptions import Warning as UserError
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
-    # @api.model
-    # def get_possible_cnab_move_for_statement_line(self, this):
-    #     """find orders that might be candidates for matching a statement
-    #     line"""
-    #     # verify that this ids are accessible to the user and from the
-    #     domain = [('bank_title_name', '=', this.name),
-    #               ('cod_ocorrencia','=','6')]
-    #     return self.env['l10n_br_cnab.move'].search(domain)
-
     @api.model
     def get_reconcile_lines_from_cnab_move(self, this, excluded_ids=None):
         """return move.line to reconcile with statement line"""
         move_lines = self.env['account.move.line'].search(
-                [('transaction_ref', '=', this.name)])
+                [('transaction_ref', '=', this.name),
+                 ('name', '=', this.ref)
+                 ])
         try:
             assert len(move_lines) <= 1
         except:
@@ -56,13 +49,12 @@ class AccountBankStatementLine(models.Model):
         """See if we find a set payment order that matches our line. If yes,
         return all unreconciled lines from there"""
 
-        # cnab_move = self.get_possible_cnab_move_for_statement_line(this)
-        #
-        # if cnab_move:
         reconcile_lines = self.get_reconcile_lines_from_cnab_move(
             this, excluded_ids=None)
         if reconcile_lines:
             return reconcile_lines
-        return []
-        # return super(AccountBankStatementLine, self)\
-        #     .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
+        elif this.bank_account_id.state == "cnab":
+            return []
+        else:
+            return super(AccountBankStatementLine, self)\
+              .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
