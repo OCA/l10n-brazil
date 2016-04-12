@@ -37,3 +37,9 @@ class AccounMoveLine(models.Model):
     str_motiv_c = fields.Char(u'Motivo de ocorrência 03')
     str_motiv_d = fields.Char(u'Motivo de ocorrência 04')
     str_motiv_e = fields.Char(u'Motivo de ocorrência 05')
+
+    _sql_constraints = [
+        ('transaction_ref',
+         'unique (transaction_ref)',
+         u'O campo transaction_ref deve ser único!')
+    ]

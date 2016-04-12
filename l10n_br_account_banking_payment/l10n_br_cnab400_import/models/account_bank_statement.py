@@ -19,30 +19,35 @@
 #
 ##############################################################################
 from decimal import Decimal
-from openerp import models, api
+from openerp import models, api, _
 from openerp.tools.float_utils import float_repr
+from openerp.exceptions import Warning as UserError
 
 
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
-    @api.model
-    def get_possible_cnab_move_for_statement_line(self, this):
-        """find orders that might be candidates for matching a statement
-        line"""
-        # verify that this ids are accessible to the user and from the
-        domain = [('bank_title_name', '=', this.name),
-                  ('cod_ocorrencia','=','6')]
-        return self.env['l10n_br_cnab.move'].search(domain)
+    # @api.model
+    # def get_possible_cnab_move_for_statement_line(self, this):
+    #     """find orders that might be candidates for matching a statement
+    #     line"""
+    #     # verify that this ids are accessible to the user and from the
+    #     domain = [('bank_title_name', '=', this.name),
+    #               ('cod_ocorrencia','=','6')]
+    #     return self.env['l10n_br_cnab.move'].search(domain)
 
     @api.model
-    def get_reconcile_lines_from_cnab_move(self, this, cnab_move, excluded_ids=None):
-        """return lines to reconcile our statement line with"""
-        move_lines = self.env['account.move.line']
-        for cnab in cnab_move:
-            move_lines += cnab.move_line_id
-        move_lines.filtered(
-            lambda record: record.transaction_ref == this.name)
+    def get_reconcile_lines_from_cnab_move(self, this, excluded_ids=None):
+        """return move.line to reconcile with statement line"""
+        move_lines = self.env['account.move.line'].search(
+                [('transaction_ref', '=', this.name)])
+        try:
+            assert len(move_lines) <= 1
+        except:
+            raise UserError(_(
+                        "Erro!\n "
+                        "Nosso numero duplicado"
+                    ))
         return self.env['account.move.line']\
             .prepare_move_lines_for_reconciliation_widget(move_lines)
 
@@ -50,11 +55,14 @@ class AccountBankStatementLine(models.Model):
     def get_reconciliation_proposition(self, this, excluded_ids=None):
         """See if we find a set payment order that matches our line. If yes,
         return all unreconciled lines from there"""
-        cnab_move = self.get_possible_cnab_move_for_statement_line(this)
-        if cnab_move:
-            reconcile_lines = self.get_reconcile_lines_from_cnab_move(
-                this, cnab_move, excluded_ids=None)
-            if reconcile_lines:
-                return reconcile_lines
-        return super(AccountBankStatementLine, self)\
-            .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
+
+        # cnab_move = self.get_possible_cnab_move_for_statement_line(this)
+        #
+        # if cnab_move:
+        reconcile_lines = self.get_reconcile_lines_from_cnab_move(
+            this, excluded_ids=None)
+        if reconcile_lines:
+            return reconcile_lines
+        return []
+        # return super(AccountBankStatementLine, self)\
+        #     .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
