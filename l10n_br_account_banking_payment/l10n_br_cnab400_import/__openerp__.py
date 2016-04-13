@@ -31,9 +31,8 @@
         'python': ['cnab240'],
     },
     'depends': [
-        'account_bank_statement_import',
         'l10n_br_account',
-        'account_bank_statement_import_bradesco_cnab',
+        'account_bank_statement_import',
     ],
     'data': [
         'view/l10n_br_cnab_move_view.xml',
