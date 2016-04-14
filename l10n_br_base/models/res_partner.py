@@ -67,7 +67,7 @@ class ResPartner(models.Model):
 
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
 
-    inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+    inscr_est = fields.Char('Inscr. Estadual/RG', size=16, copy=False)
 
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
 
@@ -86,8 +86,9 @@ class ResPartner(models.Model):
     number = fields.Char(u'Número', size=10)
 
     _sql_constraints = [
-        ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
-         u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
+        ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf, inscr_est)',
+         u'Já existe um parceiro cadastrado com este CPF/CNPJ e '
+         u'esta Inscrição estadual!'),
         ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
          u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
     ]
