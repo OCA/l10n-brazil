@@ -331,7 +331,7 @@ class ImportDeclarationLine(models.Model):
     sequence = fields.Integer(u'Sequência', default=1, required=True)
     name = fields.Char(u'Adição', size=3, required=True)
     manufacturer_code = fields.Char(
-        u'Código do Fabricante', size=3, required=True)
+        u'Código do Fabricante', size=60, required=True)
     amount_discount = fields.Float(u'Valor',
                                    digits=dp.get_precision('Account'),
                                    default=0.00)
