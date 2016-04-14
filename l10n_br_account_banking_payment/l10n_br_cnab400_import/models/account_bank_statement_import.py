@@ -228,7 +228,10 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_name = referencia_invoice
         move_line_model = self.env['account.move.line']
         move_line_item = move_line_model.search(
-            [('name', '=', move_line_name)], limit=1)
+            [('name', '=', move_line_name),
+             ('debit', '>', 0),
+             ('account_id.type', '=', 'receivable')
+             ], limit=1)
 
         if move_line_item:
             partner = move_line_item.partner_id
