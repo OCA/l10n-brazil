@@ -1406,8 +1406,6 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    # TODO comentado por causa deste bug
-    # https://github.com/odoo/odoo/issues/2197
     @api.multi
     def write(self, vals):
         for this in self:
