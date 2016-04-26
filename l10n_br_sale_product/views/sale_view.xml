@@ -16,6 +16,23 @@
                 		<field name="invoiced" position="before">
 					<field name="ind_pres"/>
 				</field>
+				<xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace">
+					<notebook>
+						<page string="Invoice Lines" groups="base.group_no_one">
+							<field name="invoice_lines"/>
+						</page>
+						<page string="Informações Fiscais">
+							<group string="Informação de interesse do emissor para controle do B2B">
+								<group>
+									<field name="xped"/>
+								</group>
+								<group>
+									<field name="nitemped"/>
+								</group>
+							</group>
+						</page>
+					</notebook>
+				</xpath>
 			</field>
 		</record>
 
