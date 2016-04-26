@@ -222,7 +222,6 @@ class SaleOrder(models.Model):
         string=u'Responsabilidade'
     )
 
-
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
         fc_comment = []
