@@ -132,6 +132,7 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.finNFe.valor = invoice.nfe_purpose
         self.nfe.infNFe.ide.procEmi.valor = 0
         self.nfe.infNFe.ide.verProc.valor = 'OpenERP Brasil v8'
+        self.nfe.infNFe.compra.xPed.valor = invoice.name or ''
 
         if invoice.cfop_ids[0].type in ("input"):
             self.nfe.infNFe.ide.tpNF.valor = 0
@@ -356,6 +357,8 @@ class NFe200(FiscalDocument):
         self.det.prod.vDesc.valor = str("%.2f" % invoice_line.discount_value)
         self.det.prod.vOutro.valor = str(
             "%.2f" % invoice_line.other_costs_value)
+        self.det.prod.xPed.valor = invoice_line.xped or ''
+        self.det.prod.nItemPed.valor = invoice_line.nitemped or ''
         self.det.infAdProd.valor = invoice_line.fiscal_comment or ''
 
         #
