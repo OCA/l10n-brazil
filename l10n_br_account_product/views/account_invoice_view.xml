@@ -450,7 +450,15 @@
 								</notebook>
 							</page>
 							<page string="Informações Adicionais">
-								<group>
+								<group string="Informação de interesse do emissor para controle do B2B">
+									<group>
+										<field name="xped"/>
+									</group>
+									<group>
+										<field name="nitemped"/>
+									</group>
+								</group>
+								<group string="Observações Fiscais">
 									<field name="fiscal_comment" nolabel="1"/>
 								</group>
 							</page>
