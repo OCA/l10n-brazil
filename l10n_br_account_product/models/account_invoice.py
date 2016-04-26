@@ -23,6 +23,7 @@ from lxml import etree
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import RedirectWarning
+from openerp.exceptions import ValidationError
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
@@ -757,6 +758,21 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
+    xped = fields.Char(
+        string=u"Código do Pedido (xPed)",
+        size=15,
+    )
+    nitemped = fields.Char(
+        string=u"Item do Pedido (nItemPed)",
+        size=6,
+    )
+
+    @api.onchange("nitemped")
+    def _check_nitemped(self):
+        if self.nitemped and not self.nitemped.isdigit():
+            raise ValidationError(
+                _(u"nItemPed must be a number with up to six digits")
+            )
 
     def _amount_tax_icms(self, tax=None):
         result = {
