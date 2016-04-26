@@ -1410,8 +1410,10 @@ class AccountInvoiceLine(models.Model):
     # https://github.com/odoo/odoo/issues/2197
     @api.multi
     def write(self, vals):
-       vals.update(self._validate_taxes(vals))
-       return super(AccountInvoiceLine, self).write(vals)
+        for this in self:
+            updated_vals = dict(vals, **this._validate_taxes(vals))
+            super(AccountInvoiceLine, this).write(updated_vals)
+        return True
 
 
 class AccountInvoiceTax(models.Model):
