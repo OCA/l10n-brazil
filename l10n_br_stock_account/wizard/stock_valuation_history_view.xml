@@ -6,7 +6,7 @@
 	      <field name="name">Valorização em XLS</field>
 	      <field name="model">wizard.valuation.history</field>
 	      <field name="type">ir.actions.report.xml</field>
-	      <field name="report_name">wizard.valuation.history.xls</field>
+	      <field name="report_name">wizard.valuation.history</field>
 	      <field name="report_type">xls</field>
 	      <field name="auto" eval="False"/>
 	    </record>
@@ -25,6 +25,6 @@
                 </button>
             </field>
         </record>
+
     </data>
 </openerp>
-
