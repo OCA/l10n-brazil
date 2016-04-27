@@ -66,8 +66,7 @@ class stock_history(osv.osv):
             product_obj = self.pool.get('product.product')
             for line in res:
                 product = product_obj.browse(cr, uid, line['product_id'][0])
-                fiscal_class = (product.fiscal_classification_id.code
-                                or product.fiscal_classification_id.name)
+                fiscal_class = product.fiscal_classification_id.code
                 line.update({'fiscal_classification_id': fiscal_class})
         return res
 

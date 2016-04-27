@@ -63,12 +63,12 @@ class StockHistoryXls(report_xls):
 
         self.col_specs_template = {
             'fiscal_classification_id': {
-                'header': [1, 20, 'text', _render("('NCM')")],
+                'header': [1, 10, 'text', _render("('NCM')")],
                 'lines': [1, 0, 'text',
                           _render("line.get('fiscal_classification_id', '')")],
                 'totals': [1, 0, 'text', None]},
             'product_id': {
-                'header': [1, 20, 'text', _render("('Produto')")],
+                'header': [1, 50, 'text', _render("('Produto')")],
                 'lines': [1, 0, 'text',
                           _render("line.get('product_id', False) and "
                                   "line.get('product_id')[1] or ''")],
@@ -79,18 +79,18 @@ class StockHistoryXls(report_xls):
             #  _render("str(line.get('product_id_count', "") or '')")],
             #     'totals': [1, 0, 'text', None]},
             'price_unit_on_quant': {
-                'header': [1, 20, 'text',
+                'header': [1, 25, 'text',
                            _render("('Preço de custo no periodo')")],
                 'lines': [1, 0, 'number',
                           _render("line.get('price_unit_on_quant')"),
                           None, self.line_cell_style_decimal],
                 'totals': [1, 0, 'text', None]},
             'quantity': {
-                'header': [1, 20, 'text', _render("('Quantidade')")],
+                'header': [1, 15, 'text', _render("('Quantidade')")],
                 'lines': [1, 0, 'number', _render("line.get('quantity', 0)")],
                 'totals': [1, 0, 'text', None]},
             'inventory_value': {
-                'header': [1, 20, 'text', _render("('Valor Total')")],
+                'header': [1, 15, 'text', _render("('Valor Total')")],
                 'lines': [1, 0, 'number',
                           _render("line.get('inventory_value', 0)"),
                           None, self.line_cell_style_decimal],
