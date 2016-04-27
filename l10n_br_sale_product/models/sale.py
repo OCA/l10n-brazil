@@ -18,6 +18,9 @@
 ###############################################################################
 
 from openerp import models, fields, api
+from openerp import _
+from openerp.exceptions import ValidationError
+
 from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 from openerp.addons.l10n_br_account_product.models.l10n_br_account_product \
@@ -222,7 +225,6 @@ class SaleOrder(models.Model):
         string=u'Responsabilidade'
     )
 
-
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []
         fc_comment = []
@@ -291,6 +293,21 @@ class SaleOrderLine(models.Model):
         compute='_amount_line',
         string=u'Valor do recolhimento via GNRE',
         digits=dp.get_precision('Sale Price'))
+    xped = fields.Char(
+        string=u"Código do Pedido (xPed)",
+        size=15,
+    )
+    nitemped = fields.Char(
+        string=u"Item do Pedido (nItemPed)",
+        size=6,
+    )
+
+    @api.onchange("nitemped")
+    def _check_nitemped(self):
+        if self.nitemped and not self.nitemped.isdigit():
+            raise ValidationError(
+                _(u"nItemPed must be a number with up to six digits")
+            )
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
@@ -343,6 +360,8 @@ class SaleOrderLine(models.Model):
         result['insurance_value'] = line.insurance_value
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
+        result['xped'] = line.xped
+        result['nitemped'] = line.nitemped
 
         # FIXME
         # Necessário informar estes campos pois são related do
