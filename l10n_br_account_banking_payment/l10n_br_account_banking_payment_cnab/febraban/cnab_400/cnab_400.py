@@ -337,6 +337,11 @@ class Cnab400(Cnab):
                 [('id', '=', id_parceiro)]
             )
             str_endereco = self.monta_endereco(res_partner_end_cobranca)
+            # Essa abordagem substitui caracteres especiais por '?'
+            # str_endereco = unicode(str_endereco.encode("ascii", errors="replace"))
+
+        # Substitui sinal de grau por espaço
+        str_endereco = str_endereco.replace(u"\xb0", u" ")
 
         return str_endereco
 
