@@ -181,6 +181,13 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
+				<xpath expr="//sheet/div[@class='oe_title']" position="before">
+					<div class="oe_right oe_button_box" name="br_buttons">
+						<button class="oe_inline oe_stat_button" type="action" name="408" icon="fa-truck">
+							<div>Recalcular<br/>Custos</div>
+						</button>
+					</div>
+				</xpath>
                 <field name="number" position="after">
                     <group>
                     <label options='{"no_open": True}' class="oe_inline" string="Atenção: Operação c/ GNRE"
