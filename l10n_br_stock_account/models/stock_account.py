@@ -105,9 +105,9 @@ class StockMove(models.Model):
         obj_fp_rule = self.env['account.fiscal.position.rule']
         product_fc_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
-                kwargs.get('product_id'),
-                kwargs.get('fiscal_category_id'),
-                partner.state_id.id)
+            kwargs.get('product_id'),
+            kwargs.get('fiscal_category_id'),
+            partner.state_id.id)
 
         if product_fc_id:
             kwargs['fiscal_category_id'] = product_fc_id
