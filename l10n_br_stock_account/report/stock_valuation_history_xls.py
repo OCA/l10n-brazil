@@ -1,10 +1,28 @@
 # -*- coding: utf-8 -*-
-# © 2016 KMEE INFORMATICA LTDA (<http://www.kmee.com.br>)
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+##############################################################################
+#
+#   Copyright (c) 2016 Kmee - www.kmee.com.br
+#   @authors Daniel Sadamo <daniel.sadamo@kmee.com.br>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
 
 import xlwt
 from openerp.report import report_sxw
 from openerp.addons.report_xls.report_xls import report_xls
+from openerp.addons.report_xls.utils import _render
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -30,11 +48,52 @@ class StockHistoryXls(report_xls):
         rh_cell_format = _xs['bold'] + _xs['fill'] + \
             _xs['borders_all'] + _xs['right']
         self.rh_cell_style = xlwt.easyxf(rh_cell_format)
+        self.rh_cell_style_center = xlwt.easyxf(rh_cell_format + _xs['center'])
+        self.rh_cell_style_right = xlwt.easyxf(rh_cell_format + _xs['right'])
         self.rh_cell_style_date = xlwt.easyxf(
             rh_cell_format, num_format_str=report_xls.date_format)
         # lines
-        self.mis_rh_cell_style = xlwt.easyxf(
-            _xs['borders_all'] + _xs['bold'] + _xs['fill'])
+        line_cell_format = _xs['borders_all']
+        self.line_cell_style_decimal = xlwt.easyxf(
+            line_cell_format + _xs['right'],
+            num_format_str=report_xls.decimal_format)
+        self.line_cell_style = xlwt.easyxf(line_cell_format)
+
+        self.col_specs_template = {
+            'fiscal_classification_id': {
+                'header': [1, 10, 'text', _render("('NCM')")],
+                'lines': [1, 0, 'text',
+                          _render("line.get('fiscal_classification_id', '')")],
+                'totals': [1, 0, 'text', None]},
+            'product_id': {
+                'header': [1, 50, 'text', _render("('Produto')")],
+                'lines': [1, 0, 'text',
+                          _render("line.get('product_id', False) and "
+                                  "line.get('product_id')[1] or ''")],
+                'totals': [1, 0, 'text', None]},
+            # 'product_id_count': {
+            #     'header': [1, 20, 'text', _render("('Contagem')")],
+            #     'lines': [1, 0, 'text',
+            #  _render("str(line.get('product_id_count', "") or '')")],
+            #     'totals': [1, 0, 'text', None]},
+            'price_unit_on_quant': {
+                'header': [1, 25, 'text',
+                           _render("('Preço de custo no periodo')")],
+                'lines': [1, 0, 'number',
+                          _render("line.get('price_unit_on_quant')"),
+                          None, self.line_cell_style_decimal],
+                'totals': [1, 0, 'text', None]},
+            'quantity': {
+                'header': [1, 15, 'text', _render("('Quantidade')")],
+                'lines': [1, 0, 'number', _render("line.get('quantity', 0)")],
+                'totals': [1, 0, 'text', None]},
+            'inventory_value': {
+                'header': [1, 15, 'text', _render("('Valor Total')")],
+                'lines': [1, 0, 'number',
+                          _render("line.get('inventory_value', 0)"),
+                          None, self.line_cell_style_decimal],
+                'totals': [1, 0, 'text', None]},
+        }
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
 
@@ -59,15 +118,45 @@ class StockHistoryXls(report_xls):
             ws, row_pos, row_data, row_style=xlwt.easyxf(_xs['xls_title']))
         row_pos += 1
 
+        # Column headers
+        c_specs = map(lambda x: self.render(
+            x, self.col_specs_template, 'header'),
+            [
+                'product_id',
+                'fiscal_classification_id',
+                # 'product_id_count',
+                'quantity',
+                'price_unit_on_quant',
+                'inventory_value'
+            ])
+        row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
+        row_pos = self.xls_write_row(
+            ws, row_pos, row_data, row_style=self.rh_cell_style_center,
+            set_column_size=True)
+        ws.set_horz_split_pos(row_pos)
+
+        # Lines
         active_ids = self.context.get('active_ids')
         wizard_obj = self.pool.get('wizard.valuation.history').browse(
             self.cr, self.uid, active_ids)
-
-        wizard_obj.compute(self.cr, self.uid, objects[0].id, date=wizard_obj.date)
-        from pprint import pprint
-        pprint(data)
+        data = wizard_obj.compute(
+            self.cr, self.uid, objects[0].id, date=wizard_obj.date)
+        for line in data:
+            c_specs = map(
+                lambda x: self.render(
+                    x, self.col_specs_template, 'lines'), [
+                    'product_id',
+                    'fiscal_classification_id',
+                    # 'product_id_count',
+                    'quantity',
+                    'price_unit_on_quant',
+                    'inventory_value'
+                ])
+            row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
+            row_pos = self.xls_write_row(
+                ws, row_pos, row_data, row_style=self.line_cell_style)
         pass
 
 
-StockHistoryXls('report.wizard.valuation.history.xls',
-                'wizard.valuation.history.xls', parser=StockHistoryXlsParser)
+StockHistoryXls('report.wizard.valuation.history',
+                'wizard.valuation.history', parser=StockHistoryXlsParser)
