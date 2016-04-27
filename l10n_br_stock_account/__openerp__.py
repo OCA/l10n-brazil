@@ -29,6 +29,7 @@
         'l10n_br_stock',
         'account_fiscal_position_rule_stock',
         'report_xls',
+        'stock_account',
     ],
     'data': [
         'data/l10n_br_stock_account_data.xml',
