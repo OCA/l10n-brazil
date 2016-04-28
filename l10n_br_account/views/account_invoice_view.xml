@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-
+		<record id="view_l10n_br_account_partner_filter" model="ir.ui.view">
+			<field name="name">l10n_br_account.partner.filter</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.view_account_invoice_filter" />
+			<field name="arch" type="xml">
+				<field name="partner_id" position="before">
+					<field name="legal_name" />
+					<field name="cnpj_cpf" />
+				</field>
+			</field>
+		</record>
 		<!-- Customer Invoice views -->
 		<record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.form</field>
