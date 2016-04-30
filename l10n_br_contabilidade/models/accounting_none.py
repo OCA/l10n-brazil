@@ -17,6 +17,8 @@ the same as zero.
 1
 >>> AccountingNone + None
 AccountingNone
+>>> None + AccountingNone
+AccountingNone
 >>> +AccountingNone
 AccountingNone
 >>> -AccountingNone
@@ -30,6 +32,8 @@ AccountingNone
 >>> abs(AccountingNone)
 AccountingNone
 >>> AccountingNone - None
+AccountingNone
+>>> None - AccountingNone
 AccountingNone
 >>> AccountingNone / 2
 0.0
