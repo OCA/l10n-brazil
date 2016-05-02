@@ -297,7 +297,11 @@
         <record id="base.cz" model="res.country">
 	    	<field name="bc_code">07919</field>
         </record>
-        
+
+	<record id="base.cw" model="res.country">
+		<field name="bc_code">00200</field>
+	</record>
+ 
         <record id="base.de" model="res.country">
 	    	<field name="bc_code">00230</field>
         </record>
