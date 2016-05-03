@@ -128,8 +128,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_freight(self):
         for line in self.order_line:
-            if not self.amount_freight:
-                break
             line.write({
                 'freight_value': calc_price_ratio(
                     line.price_gross,
@@ -141,8 +139,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_insurance(self):
         for line in self.order_line:
-            if not self.amount_insurance:
-                break
             line.write({
                 'insurance_value': calc_price_ratio(
                     line.price_gross,
@@ -154,8 +150,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_costs(self):
         for line in self.order_line:
-            if not self.amount_costs:
-                break
             line.write({
                 'other_costs_value': calc_price_ratio(
                     line.price_gross,
