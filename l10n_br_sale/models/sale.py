@@ -135,6 +135,14 @@ class SaleOrder(models.Model):
         string=u'CNPJ/CPF',
         related='partner_id.cnpj_cpf',
     )
+    legal_name = fields.Char(
+        string=u'Razão Social',
+        related='partner_id.legal_name',
+    )
+    ie = fields.Char(
+        string=u'Inscrição Estadual',
+        related='partner_id.inscr_est',
+    )
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
