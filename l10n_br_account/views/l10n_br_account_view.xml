@@ -208,6 +208,31 @@
 			</field>
 		</record>
 
+	<record id="view_l10n_br_account_partner_special_fiscal_type_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.partner.special.fiscal.type</field>
+			<field name="model">l10n_br_account.partner.special.fiscal.type</field>
+			<field name="arch" type="xml">
+				<form string="Regime Especial do Parceiro">
+                    <sheet>
+                        <group>
+					        <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_l10n_br_account_partner_special_fiscal_type_tree" model="ir.ui.view">
+			<field name="name">l10n_br_account.partner.special.fiscal.type</field>
+			<field name="model">l10n_br_account.partner.special.fiscal.type</field>
+			<field name="arch" type="xml">
+				<tree string="Regime especial do Parceiro">
+					<field name="name" select="1"/>
+				</tree>
+			</field>
+		</record>
+
+
 		<record id="view_l10n_br_account_document_serie_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.document.serie</field>
 			<field name="model">l10n_br_account.document.serie</field>
@@ -227,7 +252,7 @@
 				</form>
 			</field>
 		</record>
-	
+
 		<record id="view_l10n_br_account_document_serie_tree" model="ir.ui.view">
 			<field name="name">l10n_br_account.document.serie</field>
 			<field name="model">l10n_br_account.document.serie</field>
@@ -241,7 +266,7 @@
 				</tree>
 			</field>
 		</record>
-		
+
 		<record id="l10n_br_account_document_event_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.document_event.form</field>
 			<field name="model">l10n_br_account.document_event</field>
@@ -255,7 +280,7 @@
 						<field name="company_id"/>
 						<field name="response"/>
 						<field name="origin"/>
-						<field name="write_date"/>				
+						<field name="write_date"/>
 						<field name="file_sent"/>
 						<field name="end_date"/>
 						<field name="file_returned"/>
@@ -266,7 +291,7 @@
 				</form>
 			</field>
 		</record>
-		
+
 		<record id="l10n_br_account_document_event_tree" model="ir.ui.view">
 			<field name="name">l10n_br_account.document_event.tree</field>
 			<field name="model">l10n_br_account.document_event</field>
@@ -276,7 +301,7 @@
 						<field name="company_id"/>
 						<field name="response"/>
 						<field name="origin"/>
-						<field name="write_date"/>				
+						<field name="write_date"/>
 						<field name="end_date"/>
 						<field name="status"/>
 						<field name="message"/>
@@ -302,11 +327,11 @@
 						<field name="number_end"/>
 						<field name="justificative"/>
 					</group>
-					<field name="invalid_number_document_event_ids"/>	
+					<field name="invalid_number_document_event_ids"/>
 				</form>
 			</field>
 		</record>
-	
+
 		<record id="l10n_br_account_invoice_invalid_number_tree" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.invalid.number.tree</field>
 			<field name="model">l10n_br_account.invoice.invalid.number</field>
@@ -403,7 +428,7 @@
 			<field name="arch" type="xml">
 				<tree string="Estrutura de Tipo de Serviço">
 					<field name="code"/>
-					<field name="name"/>	
+					<field name="name"/>
 					<field name="internal_type"/>
 				</tree>
 			</field>
@@ -437,7 +462,7 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
 		</record>
-		
+
 		<record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
 			<field name="name">Eventos Eletronicos</field>
 			<field name="type">ir.actions.act_window</field>
@@ -456,7 +481,7 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
 		</record>
-		
+
 
 		<record id="action_l10n_br_account_partner_fiscal_type_form" model="ir.actions.act_window">
 			<field name="name">Tipo Fiscal de Parceiro</field>
@@ -465,6 +490,15 @@
 			<field name="view_mode">tree,form</field>
 			<field name="view_type">form</field>
 			<field name="view_id" ref="view_l10n_br_account_partner_fiscal_type_tree"/>
+		</record>
+
+		<record id="action_l10n_br_account_partner_special_fiscal_type_form" model="ir.actions.act_window">
+			<field name="name">Regime especial do Parceiro</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">l10n_br_account.partner.special.fiscal.type</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="view_l10n_br_account_partner_special_fiscal_type_tree"/>
 		</record>
 
 		<record id="action_l10n_br_account_cnae_form" model="ir.actions.act_window">
@@ -511,7 +545,7 @@
 			<field name="view_type">form</field>
 			<field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
 		</record>
-		
+
 		<record id="action_l10n_br_account_cce" model="ir.actions.act_window">
 			<field name="name">Carta de Correção</field>
 			<field name="type">ir.actions.act_window</field>
@@ -532,6 +566,8 @@
 		<menuitem id="menu_action_service_type_structure" name="Estrutura de Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_structure" sequence="60" />
 
 		<menuitem id="menu_action_l10n_br_account_partner_fiscal_type_form" name="Tipo Fiscal de Parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
+
+		<menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
 
 		<menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
 
