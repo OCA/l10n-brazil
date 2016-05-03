@@ -34,6 +34,15 @@ class AccountFiscalPositionRuleTemplate(models.Model):
         column2='partner_fiscal_type',
         string='Tipo Fiscal do Parceiro',
     )
+    partner_special_fiscal_type_id = fields.Many2many(
+        comodel_name='l10n_br_account.partner.special.fiscal.type',
+        relation=(
+            'afp_rule_template_l10n_br_account_partner_special_fiscal_type'
+        ),
+        column1='afp_id',
+        column2='partner_special_fiscal_type_id',
+        string='Regime especial'
+    )
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria')
     fiscal_type = fields.Selection(
@@ -61,6 +70,13 @@ class AccountFiscalPositionRule(models.Model):
         column2='partner_fiscal_type_id',
         string='Tipo Fiscal do Parceiro'
     )
+    partner_special_fiscal_type_id = fields.Many2many(
+        comodel_name='l10n_br_account.partner.special.fiscal.type',
+        relation='afp_rule_l10n_br_account_partner_special_fiscal_type',
+        column1='afp_id',
+        column2='partner_special_fiscal_type_id',
+        string='Regime especial'
+    )
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria')
     fiscal_type = fields.Selection(
@@ -85,9 +101,23 @@ class AccountFiscalPositionRule(models.Model):
         document_date = self.env.context.get('date', time.strftime('%Y-%m-%d'))
         use_domain = self.env.context.get(
             'use_domain', ('use_sale', '=', True))
-
-        domain = [
-            '&', ('company_id', '=', company.id), use_domain,
+        special_domain = []
+        domain = ['&']
+        for special in self.env[
+            'l10n_br_account.partner.special.fiscal.type'
+        ].search([]).ids:
+            if special in partner.partner_special_fiscal_type_id.ids:
+                special_domain.append(
+                    ('partner_special_fiscal_type_id', 'in', special))
+            else:
+                special_domain.append(
+                    ('partner_special_fiscal_type_id', 'not in', special))
+        if special_domain:
+            domain += special_domain
+        else:
+            domain += [('partner_special_fiscal_type_id', '=', False)]
+        domain += [
+            ('company_id', '=', company.id), use_domain,
             ('fiscal_type', '=', company.fiscal_type),
             ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
             '|', ('partner_fiscal_type_id', 'in', partner_fiscal_type_id),
