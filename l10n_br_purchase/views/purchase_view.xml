@@ -8,7 +8,9 @@
 			<field name="inherit_id" ref="purchase.view_purchase_order_filter" />
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field name="cnpj_cpf" />
+					<field name="legal_name" string="Razão Social"/>
+					<field name="cnpj_cpf" string="CNPJ/CPF"/>
+					<field name="ie" string="Inscr. Estadual"/>
 				</field>
 			</field>
 		</record>
