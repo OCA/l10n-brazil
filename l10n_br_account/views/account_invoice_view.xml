@@ -7,8 +7,9 @@
 			<field name="inherit_id" ref="account.view_account_invoice_filter" />
 			<field name="arch" type="xml">
 				<field name="partner_id" position="before">
-					<field name="legal_name" />
-					<field name="cnpj_cpf" />
+					<field name="legal_name" string="Razão Social"/>
+					<field name="cnpj_cpf" string="CNPJ/CPF"/>
+					<field name="ie" string="Inscr. Estadual"/>
 				</field>
 			</field>
 		</record>
