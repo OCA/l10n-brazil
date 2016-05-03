@@ -34,9 +34,11 @@
 			<field name="arch" type="xml">
 				<field name="to_invoice_state" position="after">
 					<separator string="l10n br" colspan="4" />
-					<field name="partner_fiscal_type_id" />
 					<field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
-					<field name="parent_id" />
+                    <separator colspan="4" />
+					<field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
+                    <separator colspan="4" />
+                    <field name="parent_id" />
 					<field name="fiscal_type" />
 					<field name="fiscal_category_id" attrs="{'required': [('parent_id', '=', True)]}"/>
 					<newline />
@@ -60,6 +62,9 @@
 				<field name="to_invoice_state" position="after">
 					<separator string="l10n br" colspan="4" />
 					<field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
+                    <separator colspan="4" />
+					<field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
+                    <separator colspan="4" />
 					<field name="parent_id" />
 					<field name="fiscal_type" />
 					<field name="fiscal_category_id" attrs="{'required': [('parent_id', '=', True)]}"/>
