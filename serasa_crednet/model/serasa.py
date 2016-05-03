@@ -31,12 +31,15 @@ class Serasa(models.Model):
     _order = "id desc"
 
     @api.multi
-    @api.depends('cheque_ids', 'pefin_ids', 'cheque_ids')
+    @api.depends('cheque_ids', 'pefin_ids', 'refin_ids', 'protesto_ids')
     def _count_serasa(self):
         for rec in self:
             for pefin in rec.pefin_ids:
                 rec.pefin_count += 1
                 rec.pefin_sum += pefin.value
+            for refin in rec.refin_ids:
+                rec.refin_count += 1
+                rec.refin_sum += refin.value
             for cheque in rec.cheque_ids:
                 rec.cheque_count += 1
                 rec.cheque_sum += cheque.value
@@ -54,26 +57,10 @@ class Serasa(models.Model):
     partner_fundation = fields.Date('Data de Fundação', readonly=True)
     partner_identification = fields.Char('Documento', readonly=True)
     string_retorno = fields.Text('StringRetorno')
+
     protesto_count = fields.Integer('Protestos', compute='_count_serasa')
     protesto_sum = fields.Float('Valor', compute='_count_serasa')
     protesto_ids = fields.One2many('serasa.protesto', 'serasa_id')
-    pefin_count = fields.Integer('Pefin', compute='_count_serasa')
-    pefin_sum = fields.Float('Valor', compute='_count_serasa')
-    pefin_ids = fields.One2many('serasa.pefin', 'serasa_id')
-    cheque_count = fields.Integer('Cheques', compute='_count_serasa')
-    cheque_sum = fields.Float('Valor', compute='_count_serasa')
-    cheque_ids = fields.One2many('serasa.cheque', 'serasa_id')
-    pefin_data_inicio = fields.Char("Data Ocorrencia Antiga")
-    pefin_data_fim = fields.Char("Data Ultima Ocorrencia")
-    pefin_num_ocorrencias = fields.Integer(
-        'Total de ocorrências Pendências Financeiras',
-        readonly=True
-    )
-    pefin_valor_total = fields.Float(
-        'Valor total Pendências Financeiras',
-        readonly=True,
-        digits_compute=dp.get_precision('Account')
-    )
     protesto_data_inicio = fields.Char("Data Ocorrencia Antiga")
     protesto_data_fim = fields.Char("Data Ultima Ocorrencia")
     protesto_num_ocorrencias = fields.Integer(
@@ -85,6 +72,40 @@ class Serasa(models.Model):
         readonly=True,
         digits_compute=dp.get_precision('Account')
     )
+
+    pefin_count = fields.Integer('Pefin', compute='_count_serasa')
+    pefin_sum = fields.Float('Valor', compute='_count_serasa')
+    pefin_ids = fields.One2many('serasa.pefin', 'serasa_id')
+    pefin_data_inicio = fields.Char("Data Ocorrencia Antiga")
+    pefin_data_fim = fields.Char("Data Ultima Ocorrencia")
+    pefin_num_ocorrencias = fields.Integer(
+        'Total de ocorrências Pendências Financeiras',
+        readonly=True
+    )
+    pefin_valor_total = fields.Float(
+        'Valor total Pendências Financeiras',
+        readonly=True,
+        digits_compute=dp.get_precision('Account')
+    )
+
+    refin_count = fields.Integer('Refin', compute='_count_serasa')
+    refin_sum = fields.Float('Valor', compute='_count_serasa')
+    refin_ids = fields.One2many('serasa.refin', 'serasa_id')
+    refin_data_inicio = fields.Char("Data Ocorrencia Antiga")
+    refin_data_fim = fields.Char("Data Ultima Ocorrencia")
+    refin_num_ocorrencias = fields.Integer(
+        'Total de ocorrências Pendências Financeiras',
+        readonly=True
+    )
+    refin_valor_total = fields.Float(
+        'Valor total Pendências Financeiras',
+        readonly=True,
+        digits_compute=dp.get_precision('Account')
+    )
+
+    cheque_count = fields.Integer('Cheques', compute='_count_serasa')
+    cheque_sum = fields.Float('Valor', compute='_count_serasa')
+    cheque_ids = fields.One2many('serasa.cheque', 'serasa_id')
     cheque_num_ocorrencias = fields.Integer(
         'Total de ocorrências Cheques',
         readonly=True
@@ -136,6 +157,21 @@ class Serasa(models.Model):
                 'pefin_valor_total': 0,
             })
 
+        if retorno_consulta['total_refin']:
+            self.write({
+                'refin_data_inicio': retorno_consulta['total_refin']
+                ['refin_inicio'],
+                'refin_data_fim': retorno_consulta['total_refin']['refin_fim'],
+                'refin_num_ocorrencias': retorno_consulta['total_refin'][
+                    'num_ocorrencias'],
+                'refin_valor_total': retorno_consulta['total_refin']['total'],
+            })
+        else:
+            self.write({
+                'refin_num_ocorrencias': 0,
+                'refin_valor_total': 0,
+            })
+
         if retorno_consulta['total_protesto']:
             self.write({
                 'protesto_data_inicio': retorno_consulta['total_protesto']
@@ -172,6 +208,18 @@ class Serasa(models.Model):
                 'origem': pefin['origem'],
                 'contrato': pefin['contrato'],
                 'avalista': pefin['avalista'],
+                'serasa_id': id_consulta_serasa,
+            })
+
+        refin_obj = self.env['serasa.refin']
+        for refin in retorno_consulta['refin']:
+            refin_obj.create({
+                'value': refin['value'],
+                'date': refin['date'],
+                'modalidade': refin['modalidade'],
+                'origem': refin['origem'],
+                'contrato': refin['contrato'],
+                'avalista': refin['avalista'],
                 'serasa_id': id_consulta_serasa,
             })
 
@@ -223,6 +271,19 @@ class SerasaProtesto(models.Model):
 class SerasaPefin(models.Model):
 
     _name = 'serasa.pefin'
+
+    modalidade = fields.Char('Modalidade')
+    origem = fields.Char('Origem')
+    avalista = fields.Char('Avalista')
+    contrato = fields.Char('Contrato')
+    serasa_id = fields.Many2one('consulta.serasa', required=True)
+    date = fields.Date('Data')
+    value = fields.Float('Valor')
+
+
+class SerasaRefin(models.Model):
+
+    _name = 'serasa.refin'
 
     modalidade = fields.Char('Modalidade')
     origem = fields.Char('Origem')

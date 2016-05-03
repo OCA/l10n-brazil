@@ -48,7 +48,7 @@
                                     <group><field name="protesto_num_ocorrencias"/></group>
                                     <group><field name="protesto_valor_total" string="Total"/></group>
                                 </group>
-                                <separator string="Pendências Financeiras"/>
+                                <separator string="Pendências Financeiras - PEFIN"/>
                                 <field name="pefin_ids" sum="valor">
                                     <tree>
                                         <field name="date"/>
@@ -64,6 +64,23 @@
                                     <group><field name="pefin_data_fim" string="Ultima Ocorrência"/></group>
                                     <group><field name="pefin_num_ocorrencias"/></group>
                                     <group><field name="pefin_valor_total" string="Total"/></group>
+                                </group>
+                                 <separator string="Pendências Financeiras - REFIN"/>
+                                <field name="refin_ids" sum="valor">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="modalidade"/>
+                                        <field name="origem" />
+                                        <field name="avalista" />
+                                        <field name="contrato" />
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group><field name="refin_data_inicio" string="Primeira Ocorrência"/></group>
+                                    <group><field name="refin_data_fim" string="Ultima Ocorrência"/></group>
+                                    <group><field name="refin_num_ocorrencias"/></group>
+                                    <group><field name="refin_valor_total" string="Total"/></group>
                                 </group>
                                 <separator string="Cheques"/>
                                 <field name="cheque_ids" sum="valor">
@@ -143,6 +160,8 @@
                                 <field name="protesto_valor_total" string="Total"/>
                                 <field name="pefin_num_ocorrencias" string="Pefin ocorrências"/>
                                 <field name="pefin_valor_total" string="Total"/>
+                                <field name="refin_num_ocorrencias" string="Refin ocorrências"/>
+                                <field name="refin_valor_total" string="Total"/>
                                 <field name="cheque_num_ocorrencias" string="Cheques ocorrências"/>
                                 <field name="status"/>
                             </tree>

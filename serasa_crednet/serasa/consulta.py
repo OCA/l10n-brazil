@@ -43,7 +43,7 @@ def consulta_cnpj(partner, company):
     parser = parserStringDados.ParserStringDados()
 
     # Variavel que recebe o a string de retorno do Serasa
-    # string_teste_completa = 'B49C      071037337000111JC     FI0001000000000000000N99SFIMAN                            SS              N                                            14201058000108  000000000               00  2016030114084600000037    0038                                                                        0000                    3#                                                                             P002RE02                                                                                                           N00100PPX2PJN0    712406                       FCM                                                                 N00300                     MG                                                                                      N20000RELOJOARIA QUEIROZ LTDA ME                                            060519932 03022016                     N20001                                                                                                             N21099NAO CONSTAM OCORRENCIAS                                                                                      N23099NAO CONSTAM OCORRENCIAS                                                                                      N2400027012016DUPLICATA                     NR$ 00000000004305001DE1 028540904 ORIENT                              N24001                                                                             V1897063290                     N2400023072014OUTRAS OPER                   NR$ 0000000000171008825            JOSE ANTONIO ALVES ASSIS ME         N24001                                                                             V1832800078                     N2400011072014OUTRAS OPER                   NR$ 0000000002806502302            ALVES & LUCIANO LTDA ME             N24001                                                                             V1817659459                     N2400010072014OUTRAS OPER                   NR$ 0000000002225827417            JOSE ANTONIO ALVES ASSIS ME         N24001                                                                             V1832800073                     N2409000004072014012016000000000563382V                                                                            N2400006102015DUPLICATA DE VENDA MERCANTIL  NR$ 00000000004024015739825376     EWC RIO C E R ART DE                N24001                                                                             51834899746                     N2400006092015DUPLICATA DE VENDA MERCANTIL  NR$ 00000000004024015739825375     EWC RIO C E R ART DE                N24001                                                                             51834192792                     N2400007082015DUPLICATA DE VENDA MERCANTIL  NR$ 00000000004024015739825374     EWC RIO C E R ART DE                N24001                                                                             51834192789                     N24090000030820151020150000000001207205                                                                            N2500004122015R$ 00000000008480001DIVINOPOLIS                   MG                                                 N25001N                                                                            A0223790769                     N2500030112015R$ 00000000004395701DIVINOPOLIS                   MG                                                 N25001N                                                                            A0223710944                     N2500025112015R$ 00000000003594201DIVINOPOLIS                   MG                                                 N25001N                                                                            A0223527004                     N2500024112015R$ 00000000006133501DIVINOPOLIS                   MG                                                 N25001N                                                                            A0223526858                     N2500023112015R$ 00000000004381401DIVINOPOLIS                   MG                                                 N25001N                                                                            A0223526774                     N2509000039102012122015R$ 000000002607113                                                                          N27099NAO CONSTAM OCORRENCIAS                                                                                      N44003002000000000                                                                                                 T999000PROCESSO ENCERRADO NORMALMENTE    '
+    # string_teste_completa = 'B49C      009547564000202JC     FI0001000000000000000N99SFIMAN                            SS              N                                            14201058000108  000000000               00  2016050314114900000024    0025                                                                        0000                    3#                                                                             P002RE02                                                                                                           N00100PPX2PJN0    763694                       FEX                                                                 N00300                     SP                                                                                      N20000JUCILEI DA SILVA AMANCIO CARDOSO ME                                   250420082 19032016                     N20001                                                                                                             N21099NAO CONSTAM OCORRENCIAS                                                                                      N23099NAO CONSTAM OCORRENCIAS                                                                                      N2400013012016DUPLICATA                     NR$ 00000000015810801DE1 029910001 ORIENT                              N24001                                                                             V1890020298                     N2400023102015DUPLICATA                     NR$ 00000000005572901DE1 028636601 ORIENT                              N24001                                                                             V1839281678                     N2409000002102015012016000000000213837V                                                                            N2400013112015CRED CARTAO                   NR$ 000000000141860426055008791200 CEF                                 N24001N                                                                            I1952979139                     N2400025082015OUTRAS OPER                   NR$ 000000000086552000000000000001 BDMG                          ITM   N24001N                                                                            I1809625400                     N2409000002082015112015000000000228412I                                                                            N2500002022016R$ 00000000007644002SAO JOSE DO RIO PRETO         SP                                                 N25001N                                                                            A0226295233                     N2509000001022016022016R$ 000000000076440                                                                          N2700018112015CCF-BB         00019               237BANCO BRADESCO3255ITURAMA                       MG0118009540   N270900001930062015181120152373255BANCO BRADES                                                                     N44003010000000000                                                                                                 T999000PROCESSO ENCERRADO NORMALMENTE'
     # string_dados = string_teste_completa
     string_dados = parser.realizar_busca_serasa(parser.gerar_string_envio(
         documento_consultado, tipo_pessoa_busca, documento_consultor,
@@ -68,6 +68,8 @@ def consulta_cnpj(partner, company):
             'texto': '',
             'pefin': '',
             'total_pefin': '',
+            'refin': '',
+            'total_refin': '',
             'protesto': '',
             'total_protesto': '',
             'cheque': '',
@@ -76,11 +78,24 @@ def consulta_cnpj(partner, company):
 
     retorno_consulta = retorna_pefin(
         retorno_consulta, arquivo.get_bloco_de_registros(
-            'pendenciasFinanceiras'))
+            'pendenciasFinanceiras'
+        )
+    )
+    retorno_consulta = retorna_refin(
+        retorno_consulta, arquivo.get_bloco_de_registros(
+            'pendenciasFinanceiras'
+        )
+    )
     retorno_consulta = retorna_protesto(
-        retorno_consulta, arquivo.get_bloco_de_registros('protestosEstados'))
+        retorno_consulta, arquivo.get_bloco_de_registros(
+            'protestosEstados'
+        )
+    )
     retorno_consulta = retorna_cheques(
-        retorno_consulta, arquivo.get_bloco_de_registros('chequesSemFundos'))
+        retorno_consulta, arquivo.get_bloco_de_registros(
+            'chequesSemFundos'
+        )
+    )
     retorno_consulta = retorno_detalhes_string_retorno(
         retorno_consulta, arquivo)
 
@@ -99,28 +114,65 @@ def retorna_pefin(retorno_consulta, bloco):
 
     if len(bloco.blocos) > 0:
         pefin_total = {}
-        for registro in bloco.blocos:
-            if registro.campos.campos[1]._valor == u'00':
+        for i in xrange(len(bloco.blocos)):
+            if bloco.blocos[i].campos.campos[1]._valor == u'01' and bloco.blocos[i].campos.campos[4]._valor == u'V':
                 pefin_dic = {
-                    'modalidade': registro.campos.campos[3]._valor,
-                    'origem': registro.campos.campos[8]._valor,
-                    'avalista': 'Não' if registro.campos.campos[4] else 'Sim',
-                    'contrato': registro.campos.campos[7]._valor,
-                    'date': registro.campos.campos[2]._valor,
-                    'value': registro.campos.campos[6]._valor,
+                    'modalidade': bloco.blocos[i-1].campos.campos[3]._valor,
+                    'origem': bloco.blocos[i-1].campos.campos[8]._valor,
+                    'avalista': 'Não' if bloco.blocos[i].campos.campos[4] else 'Sim',
+                    'contrato': bloco.blocos[i-1].campos.campos[7]._valor,
+                    'date': bloco.blocos[i-1].campos.campos[2]._valor,
+                    'value': bloco.blocos[i-1].campos.campos[6]._valor,
                 }
                 pefin.append(pefin_dic)
-            if registro.campos.campos[1]._valor == u'90':
+            if bloco.blocos[i].campos.campos[1]._valor == u'90' and \
+                            bloco.blocos[i].campos.campos[6]._valor == u'V':
                 if not pefin_total:
                     pefin_total = {
-                        'pefin_inicio': registro.campos.campos[3]._valor,
-                        'pefin_fim': registro.campos.campos[4]._valor,
-                        'num_ocorrencias': registro.campos.campos[2]._valor,
-                        'total': registro.campos.campos[5]._valor,
+                        'pefin_inicio': bloco.blocos[i].campos.campos[3]._valor,
+                        'pefin_fim': bloco.blocos[i].campos.campos[4]._valor,
+                        'num_ocorrencias': bloco.blocos[i].campos.campos[2]._valor,
+                        'total': bloco.blocos[i].campos.campos[5]._valor,
                     }
                     retorno_consulta['total_pefin'] = pefin_total
     retorno_consulta['pefin'] = pefin
     pefin = []
+
+    return retorno_consulta
+
+
+def retorna_refin(retorno_consulta, bloco):
+    if len(bloco.blocos) > 1:
+        retorno_consulta['status'] = "Não aprovado"
+
+    refin = []
+
+    if len(bloco.blocos) > 0:
+        refin_total = {}
+        for i in xrange(len(bloco.blocos)):
+            if bloco.blocos[i].campos.campos[1]._valor == u'01' and \
+                            bloco.blocos[i].campos.campos[4]._valor == u'I':
+                refin_dic = {
+                    'modalidade': bloco.blocos[i-1].campos.campos[3]._valor,
+                    'origem': bloco.blocos[i-1].campos.campos[8]._valor,
+                    'avalista': 'Não' if bloco.blocos[i-1].campos.campos[4] else 'Sim',
+                    'contrato': bloco.blocos[i-1].campos.campos[7]._valor,
+                    'date': bloco.blocos[i-1].campos.campos[2]._valor,
+                    'value': bloco.blocos[i-1].campos.campos[6]._valor,
+                }
+                refin.append(refin_dic)
+            if bloco.blocos[i].campos.campos[1]._valor == u'90' and \
+                            bloco.blocos[i].campos.campos[6]._valor == u'I':
+                if not refin_total:
+                    refin_total = {
+                        'refin_inicio': bloco.blocos[i].campos.campos[3]._valor,
+                        'refin_fim': bloco.blocos[i].campos.campos[4]._valor,
+                        'num_ocorrencias': bloco.blocos[i].campos.campos[2]._valor,
+                        'total': bloco.blocos[i].campos.campos[5]._valor,
+                    }
+                    retorno_consulta['total_refin'] = refin_total
+    retorno_consulta['refin'] = refin
+    refin = []
 
     return retorno_consulta
 
