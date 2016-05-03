@@ -408,6 +408,13 @@ class L10nBrAccountPartnerFiscalType(models.Model):
         return True
 
 
+class L10nBrAccountPartnerSpecialFiscalType(models.Model):
+    _name = 'l10n_br_account.partner.special.fiscal.type'
+    _description = 'Regime especial do parceiro'
+
+    name = fields.Char(u'Name', size=20)
+
+
 class L10nBrAccountCNAE(models.Model):
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
