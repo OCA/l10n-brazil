@@ -37,7 +37,7 @@ class StockPicking(models.Model):
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
     invoice_reserved_number = fields.Char('Numero reservado da fatura',
-                                              size=32)
+                                          size=32)
 
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
@@ -94,7 +94,8 @@ class StockPicking(models.Model):
             if picking.fiscal_category_id.set_invoice_number and \
                     picking.invoice_state == '2binvoiced':
                 serie_id = inv_obj._default_fiscal_document_serie()
-                seq_number = sequence_obj.get_id(serie_id.internal_sequence_id.id)
+                seq_number = sequence_obj.get_id(
+                    serie_id.internal_sequence_id.id)
                 picking.invoice_reserved_number = seq_number
 
         return super(StockPicking, self).do_transfer()
@@ -123,9 +124,9 @@ class StockMove(models.Model):
         obj_fp_rule = self.env['account.fiscal.position.rule']
         product_fc_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
-                kwargs.get('product_id'),
-                kwargs.get('fiscal_category_id'),
-                partner.state_id.id)
+            kwargs.get('product_id'),
+            kwargs.get('fiscal_category_id'),
+            partner.state_id.id)
 
         if product_fc_id:
             kwargs['fiscal_category_id'] = product_fc_id
