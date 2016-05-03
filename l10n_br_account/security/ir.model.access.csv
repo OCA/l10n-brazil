@@ -8,6 +8,7 @@
 "l10n_br_account_cnae","l10n_br_account.cnae","model_l10n_br_account_cnae","account.group_account_manager",1,1,1,1
 "l10n_br_account_service_type","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_manager",1,1,1,1
 "l10n_br_account_partner_fiscal_type_user","l10n_br_account.partner.fiscal.type","model_l10n_br_account_partner_fiscal_type","account.group_account_user",1,0,0,0
+"l10n_br_account_partner_special_fiscal_type_user","l10n_br_account.partner.special.fiscal.type","model_l10n_br_account_partner_special_fiscal_type","account.group_account_user",1,0,0,0
 "l10n_br_account_fiscal_document_user","l10n_br_account.fiscal.document","model_l10n_br_account_fiscal_document","account.group_account_user",1,0,0,0
 "l10n_br_account_fiscal_category_user","l10n_br_account.fiscal.category","model_l10n_br_account_fiscal_category","account.group_account_user",1,0,0,0
 "l10n_br_account_document_serie_user","l10n_br_account.document.serie","model_l10n_br_account_document_serie","account.group_account_user",1,0,0,0
