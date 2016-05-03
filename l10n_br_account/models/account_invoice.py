@@ -118,6 +118,10 @@ class AccountInvoice(models.Model):
         string=u'Razão Social',
         related='partner_id.legal_name',
     )
+    ie = fields.Char(
+        string=u'Inscrição Estadual',
+        related='partner_id.inscr_est',
+    )
 
     _order = 'internal_number desc'
 
