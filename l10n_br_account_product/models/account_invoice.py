@@ -80,7 +80,8 @@ class AccountInvoice(models.Model):
         self.ii_value = sum(line.ii_value for line in self.invoice_line)
         self.vFCPUFDest = sum(line.vFCPUFDest for line in self.invoice_line)
         self.vICMSUFDest = sum(line.vICMSUFDest for line in self.invoice_line)
-        self.vICMSUFRemet = sum(line.vICMSUFRemet for line in self.invoice_line)
+        self.vICMSUFRemet = sum(
+            line.vICMSUFRemet for line in self.invoice_line)
         self.amount_discount = sum(
             line.discount_value for line in self.invoice_line)
         self.amount_insurance = sum(
@@ -428,7 +429,6 @@ class AccountInvoice(models.Model):
     icms_relief_value = fields.Float(
         string='Valor ICMS Desoneração', digits=dp.get_precision('Account'),
         compute='_compute_amount', store=True)
-
 
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
@@ -863,7 +863,6 @@ class AccountInvoiceLine(models.Model):
             )
 
     def _amount_tax_icms(self, tax=None):
-
         result = {
             'icms_base': tax.get('total_base', 0.0),
             'icms_base_other': tax.get('total_base_other', 0.0),
@@ -1048,7 +1047,6 @@ class AccountInvoiceLine(models.Model):
         else:
             partner = self.env['account.invoice'].browse(
                 values.get('invoice_id')).partner_id
-
 
         taxes = self.env['account.tax'].browse(tax_ids)
         fiscal_position = self.env['account.fiscal.position'].browse(
@@ -1424,12 +1422,12 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    # TODO comentado por causa deste bug
-    # https://github.com/odoo/odoo/issues/2197
     @api.multi
     def write(self, vals):
-       vals.update(self._validate_taxes(vals))
-       return super(AccountInvoiceLine, self).write(vals)
+        for this in self:
+            updated_vals = dict(vals, **this._validate_taxes(vals))
+            super(AccountInvoiceLine, this).write(updated_vals)
+        return True
 
 
 class AccountInvoiceTax(models.Model):
