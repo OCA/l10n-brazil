@@ -24,6 +24,8 @@ from pysped.nfe.danfe import DAEDE
 
 from .certificado import Certificado
 
+from openerp.addons.nfe.tools.misc import mount_path_nfe
+
 
 class DANFE(DanfePySped):
     def __init__(self):
@@ -45,7 +47,7 @@ class ProcessadorNFe(ProcessadorNFePySped):
         self.estado = company.partner_id.l10n_br_city_id.state_id.code
         self.versao = company.nfe_version
         self.certificado = Certificado(company)
-        self.caminho = company.nfe_root_folder
+        self.caminho = mount_path_nfe(company, 'nfe')
         self.salvar_arquivos = False
         self.contingencia_SCAN = False
         self.contingencia = False
