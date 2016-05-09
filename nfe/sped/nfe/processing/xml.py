@@ -42,6 +42,8 @@ try:
 except ImportError as exc:
     logging.exception(exc.message)
 
+from openerp.addons.nfe.tools.misc import mount_path_nfe
+
 
 def __processo(company):
 
