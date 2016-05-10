@@ -24,3 +24,4 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     nfe_email = fields.Text('Observação em Email NFe')
+    nfe_logo = fields.Binary('NFe Logo')

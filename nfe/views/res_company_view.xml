@@ -6,6 +6,14 @@
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form"/>
 			<field name="arch" type="xml">
+                <page string="NFe" position="inside">
+                    <group string="Logo para NFe">
+                        <div>
+                        <label class="oe_edit_only" string="Esta imagem será utilizada na impressão dos DANFEs"/>
+                        <field name="nfe_logo" widget="image" class="oe_left"/>
+                        </div>
+                    </group>
+                </page>
 				<xpath expr="//field[@name='export_folder']" position="after">
 					<field name="nfe_email"/>
 				</xpath>
