@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="ClientLine">
+        <t t-jquery="tr.client-line > td:first-child" t-operation="after">
+            <td><t t-esc='partner.cnpj_cpf or ""'/></td>
+        </t>
+    </t>
+    <t t-extend="ClientListScreenWidget">
+        <t t-jquery="table.client-list > thead > tr > th:first-child" t-operation="after">
+            <th>CNPJ/CPF</th>
+        </t>
+    </t>
+    <t t-extend="ClientDetails">
+        <t t-jquery="section.client-details > div.client-name" t-operation="after">
+            <div class='client-name'><t t-esc='partner.legal_name'/></div>
+        </t>
+        <t t-jquery="div.client-details-left" t-operation="prepend">
+            <div class='client-detail'>
+                <span class='label'>CNPJ:</span>
+                <span class='detail client-address'><t t-esc='partner.cnpj_cpf' /></span>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>IE:</span>
+                <span class='detail client-address'><t t-esc='partner.inscr_est' /></span>
+            </div>
+        </t>
+        <t t-jquery="div.client-details-right" t-operation="prepend">
+            <div class='client-detail'>
+                <span class='label'>IM:</span>
+                <span class='detail client-address'><t t-esc='partner.inscr_mun' /></span>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Suframa:</span>
+                <span class='detail client-address'><t t-esc='partner.suframa' /></span>
+            </div>
+        </t>
+
+    </t>
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-picture" t-operation="after">
+            <input class='detail client-name' name='legal_name' t-att-value='partner.legal_name' placeholder="Razão Social"></input>
+        </t>
+        <t t-jquery="div.client-details-left" t-operation="prepend">
+            <div class='client-detail'>
+                <span class='label'>CNPJ:</span>
+                <input class='detail client-address-street' name='cnpj_cpf' t-att-value='partner.cnpj_cpf' placeholder="CNPJ/CPF"></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>IE:</span>
+                <input class='detail client-address-street' name='inscr_est' t-att-value='partner.inscr_est' placeholder="IE/RG"></input>
+            </div>
+        </t>
+        <t t-jquery="div.client-details-right" t-operation="prepend">
+            <div class='client-detail'>
+                <span class='label'>IM:</span>
+                <input class='detail client-address-street' name='inscr_mun' t-att-value='partner.inscr_mun' placeholder="IM"></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Suframa:</span>
+                <input class='detail client-address-street' name='suframa' t-att-value='partner.suframa' placeholder="Suframa"></input>
+            </div>
+        </t>
+    </t>
+</templates>
