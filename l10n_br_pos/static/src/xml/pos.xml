@@ -17,24 +17,55 @@
         <t t-jquery="div.client-details-left" t-operation="prepend">
             <div class='client-detail'>
                 <span class='label'>CNPJ:</span>
-                <span class='detail client-address'><t t-esc='partner.cnpj_cpf' /></span>
+                <span class='detail client-cnpj'><t t-esc='partner.cnpj_cpf' /></span>
             </div>
             <div class='client-detail'>
                 <span class='label'>IE:</span>
-                <span class='detail client-address'><t t-esc='partner.inscr_est' /></span>
+                <span class='detail client-ie'><t t-esc='partner.inscr_est' /></span>
             </div>
         </t>
         <t t-jquery="div.client-details-right" t-operation="prepend">
             <div class='client-detail'>
                 <span class='label'>IM:</span>
-                <span class='detail client-address'><t t-esc='partner.inscr_mun' /></span>
+                <span class='detail client-im'><t t-esc='partner.inscr_mun' /></span>
             </div>
             <div class='client-detail'>
                 <span class='label'>Suframa:</span>
-                <span class='detail client-address'><t t-esc='partner.suframa' /></span>
+                <span class='detail client-suframa'><t t-esc='partner.suframa' /></span>
             </div>
         </t>
-
+    </t>
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Numero:</span>
+                <span class='detail client-address-number'><t t-esc='partner.number' /></span>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-number)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Pais:</span>
+                <span class='detail client-country'><t t-esc='partner.country_id' /></span>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-country)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Estado:</span>
+                <span class='detail client-state'><t t-esc='partner.state_id' /></span>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-state)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Cidade:</span>
+                <span class='detail client-city'><t t-esc='partner.l10n_br_city_id' /></span>
+            </div>
+        </t>
     </t>
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-picture" t-operation="after">
@@ -43,21 +74,63 @@
         <t t-jquery="div.client-details-left" t-operation="prepend">
             <div class='client-detail'>
                 <span class='label'>CNPJ:</span>
-                <input class='detail client-address-street' name='cnpj_cpf' t-att-value='partner.cnpj_cpf' placeholder="CNPJ/CPF"></input>
+                <input class='detail client-cnpj' name='cnpj_cpf' t-att-value='partner.cnpj_cpf' placeholder="CNPJ/CPF"></input>
             </div>
             <div class='client-detail'>
                 <span class='label'>IE:</span>
-                <input class='detail client-address-street' name='inscr_est' t-att-value='partner.inscr_est' placeholder="IE/RG"></input>
+                <input class='detail client-ie' name='inscr_est' t-att-value='partner.inscr_est' placeholder="IE/RG"></input>
             </div>
         </t>
         <t t-jquery="div.client-details-right" t-operation="prepend">
             <div class='client-detail'>
                 <span class='label'>IM:</span>
-                <input class='detail client-address-street' name='inscr_mun' t-att-value='partner.inscr_mun' placeholder="IM"></input>
+                <input class='detail client-im' name='inscr_mun' t-att-value='partner.inscr_mun' placeholder="IM"></input>
             </div>
             <div class='client-detail'>
                 <span class='label'>Suframa:</span>
-                <input class='detail client-address-street' name='suframa' t-att-value='partner.suframa' placeholder="Suframa"></input>
+                <input class='detail client-suframa' name='suframa' t-att-value='partner.suframa' placeholder="Suframa"></input>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-street)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Número</span>
+                <input class='detail client-address-number' name='number' t-att-value='partner.number' placeholder='Número'/>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-country)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Estado</span>
+                <select class='detail client-address-state' name='state_id'>
+                    <option value=''>None</option>
+                    <t t-foreach='widget.pos.states' t-as='state'>
+                        <option t-att-value='state.id' t-att-selected="partner.state_id ? ((state.id === partner.state_id[0]) ? true : undefined) : undefined">
+                            <t t-esc='state.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-city)" t-operation="replace">
+        </t>
+    </t>
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Cidade</span>
+                <select class='detail client-address-city' name='city_id'>
+                    <option value=''>None</option>
+                    <t t-foreach='widget.pos.cities' t-as='city'>
+                        <option t-att-value='city.id' t-att-selected="partner.l10n_br_city_id ? ((city.id === partner.l10n_br_city_id[0]) ? true : undefined) : undefined">
+                            <t t-esc='city.name'/>
+                        </option>
+                    </t>
+                </select>
             </div>
         </t>
     </t>

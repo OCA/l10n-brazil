@@ -30,7 +30,37 @@ function l10n_br_pos_models(instance, module) {
         initialize: function (session, attributes) {
             PosModelParent.prototype.initialize.apply(this, arguments);
             arrange_elements(this);
+            this.models.push({
+                model:  'res.country.state',
+                fields: ['name', 'country_id'],
+                loaded: function(self,states){
+                    self.company.state = null;
+                    self.states = states;
+//                    for (var i = 0; i < states.length; i++) {
+//                        if(states[i].country_id[0] == 32){
+//                            self.states.push(states[i]);
+//                        }
+//                        if(states[i].id === self.company.state_id[0]){
+//                            self.company.state = states[i].id;
+//                        }
+//                    }
+                }
+            });
+            this.models.push({
+                model:  'l10n_br_base.city',
+                fields: ['name', 'state_id'],
+                loaded: function(self,cities){
+                    self.company.city = null;
+                    self.cities = cities;
+//                    for (var i = 0; i < cities.length; i++) {
+//                        if(cities[i].state_id[0] == 79){
+//                            self.cities.push(cities[i]);
+//                        }
+//                    }
+                }
+            });
         },
+
         /**
          * find model based on name
          * @param model_name
@@ -46,11 +76,19 @@ function l10n_br_pos_models(instance, module) {
             }
             return lookup
         },
-        /**
-         * @param removed_order
-         * @param index
-         * @param reason
-         */
+//        PosModelParent.models.push({
+//            model:  'res.country.state',
+//            fields: ['name'],
+//            loaded: function(self,states){
+//                self.state = states;
+//                self.company.state = null;
+//                for (var i = 0; i < states.length; i++) {
+//                    if (states[i].id === self.company.state_id[0]){
+//                        self.company.state = states[i];
+//                    }
+//                }
+//            }
+//        });
     });
 
     /**
@@ -69,7 +107,10 @@ function l10n_br_pos_models(instance, module) {
                 'inscr_mun',
                 'suframa',
                 'district',
-                'number'
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
             );
         }
 
@@ -84,7 +125,10 @@ function l10n_br_pos_models(instance, module) {
                 'inscr_mun',
                 'suframa',
                 'district',
-                'number'
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
             );
         }
     }

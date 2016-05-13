@@ -51,7 +51,27 @@ function l10n_br_pos_db(instance, module) {
             }
             str = '' + partner.id + ':' + str.replace(':','') + '\n';
             return str;
-        }
+        },
+        search_partner: function(query){
+            try {
+                query = query.replace(/[\[\]\(\)\+\*\?\.\-\!\&\^\$\|\~\_\{\}\:\,\\\/]/g,'.');
+                query = query.replace(' ','.+');
+                var re = RegExp("([0-9]+):.*?"+query,"gi");
+            }catch(e){
+                return [];
+            }
+            var results = [];
+            for(var i = 0; i < this.limit; i++){
+                r = re.exec(this.partner_search_string);
+                if(r){
+                    var id = Number(r[1]);
+                    results.push(this.get_partner_by_id(id));
+                }else{
+                    break;
+                }
+            }
+            return results;
+        },
     })
 }
 
