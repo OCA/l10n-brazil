@@ -15,10 +15,14 @@ TODO:
     - district;
     - l10n_br_city;
     - res.country;
-* Payment.Mode;
-* Save response of sat and nfc-e in pos.order
 * Solicitar o cnpj/cpf;
+  - Colocar o campo de cpf na tela
+  - Tentar linkar o cpf na venda a um cliente ja cadastrado
+  - Pos.config adicionar cliente ao banco de dados ao inserir o cpf novo*
+  - Pop-up solicitando o cpf ao inicar uma nova venda
+* Payment.Mode;(oca/pos)
 * Data e hora;
+* Save response of sat and nfc-e in pos.order
 * Armazenar a chave do documento fiscal;
 * Cancelamento;
 * Devolução;
