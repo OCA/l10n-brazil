@@ -31,6 +31,14 @@ PROPS = [
     'divider',
 ]
 
+TYPE_NUM = 'num'
+TYPE_PCT = 'pct'
+TYPE_STR = 'str'
+
+CMP_DIFF = 'diff'
+CMP_PCT = 'pct'
+CMP_NONE = 'none'
+
 
 class MisReportKpiStyle(models.Model):
 
@@ -121,6 +129,10 @@ class MisReportKpiStyle(models.Model):
 
     @api.model
     def merge(self, styles):
+        """ Merge several styles, giving priority to the last.
+
+        Returns a PropertyDict of style properties.
+        """
         r = PropertyDict()
         for style in styles:
             if not style:
@@ -138,6 +150,17 @@ class MisReportKpiStyle(models.Model):
                         value = getattr(style, prop)
                         r[prop] = value
         return r
+
+    @api.model
+    def render(self, lang, style_props, type, value):
+        if type == 'num':
+            return self.render_num(lang, value, style_props.divider,
+                                   style_props.dp,
+                                   style_props.prefix, style_props.suffix)
+        elif type == 'pct':
+            return self.render_pct(lang, value, style_props.dp)
+        else:
+            return self.render_str(lang, value)
 
     @api.model
     def render_num(self, lang, value,
@@ -164,6 +187,52 @@ class MisReportKpiStyle(models.Model):
         if value is None or value is AccountingNone:
             return u''
         return unicode(value)
+
+    @api.model
+    def compare_and_render(self, lang, style_props, type, compare_method,
+                           value, base_value,
+                           average_value=1, average_base_value=1):
+        delta = AccountingNone
+        style_r = style_props.copy()
+        if value is None:
+            value = AccountingNone
+        if base_value is None:
+            base_value = AccountingNone
+        if type == TYPE_PCT:
+            delta = value - base_value
+            if delta and round(delta, (style_props.dp or 0) + 2) != 0:
+                style_r.update(dict(
+                    divider=0.01, prefix='', suffix=_('pp')))
+            else:
+                delta = AccountingNone
+        elif type == TYPE_NUM:
+            if value and average_value:
+                value = value / float(average_value)
+            if base_value and average_base_value:
+                base_value = base_value / float(average_base_value)
+            if compare_method == CMP_DIFF:
+                delta = value - base_value
+                if delta and round(delta, style_props.dp or 0) != 0:
+                    pass
+                else:
+                    delta = AccountingNone
+            elif compare_method == CMP_PCT:
+                if base_value and round(base_value, style_props.dp or 0) != 0:
+                    delta = (value - base_value) / abs(base_value)
+                    if delta and round(delta, 1) != 0:
+                        style_r.update(dict(
+                            divider=0.01, dp=1, prefix='', suffix='%'))
+                    else:
+                        delta = AccountingNone
+        if delta is not AccountingNone:
+            delta_r = self.render_num(
+                lang, delta,
+                style_r.divider, style_r.dp,
+                style_r.prefix, style_r.suffix,
+                sign='+')
+            return delta, delta_r, style_r
+        else:
+            return AccountingNone, '', style_r
 
     @api.model
     def to_xlsx_style(self, props):
