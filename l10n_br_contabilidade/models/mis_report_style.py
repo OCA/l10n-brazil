@@ -90,10 +90,12 @@ class MisReportKpiStyle(models.Model):
     color = fields.Char(
         string='Text color',
         help='Text color in valid RGB code (from #000000 to #FFFFFF)',
+        default='#000000',
     )
     background_color_inherit = fields.Boolean(default=True)
     background_color = fields.Char(
-        help='Background color in valid RGB code (from #000000 to #FFFFFF)'
+        help='Background color in valid RGB code (from #000000 to #FFFFFF)',
+        default='#FFFFFF',
     )
     # font
     font_style_inherit = fields.Boolean(default=True)
