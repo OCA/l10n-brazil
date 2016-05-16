@@ -9,3 +9,7 @@ class DataError(Exception):
     def __init__(self, name, msg):
         self.name = name
         self.msg = msg
+
+
+class NameDataError(DataError):
+    pass
