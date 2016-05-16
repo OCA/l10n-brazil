@@ -7,6 +7,7 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 
 from .accounting_none import AccountingNone
+from .data_error import DataError
 
 
 class PropertyDict(dict):
@@ -196,6 +197,8 @@ class MisReportKpiStyle(models.Model):
                            average_value=1, average_base_value=1):
         delta = AccountingNone
         style_r = style_props.copy()
+        if isinstance(value, DataError) or isinstance(base_value, DataError):
+            return AccountingNone, '', style_r
         if value is None:
             value = AccountingNone
         if base_value is None:
