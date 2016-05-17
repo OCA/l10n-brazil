@@ -15,7 +15,7 @@ class PropertyDict(dict):
     def __getattr__(self, name):
         return self.get(name)
 
-    def copy(self):  # pylint: disable=copy-wo-api-one
+    def copy(self):  # pylint: disable=copy-wo-api-one,method-required-super
         return PropertyDict(self)
 
 
