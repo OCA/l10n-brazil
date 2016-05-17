@@ -48,60 +48,63 @@ class StockReturnPicking(models.TransientModel):
 
             result = super(StockReturnPicking, self).create_returns()
 
-            result_domain = safe_eval(result['domain'])
-            picking_ids = result_domain and result_domain[0] and \
-                result_domain[0][2]
+            if self.invoice_state == '2binvoiced':
 
-            for picking in picking_obj.browse(picking_ids):
+                result_domain = safe_eval(result['domain'])
+                picking_ids = result_domain and result_domain[0] and \
+                    result_domain[0][2]
 
-                fiscal_category_id = (send_picking.fiscal_category_id.
-                                      refund_fiscal_category_id.id)
+                for picking in picking_obj.browse(picking_ids):
 
-                if not fiscal_category_id:
-                    raise UserError(
-                        _('Error!'),
-                        _('This Fiscal Operation does not has Fiscal Operation'
-                          'for Returns!'))
+                    fiscal_category_id = (send_picking.fiscal_category_id.
+                                          refund_fiscal_category_id.id)
 
-                values = {
-                    'fiscal_category_id': fiscal_category_id,
-                    'fiscal_position': False}
+                    if not fiscal_category_id:
+                        raise UserError(
+                            _('Error!'),
+                            _('This Fiscal Operation does not has Fiscal'
+                              ' Operation for Returns!'))
 
-                partner_invoice_id = self.pool.get('res.partner').address_get(
-                    self._cr, self._uid, [picking.partner_id.id],
-                    ['invoice'])['invoice']
+                    values = {
+                        'fiscal_category_id': fiscal_category_id,
+                        'fiscal_position': False}
 
-                kwargs = {
-                    'partner_id': picking.partner_id.id,
-                    'partner_invoice_id': partner_invoice_id,
-                    'partner_shipping_id': picking.partner_id.id,
-                    'company_id': picking.company_id.id,
-                    'context': context,
-                    'fiscal_category_id': fiscal_category_id
-                }
+                    partner_invoice_id = self.pool.get(
+                        'res.partner').address_get(
+                            self._cr, self._uid, [picking.partner_id.id],
+                            ['invoice'])['invoice']
 
-                values.update(self._fiscal_position_map(
-                    {'value': {}}, **kwargs).get('value'))
-
-                picking.write(values)
-                for move in picking.move_lines:
-
-                    line_fiscal_category_id = (
-                        move.origin_returned_move_id.
-                        fiscal_category_id.refund_fiscal_category_id.id)
-                    kwargs.update(
-                        {'fiscal_category_id': line_fiscal_category_id})
-
-                    self._fiscal_position_map(
-                        {'value': {}}, **kwargs).get('value')
-
-                    line_values = {
-                        'invoice_state': self.invoice_state,
-                        'fiscal_category_id': line_fiscal_category_id,
+                    kwargs = {
+                        'partner_id': picking.partner_id.id,
+                        'partner_invoice_id': partner_invoice_id,
+                        'partner_shipping_id': picking.partner_id.id,
+                        'company_id': picking.company_id.id,
+                        'context': context,
+                        'fiscal_category_id': fiscal_category_id
                     }
-                    line_values.update(self._fiscal_position_map(
+
+                    values.update(self._fiscal_position_map(
                         {'value': {}}, **kwargs).get('value'))
-                    write_move = move_obj.browse(move.id)
-                    write_move.write(line_values)
+
+                    picking.write(values)
+                    for move in picking.move_lines:
+
+                        line_fiscal_category_id = (
+                            move.origin_returned_move_id.
+                            fiscal_category_id.refund_fiscal_category_id.id)
+                        kwargs.update(
+                            {'fiscal_category_id': line_fiscal_category_id})
+
+                        self._fiscal_position_map(
+                            {'value': {}}, **kwargs).get('value')
+
+                        line_values = {
+                            'invoice_state': self.invoice_state,
+                            'fiscal_category_id': line_fiscal_category_id,
+                        }
+                        line_values.update(self._fiscal_position_map(
+                            {'value': {}}, **kwargs).get('value'))
+                        write_move = move_obj.browse(move.id)
+                        write_move.write(line_values)
 
             return result
