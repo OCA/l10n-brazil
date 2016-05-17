@@ -10,3 +10,20 @@ img.desaturate {width:50%;height: 100%;margin: 0 25%;}
     overflow: hidden;
     position: relative;
 }
+
+.row {
+    margin: 3%;
+}
+
+.col-md-6 {
+    float:left;
+    width: 50%;
+}
+
+.clear {
+    clear: both;
+}
+
+.btn-busca-cpf-cnpj {
+    margin-top: 5%;
+}

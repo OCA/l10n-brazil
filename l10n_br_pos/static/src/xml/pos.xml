@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
+    <t t-extend="OrderWidget">
+        <t t-jquery="div.order-container > div.order-scroller:has(.order)" t-operation="prepend">
+            <div class='partner-cpf-cnpj' id="partner-cpf-cnpj">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <span class='label'>CPF/CNPJ:</span>
+                        </div>
+                        <div class="row">
+                            <input class='busca-cpf-cnpj' name="busca-cpf-cnpj" placeholder="Insira o CPF/CNPJ"></input>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="input-button number-char btn-busca-cpf-cnpj">Buscar</button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </t>
+    </t>
     <t t-extend="ClientLine">
         <t t-jquery="tr.client-line > td:first-child" t-operation="after">
             <td><t t-esc='partner.cnpj_cpf or ""'/></td>

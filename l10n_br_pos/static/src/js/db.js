@@ -52,6 +52,19 @@ function l10n_br_pos_db(instance, module) {
             str = '' + partner.id + ':' + str.replace(':','') + '\n';
             return str;
         },
+        get_partner_by_identification: function(partners, identification){
+            for (var i = 0; i < partners.length; i++){
+                var cnpj_cpf = partners[i].cnpj_cpf;
+                if (cnpj_cpf){
+                    cnpj_cpf = cnpj_cpf.replace(".", "").replace("/", "").replace("-","");
+                    cnpj_cpf = cnpj_cpf.replace(".","");
+                    if (cnpj_cpf == identification){
+                        return partners[i];
+                    }
+                }
+            }
+            return false;
+        },
         search_partner: function(query){
             try {
                 query = query.replace(/[\[\]\(\)\+\*\?\.\-\!\&\^\$\|\~\_\{\}\:\,\\\/]/g,'.');
