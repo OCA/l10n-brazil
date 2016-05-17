@@ -45,12 +45,12 @@ class MisReportKpiStyle(models.Model):
 
     _name = 'mis.report.style'
 
-    @api.one
     @api.constrains('indent_level')
     def check_positive_val(self):
-        if self.indent_level < 0:
-            raise UserError(_('Indent level must be greater than '
-                              'or equal to 0'))
+        for record in self:
+            if record.indent_level < 0:
+                raise UserError(_('Indent level must be greater than '
+                                  'or equal to 0'))
 
     _font_style_selection = [
         ('normal', 'Normal'),
