@@ -110,6 +110,18 @@ class AccountInvoice(models.Model):
         'l10n_br_account.document_event', 'document_event_ids',
         u'Eventos')
     fiscal_comment = fields.Text(u'Observação Fiscal')
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
+    legal_name = fields.Char(
+        string=u'Razão Social',
+        related='partner_id.legal_name',
+    )
+    ie = fields.Char(
+        string=u'Inscrição Estadual',
+        related='partner_id.inscr_est',
+    )
 
     _order = 'internal_number desc'
 
