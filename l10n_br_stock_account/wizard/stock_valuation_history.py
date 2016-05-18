@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.osv import osv
+from openerp import models, api, _
+from openerp.osv import osv, fields
 
 
 class WizardValuationHistory(models.TransientModel):
@@ -78,12 +78,20 @@ class WizardValuationHistory(models.TransientModel):
         }
 
 
-class stock_history(osv.osv):
+class StockHistory(osv.osv):
+
     _inherit = 'stock.history'
+
+    _columns = {
+        'fiscal_classification_id': fields.related(
+            'product_id', 'fiscal_classification_id', type='many2one',
+            relation='account.product.fiscal.classification', string='NCM'
+        )
+    }
 
     def read_group(self, cr, uid, domain, fields, groupby, offset=0,
                    limit=None, context=None, orderby=False, lazy=True):
-        res = super(stock_history, self).read_group(
+        res = super(StockHistory, self).read_group(
             cr, uid, domain, fields, groupby, offset=offset, limit=limit,
             context=context, orderby=orderby, lazy=lazy)
 
@@ -94,13 +102,3 @@ class stock_history(osv.osv):
                 fiscal_class = product.fiscal_classification_id.code
                 line.update({'fiscal_classification_id': fiscal_class})
         return res
-
-
-class StockHistory(models.Model):
-    _inherit = 'stock.history'
-
-    fiscal_classification_id = fields.Many2one(
-        comodel_name='account.product.fiscal.classification',
-        string='NCM',
-        related='product_id.fiscal_classification_id'
-    )
