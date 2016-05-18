@@ -91,7 +91,7 @@ class PurchaseOrder(models.Model):
 
         result = {'value': {'fiscal_position': False}}
 
-        if self.partner_id or not self.company_id:
+        if self.partner_id and self.company_id:
             kwargs = {
                 'company_id': self.company_id.id,
                 'partner_id': self.partner_id.id,
@@ -99,7 +99,8 @@ class PurchaseOrder(models.Model):
                 'fiscal_category_id': self.fiscal_category_id.id,
                 'partner_shipping_id': self.dest_address_id.id,
             }
-        result = self._fiscal_position_map(result, **kwargs)
+            result = self._fiscal_position_map(result, **kwargs)
+
         self.fiscal_position = result['value'].get('fiscal_position')
 
     # TODO migrate to new API
