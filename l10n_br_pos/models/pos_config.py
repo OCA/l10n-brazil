@@ -25,3 +25,8 @@ class PosConfig(models.Model):
         selection=SIMPLIFIED_INVOICE_TYPE,
         help=u'Tipo de documento emitido pelo PDV',
     )
+
+    save_identity_automatic = fields.Boolean(
+        string='Save new client identity automatic',
+        default=True
+    )

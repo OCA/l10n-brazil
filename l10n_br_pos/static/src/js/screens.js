@@ -30,34 +30,36 @@ function l10n_br_pos_screens(instance, module) {
         renderElement: function() {
             var self = this;
             this._super();
-//            console.log(self);
+
             var partner = null;
+            var isSave = null;
+
             this.el.querySelector('.btn-busca-cpf-cnpj').addEventListener('click',this.search_handler);
             $('.btn-busca-cpf-cnpj', this.el).click(function(e){
                 if (self.verificar_cpf_cnpj($('.busca-cpf-cnpj').val())){
                     partner = self.pos.db.get_partner_by_identification(self.pos.partners,$('.busca-cpf-cnpj').val());
+                    console.log(partner)
                     self.old_client = partner;
                     self.new_client = self.old_client;
                     if (partner){
                         self.pos.get('selectedOrder').set_client(self.new_client);
                     }else{
-                        self.pos_widget.screen_selector.show_popup('confirm',{
-                            message: _t('Usuario nao encontrado!'),
-                            comment: _t('Gostaria de cadastrar este CPF/CNPJ?'),
-                            confirm: function(){
-                                console.log($('.busca-cpf-cnpj').val());
-                                new_partner = {};
-                                new_partner["name"] = $('.busca-cpf-cnpj').val();
-                                if (new_partner["name"].length > 11){
-                                    new_partner["is_company"] = true;
-                                }
-                                new_partner["cnpj_cpf"] = $('.busca-cpf-cnpj').val();
-                                new_partner["property_account_receivable"] = 9;
-                                new_partner["property_account_payable"] = 17;
-    //                            console.log(new_partner);
-                                self.save_client_details(new_partner);
-                            },
-                        });
+                        if (self.pos.config.save_identity_automatic){
+                            new_partner = {};
+                            new_partner["name"] = $('.busca-cpf-cnpj').val();
+                            if (new_partner["name"].length > 11){
+                                new_partner["is_company"] = true;
+                            }
+                            new_partner["cnpj_cpf"] = $('.busca-cpf-cnpj').val();
+                            new_partner["property_account_receivable"] = 9;
+                            new_partner["property_account_payable"] = 17;
+                            isSave = self.save_client_details(new_partner);
+                            if (isSave){
+                                self.old_client = new_partner;
+                                self.new_client = self.old_client;
+                                self.pos.get('selectedOrder').set_client(self.new_client);
+                            }
+                        }
                     }
                 } else {
                     self.pos_widget.screen_selector.show_popup('error',{
@@ -77,16 +79,17 @@ function l10n_br_pos_screens(instance, module) {
             }
 
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
-                self.old_client = partner;
-                self.new_client = self.old_client;
-                self.pos.get('selectedOrder').set_client(self.new_client);
+                return true;
             },function(err,event){
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
                     'message':_t('Error: Could not Save Changes'),
                     'comment':_t('Your Internet connection is probably down.'),
                 });
+                return false;
             });
+
+
         },
         verificar_cpf_cnpj: function(documento){
             if (documento.length <= 11){

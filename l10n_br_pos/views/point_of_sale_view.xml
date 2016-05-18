@@ -68,6 +68,9 @@
             <field name="simplified_invoice_limit"/>
             <field name="simplified_invoice_type"/>
         </field>
+        <field name="iface_invoicing" position="after">
+            <field name="save_identity_automatic"/>
+        </field>
     </field>
 </record>
 
