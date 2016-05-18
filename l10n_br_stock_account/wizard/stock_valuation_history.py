@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.osv import osv
 
 
@@ -51,6 +51,25 @@ class WizardValuationHistory(models.TransientModel):
                                                       groupby=group_by,
                                                       context=ctx)
         return result
+
+    @api.multi
+    def open_report_xls(self):
+
+        data = self.read()[0]
+        ctx = self.env.context.copy()
+        ctx['history_date'] = data['date']
+        ctx['search_default_group_by_product'] = True
+        ctx['search_default_group_by_location'] = True
+
+        return {
+            'domain': "[('date', '<=', '" + data['date'] + "')]",
+            'name': _('Stock Value At Date'),
+            'type': 'ir.actions.report.xml',
+            'report_name': 'wizard.valuation.history',
+            'datas': data,
+            'context': ctx,
+            'nodestroy': True
+        }
 
 
 class stock_history(osv.osv):
