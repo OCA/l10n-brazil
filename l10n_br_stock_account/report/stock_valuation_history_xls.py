@@ -140,7 +140,8 @@ class StockHistoryXls(report_xls):
         wizard_obj = self.pool.get('wizard.valuation.history').browse(
             self.cr, self.uid, active_ids)
         data = wizard_obj.compute(
-            self.cr, self.uid, objects[0].id, date=wizard_obj.date)
+            self.cr, self.uid, objects[0].id, date=wizard_obj.date,
+            context=self.context)
         for line in data:
             c_specs = map(
                 lambda x: self.render(

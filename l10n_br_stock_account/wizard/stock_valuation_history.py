@@ -26,10 +26,14 @@ from openerp.osv import osv
 class WizardValuationHistory(models.TransientModel):
     _inherit = 'wizard.valuation.history'
 
-    @api.multi
-    def compute(self, cr, uid, ids, date):
-        ctx = dict(self._context)
-        ctx['history_date'] = date
+    '''TODO - We need to use the old API because the Context is not being
+     pass to the method read_group( ORM ), the reason seems because this
+      method still not migrated to new API.'''
+    @api.model
+    def compute(self, cr, uid, ids, date, context=None):
+
+        context['history_date'] = date
+
         fields = [
             'fiscal_classification_id',
             'product_id',
@@ -47,9 +51,11 @@ class WizardValuationHistory(models.TransientModel):
             'location_id',
             'fiscal_classification_id'
         ]
-        result = self.env['stock.history'].read_group(domain=[], fields=fields,
-                                                      groupby=group_by,
-                                                      context=ctx)
+
+        result = self.pool.get('stock.history').read_group(
+            cr, uid, domain=[], fields=fields, groupby=group_by,
+            context=context)
+
         return result
 
     @api.multi
