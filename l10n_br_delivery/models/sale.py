@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#                                                                             #
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
-#                                                                             #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
-#                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU Affero General Public License for more details.                         #
-#                                                                             #
-# You should have received a copy of the GNU Affero General Public License    #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
+#
+# Copyright (C) 2009  Renato Lima - Akretion
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
 import time
 
 from openerp import models, api, _
-from openerp.exceptions import except_orm
+from openerp.exceptions import Warning as UserError
 
 
 class SaleOrder(models.Model):
@@ -66,11 +66,11 @@ class SaleOrder(models.Model):
             carrier = carrier_obj.browse(order.carrier_id.id)
             grid_id = carrier.grid_get(contact_id=order.partner_shipping_id.id)
             if not grid_id:
-                raise except_orm(_('No Grid Available!'),
+                raise UserError(_('No Grid Available!'),
                                  _('No grid matching for this carrier!'))
 
             if order.state not in ('draft'):
-                raise except_orm(_('Order not in Draft State!'),
+                raise UserError(_('Order not in Draft State!'),
                                  _('The order state have to be draft \
                                    to add delivery lines.'))
             grid = self.env['delivery.grid'].browse(grid_id)
