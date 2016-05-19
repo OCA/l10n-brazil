@@ -37,28 +37,10 @@ class StockPicking(models.Model):
         # TODO: Calcular o valor correto em caso de alteração da quantidade
         return False
 
-    def _prepare_invoice_line(self, cr, uid, group, picking, move_line,
-                              invoice_id, invoice_vals, context=None):
-        result = super(StockPicking, self)._prepare_invoice_line(
-            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
-            context)
-        # TODO: Calcular o valor correto em caso de alteração da quantidade
-        if move_line.sale_line_id:
-            result['insurance_value'] = move_line.sale_line_id.insurance_value
-            result['other_costs_value'] = move_line.sale_line_id.other_costs_value
-            result['freight_value'] = move_line.sale_line_id.freight_value
-        return result
+    @api.model
+    def _create_invoice_from_picking(self, picking, vals):
 
-    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move,
-                          context=None):
-
-        inv_vals = super(StockPicking, self)._get_invoice_vals(
-            cr, uid, key, inv_type, journal_id, move, context=context)
-
-        picking = move.picking_id
-
-        values = {
-            'partner_shipping_id': picking.partner_id.id,
+        vals.update({
             'carrier_id': picking.carrier_id and picking.carrier_id.id,
             'vehicle_id': picking.vehicle_id and picking.vehicle_id.id,
             'weight': picking.weight,
@@ -66,10 +48,9 @@ class StockPicking(models.Model):
             'number_of_packages': picking.number_of_packages,
             'incoterm': picking.sale_id.incoterm.id
             if picking.sale_id and picking.sale_id.incoterm.id else False,
-        }
-
-        inv_vals.update(values)
-        return inv_vals
+        })
+        return super(StockPicking, self)._create_invoice_from_picking(
+            picking, vals)
 
 
 class StockMove(models.Model):

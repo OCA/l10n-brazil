@@ -67,12 +67,12 @@ class SaleOrder(models.Model):
             grid_id = carrier.grid_get(contact_id=order.partner_shipping_id.id)
             if not grid_id:
                 raise UserError(_('No Grid Available!'),
-                                 _('No grid matching for this carrier!'))
+                                _('No grid matching for this carrier!'))
 
             if order.state not in ('draft'):
                 raise UserError(_('Order not in Draft State!'),
-                                 _('The order state have to be draft \
-                                   to add delivery lines.'))
+                                _('The order state have to be draft \
+                                  to add delivery lines.'))
             grid = self.env['delivery.grid'].browse(grid_id)
 
             order.amount_freight = grid.get_price(

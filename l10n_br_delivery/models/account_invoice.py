@@ -35,8 +35,8 @@ class AccountInvoice(models.Model):
         'stock.incoterms', 'Tipo do Frete', readonly=True,
         states={'draft': [('readonly', False)]},
         help="Incoterm which stands for 'International Commercial terms' "
-            "implies its a series of sales terms which are used in the "
-            "commercial transaction.")    
+             "implies its a series of sales terms which are used in the "
+             "commercial transaction.")
 
     @api.onchange('carrier_id')
     def onchange_carrier_id(self):
