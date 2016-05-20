@@ -237,6 +237,7 @@ class AccountInvoice(models.Model):
                     'l10n_br_account.invoice.invalid.number'].search(
                     [('number_start', '<=', sequence.number_next),
                      ('number_end', '>=', sequence.number_next),
+                     ('document_serie_id', '=', invoice.document_serie_id.id),
                      ('state', '=', 'done')])
 
                 if invalid_number:
