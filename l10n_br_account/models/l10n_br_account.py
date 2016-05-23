@@ -402,9 +402,11 @@ class L10nBrAccountPartnerFiscalType(models.Model):
     @api.one
     @api.constrains('default')
     def _check_default(self):
-        if self.default:
-            if len(self.search([('default', '=', 'True')])) > 1:
-                raise UserError(_(u'Mantenha apenas um tipo fiscal padrão!'))
+        if len(self.search([
+            ('default', '=', 'True'),
+            ('is_company', '=', 'True')
+        ])) > 1:
+            raise UserError(_(u'Mantenha apenas um tipo fiscal padrão!'))
         return True
 
 
