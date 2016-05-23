@@ -218,5 +218,87 @@
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
 		</record>
 
+		<!-- L10n_br Demo Data -->
+
+		<!-- Intel Brasil -->
+		<record id="l10n_br_base.res_partner_intel" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- AMD Brasil -->
+		<record id="l10n_br_base.res_partner_amd" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- LG Brasil -->
+		<record id="l10n_br_base.res_partner_lg" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Samsung Recife Brasil -->
+		<record id="l10n_br_base.res_partner_samsungpe" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Positivo Brasil -->
+		<record id="l10n_br_base.res_partner_positivo" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- DELL Brasil -->
+		<record id="l10n_br_base.res_partner_dell" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- INFO BAHIA Brasil -->
+		<record id="l10n_br_base.res_partner_infobahia" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- INFO MANAUS Brasil -->
+		<record id="l10n_br_base.res_partner_infomanaus" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Cliente 1 SP Contribuinte -->
+		<record id="l10n_br_base.res_partner_cliente1_sp" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Cliente 2 SP Simples Nacional -->
+		<record id="l10n_br_base.res_partner_cliente2_sp" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
+		<!-- Cliente 3 AM Contribuinte -->
+		<record id="l10n_br_base.res_partner_cliente3_am" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Cliente 4 AM Simples Nacional -->
+		<record id="l10n_br_base.res_partner_cliente4_am" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
+		<!-- Cliente 5 PE Contribuinte -->
+		<record id="l10n_br_base.res_partner_cliente5_pe" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1" />
+		</record>
+
+		<!-- Cliente 6 PE Simples Nacional -->
+		<record id="l10n_br_base.res_partner_cliente6_pe" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
+		<!-- Cliente 7 RS Contribuinte -->
+		<record id="l10n_br_base.res_partner_cliente7_rs" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1"/>
+		</record>
+
+		<!-- Cliente 8 RS Simples Nacional -->
+		<record id="l10n_br_base.res_partner_cliente8_rs" model="res.partner">
+			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
+		</record>
+
 	</data>
 </openerp>
