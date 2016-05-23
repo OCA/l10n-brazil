@@ -324,11 +324,7 @@ class ResPartner(models.Model):
         domain="[('is_company', '=', is_company)]",
         default=_default_partner_fiscal_type_id)
 
-    @api.multi
-    def onchange_mask_cnpj_cpf(self, is_company, cnpj_cpf):
-        result = super(ResPartner, self).onchange_mask_cnpj_cpf(
-            is_company, cnpj_cpf)
-        ft_id = self._default_partner_fiscal_type_id(is_company)
-        if ft_id:
-            result['value']['partner_fiscal_type_id'] = ft_id
-        return result
+    @api.onchange('is_company')
+    def _onchange_is_company(self):
+        self.partner_fiscal_type_id = \
+            self._default_partner_fiscal_type_id(self.is_company)
