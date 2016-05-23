@@ -71,11 +71,6 @@ class StockHistoryXls(report_xls):
                           _render("line.get('product_id', False) and "
                                   "line.get('product_id')[1] or ''")],
                 'totals': [1, 0, 'text', None]},
-            # 'product_id_count': {
-            #     'header': [1, 20, 'text', _render("('Contagem')")],
-            #     'lines': [1, 0, 'text',
-            #  _render("str(line.get('product_id_count', "") or '')")],
-            #     'totals': [1, 0, 'text', None]},
             'price_unit_on_quant': {
                 'header': [1, 25, 'text',
                            _render("('Preço de custo no periodo')")],
@@ -148,7 +143,6 @@ class StockHistoryXls(report_xls):
                     x, self.col_specs_template, 'lines'), [
                     'product_id',
                     'fiscal_classification_id',
-                    # 'product_id_count',
                     'quantity',
                     'price_unit_on_quant',
                     'inventory_value'
