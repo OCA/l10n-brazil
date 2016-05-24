@@ -74,8 +74,7 @@ class AccountInvoice(models.Model):
         self.amount_tax = sum(tax.amount
                               for tax in self.tax_line
                               if not tax.tax_code_id.tax_discount)
-        self.amount_total = self.amount_tax + self.amount_untaxed + \
-            self.amount_costs + self.amount_insurance + self.amount_freight
+        self.amount_total = self.amount_tax + self.amount_untaxed
 
         for line in self.invoice_line:
             if line.icms_cst_id.code not in (
