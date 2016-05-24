@@ -399,15 +399,17 @@ class L10nBrAccountPartnerFiscalType(models.Model):
 
     ipi = fields.Boolean('Recupera IPI')
 
-    @api.one
-    @api.constrains('default')
+    @api.constrains('default', 'is_company')
     def _check_default(self):
-        if len(self.search([
-            ('default', '=', 'True'),
-            ('is_company', '=', 'True')
-        ])) > 1:
-            raise UserError(_(u'Mantenha apenas um tipo fiscal padrão!'))
-        return True
+        for fiscal_type in self:
+            if len(fiscal_type.search([
+                ('default', '=', 'True'),
+                ('is_company', '=', fiscal_type.is_company)
+            ])) > 1:
+                raise UserError(
+                    _(u'Mantenha apenas um tipo fiscal padrão'
+                      u' para Pessoa Fisíca ou para Pessoa Jurídica!'))
+            return True
 
 
 class L10nBrAccountPartnerSpecialFiscalType(models.Model):
