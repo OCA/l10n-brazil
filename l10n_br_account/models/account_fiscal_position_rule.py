@@ -193,13 +193,9 @@ class WizardAccountFiscalPositionRule(models.TransientModel):
             partner_ft_id = fpr_template.partner_fiscal_type_id.id or False
             fiscal_category_id = fpr_template.fiscal_category_id.id or False
 
-            fiscal_position_id = False
-            fp_id = self.env['account.fiscal.position'].search([
+            fiscal_position_id = self.env['account.fiscal.position'].search([
                 ('name', '=', fpr_template.fiscal_position_id.name),
-                ('company_id', '=', company_id)])
-
-            if fp_id:
-                fiscal_position_id = fp_id[0]
+                ('company_id', '=', company_id)], limit=1)
 
             fprt_id = obj_fpr.search([
                 ('name', '=', fpr_template.name),
@@ -213,10 +209,10 @@ class WizardAccountFiscalPositionRule(models.TransientModel):
                 ('use_invoice', '=', fpr_template.use_invoice),
                 ('use_purchase', '=', fpr_template.use_purchase),
                 ('use_picking', '=', fpr_template.use_picking),
-                ('fiscal_position_id', '=', fiscal_position_id)])
+                ('fiscal_position_id', '=', fiscal_position_id.id)])
 
             if fprt_id:
-                obj_fpr.write(fprt_id, {
+                obj_fpr.write({
                     'partner_fiscal_type_id': partner_ft_id,
                     'fiscal_category_id': fiscal_category_id,
                     'fiscal_type': fpr_template.fiscal_type,
