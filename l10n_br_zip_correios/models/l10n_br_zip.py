@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, api
 from openerp.addons.l10n_br_zip_correios.models.webservice_client\
     import WebServiceClient
 
@@ -26,6 +26,7 @@ class L10nBrZip(models.Model, WebServiceClient):
 
     _inherit = 'l10n_br.zip'
 
+    @api.multi
     def zip_search_multi(self, country_id=False,
                          state_id=False, l10n_br_city_id=False,
                          district=False, street=False, zip_code=False):
