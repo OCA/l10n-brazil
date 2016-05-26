@@ -122,6 +122,12 @@ class AccountInvoice(models.Model):
         string=u'Inscrição Estadual',
         related='partner_id.inscr_est',
     )
+    revenue_expense = fields.Boolean(
+        related='journal_id.revenue_expense',
+        readonly=True,
+        store=True,
+        string='Gera Financeiro'
+    )
 
     _order = 'internal_number desc'
 
