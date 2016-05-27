@@ -28,9 +28,9 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 def mount_path_nfe(company, document='nfe'):
     db_name = company._cr.dbname
     cnpj = punctuation_rm(company.cnpj_cpf)
-    data_dir = config['data_dir']
 
-    nfe_path = '/'.join([data_dir, document, db_name, cnpj])
+    filestore = config.filestore(db_name)
+    nfe_path = '/'.join([filestore, 'PySPED', document, cnpj])
     if not os.path.exists(nfe_path):
         try:
             os.makedirs(nfe_path)
