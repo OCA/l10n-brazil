@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Brazilian Localization CRM ZIP by Correios to Odoo
-#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
-#    @author Michell Stuttgart <michell.stuttgart@kmee.com.br>
+#   Copyright (c) 2016 Kmee - www.kmee.com.br
+#   @authors Daniel Sadamo <daniel.sadamo@kmee.com.br>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,4 +19,4 @@
 #
 ##############################################################################
 
-from . import crm_lead
+from . import stock_valuation_history_xls
