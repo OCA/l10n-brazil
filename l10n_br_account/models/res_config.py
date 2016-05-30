@@ -13,3 +13,4 @@ class ResConfig(models.Model):
         string='IPBT Token',
         related='company_id.ipbt_token'
     )
+    number_days_update = fields.Integer('Quantidade de dias para Atualizar')
