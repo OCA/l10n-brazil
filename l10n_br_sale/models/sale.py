@@ -66,7 +66,7 @@ class SaleOrder(models.Model):
         price = line._calc_line_base_price()
         qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
-                price, qty, line.product_id.id,
+                price, qty, line.product_id,
                 line.order_id.partner_invoice_id.id,
                 fiscal_position=line.fiscal_position)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])

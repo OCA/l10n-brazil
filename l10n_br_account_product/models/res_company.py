@@ -46,7 +46,6 @@ class ResCompany(models.Model):
     nfe_version = fields.Selection(
         [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')], u'Versão NFe',
         required=True, default='3.10')
-    nfe_root_folder = fields.Char('Pasta Raiz', size=254)
     nfe_import_folder = fields.Char('Pasta de Importação', size=254)
     nfe_export_folder = fields.Char('Pasta de Exportação', size=254)
     nfe_backup_folder = fields.Char('Pasta de Backup', size=254)
@@ -94,12 +93,17 @@ class ResCompany(models.Model):
     other_costs_tax_id = fields.Many2one(
         'account.tax', string='Other Costs Sale Tax',
         domain=[('domain', '=', 'other_costs')])
+    accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.product'
 
     company_id = fields.Many2one('res.company', 'Empresa')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq',

@@ -1,0 +1,13 @@
+id,code,name,active
+icms_relieaf_01,1,Táxi,True
+icms_relieaf_02,2,Deficiente Físico,False
+icms_relieaf_03,3,Produtor Agropecuário,True
+icms_relieaf_04,4,Frotista/Locadora,True
+icms_relieaf_05,5,Diplimático/Consular,True
+icms_relieaf_06,6,Utilitários e Motocicletas da Amazônia Ocidental e Áreas de Livre Comércio ( Resolução 714/88 e 790/94 – CONTRAN e suas alterações),True
+icms_relieaf_07,7,SUFRAMA,True
+icms_relieaf_08,8,Venda a Órgão Público,True
+icms_relieaf_09,9,Outros (NT 2011/004),True
+icms_relieaf_10,10,Deficiente Condutor (Convênio ICMS 32/12),True
+icms_relieaf_11,11,Deficiente Não Condutor (Convênio ICMS 32/12),True
+icms_relieaf_16,16,Olimpiadas Rio 2016,True

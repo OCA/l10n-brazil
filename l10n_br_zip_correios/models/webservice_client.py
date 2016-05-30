@@ -31,12 +31,12 @@ _logger = logging.getLogger(__name__)
 
 class WebServiceClient(object):
 
-    def get_address(self):
+    def get_address(self, zip_code):
 
-        if not self.zip:
+        if not zip_code:
             return
 
-        zip_str = self.zip.replace('-', '')
+        zip_str = zip_code.replace('-', '')
 
         if len(zip_str) == 8:
             if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
