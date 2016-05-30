@@ -32,9 +32,9 @@ class PurchaseOrder(models.Model):
                 product=line.product_id,
                 partner=self.partner_id,
                 fiscal_position= self.fiscal_position,
-                insurance_value= self.insurance_value,
-                freight_value= self.freight_value,
-                other_costs_value= self.other_costs_value,
+                insurance_value= self.amount_insurance,
+                freight_value= self.amount_freight,
+                other_costs_value= self.amount_costs,
             )
 
             amount_untaxed += line.price_subtotal
