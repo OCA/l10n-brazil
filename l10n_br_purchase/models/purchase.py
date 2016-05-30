@@ -89,6 +89,18 @@ class PurchaseOrder(models.Model):
     amount_total = fields.Float(
         compute='_compute_amount', digits=dp.get_precision('Purchase Price'),
         string='Total', store=True, help="The total amount")
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
+    legal_name = fields.Char(
+        string=u'Razão Social',
+        related='partner_id.legal_name',
+    )
+    ie = fields.Char(
+        string=u'Inscrição Estadual',
+        related='partner_id.inscr_est',
+    )
 
     @api.one
     def _set_amount_freight(self):
