@@ -17,6 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
+from . import res_partner
+from . import res_company
 from . import l10n_br_account_product
 from . import res_company
 from . import l10n_br_account
@@ -24,4 +26,5 @@ from . import account_product_fiscal_classification
 from . import account_invoice
 from . import account
 from . import product
-from . import res_partner
+from . import res_country
+from . import account_fiscal_position_rule
