@@ -120,7 +120,7 @@ class AccountFiscalPositionRule(models.Model):
             ('company_id', '=', company.id), use_domain,
             ('fiscal_type', '=', company.fiscal_type),
             ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
-            '|', ('partner_fiscal_type_id', 'in', partner_fiscal_type_id),
+            '|', ('partner_fiscal_type_id', '=', partner_fiscal_type_id),
             ('partner_fiscal_type_id', '=', False),
             '|', ('from_country', '=', from_country),
             ('from_country', '=', False),
