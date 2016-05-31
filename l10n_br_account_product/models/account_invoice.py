@@ -70,7 +70,7 @@ class AccountInvoice(models.Model):
         self.amount_gross = sum(line.price_gross for line in self.invoice_line)
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
-            line.price_total for line in self.invoice_line)
+            line.price_subtotal for line in self.invoice_line)
         self.amount_tax = sum(tax.amount
                               for tax in self.tax_line
                               if not tax.tax_code_id.tax_discount)
@@ -550,14 +550,14 @@ class AccountInvoiceLine(models.Model):
             insurance_value=self.insurance_value,
             freight_value=self.freight_value,
             other_costs_value=self.other_costs_value)
+        self.price_tax_discount = 0.0
         self.price_subtotal = 0.0
-        self.price_total = 0.0
         self.price_gross = 0.0
         self.discount_value = 0.0
         if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(
+            self.price_tax_discount = self.invoice_id.currency_id.round(
                 taxes['total'] - taxes['total_tax_discount'])
-            self.price_total = self.invoice_id.currency_id.round(
+            self.price_subtotal = self.invoice_id.currency_id.round(
                 taxes['total'])
             self.price_gross = self.invoice_id.currency_id.round(
                 self.price_unit * self.quantity)
@@ -588,11 +588,8 @@ class AccountInvoiceLine(models.Model):
     price_gross = fields.Float(
         string='Vlr. Bruto', store=True, compute='_compute_price',
         digits=dp.get_precision('Account'))
-    price_subtotal = fields.Float(
-        string='Subtotal', store=True, compute='_compute_price',
-        digits=dp.get_precision('Account'))
-    price_total = fields.Float(
-        string='Total', store=True, compute='_compute_price',
+    price_tax_discount = fields.Float(
+        string='Vlr. s/ Impostos', store=True, compute='_compute_price',
         digits=dp.get_precision('Account'))
     total_taxes = fields.Float(
         string='Total de Tributos', requeried=True, default=0.00,
