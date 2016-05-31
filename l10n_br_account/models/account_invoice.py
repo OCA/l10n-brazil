@@ -336,13 +336,13 @@ class AccountInvoiceLine(models.Model):
             price, self.quantity, product=self.product_id,
             partner=self.invoice_id.partner_id,
             fiscal_position=self.fiscal_position)
-        self.price_subtotal = taxes['total'] - taxes['total_tax_discount']
-        self.price_total = taxes['total']
+        self.price_subtotal = taxes['total']
+        self.price_tax_discount = taxes['total'] - taxes['total_tax_discount']
         if self.invoice_id:
             self.price_subtotal = self.invoice_id.currency_id.round(
                 self.price_subtotal)
-            self.price_total = self.invoice_id.currency_id.round(
-                self.price_total)
+            self.price_tax_discount = self.invoice_id.currency_id.round(
+                self.price_tax_discount)
 
     invoice_line_tax_id = fields.Many2many(
         'account.tax', 'account_invoice_line_tax', 'invoice_line_id',
@@ -352,8 +352,8 @@ class AccountInvoiceLine(models.Model):
     fiscal_position = fields.Many2one(
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]")
-    price_total = fields.Float(
-        string='Amount', store=True, digits=dp.get_precision('Account'),
+    price_tax_discount = fields.Float(
+        string='Price Tax discount', store=True, digits=dp.get_precision('Account'),
         readonly=True, compute='_compute_price')
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
@@ -388,3 +388,14 @@ class AccountInvoiceLine(models.Model):
             result['arch'] = etree.tostring(eview)
 
         return result
+
+    @api.model
+    def move_line_get_item(self, line):
+        """
+            Overrrite core to fix invoice total account.move
+        :param line:
+        :return:
+        """
+        res = super(AccountInvoiceLine, self).move_line_get_item(line)
+        res['price'] = line.price_tax_discount
+        return res
