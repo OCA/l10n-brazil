@@ -51,7 +51,7 @@ function l10n_br_pos_models(instance, module) {
                 fields: ['name', 'state_id'],
                 loaded: function(self,cities){
                     self.company.city = null;
-                    self.cities = cities;
+                    self.cities = [];
 //                    for (var i = 0; i < cities.length; i++) {
 //                        if(cities[i].state_id[0] == 79){
 //                            self.cities.push(cities[i]);

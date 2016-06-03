@@ -30,6 +30,7 @@ if (typeof jQuery === 'undefined') { throw new Error('l10n_br POS Simplified inv
         l10n_br_pos_db(instance, module);
         l10n_br_pos_models(instance, module);
         l10n_br_pos_screens(instance, module);
+        l10n_br_pos_devices(instance, module);
 
         var _simplified_limit_get = function() {
             var limit = 3000
