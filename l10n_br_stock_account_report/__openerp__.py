@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# Copyright (C) 2009  Renato Lima - Akretion
+# Copyright (C) 2014  Renato Lima - Akretion
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -17,5 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from . import stock_invoice_onshipping
-from . import stock_return_picking
+{
+    'name': 'Brazilian Localization WMS Accounting Report',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, Odoo Community Association (OCA)',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0.1.0.1',
+    'depends': [
+        'l10n_br_stock_account',
+        'report_xls',
+    ],
+    'data': [
+        'wizard/stock_valuation_history_view.xml',
+    ],
+    'demo': [],
+    'test': [],
+    'installable': True,
+    'auto_install': True,
+}

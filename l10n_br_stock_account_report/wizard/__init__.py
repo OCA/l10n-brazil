@@ -17,5 +17,5 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from . import stock_invoice_onshipping
-from . import stock_return_picking
+
+from . import stock_valuation_history
