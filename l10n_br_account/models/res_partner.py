@@ -325,6 +325,12 @@ class ResPartner(models.Model):
         domain="[('is_company', '=', is_company)]",
         default=_default_partner_fiscal_type_id)
 
+    partner_special_fiscal_type_id = fields.Many2many(
+        comodel_name='l10n_br_account.partner.special.fiscal.type',
+        relation='res_partner_l10n_br_special_type',
+        string='Regime especial'
+    )
+
     @api.onchange('is_company')
     def _onchange_is_company(self):
         self.partner_fiscal_type_id = \

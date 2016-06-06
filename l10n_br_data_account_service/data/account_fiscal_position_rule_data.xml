@@ -11,7 +11,9 @@
 			<field name="from_state" ref="l10n_br_base.br_sp"/>
 			<field name="fiscal_position_id" ref="fp_00255d8d158663217906abb312aa0759_internal_template"/>
 			<field name="fiscal_category_id" ref="l10n_br_account_service.fc_00255d8d158663217906abb312aa0759"/>
-			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1"/>
+			<field name="partner_fiscal_type_id"
+				    eval="[(6, 0, [ref('l10n_br_account.partner_fiscal_type_1')])]"
+				   />
 			<field eval="1" name="use_sale"/>
 			<field eval="1" name="use_invoice"/>
 			<field eval="0" name="use_purchase"/>
