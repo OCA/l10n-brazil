@@ -29,7 +29,6 @@
         'l10n_br_account_product',
         'l10n_br_stock',
         'account_fiscal_position_rule_stock',
-        'report_xls',
         'stock_account',
     ],
     'data': [
@@ -37,7 +36,6 @@
         'stock_account_view.xml',
         'res_company_view.xml',
         'wizard/stock_invoice_onshipping_view.xml',
-        'wizard/stock_valuation_history_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
