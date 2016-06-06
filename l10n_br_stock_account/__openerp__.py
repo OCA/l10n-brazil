@@ -28,12 +28,10 @@
         'l10n_br_account_product',
         'l10n_br_stock',
         'account_fiscal_position_rule_stock',
-        'report_xls',
         'stock_account',
     ],
     'data': [
         'wizard/stock_invoice_onshipping_view.xml',
-        'wizard/stock_valuation_history_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
