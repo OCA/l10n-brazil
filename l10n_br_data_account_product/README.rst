@@ -2,13 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==========================================
-Módulo Data Account Product
-==========================================
+=========================================
+Módulo Informações Contabéis para Produto
+=========================================
 
-This module was written to insert data into l10n_br_account_product like:
- * Fiscal Classification (NCM)
- *
+This module was written to extend the functionality of ... to support ...
+and allow you to ...
 
 Installation
 ============
@@ -61,7 +60,8 @@ Credits
 Contributors
 ------------
 
-* Renato Lima <renato.lima@akretion.com>
+* Renato Lima <renato.lima@akretion.com.br>
+* Raphaël Valyi <raphael.valyi@akretion.com.br>
 * Luis Felipe Miléo <mileo@kmee.com.br>
 
 Maintainer
