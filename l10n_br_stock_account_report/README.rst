@@ -59,7 +59,7 @@ Credits
 Contributors
 ------------
 
-* Renato Lima <renato.lima@akretion.com>
+* Daniel Sadamo <daniel.sadamo@kmee.com.br>
 
 Maintainer
 ----------
