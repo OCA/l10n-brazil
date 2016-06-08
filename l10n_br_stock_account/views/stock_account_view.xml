@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
 
-		<record id="l10n_br_stock_account_stock_picking_tree" model="ir.ui.view">
-			<field name="model">stock.picking</field>
-			<field name="inherit_id" ref="stock.vpicktree"/>
-			<field name="arch" type="xml">
-				<field name="name" position="after">
-					<field name="invoice_reserved_number"/>
-				</field>
-			</field>
-		</record>
+	<data>
 
 		<record id="l10n_br_view_picking_form1" model="ir.ui.view">
 			<field name="name">l10n_br_stock.picking.form1</field>
