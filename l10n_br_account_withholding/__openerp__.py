@@ -36,10 +36,5 @@
         'l10n_br_account_view.xml',
         'res_company_view.xml',
     ],
-    'demo': [
-    ],
-    'test': [],
-    'installable': True,
-    'auto_install': True,
+    'installable': True
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
