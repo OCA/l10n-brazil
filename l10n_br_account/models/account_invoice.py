@@ -43,6 +43,7 @@ JOURNAL_TYPE = {
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+    _order = "internal_number desc, id desc"
 
     @api.one
     @api.depends(
