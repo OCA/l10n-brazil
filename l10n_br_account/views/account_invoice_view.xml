@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+
 		<record id="view_l10n_br_account_partner_filter" model="ir.ui.view">
 			<field name="name">l10n_br_account.partner.filter</field>
 			<field name="model">account.invoice</field>
@@ -14,6 +15,22 @@
 				</field>
 			</field>
 		</record>
+
+		<record model="ir.ui.view" id="view_l10n_br_account_account_invoice_tree">
+			<field name="name">l10n_br_account.account.invoice.tree</field>
+			<field name="model">account.invoice</field>
+			<field name="priority">32</field>
+			<field name="inherit_id" ref="account.invoice_tree"/>
+			<field name="arch" type="xml">
+				<field name="number" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="number" position="after">
+					<field name="internal_number" />
+				</field>
+			</field>
+		</record>
+
 		<!-- Customer Invoice views -->
 		<record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
 			<field name="name">l10n_br_account.invoice.form</field>
