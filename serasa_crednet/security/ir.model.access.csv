@@ -1,0 +1,11 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_consulta_serasa_register","access_consulta_serasa_register","model_consulta_serasa","group_register_serasa",1,1,1,1
+"access_serasa_protesto_register","access_serasa_protesto_register","model_serasa_protesto","group_register_serasa",1,1,1,1
+"access_serasa_pefin_register","access_serasa_pefin_register","model_serasa_pefin","group_register_serasa",1,1,1,1
+"access_serasa_refin_register","access_serasa_refin_register","model_serasa_refin","group_register_serasa",1,1,1,1
+"access_serasa_cheque_register","access_serasa_cheque_register","model_serasa_cheque","group_register_serasa",1,1,1,1
+"access_consulta_serasa_consult","access_consulta_serasa_consult","model_consulta_serasa","group_consult_serasa",1,0,0,0
+"access_serasa_protesto_consult","access_serasa_protesto_consult","model_serasa_protesto","group_consult_serasa",1,0,0,0
+"access_serasa_pefin_consult","access_serasa_pefin_consult","model_serasa_pefin","group_consult_serasa",1,0,0,0
+"access_serasa_refin_consult","access_serasa_refin_consult","model_serasa_refin","group_consult_serasa",1,0,0,0
+"access_serasa_cheque_consult","access_serasa_cheque_consult","model_serasa_cheque","group_consult_serasa",1,0,0,0

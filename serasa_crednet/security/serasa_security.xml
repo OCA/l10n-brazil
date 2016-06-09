@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+    <record id="group_consult_serasa" model="res.groups">
+        <field name="name">Consultar Serasa</field>
+    </record>
+
+    <record id="group_register_serasa" model="res.groups">
+        <field name="name">Gravar dados do Serasa</field>
+    </record>
+
+</data>
+</openerp>

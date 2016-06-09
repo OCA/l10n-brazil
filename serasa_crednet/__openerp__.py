@@ -26,7 +26,11 @@
     'category': 'Accounting & Finace',
     'sequence': 32,
     'depends': ['l10n_br_base', 'account'],
-    'data': ['view/serasa_view.xml'],
+    'data': [
+        'view/serasa_view.xml',
+        'security/serasa_security.xml',
+        'security/ir.model.access.csv'
+    ],
     'installable': True,
     'auto_install': False,
     'application': False,

@@ -136,7 +136,7 @@
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<notebook>
-					<page position="inside" string="Serasa">
+					<page position="inside" string="Serasa" group="group_consult_serasa">
                         <button name="do_consultar_serasa"
                                 type="object"
                                 icon="fa-search"
