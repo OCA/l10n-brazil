@@ -93,11 +93,16 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.fiscal_category_id.set_invoice_number and \
                     picking.invoice_state == '2binvoiced':
-                serie_id = inv_obj._default_fiscal_document_serie()
-                seq_number = sequence_obj.get_id(
-                    serie_id.internal_sequence_id.id)
-                picking.invoice_reserved_number = seq_number
+                company = picking.company_id
+                fiscal_document_series = [doc_serie for doc_serie in
+                                  company.document_serie_product_ids if
+                                  doc_serie.fiscal_document_id.id ==
+                                  company.product_invoice_id.id and
+                                  doc_serie.active]
 
+                serie_id = fiscal_document_series[0]
+                seq_number = sequence_obj.get_id(serie_id.internal_sequence_id.id)
+                picking.invoice_reserved_number = seq_number
         return super(StockPicking, self).do_transfer()
 
 
