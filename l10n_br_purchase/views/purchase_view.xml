@@ -21,6 +21,11 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="priority">36</field>
             <field name="arch" type="xml">
+                <field name="amount_tax" position="after" >
+                    <field name="amount_freight"/>
+                    <field name="amount_insurance"/>
+                    <field name="amount_costs"/>
+				</field>
                 <field name="fiscal_position" position="before" >
                     <field name="fiscal_category_id" required="1"/>
                 </field>
@@ -52,6 +57,9 @@
             <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
             <field name="arch" type="xml">
                 <field name="taxes_id" position="before" >
+                    <field name="freight_value"/>
+                    <field name="insurance_value"/>
+                    <field name="other_costs_value"/>
                     <field name="fiscal_category_id" required="1" />
                     <field name="fiscal_position" required="1" />
                 </field>
