@@ -31,10 +31,10 @@ class PurchaseOrder(models.Model):
                 price, qty,
                 product=line.product_id,
                 partner=self.partner_id,
-                fiscal_position= self.fiscal_position,
-                insurance_value= self.amount_insurance,
-                freight_value= self.amount_freight,
-                other_costs_value= self.amount_costs,
+                fiscal_position=self.fiscal_position,
+                insurance_value=self.amount_insurance,
+                freight_value=self.amount_freight,
+                other_costs_value=self.amount_costs,
             )
 
             amount_untaxed += line.price_subtotal
@@ -273,11 +273,11 @@ class PurchaseOrderLine(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id',120 '=', fiscal_category_id)]")
     freight_value = fields.Float(
-        string = 'Freight',
+        string='Freight',
         default=0.0,
         digits_compute=dp.get_precision('Account'))
     other_costs_value = fields.Float(
-        string = 'Other costs',
+        string='Other costs',
         default=0.0,
         digits_compute=dp.get_precision('Account'))
     insurance_value = fields.Float(
