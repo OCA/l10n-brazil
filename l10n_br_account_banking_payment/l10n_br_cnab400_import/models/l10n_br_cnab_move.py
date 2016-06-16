@@ -43,3 +43,4 @@ class L10nBrCnabMove(models.Model):
     str_motiv_d = fields.Char(u'Motivo de ocorrência 04')
     str_motiv_e = fields.Char(u'Motivo de ocorrência 05')
     valor = fields.Float(u'Valor')
+    company_id = fields.Many2one('res.company', u'Empresa')

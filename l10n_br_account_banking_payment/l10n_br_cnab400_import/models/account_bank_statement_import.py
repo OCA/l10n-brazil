@@ -218,6 +218,7 @@ class AccountBankStatementImport(models.TransientModel):
             'str_motiv_d': motivos[3],
             'str_motiv_e': motivos[4],
             'valor': float(evento.valor_titulo)/100,
+            'company_id': self.env.user.company_id.id,
         }
         cnab_move = self.env['l10n_br_cnab.move']
 
@@ -230,7 +231,8 @@ class AccountBankStatementImport(models.TransientModel):
         move_line_item = move_line_model.search(
             [('name', '=', move_line_name),
              ('debit', '>', 0),
-             ('account_id.type', '=', 'receivable')
+             ('account_id.type', '=', 'receivable'),
+             ('company_id', '=', self.env.user.company_id.id)
              ], limit=1)
 
         if move_line_item:

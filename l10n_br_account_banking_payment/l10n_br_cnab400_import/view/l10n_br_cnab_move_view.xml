@@ -26,6 +26,10 @@
                         <field name="str_motiv_d" />
                         <field name="str_motiv_e" />
                     </group>
+                    <separator string="Empresa"/>
+                    <group>
+                        <field name="company_id" />
+                    </group>
                 </form>
 
             </field>
