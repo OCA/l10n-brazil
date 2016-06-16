@@ -2,6 +2,7 @@
 ###############################################################################
 #
 # Copyright (C) 2016  Renato Lima - Akretion
+# Copyright (C) 2016  Luis Felipe Miléo - KMEE
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -24,7 +25,8 @@ class StockPicking(models.Model):
     _inherit = 'stock.location.path'
 
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria Fiscal',
         domain="[('state', '=', 'approved')]")
 
     @api.model
@@ -66,3 +68,17 @@ class StockPicking(models.Model):
             result.update({
                 'fiscal_position': result_fr['value']['fiscal_position']})
         return result
+
+
+class ProcurementRule(models.Model):
+    """
+        Create relation with l10n-brazil fiscal category, used to select taxes
+        on branch / inter company transfers.
+    """
+    _inherit = 'procurement.rule'
+
+    fiscal_category_id = fields.Many2one(
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria Fiscal',
+        domain="[('state', '=', 'approved')]",
+    )
