@@ -10,7 +10,9 @@
 				<notebook>
 					<page string="Financeiro">
 						<group>
-							<field name="revenue_expense"/>
+							<field name="revenue_expense" attrs="{'invisible': [('automatic_conciliation', '=', True)]}"/>
+							<field name="automatic_conciliation" attrs="{'invisible': [('revenue_expense', '=', True)]}"/>
+							<field name="conciliation_journal" attrs="{'invisible': [('revenue_expense', '=', True)]}"/>
 						</group>
 					</page>
 				</notebook>

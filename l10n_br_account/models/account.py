@@ -24,6 +24,9 @@ class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     revenue_expense = fields.Boolean('Gera Financeiro')
+    automatic_conciliation = fields.Boolean('Efetuar baixa automaticamente')
+    conciliation_journal = fields.Many2one(
+        'account.journal', 'Diário de Baixa')
 
 
 class AccountTaxComputation(models.Model):
