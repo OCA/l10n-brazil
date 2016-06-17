@@ -31,7 +31,7 @@
         'account_payment',
     ],
     'data': [
-        'wizard/account_statement_from_invoice_view.xml',
+        # 'wizard/account_statement_from_invoice_view.xml',
     ],
     'demo': [
     ],
