@@ -1,21 +1,6 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#                                                                             #
-# Copyright (C) 2016 - TODAY Fernando Marcato - Kmee                          #
-#                                                                             #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
-#                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU Affero General Public License for more details.                         #
-#                                                                             #
-# You should have received a copy of the GNU Affero General Public License    #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
-###############################################################################
+# (c) 2016 Kmee - Fernando Marcato
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
 
@@ -24,18 +9,30 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
+    def _check_rules(self, object):
+        """
+        This rules are here to determine if the invoice has no commercial
+        value and to allow the code to pass if the rules validate.
+        Returns: true or false
+        """
+        if (not object.journal_id.revenue_expense
+            and object.journal_id.automatic_conciliation
+            and object.fiscal_category_id.property_journal ==
+                object.journal_id
+            and object.state == 'open'
+            and object.company_id.id ==
+                self.env.user.company_id.id
+            and object.journal_id.conciliation_journal):
+                return True
+        else:
+            return False
+
+    @api.multi
     def invoice_validate(self):
         super(AccountInvoice, self).invoice_validate()
         for object in self.env['account.invoice'].search(
                 [('id', '=', self.id)]):
-            if (not object.journal_id.revenue_expense
-                and object.journal_id.automatic_conciliation
-                and object.fiscal_category_id.property_journal ==
-                    object.journal_id
-                and object.state == 'open'
-                and object.company_id.id ==
-                    self.env.user.company_id.id
-                and object.journal_id.conciliation_journal):
+            if (self._check_rules(object)):
                 voucher_obj = self.env['account.voucher']
                 context = {}
                 context.update({
