@@ -7,6 +7,7 @@
 			<field name="inherit_id" ref="account.view_account_invoice_filter" />
 			<field name="arch" type="xml">
 				<field name="partner_id" position="before">
+					<field name="internal_number" string="Número Exato de Fatura" filter_domain="[('internal_number','=ilike', self)]"/>
 					<field name="legal_name" string="Razão Social"/>
 					<field name="cnpj_cpf" string="CNPJ/CPF"/>
 					<field name="ie" string="Inscr. Estadual"/>
