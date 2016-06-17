@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2016  Fernando Marcato - Kmee                                 #
 #                                                                             #
 #This program is free software: you can redistribute it and/or modify         #
 #it under the terms of the GNU Affero General Public License as published by  #
@@ -17,22 +17,5 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.        #
 ###############################################################################
 
-{
-    'name': 'Brazilian Localization Account Voucher',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author': 'Akretion, OpenERP Brasil',
-    'website': 'http://openerpbrasil.org',
-    'version': '7.0',
-    'depends': [
-        'l10n_br_base',
-        'l10n_br_account',
-        'account_payment',
-    ],
-    'data': [
-        # 'wizard/account_statement_from_invoice_view.xml',
-    ],
-    'demo': [
-    ],
-    'installable': False,
-}
+from . import account_invoice
+from . import account_journal
