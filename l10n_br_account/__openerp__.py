@@ -47,13 +47,14 @@
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
         'report/account_invoice_report_view.xml',
+        'wizard/account_statement_from_invoice_view.xml',
     ],
     'demo': [
         'demo/account.account.csv',
         'demo/account_tax_code.xml',
         'demo/account_financial_demo.xml',
         'demo/account_fiscal_demo.xml',
-        'demo/base_demo.xml',
+        #'demo/base_demo.xml',
     ],
     'test': [
         'test/account_customer_invoice.yml',

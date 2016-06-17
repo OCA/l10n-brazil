@@ -23,16 +23,20 @@
     'license': 'AGPL-3',
     'author': 'Akretion, OpenERP Brasil',
     'website': 'http://openerpbrasil.org',
-    'version': '7.0',
+    'version': '8.0',
     'depends': [
         'l10n_br_base',
         'l10n_br_account',
         'account_payment',
     ],
     'data': [
-        # 'wizard/account_statement_from_invoice_view.xml',
+        'view/account_journal.xml',
     ],
     'demo': [
+      #'demo/accounting_demo.xml'
     ],
-    'installable': False,
+    'test': [
+        'test/account_customer_invoice.yml',
+    ],
+    'installable': True,
 }
