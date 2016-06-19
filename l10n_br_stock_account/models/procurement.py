@@ -26,31 +26,29 @@ class ProcurementOrder(models.Model):
     @api.model
     def _run_move_create(self, procurement):
         result = super(ProcurementOrder, self)._run_move_create(procurement)
-        if procurement.rule_id and procurement.rule_id.fiscal_category_id:
-            result.update({
-                'fiscal_category_id':
-                    procurement.rule_id.fiscal_category_id.id,
-            })
-
-            if not procurement.move_dest_id:
-                return result
-
+        if (procurement.rule_id and procurement.rule_id.fiscal_category_id and
+            procurement.move_dest_id):
             ctx = dict(self.env.context)
             ctx.update({'use_domain': ('use_picking', '=', True)})
-            move = procurement.move_dest_id
-            rule = procurement.rule_id
+            partner = (
+                procurement.rule_id.partner_address_id or (
+                    procurement.group_id and procurement.group_id.partner_id)
+            )
+            company = (procurement.warehouse_id.company_id or
+                       procurement.company_id)
             kwargs = {
-                'partner_id': move.partner_id.id,
+                'partner_id': partner.id,
                 'product_id': procurement.product_id.id,
-                'partner_invoice_id':  move.partner_id.id,
+                'partner_invoice_id':  partner.id,
                 # TODO: Implement fuction to compute partner invoice id
-                'partner_shipping_id': move.partner_id.id,
-                'fiscal_category_id': rule.fiscal_category_id.id,
-                'company_id': procurement.company_id.id,
+                'partner_shipping_id': partner.id,
+                'fiscal_category_id': (
+                    procurement.rule_id.fiscal_category_id.id
+                ),
+                'company_id': company.id,
                 'context': ctx,
             }
 
-            partner = move.picking_id.partner_id
             obj_fp_rule = self.env['account.fiscal.position.rule']
             product_fc_id = obj_fp_rule.with_context(
                 ctx).product_fiscal_category_map(
