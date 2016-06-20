@@ -26,6 +26,7 @@
     'version': '8.0.1.0.1',
     'depends': [
         'base',
+        'base_setup',
     ],
     'data': [
         'data/res.country.state.csv',
