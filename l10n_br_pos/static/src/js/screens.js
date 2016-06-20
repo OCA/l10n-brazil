@@ -38,7 +38,6 @@ function l10n_br_pos_screens(instance, module) {
             $('.btn-busca-cpf-cnpj', this.el).click(function(e){
                 if (self.verificar_cpf_cnpj($('.busca-cpf-cnpj').val())){
                     partner = self.pos.db.get_partner_by_identification(self.pos.partners,$('.busca-cpf-cnpj').val());
-                    console.log(partner)
                     self.old_client = partner;
                     self.new_client = self.old_client;
                     if (partner){
@@ -214,88 +213,68 @@ function l10n_br_pos_screens(instance, module) {
             if (this.pos.config.iface_cashdrawer) {
                     this.pos.proxy.open_cashbox();
             }
+            var status = this.pos.proxy.get('status');
+            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            if( sat_status == 'connected'){
+                if(options.invoice){
+                    // deactivate the validation button while we try to send the order
+                    this.pos_widget.action_bar.set_button_disabled('validation',true);
+                    this.pos_widget.action_bar.set_button_disabled('invoice',true);
 
-            if(options.invoice){
-                // deactivate the validation button while we try to send the order
-                this.pos_widget.action_bar.set_button_disabled('validation',true);
-                this.pos_widget.action_bar.set_button_disabled('invoice',true);
+                    var invoiced = this.pos.push_and_invoice_order(currentOrder);
 
-                var invoiced = this.pos.push_and_invoice_order(currentOrder);
+                    invoiced.fail(function(error){
+                        if(error === 'error-no-client'){
+                            self.pos_widget.screen_selector.show_popup('error',{
+                                message: _t('An anonymous order cannot be invoiced'),
+                                comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
+                            });
+                        }else{
+                            self.pos_widget.screen_selector.show_popup('error',{
+                                message: _t('The order could not be sent'),
+                                comment: _t('Check your internet connection and try again.'),
+                            });
+                        }
+                        self.pos_widget.action_bar.set_button_disabled('validation',false);
+                        self.pos_widget.action_bar.set_button_disabled('invoice',false);
+                    });
 
-                invoiced.fail(function(error){
-                    if(error === 'error-no-client'){
-                        self.pos_widget.screen_selector.show_popup('error',{
-                            message: _t('An anonymous order cannot be invoiced'),
-                            comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
-                        });
-                    }else{
-                        self.pos_widget.screen_selector.show_popup('error',{
-                            message: _t('The order could not be sent'),
-                            comment: _t('Check your internet connection and try again.'),
-                        });
-                    }
-                    self.pos_widget.action_bar.set_button_disabled('validation',false);
-                    self.pos_widget.action_bar.set_button_disabled('invoice',false);
-                });
+                    invoiced.done(function(){
+                        self.pos_widget.action_bar.set_button_disabled('validation',false);
+                        self.pos_widget.action_bar.set_button_disabled('invoice',false);
+                        self.pos.get('selectedOrder').destroy();
+                    });
 
-                invoiced.done(function(){
-                    self.pos_widget.action_bar.set_button_disabled('validation',false);
-                    self.pos_widget.action_bar.set_button_disabled('invoice',false);
-                    self.pos.get('selectedOrder').destroy();
-                });
-
-            }else{
-                this.pos.push_order(currentOrder)
-                if(this.pos.config.iface_print_via_proxy){
-                    var receipt = currentOrder.export_for_printing();
-//                    json = {
-//                        CNPJ='08427847000169',
-//                        signAC=constantes.ASSINATURA_AC_TESTE,
-//                        numeroCaixa=2,
-//                        emitente=Emitente(
-//                                CNPJ='61099008000141',
-//                                IE='111111111111'),
-//                        destinatario=Destinatario(
-//                                CPF='11122233396',
-//                                xNome=u'Jo?o de Teste'),
-//                        entrega=LocalEntrega(
-//                                xLgr='Rua Armando Gulim',
-//                                nro='65',
-//                                xBairro=u'Parque Gl?ria III',
-//                                xMun='Catanduva',
-//                                UF='SP'),
-//                        detalhamentos=[
-//                                Detalhamento(
-//                                        produto=ProdutoServico(
-//                                                cProd='123456',
-//                                                xProd='BORRACHA STAEDTLER pvc-free',
-//                                                CFOP='5102',
-//                                                uCom='UN',
-//                                                qCom=Decimal('1.0000'),
-//                                                vUnCom=Decimal('5.75'),
-//                                                indRegra='A'),
-//                                        imposto=Imposto(
-//                                                icms=ICMSSN102(Orig='2', CSOSN='500'),
-//                                                pis=PISSN(CST='49'),
-//                                                cofins=COFINSSN(CST='49'))),
-//                            ],
-//                        pagamentos=[
-//                                MeioPagamento(
-//                                        cMP=constantes.WA03_DINHEIRO,
-//                                        vMP=Decimal('10.00')),
-//                            ]
-//                    }
-                    var json = currentOrder.export_for_printing();
-                    console.log("Primeiro Json");
-                    console.log(json);
-                    this.pos.proxy.print_receipt(
-                        QWeb.render('XmlReceipt',{
-                        receipt: receipt, widget: self,
-                    }), json);
-                    this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
                 }else{
-                    this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+                    var retorno_sat = {};
+                    if(this.pos.config.iface_sat_via_proxy){
+                        var receipt = currentOrder.export_for_printing();
+                        var json = currentOrder.export_for_printing();
+                        this.pos.proxy.send_order_sat(
+                            currentOrder,
+                            QWeb.render('XmlReceipt',{
+                            receipt: receipt, widget: self,
+                        }), json);
+                    }else{
+                        this.pos.push_order(currentOrder);
+                    }
+
+                    if(this.pos.config.iface_print_via_proxy){
+                        var receipt = currentOrder.export_for_printing();
+                        this.pos.proxy.print_receipt(
+                            QWeb.render('XmlReceipt',{
+                            receipt: receipt, widget: self,
+                        }));
+                        this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+                    }else{
+                        this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+                    }
                 }
+            }else{
+                self.pos_widget.screen_selector.show_popup('error',{
+                    message: _t('SAT n\u00e3o est\u00e1 conectado'),
+                    comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
+                });
             }
 
             // hide onscreen (iOS) keyboard

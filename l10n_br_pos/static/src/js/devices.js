@@ -16,29 +16,39 @@
 *
 ******************************************************************************/
 function l10n_br_pos_devices(instance, module) {
+    var QWeb = instance.web.qweb;
+    var _t = instance.web._t;
 
     module.ProxyDevice = module.ProxyDevice.extend({
-        print_receipt: function(receipt, json){
+        send_order_sat: function(currentOrder, receipt, json){
             var self = this;
             if(receipt){
                 this.receipt_queue.push(receipt);
                 this.receipt_queue.push(json);
             }
             var aborted = false;
-            function send_printing_job(){
+            function send_sat_job(){
                 if (self.receipt_queue.length > 0){
                     var r = self.receipt_queue.shift();
                     var j = self.receipt_queue.shift();
-                    console.log("Segundo json");
-                    console.log(self);
-                    self.message('print_json_sat',{ receipt: r, json: j },{ timeout: 5000 })
-                        .then(function(){
-                            send_printing_job();
+                    self.message('enviar_cfe',{ json: j },{ timeout: 5000 })
+                        .then(function(result){
+                            if (!result['excessao']){
+                                currentOrder.set_return_cfe(result['xml']);
+                                currentOrder.set_num_sessao_sat(result['numSessao']);
+                                self.pos.push_order(currentOrder);
+                            }else{
+                                self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
+                                    'message': _t('Erro SAT: '),
+                                    'comment': _t(result['excessao']),
+                                });
+                            }
+
                         },function(error){
                             if (error) {
                                 self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
-                                    'message': _t('Printing Error: ') + error.data.message,
-                                    'comment': error.data.debug,
+                                    'message': _t('Erro SAT: '),
+                                    'comment': error.data.message,
                                 });
                                 return;
                             }
@@ -47,7 +57,7 @@ function l10n_br_pos_devices(instance, module) {
                         });
                 }
             }
-            send_printing_job();
+            send_sat_job();
         }
     });
 

@@ -17,7 +17,8 @@
 ******************************************************************************/
 
 function l10n_br_pos_models(instance, module) {
-
+    var QWeb = instance.web.qweb;
+	var _t = instance.web._t;
     /**
      * Extend the POS model
      */
@@ -59,6 +60,33 @@ function l10n_br_pos_models(instance, module) {
 //                    }
                 }
             });
+            this.models.push({
+                model: 'pos.config',
+                fields: [],
+                domain: function(self){ return [['id','=', self.pos_session.config_id[0]]]; },
+                loaded: function(self,configs){
+                    self.config = configs[0];
+                    self.config.use_proxy = self.config.iface_payment_terminal ||
+                                            self.config.iface_electronic_scale ||
+                                            self.config.iface_print_via_proxy  ||
+                                            self.config.iface_scan_via_proxy   ||
+                                            self.config.iface_cashdrawer       ||
+                                            self.config.iface_sat_via_proxy;
+
+                    self.barcode_reader.add_barcode_patterns({
+                        'product':  self.config.barcode_product,
+                        'cashier':  self.config.barcode_cashier,
+                        'client':   self.config.barcode_customer,
+                        'weight':   self.config.barcode_weight,
+                        'discount': self.config.barcode_discount,
+                        'price':    self.config.barcode_price,
+                    });
+
+                    if (self.config.company_id[0] !== self.user.company_id[0]) {
+                        throw new Error(_t("Error: The Point of Sale User must belong to the same company as the Point of Sale. You are probably trying to load the point of sale as an administrator in a multi-company setup, with the administrator account set to the wrong company."));
+                    }
+                }
+            });
         },
 
         /**
@@ -89,6 +117,71 @@ function l10n_br_pos_models(instance, module) {
 //                }
 //            }
 //        });
+    });
+
+    module.Order = module.Order.extend({
+        initialize: function(attributes){
+            Backbone.Model.prototype.initialize.apply(this, arguments);
+            this.pos = attributes.pos;
+            this.sequence_number = this.pos.pos_session.sequence_number++;
+            this.uid =     this.generateUniqueId();
+            this.set({
+                creationDate:   new Date(),
+                orderLines:     new module.OrderlineCollection(),
+                paymentLines:   new module.PaymentlineCollection(),
+                name:           _t("Order ") + this.uid,
+                client:         null
+            });
+            this.selected_orderline   = undefined;
+            this.selected_paymentline = undefined;
+            this.screen_data = {};  // see ScreenSelector
+            this.receipt_type = 'receipt';  // 'receipt' || 'invoice'
+            this.temporary = attributes.temporary || false;
+            this.cfe_return = null;
+            this.num_sessao_sat = null;
+            return this;
+        },
+        get_return_cfe: function(){
+            return this.cfe_return;
+        },
+        // the client related to the current order.
+        set_return_cfe: function(xml){
+            this.cfe_return = xml;
+        },
+        get_num_sessao_sat: function(){
+            return this.num_sessao_sat;
+        },
+        // the client related to the current order.
+        set_num_sessao_sat: function(num_sessao_sat){
+            this.num_sessao_sat = num_sessao_sat;
+        },
+        export_as_JSON: function() {
+            var orderLines, paymentLines;
+            orderLines = [];
+            (this.get('orderLines')).each(_.bind( function(item) {
+                return orderLines.push([0, 0, item.export_as_JSON()]);
+            }, this));
+            paymentLines = [];
+            (this.get('paymentLines')).each(_.bind( function(item) {
+                return paymentLines.push([0, 0, item.export_as_JSON()]);
+            }, this));
+            return {
+                name: this.getName(),
+                amount_paid: this.getPaidTotal(),
+                amount_total: this.getTotalTaxIncluded(),
+                amount_tax: this.getTax(),
+                amount_return: this.getChange(),
+                lines: orderLines,
+                statement_ids: paymentLines,
+                pos_session_id: this.pos.pos_session.id,
+                partner_id: this.get_client() ? this.get_client().id : false,
+                user_id: this.pos.cashier ? this.pos.cashier.id : this.pos.user.id,
+                uid: this.uid,
+                sequence_number: this.sequence_number,
+                cfe_return: this.get_return_cfe(),
+                num_sessao_sat: this.get_num_sessao_sat()
+            };
+        }
     });
 
     /**

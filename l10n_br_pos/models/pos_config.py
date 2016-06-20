@@ -30,3 +30,8 @@ class PosConfig(models.Model):
         string='Save new client identity automatic',
         default=True
     )
+
+    iface_sat_via_proxy = fields.Boolean(
+        'SAT',
+        help="Ao utilizar o SAT é necessário ativar esta opção"
+    )
