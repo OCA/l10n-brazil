@@ -87,12 +87,40 @@ class ResPartner(models.Model):
 
     number = fields.Char(u'Número', size=10)
 
-    _sql_constraints = [
-        ('res_partner_cnpj_cpf_uniq', 'unique (cnpj_cpf)',
-         u'Já existe um parceiro cadastrado com este CPF/CNPJ !'),
-        ('res_partner_inscr_est_uniq', 'unique (inscr_est)',
-         u'Já existe um parceiro cadastrado com esta Inscrição Estadual/RG !')
-    ]
+    # para pegar configuracoes com checkbox ver modulo do DIvino serasa parts/kmee/addons/serasa_crednet
+    @api.one
+    @api.constrains('cnpj_cpf', 'inscr_est')
+    def _check_cnpj_inscr_est(self):
+        domain = []
+
+        # permite cnpj vazio
+        if not self.cnpj_cpf:
+            return
+
+        allow_cnpj_multi_ie = self.env['ir.config_parameter'].get_param(
+                'l10n_br_base_allow_cnpj_multi_ie',
+                default=True,
+        )
+
+        if self.parent_id:
+            domain += [('id', 'not in', self.parent_id.ids),
+                       ('parent_id', 'not in', self.parent_id.ids),
+                       ]
+
+        domain += [('cnpj_cpf', '=', self.cnpj_cpf),
+                   ('id', '!=', self.id)
+                   ]
+
+        # se encontrar CNPJ iguais
+        if self.env['res.partner'].search(domain):
+
+            if allow_cnpj_multi_ie == u'True':
+                for partner in self.env['res.partner'].search(domain):
+                    if (partner.inscr_est == self.inscr_est and not self.inscr_est):
+                        raise ValidationError(u'Já existe um parceiro cadastrado com esta Inscrição Estadual !')
+
+            else:
+                raise ValidationError(u'Já existe um parceiro cadastrado com este CNPJ !')
 
     @api.one
     @api.constrains('cnpj_cpf', 'country_id')
