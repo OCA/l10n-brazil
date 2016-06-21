@@ -154,4 +154,63 @@
             </div>
         </t>
     </t>
+    <t t-name="PosOrderListButtonWidget">
+       <button class="paypad-button btn-orders-vendas">
+            Ultimas Vendas
+        </button>
+    </t>
+
+    <t t-name="PosOrderListScreenWidget">
+        <div class="posorderlist-screen screen">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Cancel
+                    </span>
+                    <span class='searchbox'>
+                        <input placeholder='Search Customers' />
+                        <span class='search-clear'></span>
+                    </span>
+                    <span class='searchbox'></span>
+                    <span class='button new-customer'>
+                        <i class='fa fa-user'></i>
+                        <i class='fa fa-plus'></i>
+                    </span>
+                    <span class='button next oe_hidden highlight'>
+                        Select Customer
+                        <i class='fa fa-angle-double-right'></i>
+                    </span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow collapsed'>
+                            <div class='subwindow-container collapsed'>
+                                <div class='subwindow-container-fix client-details-contents'>
+                                </div>
+                            </div>
+                        </section>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y'>
+                                    <table class='client-list'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class='client-list-contents'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
 </templates>
