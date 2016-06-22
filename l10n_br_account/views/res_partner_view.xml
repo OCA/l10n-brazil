@@ -41,7 +41,8 @@
 								<group colspan="4" col="4">
 									<field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
 									<field invisible="1" name="fiscal_category_fiscal_type"/>
-									<field name="asset_operation"/>
+									<field name="id_dest" />
+									<field name="asset_operation"/>									
 								</group>
 								<separator string="Notes" colspan="4"/>
 								<field name="inv_copy_note" colspan="4"/>
@@ -116,7 +117,8 @@
 									<group colspan="4" col="4">
 										<field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
 										<field name="fiscal_category_fiscal_type" invisible="1"/>
-										<field name="asset_operation"/>
+										<field name="id_dest" />
+										<field name="asset_operation"/>										
 									</group>
 										<separator string="Notes" colspan="4"/>
 										<field name="inv_copy_note" colspan="4"/>
