@@ -24,6 +24,7 @@ class PosOrder(models.Model):
             'partner_id':   ui_order['partner_id'] or False,
             'cfe_return':   ui_order['cfe_return'],
             'num_sessao_sat': ui_order['num_sessao_sat'],
+            'chave_cfe':    ui_order['chave_cfe'],
         }
 
     @api.model
@@ -39,6 +40,8 @@ class PosOrder(models.Model):
     )
 
     cfe_return = fields.Binary('Retorno Cfe')
+
+    chave_cfe = fields.Char('Chave da Cfe')
 
     num_sessao_sat = fields.Char(u'Número sessão SAT')
 
@@ -80,16 +83,30 @@ class PosOrder(models.Model):
         order.simplified_limit_check()
         return order
 
+    @api.model
+    def return_orders_from_session(self, **kwargs):
+        orders_session = {'Orders': []}
+        orders = self.search(
+            [('session_id', '=', kwargs['session_id'])], limit=5, order="id"
+        )
+        orders = reversed(orders)
+        for order in orders:
+            order_vals = {
+                'name': order.name,
+                'pos_reference': order.pos_reference,
+                'partner_id': order.partner_id.id,
+                'date': order.date_order,
+                'chave_cfe': order.chave_cfe,
+                'can_cancel': False,
+            }
+            orders_session['Orders'].append(order_vals)
+            orders_session['Orders'][0]['can_cancel'] = True
+        return orders_session
 
-class PosOrderProxy(http.Controller):
+    @api.model
+    def cancel_last_order(self, **kwargs):
+        order = self.search(
+            [('chave_cfe', '=', kwargs['chave_cfe'])]
+        )
 
-    @http.route(
-        '/hw_proxy/salvar_retorno_cfe', type='json',
-        auth='none', cors='*', methods=['POST']
-    )
-    def salvar_retorno_cfe(self, **post):
-        pos_order = self.env['pos.order'].search([('name', '=', post['name'])])
-        file_cfe = open(post['arquivo'], 'wb')
-        pos_order.write({'cfe_return': file_cfe})
-        file_cfe.close
-        return True
+        return self.cancel_order(order)

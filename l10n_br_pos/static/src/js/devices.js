@@ -36,6 +36,7 @@ function l10n_br_pos_devices(instance, module) {
                             if (!result['excessao']){
                                 currentOrder.set_return_cfe(result['xml']);
                                 currentOrder.set_num_sessao_sat(result['numSessao']);
+                                currentOrder.set_chave_cfe(result['chave_cfe']);
                                 self.pos.push_order(currentOrder);
                             }else{
                                 self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
@@ -58,6 +59,32 @@ function l10n_br_pos_devices(instance, module) {
                 }
             }
             send_sat_job();
+        },
+        cancel_last_order: function(chave_cfe){
+            var self = this;
+
+            self.message('cancelar_cfe',{ chave_cfe: chave_cfe },{ timeout: 5000 })
+            .then(function(result){
+                if (result){
+                    self.pos.cancel_pos_order(chave_cfe);
+                }else{
+                    self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
+                        'message': _t('Erro SAT: '),
+                        'comment': _t(result['excessao']),
+                    });
+                }
+
+            },function(error){
+                if (error) {
+                    self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
+                        'message': _t('Erro SAT: '),
+                        'comment': error.data.message,
+                    });
+                    return;
+                }
+                self.receipt_queue.unshift(r)
+                self.receipt_queue.unshift(j)
+            });
         }
     });
 

@@ -10,6 +10,7 @@
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
             <field name="cfe_return" />
+            <field name="chave_cfe" />
             <field name="num_sessao_sat" />
         </field>
         <button name="action_invoice" position="attributes">

@@ -139,19 +139,24 @@ function l10n_br_pos_models(instance, module) {
             this.temporary = attributes.temporary || false;
             this.cfe_return = null;
             this.num_sessao_sat = null;
+            this.chave_cfe = null;
             return this;
         },
         get_return_cfe: function(){
             return this.cfe_return;
         },
-        // the client related to the current order.
         set_return_cfe: function(xml){
             this.cfe_return = xml;
+        },
+        get_chave_cfe: function(){
+            return this.chave_cfe;
+        },
+        set_chave_cfe: function(chavecfe){
+            this.chave_cfe = chavecfe;
         },
         get_num_sessao_sat: function(){
             return this.num_sessao_sat;
         },
-        // the client related to the current order.
         set_num_sessao_sat: function(num_sessao_sat){
             this.num_sessao_sat = num_sessao_sat;
         },
@@ -179,7 +184,8 @@ function l10n_br_pos_models(instance, module) {
                 uid: this.uid,
                 sequence_number: this.sequence_number,
                 cfe_return: this.get_return_cfe(),
-                num_sessao_sat: this.get_num_sessao_sat()
+                num_sessao_sat: this.get_num_sessao_sat(),
+                chave_cfe: this.get_chave_cfe()
             };
         }
     });
