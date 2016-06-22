@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_l10n_br_account_voucher_journal_form"
+                model="ir.ui.view">
+            <field name="name">l10n_br_account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id"
+                   ref="l10n_br_account.view_l10n_br_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="revenue_expense" position="replace">
+                    <field name="revenue_expense"
+                           attrs="{'invisible': [('automatic_conciliation', '=', True)]}"/>
+                </field>
+                <xpath expr="//field[@name='revenue_expense']" position="after">
+                    <field name="automatic_conciliation"
+                           attrs="{'invisible': [('revenue_expense', '=', True)]}"/>
+                    <field name="conciliation_journal"
+                           attrs="{'invisible': [('revenue_expense', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
