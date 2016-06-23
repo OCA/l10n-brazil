@@ -1,0 +1,29 @@
+img.desaturate {width:50%;height: 100%;margin: 0 25%;}
+.pos-sale-ticket_extra {width:280px;}
+.customer_title {text-decoration: underline;}
+
+.screen .screen-content{
+    margin: 0px auto;
+    max-width: 90%;
+    text-align: left;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.row {
+    margin: 3%;
+}
+
+.col-md-6 {
+    float:left;
+    width: 50%;
+}
+
+.clear {
+    clear: both;
+}
+
+.btn-busca-cpf-cnpj {
+    margin-top: 5%;
+}
