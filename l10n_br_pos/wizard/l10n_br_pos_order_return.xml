@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_l10n_br_pos_return_form" model="ir.ui.view">
+            <field name="name">Devolução de Venda no PDV</field>
+            <field name="model">pos.order.return</field>
+            <field name="arch" type="xml">
+                <form string="Retorno">
+                    <group string="Selecione / Cadastre um cliente para efetuar a devolução">
+                        <field name="partner_id"/>
+                    </group>
+			        <footer>
+                        <button name="create_returns" string="Retornar" type="object" class="oe_highlight"/>
+                            or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_l10n_br_pos_return" model="ir.actions.act_window">
+            <field name="name">Devolução de Venda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.order.return</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
