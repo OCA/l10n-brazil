@@ -300,7 +300,7 @@
 
 		<record id="l10n_br_base.res_partner_cliente8_rs" model="res.partner">
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4" />
-
+		</record>
 		<!-- Cliente 7 RS Contribuinte -->
 		<record id="l10n_br_base.res_partner_cliente7_rs" model="res.partner">
 			<field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_1"/>
