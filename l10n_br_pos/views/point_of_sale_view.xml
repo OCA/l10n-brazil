@@ -12,6 +12,8 @@
             <field name="cfe_return" />
             <field name="chave_cfe" />
             <field name="num_sessao_sat" />
+            <field name="canceled_order" />
+            <field name="pos_order_associated" />
         </field>
         <button name="action_invoice" position="attributes">
             <attribute name="invisible">1</attribute>
@@ -76,7 +78,7 @@
         <field name="iface_invoicing" position="after">
             <field name="save_identity_automatic"/>
         </field>
-        <field name="iface_invoicing" position="after">
+        <field name="iface_print_via_proxy" position="after">
             <field name="iface_sat_via_proxy"/>
         </field>
     </field>
