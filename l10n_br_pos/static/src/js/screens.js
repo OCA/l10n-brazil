@@ -418,7 +418,6 @@ function l10n_br_pos_screens(instance, module) {
                     message: _t('Venda Cancelada!'),
                     comment: _t('A venda foi cancelada com sucesso.'),
                 });
-                self.get_last_orders();
             });
         },
         close: function(){
