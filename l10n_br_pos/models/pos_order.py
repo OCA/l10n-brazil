@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # See README.rst file on addon root folder for license details
-import base64
+import time
 
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 from openerp.tools.float_utils import float_compare
 from openerp.addons.l10n_br_pos.models.pos_config import \
     SIMPLIFIED_INVOICE_TYPE
-from openerp import http
+from openerp.tools.translate import _
 
 
 class PosOrder(models.Model):
@@ -16,15 +16,15 @@ class PosOrder(models.Model):
     @api.model
     def _order_fields(self, ui_order):
         return {
-            'name':         ui_order['name'],
-            'user_id':      ui_order['user_id'] or False,
-            'session_id':   ui_order['pos_session_id'],
-            'lines':        ui_order['lines'],
-            'pos_reference':ui_order['name'],
-            'partner_id':   ui_order['partner_id'] or False,
-            'cfe_return':   ui_order['cfe_return'],
+            'name':           ui_order['name'],
+            'user_id':        ui_order['user_id'] or False,
+            'session_id':     ui_order['pos_session_id'],
+            'lines':          ui_order['lines'],
+            'pos_reference':  ui_order['name'],
+            'partner_id':     ui_order['partner_id'] or False,
+            'cfe_return':     ui_order['cfe_return'],
             'num_sessao_sat': ui_order['num_sessao_sat'],
-            'chave_cfe':    ui_order['chave_cfe'],
+            'chave_cfe':      ui_order['chave_cfe'],
         }
 
     @api.model
@@ -87,11 +87,14 @@ class PosOrder(models.Model):
     def return_orders_from_session(self, **kwargs):
         orders_session = {'Orders': []}
         orders = self.search(
-            [('session_id', '=', kwargs['session_id'])], limit=5, order="id"
+            [
+                ('session_id', '=', kwargs['session_id']),
+                ('state', '=', 'paid')
+            ], limit=5, order="id DESC"
         )
-        orders = reversed(orders)
         for order in orders:
             order_vals = {
+                'id': order.id,
                 'name': order.name,
                 'pos_reference': order.pos_reference,
                 'partner_id': order.partner_id.id,
@@ -103,10 +106,43 @@ class PosOrder(models.Model):
             orders_session['Orders'][0]['can_cancel'] = True
         return orders_session
 
-    @api.model
-    def cancel_last_order(self, **kwargs):
-        order = self.search(
-            [('chave_cfe', '=', kwargs['chave_cfe'])]
-        )
-
-        return self.cancel_order(order)
+    # @api.model
+    # def refund(self, ids):
+    #     """Create a copy of order  for refund order"""
+    #     clone_list = []
+    #     line_obj = self.env['pos.order.line']
+    #
+    #     for order in self.browse(ids):
+    #         current_session_ids = self.env['pos.session'].search([
+    #             ('state', '!=', 'closed'),
+    #             ('user_id', '=', self.uid)]
+    #         )
+    #         if not current_session_ids:
+    #             raise osv.except_osv(_('Error!'), _('To return product(s), you need to open a session that will be used to register the refund.'))
+    #
+    #         clone_id = self.copy(order.id, {
+    #             'name': order.name + ' REFUND',
+    #             'session_id': current_session_ids[0],
+    #             'date_order': time.strftime('%Y-%m-%d %H:%M:%S'),
+    #         })
+    #         clone_list.append(clone_id)
+    #
+    #     for clone in self.browse(clone_list):
+    #         for order_line in clone.lines:
+    #             line_obj.write(order_line.id, {
+    #                 'qty': -order_line.qty
+    #             })
+    #
+    #     abs = {
+    #         'name': _('Return Products'),
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'pos.order',
+    #         'res_id': clone_list[0],
+    #         'view_id': False,
+    #         'context': self.context,
+    #         'type': 'ir.actions.act_window',
+    #         'nodestroy': True,
+    #         'target': 'current',
+    #     }
+    #     return abs

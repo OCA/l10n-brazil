@@ -117,6 +117,20 @@ function l10n_br_pos_models(instance, module) {
 //                }
 //            }
 //        });
+        cancel_pos_order: function(chave_cfe){
+            var self = this;
+
+            var posOrderModel = new instance.web.Model('pos.order');
+            var posOrder = posOrderModel.call('cancel_last_order', {'chave_cfe': chave_cfe})
+            .then(function (orders) {
+                console.log("cancel_pos_order");
+                console.log(self);
+                self.pos_widget.screen_selector.show_popup('error',{
+                    message: _t('Venda Cancelada!'),
+                    comment: _t('A venda foi cancelada com sucesso.'),
+                });
+            });
+        },
     });
 
     module.Order = module.Order.extend({
