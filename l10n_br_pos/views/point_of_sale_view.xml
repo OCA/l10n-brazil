@@ -71,6 +71,13 @@
     <field name="model">pos.config</field>
     <field name="inherit_id" ref="pos_pricelist.view_pos_config_form_pos_pricelist"/>
     <field name="arch" type="xml">
+        <group string="Hardware Proxy" position="after">
+            <group string="Homologação SAT" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}">
+                <field name='sat_ambiente' invisible='1'/>
+                <field name="cnpj_fabricante"/>
+                <field name="ie_fabricante" />
+            </group>
+        </group>
         <field name="display_price_with_taxes" position="after">
             <field name="simplified_invoice_limit"/>
             <field name="simplified_invoice_type"/>
@@ -81,6 +88,7 @@
         <field name="iface_print_via_proxy" position="after">
             <field name="iface_sat_via_proxy"/>
         </field>
+
     </field>
 </record>
 
