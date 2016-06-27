@@ -65,6 +65,10 @@ function l10n_br_pos_models(instance, module) {
                 fields: [],
                 domain: function(self){ return [['id','=', self.pos_session.config_id[0]]]; },
                 loaded: function(self,configs){
+                    console.log("self");
+                    console.log(self);
+                    console.log("config");
+                    console.log(configs);
                     self.config = configs[0];
                     self.config.use_proxy = self.config.iface_payment_terminal ||
                                             self.config.iface_electronic_scale ||
@@ -87,6 +91,14 @@ function l10n_br_pos_models(instance, module) {
                     }
                 }
             });
+
+            this.models.push({
+                model:  'res.company',
+                fields: [ 'ambiente_sat', 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' , 'country_id', 'tax_calculation_rounding_method'],
+                ids:    function(self){ return [self.user.company_id[0]] },
+                loaded: function(self,companies){ self.company = companies[0]; },
+            });
+
         },
 
         /**

@@ -18,6 +18,7 @@
         "views/pos_template.xml",
         "views/point_of_sale_view.xml",
         "views/point_of_sale_report.xml",
+        "views/res_company.xml",
     ],
     "qweb": [
         'static/src/xml/pos.xml',

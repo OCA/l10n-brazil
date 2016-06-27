@@ -76,6 +76,10 @@ function l10n_br_pos_devices(instance, module) {
                             message: _t('Venda Cancelada!'),
                             comment: _t('A venda foi cancelada com sucesso.'),
                         });
+                        setTimeout(function () {
+                            self.pos.pos_widget.posorderlist_screen.get_last_orders();
+                            self.pos.pos_widget.screen_selector.back();
+                        }, 4000);
                     });
 //                    self.pos.cancel_pos_order(chave_cfe);
                 }else{
