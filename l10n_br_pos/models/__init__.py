@@ -3,3 +3,4 @@
 
 import pos_order
 import pos_config
+import res_company
