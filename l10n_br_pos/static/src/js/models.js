@@ -65,10 +65,6 @@ function l10n_br_pos_models(instance, module) {
                 fields: [],
                 domain: function(self){ return [['id','=', self.pos_session.config_id[0]]]; },
                 loaded: function(self,configs){
-                    console.log("self");
-                    console.log(self);
-                    console.log("config");
-                    console.log(configs);
                     self.config = configs[0];
                     self.config.use_proxy = self.config.iface_payment_terminal ||
                                             self.config.iface_electronic_scale ||
@@ -94,7 +90,7 @@ function l10n_br_pos_models(instance, module) {
 
             this.models.push({
                 model:  'res.company',
-                fields: [ 'ambiente_sat', 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' , 'country_id', 'tax_calculation_rounding_method'],
+                fields: [ 'ambiente_sat', 'cnpj_cpf', 'inscr_est', 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' , 'country_id', 'tax_calculation_rounding_method'],
                 ids:    function(self){ return [self.user.company_id[0]] },
                 loaded: function(self,companies){ self.company = companies[0]; },
             });
@@ -185,6 +181,86 @@ function l10n_br_pos_models(instance, module) {
         },
         set_num_sessao_sat: function(num_sessao_sat){
             this.num_sessao_sat = num_sessao_sat;
+        },
+        export_for_printing: function(){
+            var orderlines = [];
+            this.get('orderLines').each(function(orderline){
+                orderlines.push(orderline.export_for_printing());
+            });
+
+            var paymentlines = [];
+            this.get('paymentLines').each(function(paymentline){
+                paymentlines.push(paymentline.export_for_printing());
+            });
+            var client  = this.get('client');
+            var cashier = this.pos.cashier || this.pos.user;
+            var company = this.pos.company;
+            var shop    = this.pos.shop;
+            var date = new Date();
+
+            if (this.pos.company.ambiente_sat == "homologacao"){
+                company.cnpj = this.pos.config.cnpj_fabricante;
+                company.ie = this.pos.config.ie_fabricante;
+            }else{
+                company.cnpj = this.pos.company.cnpj_cpf;
+                company.ie = this.pos.company.inscr_est;
+            }
+
+            return {
+                orderlines: orderlines,
+                paymentlines: paymentlines,
+                subtotal: this.getSubtotal(),
+                total_with_tax: this.getTotalTaxIncluded(),
+                total_without_tax: this.getTotalTaxExcluded(),
+                total_tax: this.getTax(),
+                total_paid: this.getPaidTotal(),
+                total_discount: this.getDiscountTotal(),
+                tax_details: this.getTaxDetails(),
+                change: this.getChange(),
+                name : this.getName(),
+                client: client ? client.name : null ,
+                invoice_id: null,   //TODO
+                cashier: cashier ? cashier.name : null,
+                header: this.pos.config.receipt_header || '',
+                footer: this.pos.config.receipt_footer || '',
+                precision: {
+                    price: 2,
+                    money: 2,
+                    quantity: 3,
+                },
+                date: {
+                    year: date.getFullYear(),
+                    month: date.getMonth(),
+                    date: date.getDate(),       // day of the month
+                    day: date.getDay(),         // day of the week
+                    hour: date.getHours(),
+                    minute: date.getMinutes() ,
+                    isostring: date.toISOString(),
+                    localestring: date.toLocaleString(),
+                },
+                company:{
+                    email: company.email,
+                    website: company.website,
+                    company_registry: company.company_registry,
+                    contact_address: company.partner_id[1],
+                    vat: company.vat,
+                    name: company.name,
+                    phone: company.phone,
+                    logo:  this.pos.company_logo_base64,
+                    cnpj: company.cnpj,
+                    ie: company.ie,
+                },
+                shop:{
+                    name: shop.name,
+                },
+                configs_sat: {
+                    dll_ip: this.pos.config.dll_ip,
+                    estacao: this.pos.config.num_estacao,
+                    cod_ativacao: this.pos.config.cod_ativacao,
+                    impressora: this.pos.config.impressora,
+                },
+                currency: this.pos.currency,
+            };
         },
         export_as_JSON: function() {
             var orderLines, paymentLines;
