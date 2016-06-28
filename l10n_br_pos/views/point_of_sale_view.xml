@@ -84,11 +84,12 @@
         <group string="Hardware Proxy" position="after" >
             <group string="Configuraçoes SAT" attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">
                 <field name='sat_ambiente' invisible='1'/>
-                <field name="cnpj_fabricante" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                <field name="ie_fabricante" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                <field name="dll_ip" />
+                <field name="cnpj_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                <field name="ie_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                <field name="cnpj_software_house" />
+                <field name="sat_path" />
                 <field name="cod_ativacao" />
-                <field name="num_estacao" />
+                <field name="numero_caixa" />
                 <field name="impressora" />
             </group>
         </group>
