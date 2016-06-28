@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
 import time
-import requests
-import odoorpc
 from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal
 import base64
-import xml.etree.ElementTree as ET
 
 import openerp.addons.hw_proxy.controllers.main as hw_proxy
 from openerp import http
@@ -34,15 +31,18 @@ try:
     from satcfe.entidades import CFeCancelamento
     from satcfe.excecoes import ErroRespostaSATInvalida
     from satcfe.excecoes import ExcecaoRespostaSAT
-
-    # cliente = ClienteSATLocal(
-    #     BibliotecaSAT('/opt/sat/tanca/libsat64.so'),
-    #     codigo_ativacao='12345678'
-    # )
-    cliente = ClienteSATHub('localhost', 5000, numero_caixa=1)
+    from satextrato import ExtratoCFeVenda
+    cliente = ClienteSATLocal(
+        BibliotecaSAT('/opt/sat/tanca/libsat64.so'),
+        codigo_ativacao='12345678'
+    )
+    # cliente = ClienteSATHub('localhost', 5000, numero_caixa=1)
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
+
+
+
 
 TWOPLACES = Decimal(10) ** -2
 FOURPLACES = Decimal(10) ** -4
@@ -132,13 +132,35 @@ class Sat(Thread):
                     self.set_status('error', str(ex))
                     self.device = None
 
+    def printExtratoCFeVenda(self, config, arquivoCFeSAT):
+        from escpos.serial import SerialSettings
+
+        if config['impressora'] == 'epson-tm-t20':
+            _logger.info(u'SAT Impressao: Epson TM-T20')
+            from escpos.impl.epson import TMT20 as Printer
+        elif config['impressora'] == 'bematech-mp4200th':
+            _logger.info(u'SAT Impressao: Bematech MP4200TH')
+            from escpos.impl.bematech import MP4200TH as Printer
+        elif config['impressora'] == 'daruma-dr700':
+            _logger.info(u'SAT Impressao: Daruma Dr700')
+            from escpos.impl.daruma import DR700 as Printer
+        elif config['impressora'] == 'elgin-i9':
+            _logger.info(u'SAT Impressao: Elgin I9')
+            from escpos.impl.elgin import ElginI9 as Printer
+        conn = SerialSettings.as_from(
+            config['printer_params']).get_connection()
+        printer = Printer(conn)
+        printer.init()
+        extrato = ExtratoCFeVenda(arquivoCFeSAT, printer)
+        extrato.imprimir()
+
     def montar_cfe(self, json):
         detalhamentos = []
 
         for item in json['orderlines']:
             detalhamentos.append(
-             Detalhamento(
-                produto=ProdutoServico(
+                Detalhamento(
+                    produto=ProdutoServico(
                         cProd=unicode(int),
                         xProd=item['product_name'],
                         CFOP='5102',
@@ -146,28 +168,28 @@ class Sat(Thread):
                         qCom=Decimal(item['quantity']).quantize(FOURPLACES),
                         vUnCom=Decimal(item['price']).quantize(TWOPLACES),
                         indRegra='A'),
-                imposto=Imposto(
+                    imposto=Imposto(
                         icms=ICMSSN102(Orig='2', CSOSN='500'),
                         pis=PISSN(CST='49'),
                         cofins=COFINSSN(CST='49'))),
             )
 
         cfe = CFeVenda(
-                CNPJ='16716114000172',
-                signAC=constantes.ASSINATURA_AC_TESTE,
-                numeroCaixa=2,
-                emitente=Emitente(
-                        CNPJ='08723218000186',
-                        IE='149626224113',
-                        indRatISSQN='N'),
-                detalhamentos=detalhamentos,
-                pagamentos=[
-                        MeioPagamento(
-                                cMP=constantes.WA03_DINHEIRO,
-                                vMP=Decimal(json['subtotal']).quantize(
-                                    TWOPLACES)),
-                    ]
-                )
+            CNPJ=json['company']['cnpj_software_house'],
+            signAC=constantes.ASSINATURA_AC_TESTE,
+            numeroCaixa=2,
+            emitente=Emitente(
+                CNPJ=json['company']['cnpj'],
+                IE=json['company']['ie'],
+                indRatISSQN='N'),
+            detalhamentos=detalhamentos,
+            pagamentos=[
+                MeioPagamento(
+                    cMP=constantes.WA03_DINHEIRO,
+                    vMP=Decimal(json['subtotal']).quantize(
+                        TWOPLACES)),
+            ]
+        )
         return cfe
 
     def sat(self, json):
@@ -183,11 +205,13 @@ class Sat(Thread):
         try:
             resposta = cliente.enviar_dados_venda(self.montar_cfe(json))
             json_salvar_cfe = {
-                'xml': base64.b64encode(resposta.xml()),
+                'xml': resposta.arquivoCFeSAT,
                 'numSessao': resposta.numeroSessao,
                 'chave_cfe': resposta.chaveConsulta
             }
-
+            if resposta.arquivoCFeSAT and json['configs_sat']['impressora']:
+                self.printExtratoCFeVenda(json['configs_sat'],
+                                          resposta.arquivoCFeSAT)
         except ErroRespostaSATInvalida as ex_sat_invalida:
             json_salvar_cfe = {
                 'excessao': ex_sat_invalida
@@ -199,7 +223,7 @@ class Sat(Thread):
             }
 
         except Exception as ex:
-           json_salvar_cfe = {
+            json_salvar_cfe = {
                 'excessao': ex
             }
 
@@ -232,7 +256,7 @@ class Sat(Thread):
             }
             return json_cfe
         except Exception as ex:
-           json_cfe = {
+            json_cfe = {
                 'excessao': ex
             }
 
@@ -283,15 +307,3 @@ class SatDriver(hw_proxy.Proxy):
                 return sat_thread.sat_cancelar_cfe(chave_cfe)
             return False
 
-    @http.route('/hw_proxy/scale_tare/', type='json', auth='none', cors='*')
-    def scale_tare(self):
-        if sat_thread:
-            pass  # TODO
-        return True
-
-    @http.route('/hw_proxy/scale_clear_tare/', type='json', auth='none',
-                cors='*')
-    def scale_clear_tare(self):
-        if sat_thread:
-            pass  # TODO
-        return True
