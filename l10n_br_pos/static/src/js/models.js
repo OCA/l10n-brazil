@@ -251,6 +251,7 @@ function l10n_br_pos_models(instance, module) {
                     logo:  this.pos.company_logo_base64,
                     cnpj: company.cnpj,
                     ie: company.ie,
+                    cnpj_software_house: company.cnpj_software_house,
                 },
                 shop:{
                     name: shop.name,
