@@ -22,6 +22,7 @@ function l10n_br_pos_devices(instance, module) {
     module.ProxyDevice = module.ProxyDevice.extend({
         send_order_sat: function(currentOrder, receipt, json){
             var self = this;
+            console.log(json);
             if(receipt){
                 this.receipt_queue.push(receipt);
                 this.receipt_queue.push(json);

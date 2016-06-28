@@ -44,6 +44,21 @@ class PosConfig(models.Model):
         store=True
     )
 
+    dll_ip = fields.Char('Cainho dll/IP')
+
+    num_estacao = fields.Integer(u'Numero da Estação')
+
+    cod_ativacao = fields.Char(u'código de ativação')
+
+    impressora = fields.Selection([
+            ('tmt20', u'Epson'),
+            ('mp420cta', u'Benatech'),
+            ('dr700', u'Daruma'),
+            ('i9', u'Elgin')
+        ],
+        string='Impressora',
+    )
+
     @api.multi
     def retornar_dados(self):
         if self.ambiente_sat == 'homologacao':
