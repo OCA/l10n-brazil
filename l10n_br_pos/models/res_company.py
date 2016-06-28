@@ -13,7 +13,8 @@ class ResCompany(models.Model):
             ('producao', u'Produção'),
         ],
         string='Ambiente SAT',
-        required=True
+        required=True,
+        default='homologacao'
     )
 
     cnpj_software_house = fields.Char(
