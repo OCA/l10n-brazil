@@ -260,6 +260,7 @@ function l10n_br_pos_models(instance, module) {
                     numero_caixa: this.pos.config.numero_caixa,
                     cod_ativacao: this.pos.config.cod_ativacao,
                     impressora: this.pos.config.impressora,
+                    printer_params: this.pos.config.printer_params,
                 },
                 currency: this.pos.currency,
             };

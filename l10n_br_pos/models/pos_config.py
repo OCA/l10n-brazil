@@ -82,6 +82,11 @@ class PosConfig(models.Model):
         string=u'Impressora',
     )
 
+    printer_params = fields.Char(
+        string=u'Printer parameters'
+    )
+
+
     @api.multi
     def retornar_dados(self):
         if self.ambiente_sat == 'homologacao':

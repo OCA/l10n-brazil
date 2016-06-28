@@ -91,6 +91,7 @@
                 <field name="cod_ativacao" />
                 <field name="numero_caixa" />
                 <field name="impressora" />
+                <field name="printer_params" />
             </group>
         </group>
 
