@@ -43,7 +43,7 @@ class PosOrder(models.Model):
 
     chave_cfe = fields.Char('Chave da Cfe')
 
-    num_sessao_sat = fields.Char(u'Número sessão SAT')
+    num_sessao_sat = fields.Char(u'Número Sessão SAT')
 
     pos_order_associated = fields.Many2one('pos.order', 'Venda Associada')
 
