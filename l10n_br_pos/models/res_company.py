@@ -15,3 +15,8 @@ class ResCompany(models.Model):
         string='Ambiente SAT',
         required=True
     )
+
+    cnpj_software_house = fields.Char(
+        string=u'CNPJ software house',
+        size=18
+    )

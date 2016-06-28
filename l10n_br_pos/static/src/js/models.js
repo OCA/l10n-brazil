@@ -197,13 +197,15 @@ function l10n_br_pos_models(instance, module) {
             var company = this.pos.company;
             var shop    = this.pos.shop;
             var date = new Date();
-
+            // Refactory
             if (this.pos.company.ambiente_sat == "homologacao"){
-                company.cnpj = this.pos.config.cnpj_fabricante;
-                company.ie = this.pos.config.ie_fabricante;
+                company.cnpj = this.pos.config.cnpj_homologacao;
+                company.ie = this.pos.config.ie_homologacao;
+                company.cnpj_software_house = this.pos.config.cnpj_software_house;
             }else{
                 company.cnpj = this.pos.company.cnpj_cpf;
                 company.ie = this.pos.company.inscr_est;
+                company.cnpj_software_house = this.pos.config.cnpj_software_house;
             }
 
             return {
@@ -254,8 +256,8 @@ function l10n_br_pos_models(instance, module) {
                     name: shop.name,
                 },
                 configs_sat: {
-                    dll_ip: this.pos.config.dll_ip,
-                    estacao: this.pos.config.num_estacao,
+                    sat_path: this.pos.config.sat_path,
+                    numero_caixa: this.pos.config.numero_caixa,
                     cod_ativacao: this.pos.config.cod_ativacao,
                     impressora: this.pos.config.impressora,
                 },
