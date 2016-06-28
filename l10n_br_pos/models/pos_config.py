@@ -44,11 +44,11 @@ class PosConfig(models.Model):
         store=True
     )
 
-    dll_ip = fields.Char('Cainho dll/IP')
+    dll_ip = fields.Char(u'Caminho dll/IP')
 
-    num_estacao = fields.Integer(u'Numero da Estação')
+    num_estacao = fields.Integer(u'Número da Estação')
 
-    cod_ativacao = fields.Char(u'código de ativação')
+    cod_ativacao = fields.Char(u'Código de ativação')
 
     impressora = fields.Selection([
             ('tmt20', u'Epson'),
