@@ -10,6 +10,7 @@
                 <field name="currency_id" position="after">
                     <group name="company_sat" string="SAT">
                         <field name="ambiente_sat"/>
+                        <field name="cnpj_software_house"/>
                     </group>
                 </field>
             </field>
