@@ -50,8 +50,7 @@ class AccountInvoice(models.Model):
             inv.inss_value = sum(line.inss_value for line in inv.invoice_line)
 
             inv.amount_total = inv.amount_tax + \
-                inv.amount_untaxed + inv.amount_services
-
+                inv.amount_untaxed
             inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
                 inv.cofins_value_wh + inv.csll_value_wh + \
                 inv.irrf_value_wh + inv.inss_value_wh
