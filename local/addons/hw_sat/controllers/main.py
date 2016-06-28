@@ -4,7 +4,7 @@ import time
 from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal
-import base64
+import tempfile
 
 import openerp.addons.hw_proxy.controllers.main as hw_proxy
 from openerp import http
@@ -33,8 +33,8 @@ try:
     from satcfe.excecoes import ExcecaoRespostaSAT
     from satextrato import ExtratoCFeVenda
     cliente = ClienteSATLocal(
-        BibliotecaSAT('/opt/sat/tanca/libsat64.so'),
-        codigo_ativacao='12345678'
+        BibliotecaSAT('/usr/lib/libbemasat.so'),
+        codigo_ativacao='bema1234'
     )
     # cliente = ClienteSATHub('localhost', 5000, numero_caixa=1)
 except ImportError:
@@ -132,7 +132,9 @@ class Sat(Thread):
                     self.set_status('error', str(ex))
                     self.device = None
 
-    def printExtratoCFeVenda(self, config, arquivoCFeSAT):
+
+
+    def printExtratoCFeVenda(self, config, chaveConsulta, xml):
         from escpos.serial import SerialSettings
 
         if config['impressora'] == 'epson-tm-t20':
@@ -151,8 +153,12 @@ class Sat(Thread):
             config['printer_params']).get_connection()
         printer = Printer(conn)
         printer.init()
-        extrato = ExtratoCFeVenda(arquivoCFeSAT, printer)
-        extrato.imprimir()
+        file_path = '/tmp/' + chaveConsulta + '.xml'
+        with open(file_path, 'w') as temp:
+            temp.write(xml)
+        with open(file_path, 'r') as fp:
+            extrato = ExtratoCFeVenda(fp, printer)
+            extrato.imprimir()
 
     def montar_cfe(self, json):
         detalhamentos = []
@@ -211,7 +217,8 @@ class Sat(Thread):
             }
             if resposta.arquivoCFeSAT and json['configs_sat']['impressora']:
                 self.printExtratoCFeVenda(json['configs_sat'],
-                                          resposta.arquivoCFeSAT)
+                                          resposta.chaveConsulta,
+                                          resposta.xml())
         except ErroRespostaSATInvalida as ex_sat_invalida:
             json_salvar_cfe = {
                 'excessao': ex_sat_invalida
