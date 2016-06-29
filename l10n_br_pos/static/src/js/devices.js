@@ -20,9 +20,18 @@ function l10n_br_pos_devices(instance, module) {
     var _t = instance.web._t;
 
     module.ProxyDevice = module.ProxyDevice.extend({
+        init_sat: function(config){
+            var self = this;
+            var j = {
+                'sat_path': config.sat_path,
+                'codigo_ativacao': config.cod_ativacao,
+                'impressora': config.impressora,
+                'printer_params': config.printer_params,
+            };
+            self.message('init',{json: j},{ timeout: 5000 })
+        },
         send_order_sat: function(currentOrder, receipt, json){
             var self = this;
-            console.log(json);
             if(receipt){
                 this.receipt_queue.push(receipt);
                 this.receipt_queue.push(json);
@@ -71,7 +80,7 @@ function l10n_br_pos_devices(instance, module) {
             .then(function(result){
                 if (result){
                     var posOrderModel = new instance.web.Model('pos.order');
-                    var posOrder = posOrderModel.call('refund', {'ids': order_id})
+                    var posOrder = posOrderModel.call('refund', {'ids': order_id, 'dados': result})
                     .then(function (orders) {
                         self.pos_widget.screen_selector.show_popup('error',{
                             message: _t('Venda Cancelada!'),
