@@ -336,9 +336,16 @@ class NFe200(FiscalDocument):
         """Detalhe"""
 
         self.det.nItem.valor = index
-        self.det.prod.cProd.valor = invoice_line.product_id.code or ''
-        self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
-        self.det.prod.xProd.valor = invoice_line.product_id.name[:120] or ''
+
+        if invoice_line.product_id:
+            self.det.prod.cProd.valor = invoice_line.product_id.code or ''
+            self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
+            self.det.prod.xProd.valor = (
+                invoice_line.product_id.name[:120] or '')
+        else:
+            self.det.prod.cProd.valor = invoice_line.code or ''
+            self.det.prod.xProd.valor = invoice_line.name[:120] or ''
+
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')
         self.det.prod.EXTIPI.valor = ''
