@@ -64,8 +64,25 @@ function l10n_br_pos_widgets(instance, module){
     });
 
     module.PosWidget = module.PosWidget.extend({
+        init: function() {
+            this._super(arguments[0],{});
+
+            this.pos = new module.PosModel(this.session,{pos_widget:this});
+            this.pos_widget = this; //So that pos_widget's childs have pos_widget set automatically
+
+            this.numpad_visible = true;
+            this.leftpane_visible = true;
+            this.leftpane_width   = '440px';
+            this.cashier_controls_visible = true;
+
+            FastClick.attach(document.body);
+        },
         build_widgets: function() {
             var self = this;
+
+            // -------- SAT --------------
+
+            this.pos.proxy.init_sat(this.pos.config);
 
             // --------  Screens ---------
 
