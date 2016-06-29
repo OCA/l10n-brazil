@@ -32,16 +32,15 @@ try:
     from satcfe.excecoes import ErroRespostaSATInvalida
     from satcfe.excecoes import ExcecaoRespostaSAT
     from satextrato import ExtratoCFeVenda
-    cliente = ClienteSATLocal(
-        BibliotecaSAT('/usr/lib/libbemasat.so'),
-        codigo_ativacao='bema1234'
-    )
+    from satextrato import ExtratoCFeCancelamento
+    # cliente = ClienteSATLocal(
+    #     BibliotecaSAT('/usr/lib/libbemasat.so'),
+    #     codigo_ativacao='bema1234'
+    # )
     # cliente = ClienteSATHub('localhost', 5000, numero_caixa=1)
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
-
-
 
 
 TWOPLACES = Decimal(10) ** -2
@@ -55,9 +54,16 @@ class Sat(Thread):
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
         self.input_dir = '/dev/serial/by-path/'
+        self.client_sat = ''
         self.device = None
         self.probed_device_paths = []
         self.path_to_scale = ''
+
+    def set_client_sat(self, bibliotecaSat, codigo_ativacao):
+        self.client_sat = ClienteSATLocal(
+            BibliotecaSAT(bibliotecaSat),
+            codigo_ativacao=codigo_ativacao
+        )
 
     def lockedstart(self):
         with self.lock:
@@ -93,11 +99,11 @@ class Sat(Thread):
     def get_device(self):
 
         try:
-            if cliente.consultar_sat():
+            if self.client_sat.consultar_sat():
 
                 self.set_status('connected', 'Connected to SAT')
 
-                return cliente
+                return self.client_sat
         except ErroRespostaSATInvalida as ex_sat_invalida:
             # o equipamento retornou uma resposta que não faz sentido;
             # loga, e lança novamente ou lida de alguma maneira
@@ -116,9 +122,9 @@ class Sat(Thread):
         with self.satlock:
             if self.device:
                 try:
-                    if cliente.consultar_sat():
-
+                    if self.client_sat.consultar_sat():
                         self.set_status('connected', 'Connected to SAT')
+
                 except ErroRespostaSATInvalida as ex_sat_invalida:
                     # o equipamento retornou uma resposta que não faz sentido;
                     # loga, e lança novamente ou lida de alguma maneira
@@ -132,9 +138,7 @@ class Sat(Thread):
                     self.set_status('error', str(ex))
                     self.device = None
 
-
-
-    def printExtratoCFeVenda(self, config, chaveConsulta, xml):
+    def _init_printer(self, config):
         from escpos.serial import SerialSettings
 
         if config['impressora'] == 'epson-tm-t20':
@@ -149,15 +153,31 @@ class Sat(Thread):
         elif config['impressora'] == 'elgin-i9':
             _logger.info(u'SAT Impressao: Elgin I9')
             from escpos.impl.elgin import ElginI9 as Printer
+        else:
+            self.printer = False
         conn = SerialSettings.as_from(
             config['printer_params']).get_connection()
-        printer = Printer(conn)
-        printer.init()
+        self.printer = Printer(conn)
+        self.printer.init()
+
+    def _print_extrato_venda(self, chaveConsulta, xml):
+        if not self.printer:
+            return
         file_path = '/tmp/' + chaveConsulta + '.xml'
         with open(file_path, 'w') as temp:
             temp.write(xml)
         with open(file_path, 'r') as fp:
-            extrato = ExtratoCFeVenda(fp, printer)
+            extrato = ExtratoCFeVenda(fp, self.printer)
+            extrato.imprimir()
+
+    def _print_extrato_cancelamento(self, chaveConsulta, xml):
+        if not self.printer:
+            return
+        file_path = '/tmp/' + chaveConsulta + '.xml'
+        with open(file_path, 'w') as temp:
+            temp.write(xml)
+        with open(file_path, 'r') as fp:
+            extrato = ExtratoCFeCancelamento(fp, self.printer)
             extrato.imprimir()
 
     def montar_cfe(self, json):
@@ -209,16 +229,14 @@ class Sat(Thread):
         }
 
         try:
-            resposta = cliente.enviar_dados_venda(self.montar_cfe(json))
+            resposta = self.client_sat.enviar_dados_venda(self.montar_cfe(json))
             json_salvar_cfe = {
                 'xml': resposta.arquivoCFeSAT,
                 'numSessao': resposta.numeroSessao,
                 'chave_cfe': resposta.chaveConsulta
             }
-            if resposta.arquivoCFeSAT and json['configs_sat']['impressora']:
-                self.printExtratoCFeVenda(json['configs_sat'],
-                                          resposta.chaveConsulta,
-                                          resposta.xml())
+            self._print_extrato_venda(resposta.chaveConsulta, resposta.xml())
+
         except ErroRespostaSATInvalida as ex_sat_invalida:
             json_salvar_cfe = {
                 'excessao': ex_sat_invalida
@@ -246,11 +264,27 @@ class Sat(Thread):
         return cfecanc
 
     def sat_cancelar_cfe(self, chave_cfe):
+        json_salvar_cancelamento_cfe = {
+            'xml': '',
+            'chaveCfe': '',
+            'numSessao': '',
+            'chave_cfe': '',
+            'excessao': False
+        }
         try:
-            resposta = cliente.cancelar_ultima_venda(
+            resposta = self.client_sat.cancelar_ultima_venda(
                 chave_cfe,
                 self.montar_xml_cfe_cancelamento(chave_cfe)
             )
+            self._print_extrato_cancelamento(
+                resposta.chaveConsulta, resposta.xml())
+
+            json_salvar_cancelamento_cfe = {
+                'xml': resposta.arquivoCFeSAT,
+                'numSessao': resposta.numeroSessao,
+                'chave_cfe': resposta.chaveConsulta
+            }
+
             return True
         except ErroRespostaSATInvalida as ex_sat_invalida:
             json_cfe = {
@@ -283,17 +317,19 @@ class Sat(Thread):
 
 
 sat_thread = None
-if satcfe:
-    sat_thread = Sat()
-    hw_proxy.drivers['satcfe'] = sat_thread
+# if satcfe:
+sat_thread = Sat()
+hw_proxy.drivers['satcfe'] = sat_thread
     
 
 class SatDriver(hw_proxy.Proxy):
     @http.route('/hw_proxy/init/', type='json', auth='none', cors='*')
-    def sat_init(self):
+    def sat_init(self, json):
         if sat_thread:
-            Sat.status_sat()
-            Sat.device = 'SAT'
+            sat_thread.set_client_sat(json['sat_path'], json['codigo_ativacao'])
+            sat_thread._init_printer(json)
+            sat_thread.status_sat()
+            sat_thread.device = 'SAT'
             _logger.info('SAT: STATUS')
             return True
         return None
@@ -313,4 +349,3 @@ class SatDriver(hw_proxy.Proxy):
                 _logger.info('SAT: Cancelando CFE')
                 return sat_thread.sat_cancelar_cfe(chave_cfe)
             return False
-
