@@ -564,6 +564,8 @@ class AccountInvoiceLine(models.Model):
             self.discount_value = self.invoice_id.currency_id.round(
                 self.price_gross - taxes['total'])
 
+    code = fields.Char(
+        u'código do Produto', size=60)
     date_invoice = fields.Datetime(
         'Invoice Date', readonly=True, states={'draft': [('readonly', False)]},
         select=True, help="Keep empty to use the current date")
@@ -930,6 +932,7 @@ class AccountInvoiceLine(models.Model):
             return {}
 
         result = {
+            'code': None,    
             'product_type': 'product',
             'service_type_id': None,
             'fiscal_classification_id': None,
@@ -962,6 +965,7 @@ class AccountInvoiceLine(models.Model):
             if product.fci:
                 result['fci'] = product.fci
 
+            result['code'] = product.default_code 
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
