@@ -285,7 +285,7 @@ class Sat(Thread):
                 'chave_cfe': resposta.chaveConsulta
             }
 
-            return True
+            return json_salvar_cancelamento_cfe
         except ErroRespostaSATInvalida as ex_sat_invalida:
             json_cfe = {
                 'excessao': ex_sat_invalida
@@ -317,9 +317,9 @@ class Sat(Thread):
 
 
 sat_thread = None
-# if satcfe:
-sat_thread = Sat()
-hw_proxy.drivers['satcfe'] = sat_thread
+if satcfe:
+    sat_thread = Sat()
+    hw_proxy.drivers['satcfe'] = sat_thread
     
 
 class SatDriver(hw_proxy.Proxy):
