@@ -43,11 +43,17 @@ class PosOrder(models.Model):
 
     chave_cfe = fields.Char('Chave da Cfe')
 
-    num_sessao_sat = fields.Char(u'Número Sessão SAT')
+    num_sessao_sat = fields.Char(u'Número Sessão SAT envio Cfe')
 
     pos_order_associated = fields.Many2one('pos.order', 'Venda Associada')
 
     canceled_order = fields.Boolean('Venda Cancelada', readonly=True)
+
+    cfe_cancelamento_return = fields.Binary('Retorno Cfe Cancelamento')
+
+    chave_cfe_cancelamento = fields.Char('Chave da Cfe Cancelamento')
+
+    num_sessao_sat_cancelamento = fields.Char(u'Número Sessão SAT Cancelamento')
 
     @api.one
     def action_invoice(self):
@@ -112,7 +118,7 @@ class PosOrder(models.Model):
         return orders_session
 
     @api.model
-    def refund(self, ids):
+    def refund(self, ids, dados):
         """Create a copy of order  for refund order"""
         clone_list = []
 
@@ -154,6 +160,9 @@ class PosOrder(models.Model):
             parent_order.write({
                 'canceled_order': True,
                 'pos_order_associated': clone.id,
+                'cfe_cancelamento_return': dados['xml'],
+                'chave_cfe_cancelamento': dados['numSessao'],
+                'num_sessao_sat_cancelamento': dados['chave_cfe'],
             })
 
         return True

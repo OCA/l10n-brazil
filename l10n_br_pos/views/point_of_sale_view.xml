@@ -14,6 +14,9 @@
             <field name="num_sessao_sat" />
             <field name="canceled_order" />
             <field name="pos_order_associated" />
+            <field name="cfe_cancelamento_return" />
+            <field name="chave_cfe_cancelamento" />
+            <field name="num_sessao_sat_cancelamento" />
         </field>
         <button name="action_invoice" position="attributes">
             <attribute name="invisible">1</attribute>
