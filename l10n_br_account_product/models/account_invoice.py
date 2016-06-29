@@ -943,7 +943,7 @@ class AccountInvoiceLine(models.Model):
             return {}
 
         result = {
-            'code': None,    
+            'code': None,
             'product_type': 'product',
             'service_type_id': None,
             'fiscal_classification_id': None,
@@ -976,7 +976,7 @@ class AccountInvoiceLine(models.Model):
             if product.fci:
                 result['fci'] = product.fci
 
-            result['code'] = product.default_code 
+            result['code'] = product.default_code
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
