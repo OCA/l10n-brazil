@@ -252,7 +252,13 @@ function l10n_br_pos_screens(instance, module) {
                         comment: _t('There is no cash payment method available in this point of sale to handle the change.\n\n Please pay the exact amount or add a cash payment method in the point of sale configuration'),
                     });
                     return;
-                }
+                }self.screen_selector.show_popup('confirm',{
+                            message: _t('Destroy Current Order ?'),
+                            comment: _t('You will lose any data associated with the current order'),
+                            confirm: function(){
+                                self.pos.delete_current_order();
+                            },
+                        });
             }
 
             if (this.pos.config.iface_cashdrawer) {
@@ -357,14 +363,25 @@ function l10n_br_pos_screens(instance, module) {
 
             this.render_list(self.orders.Orders);
             this.$('.client-list-contents').delegate('.cancel_order','click',function(event){
-                chave_cfe = null;
-                for (var i = 0; i < self.orders.Orders.length; i++){
-                    if($(this).parent().parent().data('id') == self.orders.Orders[i].id){
-                        chave_cfe = self.orders.Orders[i].chave_cfe;
-                    }
+                var order_id = $(this).parent().parent().data('id');
+                self.screen_selector.show_popup('confirm',{
+                            message: _t('Cancelar Venda'),
+                            comment: _t('Voc? realmente deseja cancelar est? venda?'),
+                            confirm: function(){
+                                chave_cfe = null;
+                                for (var i = 0; i < self.orders.Orders.length; i++){
+                                    if(order_id == self.orders.Orders[i].id){
+                                        chave_cfe = self.orders.Orders[i].chave_cfe;
+                                    }
 
-                }
-                self.cancel_last_order_sat($(this).parent().parent().data('id'), chave_cfe);
+                                }
+                                self.cancel_last_order_sat(order_id, chave_cfe);
+                            },
+                        });
+
+            });
+            this.$('.client-list-contents').delegate('.reprint_order','click',function(event){
+                self.reprint_cfe($(this).parent().parent().data('id'));
             });
         },
         get_last_orders: function(){
@@ -375,6 +392,15 @@ function l10n_br_pos_screens(instance, module) {
             var posOrder = posOrderModel.call('return_orders_from_session', session_id)
             .then(function (orders) {
                 self.orders = orders;
+            });
+        },
+        reprint_cfe: function(order_id){
+            var self = this;
+
+            var posOrderModel = new instance.web.Model('pos.order');
+            var posOrder = posOrderModel.call('retornar_dados_reimpressao', {'order_id': order_id})
+            .then(function (result) {
+                self.pos.proxy.reprint_cfe(result['xml'], result['chaveConsulta'], result['canceled_order']);
             });
         },
         render_list: function(orders){
