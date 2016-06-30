@@ -166,3 +166,22 @@ class PosOrder(models.Model):
             })
 
         return True
+
+    @api.model
+    def retornar_dados_reimpressao(self, order_id):
+        order = self.browse(order_id)
+
+        if order.cfe_cancelamento_return:
+            dados_reimpressao = {
+                'chaveConsulta': order.chave_cfe_cancelamento,
+                'xml': order.cfe_cancelamento_return,
+                'canceled_order': order.canceled_order,
+            }
+        else:
+            dados_reimpressao = {
+                'chaveConsulta': order.chave_cfe,
+                'xml': order.cfe_return,
+                'canceled_order': order.canceled_order,
+            }
+
+        return dados_reimpressao

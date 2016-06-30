@@ -108,6 +108,27 @@ function l10n_br_pos_devices(instance, module) {
                     return;
                 }
             });
+        },
+        reprint_cfe: function(xml, chave_cfe, canceled_order){
+            var self = this;
+            json = {
+                'xml': xml,
+                'chave_cfe': chave_cfe,
+                'canceled_order': canceled_order,
+            };
+
+            self.message('reprint_cfe',{ json: json },{ timeout: 5000 })
+            .then(function(result){
+                return;
+            },function(error){
+                if (error) {
+                    self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
+                        'message': _t('Erro SAT: '),
+                        'comment': error.data.message,
+                    });
+                    return;
+                }
+            });
         }
     });
 
