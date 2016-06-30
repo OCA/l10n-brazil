@@ -33,11 +33,7 @@ try:
     from satcfe.excecoes import ExcecaoRespostaSAT
     from satextrato import ExtratoCFeVenda
     from satextrato import ExtratoCFeCancelamento
-    # cliente = ClienteSATLocal(
-    #     BibliotecaSAT('/usr/lib/libbemasat.so'),
-    #     codigo_ativacao='bema1234'
-    # )
-    # cliente = ClienteSATHub('localhost', 5000, numero_caixa=1)
+
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
@@ -48,22 +44,25 @@ FOURPLACES = Decimal(10) ** -4
 
 
 class Sat(Thread):
-    def __init__(self):
+    def __init__(self, codigo_ativacao, sat_path, impressora, printer_params):
         Thread.__init__(self)
+        self.codigo_ativacao = codigo_ativacao
+        self.sat_path = sat_path
+        self.impressora = impressora
+        self.printer_params = printer_params
+        self.device = self.get_device()
+
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
         self.input_dir = '/dev/serial/by-path/'
-        self.client_sat = ''
-        self.device = None
+        self.printer = False
         self.probed_device_paths = []
         self.path_to_scale = ''
 
-    def set_client_sat(self, bibliotecaSat, codigo_ativacao):
-        self.client_sat = ClienteSATLocal(
-            BibliotecaSAT(bibliotecaSat),
-            codigo_ativacao=codigo_ativacao
-        )
+    # def set_client_sat(self):
+    #     #TODO: Verificar se o sat e' hub.
+    #     return
 
     def lockedstart(self):
         with self.lock:
@@ -97,23 +96,33 @@ class Sat(Thread):
                 _logger.warning('Disconnected SAT: '+message)
 
     def get_device(self):
-
         try:
-            if self.client_sat.consultar_sat():
 
-                self.set_status('connected', 'Connected to SAT')
+            if not self.sat_path and not self.codigo_ativacao:
+                self.set_status('error', 'Dados do sat incorretos')
+                return None
 
-                return self.client_sat
-        except ErroRespostaSATInvalida as ex_sat_invalida:
+            client_sat = ClienteSATLocal(
+            BibliotecaSAT(self.sat_path),
+            codigo_ativacao=self.codigo_ativacao
+            )
+
+            return client_sat
+
+        except ErroRespostaSATInvalida as resposta:
             # o equipamento retornou uma resposta que não faz sentido;
             # loga, e lança novamente ou lida de alguma maneira
-            self.set_status('disconnected', 'SAT Not Found')
+            self.set_status('error', 'SAT Not Found {0}'.format(
+                resposta))
             return None
-        except ExcecaoRespostaSAT as ex_resposta:
-            self.set_status('disconnected', 'SAT Not Found')
+        except ExcecaoRespostaSAT as resposta:
+            self.set_status('error', 'SAT Not Found {0}'.format(
+                resposta))
             return None
-        except ConnectionError as ex_conn_error:
-            pass
+        except ConnectionError as resposta:
+            self.set_status('disconnected', 'SAT Not Found {0}'.format(
+                resposta))
+            return None
         except Exception as ex:
             self.set_status('error', str(ex))
             return None
@@ -122,7 +131,7 @@ class Sat(Thread):
         with self.satlock:
             if self.device:
                 try:
-                    if self.client_sat.consultar_sat():
+                    if self.device.consultar_sat():
                         self.set_status('connected', 'Connected to SAT')
 
                 except ErroRespostaSATInvalida as ex_sat_invalida:
@@ -229,7 +238,7 @@ class Sat(Thread):
         }
 
         try:
-            resposta = self.client_sat.enviar_dados_venda(self.montar_cfe(json))
+            resposta = self.device.enviar_dados_venda(self.montar_cfe(json))
             json_salvar_cfe = {
                 'xml': resposta.arquivoCFeSAT,
                 'numSessao': resposta.numeroSessao,
@@ -272,7 +281,7 @@ class Sat(Thread):
             'excessao': False
         }
         try:
-            resposta = self.client_sat.cancelar_ultima_venda(
+            resposta = self.device.cancelar_ultima_venda(
                 chave_cfe,
                 self.montar_xml_cfe_cancelamento(chave_cfe)
             )
@@ -314,38 +323,50 @@ class Sat(Thread):
                     self.device = self.get_device()
                 if not self.device:
                     time.sleep(1)
-
-
 sat_thread = None
-if satcfe:
-    sat_thread = Sat()
-    hw_proxy.drivers['satcfe'] = sat_thread
+# if satcfe:
+#     sat_thread = Sat()
+#     hw_proxy.drivers['satcfe'] = sat_thread
     
 
 class SatDriver(hw_proxy.Proxy):
     @http.route('/hw_proxy/init/', type='json', auth='none', cors='*')
     def sat_init(self, json):
-        if sat_thread:
-            sat_thread.set_client_sat(json['sat_path'], json['codigo_ativacao'])
-            sat_thread._init_printer(json)
-            sat_thread.status_sat()
-            sat_thread.device = 'SAT'
-            _logger.info('SAT: STATUS')
-            return True
-        return None
+        sat_thread = Sat(
+            json['codigo_ativacao'],
+            json['sat_path'],
+            json['impressora'],
+            json['printer_params']
+        )
+        hw_proxy.drivers['satcfe'] = sat_thread
+        return True
 
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
-        if sat_thread:
-            if sat_thread.status['status'] == 'connected':
+        if hw_proxy.drivers['satcfe']:
+            if hw_proxy.drivers['satcfe'].status['status'] == 'connected':
                 _logger.info('SAT: Enviando CFE')
-                return sat_thread.sat(json)
+                return hw_proxy.drivers['satcfe'].sat(json)
             return False
 
     @http.route('/hw_proxy/cancelar_cfe/', type='json', auth='none', cors='*')
     def cancelar_cfe(self, chave_cfe):
-        if sat_thread:
-            if sat_thread.status['status'] == 'connected':
+        if hw_proxy.drivers['satcfe']:
+            if hw_proxy.drivers['satcfe'].status['status'] == 'connected':
                 _logger.info('SAT: Cancelando CFE')
-                return sat_thread.sat_cancelar_cfe(chave_cfe)
+                return hw_proxy.drivers['satcfe'].sat_cancelar_cfe(chave_cfe)
             return False
+
+    @http.route('/hw_proxy/reprint_cfe/', type='json', auth='none', cors='*')
+    def reprint_cfe(self, json):
+        if hw_proxy.drivers['satcfe']:
+            _logger.info('SAT: Reimpressao CFE')
+            if json['canceled_order']:
+                hw_proxy.drivers['satcfe']._print_extrato_cancelamento(
+                    json['chave_cfe'], json['xml'])
+                return True
+            else:
+                hw_proxy.drivers['satcfe']._print_extrato_venda(
+                    json['chave_cfe'], json['xml'])
+                return True
+        return False
