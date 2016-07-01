@@ -63,6 +63,7 @@ class AccountInvoiceRefund(models.TransientModel):
 
                 onchange['value']['fiscal_category_id'] = \
                     fiscal_category_id
+                onchange['value']['nfe_purpose'] = '4'
 
                 for line in invoice.invoice_line:
 
