@@ -364,9 +364,9 @@ function l10n_br_pos_screens(instance, module) {
             this.render_list(self.orders.Orders);
             this.$('.client-list-contents').delegate('.cancel_order','click',function(event){
                 var order_id = $(this).parent().parent().data('id');
-                self.screen_selector.show_popup('confirm',{
+                self.pos_widget.screen_selector.show_popup('confirm',{
                             message: _t('Cancelar Venda'),
-                            comment: _t('Voc? realmente deseja cancelar est? venda?'),
+                            comment: _t('Voc\u00ea realmente deseja cancelar est\u00e1 venda?'),
                             confirm: function(){
                                 chave_cfe = null;
                                 for (var i = 0; i < self.orders.Orders.length; i++){
