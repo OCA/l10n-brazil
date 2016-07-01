@@ -56,9 +56,12 @@ class AccountInvoice(models.Model):
         self.cofins_value = sum(
             line.cofins_value for line in self.invoice_line)
         self.ii_value = sum(line.ii_value for line in self.invoice_line)
-        self.vFCPUFDest = sum(line.vFCPUFDest for line in self.invoice_line)
-        self.vICMSUFDest = sum(line.vICMSUFDest for line in self.invoice_line)
-        self.vICMSUFRemet = sum(line.vICMSUFRemet for line in self.invoice_line)
+        self.icms_fcp_value = sum(
+            line.icms_fcp_value for line in self.invoice_line)
+        self.icms_dest_value = sum(
+            line.icms_dest_value for line in self.invoice_line)
+        self.icms_origin_value = sum(
+            line.icms_origin_value for line in self.invoice_line)
         self.amount_discount = sum(
             line.discount_value for line in self.invoice_line)
         self.amount_insurance = sum(
@@ -146,11 +149,9 @@ class AccountInvoice(models.Model):
         u'Data e hora de emissão', readonly=True,
         states={'draft': [('readonly', False)]},
         select=True, help="Deixe em branco para usar a data atual")
-    ind_final = fields.Selection([
-        ('0', u'Não'),
-        ('1', u'Sim')
-    ], u'Consumidor final', readonly=True,
-        related='fiscal_position.ind_final',
+    ind_final = fields.Selection(
+        [('0', u'Não'), ('1', u'Sim')],
+        u'Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.')
     ind_pres = fields.Selection([
@@ -324,16 +325,19 @@ class AccountInvoice(models.Model):
         string='Valor II', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
         readonly=True)
-    vFCPUFDest = fields.Float(
+    # vFCPUFDest
+    icms_fcp_value = fields.Float(
         string='Valor total do Fundo de Combate à Pobreza (FCP)', store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
         readonly=True)
-    vICMSUFDest = fields.Float(
+    # vICMSUFDest
+    icms_dest_value = fields.Float(
         string='Valor total do ICMS Interestadual para a UF de destino',
         store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
         readonly=True)
-    vICMSUFRemet = fields.Float(
+    # vICMSUFRemet
+    icms_origin_value = fields.Float(
         string='Valor total do ICMS Interestadual para a UF do remetente',
         store=True,
         digits=dp.get_precision('Account'), compute='_compute_amount',
@@ -774,36 +778,39 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
-    vBCUFDest = fields.Float(
+    # vBCUFDest 
+    icms_dest_base = fields.Float(
         string=u'Valor da BC do ICMS na UF de destino',
         digits=dp.get_precision('Account'),
         default=0.00)
-    pFCPUFDest = fields.Float(
+    # pFCPUFDest
+    icms_fcb_percent = fields.Float(
         string=u'% Fundo de Combate à Pobreza (FCP)',
         digits=dp.get_precision('Account'),
         default=0.00)
-    pICMSUFDest = fields.Float(
+    # pICMSUFDest
+    icms_dest_percent = fields.Float(
         string=u'Alíquota interna da UF de destino',
         digits=dp.get_precision('Account'),
         default=0.00)
-    pICMSInter = fields.Float(
+    icms_origin_percent = fields.Float(
         string=u'Alíquota interestadual das UF envolvidas',
         digits=dp.get_precision('Account'),
         default=0.00)
-    pICMSInterPart = fields.Float(
+    icms_part_percent = fields.Float(
         string=u'Percentual provisório de partilha do ICMS Interestadual',
         digits=dp.get_precision('Account'),
         default=0.00)
-    vFCPUFDest = fields.Float(
+    icms_fcb_value = fields.Float(
         string=(u'Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)'
                 u' da UF de destino'),
         digits=dp.get_precision('Account'),
         default=0.00)
-    vICMSUFDest = fields.Float(
+    icms_dest_value = fields.Float(
         string=u'Valor do ICMS Interestadual para a UF de destino',
         digits=dp.get_precision('Account'),
         default=0.00)
-    vICMSUFRemet = fields.Float(
+    icms_origin_value = fields.Float(
         string=u'Valor do ICMS Interestadual para a UF do remetente',
         digits=dp.get_precision('Account'),
         default=0.00)
@@ -816,28 +823,22 @@ class AccountInvoiceLine(models.Model):
             'icms_percent': tax.get('percent', 0.0) * 100,
             'icms_percent_reduction': tax.get('base_reduction') * 100,
             'icms_base_type': tax.get('icms_base_type', '0'),
-            'vBCUFDest': tax.get('vBCUFDest', 0.0),
-            'pFCPUFDest': tax.get('pFCPUFDest', 0.0) * 100,
-            'pICMSUFDest': tax.get('pICMSUFDest', 0.0) * 100,
-            'pICMSInter': tax.get('pICMSInter', 0.0) * 100,
-            'pICMSInterPart': tax.get('pICMSInterPart', 0.0) * 100,
-            'vFCPUFDest': tax.get('vFCPUFDest', 0.0),
-            'vICMSUFDest': tax.get('vICMSUFDest', 0.0),
-            'vICMSUFRemet': tax.get('vICMSUFRemet', 0.0),
+            'icms_dest_base': tax.get('vBCUFDest', 0.0),
+            'icms_fcb_percent': tax.get('pFCPUFDest', 0.0) * 100,
+            'icms_dest_percent': tax.get('pICMSUFDest', 0.0) * 100,
+            'icms_origin_percent': tax.get('pICMSInter', 0.0) * 100,
+            'icms_part_percent': tax.get('pICMSInterPart', 0.0) * 100,
+            'icms_fcb_value': tax.get('vFCPUFDest', 0.0),
+            'icms_dest_value': tax.get('vICMSUFDest', 0.0),
+            'icms_origin_value': tax.get('vICMSUFRemet', 0.0),
         }
         return result
 
     def _amount_tax_icmsst(self, tax=None):
         result = {
-            'icms_st_value': tax.get(
-                'amount',
-                0.0),
-            'icms_st_base': tax.get(
-                'total_base',
-                0.0),
-            'icms_st_percent': tax.get(
-                'icms_st_percent',
-                0.0) * 100,
+            'icms_st_value': tax.get('amount', 0.0),
+            'icms_st_base': tax.get('total_base', 0.0),
+            'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
             'icms_st_percent_reduction': tax.get(
                 'icms_st_percent_reduction',
                 0.0) * 100,
