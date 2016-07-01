@@ -13,6 +13,7 @@
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="fiscal_classification_id" />
+					<field name="origin" />
 				</xpath>
 			</field>
 		</record>
@@ -28,6 +29,7 @@
 				</field>
 				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
 					<field name="fiscal_classification_id" />
+					<field name="origin" />
 				</xpath>
 			</field>
 		</record>

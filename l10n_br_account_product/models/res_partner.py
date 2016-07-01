@@ -18,6 +18,8 @@
 ###############################################################################
 
 from openerp import models, fields, api
+from openerp.addons.l10n_br_account_product.models.product import \
+    PRODUCT_ORIGIN
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -26,7 +28,7 @@ class AccountFiscalPositionTemplate(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
@@ -37,7 +39,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template', 'NCM')
-
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
 
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
@@ -45,7 +47,7 @@ class AccountFiscalPosition(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
@@ -133,14 +135,23 @@ class AccountFiscalPosition(models.Model):
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
                 if map.tax_src_id.id == tax.id or \
                         map.tax_code_src_id.id == tax.tax_code_id.id:
                     if map.tax_dest_id.id or tax.tax_code_id.id:
+                        map_taxes |= map
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
+                        if map.origin == product.origin:
+                            map_taxes_origin |= map
+                        if (map.fiscal_classification_id.id ==
+                                product.fiscal_classification_id.id and
+                                    map.origin == product.origin):
+                            map_taxes_origin_ncm |= map
                         else:
                             map_taxes |= map
             else:
@@ -150,7 +161,9 @@ class AccountFiscalPosition(models.Model):
                     result[tax.domain] = {'tax': tax}
 
         result.update(self._map_tax_code(map_taxes))
+        result.update(self._map_tax_code(map_taxes_origin))
         result.update(self._map_tax_code(map_taxes_ncm))
+        result.update(self._map_tax_code(map_taxes_origin_ncm))
         return result
 
     @api.v8
@@ -177,3 +190,4 @@ class AccountFiscalPositionTax(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'NCM')
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
