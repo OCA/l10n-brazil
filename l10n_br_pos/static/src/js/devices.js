@@ -75,8 +75,10 @@ function l10n_br_pos_devices(instance, module) {
         },
         cancel_last_order: function(order_id, chave_cfe){
             var self = this;
-
-            self.message('cancelar_cfe',{ chave_cfe: chave_cfe },{ timeout: 5000 })
+            json = {
+                'chave_cfe': chave_cfe
+            }
+            self.message('cancelar_cfe',{ json: json },{ timeout: 5000 })
             .then(function(result){
                 if (result){
                     var posOrderModel = new instance.web.Model('pos.order');
