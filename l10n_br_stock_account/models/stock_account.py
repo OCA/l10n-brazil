@@ -77,6 +77,10 @@ class StockPicking(models.Model):
         result['fiscal_category_id'] = picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position.id
 
+        if picking.fiscal_category_id.journal_type in ('sale_refund',
+                                                       'purchase_refund'):
+            result['nfe_purpose'] = '4'
+
         vals.update(result)
         return super(StockPicking, self)._create_invoice_from_picking(
             picking, vals)
