@@ -27,3 +27,11 @@ img.desaturate {width:50%;height: 100%;margin: 0 25%;}
 .btn-busca-cpf-cnpj {
     margin-top: 5%;
 }
+
+.order_paga {
+    color: green;
+}
+
+.order_cancelada {
+    color: red;
+}

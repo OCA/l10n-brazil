@@ -218,6 +218,7 @@ function l10n_br_pos_screens(instance, module) {
             var currentOrder = this.pos.get('selectedOrder');
 
             if(currentOrder.get('orderLines').models.length === 0){
+
                 this.pos_widget.screen_selector.show_popup('error',{
                     'message': _t('Empty Order'),
                     'comment': _t('There must be at least one product in your order before it can be validated'),
@@ -306,6 +307,7 @@ function l10n_br_pos_screens(instance, module) {
                             QWeb.render('XmlReceipt',{
                             receipt: receipt, widget: self,
                         }), json);
+                        this.pos.get('selectedOrder').destroy();
                     }else{
                         this.pos.push_order(currentOrder);
                     }
@@ -368,14 +370,11 @@ function l10n_br_pos_screens(instance, module) {
                             message: _t('Cancelar Venda'),
                             comment: _t('Voc\u00ea realmente deseja cancelar est\u00e1 venda?'),
                             confirm: function(){
-                                chave_cfe = null;
-                                for (var i = 0; i < self.orders.Orders.length; i++){
-                                    if(order_id == self.orders.Orders[i].id){
-                                        chave_cfe = self.orders.Orders[i].chave_cfe;
-                                    }
-
-                                }
-                                self.cancel_last_order_sat(order_id, chave_cfe);
+                                var posOrderModel = new instance.web.Model('pos.order');
+                                var posOrder = posOrderModel.call('retornar_order_by_id', {'order_id': order_id})
+                                .then(function (order) {
+                                    self.cancel_last_order_sat(order);
+                                });
                             },
                         });
 
@@ -398,9 +397,9 @@ function l10n_br_pos_screens(instance, module) {
             var self = this;
 
             var posOrderModel = new instance.web.Model('pos.order');
-            var posOrder = posOrderModel.call('retornar_dados_reimpressao', {'order_id': order_id})
+            var posOrder = posOrderModel.call('retornar_order_by_id', {'order_id': order_id})
             .then(function (result) {
-                self.pos.proxy.reprint_cfe(result['xml'], result['chaveConsulta'], result['canceled_order']);
+                self.pos.proxy.reprint_cfe(result);
             });
         },
         render_list: function(orders){
@@ -417,14 +416,14 @@ function l10n_br_pos_screens(instance, module) {
                 contents.appendChild(clientline);
             }
         },
-        cancel_last_order_sat: function(order_id, chave_cfe){
+        cancel_last_order_sat: function(order){
             var self = this;
 
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
             if( sat_status == 'connected'){
                 if(this.pos.config.iface_sat_via_proxy){
-                    this.pos.proxy.cancel_last_order(order_id, chave_cfe);
+                    this.pos.proxy.cancel_last_order(order);
                 }
             }
         },

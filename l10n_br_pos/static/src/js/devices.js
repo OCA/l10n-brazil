@@ -73,16 +73,13 @@ function l10n_br_pos_devices(instance, module) {
             }
             send_sat_job();
         },
-        cancel_last_order: function(order_id, chave_cfe){
+        cancel_last_order: function(order){
             var self = this;
-            json = {
-                'chave_cfe': chave_cfe
-            }
-            self.message('cancelar_cfe',{ json: json },{ timeout: 5000 })
+            self.message('cancelar_cfe',{ json: order },{ timeout: 5000 })
             .then(function(result){
                 if (result){
                     var posOrderModel = new instance.web.Model('pos.order');
-                    var posOrder = posOrderModel.call('refund', {'ids': order_id, 'dados': result})
+                    var posOrder = posOrderModel.call('refund', {'ids': result.order_id, 'dados': result})
                     .then(function (orders) {
                         self.pos_widget.screen_selector.show_popup('error',{
                             message: _t('Venda Cancelada!'),
@@ -111,15 +108,10 @@ function l10n_br_pos_devices(instance, module) {
                 }
             });
         },
-        reprint_cfe: function(xml, chave_cfe, canceled_order){
+        reprint_cfe: function(order){
             var self = this;
-            json = {
-                'xml': xml,
-                'chave_cfe': chave_cfe,
-                'canceled_order': canceled_order,
-            };
 
-            self.message('reprint_cfe',{ json: json },{ timeout: 5000 })
+            self.message('reprint_cfe',{ json: order },{ timeout: 5000 })
             .then(function(result){
                 return;
             },function(error){
