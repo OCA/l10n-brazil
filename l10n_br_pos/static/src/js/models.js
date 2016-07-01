@@ -296,6 +296,26 @@ function l10n_br_pos_models(instance, module) {
         }
     });
 
+    module.Orderline = module.Orderline.extend({
+        //used to create a json of the ticket, to be sent to the printer
+        export_for_printing: function(){
+            return {
+                quantity:           this.get_quantity(),
+                unit_name:          this.get_unit().name,
+                price:              this.get_unit_price(),
+                discount:           this.get_discount(),
+                product_name:       this.get_product().display_name,
+                price_display :     this.get_display_price(),
+                price_with_tax :    this.get_price_with_tax(),
+                price_without_tax:  this.get_price_without_tax(),
+                tax:                this.get_tax(),
+                product_description:      this.get_product().description,
+                product_description_sale: this.get_product().description_sale,
+                product_default_code: this.get_product().default_code,
+            };
+        },
+    });
+
     /**
      * patch models to load some entities
      * @param pos_model
