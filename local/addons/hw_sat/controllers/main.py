@@ -53,7 +53,8 @@ class Sat(Thread):
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
-        self.printer = self._init_printer()
+        # self.printer = self._init_printer()
+        self.printer = False
         self.device = self._get_device()
 
     def lockedstart(self):
@@ -156,7 +157,7 @@ class Sat(Thread):
     def _send_cfe(self, json):
         resposta = self.device.enviar_dados_venda(
             self.__prepare_send_cfe(json))
-        self._print_extrato_venda(resposta.chaveConsulta, resposta.arquivoCFeSAT)
+        self._print_extrato_venda(resposta.arquivoCFeSAT)
         return {
             'xml': resposta.arquivoCFeSAT,
             'numSessao': resposta.numeroSessao,
@@ -171,14 +172,15 @@ class Sat(Thread):
             numeroCaixa=2
         )
 
-    def _cancel_cfe(self, chave_cfe):
+    def _cancel_cfe(self, order):
         resposta = self.device.cancelar_ultima_venda(
-            chave_cfe['chave_cfe'],
-            self.__prepare_cancel_cfe(chave_cfe['chave_cfe'])
+            order['chaveConsulta'],
+            self.__prepare_cancel_cfe(order['chaveConsulta'])
         )
         self._print_extrato_cancelamento(
-            resposta.chaveConsulta, resposta.arquivoCFeBase64)
+            order['xml_cfe_venda'], resposta.arquivoCFeBase64)
         return {
+            'order_id': order['order_id'],
             'xml': resposta.arquivoCFeBase64,
             'numSessao': resposta.numeroSessao,
             'chave_cfe': resposta.chaveConsulta,
@@ -236,7 +238,7 @@ class Sat(Thread):
         return printer
 
 
-    def _print_extrato_venda(self, chaveConsulta, xml):
+    def _print_extrato_venda(self, xml):
         if not self.printer:
             return False
         extrato = ExtratoCFeVenda(
@@ -246,11 +248,12 @@ class Sat(Thread):
         extrato.imprimir()
         return True
 
-    def _print_extrato_cancelamento(self, chaveConsulta, xml):
+    def _print_extrato_cancelamento(self, xml_venda, xml_cancelamento):
         if not self.printer:
             return False
         extrato = ExtratoCFeCancelamento(
-            StringIO.StringIO(base64.b64decode(xml)),
+            StringIO.StringIO(base64.b64decode(xml_venda)),
+            StringIO.StringIO(base64.b64decode(xml_cancelamento)),
             self.printer
             )
         extrato.imprimir()
@@ -259,22 +262,21 @@ class Sat(Thread):
     def _reprint_cfe(self, json):
         if json['canceled_order']:
             return self._print_extrato_cancelamento(
-                json['chave_cfe'], json['xml'])
+                json['xml_cfe_venda'], json['xml_cfe_cacelada'])
         else:
-            return self._print_extrato_venda(
-                json['chave_cfe'], json['xml'])
+            return self._print_extrato_venda( json['xml_cfe_venda'])
 
     def run(self):
         self.device = None
         while True:
             if self.device:
                 self.status_sat()
-                time.sleep(30)
+                time.sleep(40)
             else:
                 with self.satlock:
                     self.device = self.action_call_sat('get_device')
                 if not self.device:
-                    time.sleep(30)
+                    time.sleep(40)
 
 
 class SatDriver(hw_proxy.Proxy):
