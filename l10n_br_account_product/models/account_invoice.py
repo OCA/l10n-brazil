@@ -127,6 +127,17 @@ class AccountInvoice(models.Model):
             result = fiscal_document_series[0]
         return result
 
+    @api.model
+    def _default_nfe_purpose(self):
+        nfe_purpose_default = {
+            'in_invoice': '1',
+            'out_invoice': '1',
+            'in_refund': '4',
+            'out_refund': '4'
+        }
+        invoice_type = self.env.context.get('type', 'out_invoice')
+        return nfe_purpose_default.get(invoice_type)
+
     @api.one
     @api.depends('invoice_line.cfop_id')
     def _compute_cfops(self):
@@ -219,7 +230,7 @@ class AccountInvoice(models.Model):
          ('3', 'Ajuste'),
          ('4', u'Devolução de Mercadoria')],
         'Finalidade da Emissão', readonly=True,
-        states={'draft': [('readonly', False)]}, default='1')
+        states={'draft': [('readonly', False)]}, default=_default_nfe_purpose)
     nfe_access_key = fields.Char(
         'Chave de Acesso NFE', size=44,
         readonly=True, states={'draft': [('readonly', False)]}, copy=False)
