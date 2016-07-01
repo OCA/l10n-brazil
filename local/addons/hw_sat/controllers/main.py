@@ -171,13 +171,13 @@ class Sat(Thread):
 
     def _cancel_cfe(self, chave_cfe):
         resposta = self.device.cancelar_ultima_venda(
-            chave_cfe,
-            self.__prepare_cancel_cfe(chave_cfe)
+            chave_cfe['chave_cfe'],
+            self.__prepare_cancel_cfe(chave_cfe['chave_cfe'])
         )
         self._print_extrato_cancelamento(
             resposta.chaveConsulta, resposta.xml())
         return {
-            'xml': resposta.arquivoCFeSAT,
+            'xml': resposta.arquivoCFeBase64,
             'numSessao': resposta.numeroSessao,
             'chave_cfe': resposta.chaveConsulta,
         }
@@ -265,12 +265,12 @@ class Sat(Thread):
         while True:
             if self.device:
                 self.status_sat()
-                time.sleep(2)
+                time.sleep(30)
             else:
                 with self.satlock:
                     self.device = self.action_call_sat('get_device')
                 if not self.device:
-                    time.sleep(1)
+                    time.sleep(30)
 
 
 class SatDriver(hw_proxy.Proxy):
@@ -297,4 +297,4 @@ class SatDriver(hw_proxy.Proxy):
 
     @http.route('/hw_proxy/reprint_cfe/', type='json', auth='none', cors='*')
     def reprint_cfe(self, json):
-        return hw_proxy.drivers['satcfe'].action_call_sat('print', json)
+        return hw_proxy.drivers['satcfe'].action_call_sat('reprint', json)
