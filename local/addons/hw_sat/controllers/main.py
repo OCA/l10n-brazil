@@ -4,8 +4,10 @@ import time
 from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal
+import StringIO
 import openerp.addons.hw_proxy.controllers.main as hw_proxy
 from openerp import http
+import base64
 
 _logger = logging.getLogger(__name__)
 
@@ -51,7 +53,7 @@ class Sat(Thread):
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
-        self.printer = False
+        self.printer = self._init_printer()
         self.device = self._get_device()
 
     def lockedstart(self):
@@ -154,7 +156,7 @@ class Sat(Thread):
     def _send_cfe(self, json):
         resposta = self.device.enviar_dados_venda(
             self.__prepare_send_cfe(json))
-        self._print_extrato_venda(resposta.chaveConsulta, resposta.xml())
+        self._print_extrato_venda(resposta.chaveConsulta, resposta.arquivoCFeSAT)
         return {
             'xml': resposta.arquivoCFeSAT,
             'numSessao': resposta.numeroSessao,
@@ -175,7 +177,7 @@ class Sat(Thread):
             self.__prepare_cancel_cfe(chave_cfe['chave_cfe'])
         )
         self._print_extrato_cancelamento(
-            resposta.chaveConsulta, resposta.xml())
+            resposta.chaveConsulta, resposta.arquivoCFeBase64)
         return {
             'xml': resposta.arquivoCFeBase64,
             'numSessao': resposta.numeroSessao,
@@ -199,57 +201,59 @@ class Sat(Thread):
             elif task == 'cancel':
                 return self._cancel_cfe(json)
         except ErroRespostaSATInvalida as ex:
-            _logger.error('SAT Error: '+ex)
+            _logger.error('SAT Error: {0}'.format(ex))
             return {'excessao': ex}
         except ExcecaoRespostaSAT as ex:
-            _logger.error('SAT Error: '+ex)
+            _logger.error('SAT Error: {0}'.format(ex))
             return {'excessao': ex}
         except Exception as ex:
-            _logger.error('SAT Error: '+ex)
+            _logger.error('SAT Error: {0}'.format(ex))
             return {'excessao': ex}
 
-    def _init_printer(self, config):
+    def _init_printer(self):
+
         from escpos.serial import SerialSettings
 
-        if config['impressora'] == 'epson-tm-t20':
+        if self.impressora == 'epson-tm-t20':
             _logger.info(u'SAT Impressao: Epson TM-T20')
             from escpos.impl.epson import TMT20 as Printer
-        elif config['impressora'] == 'bematech-mp4200th':
+        elif self.impressora == 'bematech-mp4200th':
             _logger.info(u'SAT Impressao: Bematech MP4200TH')
             from escpos.impl.bematech import MP4200TH as Printer
-        elif config['impressora'] == 'daruma-dr700':
+        elif self.impressora == 'daruma-dr700':
             _logger.info(u'SAT Impressao: Daruma Dr700')
             from escpos.impl.daruma import DR700 as Printer
-        elif config['impressora'] == 'elgin-i9':
+        elif self.impressora == 'elgin-i9':
             _logger.info(u'SAT Impressao: Elgin I9')
             from escpos.impl.elgin import ElginI9 as Printer
         else:
             self.printer = False
         conn = SerialSettings.as_from(
-            config['printer_params']).get_connection()
-        self.printer = Printer(conn)
-        self.printer.init()
+            self.printer_params).get_connection()
+
+        printer = Printer(conn)
+        printer.init()
+        return printer
+
 
     def _print_extrato_venda(self, chaveConsulta, xml):
         if not self.printer:
             return False
-        file_path = '/tmp/' + chaveConsulta + '.xml'
-        with open(file_path, 'w') as temp:
-            temp.write(xml)
-        with open(file_path, 'r') as fp:
-            extrato = ExtratoCFeVenda(fp, self.printer)
-            extrato.imprimir()
+        extrato = ExtratoCFeVenda(
+            StringIO.StringIO(base64.b64decode(xml)),
+            self.printer
+            )
+        extrato.imprimir()
         return True
 
     def _print_extrato_cancelamento(self, chaveConsulta, xml):
         if not self.printer:
             return False
-        file_path = '/tmp/' + chaveConsulta + '.xml'
-        with open(file_path, 'w') as temp:
-            temp.write(xml)
-        with open(file_path, 'r') as fp:
-            extrato = ExtratoCFeCancelamento(fp, self.printer)
-            extrato.imprimir()
+        extrato = ExtratoCFeCancelamento(
+            StringIO.StringIO(base64.b64decode(xml)),
+            self.printer
+            )
+        extrato.imprimir()
         return True
 
     def _reprint_cfe(self, json):
