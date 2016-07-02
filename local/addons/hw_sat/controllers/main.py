@@ -53,8 +53,8 @@ class Sat(Thread):
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
-        # self.printer = self._init_printer()
-        self.printer = False
+        self.printer = self._init_printer()
+        # self.printer = False
         self.device = self._get_device()
 
     def lockedstart(self):
@@ -117,6 +117,11 @@ class Sat(Thread):
                     self.device = None
 
     def __prepare_send_detail_cfe(self, item):
+        kwargs = {}
+
+        if item['discount']:
+            kwargs['vDesc'] = item['discount'] * (item['quantity'] * item['price']) / 100
+
         return Detalhamento(
             produto=ProdutoServico(
                 cProd=unicode(int),
@@ -125,7 +130,9 @@ class Sat(Thread):
                 uCom=item['unit_name'],
                 qCom=Decimal(item['quantity']).quantize(FOURPLACES),
                 vUnCom=Decimal(item['price']).quantize(TWOPLACES),
-                indRegra='A'),
+                indRegra='A',
+                **kwargs
+                ),
             imposto=Imposto(
                 icms=ICMSSN102(Orig='2', CSOSN='500'),
                 pis=PISSN(CST='49'),
