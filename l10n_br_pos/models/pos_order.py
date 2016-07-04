@@ -108,7 +108,7 @@ class PosOrder(models.Model):
                 'id': order.id,
                 'name': order.name,
                 'pos_reference': order.pos_reference,
-                'partner_id': order.partner_id.id,
+                'partner': order.partner_id.name,
                 'date': order.date_order,
                 'chave_cfe': order.chave_cfe,
                 'can_cancel': False,

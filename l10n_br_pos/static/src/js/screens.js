@@ -52,12 +52,7 @@ function l10n_br_pos_screens(instance, module) {
                             new_partner["cnpj_cpf"] = $('.busca-cpf-cnpj').val();
                             new_partner["property_account_receivable"] = 9;
                             new_partner["property_account_payable"] = 17;
-                            isSave = self.save_client_details(new_partner);
-                            if (isSave){
-                                self.old_client = new_partner;
-                                self.new_client = self.old_client;
-                                self.pos.get('selectedOrder').set_client(self.new_client);
-                            }
+                            self.pos_widget.order_widget.save_client_details(new_partner);
                         }
                     }
                 } else {
@@ -79,6 +74,11 @@ function l10n_br_pos_screens(instance, module) {
             }
 
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
+                self.old_client = partner;
+                console.log(partner);
+                self.new_client = self.old_client;
+                console.log(self);
+                self.pos.get('selectedOrder').set_client(self.new_client);
                 return true;
             },function(err,event){
                 event.preventDefault();
