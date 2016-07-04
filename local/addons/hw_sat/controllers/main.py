@@ -120,11 +120,12 @@ class Sat(Thread):
         kwargs = {}
 
         if item['discount']:
-            kwargs['vDesc'] = item['discount'] * (item['quantity'] * item['price']) / 100
+            kwargs['vDesc'] = Decimal((item['quantity'] * item['price']) -
+                                      item['price_display']).quantize(TWOPLACES )
 
         return Detalhamento(
             produto=ProdutoServico(
-                cProd=unicode(int),
+                cProd=unicode(item['product_default_code']),
                 xProd=item['product_name'],
                 CFOP='5102',
                 uCom=item['unit_name'],
@@ -196,28 +197,28 @@ class Sat(Thread):
     def action_call_sat(self, task, json=False):
 
         _logger.info('SAT: Task {0}'.format(task))
+        with self.satlock:
+            try:
 
-        try:
-
-            if task == 'connect':
-                pass
-            elif task == 'get_device':
-                return self._get_device()
-            elif task == 'reprint':
-                return self._reprint_cfe(json)
-            elif task == 'send':
-                return self._send_cfe(json)
-            elif task == 'cancel':
-                return self._cancel_cfe(json)
-        except ErroRespostaSATInvalida as ex:
-            _logger.error('SAT Error: {0}'.format(ex))
-            return {'excessao': ex}
-        except ExcecaoRespostaSAT as ex:
-            _logger.error('SAT Error: {0}'.format(ex))
-            return {'excessao': ex}
-        except Exception as ex:
-            _logger.error('SAT Error: {0}'.format(ex))
-            return {'excessao': ex}
+                if task == 'connect':
+                    pass
+                elif task == 'get_device':
+                    return self._get_device()
+                elif task == 'reprint':
+                    return self._reprint_cfe(json)
+                elif task == 'send':
+                    return self._send_cfe(json)
+                elif task == 'cancel':
+                    return self._cancel_cfe(json)
+            except ErroRespostaSATInvalida as ex:
+                _logger.error('SAT Error: {0}'.format(ex))
+                return {'excessao': ex}
+            except ExcecaoRespostaSAT as ex:
+                _logger.error('SAT Error: {0}'.format(ex))
+                return {'excessao': ex}
+            except Exception as ex:
+                _logger.error('SAT Error: {0}'.format(ex))
+                return {'excessao': ex}
 
     def _init_printer(self):
 
@@ -280,8 +281,7 @@ class Sat(Thread):
                 self.status_sat()
                 time.sleep(40)
             else:
-                with self.satlock:
-                    self.device = self.action_call_sat('get_device')
+                self.device = self.action_call_sat('get_device')
                 if not self.device:
                     time.sleep(40)
 
