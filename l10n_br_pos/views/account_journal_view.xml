@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="view_l10n_br_pos_account_journal_form" model="ir.ui.view">
+			<field name="name">l10n_br_pos_account.journal.form</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="point_of_sale.view_account_journal_pos_user_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='amount_authorized_diff']" position="after">
+                    <field name="sat_payment_mode"/>
+                    <field name="sat_card_accrediting"/>
+                </xpath>
+			</field>
+		</record>
+
+	</data>
+</openerp>
