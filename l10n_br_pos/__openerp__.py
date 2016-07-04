@@ -12,13 +12,14 @@
     "depends": [
         'l10n_br_base',
         'point_of_sale',
-        'pos_pricelist'
+        'pos_pricelist',
     ],
     'data': [
         "views/pos_template.xml",
         "views/point_of_sale_view.xml",
         "views/point_of_sale_report.xml",
         "views/res_company.xml",
+        "views/account_journal_view.xml",
     ],
     "qweb": [
         'static/src/xml/pos.xml',

@@ -4,3 +4,4 @@
 import pos_order
 import pos_config
 import res_company
+import account_journal
