@@ -220,7 +220,7 @@ function l10n_br_pos_models(instance, module) {
                 tax_details: this.getTaxDetails(),
                 change: this.getChange(),
                 name : this.getName(),
-                client: client ? client.name : null ,
+                client: client ? client.cnpj_cpf : null ,
                 invoice_id: null,   //TODO
                 cashier: cashier ? cashier.name : null,
                 header: this.pos.config.receipt_header || '',
