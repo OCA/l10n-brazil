@@ -197,9 +197,9 @@ class Sat(Thread):
     def action_call_sat(self, task, json=False):
 
         _logger.info('SAT: Task {0}'.format(task))
-        with self.satlock:
-            try:
 
+        try:
+            with self.satlock:
                 if task == 'connect':
                     pass
                 elif task == 'get_device':
@@ -210,15 +210,15 @@ class Sat(Thread):
                     return self._send_cfe(json)
                 elif task == 'cancel':
                     return self._cancel_cfe(json)
-            except ErroRespostaSATInvalida as ex:
-                _logger.error('SAT Error: {0}'.format(ex))
-                return {'excessao': ex}
-            except ExcecaoRespostaSAT as ex:
-                _logger.error('SAT Error: {0}'.format(ex))
-                return {'excessao': ex}
-            except Exception as ex:
-                _logger.error('SAT Error: {0}'.format(ex))
-                return {'excessao': ex}
+        except ErroRespostaSATInvalida as ex:
+            _logger.error('SAT Error: {0}'.format(ex))
+            return {'excessao': ex}
+        except ExcecaoRespostaSAT as ex:
+            _logger.error('SAT Error: {0}'.format(ex))
+            return {'excessao': ex}
+        except Exception as ex:
+            _logger.error('SAT Error: {0}'.format(ex))
+            return {'excessao': ex}
 
     def _init_printer(self):
 
