@@ -54,7 +54,6 @@ class Sat(Thread):
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
         self.printer = self._init_printer()
-        # self.printer = False
         self.device = self._get_device()
 
     def lockedstart(self):
