@@ -164,7 +164,7 @@
         <tr class='client-line last-order' t-att-data-id='order.id'>
             <td><t t-esc='order.name' /></td>
             <td><t t-esc='order.pos_reference' /></td>
-            <td><t t-esc='order.partner_id or ""' /></td>
+            <td><t t-esc='order.partner or ""' /></td>
             <td><t t-esc='order.date' /></td>
             <td>
                 <button class="reprint_order last_order">
