@@ -2,6 +2,18 @@
 <openerp>
 <data>
 
+<!-- POS order search -->
+<record id="view_l10n_br_pos_search" model="ir.ui.view">
+    <field name="name">l10n_br_pos.order.search</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="chave_cfe" string="Chave CFE" />
+            <field name="cnpj_cpf" string="CNPJ/CPF"/>
+        </field>
+    </field>
+</record>
 <!-- POS order form -->
 <record model="ir.ui.view" id="view_pos_pos_form">
     <field name="name">POS Order (remove invoice button)</field>

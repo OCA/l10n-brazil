@@ -55,6 +55,10 @@ class PosOrder(models.Model):
 
     num_sessao_sat_cancelamento = fields.Char(u'Número Sessão SAT Cancelamento')
 
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
     @api.one
     def action_invoice(self):
         self.simplified = False
