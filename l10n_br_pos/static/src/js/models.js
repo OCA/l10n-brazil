@@ -1,24 +1,24 @@
 /******************************************************************************
-*    Point Of Sale - L10n Brazil Localization for POS Odoo
-*    Copyright (C) 2016 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
-*    @author Luis Felipe Miléo <mileo@kmee.com.br>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU Affero General Public License as
-*    published by the Free Software Foundation, either version 3 of the
-*    License, or (at your option) any later version.
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU Affero General Public License for more details.
-*    You should have received a copy of the GNU Affero General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*
-******************************************************************************/
+ *    Point Of Sale - L10n Brazil Localization for POS Odoo
+ *    Copyright (C) 2016 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
+ *    @author Luis Felipe Miléo <mileo@kmee.com.br>
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ ******************************************************************************/
 
 function l10n_br_pos_models(instance, module) {
     var QWeb = instance.web.qweb;
-	var _t = instance.web._t;
+    var _t = instance.web._t;
     /**
      * Extend the POS model
      */
@@ -32,9 +32,9 @@ function l10n_br_pos_models(instance, module) {
             PosModelParent.prototype.initialize.apply(this, arguments);
             arrange_elements(this);
             this.models.push({
-                model:  'res.country.state',
+                model: 'res.country.state',
                 fields: ['name', 'country_id'],
-                loaded: function(self,states){
+                loaded: function (self, states) {
                     self.company.state = null;
                     self.states = states;
 //                    for (var i = 0; i < states.length; i++) {
@@ -48,9 +48,9 @@ function l10n_br_pos_models(instance, module) {
                 }
             });
             this.models.push({
-                model:  'l10n_br_base.city',
+                model: 'l10n_br_base.city',
                 fields: ['name', 'state_id'],
-                loaded: function(self,cities){
+                loaded: function (self, cities) {
                     self.company.city = null;
                     self.cities = [];
 //                    for (var i = 0; i < cities.length; i++) {
@@ -63,23 +63,25 @@ function l10n_br_pos_models(instance, module) {
             this.models.push({
                 model: 'pos.config',
                 fields: [],
-                domain: function(self){ return [['id','=', self.pos_session.config_id[0]]]; },
-                loaded: function(self,configs){
+                domain: function (self) {
+                    return [['id', '=', self.pos_session.config_id[0]]];
+                },
+                loaded: function (self, configs) {
                     self.config = configs[0];
                     self.config.use_proxy = self.config.iface_payment_terminal ||
-                                            self.config.iface_electronic_scale ||
-                                            self.config.iface_print_via_proxy  ||
-                                            self.config.iface_scan_via_proxy   ||
-                                            self.config.iface_cashdrawer       ||
-                                            self.config.iface_sat_via_proxy;
+                        self.config.iface_electronic_scale ||
+                        self.config.iface_print_via_proxy ||
+                        self.config.iface_scan_via_proxy ||
+                        self.config.iface_cashdrawer ||
+                        self.config.iface_sat_via_proxy;
 
                     self.barcode_reader.add_barcode_patterns({
-                        'product':  self.config.barcode_product,
-                        'cashier':  self.config.barcode_cashier,
-                        'client':   self.config.barcode_customer,
-                        'weight':   self.config.barcode_weight,
+                        'product': self.config.barcode_product,
+                        'cashier': self.config.barcode_cashier,
+                        'client': self.config.barcode_customer,
+                        'weight': self.config.barcode_weight,
                         'discount': self.config.barcode_discount,
-                        'price':    self.config.barcode_price,
+                        'price': self.config.barcode_price,
                     });
 
                     if (self.config.company_id[0] !== self.user.company_id[0]) {
@@ -89,10 +91,27 @@ function l10n_br_pos_models(instance, module) {
             });
 
             this.models.push({
-                model:  'res.company',
-                fields: [ 'ambiente_sat', 'cnpj_cpf', 'inscr_est', 'currency_id', 'email', 'website', 'company_registry', 'vat', 'name', 'phone', 'partner_id' , 'country_id', 'tax_calculation_rounding_method'],
-                ids:    function(self){ return [self.user.company_id[0]] },
-                loaded: function(self,companies){ self.company = companies[0]; },
+                model: 'res.company',
+                fields: [
+                    'ambiente_sat',
+                    'cnpj_cpf',
+                    'inscr_est',
+                    'currency_id',
+                    'email',
+                    'website',
+                    'company_registry',
+                    'vat',
+                    'name',
+                    'phone',
+                    'partner_id',
+                    'country_id',
+                    'tax_calculation_rounding_method'],
+                ids: function (self) {
+                    return [self.user.company_id[0]]
+                },
+                loaded: function (self, companies) {
+                    self.company = companies[0];
+                },
             });
 
         },
@@ -125,36 +144,36 @@ function l10n_br_pos_models(instance, module) {
 //                }
 //            }
 //        });
-        cancel_pos_order: function(chave_cfe){
+        cancel_pos_order: function (chave_cfe) {
             var self = this;
 
             var posOrderModel = new instance.web.Model('pos.order');
             var posOrder = posOrderModel.call('cancel_last_order', {'chave_cfe': chave_cfe})
-            .then(function (orders) {
-                console.log("cancel_pos_order");
-                console.log(self);
-                self.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('Venda Cancelada!'),
-                    comment: _t('A venda foi cancelada com sucesso.'),
+                .then(function (orders) {
+                    console.log("cancel_pos_order");
+                    console.log(self);
+                    self.pos_widget.screen_selector.show_popup('error', {
+                        message: _t('Venda Cancelada!'),
+                        comment: _t('A venda foi cancelada com sucesso.'),
+                    });
                 });
-            });
         },
     });
 
     module.Order = module.Order.extend({
-        initialize: function(attributes){
+        initialize: function (attributes) {
             Backbone.Model.prototype.initialize.apply(this, arguments);
             this.pos = attributes.pos;
             this.sequence_number = this.pos.pos_session.sequence_number++;
-            this.uid =     this.generateUniqueId();
+            this.uid = this.generateUniqueId();
             this.set({
-                creationDate:   new Date(),
-                orderLines:     new module.OrderlineCollection(),
-                paymentLines:   new module.PaymentlineCollection(),
-                name:           _t("Order ") + this.uid,
-                client:         null
+                creationDate: new Date(),
+                orderLines: new module.OrderlineCollection(),
+                paymentLines: new module.PaymentlineCollection(),
+                name: _t("Order ") + this.uid,
+                client: null
             });
-            this.selected_orderline   = undefined;
+            this.selected_orderline = undefined;
             this.selected_paymentline = undefined;
             this.screen_data = {};  // see ScreenSelector
             this.receipt_type = 'receipt';  // 'receipt' || 'invoice'
@@ -164,45 +183,45 @@ function l10n_br_pos_models(instance, module) {
             this.chave_cfe = null;
             return this;
         },
-        get_return_cfe: function(){
+        get_return_cfe: function () {
             return this.cfe_return;
         },
-        set_return_cfe: function(xml){
+        set_return_cfe: function (xml) {
             this.cfe_return = xml;
         },
-        get_chave_cfe: function(){
+        get_chave_cfe: function () {
             return this.chave_cfe;
         },
-        set_chave_cfe: function(chavecfe){
+        set_chave_cfe: function (chavecfe) {
             this.chave_cfe = chavecfe;
         },
-        get_num_sessao_sat: function(){
+        get_num_sessao_sat: function () {
             return this.num_sessao_sat;
         },
-        set_num_sessao_sat: function(num_sessao_sat){
+        set_num_sessao_sat: function (num_sessao_sat) {
             this.num_sessao_sat = num_sessao_sat;
         },
-        export_for_printing: function(){
+        export_for_printing: function () {
             var orderlines = [];
-            this.get('orderLines').each(function(orderline){
+            this.get('orderLines').each(function (orderline) {
                 orderlines.push(orderline.export_for_printing());
             });
 
             var paymentlines = [];
-            this.get('paymentLines').each(function(paymentline){
+            this.get('paymentLines').each(function (paymentline) {
                 paymentlines.push(paymentline.export_for_printing());
             });
-            var client  = this.get('client');
+            var client = this.get('client');
             var cashier = this.pos.cashier || this.pos.user;
             var company = this.pos.company;
-            var shop    = this.pos.shop;
+            var shop = this.pos.shop;
             var date = new Date();
             // Refactory
-            if (this.pos.company.ambiente_sat == "homologacao"){
+            if (this.pos.company.ambiente_sat == "homologacao") {
                 company.cnpj = this.pos.config.cnpj_homologacao;
                 company.ie = this.pos.config.ie_homologacao;
                 company.cnpj_software_house = this.pos.config.cnpj_software_house;
-            }else{
+            } else {
                 company.cnpj = this.pos.company.cnpj_cpf;
                 company.ie = this.pos.company.inscr_est;
                 company.cnpj_software_house = this.pos.config.cnpj_software_house;
@@ -219,8 +238,8 @@ function l10n_br_pos_models(instance, module) {
                 total_discount: this.getDiscountTotal(),
                 tax_details: this.getTaxDetails(),
                 change: this.getChange(),
-                name : this.getName(),
-                client: client ? client.cnpj_cpf : null ,
+                name: this.getName(),
+                client: client ? client.cnpj_cpf : null,
                 invoice_id: null,   //TODO
                 cashier: cashier ? cashier.name : null,
                 header: this.pos.config.receipt_header || '',
@@ -236,11 +255,11 @@ function l10n_br_pos_models(instance, module) {
                     date: date.getDate(),       // day of the month
                     day: date.getDay(),         // day of the week
                     hour: date.getHours(),
-                    minute: date.getMinutes() ,
+                    minute: date.getMinutes(),
                     isostring: date.toISOString(),
                     localestring: date.toLocaleString(),
                 },
-                company:{
+                company: {
                     email: company.email,
                     website: company.website,
                     company_registry: company.company_registry,
@@ -248,12 +267,12 @@ function l10n_br_pos_models(instance, module) {
                     vat: company.vat,
                     name: company.name,
                     phone: company.phone,
-                    logo:  this.pos.company_logo_base64,
+                    logo: this.pos.company_logo_base64,
                     cnpj: company.cnpj,
                     ie: company.ie,
                     cnpj_software_house: company.cnpj_software_house,
                 },
-                shop:{
+                shop: {
                     name: shop.name,
                 },
                 configs_sat: {
@@ -266,14 +285,14 @@ function l10n_br_pos_models(instance, module) {
                 currency: this.pos.currency,
             };
         },
-        export_as_JSON: function() {
+        export_as_JSON: function () {
             var orderLines, paymentLines;
             orderLines = [];
-            (this.get('orderLines')).each(_.bind( function(item) {
+            (this.get('orderLines')).each(_.bind(function (item) {
                 return orderLines.push([0, 0, item.export_as_JSON()]);
             }, this));
             paymentLines = [];
-            (this.get('paymentLines')).each(_.bind( function(item) {
+            (this.get('paymentLines')).each(_.bind(function (item) {
                 return paymentLines.push([0, 0, item.export_as_JSON()]);
             }, this));
             return {
@@ -297,66 +316,94 @@ function l10n_br_pos_models(instance, module) {
     });
 
     module.Orderline = module.Orderline.extend({
-        //used to create a json of the ticket, to be sent to the printer
-        export_for_printing: function(){
-            return {
-                quantity:           this.get_quantity(),
-                unit_name:          this.get_unit().name,
-                price:              this.get_unit_price(),
-                discount:           this.get_discount(),
-                product_name:       this.get_product().display_name,
-                price_display :     this.get_display_price(),
-                price_with_tax :    this.get_price_with_tax(),
-                price_without_tax:  this.get_price_without_tax(),
-                tax:                this.get_tax(),
-                product_description:      this.get_product().description,
-                product_description_sale: this.get_product().description_sale,
-                product_default_code: this.get_product().default_code,
-                fiscal_classification_id: this.get_product().fiscal_classification_id,
-                origin: this.get_product().origin,
+            //used to create a json of the ticket, to be sent to the printer
+            export_for_printing: function () {
+                return {
+                    quantity: this.get_quantity(),
+                    unit_name: this.get_unit().name,
+                    price: this.get_unit_price(),
+                    discount: this.get_discount(),
+                    product_name: this.get_product().name,
+                    price_display: this.get_display_price(),
+                    price_with_tax: this.get_price_with_tax(),
+                    price_without_tax: this.get_price_without_tax(),
+                    tax: this.get_tax(),
+                    product_description: this.get_product().description,
+                    product_description_sale: this.get_product().description_sale,
+                    product_default_code: this.get_product().default_code,
+                    fiscal_classification_id: this.get_product().fiscal_classification_id,
+                    origin: this.get_product().origin,
+                };
+            },
+        });
+
+
+       function arrange_elements(pos_model) {
+            var product_product_model = pos_model.find_model('product.product');
+            if (_.size(product_product_model) == 1) {
+                var res_partner_index =
+                    parseInt(Object.keys(product_product_model)[0]);
+                pos_model.models[res_partner_index].fields.push(
+                    'fiscal_classification_id',
+                    'origin',
+                    'name'
+                );
+        }
+
+
+        function arrange_elements(pos_model) {
+            var account_journal_model = pos_model.find_model('account.journal');
+            if (_.size(account_journal_model) == 1) {
+                var res_partner_index =
+                    parseInt(Object.keys(account_journal_model)[0]);
+                pos_model.models[res_partner_index].fields.push(
+                    'sat_payment_mode',
+                    'sat_card_accrediting'
+                );
+            }
+
+            /**
+             * patch models to load some entities
+             * @param pos_model
+             */
+            function arrange_elements(pos_model) {
+                var res_partner_model = pos_model.find_model('res.partner');
+                if (_.size(res_partner_model) == 1) {
+                    var res_partner_index =
+                        parseInt(Object.keys(res_partner_model)[0]);
+                    pos_model.models[res_partner_index].fields.push(
+                        'legal_name',
+                        'cnpj_cpf',
+                        'inscr_est',
+                        'inscr_mun',
+                        'suframa',
+                        'district',
+                        'number',
+                        'country_id',
+                        'state_id',
+                        'l10n_br_city_id'
+                    );
+                }
+
+                var res_company_model = pos_model.find_model('res.company');
+                if (_.size(res_company_model) == 1) {
+                    var res_company_index =
+                        parseInt(Object.keys(res_company_model)[0]);
+                    pos_model.models[res_company_index].fields.push(
+                        'legal_name',
+                        'cnpj_cpf',
+                        'inscr_est',
+                        'inscr_mun',
+                        'suframa',
+                        'district',
+                        'number',
+                        'country_id',
+                        'state_id',
+                        'l10n_br_city_id'
+                    );
+                }
+                ;
             };
-        },
-    });
-
-    /**
-     * patch models to load some entities
-     * @param pos_model
-     */
-    function arrange_elements(pos_model) {
-        var res_partner_model = pos_model.find_model('res.partner');
-        if (_.size(res_partner_model) == 1) {
-            var res_partner_index =
-                parseInt(Object.keys(res_partner_model)[0]);
-            pos_model.models[res_partner_index].fields.push(
-                'legal_name',
-                'cnpj_cpf',
-                'inscr_est',
-                'inscr_mun',
-                'suframa',
-                'district',
-                'number',
-                'country_id',
-                'state_id',
-                'l10n_br_city_id'
-            );
-        }
-
-        var res_company_model = pos_model.find_model('res.company');
-        if (_.size(res_company_model) == 1) {
-            var res_company_index =
-                parseInt(Object.keys(res_company_model)[0]);
-            pos_model.models[res_company_index].fields.push(
-                'legal_name',
-                'cnpj_cpf',
-                'inscr_est',
-                'inscr_mun',
-                'suframa',
-                'district',
-                'number',
-                'country_id',
-                'state_id',
-                'l10n_br_city_id'
-            );
-        }
-    }
+        };
+    };
 }
