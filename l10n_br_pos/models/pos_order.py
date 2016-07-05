@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # See README.rst file on addon root folder for license details
+
 import time
 
 from openerp import models, fields, api
@@ -104,7 +105,7 @@ class PosOrder(models.Model):
             [
                 ('session_id', '=', kwargs['session_id']),
                 ('state', '=', 'paid'),
-                ('canceled_order', '=', False)
+                ('chave_cfe', '!=', '')
             ], limit=5, order="id DESC"
         )
         for order in orders:
@@ -115,6 +116,7 @@ class PosOrder(models.Model):
                 'partner': order.partner_id.name,
                 'date': order.date_order,
                 'chave_cfe': order.chave_cfe,
+                'canceled_order': order.canceled_order,
                 'can_cancel': False,
             }
             orders_session['Orders'].append(order_vals)
