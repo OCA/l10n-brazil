@@ -131,19 +131,7 @@ function l10n_br_pos_models(instance, module) {
             }
             return lookup
         },
-//        PosModelParent.models.push({
-//            model:  'res.country.state',
-//            fields: ['name'],
-//            loaded: function(self,states){
-//                self.state = states;
-//                self.company.state = null;
-//                for (var i = 0; i < states.length; i++) {
-//                    if (states[i].id === self.company.state_id[0]){
-//                        self.company.state = states[i];
-//                    }
-//                }
-//            }
-//        });
+
         cancel_pos_order: function (chave_cfe) {
             var self = this;
 
@@ -335,75 +323,85 @@ function l10n_br_pos_models(instance, module) {
                     origin: this.get_product().origin,
                 };
             },
-        });
+    });
 
+    module.Paymentline = module.Paymentline.extend({
+        export_as_JSON: function(){
+            return {
+                name: instance.web.datetime_to_str(new Date()),
+                statement_id: this.cashregister.id,
+                account_id: this.cashregister.account_id[0],
+                journal_id: this.cashregister.journal_id[0],
+                amount: this.get_amount(),
+                payment_term: this.get_payment_term(),
+                sat_payment_mode : this.sat_payment_mode,
+                sat_card_accrediting : this.sat_card_accrediting,
+            };
+        }
+    });
 
-       function arrange_elements(pos_model) {
-            var product_product_model = pos_model.find_model('product.product');
-            if (_.size(product_product_model) == 1) {
-                var res_partner_index =
-                    parseInt(Object.keys(product_product_model)[0]);
-                pos_model.models[res_partner_index].fields.push(
-                    'fiscal_classification_id',
-                    'origin',
-                    'name'
-                );
+    /**
+     * patch models to load some entities
+     * @param pos_model
+     */
+    function arrange_elements(pos_model) {
+        var res_partner_model = pos_model.find_model('res.partner');
+        if (_.size(res_partner_model) == 1) {
+            var res_partner_index =
+                parseInt(Object.keys(res_partner_model)[0]);
+            pos_model.models[res_partner_index].fields.push(
+                'legal_name',
+                'cnpj_cpf',
+                'inscr_est',
+                'inscr_mun',
+                'suframa',
+                'district',
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
+            );
         }
 
-
-        function arrange_elements(pos_model) {
-            var account_journal_model = pos_model.find_model('account.journal');
-            if (_.size(account_journal_model) == 1) {
-                var res_partner_index =
-                    parseInt(Object.keys(account_journal_model)[0]);
-                pos_model.models[res_partner_index].fields.push(
-                    'sat_payment_mode',
-                    'sat_card_accrediting'
-                );
-            }
-
-            /**
-             * patch models to load some entities
-             * @param pos_model
-             */
-            function arrange_elements(pos_model) {
-                var res_partner_model = pos_model.find_model('res.partner');
-                if (_.size(res_partner_model) == 1) {
-                    var res_partner_index =
-                        parseInt(Object.keys(res_partner_model)[0]);
-                    pos_model.models[res_partner_index].fields.push(
-                        'legal_name',
-                        'cnpj_cpf',
-                        'inscr_est',
-                        'inscr_mun',
-                        'suframa',
-                        'district',
-                        'number',
-                        'country_id',
-                        'state_id',
-                        'l10n_br_city_id'
-                    );
-                }
-
-                var res_company_model = pos_model.find_model('res.company');
-                if (_.size(res_company_model) == 1) {
-                    var res_company_index =
-                        parseInt(Object.keys(res_company_model)[0]);
-                    pos_model.models[res_company_index].fields.push(
-                        'legal_name',
-                        'cnpj_cpf',
-                        'inscr_est',
-                        'inscr_mun',
-                        'suframa',
-                        'district',
-                        'number',
-                        'country_id',
-                        'state_id',
-                        'l10n_br_city_id'
-                    );
-                }
-                ;
-            };
+        var res_company_model = pos_model.find_model('res.company');
+        if (_.size(res_company_model) == 1) {
+            var res_company_index =
+                parseInt(Object.keys(res_company_model)[0]);
+            pos_model.models[res_company_index].fields.push(
+                'legal_name',
+                'cnpj_cpf',
+                'inscr_est',
+                'inscr_mun',
+                'suframa',
+                'district',
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
+            );
         };
+
+        var account_journal_model = pos_model.find_model('account.journal');
+        if (_.size(account_journal_model) == 1) {
+            var res_partner_index =
+                parseInt(Object.keys(account_journal_model)[0]);
+            pos_model.models[res_partner_index].fields.push(
+                'sat_payment_mode',
+                'sat_card_accrediting'
+            );
+        };
+
+        var product_product_model = pos_model.find_model('product.product');
+       if (_.size(product_product_model) == 1) {
+           var res_partner_index =
+               parseInt(Object.keys(product_product_model)[0]);
+           pos_model.models[res_partner_index].fields.push(
+               'fiscal_classification_id',
+               'origin',
+               'name'
+           );
+       };
+
     };
-}
+
+};
