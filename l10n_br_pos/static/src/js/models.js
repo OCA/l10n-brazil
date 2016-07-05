@@ -312,6 +312,8 @@ function l10n_br_pos_models(instance, module) {
                 product_description:      this.get_product().description,
                 product_description_sale: this.get_product().description_sale,
                 product_default_code: this.get_product().default_code,
+                fiscal_classification_id: this.get_product().fiscal_classification_id,
+                origin: this.get_product().origin,
             };
         },
     });
