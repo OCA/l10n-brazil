@@ -401,7 +401,7 @@ class NFe200(FiscalDocument):
 
             # Informação do ICMS Interestadual nas vendas para consumidor final
             self.det.imposto.ICMSUFDest.vBCUFDest.valor = str(
-                "%.2f" % invoice_line.icms_dest_value)
+                "%.2f" % invoice_line.icms_dest_base)
             self.det.imposto.ICMSUFDest.pFCPUFDest.valor = str(
                 "%.2f" % invoice_line.icms_fcp_percent)
             self.det.imposto.ICMSUFDest.pICMSUFDest.valor = str(
