@@ -326,7 +326,7 @@ function l10n_br_pos_models(instance, module) {
     });
 
     module.Paymentline = module.Paymentline.extend({
-        export_as_JSON: function(){
+        export_for_printing: function(){
             return {
                 name: instance.web.datetime_to_str(new Date()),
                 statement_id: this.cashregister.id,
