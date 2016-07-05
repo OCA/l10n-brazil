@@ -8,6 +8,7 @@ import StringIO
 import openerp.addons.hw_proxy.controllers.main as hw_proxy
 from openerp import http
 import base64
+import re, string
 
 _logger = logging.getLogger(__name__)
 
@@ -42,6 +43,11 @@ except ImportError:
 TWOPLACES = Decimal(10) ** -2
 FOURPLACES = Decimal(10) ** -4
 
+
+def punctuation_rm(string_value):
+    tmp_value = (
+        re.sub('[%s]' % re.escape(string.punctuation), '', string_value or ''))
+    return tmp_value
 
 class Sat(Thread):
     def __init__(self, codigo_ativacao, sat_path, impressora, printer_params):
@@ -131,10 +137,11 @@ class Sat(Thread):
                 qCom=Decimal(item['quantity']).quantize(FOURPLACES),
                 vUnCom=Decimal(item['price']).quantize(TWOPLACES),
                 indRegra='A',
+                NCM=punctuation_rm(item['fiscal_classification_id'][1]),
                 **kwargs
                 ),
             imposto=Imposto(
-                icms=ICMSSN102(Orig='2', CSOSN='500'),
+                icms=ICMSSN102(Orig=item['origin'], CSOSN='500'),
                 pis=PISSN(CST='49'),
                 cofins=COFINSSN(CST='49'))
         )
@@ -143,6 +150,11 @@ class Sat(Thread):
         detalhamentos = []
         for item in json['orderlines']:
             detalhamentos.append(self.__prepare_send_detail_cfe(item))
+        kwargs = {}
+
+        if json['client']:
+            # TODO: Verificar se tamanho == 14: cnpj
+            kwargs['destinatario'] = Destinatario(CPF=json['client'])
 
         return CFeVenda(
             CNPJ=json['company']['cnpj_software_house'],
@@ -158,7 +170,8 @@ class Sat(Thread):
                     cMP=constantes.WA03_DINHEIRO,
                     vMP=Decimal(json['subtotal']).quantize(
                         TWOPLACES)),
-            ]
+            ],
+            **kwargs
         )
 
     def _send_cfe(self, json):
