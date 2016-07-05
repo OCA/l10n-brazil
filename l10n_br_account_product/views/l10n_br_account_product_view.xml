@@ -163,8 +163,9 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="date"/>
-                            <field name="rate_percentual"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="rate"/>
                         </group>
                     </sheet>
                 </form>
@@ -177,8 +178,9 @@
             <field name="priority" eval="16"/>
             <field	name="arch"	type="xml">
                 <tree>
-					<field name="date"/>
-					<field name="rate_percentual"/>
+					<field name="date_start"/>
+					<field name="date_end"/>
+					<field name="rate"/>
                 </tree>
             </field>
         </record>
