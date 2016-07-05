@@ -405,7 +405,7 @@ class NFe200(FiscalDocument):
             self.det.imposto.ICMSUFDest.pFCPUFDest.valor = str(
                 "%.2f" % invoice_line.icms_fcp_percent)
             self.det.imposto.ICMSUFDest.pICMSUFDest.valor = str(
-                "%.2f" % invoice_line.icms_Dest_percent)
+                "%.2f" % invoice_line.icms_dest_percent)
             self.det.imposto.ICMSUFDest.pICMSInter.valor = str(
                 "%.2f" % invoice_line.icms_origin_percent)
             self.det.imposto.ICMSUFDest.pICMSInterPart.valor = str(
@@ -586,11 +586,11 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.total.ICMSTot.vICMS.valor = str(
             "%.2f" % invoice.icms_value)
         self.nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(
-            "%.2f" % invoice.vFCPUFDest)
+            "%.2f" % invoice.icms_fcp_value)
         self.nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(
-            "%.2f" % invoice.vICMSUFDest)
+            "%.2f" % invoice.icms_dest_value)
         self.nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
-            "%.2f" % invoice.vICMSUFRemet)
+            "%.2f" % invoice.icms_origin_value)
         self.nfe.infNFe.total.ICMSTot.vBCST.valor = str(
             "%.2f" % invoice.icms_st_base)
         self.nfe.infNFe.total.ICMSTot.vST.valor = str(
