@@ -173,10 +173,19 @@
                 </button>
             </td>
             <th><t t-if="order.can_cancel">
-                    <button class="cancel_order">
-                        <i class="fa fa-times"></i>
-                        Cancelar
-                    </button>
+                    <t t-if="order.canceled_order">
+                        <button class="cancel_order" disabled="disabled">
+                            <i class="fa fa-times"></i>
+                            Cancelar
+                        </button>
+                    </t>
+                    <t t-if="!order.canceled_order">
+                        <button class="cancel_order">
+                            <i class="fa fa-times"></i>
+                            Cancelar
+                        </button>
+                    </t>
+
                 </t>
             </th>
             <th>
