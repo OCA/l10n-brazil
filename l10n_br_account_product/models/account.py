@@ -24,6 +24,7 @@ from openerp import models, fields, api
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.exceptions import Warning as UserError
 
+
 class AccountPaymentTerm(models.Model):
     _inherit = 'account.payment.term'
 
@@ -190,7 +191,7 @@ class AccountTax(models.Model):
 
         # Adiciona frete seguro e outras despesas na base do ICMS
         total_base = (result['total'] + insurance_value +
-                     freight_value + other_costs_value)
+                      freight_value + other_costs_value)
 
         # Em caso de operação de ativo adiciona o IPI na base de ICMS
         if fiscal_position and fiscal_position.asset_operation:
@@ -212,11 +213,11 @@ class AccountTax(models.Model):
 
         # Calcula ICMS Interestadual (DIFAL)
         if fiscal_position and \
-        (fiscal_position.asset_operation or
-         fiscal_position.ind_final == '1'):
+            (fiscal_position.asset_operation or
+             fiscal_position.ind_final == '1'):
             if fiscal_position.cfop_id.id_dest == '2':
                 specific_icms_inter = [tx for tx in result['taxes']
-                                 if tx['domain'] == 'icmsinter']
+                                       if tx['domain'] == 'icmsinter']
                 result_icms_inter = self._compute_tax(
                     cr,
                     uid,
@@ -226,7 +227,6 @@ class AccountTax(models.Model):
                     quantity,
                     precision,
                     base_tax)
-                
                 try:
 
                     # Calcula o DIFAL total
@@ -250,8 +250,8 @@ class AccountTax(models.Model):
                     # Calcula o difal de origin e destino
                     if icms_partition_ids:
                         icms_partition = self.pool.get(
-                        'l10n_br_tax.icms_partition').browse(
-                            cr, uid, icms_partition_ids[0])
+                            'l10n_br_tax.icms_partition').browse(
+                                cr, uid, icms_partition_ids[0])
                         result_icms_inter['taxes'][0]['icms_part_percent'] = \
                             icms_partition.rate / 100
 
@@ -271,7 +271,7 @@ class AccountTax(models.Model):
 
                 except:
                     raise UserError(u'Tributação do ICMS para a UF de ',
-                              u'destino Configurada incorretamente')
+                                    u'destino Configurada incorretamente')
 
         # Calcula ICMS ST
         specific_icmsst = [tx for tx in result['taxes']

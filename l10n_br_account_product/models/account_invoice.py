@@ -778,17 +778,14 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
-    # vBCUFDest 
     icms_dest_base = fields.Float(
         string=u'Valor da BC do ICMS na UF de destino',
         digits=dp.get_precision('Account'),
         default=0.00)
-    # pFCPUFDest
     icms_fcp_percent = fields.Float(
         string=u'% Fundo de Combate à Pobreza (FCP)',
         digits=dp.get_precision('Account'),
         default=0.00)
-    # pICMSUFDest
     icms_dest_percent = fields.Float(
         string=u'Alíquota interna da UF de destino',
         digits=dp.get_precision('Account'),

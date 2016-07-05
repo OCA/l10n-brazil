@@ -353,5 +353,3 @@ class L10nBrTaxIcmsPartition(models.Model):
         u'Percentual Interestadual de Rateio',
         required=True
     )
-
-

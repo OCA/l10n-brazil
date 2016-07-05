@@ -66,4 +66,3 @@ class L10nBrTaxDefinitionStateProduct(L10nBrTaxDefinition, models.Model):
          'unique (tax_id, state_id)',
          u'Imposto já existente neste estado!')
     ]
-

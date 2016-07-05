@@ -394,4 +394,3 @@ class WizardAccountProductFiscalClassification(models.TransientModel):
                             'purchase')
 
         return True
-
