@@ -98,19 +98,22 @@
         </field>
         <group string="Hardware Proxy" position="after" >
             <group string="Configuraçoes SAT" attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">
-                <field name='sat_ambiente' invisible='1'/>
-                <field name="cnpj_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                <field name="ie_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                <field name="cnpj_software_house" />
-                <field name="sat_path" />
-                <field name="cod_ativacao" />
-                <field name="numero_caixa" />
-                <field name="impressora" />
-                <field name="printer_params" />
+                <group>
+                    <field name='sat_ambiente' invisible='1'/>
+                    <field name="cnpj_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                    <field name="ie_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                    <field name="cnpj_software_house" />
+                    <field name="sat_path" />
+                    <field name="cod_ativacao" />
+                    <field name="numero_caixa" />
+                    <field name="impressora" />
+                    <field name="printer_params" />
+                </group>
+                <group>
+                    <field name="fiscal_category_id" required="1"/>
+                </group>
             </group>
         </group>
-
-
     </field>
 </record>
 
