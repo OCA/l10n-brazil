@@ -784,7 +784,7 @@ class AccountInvoiceLine(models.Model):
         digits=dp.get_precision('Account'),
         default=0.00)
     # pFCPUFDest
-    icms_fcb_percent = fields.Float(
+    icms_fcp_percent = fields.Float(
         string=u'% Fundo de Combate à Pobreza (FCP)',
         digits=dp.get_precision('Account'),
         default=0.00)
@@ -801,7 +801,7 @@ class AccountInvoiceLine(models.Model):
         string=u'Percentual provisório de partilha do ICMS Interestadual',
         digits=dp.get_precision('Account'),
         default=0.00)
-    icms_fcb_value = fields.Float(
+    icms_fcp_value = fields.Float(
         string=(u'Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)'
                 u' da UF de destino'),
         digits=dp.get_precision('Account'),
@@ -823,14 +823,25 @@ class AccountInvoiceLine(models.Model):
             'icms_percent': tax.get('percent', 0.0) * 100,
             'icms_percent_reduction': tax.get('base_reduction') * 100,
             'icms_base_type': tax.get('icms_base_type', '0'),
-            'icms_dest_base': tax.get('vBCUFDest', 0.0),
-            'icms_fcb_percent': tax.get('pFCPUFDest', 0.0) * 100,
-            'icms_dest_percent': tax.get('pICMSUFDest', 0.0) * 100,
-            'icms_origin_percent': tax.get('pICMSInter', 0.0) * 100,
-            'icms_part_percent': tax.get('pICMSInterPart', 0.0) * 100,
-            'icms_fcb_value': tax.get('vFCPUFDest', 0.0),
-            'icms_dest_value': tax.get('vICMSUFDest', 0.0),
-            'icms_origin_value': tax.get('vICMSUFRemet', 0.0),
+            'icms_dest_base': tax.get('icms_dest_base', 0.0),
+        }
+        return result
+
+    def _amount_tax_icmsinter(self, tax=None):
+        result = {
+            'icms_dest_base': tax.get('total_base', 0.0),
+            'icms_dest_percent': tax.get('percent', 0.0) * 100,
+            'icms_origin_percent': tax.get('icms_origin_percent', 0.0) * 100,
+            'icms_part_percent': tax.get('icms_part_percent', 0.0) * 100,
+            'icms_dest_value': tax.get('icms_dest_value', 0.0),
+            'icms_origin_value': tax.get('icms_origin_value', 0.0),
+        }
+        return result
+
+    def _amount_tax_icmsfcp(self, tax=None):
+        result = {
+            'icms_fcp_percent': tax.get('percent', 0.0) * 100,
+            'icms_fcp_value': tax.get('amount', 0.0),
         }
         return result
 
@@ -1019,7 +1030,6 @@ class AccountInvoiceLine(models.Model):
             other_costs_value=other_costs_value)
 
         result['total_taxes'] = taxes_calculed['total_taxes']
-
         for tax in taxes_calculed['taxes']:
             try:
                 amount_tax = getattr(
@@ -1039,6 +1049,7 @@ class AccountInvoiceLine(models.Model):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
         ctx.update({'product_id': kwargs.get('product_id')})
+        ctx.update({'partner_id': kwargs.get('partner_id')})
         account_obj = self.env['account.account']
         obj_fp_rule = self.env['account.fiscal.position.rule']
         partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
@@ -1070,10 +1081,6 @@ class AccountInvoiceLine(models.Model):
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
                         taxes |= account_obj.browse(account_id).tax_ids
-                    if product.fiscal_classification_id:
-                        taxes |= obj_fp_rule.with_context(
-                            ctx).product_fcp_map(
-                            kwargs.get('product_id'), partner.state_id)
                 else:
                     ctx['type_tax_use'] = 'purchase'
                     if product.supplier_taxes_id:
