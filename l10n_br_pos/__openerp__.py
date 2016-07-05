@@ -13,6 +13,7 @@
         'l10n_br_base',
         'point_of_sale',
         'pos_pricelist',
+        'pos_payment_term',
     ],
     'data': [
         "views/pos_template.xml",
