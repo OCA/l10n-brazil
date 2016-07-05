@@ -86,6 +86,11 @@ class PosConfig(models.Model):
         string=u'Printer parameters'
     )
 
+    fiscal_category_id = fields.Many2one(
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Fiscal Category'
+    )
+
 
     @api.multi
     def retornar_dados(self):
