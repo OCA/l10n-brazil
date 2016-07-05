@@ -404,6 +404,7 @@ function l10n_br_pos_screens(instance, module) {
         },
         render_list: function(orders){
             var orders_vals = orders;
+
             var contents = this.$el[0].querySelector('.client-list-contents');
             contents.innerHTML = "";
             for(var i = 0; i < orders_vals.length; i++){
@@ -427,26 +428,17 @@ function l10n_br_pos_screens(instance, module) {
                 }
             }
         },
-        cancel_pos_order: function(order_id){
-            var self = this;
-            chave_cfe = null;
-            for (var i = 0; i < self.orders; i++){
-                if(order_id == self.orders[i].id){
-                    chave_cfe = self.orders[i].chave_cfe;
-                }
-
-            }
-            var posOrderModel = new instance.web.Model('pos.order');
-            var posOrder = posOrderModel.call('cancel_last_order', {'chave_cfe': chave_cfe})
-            .then(function (orders) {
-                self.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('Venda Cancelada!'),
-                    comment: _t('A venda foi cancelada com sucesso.'),
-                });
-            });
-        },
         close: function(){
             this._super();
         },
+    });
+
+    module.ReceiptScreenWidget = module.ReceiptScreenWidget.extend({
+        template: 'ReceiptScreenWidget',
+
+        finishOrder: function() {
+            this.pos_widget.posorderlist_screen.get_last_orders();
+            this.pos.get('selectedOrder').destroy();
+        }
     });
 }
