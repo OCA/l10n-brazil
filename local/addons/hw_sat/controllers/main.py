@@ -172,9 +172,10 @@ class Sat(Thread):
             detalhamentos.append(detalhe)
             total_taxes += estimated_taxes
 
-        descontos_acrescimos_subtotal = DescAcrEntr(
-            vCFeLei12741=total_taxes)
-        descontos_acrescimos_subtotal.validar()
+        # descontos_acrescimos_subtotal = DescAcrEntr(
+        #     vCFeLei12741=total_taxes)
+        # descontos_acrescimos_subtotal.validar()
+
         pagamentos = []
         for pagamento in json['paymentlines']:
             pagamentos.append(self.__prepare_payment(pagamento))
@@ -193,8 +194,8 @@ class Sat(Thread):
                 IE=json['company']['ie'],
                 indRatISSQN='N'),
             detalhamentos=detalhamentos,
-            informacoes_adicionais="{0}".format(descontos_acrescimos_subtotal),
             pagamentos=pagamentos,
+            vCFeLei12741=total_taxes,
             **kwargs
         )
 
