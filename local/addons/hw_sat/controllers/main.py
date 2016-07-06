@@ -29,6 +29,7 @@ try:
     from satcfe.entidades import COFINSSN
     from satcfe.entidades import MeioPagamento
     from satcfe.entidades import CFeVenda
+    from satcfe.entidades import DescAcrEntr
     from satcfe.entidades import CFeCancelamento
     from satcfe.excecoes import ErroRespostaSATInvalida
     from satcfe.excecoes import ExcecaoRespostaSAT
@@ -126,9 +127,10 @@ class Sat(Thread):
 
         if item['discount']:
             kwargs['vDesc'] = Decimal((item['quantity'] * item['price']) -
-                                      item['price_display']).quantize(TWOPLACES )
+                                      item['price_display']).quantize(TWOPLACES)
+        estimated_taxes = Decimal(item['estimated_taxes'] * item['price_display']).quantize(TWOPLACES)
 
-        return Detalhamento(
+        detalhe = Detalhamento(
             produto=ProdutoServico(
                 cProd=unicode(item['product_default_code']),
                 xProd=item['product_name'],
@@ -141,10 +143,13 @@ class Sat(Thread):
                 **kwargs
                 ),
             imposto=Imposto(
+                vItem12741=estimated_taxes,
                 icms=ICMSSN102(Orig=item['origin'], CSOSN='500'),
                 pis=PISSN(CST='49'),
                 cofins=COFINSSN(CST='49'))
         )
+
+        return detalhe, estimated_taxes
 
     def __prepare_payment(self, json):
         kwargs = {}
@@ -153,16 +158,23 @@ class Sat(Thread):
 
         return MeioPagamento(
             cMP=json['sat_payment_mode'],
-            vMP=Decimal(json['subtotal']).quantize(
-                TWOPLACES)
+            vMP=Decimal(json['amount']).quantize(
+                TWOPLACES),
             **kwargs
         )
 
 
     def __prepare_send_cfe(self, json):
         detalhamentos = []
+        total_taxes = Decimal(0)
         for item in json['orderlines']:
-            detalhamentos.append(self.__prepare_send_detail_cfe(item))
+            detalhe, estimated_taxes = self.__prepare_send_detail_cfe(item)
+            detalhamentos.append(detalhe)
+            total_taxes += estimated_taxes
+
+        descontos_acrescimos_subtotal = DescAcrEntr(
+            vCFeLei12741=total_taxes)
+        descontos_acrescimos_subtotal.validar()
         pagamentos = []
         for pagamento in json['paymentlines']:
             pagamentos.append(self.__prepare_payment(pagamento))
@@ -181,6 +193,7 @@ class Sat(Thread):
                 IE=json['company']['ie'],
                 indRatISSQN='N'),
             detalhamentos=detalhamentos,
+            informacoes_adicionais="{0}".format(descontos_acrescimos_subtotal),
             pagamentos=pagamentos,
             **kwargs
         )
