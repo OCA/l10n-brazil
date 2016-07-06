@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# See README.rst file on addon root folder for license details
+# © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
