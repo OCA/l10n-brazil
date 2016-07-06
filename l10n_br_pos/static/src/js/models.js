@@ -332,7 +332,8 @@ function l10n_br_pos_models(instance, module) {
                     product_description_sale: this.get_product().description_sale,
                     product_default_code: this.get_product().default_code,
                     fiscal_classification_id: this.get_product().fiscal_classification_id,
-                    origin: this.get_product().origin,
+                    estimated_taxes: this.get_product().estimated_taxes,
+                    origin: this.get_product().origin
                 };
             },
         });
@@ -379,6 +380,7 @@ function l10n_br_pos_models(instance, module) {
                 pos_model.models[res_partner_index].fields.push(
                     'fiscal_classification_id',
                     'origin',
+                    'estimated_taxes',
                     'name'
                 );
         }

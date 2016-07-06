@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     @api.multi
-    @api.depends('fiscal_classification_id')
+    @api.depends('fiscal_classification_id', 'origin')
     def _compute_estimated_taxes(self):
         for template in self:
             template.estimated_taxes = \
@@ -18,9 +18,10 @@ class ProductTemplate(models.Model):
                     template)
 
     estimated_taxes = fields.Float(
-        string='Impostos estimados',
+        string=u'Impostos estimados',
         compute=_compute_estimated_taxes,
-        digits_compute=dp.get_precision('Account')
+        digits_compute=dp.get_precision('Account'),
+        store=True,
     )
 
 
