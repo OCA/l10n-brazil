@@ -27,16 +27,16 @@ class PorOrderReturn(models.TransientModel):
         required=True
     )
 
-
     @staticmethod
     def _check_picking_parameters(order):
         if not order.picking_id.fiscal_category_id:
-            # TODO: pos default sale category
-            pass
+            order.picking_id.fiscal_category_id = (
+                order.session_id.config_id.out_pos_fiscal_category_id or
+                order.company_id.out_pos_fiscal_category_id)
         if not order.picking_id.fiscal_category_id.refund_fiscal_category_id:
-            pass
-            # TODO: default return category id
-            #order.picking_id.fiscal_category_id.refund_fiscal_category_id = default return category id
+            order.picking_id.fiscal_category_id.refund_fiscal_category_id = (
+                order.session_id.config_id.refund_pos_fiscal_category_id or
+                order.company_id.refund_pos_fiscal_category_id)
         order.picking_id.partner_id = order.partner_id
         return True
 

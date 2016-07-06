@@ -22,6 +22,14 @@ PRINTER = [
 class PosConfig(models.Model):
     _inherit = 'pos.config'
 
+    @api.model
+    def _default_out_pos_fiscal_category_id(self):
+        return self.company_id.out_pos_fiscal_category_id
+
+    @api.model
+    def _default_refund_pos_fiscal_category_id(self):
+        return self.company_id.refund_pos_fiscal_category_id
+
     simplified_invoice_limit = fields.Float(
         string=u'Simplified invoice limit',
         digits=dp.get_precision('Account'),
@@ -91,6 +99,22 @@ class PosConfig(models.Model):
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Fiscal Category'
     )
+    out_pos_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        'Categoria Fiscal de Padrão de Saida do PDV',
+        domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
+        " ('fiscal_type','=','product'), ('type','=','output')]",
+        default=_default_out_pos_fiscal_category_id,
+    )
+    refund_pos_fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category',
+        string='Categoria Fiscal de Devolução do PDV',
+        domain="[('journal_type','=','sale_refund'),"
+        "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+        " ('type','=','input')]",
+        default=_default_refund_pos_fiscal_category_id,
+    )
+
 
 
     @api.multi
