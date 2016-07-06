@@ -11,6 +11,8 @@
                     <group name="company_sat" string="SAT">
                         <field name="ambiente_sat"/>
                         <field name="cnpj_software_house"/>
+                        <field name="out_pos_fiscal_category_id"/>
+                        <field name="refund_pos_fiscal_category_id"/>
                     </group>
                 </field>
             </field>
