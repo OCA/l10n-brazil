@@ -20,6 +20,11 @@
     <field name="model">pos.order</field>
     <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
     <field name="arch" type="xml">
+        <xpath expr="//button[@name='refund']" position="replace">
+        </xpath>
+        <xpath expr="//button[@string='Reprint']" position="replace">
+            <button name="%(act_l10n_br_pos_return)d" string="Devolução" states="done,paid" type="action" groups="base.group_user"/>
+        </xpath>
         <field name="partner_id" position="after">
             <field name="cfe_return" />
             <field name="chave_cfe" />
