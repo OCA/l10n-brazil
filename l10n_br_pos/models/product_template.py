@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
+from openerp.addons import decimal_precision as dp
 
 
 class ProductTemplate(models.Model):
@@ -19,6 +20,7 @@ class ProductTemplate(models.Model):
     estimated_taxes = fields.Float(
         string='Impostos estimados',
         compute=_compute_estimated_taxes,
+        digits_compute=dp.get_precision('Account')
     )
 
 
