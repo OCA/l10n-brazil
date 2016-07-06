@@ -146,12 +146,28 @@ class Sat(Thread):
                 cofins=COFINSSN(CST='49'))
         )
 
+    def __prepare_payment(self, json):
+        kwargs = {}
+        if json['sat_card_accrediting']:
+            kwargs['cAdmC'] = json['sat_card_accrediting']
+
+        return MeioPagamento(
+            cMP=json['sat_payment_mode'],
+            vMP=Decimal(json['subtotal']).quantize(
+                TWOPLACES)
+            **kwargs
+        )
+
+
     def __prepare_send_cfe(self, json):
         detalhamentos = []
         for item in json['orderlines']:
             detalhamentos.append(self.__prepare_send_detail_cfe(item))
-        kwargs = {}
+        pagamentos = []
+        for pagamento in json['paymentlines']:
+            pagamentos.append(self.__prepare_payment(pagamento))
 
+        kwargs = {}
         if json['client']:
             # TODO: Verificar se tamanho == 14: cnpj
             kwargs['destinatario'] = Destinatario(CPF=json['client'])
@@ -165,12 +181,7 @@ class Sat(Thread):
                 IE=json['company']['ie'],
                 indRatISSQN='N'),
             detalhamentos=detalhamentos,
-            pagamentos=[
-                MeioPagamento(
-                    cMP=constantes.WA03_DINHEIRO,
-                    vMP=Decimal(json['subtotal']).quantize(
-                        TWOPLACES)),
-            ],
+            pagamentos=pagamentos,
             **kwargs
         )
 
