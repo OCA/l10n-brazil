@@ -52,7 +52,7 @@ def punctuation_rm(string_value):
     return tmp_value
 
 class Sat(Thread):
-    def __init__(self, codigo_ativacao, sat_path, impressora, printer_params):
+    def __init__(self, codigo_ativacao, sat_path, impressora, printer_params, assinatura):
         Thread.__init__(self)
         self.codigo_ativacao = codigo_ativacao
         self.sat_path = sat_path
@@ -63,6 +63,7 @@ class Sat(Thread):
         self.status = {'status': 'connecting', 'messages': []}
         self.printer = self._init_printer()
         self.device = self._get_device()
+        self.assinatura = assinatura
 
     def lockedstart(self):
         with self.lock:
@@ -195,7 +196,7 @@ class Sat(Thread):
 
         return CFeVenda(
             CNPJ=json['company']['cnpj_software_house'],
-            signAC=assinatura,
+            signAC=self.assinatura,
             numeroCaixa=2,
             emitente=emitente,
             detalhamentos=detalhamentos,
@@ -214,18 +215,19 @@ class Sat(Thread):
             'chave_cfe': resposta.chaveConsulta,
         }
 
-    def __prepare_cancel_cfe(self, chCanc):
+    def __prepare_cancel_cfe(self, chCanc, cnpj):
         return CFeCancelamento(
             chCanc=chCanc,
-            CNPJ='16716114000172',
-            signAC=assinatura,
+            CNPJ=cnpj,
+            signAC=self.assinatura,
             numeroCaixa=2
         )
 
     def _cancel_cfe(self, order):
         resposta = self.device.cancelar_ultima_venda(
             order['chaveConsulta'],
-            self.__prepare_cancel_cfe(order['chaveConsulta'])
+            self.__prepare_cancel_cfe(order['chaveConsulta'],
+                                      order['company']['cnpj_software_house'])
         )
         self._print_extrato_cancelamento(
             order['xml_cfe_venda'], resposta.arquivoCFeBase64)
