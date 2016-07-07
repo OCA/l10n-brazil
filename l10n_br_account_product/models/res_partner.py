@@ -41,6 +41,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
         'account.product.fiscal.classification.template', 'NCM')
     origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
 
+
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
@@ -137,12 +138,14 @@ class AccountFiscalPosition(models.Model):
             partner = self.env['res.partner'].browse(
                 self.env.context.get('partner_id'))
             if (self.env.context.get('type_tax_use') in ('sale', 'all') and
-                self.env.context.get('fiscal_type', 'product') == 'product'):
+                    self.env.context.get(
+                        'fiscal_type', 'product') == 'product'):
                 state_taxes = partner.state_id.product_tax_definition_line
                 for tax_def in state_taxes:
-                    if tax_def.tax_id and \
-                    (not tax_def.fiscal_classification_id or
-                     tax_def.fiscal_classification_id == product_fc):
+                    if (tax_def.tax_id and
+                            (not tax_def.fiscal_classification_id or
+                                tax_def.fiscal_classification_id ==
+                                    product_fc)):
                         taxes |= tax_def.tax_id
                         result[tax_def.tax_id.domain] = {
                             'tax': tax_def.tax_id,

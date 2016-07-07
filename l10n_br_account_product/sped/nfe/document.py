@@ -304,13 +304,20 @@ class NFe200(FiscalDocument):
                 invoice.partner_id.legal_name[:60] or '')
 
             if invoice.partner_id.is_company:
-                self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
-                    invoice.partner_id.cnpj_cpf)
                 self.nfe.infNFe.dest.IE.valor = punctuation_rm(
                     invoice.partner_id.inscr_est)
-            else:
-                self.nfe.infNFe.dest.CPF.valor = punctuation_rm(
-                    invoice.partner_id.cnpj_cpf)
+
+            if invoice.partner_id.country_id.id == \
+                    invoice.company_id.country_id.id:
+                if invoice.partner_id.is_company:
+                    self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
+                        invoice.partner_id.cnpj_cpf)
+                else:
+                    self.nfe.infNFe.dest.CPF.valor = punctuation_rm(
+                        invoice.partner_id.cnpj_cpf)
+
+        self.nfe.infNFe.dest.indIEDest.valor = \
+            invoice.partner_id.partner_fiscal_type_id.ind_ie_dest
 
         self.nfe.infNFe.dest.enderDest.xLgr.valor = (
             invoice.partner_id.street or '')

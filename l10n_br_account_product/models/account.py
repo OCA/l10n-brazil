@@ -178,13 +178,6 @@ class AccountTax(models.Model):
         for ipi in result_ipi['taxes']:
             ipi_value += ipi['amount']
 
-        # Calcula a FCP
-        specific_fcp = [tx for tx in result['taxes']
-                        if tx['domain'] == 'icmsfcp']
-        result_fcp = self._compute_tax(cr, uid, specific_fcp, result['total'],
-                                       product, quantity, precision, base_tax)
-        totaldc += result_fcp['tax_discount']
-
         # Calcula ICMS
         specific_icms = [tx for tx in result['taxes']
                          if tx['domain'] == 'icms']
@@ -211,6 +204,14 @@ class AccountTax(models.Model):
         if result_icms['taxes']:
             icms_value = result_icms['taxes'][0]['amount']
 
+        # Calcula a FCP
+        specific_fcp = [tx for tx in result['taxes']
+                        if tx['domain'] == 'icmsfcp']
+        result_fcp = self._compute_tax(cr, uid, specific_fcp, total_base,
+                                       product, quantity, precision, base_tax)
+        totaldc += result_fcp['tax_discount']
+        calculed_taxes += result_fcp['taxes']
+
         # Calcula ICMS Interestadual (DIFAL)
         specific_icms_inter = [tx for tx in result['taxes']
                                if tx['domain'] == 'icmsinter']
@@ -224,9 +225,9 @@ class AccountTax(models.Model):
             precision,
             base_tax)
 
-        if specific_icms_inter and fiscal_position and \
-            partner.partner_fiscal_type_id.ind_ie_dest == '9':
-            if fiscal_position.cfop_id.id_dest == '2':                
+        if (specific_icms_inter and fiscal_position and
+                partner.partner_fiscal_type_id.ind_ie_dest == '9'):
+            if fiscal_position.cfop_id.id_dest == '2':
                 try:
 
                     # Calcula o DIFAL total
