@@ -2,6 +2,7 @@
 *    Point Of Sale - L10n Brazil Localization for POS Odoo
 *    Copyright (C) 2016 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
 *    @author Luis Felipe Mil?o <mileo@kmee.com.br>
+*    @author Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU Affero General Public License as

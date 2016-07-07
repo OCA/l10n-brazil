@@ -265,9 +265,9 @@ function l10n_br_pos_screens(instance, module) {
             if (this.pos.config.iface_cashdrawer) {
                     this.pos.proxy.open_cashbox();
             }
-            var status = this.pos.proxy.get('status');
-            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-            if( sat_status == 'connected'){
+//            var status = this.pos.proxy.get('status');
+//            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+//            if( sat_status == 'connected'){
                 if(options.invoice){
                     // deactivate the validation button while we try to send the order
                     this.pos_widget.action_bar.set_button_disabled('validation',true);
@@ -323,12 +323,12 @@ function l10n_br_pos_screens(instance, module) {
                         this.pos_widget.screen_selector.set_current_screen(this.next_screen);
                     }
                 }
-            }else{
-                self.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('SAT n\u00e3o est\u00e1 conectado'),
-                    comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
-                });
-            }
+//            }else{
+//                self.pos_widget.screen_selector.show_popup('error',{
+//                    message: _t('SAT n\u00e3o est\u00e1 conectado'),
+//                    comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
+//                });
+//            }
 
             // hide onscreen (iOS) keyboard
             setTimeout(function(){
