@@ -71,6 +71,7 @@ Contributors
 ------------
 
 * Luis Felipe Miléo <mileo@kmee.com.br>
+* Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 
 Maintainer
 ----------
