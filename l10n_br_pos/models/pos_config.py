@@ -115,7 +115,9 @@ class PosConfig(models.Model):
         default=_default_refund_pos_fiscal_category_id,
     )
 
-
+    assinatura_sat = fields.Char(
+        'Assinatura no CFe'
+    )
 
     @api.multi
     def retornar_dados(self):

@@ -2,6 +2,7 @@
 *    Point Of Sale - L10n Brazil Localization for POS Odoo
 *    Copyright (C) 2016 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
 *    @author Luis Felipe Miléo <mileo@kmee.com.br>
+*    @author Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU Affero General Public License as
@@ -84,6 +85,56 @@ function l10n_br_pos_db(instance, module) {
                 }
             }
             return results;
+        },
+        add_partners: function(partners){
+            var updated_count = 0;
+            var new_write_date = '';
+            for(var i = 0, len = partners.length; i < len; i++){
+                var partner = partners[i];
+
+                if (    this.partner_write_date &&
+                        this.partner_by_id[partner.id] &&
+                        new Date(this.partner_write_date).getTime() + 1000 >=
+                        new Date(partner.write_date).getTime() ) {
+                    // FIXME: The write_date is stored with milisec precision in the database
+                    // but the dates we get back are only precise to the second. This means when
+                    // you read partners modified strictly after time X, you get back partners that were
+                    // modified X - 1 sec ago.
+                    continue;
+                } else if ( new_write_date < partner.write_date ) {
+                    new_write_date  = partner.write_date;
+                }
+                if (!this.partner_by_id[partner.id]) {
+                    this.partner_sorted.push(partner.id);
+                }
+                this.partner_by_id[partner.id] = partner;
+
+                updated_count += 1;
+            }
+
+            this.partner_write_date = new_write_date || this.partner_write_date;
+
+            if (updated_count) {
+                // If there were updates, we need to completely
+                // rebuild the search string and the ean13 indexing
+
+                this.partner_search_string = "";
+                this.partner_by_ean13 = {};
+
+                for (var id in this.partner_by_id) {
+                    var partner = this.partner_by_id[id];
+
+                    if(partner.ean13){
+                        this.partner_by_ean13[partner.ean13] = partner;
+                    }
+                    partner.address = (partner.street || '') +', '+
+                                      (partner.zip || '')    +' '+
+                                      (partner.city || '')   +', '+
+                                      (partner.country_id[1] || '');
+                    this.partner_search_string += this._partner_search_string(partner);
+                }
+            }
+            return updated_count;
         },
     })
 }
