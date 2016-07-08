@@ -74,12 +74,20 @@ function l10n_br_pos_screens(instance, module) {
             }
 
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
-                self.old_client = partner;
-                console.log(partner);
-                self.new_client = self.old_client;
-                console.log(self);
-                self.pos.get('selectedOrder').set_client(self.new_client);
-                return true;
+                self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
+                    var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                    new_partner['cnpj_cpf'] = new_partner['name'];
+                    if (self.pos.config.pricelist_id){
+                       new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
+                    }
+                    self.old_client = new_partner;
+                    self.new_client = self.old_client;
+                    self.pos.get('selectedOrder').set_client(self.new_client);
+                    if (self.pos.config.pricelist_id){
+                        self.pos.pricelist_engine.update_products_ui(self.new_client);
+                    }
+                    return true;
+                });
             },function(err,event){
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
@@ -253,13 +261,7 @@ function l10n_br_pos_screens(instance, module) {
                         comment: _t('There is no cash payment method available in this point of sale to handle the change.\n\n Please pay the exact amount or add a cash payment method in the point of sale configuration'),
                     });
                     return;
-                }self.screen_selector.show_popup('confirm',{
-                            message: _t('Destroy Current Order ?'),
-                            comment: _t('You will lose any data associated with the current order'),
-                            confirm: function(){
-                                self.pos.delete_current_order();
-                            },
-                        });
+                }
             }
 
             if (this.pos.config.iface_cashdrawer) {

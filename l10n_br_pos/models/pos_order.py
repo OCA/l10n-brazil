@@ -117,6 +117,7 @@ class PosOrder(models.Model):
                 'pos_reference': order.pos_reference,
                 'partner': order.partner_id.name,
                 'date': order.date_order,
+                'total': '%.2f' % order.amount_total,
                 'chave_cfe': order.chave_cfe,
                 'canceled_order': order.canceled_order,
                 'can_cancel': False,
@@ -144,8 +145,8 @@ class PosOrder(models.Model):
             clone_id = order.copy()
 
             clone_id.write({
-                'name': order.name + ' REFUND',
-                'pos_reference': order.pos_reference + ' REFUND',
+                'name': order.name + ' CANCEL',
+                'pos_reference': order.pos_reference + ' CANCEL',
                 'session_id': current_session_ids.id,
                 'date_order': time.strftime('%Y-%m-%d %H:%M:%S'),
                 'pos_order_associated': order.id,
@@ -162,6 +163,24 @@ class PosOrder(models.Model):
                 order_line.write({
                     'qty': -order_line.qty
                 })
+
+            statements = self.env['account.bank.statement.line']
+
+            for statement in order.statement_ids:
+                vals = {
+                    'name': statement.display_name + " CANCEL",
+                    'statement_id': statement.statement_id.id,
+                    'ref': statement.ref,
+                    'pos_statement_id': clone.id,
+                    'journal_id': statement.journal_id.id,
+                    'amount': statement.amount * -1,
+                    'date': statement.date,
+                    'partner_id': statement.partner_id.id
+                    if statement.partner_id else False,
+                    'account_id': statement.account_id.id
+                }
+
+                statements.create(vals)
 
             clone.action_paid()
             parent_order = self.browse(clone.pos_order_associated.id)
