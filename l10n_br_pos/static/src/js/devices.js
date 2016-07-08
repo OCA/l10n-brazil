@@ -75,6 +75,7 @@ function l10n_br_pos_devices(instance, module) {
         },
         cancel_last_order: function(order){
             var self = this;
+	        order['cnpj_software_house'] = self.pos.config.cnpj_software_house;
             self.message('cancelar_cfe',{ json: order },{ timeout: 5000 })
             .then(function(result){
                 if (result){
