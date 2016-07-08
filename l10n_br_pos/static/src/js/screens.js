@@ -74,12 +74,14 @@ function l10n_br_pos_screens(instance, module) {
             }
 
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
-                self.old_client = partner;
-                console.log(partner);
-                self.new_client = self.old_client;
-                console.log(self);
-                self.pos.get('selectedOrder').set_client(self.new_client);
-                return true;
+                self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
+                    var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                    new_partner['cnpj_cpf'] = new_partner['name'];
+                    self.old_client = new_partner;
+                    self.new_client = self.old_client;
+                    self.pos.get('selectedOrder').set_client(self.new_client);
+                    return true;
+                });
             },function(err,event){
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
