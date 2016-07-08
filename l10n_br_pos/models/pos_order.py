@@ -61,6 +61,7 @@ class PosOrder(models.Model):
         string=u'CNPJ/CPF',
         related='partner_id.cnpj_cpf',
     )
+
     @api.one
     def action_invoice(self):
         self.simplified = False
@@ -177,9 +178,12 @@ class PosOrder(models.Model):
     @api.model
     def retornar_order_by_id(self, order_id):
         order = self.browse(order_id)
+
         dados_reimpressao = {
             'order_id': order_id,
             'chaveConsulta': order.chave_cfe,
+            'doc_destinatario': order.partner_id.cnpj_cpf if order.partner_id
+            else False,
             'xml_cfe_cacelada': order.cfe_cancelamento_return,
             'xml_cfe_venda': order.cfe_return,
             'canceled_order': order.canceled_order,
