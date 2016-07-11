@@ -21,7 +21,7 @@ class ProductTemplate(models.Model):
         string=u'Impostos estimados',
         compute=_compute_estimated_taxes,
         digits_compute=dp.get_precision('Account'),
-        store=True,
+        store=False,
     )
 
 
