@@ -227,7 +227,7 @@ class Sat(Thread):
         resposta = self.device.cancelar_ultima_venda(
             order['chaveConsulta'],
             self.__prepare_cancel_cfe(order['chaveConsulta'],
-                                      order['company']['cnpj_software_house'])
+                                      order['cnpj_software_house'])
         )
         self._print_extrato_cancelamento(
             order['xml_cfe_venda'], resposta.arquivoCFeBase64)
