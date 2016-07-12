@@ -183,9 +183,6 @@ class Sat(Thread):
         for pagamento in json['paymentlines']:
             pagamentos.append(self.__prepare_payment(pagamento))
 
-        if json['change'] > 0:
-            pagamentos.append({'vTroco': json['change']})
-
         kwargs = {}
         if json['client']:
             # TODO: Verificar se tamanho == 14: cnpj
