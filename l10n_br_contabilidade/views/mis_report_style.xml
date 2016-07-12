@@ -74,7 +74,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="mis_report_style_view_menu" parent="account.menu_account_reports" name="MIS Report Styles" action="mis_report_style_view_action" sequence="22"/>
+        <menuitem id="mis_report_style_view_menu" parent="mis_report_conf_menu" name="MIS Report Styles" action="mis_report_style_view_action" sequence="22"/>
 
     </data>
 </openerp>
