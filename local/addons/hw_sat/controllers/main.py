@@ -40,7 +40,6 @@ except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
 
-assinatura = "Z1e6EpWkwg9b1DxWGMz9VM2vBRhdH1lPH4hRr41p4dtfaXaVMDJXJgOPUtNoZ1dNR2NuQOBwYvlwASz/nrps9n19thmR03fXQm1coWHTloUCWPswjE6rawkejvGjN3+Jxzs0OdD0TQOr5ig5KL5Bg5qdC5orxY8XlalTKDcrqN4VkTXIh3dARJYNJBg1Z2LVQBoXrsXJRSzly5Dba90xFZq8vJRm3sNLFCoDQNyoxkkvikJvOCbvJ/gZ3JiBYBzf25zHJyPVALI32JLgMHB8qX3HrHIpWS/48CpwOrfzq1Ea7QojWmu1ntz1HTAkEWLmWrHcUSHn9eGNIwUVqxO68Q=="
 
 TWOPLACES = Decimal(10) ** -2
 FOURPLACES = Decimal(10) ** -4
@@ -50,6 +49,7 @@ def punctuation_rm(string_value):
     tmp_value = (
         re.sub('[%s]' % re.escape(string.punctuation), '', string_value or ''))
     return tmp_value
+
 
 class Sat(Thread):
     def __init__(self, codigo_ativacao, sat_path, impressora, printer_params, assinatura):
@@ -157,6 +157,7 @@ class Sat(Thread):
         kwargs = {}
         if json['sat_card_accrediting']:
             kwargs['cAdmC'] = json['sat_card_accrediting']
+
         pagamento = MeioPagamento(
             cMP=json['sat_payment_mode'],
             vMP=Decimal(json['amount']).quantize(
@@ -165,7 +166,6 @@ class Sat(Thread):
         )
         pagamento.validar()
         return pagamento
-
 
     def __prepare_send_cfe(self, json):
         detalhamentos = []
@@ -182,6 +182,9 @@ class Sat(Thread):
         pagamentos = []
         for pagamento in json['paymentlines']:
             pagamentos.append(self.__prepare_payment(pagamento))
+
+        if json['change'] > 0:
+            pagamentos.append({'vTroco': json['change']})
 
         kwargs = {}
         if json['client']:
@@ -215,19 +218,24 @@ class Sat(Thread):
             'chave_cfe': resposta.chaveConsulta,
         }
 
-    def __prepare_cancel_cfe(self, chCanc, cnpj):
+    def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario):
+        kwargs = {}
+        if doc_destinatario:
+            kwargs['destinatario'] = Destinatario(CPF=doc_destinatario)
         return CFeCancelamento(
             chCanc=chCanc,
             CNPJ=cnpj,
             signAC=self.assinatura,
-            numeroCaixa=2
+            numeroCaixa=2,
+            **kwargs
         )
 
     def _cancel_cfe(self, order):
         resposta = self.device.cancelar_ultima_venda(
             order['chaveConsulta'],
             self.__prepare_cancel_cfe(order['chaveConsulta'],
-                                      order['cnpj_software_house'])
+                                      order['cnpj_software_house'],
+                                      order['doc_destinatario'])
         )
         self._print_extrato_cancelamento(
             order['xml_cfe_venda'], resposta.arquivoCFeBase64)
