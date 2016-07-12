@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_history_xls_export" model="ir.actions.report.xml">
+            <field name="name">Valorização em XLS</field>
+            <field name="model">wizard.valuation.history</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="report_name">wizard.valuation.history</field>
+            <field name="report_type">xls</field>
+            <field name="auto" eval="False"/>
+        </record>
+
+        <record id="view_wizard_valuation_history" model="ir.ui.view">
+            <field name="name">Stock Valuation</field>
+            <field name="model">wizard.valuation.history</field>
+            <field name="inherit_id" ref="stock_account.view_wizard_valuation_history"/>
+            <field name="arch" type="xml">
+                <button name="open_table" position="after">
+                    <button icon="gtk-execute"
+                            name="open_report_xls"
+                            string="Export XLS"
+                            type="object"
+                            colspan="2"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>
