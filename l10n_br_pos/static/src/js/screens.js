@@ -261,13 +261,7 @@ function l10n_br_pos_screens(instance, module) {
                         comment: _t('There is no cash payment method available in this point of sale to handle the change.\n\n Please pay the exact amount or add a cash payment method in the point of sale configuration'),
                     });
                     return;
-                }self.screen_selector.show_popup('confirm',{
-                            message: _t('Destroy Current Order ?'),
-                            comment: _t('You will lose any data associated with the current order'),
-                            confirm: function(){
-                                self.pos.delete_current_order();
-                            },
-                        });
+                }
             }
 
             if (this.pos.config.iface_cashdrawer) {
