@@ -10,7 +10,10 @@ class ResConfig(models.Model):
     _inherit = 'account.config.settings'
 
     ipbt_token = fields.Char(
-        string='IPBT Token',
+        string=u'IPBT Token',
         related='company_id.ipbt_token'
     )
-    number_days_update = fields.Integer('Quantidade de dias para Atualizar')
+    ibpt_update_days = fields.Integer(
+        string=u'Quantidade de dias para Atualizar',
+        related='company_id.ibpt_update_days'
+    )
