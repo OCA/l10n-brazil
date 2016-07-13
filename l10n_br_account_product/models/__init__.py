@@ -12,4 +12,3 @@ from . import account
 from . import product
 from . import res_partner
 from . import res_country
-from . import account_fiscal_position_rule
