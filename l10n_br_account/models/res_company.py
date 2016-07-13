@@ -41,4 +41,5 @@ class ResCompany(models.Model):
     fiscal_rule_parent_id = fields.Many2one(
         'account.fiscal.position.rule', u'Conjunto de Regras Fiscais',
         domain="[('parent_id', '=', False)]")
-    ipbt_token = fields.Char(string='IPBT Token')
+    ipbt_token = fields.Char(string=u'IPBT Token')
+    ibpt_update_days = fields.Integer(string=u'IPBT Token')
