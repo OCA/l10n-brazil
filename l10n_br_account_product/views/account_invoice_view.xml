@@ -453,14 +453,14 @@
                                     </page>
                                     <page string="Informação do ICMS interestadual" attrs="{'invisible': [('product_type','=', 'service')]}">
                                         <group string="Detalhes do ICMS interestadual">
-                                            <field name="vBCUFDest"/>
-                                            <field name="pFCPUFDest"/>
-                                            <field name="pICMSUFDest"/>
-                                            <field name="pICMSInter"/>
-                                            <field name="pICMSInterPart"/>
-                                            <field name="vFCPUFDest"/>
-                                            <field name="vICMSUFDest"/>
-                                            <field name="vICMSUFRemet"/>
+                                            <field name="icms_dest_base"/>
+                                            <field name="icms_fcp_percent"/>
+                                            <field name="icms_dest_percent"/>
+                                            <field name="icms_origin_percent"/>
+                                            <field name="icms_part_percent"/>
+                                            <field name="icms_fcp_value"/>
+                                            <field name="icms_dest_value"/>
+                                            <field name="icms_origin_value"/>
                                         </group>
                                     </page>
                                 </notebook>
