@@ -95,6 +95,7 @@ addon | version | summary
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 8.0.1.0.0 | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.1 | Brazilian Localization WMS Accounting
+[l10n_br_stock_account_report](l10n_br_stock_account_report/) | 8.0.1.0.0 | Brazilian Localization WMS Accounting Report
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.1 | Brazilian Localisation ZIP Codes
 [l10n_br_zip_correios](l10n_br_zip_correios/) | 8.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
 
