@@ -21,7 +21,10 @@ from openerp import models, fields
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
-    PRODUCT_FISCAL_TYPE_DEFAULT)
+    PRODUCT_FISCAL_TYPE_DEFAULT,
+    NFE_IND_IE_DEST,
+    NFE_IND_IE_DEST_DEFAULT
+)
 
 
 class L10nBrAccountFiscalCategory(models.Model):
@@ -43,5 +46,9 @@ class L10nBrAccountDocumentSerie(models.Model):
 class L10nBrAccountPartnerFiscalType(models.Model):
     _inherit = 'l10n_br_account.partner.fiscal.type'
 
-    icms = fields.Boolean('Recupera ICMS', default=True)
-    ipi = fields.Boolean('Recupera IPI', default=True)
+    ind_ie_dest = fields.Selection(
+        NFE_IND_IE_DEST,
+        u'Contribuinte do ICMS',
+        required=True,
+        default=NFE_IND_IE_DEST_DEFAULT
+    )
