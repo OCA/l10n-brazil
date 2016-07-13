@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2015  Luis Felipe Miléo - KMEE                                #
+# Copyright (C) 2016  Renato Lima - Akretion                                  #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU Affero General Public License as published by #
@@ -17,17 +18,51 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
+
+from openerp.addons.l10n_br_account.models.l10n_br_account import (
+    L10nBrTaxDefinition
+)
 
 
 class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 
-    fcp_tax_id = fields.Many2one(
-        'account.tax', string=u"% Fundo de Combate à Pobreza (FCP)",
-        help=u"Percentual adicional inserido na alíquota interna"
-        u" da UF de destino, relativo ao Fundo de Combate à"
-        u" Pobreza (FCP) em operações interestaduais com o "
-        u"consumidor com esta UF. "
-        u"Nota: Percentual máximo de 2%,"
-        u" conforme a legislação")
+    @api.one
+    @api.depends('product_tax_definition_line.tax_id')
+    def _compute_taxes(self):
+        product_taxes = self.env['account.tax']
+        for tax in self.product_tax_definition_line:
+            product_taxes += tax.tax_id
+        self.product_tax_ids = product_taxes
+
+    product_tax_definition_line = fields.One2many(
+        'l10n_br_tax.definition.state.product',
+        'state_id',
+        'Taxes Definitions'
+    )
+    product_tax_ids = fields.Many2many(
+        'account.tax',
+        string='Product Taxes',
+        compute='_compute_taxes',
+        store=True
+    )
+
+
+class L10nBrTaxDefinitionStateProduct(L10nBrTaxDefinition, models.Model):
+    _name = 'l10n_br_tax.definition.state.product'
+
+    state_id = fields.Many2one(
+        'res.country.state',
+        u'Estado'
+    )
+    fiscal_classification_id = fields.Many2one(
+        'account.product.fiscal.classification',
+        'Classificação Fiscal'
+    )
+
+    _sql_constraints = [
+        ('l10n_br_tax_definition_tax_id_uniq',
+         'unique (tax_id, state_id)',
+         u'Imposto já existente neste estado!')
+    ]
