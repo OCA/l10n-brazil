@@ -147,6 +147,10 @@ class L10nBrTaxEstimateModel(models.AbstractModel):
 
     origin = fields.Char('Fonte', size=32)
 
+    company_id = fields.Many2one(
+        comodel_name='res.company'
+    )
+
 
 class L10nBrTaxEstimateTemplate(models.Model):
     _name = 'l10n_br_tax.estimate.template'
@@ -244,6 +248,7 @@ class AccountProductFiscalClassification(models.Model):
                 'state_taxes': result.estadual,
                 'federal_taxes_national': result.nacional,
                 'federal_taxes_import': result.importado,
+                'company_id': company.id,
                 }
 
             tax_estimate = fiscal_classification.env[
