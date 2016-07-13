@@ -21,7 +21,7 @@
 from openerp import models, fields, api
 
 
-class StockPicking(models.Model):
+class StockLocationPath(models.Model):
     _inherit = 'stock.location.path'
 
     fiscal_category_id = fields.Many2one(
@@ -31,7 +31,7 @@ class StockPicking(models.Model):
 
     @api.model
     def _prepare_push_apply(self, rule, move):
-        result = super(StockPicking, self)._prepare_push_apply(rule, move)
+        result = super(StockLocationPath, self)._prepare_push_apply(rule, move)
         if rule.fiscal_category_id:
 
             ctx = dict(self.env.context)
