@@ -216,30 +216,8 @@ class AccountTax(models.Model):
 
         # Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
-            obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
-            date = datetime.now().strftime('%Y-%m-%d')
-            tax_estimate_ids = obj_tax_estimate.search(
-                cr, uid, [('fiscal_classification_id', '=',
-                           product.fiscal_classification_id.id),
-                          '|', ('date_start', '=', False),
-                          ('date_start', '<=', date),
-                          '|', ('date_end', '=', False),
-                          ('date_end', '>=', date),
-                          ('active', '=', True)])
-
-            if tax_estimate_ids:
-                tax_estimate = obj_tax_estimate.browse(
-                    cr, uid, tax_estimate_ids)[0]
-                tax_estimate_percent = 0.00
-                if product.origin in ('1', '2', '6', '7'):
-                    tax_estimate_percent += tax_estimate.federal_taxes_import
-                else:
-                    tax_estimate_percent += tax_estimate.federal_taxes_national
-
-                tax_estimate_percent += tax_estimate.state_taxes
-                tax_estimate_percent /= 100
                 total_taxes = ((result['total_included'] - totaldc) *
-                               tax_estimate_percent)
+                               product.product_estimated_taxes_percent)
                 result['total_taxes'] = round(total_taxes, precision)
 
         return {
