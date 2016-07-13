@@ -66,16 +66,16 @@
 			  	<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
 			  	</xpath>
 			  	<xpath expr="/form/sheet/group[3]" position="replace">
-		            		<notebook>
-		                		<page string="Impostos">
-		                    			<group name="taxes" colspan="4">
-								<group string="Sale Taxes">
-									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-								</group>
-								<group string="Purchase Taxes">
-									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-								</group>
-							</group>
+                    <notebook>
+                        <page string="Impostos">
+                            <group name="taxes" colspan="4">
+                                <group string="Sale Taxes">
+                                    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                </group>
+                                <group string="Purchase Taxes">
+                                    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                                </group>
+                            </group>
 						</page>
 						<page string="Impostos Estimados">
 							<div class="oe_right oe_button_box" name="buttons">
@@ -184,55 +184,33 @@
 				<xpath expr="/form/sheet/separator[@string='Taxes']" position="replace">
 			  	</xpath>
 			  	<xpath expr="/form/sheet/group[2]" position="replace">
-		            		<notebook>
-		                		<page string="Impostos">
-		                    			<group name="taxes" colspan="4">
-								<group string="Sale Taxes">
-									<field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-								</group>
-								<group string="Purchase Taxes">
-									<field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-								</group>
-							</group>
-						</page>
-						<page string="Impostos Estimados">
-							<div class="oe_right oe_button_box" name="buttons">
-								<button class="oe_inline oe_stat_button" type="object"
-										name="get_ibpt" icon="fa-search">
-									<div>Consultar<br/>IBPT</div>
-								</button>
-							</div>
-							<field name="tax_estimate_ids" nolabel="1">
-								<tree>
-									<field name="state_id"/>
-									<field name="federal_taxes_national"/>
-									<field name="federal_taxes_import"/>
-									<field name="state_taxes"/>
-									<field name="municipal_taxes"/>
-									<field name="origin"/>
-								</tree>
-								<form>
-									<group>
-										<group>
-											<field name="fiscal_classification_id"/>
-											<field name="origin"/>
-											<field name="version"/>
-											<field name="state_id"/>
-											<field name="date_start"/>
-											<field name="date_end"/>
-										</group>
-										<group>
-											<field name="active"/>
-											<field name="key"/>
-											<field name="federal_taxes_national"/>
-											<field name="federal_taxes_import"/>
-											<field name="state_taxes"/>
-											<field name="municipal_taxes"/>
-										</group>
-									</group>
-								</form>
-							</field>
-						</page>
+                    <notebook>
+                        <page string="Impostos">
+                            <group name="taxes" colspan="4">
+                                <group string="Sale Taxes">
+                                    <field  nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
+                                </group>
+                                <group string="Purchase Taxes">
+                                    <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
+                                </group>
+                            </group>
+                        </page>
+                       <page string="Impostos Estimados">
+                            <field name="tax_estimate_ids" nolabel="1">
+                                <tree>
+                                    <field name="state_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="key"/>
+                                    <field name="version"/>
+                                    <field name="origin"/>
+                                    <field name="federal_taxes_national"/>
+                                    <field name="federal_taxes_import"/>
+                                    <field name="state_taxes"/>
+                                    <field name="municipal_taxes"/>
+                                </tree>
+                            </field>
+                        </page>
 					</notebook>
 				</xpath>
 			</field>

@@ -32,6 +32,13 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
+NFE_IND_IE_DEST = [
+    ('1', '1 - Contribuinte do ICMS'),
+    ('2', '2 - Contribuinte Isento do ICMS'),
+    ('9', '9 - Não Contribuinte')]
+
+NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
+
 
 class L10nbrAccountCFOP(models.Model):
     """CFOP - Código Fiscal de Operações e Prestações"""
@@ -335,3 +342,21 @@ class ImportDeclarationLine(models.Model):
     amount_discount = fields.Float(u'Valor',
                                    digits=dp.get_precision('Account'),
                                    default=0.00)
+
+
+class L10nBrTaxIcmsPartition(models.Model):
+    _name = 'l10n_br_tax.icms_partition'
+    _description = 'Icms Partition'
+
+    date_start = fields.Date(
+        u'Data Inicial',
+        required=True
+    )
+    date_end = fields.Date(
+        u'Data Final',
+        required=True
+    )
+    rate = fields.Float(
+        u'Percentual Interestadual de Rateio',
+        required=True
+    )

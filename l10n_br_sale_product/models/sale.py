@@ -224,7 +224,7 @@ class SaleOrderLine(models.Model):
         taxes = self.tax_id.compute_all(
             price,
             qty,
-            self.product_id.id,
+            self.product_id,
             self.order_id.partner_invoice_id.id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
