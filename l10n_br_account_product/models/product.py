@@ -2,7 +2,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
@@ -33,6 +33,28 @@ PRODUCT_ORIGIN = [
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    @api.multi
+    @api.depends('origin', 'fiscal_classification_id')
+    def _compute_product_estimated_taxes_percent(self):
+        for template in self:
+            if not (template.origin and template.fiscal_classification_id and
+                    template.fiscal_classification_id.tax_estimate_ids):
+                continue
+
+            t_ids = template.fiscal_classification_id.tax_estimate_ids.ids
+            estimated = self.env['l10n_br_tax.estimate'].search(
+                t_ids, order='create_date DESC', limit=1)
+
+            tax_estimate_percent = 0.00
+            if template.origin in ('1', '2', '6', '7'):
+                tax_estimate_percent += estimated.federal_taxes_import
+            else:
+                tax_estimate_percent += estimated.federal_taxes_national
+
+            tax_estimate_percent += estimated.state_taxes
+            tax_estimate_percent /= 100
+            template.product_estimated_taxes_percent = tax_estimate_percent
+
     fiscal_type = fields.Selection(
         selection_add=PRODUCT_FISCAL_TYPE,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
@@ -43,3 +65,8 @@ class ProductTemplate(models.Model):
 
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
+
+    product_estimated_taxes_percent = fields.Float(
+        string=u'Estimated Taxes(%)',
+        compute='_compute_product_estimated_taxes_percent',
+    )
