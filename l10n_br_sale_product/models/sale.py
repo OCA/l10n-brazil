@@ -18,6 +18,9 @@
 ###############################################################################
 
 from openerp import models, fields, api
+from openerp import _
+from openerp.exceptions import ValidationError
+
 from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 
@@ -255,6 +258,21 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Float(compute='_amount_line',
                                   string='Subtotal',
                                   digits=dp.get_precision('Sale Price'))
+    xped = fields.Char(
+        string=u"Código do Pedido (xPed)",
+        size=15,
+    )
+    nitemped = fields.Char(
+        string=u"Item do Pedido (nItemPed)",
+        size=6,
+    )
+
+    @api.onchange("nitemped")
+    def _check_nitemped(self):
+        if self.nitemped and not self.nitemped.isdigit():
+            raise ValidationError(
+                _(u"nItemPed must be a number with up to six digits")
+            )
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
@@ -264,6 +282,8 @@ class SaleOrderLine(models.Model):
         result['insurance_value'] = line.insurance_value
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
+        result['xped'] = line.xped
+        result['nitemped'] = line.nitemped
 
         # FIXME
         # Necessário informar estes campos pois são related do
