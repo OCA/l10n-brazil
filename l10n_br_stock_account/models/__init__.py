@@ -19,3 +19,5 @@
 
 from . import res_company
 from . import stock_account
+from . import stock
+from . import procurement
