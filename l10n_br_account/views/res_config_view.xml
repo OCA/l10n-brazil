@@ -22,7 +22,7 @@
 									<label string="Quantidade de dias para Atualizar:"/>
 								</div>
 								<div>
-									<field name="number_days_update"/>
+									<field name="ibpt_update_days"/>
 								</div>
 							</div>
 						</group>
