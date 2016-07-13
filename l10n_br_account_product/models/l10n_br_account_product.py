@@ -32,6 +32,14 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
+NFE_IND_IE_DEST = [
+    ('1', '1 - Contribuinte do ICMS'),
+    ('2', '2 - Contribuinte Isento do ICMS'),
+    ('9', '9 - Não Contribuinte')
+]
+
+NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
+
 
 class L10nbrAccountCFOP(models.Model):
     """CFOP - Código Fiscal de Operações e Prestações"""
