@@ -222,34 +222,34 @@ class AccountProductFiscalClassification(models.Model):
 
     @api.multi
     def get_ibpt(self):
-        for item in self:
 
-            brazil = item.env['res.country'].search([('code', '=', 'BR')])
-            states = item.env['res.country.state'].search([('country_id', '=',
-                                                            brazil.id)])
-            company = item.company_id or item.env.user.company_id
+        for fiscal_classification in self:
+
+            company = (
+                fiscal_classification.env.user.company_id or
+                fiscal_classification.company_id)
+
             config = DeOlhoNoImposto(
                 company.ipbt_token, punctuation_rm(company.cnpj_cpf),
                 company.state_id.code)
-            tax_estimate = item.env['l10n_br_tax.estimate']
-            for state in states:
 
-                result = get_ibpt_product(
-                    config,
-                    punctuation_rm(item.code or ''),
-                    ex='0')
+            result = get_ibpt_product(
+                config,
+                punctuation_rm(fiscal_classification.code or ''), ex='0')
 
-                vals = {
-                    'fiscal_classification_id': item.id,
-                    'origin': 'IBPT-WS',
-                    'state_id': state.id,
-                    'state_taxes': result.estadual,
-                    'federal_taxes_national': result.nacional,
-                    'federal_taxes_import': result.importado,
-                    }
+            vals = {
+                'fiscal_classification_id': fiscal_classification.id,
+                'origin': 'IBPT-WS',
+                'state_id': company.state_id.id,
+                'state_taxes': result.estadual,
+                'federal_taxes_national': result.nacional,
+                'federal_taxes_import': result.importado,
+                }
 
-                if item.env.user.company_id.state_id.id == state.id:
-                    tax_estimate.create(vals)
+            tax_estimate = fiscal_classification.env[
+                'l10n_br_tax.estimate']
+
+            tax_estimate.create(vals)
 
         return True
 
