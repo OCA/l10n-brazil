@@ -868,6 +868,7 @@ class AccountInvoiceLine(models.Model):
             'icms_fcp_percent': tax.get('percent', 0.0) * 100,
             'icms_fcp_value': tax.get('amount', 0.0),
         }
+        return result
 
     def _amount_tax_icmsst(self, tax=None):
         result = {
