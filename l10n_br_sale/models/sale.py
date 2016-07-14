@@ -256,11 +256,11 @@ class SaleOrderLine(models.Model):
     def _amount_line(self):
         price = self._calc_line_base_price()
         qty = self._calc_line_quantity()
-        taxes = self.tax_id.compute_all(price,
-                                        qty,
-                                        product=self.product_id,
-                                        partner=self.order_id.partner_invoice_id,
-                                        fiscal_position=self.fiscal_position)
+        taxes = self.tax_id.compute_all(
+            price, qty,
+            product=self.product_id,
+            partner=self.order_id.partner_invoice_id,
+            fiscal_position=self.fiscal_position)
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
             taxes['total'])
