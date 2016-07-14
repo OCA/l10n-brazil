@@ -38,7 +38,7 @@ class PurchaseOrder(models.Model):
             qty = line._calc_line_quantity(line)
             taxes = line.taxes_id.compute_all(
                 price, qty,
-                product=line.product_id.id, partner=self.partner_id,
+                product=line.product_id, partner=self.partner_id,
                 fiscal_position=self.fiscal_position)
 
             amount_untaxed += line.price_subtotal
