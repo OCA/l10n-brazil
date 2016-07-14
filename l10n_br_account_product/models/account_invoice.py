@@ -20,7 +20,7 @@
 import datetime
 from lxml import etree
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, tools
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import RedirectWarning
 from openerp.exceptions import ValidationError
@@ -456,19 +456,6 @@ class AccountInvoice(models.Model):
         result = txt.validate(cr, uid, ids, context)
         return result
 
-    @api.multi
-    def action_move_create(self):
-        result = super(AccountInvoice, self).action_move_create()
-        for invoice in self:
-            date_time_now = fields.datetime.now()
-
-            if not invoice.date_hour_invoice:
-                invoice.write({'date_hour_invoice': date_time_now})
-
-            if not invoice.date_in_out:
-                invoice.write({'date_in_out': date_time_now})
-        return result
-
     @api.onchange('fiscal_document_id')
     def onchange_fiscal_document_id(self):
         if self.fiscal_type == 'product':
@@ -490,15 +477,34 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_date_assign(self):
-        for invoice in self:
-            if invoice.date_hour_invoice:
-                aux = datetime.datetime.strptime(
-                    invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
-                invoice.date_invoice = str(aux)
-            result = invoice.onchange_payment_term_date_invoice(
-                invoice.payment_term.id, invoice.date_invoice)
-            if result and result.get('value'):
-                invoice.write(result['value'])
+        for inv in self:
+            if not inv.date_hour_invoice:
+                date_hour_invoice = fields.Datetime.context_timestamp(
+                    self, datetime.datetime.now())
+            else:
+                if inv.issuer == '1':
+                    date_move = inv.date_in_out
+                else:
+                    date_move = inv.date_hour_invoice
+                date_hour_invoice = fields.Datetime.context_timestamp(
+                    self, datetime.datetime.strptime(
+                        date_move, tools.DEFAULT_SERVER_DATETIME_FORMAT
+                    )
+                )
+            date_invoice = date_hour_invoice.strftime(
+                tools.DEFAULT_SERVER_DATE_FORMAT)
+            res = self.onchange_payment_term_date_invoice(
+                inv.payment_term.id, date_invoice)
+            if res and res['value']:
+                res['value'].update({
+                    'date_invoice': date_invoice
+                })
+                date_time_now = fields.datetime.now()
+                if not inv.date_hour_invoice:
+                    res['value'].update({'date_hour_invoice': date_time_now})
+                if not inv.date_in_out:
+                    res['value'].update({'date_in_out': date_time_now})
+                inv.write(res['value'])
         return True
 
     @api.multi
