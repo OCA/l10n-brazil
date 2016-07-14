@@ -36,8 +36,8 @@ class WizardValuationHistory(models.TransientModel):
         ]
 
         result = self.pool.get('stock.history').read_group(
-            cr, uid, domain=[], fields=fields, groupby=group_by,
-            context=context)
+            cr, uid, domain=[['date', '<=', date]], fields=fields,
+            groupby=group_by, context=context)
 
         return result
 
