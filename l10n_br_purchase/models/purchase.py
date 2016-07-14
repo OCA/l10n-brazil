@@ -271,7 +271,7 @@ class PurchaseOrderLine(models.Model):
         domain="[('type', '=', 'input'), ('journal_type', '=', 'purchase')]")
     fiscal_position = fields.Many2one(
         'account.fiscal.position', u'Posição Fiscal',
-        domain="[('fiscal_category_id',120 '=', fiscal_category_id)]")
+        domain="[('fiscal_category_id', '=', fiscal_category_id)]")
     freight_value = fields.Float(
         string='Freight',
         default=0.0,
