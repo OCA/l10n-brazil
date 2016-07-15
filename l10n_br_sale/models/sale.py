@@ -66,8 +66,8 @@ class SaleOrder(models.Model):
         price = line._calc_line_base_price()
         qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
-                price, qty, line.product_id.id,
-                line.order_id.partner_invoice_id.id,
+                price, qty, product=line.product_id,
+                partner=line.order_id.partner_invoice_id,
                 fiscal_position=line.fiscal_position)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
             if not tax.tax_code_id.tax_discount:
@@ -256,11 +256,11 @@ class SaleOrderLine(models.Model):
     def _amount_line(self):
         price = self._calc_line_base_price()
         qty = self._calc_line_quantity()
-        taxes = self.tax_id.compute_all(price,
-                                        qty,
-                                        self.product_id.id,
-                                        self.order_id.partner_invoice_id.id,
-                                        fiscal_position=self.fiscal_position)
+        taxes = self.tax_id.compute_all(
+            price, qty,
+            product=self.product_id,
+            partner=self.order_id.partner_invoice_id,
+            fiscal_position=self.fiscal_position)
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
             taxes['total'])
