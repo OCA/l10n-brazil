@@ -8,6 +8,10 @@
 			<field name="arch" type="xml">
                 <page string="NFe" position="inside">
                     <group string="Logo para NFe">
+						<div>
+						<label string="Usar a Logo na Vertical?"/>
+						<field name="nfe_logo_vertical" class="oe_left"/>
+						</div>
                         <div>
                         <label class="oe_edit_only" string="Esta imagem será utilizada na impressão dos DANFEs"/>
                         <field name="nfe_logo" widget="image" class="oe_left"/>

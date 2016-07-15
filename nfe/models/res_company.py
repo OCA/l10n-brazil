@@ -25,3 +25,4 @@ class ResCompany(models.Model):
 
     nfe_email = fields.Text('Observação em Email NFe')
     nfe_logo = fields.Binary('NFe Logo')
+    nfe_logo_vertical = fields.Boolean('Logo na Vertical')
