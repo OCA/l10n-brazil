@@ -117,6 +117,7 @@ class PosOrder(models.Model):
                 'pos_reference': order.pos_reference,
                 'partner': order.partner_id.name,
                 'date': order.date_order,
+                'total': '%.2f' % order.amount_total,
                 'chave_cfe': order.chave_cfe,
                 'canceled_order': order.canceled_order,
                 'can_cancel': False,
