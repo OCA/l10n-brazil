@@ -162,10 +162,11 @@
 
     <t t-name="OrderLine">
         <tr class='client-line last-order' t-att-data-id='order.id'>
-            <td><t t-esc='order.name' /></td>
-            <td><t t-esc='order.pos_reference' /></td>
+            <td style="font-size: 10px"><t t-esc='order.pos_reference' /></td>
             <td><t t-esc='order.partner or ""' /></td>
-            <td><t t-esc='order.date' /></td>
+            <td style="font-size: 10px"><t t-esc='order.date' /></td>
+            <td style="font-size: 11px"><t t-esc='order.chave_cfe' /></td>
+            <td><t t-esc='order.total' /></td>
             <td>
                 <button class="reprint_order last_order">
                     <i class="fa fa-print"></i>
@@ -235,10 +236,11 @@
                                     <table class='client-list'>
                                         <thead>
                                             <tr>
-                                                <th>Nome</th>
                                                 <th>Referencia</th>
                                                 <th>Cliente</th>
                                                 <th>Data</th>
+                                                <th>Numero CFe</th>
+                                                <th>Total</th>
                                                 <th>Reimpreção</th>
                                                 <th>Cancelar</th>
                                                 <th>Status</th>
