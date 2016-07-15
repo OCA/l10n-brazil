@@ -346,6 +346,7 @@ class NFe200(FiscalDocument):
         if invoice_line.product_id:
             self.det.prod.cProd.valor = invoice_line.product_id.code or ''
             self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
+            self.det.prod.cEANTrib.valor = invoice_line.product_id.ean13 or ''
             self.det.prod.xProd.valor = (
                 invoice_line.product_id.name[:120] or '')
         else:
@@ -362,7 +363,6 @@ class NFe200(FiscalDocument):
         self.det.prod.qCom.valor = str("%.4f" % invoice_line.quantity)
         self.det.prod.vUnCom.valor = str("%.7f" % invoice_line.price_unit)
         self.det.prod.vProd.valor = str("%.2f" % invoice_line.price_gross)
-        self.det.prod.cEANTrib.valor = invoice_line.product_id.ean13 or ''
         self.det.prod.uTrib.valor = self.det.prod.uCom.valor
         self.det.prod.qTrib.valor = self.det.prod.qCom.valor
         self.det.prod.vUnTrib.valor = self.det.prod.vUnCom.valor
