@@ -27,6 +27,22 @@
 				</field>
 			</field>
 		</record>
+		
+		<!-- account Tax form -->
+ 		<record id="view_l10n_br_account_tax_form" model="ir.ui.view">
+ 			<field name="name">l10n_br_account.account.tax</field>
+ 			<field name="model">account.tax</field>
+ 			<field name="inherit_id" ref="account.view_tax_form"/>
+ 			<field name="arch" type="xml">
+ 				<field name="account_collected_id" position="after">
+ 					<field name="account_deduced_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+ 				</field>
+ 				<field name="account_paid_id" position="after">
+ 					<field name="account_paid_deduced_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+ 				</field>
+ 				
+ 			</field>
+ 		</record>
 
 	</data>
 </openerp>
