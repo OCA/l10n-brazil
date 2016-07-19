@@ -49,7 +49,7 @@ write({'state':'cancel'})</field>
             <field name="condition">True</field>
             <field name="signal">invoice_validate</field>
         </record>
- 		
+        
 
         <record id="tras_router_open" model="workflow.transition">
             <field name="act_from" ref="act_router"/>
