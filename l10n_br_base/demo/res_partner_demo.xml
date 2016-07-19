@@ -1,121 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<!--  Resource: res.partner    -->
+        <!--  Resource: res.partner    -->
 
-		<record id="base.res_partner_1" model="res.partner">
-			<field name="name">ASUSTeK</field>
-			<field name="legal_name">ASUSTeK</field>
-		</record>
-		<record id="base.res_partner_2" model="res.partner">
-			<field name="name">Agrolait</field>
-			<field name="legal_name">Agrolait</field>
-		</record>
-		<record id="base.res_partner_3" model="res.partner">
-			<field name="name">China Export</field>
-			<field name="legal_name">China Export</field>
-		</record>
+        <record id="base.res_partner_1" model="res.partner">
+            <field name="name">ASUSTeK</field>
+            <field name="legal_name">ASUSTeK</field>
+        </record>
+        <record id="base.res_partner_2" model="res.partner">
+            <field name="name">Agrolait</field>
+            <field name="legal_name">Agrolait</field>
+        </record>
+        <record id="base.res_partner_3" model="res.partner">
+            <field name="name">China Export</field>
+            <field name="legal_name">China Export</field>
+        </record>
 
-		<record id="base.res_partner_4" model="res.partner">
-			<field name="name">Delta PC</field>
-			<field name="legal_name">Delta PC</field>
-		</record>
+        <record id="base.res_partner_4" model="res.partner">
+            <field name="name">Delta PC</field>
+            <field name="legal_name">Delta PC</field>
+        </record>
 
-		<record id="base.res_partner_5" model="res.partner">
-			<field name="name">Epic Technologies</field>
-			<field name="legal_name">EPIC Technologies</field>
-		</record>
+        <record id="base.res_partner_5" model="res.partner">
+            <field name="name">Epic Technologies</field>
+            <field name="legal_name">EPIC Technologies</field>
+        </record>
 
-		<record id="base.res_partner_6" model="res.partner">
-			<field name="name">Elec Import</field>
-			<field name="legal_name">Elec Import</field>
-		</record>
+        <record id="base.res_partner_6" model="res.partner">
+            <field name="name">Elec Import</field>
+            <field name="legal_name">Elec Import</field>
+        </record>
 
-		<record id="base.res_partner_7" model="res.partner">
-			<field name="name">Bank Wealthy and sons</field>
-			<field name="legal_name">Bank Wealthy and sons</field>
-		</record>
+        <record id="base.res_partner_7" model="res.partner">
+            <field name="name">Bank Wealthy and sons</field>
+            <field name="legal_name">Bank Wealthy and sons</field>
+        </record>
 
-		<record id="base.res_partner_8" model="res.partner">
-			<field name="name">Mediapole</field>
-			<field name="legal_name">Mediapole</field>
-		</record>
-		<record id="base.res_partner_9" model="res.partner">
-			<field name="name">Best Designers</field>
-			<field name="legal_name">Best Designers</field>
-		</record>
+        <record id="base.res_partner_8" model="res.partner">
+            <field name="name">Mediapole</field>
+            <field name="legal_name">Mediapole</field>
+        </record>
+        <record id="base.res_partner_9" model="res.partner">
+            <field name="name">Best Designers</field>
+            <field name="legal_name">Best Designers</field>
+        </record>
 
-		<record id="base.res_partner_10" model="res.partner">
-			<field name="name">The Jackson Group</field>
-			<field name="legal_name">The Jackson Group</field>
-		</record>
+        <record id="base.res_partner_10" model="res.partner">
+            <field name="name">The Jackson Group</field>
+            <field name="legal_name">The Jackson Group</field>
+        </record>
 
-		<record id="base.res_partner_11" model="res.partner">
-			<field name="name">Luminous Technologies</field>
-			<field name="legal_name">Luminous Technologies</field>
-		</record>
+        <record id="base.res_partner_11" model="res.partner">
+            <field name="name">Luminous Technologies</field>
+            <field name="legal_name">Luminous Technologies</field>
+        </record>
 
-		<record id="base.res_partner_12" model="res.partner">
-			<field name="name">Camptocamp</field>
-			<field name="legal_name">CamptoCamp</field>
-		</record>
+        <record id="base.res_partner_12" model="res.partner">
+            <field name="name">Camptocamp</field>
+            <field name="legal_name">CamptoCamp</field>
+        </record>
 
-		<record id="base.res_partner_13" model="res.partner">
-			<field name="name">Axelor</field>
-			<field name="legal_name">Axelor</field>
-		</record>
+        <record id="base.res_partner_13" model="res.partner">
+            <field name="name">Axelor</field>
+            <field name="legal_name">Axelor</field>
+        </record>
 
-		<record id="base.res_partner_14" model="res.partner">
-			<field name="name">Chamber Works</field>
-			<field name="legal_name">Chamber Works</field>
-		</record>
+        <record id="base.res_partner_14" model="res.partner">
+            <field name="name">Chamber Works</field>
+            <field name="legal_name">Chamber Works</field>
+        </record>
 
-		<record id="base.res_partner_15" model="res.partner">
-			<field name="name">Millennium Industries</field>
-			<field name="legal_name">Millennium Industries</field>
-		</record>
+        <record id="base.res_partner_15" model="res.partner">
+            <field name="name">Millennium Industries</field>
+            <field name="legal_name">Millennium Industries</field>
+        </record>
 
-		<record id="base.res_partner_16" model="res.partner">
-			<field name="name">Spark Systems</field>
-			<field name="legal_name">Spark Systems</field>
-		</record>
+        <record id="base.res_partner_16" model="res.partner">
+            <field name="name">Spark Systems</field>
+            <field name="legal_name">Spark Systems</field>
+        </record>
 
-	   <record id="base.res_partner_17" model="res.partner">
-			<field name="name">Nebula Business</field>
-			<field name="legal_name">Nebula Business</field>
-		</record>
+       <record id="base.res_partner_17" model="res.partner">
+            <field name="name">Nebula Business</field>
+            <field name="legal_name">Nebula Business</field>
+        </record>
 
-		<record id="base.res_partner_18" model="res.partner">
-			<field name="name">Think Big Systems</field>
-			<field name="legal_name">Think Big Systems</field>
-		</record>
+        <record id="base.res_partner_18" model="res.partner">
+            <field name="name">Think Big Systems</field>
+            <field name="legal_name">Think Big Systems</field>
+        </record>
 
-		<record id="base.res_partner_19" model="res.partner">
-			<field name="name">Seagate</field>
-			<field name="legal_name">Seagate</field>
-		</record>
+        <record id="base.res_partner_19" model="res.partner">
+            <field name="name">Seagate</field>
+            <field name="legal_name">Seagate</field>
+        </record>
 
-		<!--To be removed as its acquired by Seagate-->
-		<record id="base.res_partner_20" model="res.partner">
-			<field name="name">Maxtor</field>
-			<field name="legal_name">Maxtor</field>
-		</record>
+        <!--To be removed as its acquired by Seagate-->
+        <record id="base.res_partner_20" model="res.partner">
+            <field name="name">Maxtor</field>
+            <field name="legal_name">Maxtor</field>
+        </record>
 
-		<record id="base.res_partner_21" model="res.partner">
-			<field name="name">Global Solutions</field>
-			<field name="legal_name">Global Solutions</field>
-		</record>
+        <record id="base.res_partner_21" model="res.partner">
+            <field name="name">Global Solutions</field>
+            <field name="legal_name">Global Solutions</field>
+        </record>
 
-		<record id="base.res_partner_22" model="res.partner">
-			<field name="name">Vicking Direct</field>
-			<field name="legal_name">Vicking Direct</field>
-		</record>
+        <record id="base.res_partner_22" model="res.partner">
+            <field name="name">Vicking Direct</field>
+            <field name="legal_name">Vicking Direct</field>
+        </record>
 
-		<record id="base.res_partner_23" model="res.partner">
-			<field name="name">Vauxoo</field>
-			<field name="legal_name">Vauxoo</field>
-		</record>
+        <record id="base.res_partner_23" model="res.partner">
+            <field name="name">Vauxoo</field>
+            <field name="legal_name">Vauxoo</field>
+        </record>
 
-	</data>
+    </data>
 </openerp>
