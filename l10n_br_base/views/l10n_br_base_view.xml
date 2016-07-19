@@ -1,74 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
+    
+        <!-- TODO move elsewhere! -->
+        <record id="base.br" model="res.country">
+            <field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
+        </record>
 
-		<record id="view_general_configuration_cnpj" model="ir.ui.view">
-            <field name="name">base.config.settings.cnpj</field>
-            <field name="model">base.config.settings</field>
-            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+        <menuitem id="menu_l10n_br_base" icon="terp-crm" name="Localização Brasil"/>
+        <menuitem id="menu_l10n_br_base_configuration" name="Configuração" parent="menu_l10n_br_base" sequence="0"/>
+
+        <record id="view_l10n_br_base_city_tree" model="ir.ui.view">
+            <field name="name">l10n_br_base.city</field>
+            <field name="model">l10n_br_base.city</field>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='module_portal']/../../.." position="before">
-                    <group>
-                        <label for="allow_cnpj_multi_ie" string="Múltiplos IE's"/>
-                        <div name="email">
-                            <div name="email.outgoing_server">
-                                <field name="allow_cnpj_multi_ie" class="oe_inline" />
-								<label string ="Permite parceiros com CNPJ's iguais e IE's diferentes."/>
-                            </div>
-                        </div>
-                    </group>
-                </xpath>
-				<field name="allow_cnpj_multi_ie" class="oe_inline" />
+                <tree string="Municípios">
+                    <field name="name" select="1"/>
+                    <field name="state_id" select="1"/>
+                    <field name="ibge_code"/>
+                </tree>
             </field>
         </record>
 
-	
-		<!-- TODO move elsewhere! -->
-		<record id="base.br" model="res.country">
-			<field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
-		</record>
+        <record id="view_l10n_br_base_city_form" model="ir.ui.view">
+            <field name="name">l10n_br_base.city</field>
+            <field name="model">l10n_br_base.city</field>
+            <field name="arch" type="xml">
+                <form string="Municípios">
+                    <group>
+                        <field name="name"/>    
+                        <field name="state_id"/>
+                        <field name="ibge_code"/>
+                    </group>
+                </form>
+            </field>
+        </record>
 
-		<menuitem id="menu_l10n_br_base" icon="terp-crm" name="Localização Brasil"/>
-		<menuitem id="menu_l10n_br_base_configuration" name="Configuração" parent="menu_l10n_br_base" sequence="0"/>
+        <record id="action_l10n_br_base_city_form" model="ir.actions.act_window">
+            <field name="name">Município</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br_base.city</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_l10n_br_base_city_tree"/>
+        </record>
 
-		<record id="view_l10n_br_base_city_tree" model="ir.ui.view">
-			<field name="name">l10n_br_base.city</field>
-			<field name="model">l10n_br_base.city</field>
-			<field name="arch" type="xml">
-				<tree string="Municípios">
-					<field name="name" select="1"/>
-					<field name="state_id" select="1"/>
-					<field name="ibge_code"/>
-				</tree>
-			</field>
-		</record>
+        <menuitem id="menu_l10n_br_base_fiscal" name="Fiscal" parent="menu_l10n_br_base_configuration" sequence="0"/>
+        <menuitem id="menu_action_l10n_br_base_city_form" name="Municípios" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
 
-		<record id="view_l10n_br_base_city_form" model="ir.ui.view">
-			<field name="name">l10n_br_base.city</field>
-			<field name="model">l10n_br_base.city</field>
-			<field name="arch" type="xml">
-				<form string="Municípios">
-					<group>
-						<field name="name"/>	
-						<field name="state_id"/>
-						<field name="ibge_code"/>
-					</group>
-				</form>
-			</field>
-		</record>
-
-		<record id="action_l10n_br_base_city_form" model="ir.actions.act_window">
-			<field name="name">Município</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">l10n_br_base.city</field>
-			<field name="view_mode">tree,form</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="view_l10n_br_base_city_tree"/>
-		</record>
-
-		<menuitem id="menu_l10n_br_base_fiscal" name="Fiscal" parent="menu_l10n_br_base_configuration" sequence="0"/>
-		<menuitem id="menu_action_l10n_br_base_city_form" name="Municípios" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
-
-	</data>
+    </data>
 
 </openerp>
