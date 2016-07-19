@@ -1,416 +1,416 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="res_partner_intel" model="res.partner">
-			<field name="name">Intel do Brasil</field>
-			<field name="legal_name">Intel do Brasil</field>
-			<field name="cnpj_cpf">86.144.802/0001-90</field>
-			<field name="street">Avenida Doutor Chucri Zaidan</field>
-			<field name="number">920</field>
-			<field name="district">Vila Cordeiro</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_sp"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
-			<field name="zip">04583-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.intel.com.br</field>
-			<field name="phone">(11) 3365-5500</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">623.343.911.173</field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_intel" model="res.partner">
+            <field name="name">Intel do Brasil</field>
+            <field name="legal_name">Intel do Brasil</field>
+            <field name="cnpj_cpf">86.144.802/0001-90</field>
+            <field name="street">Avenida Doutor Chucri Zaidan</field>
+            <field name="number">920</field>
+            <field name="district">Vila Cordeiro</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_sp"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+            <field name="zip">04583-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.intel.com.br</field>
+            <field name="phone">(11) 3365-5500</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">623.343.911.173</field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_amd" model="res.partner">
-			<field name="name">AMD do Brasil</field>
-			<field name="legal_name">AMD South America Ltda</field>
-			<field name="cnpj_cpf">62.228.384/0001-51</field>
-			<field name="street">Rua Samuel Morse</field>
-			<field name="number">134</field>
-			<field name="district">Brooklin</field>
-			<field name="street2">15º andar - Conjunto 151</field>
-			<field name="state_id" ref="l10n_br_base.br_sp"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
-			<field name="zip">04576-060</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.amd.com/br</field>
-			<field name="phone">(55-11) 3478-2150</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">621.240.850.633</field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_amd" model="res.partner">
+            <field name="name">AMD do Brasil</field>
+            <field name="legal_name">AMD South America Ltda</field>
+            <field name="cnpj_cpf">62.228.384/0001-51</field>
+            <field name="street">Rua Samuel Morse</field>
+            <field name="number">134</field>
+            <field name="district">Brooklin</field>
+            <field name="street2">15º andar - Conjunto 151</field>
+            <field name="state_id" ref="l10n_br_base.br_sp"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+            <field name="zip">04576-060</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.amd.com/br</field>
+            <field name="phone">(55-11) 3478-2150</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">621.240.850.633</field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_lg" model="res.partner">
-			<field name="name">LG do Brasil</field>
-			<field name="legal_name">LG ELECTRONICS DA AMAZÔNIA LTDA</field>
-			<field name="cnpj_cpf">92.737.124/0001-72</field>
-			<field name="street">Avenida Javari</field>
-			<field name="number">s/n</field>
-			<field name="district">Distrito Industrial</field>
-			<field name="street2">Lote 2.45/1E</field>
-			<field name="state_id" ref="l10n_br_base.br_am"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
-			<field name="zip">69075-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.lg.com/br</field>
-			<field name="phone"> (92) 2129-8710</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">86.015.623-0</field>
-			<field name="suframa">550309012</field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_lg" model="res.partner">
+            <field name="name">LG do Brasil</field>
+            <field name="legal_name">LG ELECTRONICS DA AMAZÔNIA LTDA</field>
+            <field name="cnpj_cpf">92.737.124/0001-72</field>
+            <field name="street">Avenida Javari</field>
+            <field name="number">s/n</field>
+            <field name="district">Distrito Industrial</field>
+            <field name="street2">Lote 2.45/1E</field>
+            <field name="state_id" ref="l10n_br_base.br_am"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+            <field name="zip">69075-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.lg.com/br</field>
+            <field name="phone"> (92) 2129-8710</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">86.015.623-0</field>
+            <field name="suframa">550309012</field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_samsungpe" model="res.partner">
-			<field name="name">Samsung Recife</field>
-			<field name="legal_name">Samsung Recife LTDA</field>
-			<field name="cnpj_cpf">21.717.475/0001-73</field>
-			<field name="street">Av. República do Líbano</field>
-			<field name="number">251</field>
-			<field name="district">Centro</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_pe"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
-			<field name="zip">51110-160</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.samsung.com/br</field>
-			<field name="phone">(81) 1111-1111</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">4386525-92</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_samsungpe" model="res.partner">
+            <field name="name">Samsung Recife</field>
+            <field name="legal_name">Samsung Recife LTDA</field>
+            <field name="cnpj_cpf">21.717.475/0001-73</field>
+            <field name="street">Av. República do Líbano</field>
+            <field name="number">251</field>
+            <field name="district">Centro</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_pe"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+            <field name="zip">51110-160</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.samsung.com/br</field>
+            <field name="phone">(81) 1111-1111</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">4386525-92</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_positivo" model="res.partner">
-			<field name="name">Positivo Informatica</field>
-			<field name="legal_name">Positivo Informatica S/A</field>
-			<field name="cnpj_cpf">77.256.611/0001-20</field>
-			<field name="street">Rua Senador Accioly Filho</field>
-			<field name="number">5200</field>
-			<field name="district">Cidade Industrial</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_pr"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_4106902"/>
-			<field name="zip">81310-000</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.positivoinformatica.com.br</field>
-			<field name="phone">(41) 3316-7700</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">80320143-90</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_positivo" model="res.partner">
+            <field name="name">Positivo Informatica</field>
+            <field name="legal_name">Positivo Informatica S/A</field>
+            <field name="cnpj_cpf">77.256.611/0001-20</field>
+            <field name="street">Rua Senador Accioly Filho</field>
+            <field name="number">5200</field>
+            <field name="district">Cidade Industrial</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_pr"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_4106902"/>
+            <field name="zip">81310-000</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.positivoinformatica.com.br</field>
+            <field name="phone">(41) 3316-7700</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">80320143-90</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_dell" model="res.partner">
-			<field name="name">Dell Computadores do Brasil</field>
-			<field name="legal_name">Dell Computadores do Brasil LTDA</field>
-			<field name="cnpj_cpf">73.623.891/0001-06</field>
-			<field name="street">Avenida Ipiranga</field>
-			<field name="number">6681</field>
-			<field name="district">Partenon</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_rs"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
-			<field name="zip">90619-900</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.dell.com.br</field>
-			<field name="phone">(51) 3320-3500</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">074/2864251</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_dell" model="res.partner">
+            <field name="name">Dell Computadores do Brasil</field>
+            <field name="legal_name">Dell Computadores do Brasil LTDA</field>
+            <field name="cnpj_cpf">73.623.891/0001-06</field>
+            <field name="street">Avenida Ipiranga</field>
+            <field name="number">6681</field>
+            <field name="district">Partenon</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_rs"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+            <field name="zip">90619-900</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.dell.com.br</field>
+            <field name="phone">(51) 3320-3500</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">074/2864251</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_infobahia" model="res.partner">
-			<field name="name">Info Bahia</field>
-			<field name="legal_name">Informatica Bahia LTDA</field>
-			<field name="cnpj_cpf">14.685.381/0001-02</field>
-			<field name="street">Rua Francisco Muniz Barreto</field>
-			<field name="number">2</field>
-			<field name="district">Terreiro de Jesus</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_ba"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_2927408"/>
-			<field name="zip">40835-650</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.infobahia.com.br</field>
-			<field name="phone">(71) 3321-9652</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">2004915-45</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_infobahia" model="res.partner">
+            <field name="name">Info Bahia</field>
+            <field name="legal_name">Informatica Bahia LTDA</field>
+            <field name="cnpj_cpf">14.685.381/0001-02</field>
+            <field name="street">Rua Francisco Muniz Barreto</field>
+            <field name="number">2</field>
+            <field name="district">Terreiro de Jesus</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_ba"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_2927408"/>
+            <field name="zip">40835-650</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.infobahia.com.br</field>
+            <field name="phone">(71) 3321-9652</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">2004915-45</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_infomanaus" model="res.partner">
-			<field name="name">Informatica Manaus</field>
-			<field name="legal_name">Informatica Manaus</field>
-			<field name="cnpj_cpf">38.633.837/0001-40</field>
-			<field name="street">Avenida Javari</field>
-			<field name="number">s/n</field>
-			<field name="district">Distrito Industrial</field>
-			<field name="street2">Lote 4.45/5E</field>
-			<field name="state_id" ref="l10n_br_base.br_am"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
-			<field name="zip">69075-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.infomanuas.com/br</field>
-			<field name="phone"> (92) 2129-8720</field>
-			<field name="email">teste@teste.com.br</field>
-			<field name="inscr_est">78.002.376-5</field>
-			<field name="suframa">101160100</field>
-			<field name="customer" eval="0"/>
-			<field name="supplier" eval="1"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_infomanaus" model="res.partner">
+            <field name="name">Informatica Manaus</field>
+            <field name="legal_name">Informatica Manaus</field>
+            <field name="cnpj_cpf">38.633.837/0001-40</field>
+            <field name="street">Avenida Javari</field>
+            <field name="number">s/n</field>
+            <field name="district">Distrito Industrial</field>
+            <field name="street2">Lote 4.45/5E</field>
+            <field name="state_id" ref="l10n_br_base.br_am"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+            <field name="zip">69075-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.infomanuas.com/br</field>
+            <field name="phone"> (92) 2129-8720</field>
+            <field name="email">teste@teste.com.br</field>
+            <field name="inscr_est">78.002.376-5</field>
+            <field name="suframa">101160100</field>
+            <field name="customer" eval="0"/>
+            <field name="supplier" eval="1"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente1_sp" model="res.partner">
-			<field name="name">Cliente 1 SP Contribuinte</field>
-			<field name="legal_name">Cliente 1 SP</field>
-			<field name="cnpj_cpf">81.493.979/0001-89</field>
-			<field name="street">Rua Samuel Morse</field>
-			<field name="number">135</field>
-			<field name="district">Brooklin</field>
-			<field name="street2">20º andar - Conjunto 151</field>
-			<field name="state_id" ref="l10n_br_base.br_sp"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
-			<field name="zip">04576-060</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente1.com/br</field>
-			<field name="phone">(55-11) 3478-2150</field>
-			<field name="email">cliente1@cliente1.com.br</field>
-			<field name="inscr_est">460.429.771.334</field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente1_sp" model="res.partner">
+            <field name="name">Cliente 1 SP Contribuinte</field>
+            <field name="legal_name">Cliente 1 SP</field>
+            <field name="cnpj_cpf">81.493.979/0001-89</field>
+            <field name="street">Rua Samuel Morse</field>
+            <field name="number">135</field>
+            <field name="district">Brooklin</field>
+            <field name="street2">20º andar - Conjunto 151</field>
+            <field name="state_id" ref="l10n_br_base.br_sp"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+            <field name="zip">04576-060</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente1.com/br</field>
+            <field name="phone">(55-11) 3478-2150</field>
+            <field name="email">cliente1@cliente1.com.br</field>
+            <field name="inscr_est">460.429.771.334</field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente2_sp" model="res.partner">
-			<field name="name">Cliente 2 -SP - Simples Nacional</field>
-			<field name="legal_name">Cliente 2 - SP</field>
-			<field name="cnpj_cpf">12.046.835/0001-61</field>
-			<field name="street">Avenida Doutor Chucri Zaidan</field>
-			<field name="number">950</field>
-			<field name="district">Vila Cordeiro</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_sp"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
-			<field name="zip">04583-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente2.com.br</field>
-			<field name="phone">(11) 7777-7777</field>
-			<field name="email">cliente2@cliente2.com.br</field>
-			<field name="inscr_est">887.273.429.152</field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente2_sp" model="res.partner">
+            <field name="name">Cliente 2 -SP - Simples Nacional</field>
+            <field name="legal_name">Cliente 2 - SP</field>
+            <field name="cnpj_cpf">12.046.835/0001-61</field>
+            <field name="street">Avenida Doutor Chucri Zaidan</field>
+            <field name="number">950</field>
+            <field name="district">Vila Cordeiro</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_sp"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+            <field name="zip">04583-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente2.com.br</field>
+            <field name="phone">(11) 7777-7777</field>
+            <field name="email">cliente2@cliente2.com.br</field>
+            <field name="inscr_est">887.273.429.152</field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente3_am" model="res.partner">
-			<field name="name">Cliente 3 - Z/F Manaus - Contribuinte</field>
-			<field name="legal_name">Cliente 3 - Manaus</field>
-			<field name="cnpj_cpf">46.081.676/0001-58</field>
-			<field name="street">Avenida Javari</field>
-			<field name="number">s/n</field>
-			<field name="district">Distrito Industrial</field>
-			<field name="street2">Lote 8.45/30E</field>
-			<field name="state_id" ref="l10n_br_base.br_am"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
-			<field name="zip">69075-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente3.com/br</field>
-			<field name="phone"> (92) 2145-9999</field>
-			<field name="email">cliente3@cliente3.com.br</field>
-			<field name="inscr_est">78.217.504-0</field>
-			<field name="suframa">101362102</field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente3_am" model="res.partner">
+            <field name="name">Cliente 3 - Z/F Manaus - Contribuinte</field>
+            <field name="legal_name">Cliente 3 - Manaus</field>
+            <field name="cnpj_cpf">46.081.676/0001-58</field>
+            <field name="street">Avenida Javari</field>
+            <field name="number">s/n</field>
+            <field name="district">Distrito Industrial</field>
+            <field name="street2">Lote 8.45/30E</field>
+            <field name="state_id" ref="l10n_br_base.br_am"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+            <field name="zip">69075-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente3.com/br</field>
+            <field name="phone"> (92) 2145-9999</field>
+            <field name="email">cliente3@cliente3.com.br</field>
+            <field name="inscr_est">78.217.504-0</field>
+            <field name="suframa">101362102</field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente4_am" model="res.partner">
-			<field name="name">Cliente 4 - Z/F Manaus - Simples Nacional</field>
-			<field name="legal_name">Cliente 4 - Manaus</field>
-			<field name="cnpj_cpf">84.148.732/0001-13</field>
-			<field name="street">Avenida Javari</field>
-			<field name="number">s/n</field>
-			<field name="district">Distrito Industrial</field>
-			<field name="street2">Lote 9.45/15E</field>
-			<field name="state_id" ref="l10n_br_base.br_am"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
-			<field name="zip">69075-110</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente3.com/br</field>
-			<field name="phone"> (92) 2145-8888</field>
-			<field name="email">cliente4@cliente4.com.br</field>
-			<field name="inscr_est">09.569.321-1</field>
-			<field name="suframa">100695108</field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente4_am" model="res.partner">
+            <field name="name">Cliente 4 - Z/F Manaus - Simples Nacional</field>
+            <field name="legal_name">Cliente 4 - Manaus</field>
+            <field name="cnpj_cpf">84.148.732/0001-13</field>
+            <field name="street">Avenida Javari</field>
+            <field name="number">s/n</field>
+            <field name="district">Distrito Industrial</field>
+            <field name="street2">Lote 9.45/15E</field>
+            <field name="state_id" ref="l10n_br_base.br_am"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+            <field name="zip">69075-110</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente3.com/br</field>
+            <field name="phone"> (92) 2145-8888</field>
+            <field name="email">cliente4@cliente4.com.br</field>
+            <field name="inscr_est">09.569.321-1</field>
+            <field name="suframa">100695108</field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente5_pe" model="res.partner">
-			<field name="name">Cliente 5 - Contribuinte - PE</field>
-			<field name="legal_name">Cliente 5 PE</field>
-			<field name="cnpj_cpf">14.753.702/0001-50</field>
-			<field name="street">Av. República do Líbano</field>
-			<field name="number">255</field>
-			<field name="district">Centro</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_pe"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
-			<field name="zip">51110-160</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente5.com/br</field>
-			<field name="phone">(81) 1111-1111</field>
-			<field name="email">cliente5@cliente5.com.br</field>
-			<field name="inscr_est">8700737-10</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente5_pe" model="res.partner">
+            <field name="name">Cliente 5 - Contribuinte - PE</field>
+            <field name="legal_name">Cliente 5 PE</field>
+            <field name="cnpj_cpf">14.753.702/0001-50</field>
+            <field name="street">Av. República do Líbano</field>
+            <field name="number">255</field>
+            <field name="district">Centro</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_pe"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+            <field name="zip">51110-160</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente5.com/br</field>
+            <field name="phone">(81) 1111-1111</field>
+            <field name="email">cliente5@cliente5.com.br</field>
+            <field name="inscr_est">8700737-10</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente6_pe" model="res.partner">
-			<field name="name">Cliente 6 - Simples Nacional- PE</field>
-			<field name="legal_name">Cliente 6 Recife LTDA</field>
-			<field name="cnpj_cpf">97.449.840/0001-78</field>
-			<field name="street">Av. República do Líbano</field>
-			<field name="number">275</field>
-			<field name="district">Centro</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_pe"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
-			<field name="zip">51110-160</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente5.com/br</field>
-			<field name="phone">(81) 1111-1111</field>
-			<field name="email">cliente6@cliente6.com.br</field>
-			<field name="inscr_est">7055493-56</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente6_pe" model="res.partner">
+            <field name="name">Cliente 6 - Simples Nacional- PE</field>
+            <field name="legal_name">Cliente 6 Recife LTDA</field>
+            <field name="cnpj_cpf">97.449.840/0001-78</field>
+            <field name="street">Av. República do Líbano</field>
+            <field name="number">275</field>
+            <field name="district">Centro</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_pe"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+            <field name="zip">51110-160</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente5.com/br</field>
+            <field name="phone">(81) 1111-1111</field>
+            <field name="email">cliente6@cliente6.com.br</field>
+            <field name="inscr_est">7055493-56</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente7_rs" model="res.partner">
-			<field name="name">Cliente 7 RS - Contribuinte</field>
-			<field name="legal_name">Cliente 7 - RS</field>
-			<field name="cnpj_cpf">43.266.887/0001-77</field>
-			<field name="street">Avenida Ipiranga</field>
-			<field name="number">6690</field>
-			<field name="district">Partenon</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_rs"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
-			<field name="zip">90619-900</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente7.com.br</field>
-			<field name="phone">(51) 3320-7777</field>
-			<field name="email">cliente7@cliente7.com.br</field>
-			<field name="inscr_est">176/1256758</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente7_rs" model="res.partner">
+            <field name="name">Cliente 7 RS - Contribuinte</field>
+            <field name="legal_name">Cliente 7 - RS</field>
+            <field name="cnpj_cpf">43.266.887/0001-77</field>
+            <field name="street">Avenida Ipiranga</field>
+            <field name="number">6690</field>
+            <field name="district">Partenon</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_rs"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+            <field name="zip">90619-900</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente7.com.br</field>
+            <field name="phone">(51) 3320-7777</field>
+            <field name="email">cliente7@cliente7.com.br</field>
+            <field name="inscr_est">176/1256758</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_cliente8_rs" model="res.partner">
-			<field name="name">Cliente 8 RS - Simples Nacional</field>
-			<field name="legal_name">Cliente 7 - RS</field>
-			<field name="cnpj_cpf">32.406.080/0001-76</field>
-			<field name="street">Avenida Ipiranga</field>
-			<field name="number">6600</field>
-			<field name="district">Partenon</field>
-			<field name="street2"></field>
-			<field name="state_id" ref="l10n_br_base.br_rs"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
-			<field name="zip">90619-900</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="website">www.cliente8.com.br</field>
-			<field name="phone">(51) 3320-8888</field>
-			<field name="email">cliente8@cliente8.com.br</field>
-			<field name="inscr_est">383/4127240</field>
-			<field name="suframa"></field>
-			<field name="customer" eval="1"/>
-			<field name="supplier" eval="0"/>
-			<field name="is_company" eval="1"/>
-			<field name="active" eval="1"/>
-		</record>
+        <record id="res_partner_cliente8_rs" model="res.partner">
+            <field name="name">Cliente 8 RS - Simples Nacional</field>
+            <field name="legal_name">Cliente 7 - RS</field>
+            <field name="cnpj_cpf">32.406.080/0001-76</field>
+            <field name="street">Avenida Ipiranga</field>
+            <field name="number">6600</field>
+            <field name="district">Partenon</field>
+            <field name="street2"></field>
+            <field name="state_id" ref="l10n_br_base.br_rs"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+            <field name="zip">90619-900</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="website">www.cliente8.com.br</field>
+            <field name="phone">(51) 3320-8888</field>
+            <field name="email">cliente8@cliente8.com.br</field>
+            <field name="inscr_est">383/4127240</field>
+            <field name="suframa"></field>
+            <field name="customer" eval="1"/>
+            <field name="supplier" eval="0"/>
+            <field name="is_company" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
 
-		<record id="res_partner_akretion" model="res.partner">
-			<field name="title" ref="base.res_partner_title_pvt_ltd"/>
-			<field name="cnpj_cpf">11.034.414/0001-58</field>
-			<field eval="0" name="employee"/>
-			<field eval="1" name="customer"/>
-			<field eval="1" name="supplier"/>
-			<field name="is_company" eval="1"/>
-			<field eval="1" name="active"/>
-			<field name="legal_name">AKRETION LTDA</field>
-			<field name="name">Akretion Sao Paulo</field>
-			<field name="district">Alumínio</field>
-			<field name="zip">18125-000</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="number">586</field>
-			<field name="phone">(21) 3010 9965</field>
-			<field name="street">Rua Paulo Dias</field>
-			<field eval="1" name="active"/>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3501152"/>
-			<field name="state_id" ref="l10n_br_base.br_sp"/>
-			<field name="image">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</field>
-		</record>
+        <record id="res_partner_akretion" model="res.partner">
+            <field name="title" ref="base.res_partner_title_pvt_ltd"/>
+            <field name="cnpj_cpf">11.034.414/0001-58</field>
+            <field eval="0" name="employee"/>
+            <field eval="1" name="customer"/>
+            <field eval="1" name="supplier"/>
+            <field name="is_company" eval="1"/>
+            <field eval="1" name="active"/>
+            <field name="legal_name">AKRETION LTDA</field>
+            <field name="name">Akretion Sao Paulo</field>
+            <field name="district">Alumínio</field>
+            <field name="zip">18125-000</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="number">586</field>
+            <field name="phone">(21) 3010 9965</field>
+            <field name="street">Rua Paulo Dias</field>
+            <field eval="1" name="active"/>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3501152"/>
+            <field name="state_id" ref="l10n_br_base.br_sp"/>
+            <field name="image">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</field>
+        </record>
 
-		<record id="res_partner_address_ak2" model="res.partner">
-			<field name="title" ref="base.res_partner_title_pvt_ltd"/>
-			<field eval="0" name="employee"/>
-			<field eval="1" name="customer"/>
-			<field eval="1" name="supplier"/>
-			<field eval="1" name="active"/>
-			<field name="is_company" eval="1"/>
-			<field name="legal_name">AKRETION LTDA</field>
-			<field name="name">Akretion Rio de Janeiro</field>
-			<field name="parent_id" ref="res_partner_akretion"/>
-			<field name="district">Rio de Janeiro</field>
-			<field name="l10n_br_city_id" ref="l10n_br_base.city_3304557"/>
-			<field name="zip">20081-000</field>
-			<field name="country_id" ref="base.br"/>
-			<field name="number">47</field>
-			<field name="phone">(21) 2516-2954</field>
-			<field name="street">Rua Acre</field>
-			<field name="street2">sala 1310</field>
-			<field name="website">http://www.akretion.com</field>
-			<field eval="1" name="active"/>
-			<field name="state_id" ref="l10n_br_base.br_rj"/>
-			<field name="image">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</field>
-		</record>
+        <record id="res_partner_address_ak2" model="res.partner">
+            <field name="title" ref="base.res_partner_title_pvt_ltd"/>
+            <field eval="0" name="employee"/>
+            <field eval="1" name="customer"/>
+            <field eval="1" name="supplier"/>
+            <field eval="1" name="active"/>
+            <field name="is_company" eval="1"/>
+            <field name="legal_name">AKRETION LTDA</field>
+            <field name="name">Akretion Rio de Janeiro</field>
+            <field name="parent_id" ref="res_partner_akretion"/>
+            <field name="district">Rio de Janeiro</field>
+            <field name="l10n_br_city_id" ref="l10n_br_base.city_3304557"/>
+            <field name="zip">20081-000</field>
+            <field name="country_id" ref="base.br"/>
+            <field name="number">47</field>
+            <field name="phone">(21) 2516-2954</field>
+            <field name="street">Rua Acre</field>
+            <field name="street2">sala 1310</field>
+            <field name="website">http://www.akretion.com</field>
+            <field eval="1" name="active"/>
+            <field name="state_id" ref="l10n_br_base.br_rj"/>
+            <field name="image">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</field>
+        </record>
 
-	</data>
+    </data>
 </openerp>
