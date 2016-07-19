@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2014 KMEE (http://www.kmee.com.br)
-#    @author Luis Felipe Mileo <mileo@kmee.com.br>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, api
 
@@ -62,19 +45,18 @@ class AccountAnalyticLine(models.Model):
             invoice.write(invoice_onchange['value'])
         return invoice_ids
 
-    @api.v7
-    def _prepare_cost_invoice_line(self, cr, uid, invoice_id, product_id, uom,
-                                   user_id,
-                                   factor_id, account, analytic_lines,
-                                   journal_type, data, context=None):
+    @api.model
+    def _prepare_cost_invoice_line(
+            self, invoice_id, product_id, uom, user_id, factor_id, account,
+            analytic_lines, journal_type, data):
 
         result = super(AccountAnalyticLine, self)._prepare_cost_invoice_line(
-            cr, uid, invoice_id, product_id, uom, user_id, factor_id, account,
+            invoice_id, product_id, uom, user_id, factor_id, account,
             analytic_lines, journal_type, data)
-        invoice = self.pool.get('account.invoice').browse(
-            cr, uid, [invoice_id], context)
 
-        ctx_line = dict(context)
+        invoice = self.env['account.invoice'].browse([invoice_id])
+
+        ctx_line = dict(self._context)
         ctx_line['parent_fiscal_category_id'] = invoice.fiscal_category_id.id
         ctx_line['type'] = 'out_invoice'
 
