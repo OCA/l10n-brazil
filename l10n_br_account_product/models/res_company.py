@@ -47,9 +47,6 @@ class ResCompany(models.Model):
         [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')], u'Versão NFe',
         required=True, default='3.10')
     nfe_root_folder = fields.Char('Pasta Raiz', size=254)
-    nfe_import_folder = fields.Char('Pasta de Importação', size=254)
-    nfe_export_folder = fields.Char('Pasta de Exportação', size=254)
-    nfe_backup_folder = fields.Char('Pasta de Backup', size=254)
     nfe_environment = fields.Selection(
         [('1', u'Produção'), ('2', u'Homologação')], 'Ambiente Padrão')
     file_type = fields.Selection(
