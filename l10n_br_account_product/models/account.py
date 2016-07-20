@@ -7,7 +7,6 @@ from datetime import datetime
 
 from openerp import models, fields, api
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-from openerp.exceptions import Warning as UserError
 
 
 class AccountPaymentTerm(models.Model):
@@ -210,55 +209,50 @@ class AccountTax(models.Model):
         if (specific_icms_inter and fiscal_position and
                 partner.partner_fiscal_type_id.ind_ie_dest == '9'):
             if fiscal_position.cfop_id.id_dest == '2':
-                try:
 
-                    # Calcula o DIFAL total
-                    result_icms_inter['taxes'][0]['amount'] = round(
-                        abs(specific_icms_inter[0]['amount'] -
-                            icms_value, precision)
-                    )
+                # Calcula o DIFAL total
+                result_icms_inter['taxes'][0]['amount'] = round(
+                    abs(specific_icms_inter[0]['amount'] -
+                        icms_value, precision)
+                )
 
-                    # Cria uma chave com o ICMS de intraestadual
-                    result_icms_inter['taxes'][0]['icms_origin_percent'] = \
-                        specific_icms[0]['percent']
+                # Cria uma chave com o ICMS de intraestadual
+                result_icms_inter['taxes'][0]['icms_origin_percent'] = \
+                    specific_icms[0]['percent']
 
-                    # Procura o percentual de partilha vigente
-                    icms_partition_ids = self.pool.get(
-                        'l10n_br_tax.icms_partition').search(
-                            cr, uid,
-                            [('date_start', '<=',
-                              time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
-                             ('date_end', '>=',
-                              time.strftime(DEFAULT_SERVER_DATE_FORMAT))])
+                # Procura o percentual de partilha vigente
+                icms_partition_ids = self.pool.get(
+                    'l10n_br_tax.icms_partition').search(
+                        cr, uid,
+                        [('date_start', '<=',
+                          time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
+                         ('date_end', '>=',
+                          time.strftime(DEFAULT_SERVER_DATE_FORMAT))])
 
-                    # Calcula o difal de origin e destino
-                    if icms_partition_ids:
-                        icms_partition = self.pool.get(
-                            'l10n_br_tax.icms_partition').browse(
-                                cr, uid, icms_partition_ids[0])
-                        result_icms_inter['taxes'][0]['icms_part_percent'] = \
-                            icms_partition.rate / 100
+                # Calcula o difal de origin e destino
+                if icms_partition_ids:
+                    icms_partition = self.pool.get(
+                        'l10n_br_tax.icms_partition').browse(
+                            cr, uid, icms_partition_ids[0])
+                    result_icms_inter['taxes'][0]['icms_part_percent'] = \
+                        icms_partition.rate / 100
 
-                        result_icms_inter['taxes'][0]['icms_dest_value'] = \
-                            round(
-                                result_icms_inter['taxes'][0]['amount'] *
-                                (icms_partition.rate / 100),
-                                precision)
-                        result_icms_inter['taxes'][0]['icms_origin_value'] = \
-                            round(
-                                result_icms_inter['taxes'][0]['amount'] *
-                                ((100 - icms_partition.rate) / 100),
-                                precision)
+                    result_icms_inter['taxes'][0]['icms_dest_value'] = \
+                        round(
+                            result_icms_inter['taxes'][0]['amount'] *
+                            (icms_partition.rate / 100),
+                            precision)
+                    result_icms_inter['taxes'][0]['icms_origin_value'] = \
+                        round(
+                            result_icms_inter['taxes'][0]['amount'] *
+                            ((100 - icms_partition.rate) / 100),
+                            precision)
 
-                    # Atualiza o imposto icmsinter
-                    result_icms_inter['tax_discount'] = \
-                        result_icms_inter['taxes'][0]['amount']
-                    totaldc += result_icms_inter['tax_discount']
-                    calculed_taxes += result_icms_inter['taxes']
-
-                except:
-                    raise UserError(u'Tributação do ICMS para a UF de ',
-                                    u'destino Configurada incorretamente')
+                # Atualiza o imposto icmsinter
+                result_icms_inter['tax_discount'] = \
+                    result_icms_inter['taxes'][0]['amount']
+                totaldc += result_icms_inter['tax_discount']
+                calculed_taxes += result_icms_inter['taxes']
 
         # Calcula ICMS ST
         specific_icmsst = [tx for tx in result['taxes']
