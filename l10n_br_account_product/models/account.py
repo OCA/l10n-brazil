@@ -214,8 +214,9 @@ class AccountTax(models.Model):
 
                     # Calcula o DIFAL total
                     result_icms_inter['taxes'][0]['amount'] = round(
-                        specific_icms_inter[0]['amount'] -
-                        icms_value, precision)
+                        abs(specific_icms_inter[0]['amount'] -
+                            icms_value, precision)
+                    )
 
                     # Cria uma chave com o ICMS de intraestadual
                     result_icms_inter['taxes'][0]['icms_origin_percent'] = \
