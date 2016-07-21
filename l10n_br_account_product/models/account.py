@@ -18,6 +18,7 @@
 ###############################################################################
 
 from datetime import datetime
+from dateutil import relativedelta
 
 from openerp import models, fields, api
 
@@ -107,6 +108,7 @@ class AccountTax(models.Model):
                     product=None, partner=None, force_excluded=False,
                     fiscal_position=False, insurance_value=0.0,
                     freight_value=0.0, other_costs_value=0.0, base_tax=0.0):
+
         """Compute taxes
 
         Returns a dict of the form::
@@ -230,32 +232,69 @@ class AccountTax(models.Model):
                 calculed_taxes += result_icmsst['taxes']
 
         # Estimate Taxes
-        if fiscal_position and fiscal_position.asset_operation:
-            obj_tax_estimate = self.pool.get('l10n_br_tax.estimate')
-            date = datetime.now().strftime('%Y-%m-%d')
-            tax_estimate_ids = obj_tax_estimate.search(
-                cr, uid, [('fiscal_classification_id', '=',
-                           product.fiscal_classification_id.id),
-                          '|', ('date_start', '=', False),
-                          ('date_start', '<=', date),
-                          '|', ('date_end', '=', False),
-                          ('date_end', '>=', date),
-                          ('active', '=', True)])
+        if fiscal_position:
+            if fiscal_position.asset_operation \
+                    or fiscal_position.ind_final == '1':
 
-            if tax_estimate_ids:
-                tax_estimate = obj_tax_estimate.browse(
-                    cr, uid, tax_estimate_ids)[0]
-                tax_estimate_percent = 0.00
-                if product.origin in ('1', '2', '6', '7'):
-                    tax_estimate_percent += tax_estimate.federal_taxes_import
-                else:
-                    tax_estimate_percent += tax_estimate.federal_taxes_national
+                if product.fiscal_classification_id.id:
+                    obj_fiscal_classification = self.pool.get(
+                        'account.product.fiscal.classification').browse(
+                        cr, uid, product.fiscal_classification_id.id,
+                        context=None)
 
-                tax_estimate_percent += tax_estimate.state_taxes
-                tax_estimate_percent /= 100
-                total_taxes = ((result['total_included'] - totaldc) *
-                               tax_estimate_percent)
-                result['total_taxes'] = round(total_taxes, precision)
+                    if not obj_fiscal_classification.tax_estimate_ids:
+                        obj_fiscal_classification.get_ibpt()
+
+                    cr.execute(
+                        '''SELECT id FROM l10n_br_tax_estimate
+                           WHERE fiscal_classification_id = %s
+                           ORDER BY create_date DESC''', (
+                            product.fiscal_classification_id.id,))
+                    tax_estimate_ids = cr.fetchall()
+
+                    obj_tax_estimate = self.pool.get(
+                        'l10n_br_tax.estimate').browse(
+                        cr, uid, tax_estimate_ids[0][0])
+
+                    obj_account_config = self.pool.get(
+                        'account.config.settings').browse(
+                        cr, uid, 1, context=None)
+
+                    tax_create_date = datetime.strptime(
+                        obj_tax_estimate.create_date, '%Y-%m-%d %H:%M:%S')
+
+                    date_limit_to_update = \
+                        tax_create_date + relativedelta.relativedelta(
+                            days=obj_account_config.number_days_update)
+
+                    if datetime.now().date() > date_limit_to_update.date():
+                        obj_fiscal_classification.get_ibpt()
+
+                        cr.execute(
+                            '''SELECT id FROM l10n_br_tax_estimate
+                               WHERE fiscal_classification_id = %s
+                               ORDER BY create_date DESC''', (
+                                product.fiscal_classification_id.id,))
+                        tax_estimate_ids = cr.fetchall()
+
+                        obj_tax_estimate = self.pool.get(
+                            'l10n_br_tax.estimate').browse(
+                            cr, uid, tax_estimate_ids[0][0])
+
+                    tax_estimate_percent = 0.00
+                    if product.origin in ('1', '2', '6', '7'):
+                        tax_estimate_percent += \
+                            obj_tax_estimate.federal_taxes_import
+                    else:
+                        tax_estimate_percent += \
+                            obj_tax_estimate.federal_taxes_national
+
+                    tax_estimate_percent += obj_tax_estimate.state_taxes
+                    tax_estimate_percent /= 100
+                    total_taxes = (
+                        (result['total_included'] - totaldc) *
+                        tax_estimate_percent)
+                    result['total_taxes'] = round(total_taxes, precision)
 
         return {
             'total': result['total'],

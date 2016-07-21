@@ -153,9 +153,8 @@ class L10nBrTaxEstimateModel(models.AbstractModel):
         'Impostos Municipais Nacional', default=0.00,
         digits_compute=dp.get_precision('Account'))
 
-    date_start = fields.Date('Data Inicial')
-
-    date_end = fields.Date('Data Final')
+    create_date = fields.Datetime(
+        u'Data de Criação', readonly=True)
 
     key = fields.Char('Chave', size=32)
 
@@ -226,7 +225,7 @@ class AccountProductFiscalClassification(models.Model):
     tax_estimate_ids = fields.One2many(
         comodel_name='l10n_br_tax.estimate',
         inverse_name='fiscal_classification_id',
-        string=u'Impostos Estimados')
+        string=u'Impostos Estimados', readonly=True)
 
     cest = fields.Char(
         string='CEST',
@@ -238,36 +237,35 @@ class AccountProductFiscalClassification(models.Model):
 
     @api.multi
     def get_ibpt(self):
-        for item in self:
-            brazil = item.env['res.country'].search([('code', '=', 'BR')])
-            states = item.env['res.country.state'].search([('country_id', '=',
-                                                            brazil.id)])
-            company = item.company_id or item.env.user.company_id
-            config = DeOlhoNoImposto(company.ipbt_token,
-                                     punctuation_rm(company.cnpj_cpf),
-                                     company.state_id.code)
-            tax_estimate = item.env['l10n_br_tax.estimate']
-            for state in states:
-                result = get_ibpt_product(
-                    config,
-                    punctuation_rm(item.code or ''),
-                    ex='0')
-                update = tax_estimate.search([('state_id', '=', state.id),
-                                              ('origin', '=', 'IBPT-WS'),
-                                              ('fiscal_classification_id',
-                                               '=', item.id)])
-                vals = {
-                    'fiscal_classification_id': item.id,
-                    'origin': 'IBPT-WS',
-                    'state_id': state.id,
-                    'state_taxes': result.estadual,
-                    'federal_taxes_national': result.nacional,
-                    'federal_taxes_import': result.importado,
-                    }
-                if update:
-                    update.write(vals)
-                else:
-                    tax_estimate.create(vals)
+
+        for fiscal_classification in self:
+
+            company = (
+                fiscal_classification.env.user.company_id or
+                fiscal_classification.company_id)
+
+            config = DeOlhoNoImposto(
+                company.ipbt_token, punctuation_rm(company.cnpj_cpf),
+                company.state_id.code)
+
+            result = get_ibpt_product(
+                config,
+                punctuation_rm(fiscal_classification.code or ''), ex='0')
+
+            vals = {
+                'fiscal_classification_id': fiscal_classification.id,
+                'origin': 'IBPT-WS',
+                'state_id': company.state_id.id,
+                'state_taxes': result.estadual,
+                'federal_taxes_national': result.nacional,
+                'federal_taxes_import': result.importado,
+                }
+
+            tax_estimate = fiscal_classification.env[
+                'l10n_br_tax.estimate']
+
+            tax_estimate.create(vals)
+
         return True
 
 

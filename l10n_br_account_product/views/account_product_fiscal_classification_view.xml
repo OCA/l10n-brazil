@@ -91,6 +91,7 @@
 									<field name="state_taxes"/>
 									<field name="municipal_taxes"/>
 									<field name="origin"/>
+									<field name="create_date"/>
 								</tree>
 								<form>
 									<group>
@@ -99,8 +100,7 @@
 											<field name="origin"/>
 											<field name="version"/>
 											<field name="state_id"/>
-											<field name="date_start"/>
-											<field name="date_end"/>
+											<field name="create_date"/>
 										</group>
 										<group>
 											<field name="active"/>
@@ -216,6 +216,7 @@
 									<field name="state_taxes"/>
 									<field name="municipal_taxes"/>
 									<field name="origin"/>
+									<field name="create_date"/>
 								</tree>
 								<form>
 									<group>
@@ -224,8 +225,7 @@
 											<field name="origin"/>
 											<field name="version"/>
 											<field name="state_id"/>
-											<field name="date_start"/>
-											<field name="date_end"/>
+											<field name="create_date"/>
 										</group>
 										<group>
 											<field name="active"/>
