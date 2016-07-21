@@ -25,6 +25,12 @@ denom_br = ('', 'Mil', u'Milhão', u'Bilhão', u'Trilhão', u'Quatrilhão',
             u'Tredecilhão', u'Quattuordecilhão', u'Quindecilhão',
             u'Sexdecilhão', u'Septendecillion', u'Octodecilhão',
             u'Novendecilhão', u'Vigintilhão')
+denoms_br = ('', 'Mil', u'Milhões', u'Bilhões', u'Trilhões', u'Quatrilhões',
+             u'Quintilhões', u'Sextilhões', u'Septilhões', u'Octilhões',
+             u'Nonilhões', u'Decilhões', u'Undecilhões', u'Duodecilhões',
+             u'Tredecilhões', u'Quattuordecilhões', u'Quindecilhões',
+             u'Sexdecilhões', u'Septendecilliões', u'Octodecilhões',
+             u'Novendecilhões', u'Vigintilhões')
 
 
 def _convert_nn_br(val):
@@ -71,9 +77,14 @@ def brazil_number(val):
             mod = 1000 ** didx
             l = val // mod
             r = val - (l * mod)
-            ret = _convert_nnn_br(l) + ' ' + denom_br[didx]
+            if mod > 99999 and l > 2:
+                ret = _convert_nnn_br(l) + ' ' + denoms_br[didx]
+            else:
+                ret = _convert_nnn_br(l) + ' ' + denom_br[didx]
+
             if r > 0:
                 ret = ret + ', ' + brazil_number(r)
+
             return ret
 
 
