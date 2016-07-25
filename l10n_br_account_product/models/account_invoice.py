@@ -38,7 +38,7 @@ from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    _order = "internal_number desc, date_hour_invoice desc"
+    _order = 'date_hour_invoice DESC, internal_number DESC'
 
     @api.one
     @api.depends('invoice_line', 'tax_line.amount')
