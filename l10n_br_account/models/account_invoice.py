@@ -43,7 +43,7 @@ JOURNAL_TYPE = {
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    _order = "internal_number desc, id desc"
+    _order = 'date_invoice DESC, internal_number DESC'
 
     @api.one
     @api.depends(
@@ -123,8 +123,6 @@ class AccountInvoice(models.Model):
         string=u'Inscrição Estadual',
         related='partner_id.inscr_est',
     )
-
-    _order = 'internal_number desc'
 
     @api.one
     @api.constrains('number')
