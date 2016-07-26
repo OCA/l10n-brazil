@@ -59,9 +59,12 @@ class AccountInvoiceReport(models.Model):
         string=u'Série',
         readonly=True
     )
-    revenue_expense = fields.Boolean(
+    revenue_expense = fields.Char(
         readonly=True,
-        string='Gera Financeiro')
+        string='Gera Financeiro',
+        size=32,
+    )
+
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city',
         string='Municipio',
@@ -80,7 +83,7 @@ class AccountInvoiceReport(models.Model):
             ", sub.fiscal_type as fiscal_type"
             ", sub.fiscal_document_electronic as fiscal_document_electronic"
             ", sub.document_serie_id as document_serie_id"
-            ", sub.revenue_expense as revenue_expense"
+            ", CASE WHEN sub.revenue_expense = 't' THEN 'Gera Financeiro' ELSE 'Não Gera Financeiro' end as revenue_expense"
             ", sub.l10n_br_city_id as l10n_br_city_id"
             ", sub.state_id as state_id"
         )
