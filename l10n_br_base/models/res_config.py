@@ -9,7 +9,7 @@ class res_config(models.TransientModel):
 
     allow_cnpj_multi_ie = fields.Boolean(
         string=u'Permitir o cadastro de Customers com CNPJs iguais',
-        default=True,
+        default=False,
     )
 
     def get_default_allow_cnpj_multi_ie(self, cr, uid, fields, context=None):
