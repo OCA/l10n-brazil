@@ -352,7 +352,8 @@ class AccountInvoiceLine(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]")
     price_tax_discount = fields.Float(
-        string='Price Tax discount', store=True, digits=dp.get_precision('Account'),
+        string='Price Tax discount', store=True,
+        digits=dp.get_precision('Account'),
         readonly=True, compute='_compute_price')
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
