@@ -21,10 +21,9 @@ from openerp import models, fields
 from ..models.l10n_br_account import PRODUCT_FISCAL_TYPE
 
 
-
 class AccountInvoiceReport(models.Model):
 
-    _inherit = "account.invoice.report"
+    _inherit = 'account.invoice.report'
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category',
@@ -37,8 +36,8 @@ class AccountInvoiceReport(models.Model):
             ('sefaz_denied', u'Denegada no Sefaz'),
         ])
     issuer = fields.Selection(
-            [('0', u'Emissão própria'),
-             ('1', 'Terceiros')],
+        [('0', u'Emissão própria'),
+         ('1', 'Terceiros')],
         string='Emitente',
         readonly=True
     )
@@ -83,7 +82,8 @@ class AccountInvoiceReport(models.Model):
             ", sub.fiscal_type as fiscal_type"
             ", sub.fiscal_document_electronic as fiscal_document_electronic"
             ", sub.document_serie_id as document_serie_id"
-            ", CASE WHEN sub.revenue_expense = 't' THEN 'Gera Financeiro' ELSE 'Não Gera Financeiro' end as revenue_expense"
+            ", CASE WHEN sub.revenue_expense = 't' THEN 'Gera Financeiro' "
+            "ELSE 'Não Gera Financeiro' end as revenue_expense"
             ", sub.l10n_br_city_id as l10n_br_city_id"
             ", sub.state_id as state_id"
         )
