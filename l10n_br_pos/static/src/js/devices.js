@@ -126,4 +126,29 @@ function l10n_br_pos_devices(instance, module) {
         }
     });
 
+    module.ProxyDevice = module.ProxyDevice.extend({
+        keepalive: function(){
+            var self = this;
+            if(!this.keptalive){
+                this.keptalive = true;
+                function status(){
+                    self.connection.rpc('/hw_proxy/status_json',{},{timeout:2500})
+                        .then(function(driver_status){
+                            if(!driver_status.hasOwnProperty("satcfe")){
+                                self.pos.proxy.init_sat(self.pos.config);
+                            } else {
+                                self.set_connection_status('connected',driver_status);
+                            }
+                        },function(){
+                            if(self.get('status').driver_statusstatus !== 'connecting'){
+                                self.set_connection_status('disconnected');
+                            }
+                        }).always(function(){
+                            setTimeout(status,5000);
+                        });
+                }
+                status();
+            };
+        }
+    });
 }
