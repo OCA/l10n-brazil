@@ -51,8 +51,8 @@ function l10n_br_pos_screens(instance, module) {
                                     new_partner["is_company"] = true;
                                 }
                                 new_partner["cnpj_cpf"] = $('.busca-cpf-cnpj').val();
-                                new_partner["property_account_receivable"] = 9;
-                                new_partner["property_account_payable"] = 17;
+                                // new_partner["property_account_receivable"] = 9;
+                                // new_partner["property_account_payable"] = 17;
                                 self.pos_widget.order_widget.save_client_details(new_partner);
                             }
                         }
@@ -80,8 +80,8 @@ function l10n_br_pos_screens(instance, module) {
                                 new_partner["is_company"] = true;
                             }
                             new_partner["cnpj_cpf"] = $('.busca-cpf-cnpj').val();
-                            new_partner["property_account_receivable"] = 9;
-                            new_partner["property_account_payable"] = 17;
+                            // new_partner["property_account_receivable"] = 9;
+                            // new_partner["property_account_payable"] = 17;
                             self.pos_widget.order_widget.save_client_details(new_partner);
                         }
                     }
@@ -96,12 +96,21 @@ function l10n_br_pos_screens(instance, module) {
         save_client_details: function(partner) {
             var self = this;
 
+            var fields = {}
+            this.$('.client-details-contents .detail').each(function(idx,el){
+                fields[el.name] = el.value;
+            });
+
             if (!partner.name) {
                 this.pos_widget.screen_selector.show_popup('error',{
                     message: _t('Um nome de usu?rio ? obrigat?rio'),
                 });
                 return;
             }
+
+            fields.id           = partner.id || false;
+            fields.country_id   = fields.country_id || false;
+            fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
 
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
