@@ -2,13 +2,10 @@
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api
 
-class HrJob(orm.Model):
-    
+
+class HrJob(models.Model):
     _inherit = 'hr.job'
 
-    _columns = {
-            'cbo_id' : fields.many2one('l10n_br_hr.cbo', 'CBO'),
-    }
+    cbo_id = fields.Many2one('l10n_br_hr.cbo', 'CBO')
