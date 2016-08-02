@@ -85,7 +85,8 @@ class AccountFiscalPosition(models.Model):
     def _map_tax_code(self, map_tax):
         result = {}
         for map in map_tax:
-            result[map.tax_dest_id.domain] = {
+            domain = map.tax_dest_id.domain or map.tax_code_src_id.domain
+            result[domain] = {
                 'tax': map.tax_dest_id,
                 'tax_code': map.tax_code_dest_id,
                 'icms_relief': map.tax_icms_relief_id,
