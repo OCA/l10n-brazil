@@ -36,7 +36,7 @@
 
         <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
             <field name="code">Não Contribuinte</field>
-            <field name="name">Não Contribuinte</field>
+            <field name="name">Não Contribuinte PJ</field>
             <field name="is_company" eval="True"/>
             <field name="default" eval="False"/>
             <field name="ipi" eval="False"/>
@@ -54,7 +54,7 @@
 
         <record id="partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
             <field name="code">Não Contribuinte</field>
-            <field name="name">Não Contribuinte</field>
+            <field name="name">Não Contribuinte PF</field>
             <field name="is_company" eval="False"/>
             <field name="default" eval="False"/>
             <field name="ipi" eval="False"/>
