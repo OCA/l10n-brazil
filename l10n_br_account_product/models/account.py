@@ -250,6 +250,8 @@ class AccountTax(models.Model):
                                 precision)
 
                     # Atualiza o imposto icmsinter
+                    result_icms_inter['tax_discount'] = \
+                        result_icms_inter['taxes'][0]['amount']
                     totaldc += result_icms_inter['tax_discount']
                     calculed_taxes += result_icms_inter['taxes']
 
