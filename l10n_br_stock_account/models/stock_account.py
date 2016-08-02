@@ -178,14 +178,14 @@ class StockMove(models.Model):
         # TODO este código é um fix pq no core nao se copia os impostos
         ctx = dict(self.env.context)
         ctx['fiscal_type'] = move.product_id.fiscal_type
-        ctx['partner_id'] = move.picking_id.partner_id.id
+        ctx['partner_id'] = partner.id
         ctx['product_id'] = move.product_id.id
 
         if inv_type in ('out_invoice', 'in_refund'):
             ctx['type_tax_use'] = 'sale'
             taxes = move.product_id.taxes_id
         else:
-            ctx['type_tax_use'] = 'sale'
+            ctx['type_tax_use'] = 'purchase'
             taxes = move.product_id.supplier_taxes_id
 
         if fiscal_position:
