@@ -179,6 +179,10 @@ class StockMove(models.Model):
         ctx = dict(self.env.context)
         ctx['fiscal_type'] = move.product_id.fiscal_type
         ctx['partner_id'] = partner.id
+
+        # Required to compute_all in account.invoice.line
+        result['partner_id'] = partner.id
+
         ctx['product_id'] = move.product_id.id
 
         if inv_type in ('out_invoice', 'in_refund'):
