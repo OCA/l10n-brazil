@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    
+
         <!-- TODO move elsewhere! -->
         <record id="base.br" model="res.country">
             <field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
+        </record>
+
+        <record id="view_general_configuration_cnpj" model="ir.ui.view">
+            <field name="name">base.config.settings.cnpj</field>
+            <field name="model">base.config.settings</field>
+            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='module_portal']/../../.." position="before">
+                    <group>
+                        <label for="allow_cnpj_multi_ie" string="Múltiplos IE's"/>
+                        <div name="email">
+                            <div name="email.outgoing_server">
+                                <field name="allow_cnpj_multi_ie" class="oe_inline" />
+                                <label string ="Permite parceiros com CNPJ's iguais e IE's diferentes."/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
         </record>
 
         <menuitem id="menu_l10n_br_base" icon="terp-crm" name="Localização Brasil"/>
@@ -49,5 +68,4 @@
         <menuitem id="menu_action_l10n_br_base_city_form" name="Municípios" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
 
     </data>
-
 </openerp>
