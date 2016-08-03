@@ -783,20 +783,22 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
-    xped = fields.Char(
+    customer_order = fields.Char(
         string=u"Código do Pedido (xPed)",
         size=15,
     )
-    nitemped = fields.Char(
+    customer_order_line = fields.Char(
         string=u"Item do Pedido (nItemPed)",
         size=6,
     )
 
-    @api.onchange("nitemped")
-    def _check_nitemped(self):
-        if self.nitemped and not self.nitemped.isdigit():
+    @api.onchange("customer_order_line")
+    def _check_customer_order_line(self):
+        if (self.customer_order_line and
+                not self.customer_order_line.isdigit()):
             raise ValidationError(
-                _(u"nItemPed must be a number with up to six digits")
+                _(u"Customer Order Line must "
+                  "be a number with up to six digits")
             )
 
     def _amount_tax_icms(self, tax=None):
