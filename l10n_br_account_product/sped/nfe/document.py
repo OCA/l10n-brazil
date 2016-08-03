@@ -371,8 +371,8 @@ class NFe200(FiscalDocument):
         self.det.prod.vDesc.valor = str("%.2f" % invoice_line.discount_value)
         self.det.prod.vOutro.valor = str(
             "%.2f" % invoice_line.other_costs_value)
-        self.det.prod.xPed.valor = invoice_line.xped or ''
-        self.det.prod.nItemPed.valor = invoice_line.nitemped or ''
+        self.det.prod.xPed.valor = invoice_line.customer_order or ''
+        self.det.prod.nItemPed.valor = invoice_line.customer_order_line or ''
         self.det.infAdProd.valor = invoice_line.fiscal_comment or ''
 
         #
