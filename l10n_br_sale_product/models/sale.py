@@ -260,20 +260,22 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Float(compute='_amount_line',
                                   string='Subtotal',
                                   digits=dp.get_precision('Sale Price'))
-    xped = fields.Char(
-        string=u"Código do Pedido (xPed)",
+    customer_order = fields.Char(
+        string=u"Pedido do Cliente",
         size=15,
     )
-    nitemped = fields.Char(
-        string=u"Item do Pedido (nItemPed)",
+    customer_order_line = fields.Char(
+        string=u"Item do Pedido do Cliente",
         size=6,
     )
 
-    @api.onchange("nitemped")
-    def _check_nitemped(self):
-        if self.nitemped and not self.nitemped.isdigit():
+    @api.onchange("customer_order_line")
+    def _check_customer_order_line(self):
+        if (self.customer_order_line and
+                not self.customer_order_line.isdigit()):
             raise ValidationError(
-                _(u"nItemPed must be a number with up to six digits")
+                _(u"Customer order line must be "
+                  "a number with up to six digits")
             )
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
@@ -284,8 +286,8 @@ class SaleOrderLine(models.Model):
         result['insurance_value'] = line.insurance_value
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
-        result['xped'] = line.xped
-        result['nitemped'] = line.nitemped
+        result['customer_order'] = line.customer_order
+        result['customer_order_line'] = line.customer_order_line
 
         # FIXME
         # Necessário informar estes campos pois são related do
