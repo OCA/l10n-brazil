@@ -1,71 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-		<record model="ir.ui.view" id="view_l10n_br_envio_account_invoice_form">
+
+		<record id="view_l10n_br_envio_account_invoice_form" model="ir.ui.view">
 			<field name="name">l10n_br_envio_account.invoice.form</field>
 			<field name="model">account.invoice</field>
 			<field name="priority">32</field>
-			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
 			<field name="arch" type="xml">
-				<button name="invoice_open" position="replace">
-					<button name="invoice_open"
-							attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
-							string="Validate" class="oe_highlight"/>
-					<button name="invoice_trysend"
-							attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}"
-							confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"
-							groups="base.group_user"/>
-					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio"
-							class="oe_highlight" groups="base.group_user"/>
-					<button name="button_cancel" string="Cancelar Fatura"
-							states="draft,proforma2,sefaz_export,sefaz_exception,open"
-							groups="base.group_user"
-							type="object"/>
-					<button name="%(action_nfe_invoice_cce_form)d"
-							attrs="{'invisible':['|',('issuer','!=','0'),
+                            <button name="invoice_open" position="replace">
+                                        <button name="invoice_open"
+                                                        attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
+                                                        string="Validate" class="oe_highlight"/>
+                                        <button name="invoice_trysend"
+                                                        attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}"
+                                                        confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"
+                                                        groups="base.group_user"/>
+                                        <button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio"
+                                                        class="oe_highlight" groups="base.group_user"/>
+                                        <button name="button_cancel" string="Cancelar Fatura"
+                                                        states="draft,proforma2,sefaz_export,sefaz_exception,open"
+                                                        groups="base.group_user"
+                                                        type="object"/>
+                                        <button name="%(action_nfe_invoice_cce_form)d"
+                                                        attrs="{'invisible':['|',('issuer','!=','0'),
                                                  ('state','not in',['open','paid'])]}"
-							string="Enviar Carta de correção" type="action"/>
-					<button name="action_check_nfe" type="object" string="Consultar"
+                                                        string="Enviar Carta de correção" type="action"/>
+                                        <button name="action_check_nfe" type="object" string="Consultar"
                         attrs="{'invisible':[('state','in', ['draft', 'paid', 'cancel', 'sefaz_cancelled'])]}"/>
-				</button>
-				<xpath expr="//button[@name='invoice_cancel']" position="replace">
-				</xpath>
-				<xpath expr="//field[@name='account_id']" position="after">
-					<field name="is_danfe_printed"/>
-				</xpath>
+                                </button>
+                                <xpath expr="//button[@name='invoice_cancel']" position="replace">
+                                </xpath>
+                                <xpath expr="//field[@name='account_id']" position="after">
+                                        <field name="is_danfe_printed"/>
+                                </xpath>
 			</field>
 		</record>
-	</data>
-	<data>
-		<record model="ir.ui.view"
-				id="view_l10n_br_envio_account_invoice_supplier_form">
-			<field name="name">l10n_br_envio_account.invoice.form</field>
-			<field name="model">account.invoice</field>
-			<field name="priority">32</field>
-			<field name="inherit_id" ref="account.invoice_supplier_form"/>
-			<field name="arch" type="xml">
-				<button name="invoice_open" position="replace">
-					<button name="invoice_open"
-							attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
-							string="Validate" class="oe_highlight"/>
-					<button name="invoice_trysend"
-							attrs="{'invisible':['|',('state','!=','sefaz_export'),('nfe_export_date','!=',False)]}"
-							confirm="Confirma emissão da NF-e ?" string="Transmitir" class="oe_highlight"
-							groups="base.group_user"/>
-					<button name="invoice_resend" states="sefaz_exception" string="Habilitar re-envio"
-							class="oe_highlight" groups="base.group_user"/>
-					<button name="button_cancel" string="Cancelar Fatura"
-							states="draft,proforma2,sefaz_export,sefaz_exception,open"
-							groups="base.group_user"
-							type="object"/>
-					<button name="%(action_nfe_invoice_cce_form)d"
-							attrs="{'invisible':['|',('issuer','!=','0'),
-                                                 ('state','not in',['open','paid'])]}"
-							string="Enviar Carta de correção" type="action"/>
-				</button>
-				<xpath expr="//button[@name='invoice_cancel']" position="replace">
-				</xpath>
-			</field>
-		</record>
+
 	</data>
 </openerp>
