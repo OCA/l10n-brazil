@@ -40,7 +40,7 @@ class CrmLead(models.Model):
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
     district = fields.Char('Bairro', size=32)
-    number = fields.Char('Número', size=10)
+    number = fields.Char(u'Número', size=10)
     name_surname = fields.Char(u'Nome e sobrenome', size=128,
                                help="Nome utilizado em documentos fiscais")
     cpf = fields.Char('CPF', size=18)
