@@ -94,7 +94,7 @@ class ResCompany(models.Model):
 
     number = fields.Char(
         compute=_get_l10n_br_data, inverse=_set_l10n_br_number, size=10,
-        string="Número", multi='address')
+        string=u"Número", multi='address')
 
     cnpj_cpf = fields.Char(
         compute=_get_l10n_br_data, inverse=_set_l10n_br_cnpj_cpf,
