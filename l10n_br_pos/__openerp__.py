@@ -26,6 +26,7 @@
         "views/account_journal_view.xml",
         "views/product_template_view.xml",
         "wizard/sat_xml_periodic_export.xml",
+        "views/account_invoice_view.xml"
     ],
     "qweb": [
         'static/src/xml/pos.xml',
