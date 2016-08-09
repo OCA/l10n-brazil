@@ -420,6 +420,7 @@ def validate_ie_to(inscr_est):
     nova_ie.append(f)
     return nova_ie == inscr_est
 
+
 def validate_ie_to_antiga(inscr_est):
     """
     Valida ateh dezembro de 2003
