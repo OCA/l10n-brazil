@@ -40,7 +40,7 @@ PARAMETERS = {
            'div': 9},
     'sc': {'tam': 9},
     'se': {'tam': 9},
-    'to': {'tam': 9, 'prod': [9,8,7,6,5,4,3,2] }
+    'to': {'tam': 9, 'prod': [9, 8, 7, 6, 5, 4, 3, 2]}
 }
 
 
@@ -391,6 +391,7 @@ def validate_ie_sp(inscr_est):
 
     return nova_ie == inscr_est
 
+
 def validate_ie_to(inscr_est):
     """
     Calculo a partir de junho de 2002
@@ -403,9 +404,8 @@ def validate_ie_to(inscr_est):
     if len(inscr_est) != 9:
         return False
 
-    #Aplica-se o cálculo "módulo 11" com os algarismos 1,2,5,6,7,8
+    # Aplica-se o cálculo "módulo 11" com os algarismos 1,2,5,6,7,8
     # da Inscrição Estadual, criando o "9º" que é o dígito verificador.
-
 
     # Pega apenas os dígitos que entram no cálculo
     inscr_est = map(int, inscr_est)
@@ -523,4 +523,3 @@ def validate_cpf(cpf):
         return True
 
     return False
-
