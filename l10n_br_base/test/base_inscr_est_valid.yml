@@ -106,6 +106,6 @@
     for insc_est in insc_est_se_valids:
         assert self._validate_ie_param('se', insc_est), 'Error on validate SE insc_est'
 
-    insc_est_to_valids = ['56021275424', '62025717872', '27026857780', '35026423360'] 
+    insc_est_to_valids = ['290021014', '293799490', '290707544', '290655293', '293742782'] 
     for insc_est in insc_est_to_valids:
         assert self._validate_ie_param('to', insc_est), 'Error on validate TO insc_est'
