@@ -35,6 +35,7 @@ class NfeXmlPeriodicExport(models.TransientModel):
             pos_orders = pos_order_model.search([
                 ('date_order', '>=', self.start_period_id.date_start),
                 ('date_order', '<=', self.stop_period_id.date_stop),
+                ('cfe_return', '!=', False),
             ])
         else:
             pos_order_model = self.env['pos.order']
@@ -42,6 +43,7 @@ class NfeXmlPeriodicExport(models.TransientModel):
                 ('date_order', '>=', self.start_period_id.date_start),
                 ('date_order', '<=', self.stop_period_id.date_stop),
                 ('company_id', '=', self.create_uid.company_id.id),
+                ('cfe_return', '!=', False),
             ])
 
         if pos_orders:
@@ -56,6 +58,17 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
                 caminhos_xmls += self.create_uid.company_id.nfe_root_folder + \
                                  pos_order.chave_cfe + '.xml '
+
+                if pos_order.cfe_cancelamento_return:
+                    fp_new = open(
+                        self.create_uid.company_id.nfe_root_folder
+                        + pos_order.chave_cfe_cancelamento + '.xml', 'w'
+                    )
+                    fp_new.write(base64.b64decode(pos_order.cfe_cancelamento_return))
+                    fp_new.close()
+
+                    caminhos_xmls += self.create_uid.company_id.nfe_root_folder + \
+                                     pos_order.chave_cfe_cancelamento + '.xml '
 
             if not self.create_uid.company_id.parent_id.id:
                 os.system(
