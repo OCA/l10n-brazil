@@ -48,32 +48,29 @@ class NfeXmlPeriodicExport(models.TransientModel):
             caminhos_xmls = ''
             for pos_order in pos_orders:
                 fp_new = open(
-                    self.create_uid.company_id.nfe_root_folder
-                    + pos_order.chave_cfe + '.xml', 'w'
+                    '/tmp/sat_xmls' + pos_order.chave_cfe + '.xml', 'w'
                 )
                 fp_new.write(base64.b64decode(pos_order.cfe_return))
                 fp_new.close()
 
-                caminhos_xmls += self.create_uid\
-                                     .company_id.nfe_root_folder + pos_order\
-                    .chave_cfe + '.xml '
+                caminhos_xmls += '/tmp/sat_xmls' + pos_order.chave_cfe + '.xml '
 
             os.system(
                 "zip -r " + os.path.join(
-                    self.create_uid.company_id.nfe_root_folder,
+                    '/tmp/sat_xmls',
                     'cfes_xmls_' + time.strftime("%Y-%m-%d"))
                 + ' ' + caminhos_xmls
             )
 
             for pos_order in pos_orders:
                 os.remove(
-                    self.create_uid.company_id.nfe_root_folder
+                    '/tmp/sat_xmls'
                     + pos_order.chave_cfe + '.xml'
                 )
 
         orderFile = open(
             os.path.join(
-                self.create_uid.company_id.nfe_root_folder,
+                '/tmp/sat_xmls',
                 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
             ), 'r'
         )
