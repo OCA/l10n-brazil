@@ -30,7 +30,7 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
     @api.multi
     def export(self):
-        if self.start_period_id.company_id.parent_id.id:
+        if self.create_uid.company_id.parent_id.id:
             pos_order_model = self.env['pos.order']
             pos_orders = pos_order_model.search([
                 ('date_order', '>=', self.start_period_id.date_start),
@@ -48,35 +48,36 @@ class NfeXmlPeriodicExport(models.TransientModel):
             caminhos_xmls = ''
             for pos_order in pos_orders:
                 fp_new = open(
-                    self.start_period_id.company_id.nfe_root_folder
+                    self.create_uid.company_id.nfe_root_folder
                     + pos_order.chave_cfe + '.xml', 'w'
                 )
                 fp_new.write(base64.b64decode(pos_order.cfe_return))
                 fp_new.close()
 
-                caminhos_xmls += self.start_period_id\
+                caminhos_xmls += self.create_uid\
                                      .company_id.nfe_root_folder + pos_order\
                     .chave_cfe + '.xml '
 
             os.system(
                 "zip -r " + os.path.join(
-                    self.start_period_id.company_id.nfe_root_folder,
+                    self.create_uid.company_id.nfe_root_folder,
                     'cfes_xmls_' + time.strftime("%Y-%m-%d"))
                 + ' ' + caminhos_xmls
             )
 
             for pos_order in pos_orders:
                 os.remove(
-                    self.start_period_id.company_id.nfe_root_folder
+                    self.create_uid.company_id.nfe_root_folder
                     + pos_order.chave_cfe + '.xml'
                 )
 
         orderFile = open(
             os.path.join(
-                self.start_period_id.company_id.nfe_root_folder,
+                self.create_uid.company_id.nfe_root_folder,
                 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
             ), 'r'
         )
+
         itemFile = orderFile.read()
 
         self.write({
