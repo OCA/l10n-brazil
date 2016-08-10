@@ -15,6 +15,7 @@
         'point_of_sale',
         'pos_pricelist',
         'pos_payment_term',
+        'nfe_attach',
     ],
     'data': [
         "wizard/l10n_br_pos_order_return.xml",
@@ -24,6 +25,7 @@
         "views/res_company.xml",
         "views/account_journal_view.xml",
         "views/product_template_view.xml",
+        "wizard/sat_xml_periodic_export.xml",
     ],
     "qweb": [
         'static/src/xml/pos.xml',
