@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record id="l10n_br_pos_periodic_processing_sat_export_form" model="ir.ui.view">
+			<field name="name">pos.sat.xml.periodic.export.form</field>
+			<field name="model">nfe.xml.periodic.export</field>
+            <field name="inherit_id" ref="nfe_attach.l10n_br_account_periodic_processing_nfe_export_form"/>
+			<field name="arch" type="xml">
+			    <field name="zip_file" position="after">
+                    <field name="zip_sat_file" colspan="4" filename="name" />
+                </field>
+            </field>
+        </record>
+	</data>
+</openerp>
