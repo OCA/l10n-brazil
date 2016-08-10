@@ -30,7 +30,7 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
     @api.multi
     def export(self):
-        if self.create_uid.company_id.parent_id.id:
+        if not self.create_uid.company_id.parent_id.id:
             pos_order_model = self.env['pos.order']
             pos_orders = pos_order_model.search([
                 ('date_order', '>=', self.start_period_id.date_start),
@@ -48,29 +48,39 @@ class NfeXmlPeriodicExport(models.TransientModel):
             caminhos_xmls = ''
             for pos_order in pos_orders:
                 fp_new = open(
-                    '/tmp/sat_xmls' + pos_order.chave_cfe + '.xml', 'w'
+                    self.create_uid.company_id.nfe_root_folder
+                    + pos_order.chave_cfe + '.xml', 'w'
                 )
                 fp_new.write(base64.b64decode(pos_order.cfe_return))
                 fp_new.close()
 
-                caminhos_xmls += '/tmp/sat_xmls' + pos_order.chave_cfe + '.xml '
+                caminhos_xmls += self.create_uid.company_id.nfe_root_folder + \
+                                 pos_order.chave_cfe + '.xml '
 
-            os.system(
-                "zip -r " + os.path.join(
-                    '/tmp/sat_xmls',
-                    'cfes_xmls_' + time.strftime("%Y-%m-%d"))
-                + ' ' + caminhos_xmls
-            )
+            if not self.create_uid.company_id.parent_id.id:
+                os.system(
+                    "zip -r " + os.path.join(
+                        self.create_uid.company_id.nfe_root_folder,
+                        'cfes_xmls_' + time.strftime("%Y-%m-%d"))
+                    + ' ' + caminhos_xmls
+                )
+            else:
+                os.system(
+                    "zip -r " + os.path.join(
+                        self.create_uid.company_id.nfe_root_folder,
+                        'cfes_xmls_' + self.create_uid.company_id.name + time.strftime("%Y-%m-%d"))
+                    + ' ' + caminhos_xmls
+                )
 
             for pos_order in pos_orders:
                 os.remove(
-                    '/tmp/sat_xmls'
+                    self.create_uid.company_id.nfe_root_folder
                     + pos_order.chave_cfe + '.xml'
                 )
 
         orderFile = open(
             os.path.join(
-                '/tmp/sat_xmls',
+                self.create_uid.company_id.nfe_root_folder,
                 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
             ), 'r'
         )
