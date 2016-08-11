@@ -56,19 +56,19 @@ class NfeXmlPeriodicExport(models.TransientModel):
                 fp_new.write(base64.b64decode(pos_order.cfe_return))
                 fp_new.close()
 
-                caminhos_xmls += self.create_uid.company_id.nfe_root_folder + \
-                                 pos_order.chave_cfe + '.xml '
+                caminhos_xmls += self.create_uid.company_id.nfe_root_folder + pos_order.chave_cfe + '.xml '
 
                 if pos_order.cfe_cancelamento_return:
                     fp_new = open(
                         self.create_uid.company_id.nfe_root_folder
                         + pos_order.chave_cfe_cancelamento + '.xml', 'w'
                     )
-                    fp_new.write(base64.b64decode(pos_order.cfe_cancelamento_return))
+                    fp_new.write(base64.b64decode(
+                        pos_order.cfe_cancelamento_return
+                    ))
                     fp_new.close()
 
-                    caminhos_xmls += self.create_uid.company_id.nfe_root_folder + \
-                                     pos_order.chave_cfe_cancelamento + '.xml '
+                    caminhos_xmls += self.create_uid.company_id.nfe_root_folder + pos_order.chave_cfe_cancelamento + '.xml '
 
             if not self.create_uid.company_id.parent_id.id:
                 os.system(
@@ -81,7 +81,8 @@ class NfeXmlPeriodicExport(models.TransientModel):
                 os.system(
                     "zip -r " + os.path.join(
                         self.create_uid.company_id.nfe_root_folder,
-                        'cfes_xmls_' + self.create_uid.company_id.name + time.strftime("%Y-%m-%d"))
+                        'cfes_xmls_' + self.create_uid.company_id.name.replace(
+                            " ", "") + "_" + time.strftime("%Y-%m-%d"))
                     + ' ' + caminhos_xmls
                 )
 
