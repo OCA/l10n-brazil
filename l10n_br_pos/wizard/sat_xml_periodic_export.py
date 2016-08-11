@@ -92,12 +92,21 @@ class NfeXmlPeriodicExport(models.TransientModel):
                     + pos_order.chave_cfe + '.xml'
                 )
 
-        orderFile = open(
-            os.path.join(
-                self.create_uid.company_id.nfe_root_folder,
-                'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
-            ), 'r'
-        )
+        if not self.create_uid.company_id.parent_id.id:
+            orderFile = open(
+                os.path.join(
+                    self.create_uid.company_id.nfe_root_folder,
+                    'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
+                ), 'r'
+            )
+        else:
+            orderFile = open(
+                os.path.join(
+                    self.create_uid.company_id.nfe_root_folder,
+                    'cfes_xmls_' + self.create_uid.company_id.name.replace(
+                        " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip'
+                ), 'r'
+            )
 
         itemFile = orderFile.read()
 
