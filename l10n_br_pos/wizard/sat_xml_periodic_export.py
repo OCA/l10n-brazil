@@ -110,10 +110,18 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
         itemFile = orderFile.read()
 
-        self.write({
-            'state': 'done',
-            'zip_sat_file': base64.b64encode(itemFile),
-            'name': 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip',
-        })
+        if not self.create_uid.company_id.parent_id.id:
+            self.write({
+                'state': 'done',
+                'zip_sat_file': base64.b64encode(itemFile),
+                'name': 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip',
+            })
+        else:
+            self.write({
+                'state': 'done',
+                'zip_sat_file': base64.b64encode(itemFile),
+                'name': 'cfes_xmls_' + self.create_uid.company_id.name.replace(
+                        " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip',
+            })
 
         return super(NfeXmlPeriodicExport, self).export()
