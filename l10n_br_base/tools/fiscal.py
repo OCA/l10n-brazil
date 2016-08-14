@@ -39,7 +39,8 @@ PARAMETERS = {
     'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
            'div': 9},
     'sc': {'tam': 9},
-    'se': {'tam': 9}
+    'se': {'tam': 9},
+    'to': {'tam': 9, 'prod': [9, 8, 7, 6, 5, 4, 3, 2]}
 }
 
 
@@ -392,19 +393,21 @@ def validate_ie_sp(inscr_est):
 
 
 def validate_ie_to(inscr_est):
+    """
+    Calculo a partir de junho de 2002
+    http://www2.sefaz.to.gov.br/Servicos/Sintegra/calinse.htm
+    http://dtri.sefaz.to.gov.br/legislacao/ntributaria/portarias/sefaz/Portaria676-02.htm
+
+    """
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
-    if len(inscr_est) != 11:
-        return False
-
-    # verificando os dígitos 3 e 4
-    if not inscr_est[2:4] in ['01', '02', '03', '99']:
+    if len(inscr_est) != 9:
         return False
 
     # Pega apenas os dígitos que entram no cálculo
     inscr_est = map(int, inscr_est)
-    nova_ie = inscr_est[:2] + inscr_est[4:10]
+    nova_ie = inscr_est[:8]
 
     prod = [9, 8, 7, 6, 5, 4, 3, 2]
     r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
@@ -413,9 +416,6 @@ def validate_ie_to(inscr_est):
     else:
         f = 0
     nova_ie.append(f)
-
-    nova_ie = nova_ie[:2] + inscr_est[2:4] + nova_ie[2:]
-
     return nova_ie == inscr_est
 
 
