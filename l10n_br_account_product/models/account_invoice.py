@@ -783,19 +783,19 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
-    customer_order = fields.Char(
+    partner_order = fields.Char(
         string=u"Código do Pedido (xPed)",
         size=15,
     )
-    customer_order_line = fields.Char(
+    partner_order_line = fields.Char(
         string=u"Item do Pedido (nItemPed)",
         size=6,
     )
 
-    @api.onchange("customer_order_line")
-    def _check_customer_order_line(self):
-        if (self.customer_order_line and
-                not self.customer_order_line.isdigit()):
+    @api.onchange("partner_order_line")
+    def _check_partner_order_line(self):
+        if (self.partner_order_line and
+                not self.partner_order_line.isdigit()):
             raise ValidationError(
                 _(u"Customer Order Line must "
                   "be a number with up to six digits")
