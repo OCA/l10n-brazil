@@ -286,8 +286,8 @@ class SaleOrderLine(models.Model):
         result['insurance_value'] = line.insurance_value
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
-        result['customer_order'] = line.customer_order
-        result['customer_order_line'] = line.customer_order_line
+        result['partner_order'] = line.customer_order
+        result['partner_order_line'] = line.customer_order_line
 
         # FIXME
         # Necessário informar estes campos pois são related do
