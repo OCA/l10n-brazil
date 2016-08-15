@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openerp import fields, models
-from openerp.tools.safe_eval import safe_eval
+from openerp import api, fields, models
 
 
 class res_config(models.TransientModel):
@@ -12,15 +11,17 @@ class res_config(models.TransientModel):
         default=False,
     )
 
-    def get_default_allow_cnpj_multi_ie(self, cr, uid, fields, context=None):
-        icp = self.pool.get('ir.config_parameter')
+    @api.model
+    def get_default_allow_cnpj_multi_ie(self, field):
         return {
-            'allow_cnpj_multi_ie': safe_eval(icp.get_param(
-                cr, uid, 'l10n_br_base_allow_cnpj_multi_ie', 'False')),
+            'allow_cnpj_multi_ie':
+            self.env["ir.config_parameter"].get_param(
+                "l10n_br_base_allow_cnpj_multi_ie")
         }
 
-    def set_allow_cnpj_multi_ie(self, cr, uid, ids, context=None):
-        config = self.browse(cr, uid, ids[0], context=context)
-        icp = self.pool.get('ir.config_parameter')
-        icp.set_param(cr, uid, 'l10n_br_base_allow_cnpj_multi_ie',
-                      repr(config.allow_cnpj_multi_ie))
+    @api.multi
+    def set_allow_cnpj_multi_ie(self):
+        for config in self:
+            self.env['ir.config_parameter'].set_param(
+                "l10n_br_base_allow_cnpj_multi_ie",
+                config.allow_cnpj_multi_ie or '')
