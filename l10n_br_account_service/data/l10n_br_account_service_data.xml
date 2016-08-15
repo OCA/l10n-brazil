@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="fc_997850a05a6268f08afbe822383557d8" model="l10n_br_account.fiscal.category">
+            <field name="code">Aquisição de Serviço</field>
+            <field name="name">Aquisição de Serviço</field>
+            <field name="type">input</field>
+            <field name="fiscal_type">service</field>
+            <field name="journal_type">purchase</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_00255d8d158663217906abb312aa0759" model="l10n_br_account.fiscal.category">
+            <field name="code">Venda de Serviço</field>
+            <field name="name">Venda de Serviço</field>
+            <field name="type">output</field>
+            <field name="refund_fiscal_category_id" ref="fc_997850a05a6268f08afbe822383557d8"/>
+            <field name="fiscal_type">service</field>
+            <field name="journal_type">sale</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="out_invoice_service_fiscal_category_id" ref="fc_00255d8d158663217906abb312aa0759"/>
+            <field name="in_invoice_service_fiscal_category_id" ref="fc_997850a05a6268f08afbe822383557d8"/>
+        </record>
+
+    </data>
+</openerp>

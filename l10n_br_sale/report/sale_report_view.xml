@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- TODO
+        <record id="l10n_br_sale_view_order_product_tree" model="ir.ui.view">
+            <field name="name">l10n_br_sale.report.tree</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_tree"/>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="after">
+                    <field name="fiscal_category_id"/>
+                    <field name="fiscal_position"/>
+                </field>
+            </field>
+        </record>
+-->
+        <record id="l10n_br_sale_view_order_product_search" model="ir.ui.view">
+            <field name="name">l10n_br_sale.report.search</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search"/>
+            <field name="arch" type="xml">
+                <filter name="Sales" position="after">
+                    <filter string="Fiscal Operation Category" icon="terp-stock_symbol-selection" name="fiscal_category_id" context="{'group_by':'fiscal_category_id'}"/>
+                    <filter string="Fiscal Position" icon="terp-stock_symbol-selection" name="fiscal_position" context="{'group_by':'fiscal_position'}"/>               
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

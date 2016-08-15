@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- CRM Opportunity Form View  -->
+        <record id="l10n_br_crm_opportunities_form" model="ir.ui.view">
+            <field name="name">l10n_br_crm.opportunities.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <field name="city" position="replace">
+                    <field name="city" invisible="1"/>
+                </field>
+                <field name="state_id" position="replace">
+                    <field name="state_id" placeholder="Estado"/>
+                    <field name="l10n_br_city_id" placeholder="Município"/>
+                </field>
+                <field name="street2" position="replace">
+                    <field name="district" placeholder="Bairro"/>
+                    <field name="number" placeholder="Número"/>
+                    <field name="street2" placeholder="Complemento"/>
+                </field>
+                <field name="partner_name" position="after">
+                    <field name="legal_name"/>
+                    <field name="cnpj"/>
+                    <field name="inscr_est"/>
+                    <field name="inscr_mun"/>
+                    <field name="suframa"/>
+                </field>
+                <field name="email_from" position="before">
+                    <field name="name_surname" />
+                    <field name="cpf"/>
+                    <field name="rg"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

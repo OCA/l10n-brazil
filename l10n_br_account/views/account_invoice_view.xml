@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_l10n_br_account_partner_filter" model="ir.ui.view">
+            <field name="name">l10n_br_account.partner.filter</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="internal_number" string="Número Exato de Fatura" filter_domain="[('internal_number','=ilike', self)]"/>
+                    <field name="legal_name" string="Razão Social"/>
+                    <field name="cnpj_cpf" string="CNPJ/CPF"/>
+                    <field name="ie" string="Inscr. Estadual"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_l10n_br_account_account_invoice_tree">
+            <field name="name">l10n_br_account.account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">32</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="number" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="number" position="after">
+                    <field name="internal_number" />
+                </field>
+            </field>
+        </record>
+
+        <!-- Customer Invoice views -->
+        <record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="date_invoice" position="before">
+                    <field name="fiscal_type" invisible="1"/>
+                    <field name="fiscal_document_electronic" invisible="1"/>
+                </field>
+                <!-- Remove fields in inherited view -->
+                <field position="replace" name="internal_number">
+                </field>
+                <page string="Payments" position="before">
+                    <page string="Vencimentos">
+                        <field colspan="4" nolabel="1" name="move_line_receivable_id">
+                            <tree string="Vencimentos">
+                                <field name="journal_id"/>
+                                <field name="period_id"/>
+                                <field name="date"/>
+                                <field name="date_maturity"/>
+                                <field name="name"/>
+                                <field name="ref"/>
+                                <field name="partner_id"/>
+                                <field name="move_id"/>
+                                <field name="debit"/>
+                                <field name="credit"/>
+                                <field name="reconcile_ref"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <field position="attributes" name="journal_id">
+                    <attribute name="on_change">onchange_journal_id(journal_id, context)</attribute>
+                </field>
+                <field position="replace" name="fiscal_position">
+                    <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','in',('sale',)),('fiscal_type','=','service')]" required="1" />
+                    <field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+                </field>
+                <field position="attributes" name="company_id">
+                    <attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
+                </field>
+                <field name="date_invoice" position="before">
+                    <field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                    <field name="document_serie_id" domain="[('fiscal_type','=','service'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+                    <field name="fiscal_document_id" required="1"/>
+                    <field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                    <field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+                </field>
+                <xpath expr="//tree[@string='Invoice Lines']" position="attributes">
+                    <attribute name="editable"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account.action_invoice_tree" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'in_invoice'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <record id="account.action_invoice_tree3" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_refund'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <record id="account.action_invoice_tree4" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'in_refund'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <record id="account.action_invoice_tree_pending_invoice" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_type', '=', 'service')]</field>
+        </record>
+
+        <!-- Vendor Invoice views -->
+        <record id="l10n_br_account_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.invoice.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <page string="Payments" position="after">
+                    <page string="Vencimentos">
+                        <field colspan="4" nolabel="1" name="move_line_receivable_id">
+                            <tree string="Vencimentos">
+                                <field name="journal_id"/>
+                                <field name="period_id"/>
+                                <field name="date"/>
+                                <field name="date_maturity"/>
+                                <field name="name"/>
+                                <field name="ref"/>
+                                <field name="partner_id"/>
+                                <field name="move_id"/>
+                                <field name="debit"/>
+                                <field name="credit"/>
+                                <field name="reconcile_ref"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <field position="attributes" name="journal_id">
+                    <attribute name="on_change">onchange_journal_id(journal_id, context)</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+                </field>
+                <field position="replace" name="internal_number">
+                </field>
+                <field position="attributes" name="company_id">
+                    <attribute name="on_changes">onchange_company_id(company_id, partner_id, type, invoice_line, currency_id, fiscal_category_id)</attribute>
+                </field>
+                <field name="date_invoice" position="before">
+                    <field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                    <field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                    <field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+                </field>
+                <field position="replace" name="fiscal_position">
+                    <field name="fiscal_category_id" on_change="onchange_fiscal_category_id(partner_id, partner_id, company_id, fiscal_category_id)" domain="[('journal_type','in',('purchase',)),('fiscal_type','=','service')]" required="1" />
+                    <field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user" />
+                    <field name="fiscal_type" invisible="1"/>
+                </field>
+                <xpath expr="//tree[@string='Invoice lines']" position="attributes">
+                    <attribute name="editable"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_invoice_line_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.invoice.line.form</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form" />
+            <field name="priority">26</field>
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                    <field name="fiscal_category_id" invisible="1"/>
+                    <field name="fiscal_position" invisible="1"/>
+                </field>
+                <field name="product_id" position="attributes">
+                    <attribute name="context_br">{'parent_fiscal_category_id': parent.fiscal_category_id, 'parent_fiscal_position': parent.fiscal_position}</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

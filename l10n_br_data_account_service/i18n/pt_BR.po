@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_data_account_service
+msgid "Brazilian Localization Data Account for Service"
+msgstr "Localização Brasileira - Dados do módulo de serviço"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_data_account_service
+msgid "Brazilian Localization Data Account for Service"
+msgstr "Localização Brasileira - Provê dados de configuração para o módulo de serviço"

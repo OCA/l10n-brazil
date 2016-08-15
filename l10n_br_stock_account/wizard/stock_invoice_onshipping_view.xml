@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_l10n_br_stock_invoice_onshipping">
+            <field name="name">L10n_br_Stock Invoice Onshipping</field>
+            <field name="model">stock.invoice.onshipping</field>
+            <field name="inherit_id" ref="stock_account.view_stock_invoice_onshipping"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="replace" >
+                    <field name="fiscal_category_journal" />
+                    <newline/>
+                    <field name="journal_id" attrs="{'required': [('fiscal_category_journal', '=', False)], 'invisible': [('fiscal_category_journal', '=', True)]}" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

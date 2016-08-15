@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- product.pricelist -->
+        <record id="purchase.list0" model="product.pricelist">
+            <field name="currency_id" ref="base.BRL"/>
+        </record>
+
+        <!-- res.company -->
+        <record id="base.main_company" model="res.company">
+            <field name="purchase_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        </record>
+
+    </data>
+</openerp>

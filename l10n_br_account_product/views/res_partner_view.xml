@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_product_position_template_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.fiscal.position.template.form</field>
+            <field name="model">account.fiscal.position.template</field>
+            <field name="inherit_id" ref="l10n_br_account.l10n_br_account_position_template_form"/>
+            <field name="arch" type="xml">
+                <field name="fiscal_category_fiscal_type" position="after">
+                    <field name="cfop_id" colspan="4" domain="[('type', '=', type)]"/>
+                    <field name="ind_final"/>
+                </field>
+                <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
+                    <field name="fiscal_classification_id" />
+                </xpath>
+                <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="before">
+                    <field name="tax_ipi_guideline_id" />
+                    <field name="tax_icms_relief_id" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_product_position_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="l10n_br_account.l10n_br_account_position_form"/>
+            <field name="arch" type="xml">
+                <field name="fiscal_category_fiscal_type" position="after">
+                    <field name="cfop_id" colspan="4" domain="[('type', '=', type), ('internal_type', '=', 'normal')]"/>
+                    <field name="ind_final"/>
+                </field>
+                <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
+                    <field name="fiscal_classification_id" />
+                </xpath>
+                <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="after">
+                    <field name="tax_ipi_guideline_id" />
+                    <field name="tax_icms_relief_id" />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

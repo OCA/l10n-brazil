@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+
+        <record id="l10n_br_account_product_payment_term_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.payment.term.form</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="indPag" required="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_account_product_tax_template_form">
+            <field name="name">l10n_br_account_product.tax.template.form</field>
+            <field name="model">account.tax.template</field>
+            <field name="inherit_id" ref="account.view_account_tax_template_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="ICMS" attrs="{'invisible': [('domain', '!=', 'icms')]}">
+                        <group>
+                            <field name="icms_base_type"/>
+                        </group>
+                    </page>
+                    <page string="ICMS ST" attrs="{'invisible': [('domain', '!=', 'icmsst')]}">
+                        <group>
+                            <field name="icms_st_base_type"/>
+                        </group>
+                    </page>
+                    <page string="IPI" attrs="{'invisible': [('domain', '!=', 'ipi')]}">
+                        <group>
+                        </group>
+                    </page>
+                    <page string="PIS" attrs="{'invisible': [('domain', '!=', 'pis')]}">
+                        <group>
+                        </group>
+                    </page>
+                    <page string="COFINS" attrs="{'invisible': [('domain', '!=', 'cofins')]}">
+                        <group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_account_product_tax_form">
+            <field name="name">l10n_br_account_product.tax.form</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="ICMS" attrs="{'invisible': [('domain', '!=', 'icms')]}">
+                        <group>
+                            <field name="icms_base_type"/>
+                        </group>
+                    </page>
+                    <page string="ICMS ST" attrs="{'invisible': [('domain', '!=', 'icmsst')]}">
+                        <group>
+                            <field name="icms_st_base_type"/>
+                        </group>
+                    </page>
+                    <page string="IPI" attrs="{'invisible': [('domain', '!=', 'ipi')]}">
+                        <group>
+                        </group>
+                    </page>
+                    <page string="PIS" attrs="{'invisible': [('domain', '!=', 'pis')]}">
+                        <group>
+                        </group>
+                    </page>
+                    <page string="COFINS" attrs="{'invisible': [('domain', '!=', 'cofins')]}">
+                        <group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+
+</openerp>

@@ -1,0 +1,48 @@
+-
+  Create Fiscal Category
+-
+  !record {model: l10n_br_account.fiscal.category, id: fiscal_category_sale}:
+    code: Venda Teste
+    name: Venda Teste
+    type: output
+    journal_type: sale
+    property_journal: account.sales_journal
+-
+  Create Fiscal Position
+-
+  !record {model: account.fiscal.position, id: fiscal_position_sale}:
+    name: Venda Teste
+    type: output
+    company_id: base.main_company
+    fiscal_category_id: fiscal_category_sale
+-
+  Create Fiscal Position Rule
+-
+  !record {model: account.fiscal.position.rule, id: fiscal_position_rule_sale}:
+    name: Venda
+    description: Venda
+    company_id: base.main_company
+    from_country: base.br
+    fiscal_category_id: fiscal_category_sale
+    fiscal_position_id: fiscal_position_sale
+    use_sale: true
+    use_invoice: true
+    use_picking: true
+-
+  Create a customer invoice
+-
+  !record {model: account.invoice, id: account_invoice_customer0, view: view_l10n_br_account_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: base.res_partner_3
+    fiscal_category_id: fiscal_category_sale
+    reference_type: none
+    name: 'Test Customer Invoice'
+    invoice_line:
+      - product_id: product.product_product_5
+        quantity: 10.0
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer0}:
+    - state == 'draft'
+    - fiscal_position.id == ref('fiscal_position_sale')

@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- account.product.fiscal.classification -->
+        <record id="demo_fiscal_classification_motherboard" model="account.product.fiscal.classification">
+            <field name="code">8473.30.41</field>
+            <field name="name">Placas-mãe ("mother boards")</field>
+        </record>
+
+        <record id="8473-30-41_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-41_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-41_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8473-30-41_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-41_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-41_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_motherboard"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_hd" model="account.product.fiscal.classification">
+            <field name="code">8471.70.12</field>
+            <field name="name">Para discos rígidos, com um só conjunto cabeça-disco (HDA-"Head Disk Assembly")</field>
+        </record>
+
+        <record id="8471-70-12_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_out_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-70-12_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-70-12_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8471-70-12_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_in_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-70-12_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-70-12_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_hd"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_memory" model="account.product.fiscal.classification">
+            <field name="code">8473.30.42</field>
+            <field name="name">Placas (módulos) de memória com uma superfície inferior ou igual a 50cm2</field>
+        </record>
+
+        <record id="8473-30-42_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-42_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-42_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8473-30-42_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-42_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-42_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_memory"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_processor" model="account.product.fiscal.classification">
+            <field name="code">8542.32.10</field>
+            <field name="name">Não montadas</field>
+        </record>
+
+        <record id="8542-32-10_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_out_ipi2"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8542-32-10_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8542-32-10_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8542-32-10_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_in_ipi2"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8542-32-10_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8542-32-10_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_processor"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_pc" model="account.product.fiscal.classification">
+            <field name="code">8471.30.12</field>
+            <field name="name">De peso inferior a 3,5kg com teclado alfanumérico de no mínimo 70 teclas e com uma tela de área superior a 140cm2 e inferior a 560cm2</field>
+        </record>
+
+        <record id="8471-30-12_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-30-12_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-30-12_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8471-30-12_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-30-12_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-30-12_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_pc"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_fan" model="account.product.fiscal.classification">
+            <field name="code">8414.59.10</field>
+            <field name="name">Microventiladores com área de carcaça inferior a 90cm²</field>
+        </record>
+
+        <record id="8414-59-10_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_out_ipi5"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8414-59-10_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8414-59-10_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8414-59-10_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_in_ipi5"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8414-59-10_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8414-59-10_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_fan"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_keyboard" model="account.product.fiscal.classification">
+            <field name="code">8471.60.52</field>
+            <field name="name">Teclados</field>
+        </record>
+
+        <record id="8471-60-52_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-60-52_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-60-52_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8471-60-52_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-60-52_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-60-52_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_keyboard"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_mouse" model="account.product.fiscal.classification">
+            <field name="code">8471.60.53</field>
+            <field name="name">Indicadores ou apontadores (mouse e track-ball, por exemplo)</field>
+        </record>
+
+        <record id="8471-60-53_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-60-53_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-60-53_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8471-60-53_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8471-60-53_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8471-60-53_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_mouse"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_power" model="account.product.fiscal.classification">
+            <field name="code">8504.40.30</field>
+            <field name="name">Conversores de corrente contínua</field>
+        </record>
+
+        <record id="8504-40-30_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_out_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8504-40-30_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8504-40-30_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8504-40-30_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_in_ipi15"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8504-40-30_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8504-40-30_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_power"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_cabinet" model="account.product.fiscal.classification">
+            <field name="code">8473.30.19</field>
+            <field name="name">Outros</field>
+        </record>
+
+        <record id="8473-30-19_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_out_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-19_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-19_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8473-30-19_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_in_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8473-30-19_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8473-30-19_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cabinet"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_shelf" model="account.product.fiscal.classification">
+            <field name="code">7326.90.90</field>
+            <field name="name">Outras</field>
+        </record>
+
+        <record id="7326-90-90_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_out_ipi5"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="7326-90-90_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="7326-90-90_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="7326-90-90_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_in_ipi5"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="7326-90-90_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="7326-90-90_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_shelf"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_wood" model="account.product.fiscal.classification">
+            <field name="code">4403.10.00</field>
+            <field name="name">Tratada com tinta, creosoto ou com outros agentes de conservação</field>
+        </record>
+
+        <record id="4403-10-00_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_out_ipi"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_51"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="4403-10-00_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="4403-10-00_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="4403-10-00_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_in_ipi"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_01"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="4403-10-00_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="4403-10-00_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_wood"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="demo_fiscal_classification_cleats" model="account.product.fiscal.classification">
+            <field name="code">8305.20.00</field>
+            <field name="name">Grampos apresentados em barretas</field>
+        </record>
+
+        <record id="8305-20-00_sale1" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_out_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_50"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8305-20-00_sale2" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_out_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8305-20-00_sale4" model="l10n_br_tax.definition.sale">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_out_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <record id="8305-20-00_purchase1" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_in_ipi10"/>
+            <field name="tax_code_id" ref="tax_code_demo_ipi_00"/>
+            <field name="tax_domain">ipi</field>
+        </record>
+
+        <record id="8305-20-00_purchase2" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_in_icms_interno18"/>
+            <field name="tax_code_id" ref="tax_code_demo_icms_00"/>
+            <field name="tax_domain">icms</field>
+        </record>
+
+        <record id="8305-20-00_purchase4" model="l10n_br_tax.definition.purchase">
+            <field name="fiscal_classification_id" ref="demo_fiscal_classification_cleats"/>
+            <field name="tax_id" ref="demo_tax_in_icms_subist"/>
+            <field name="tax_domain">icmsst</field>
+        </record>
+
+        <!-- Product Templates -->
+        <!-- On Site Monitoring -->
+        <record id="product.product_product_1_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- On Site Assistance -->
+        <record id="product.product_product_2_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- PC Assemble SC234 -->
+        <record id="product.product_product_3_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- iPad Retina Display -->
+        <record id="product.product_product_4_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- iPad Retina Display -->
+        <record id="product.product_product_4b_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- iPad Retina Display -->
+        <record id="product.product_product_4c_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- iPad Retina Display -->
+        <record id="product.product_product_4d_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- PC Assemble + Custom (PC on Demand) -->
+        <record id="product.product_product_5_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Bose Mini Bluetooth Speaker -->
+        <record id="product.product_product_5b_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- iPad Mini -->
+        <record id="product.product_product_6_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Apple In-Ear Headphones -->
+        <record id="product.product_product_7_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- iMac -->
+        <record id="product.product_product_8_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Apple Wireless Keyboard -->
+        <record id="product.product_product_9_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_keyboard"/>
+        </record>
+
+        <!-- Mouse, Optical -->
+        <record id="product.product_product_10_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+        </record>
+
+        <!-- iPod -->
+        <record id="product.product_product_11_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- iPod -->
+        <record id="product.product_product_11b_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Mouse, Wireless -->
+        <record id="product.product_product_12_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+        </record>
+
+        <!-- RAM SR5 -->
+        <record id="product.product_product_13_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+        </record>
+
+        <!-- RAM SR2 -->
+        <record id="product.product_product_14_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+        </record>
+
+        <!-- RAM SR3 -->
+        <record id="product.product_product_15_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_memory"/>
+        </record>
+
+        <!-- Computer Case -->
+        <record id="product.product_product_16_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_cabinet"/>
+        </record>
+
+        <!-- HDD SH-1 -->
+        <record id="product.product_product_17_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- HDD SH-2 -->
+        <record id="product.product_product_18_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- HDD on Demand -->
+        <record id="product.product_product_19_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Motherboard I9P57 -->
+        <record id="product.product_product_20_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboard"/>
+        </record>
+
+        <!-- Motherboard A20Z7 -->
+        <record id="product.product_product_21_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_motherboard"/>
+        </record>
+
+        <!-- Processor Core i5 2.70 Ghz -->
+        <record id="product.product_product_22_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
+        </record>
+
+        <!-- Processor AMD 8-Core -->
+        <record id="product.product_product_23_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
+        </record>
+
+        <!-- Graphics Card -->
+        <record id="product.product_product_24_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_processor"/>
+        </record>
+
+        <!-- Laptop E5023 -->
+        <record id="product.product_product_25_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Laptop S3450 -->
+        <record id="product.product_product_26_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- Laptop Customized -->
+        <record id="product.product_product_27_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_pc"/>
+        </record>
+
+        <!-- External Hard disk -->
+        <record id="product.product_product_28_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Pen drive, SP-2 -->
+        <record id="product.product_product_29_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Pen drive, SP-4 -->
+        <record id="product.product_product_30_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Multimedia Speakers -->
+        <record id="product.product_product_31_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Headset standard -->
+        <record id="product.product_product_32_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Headset USB -->
+        <record id="product.product_product_33_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Webcam -->
+        <record id="product.product_product_34_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Blank CD -->
+        <record id="product.product_product_35_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Blank DVD-RW -->
+        <record id="product.product_product_36_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        </record>
+
+        <!-- Printer, All-in-one -->
+        <record id="product.product_product_37_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Ink Cartridge -->
+        <record id="product.product_product_38_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Toner Cartridge -->
+        <record id="product.product_product_39_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Windows 7 Professional -->
+        <record id="product.product_product_40_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Windows Home Server 2011 -->
+        <record id="product.product_product_41_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Office Suite -->
+        <record id="product.product_product_42_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Zed+ Antivirus -->
+        <record id="product.product_product_43_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- GrapWorks Software -->
+        <record id="product.product_product_44_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Router R430 -->
+        <record id="product.product_product_45_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Datacard -->
+        <record id="product.product_product_46_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Switch, 24 ports -->
+        <record id="product.product_product_47_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- USB Adapter -->
+        <record id="product.product_product_48_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <!-- Service -->
+        <record id="product.product_product_consultant_product_template" model="product.template">
+            <field name="fiscal_type">product</field>
+            <!--<field name="fiscal_classification_id" ref=""/> -->
+        </record>
+
+        <record id="product_10_category_pe_demo" model="l10n_br_account.product.category">
+            <field name="product_tmpl_id" ref="product.product_product_10_product_template"/>
+            <field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+            <field name="to_state_id" ref="l10n_br_base.br_pe"/>
+        </record>
+    
+        <record id="product_12_category_pe_demo" model="l10n_br_account.product.category">
+            <field name="product_tmpl_id" ref="product.product_product_12_product_template"/>
+            <field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+            <field name="to_state_id" ref="l10n_br_base.br_pe"/>
+        </record>
+
+        <record id="product_17_category_pe_demo" model="l10n_br_account.product.category">
+            <field name="product_tmpl_id" ref="product.product_product_17_product_template"/>
+            <field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+            <field name="to_state_id" ref="l10n_br_base.br_pe"/>
+        </record>
+
+        <record id="product_18_category_pe_demo" model="l10n_br_account.product.category">
+            <field name="product_tmpl_id" ref="product.product_product_18_product_template"/>
+            <field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+            <field name="to_state_id" ref="l10n_br_base.br_pe"/>
+        </record>
+
+        <record id="product_19_category_pe_demo" model="l10n_br_account.product.category">
+            <field name="product_tmpl_id" ref="product.product_product_19_product_template"/>
+            <field name="fiscal_category_source_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="fiscal_category_destination_id" ref="fc_9ca6c34b77a2c78171252551db171ff7"/>
+            <field name="to_state_id" ref="l10n_br_base.br_pe"/>
+        </record>
+
+    </data>
+</openerp>

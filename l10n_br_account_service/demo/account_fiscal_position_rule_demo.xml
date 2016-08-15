@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1" >
+
+        <!-- Regras de posições fiscais para contribuintes -->
+        <!-- Venda de Serviço-->
+        <record id="fr_00255d8d158663217906abb312aa0759" model="account.fiscal.position.rule">
+            <field name="name">Venda de Serviço</field>
+            <field name="description">Venda de Serviço</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="from_country" ref="base.br"/>
+            <field name="from_state" ref="l10n_br_base.br_sp"/>
+            <field name="fiscal_position_id" ref="fp_00255d8d158663217906abb312aa0759_demo"/>
+            <field name="fiscal_category_id" ref="fc_00255d8d158663217906abb312aa0759"/>
+            <field name="use_picking">True</field>
+            <field name="use_invoice">True</field>
+            <field name="use_sale">True</field>
+            <field name="fiscal_type">3</field>
+        </record>
+
+        <!-- Aquisição de Serviço-->
+        <record id="fr_997850a05a6268f08afbe822383557d8" model="account.fiscal.position.rule">
+            <field name="name">Aquisição de Serviço</field>
+            <field name="description">Aquisição de Serviço</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="from_country" ref="base.br"/>
+            <field name="from_state" ref="l10n_br_base.br_sp"/>
+            <field name="fiscal_position_id" ref="fp_997850a05a6268f08afbe822383557d8_demo"/>
+            <field name="fiscal_category_id" ref="fc_997850a05a6268f08afbe822383557d8"/>
+            <field name="use_picking">True</field>
+            <field name="use_invoice">True</field>
+            <field name="use_purchase">True</field>
+            <field name="fiscal_type">3</field>
+        </record>
+
+    </data>
+</openerp>

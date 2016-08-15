@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- CRM Lead Form View  -->
+        <record model="ir.ui.view" id="l10n_br_crm_case_form_view_leads1">
+            <field name="name">l10n_br_crm.leads1</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+            <field name="arch" type="xml">
+                <field name="zip" position="after">
+                    <button name="zip_search" type="object" class="oe_inline">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </field>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+
+        <!--
+        Account Journal
+        -->
+        <!-- account.journal -->
+        <record id="account.sales_journal" model="account.journal">
+            <field name="name">Diário de Vendas - (test)</field>
+            <field eval="1" name="revenue_expense"/>
+        </record>
+
+        <record id="account.refund_sales_journal" model="account.journal">
+            <field name="name">Nota de Crédito de Vendas - (test)</field>
+        </record>
+
+        <record id="account.expenses_journal" model="account.journal">
+            <field name="name">Diário de Depesas - (test)</field>
+            <field eval="1" name="revenue_expense"/>
+        </record>
+
+        <record id="account.refund_expenses_journal" model="account.journal">
+            <field name="name">Nota de Crédito de Despesas - (test)</field>
+        </record>
+
+        <record id="account.bank_journal" model="account.journal">
+            <field name="name">Diário Bancário - (test)</field>
+        </record>
+
+        <record id="account.check_journal" model="account.journal">
+            <field name="name">Diário de Cheques - (test)</field>
+        </record>
+
+        <record id="account.cash_journal" model="account.journal">
+            <field name="name">Diário de Caixa - (test)</field>
+        </record>
+
+        <record id="account.opening_journal" model="account.journal">
+            <field name="name">Diário de Abertura - (test)</field>
+        </record>
+
+    </data>
+
+</openerp>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_account_service_company_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_service.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
+            <field name="arch" type="xml">
+                <page position="after" string="Certificados">
+                    <page string="Serviço">
+                        <notebook>
+                            <page string="Documentos Fiscais">
+                                <separator colspan="4" string="Documento Fiscal para Serviços"/>
+                                <field colspan="4" name="service_invoice_id" required="1"/>
+                                <group string="Configurações de Entrada">
+                                    <field name="in_invoice_service_fiscal_category_id"/>
+                                </group>
+                                <group string="Configurações de Saida">
+                                    <field name="out_invoice_service_fiscal_category_id"/>
+                                </group>
+                            </page>
+                            <page string="Séries de Documentos Fiscais">
+                                <group string="Série da Nota Fiscal de Serviço">
+                                    <field name="document_serie_service_id"/>
+                                </group>
+                            </page>
+                            <page string="Impostos">
+                                <separator colspan="4" string="Impostos sobre Serviços"/>
+                                <field colspan="2" nolabel="1" widget="one2many_list" name="service_tax_definition_line"/>
+                            </page>
+                            <page string="NFse">
+                                <group>
+                                    <field name="nfse_version" required="1"/>
+                                    <field name="nfse_import_folder"/>
+                                    <field name="nfse_export_folder"/>
+                                    <field name="nfse_backup_folder"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_service_form" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.service.form</field>
+            <field name="model">l10n_br_tax.definition.company.service</field>
+            <field name="arch" type="xml">
+                <form string="Definição de Impostos">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1" />
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_service_tree" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.service.tree</field>
+            <field name="model">l10n_br_tax.definition.company.service</field>
+            <field name="arch" type="xml">
+                <tree string="Definição de Impostos" editable="bottom">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1" />
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

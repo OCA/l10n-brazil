@@ -1,0 +1,13 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_account_product_cfop","l10n_br_account_product.cfop","l10n_br_account_product.model_l10n_br_account_product_cfop","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_fiscal_document","l10n_br_account.fiscal.document","l10n_br_account.model_l10n_br_account_fiscal_document","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_fiscal_category","l10n_br_account.fiscal.category","l10n_br_account.model_l10n_br_account_fiscal_category","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_document_serie","l10n_br_account.document.serie","l10n_br_account.model_l10n_br_account_document_serie","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_product_category","l10n_br_account.product.category","l10n_br_account.model_l10n_br_account_product_category","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","purchase.group_purchase_user",1,0,0,0
+"account_fiscal_position_rule","account.fiscal.position.rule","account_fiscal_position_rule.model_account_fiscal_position_rule","purchase.group_purchase_user",1,0,0,0
+"l10n_br_tax_definition_sale_template_user","l10n_br_tax.definition.sale.template","l10n_br_account_product.model_l10n_br_tax_definition_sale_template","purchase.group_purchase_user",1,0,0,0
+"l10n_br_tax_definition_purchase_template_user","l10n_br_tax.definition.purchase.template","l10n_br_account_product.model_l10n_br_tax_definition_purchase_template","purchase.group_purchase_user",1,0,0,0
+"l10n_br_tax_definition_sale_user","l10n_br_tax.definition.sale","l10n_br_account_product.model_l10n_br_tax_definition_sale","purchase.group_purchase_user",1,0,0,0
+"l10n_br_tax_definition_purchase_user","l10n_br_tax.definition.purchase","l10n_br_account_product.model_l10n_br_tax_definition_purchase","purchase.group_purchase_user",1,0,0,0
+"l10n_br_tax_definition_company_product_user","l10n_br_tax.definition.company.product","l10n_br_account_product.model_l10n_br_tax_definition_company_product","purchase.group_purchase_user",1,0,0,0

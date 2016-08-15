@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_account_company_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
+            <field name="arch" type="xml">
+                <page string="Certificados" position="inside">
+                    <group col="2" string="NFe">
+                        <field name="nfe_a1_file"/>
+                        <field name="nfe_a1_password" password="True"/>
+                    </group>
+                </page>
+                <page position="after" string="Certificados">
+                    <page string="Produto">
+                        <notebook>
+                            <page string="Documentos Fiscais">
+                                <separator colspan="4" string="Documento Fiscal para Produtos" />
+                                <field colspan="4" name="product_invoice_id" required="1" />
+                                <group string="Configurações de Entrada">
+                                    <field name="in_invoice_fiscal_category_id" />
+                                </group>
+                                <group string="Configurações de Saida">
+                                    <field name="out_invoice_fiscal_category_id" />
+                                </group>
+                                <group string="Categoria Fiscal de Produto Padrão">
+                                    <field name="out_refund_fiscal_category_id" />
+                                    <field name="in_refund_fiscal_category_id" />
+                                </group>
+                            </page>
+                            <page string="Séries de Documentos Fiscais">
+                                <group string="Série de Documentos Fiscais">
+                                    <field colspan="4" nolabel="1" name="document_serie_product_ids"/>
+                                </group>
+                            </page>
+                            <page string="Impostos">
+                                <separator colspan="4" string="Impostos sobre Produtos" />
+                                <field colspan="2" nolabel="1" widget="one2many_list"   name="product_tax_definition_line" />
+                            </page>
+                            <page string="NFe">
+                                <group>
+                                    <field name="nfe_version" required="1" />
+                                    <field name="accountant_cnpj_cpf" required="1"/>
+                                    <field name="nfe_import_folder"/>
+                                    <field name="nfe_export_folder"/>
+                                    <field name="nfe_backup_folder"/>
+                                    <field name="nfe_environment"/>
+                                    <field name="file_type"/>
+                                    <field name="sign_xml"/>
+                                    <field name="export_folder"/>
+                                </group>
+                            </page>
+                            <page string="Custos entrega">
+                                <group>
+                                    <field name="freight_tax_id" />
+                                    <field name="insurance_tax_id"/>
+                                    <field name="other_costs_tax_id"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_product_form" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.product.form</field>
+            <field name="model">l10n_br_tax.definition.company.product</field>
+            <field name="arch" type="xml">
+                <form string="Definição de Impostos">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1"/>
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_product_tree" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.product.tree</field>
+            <field name="model">l10n_br_tax.definition.company.product</field>
+            <field name="arch" type="xml">
+                <tree string="Definição de Impostos" editable="bottom">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1"/>
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

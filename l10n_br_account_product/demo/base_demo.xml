@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- l10n_br_tax.definition.company.product -->
+        <record id="tax_definition_company_demo_pis065" model="l10n_br_tax.definition.company.product">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="tax_code_id" ref="tax_code_demo_pis_01"/>
+            <field name="tax_domain">pis</field>
+            <field name="tax_id" ref="demo_tax_out_pis065"/>
+        </record>
+
+        <record id="tax_definition_company_demo_cofins3" model="l10n_br_tax.definition.company.product">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="tax_code_id" ref="tax_code_demo_cofins_01"/>
+            <field name="tax_domain">cofins</field>
+            <field name="tax_id" ref="demo_tax_out_cofins3"/>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- workflow -->
+        <record id="l10n_br_account_fiscal_position_workflow" model="workflow">
+            <field name="name">Fiscal Position Approval</field>
+            <field name="osv">l10n_br_account.fiscal.category</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <!-- workflow.activity -->
+        <record id="fiscal_position_draft_activity" model="workflow.activity">
+            <field name="wkf_id" ref="l10n_br_account_fiscal_position_workflow"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+        </record>
+
+        <record id="fiscal_position_review_activity" model="workflow.activity">
+            <field name="wkf_id" ref="l10n_br_account_fiscal_position_workflow"/>
+            <field name="name">review</field>
+            <field name="action">write({'state':'review'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <record id="fiscal_position_approved_activity" model="workflow.activity">
+            <field name="wkf_id" ref="l10n_br_account_fiscal_position_workflow"/>
+            <field name="name">approved</field>
+            <field name="action">write({'state':'approved'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <record id="fiscal_position_unapproved_activity" model="workflow.activity">
+            <field name="wkf_id" ref="l10n_br_account_fiscal_position_workflow"/>
+            <field name="name">unapproved</field>
+            <field name="flow_stop">True</field>
+            <field name="action">write({'state':'unapproved'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <!-- workflow.transition -->
+        <record id="fiscal_position_draft_review_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_draft_activity"/>
+            <field name="act_to" ref="fiscal_position_review_activity"/>
+            <field name="signal">fiscal_category_review</field>
+        </record>
+
+        <record id="fiscal_position_review_approved_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_review_activity"/>
+            <field name="act_to" ref="fiscal_position_approved_activity"/>
+            <field name="signal">fiscal_category_approved</field>
+        </record>
+
+        <record id="fiscal_position_approved_unapproved_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_approved_activity"/>
+            <field name="act_to" ref="fiscal_position_unapproved_activity"/>
+            <field name="signal">fiscal_category_unapproved</field>
+        </record>
+
+        <record id="fiscal_position_draft_approved_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_draft_activity"/>
+            <field name="act_to" ref="fiscal_position_approved_activity"/>
+            <field name="signal">fiscal_category_approved</field>
+        </record>
+
+        <record id="fiscal_position_draft_unapproved_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_draft_activity"/>
+            <field name="act_to" ref="fiscal_position_unapproved_activity"/>
+            <field name="signal">fiscal_category_unapproved</field>
+        </record>
+
+        <record id="fiscal_position_review_unapproved_transition" model="workflow.transition">
+            <field name="act_from" ref="fiscal_position_review_activity"/>
+            <field name="act_to" ref="fiscal_position_unapproved_activity"/>
+            <field name="signal">fiscal_category_unapproved</field>
+        </record>
+
+    </data>
+</openerp>

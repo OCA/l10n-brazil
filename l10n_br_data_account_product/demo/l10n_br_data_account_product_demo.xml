@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1" >
+
+        <!-- res.company -->
+        <record id="base.main_company" model="res.company">
+            <field name="cnae_main_id" ref="l10n_br_data_account.l10n_br_cnae_1760" />
+        </record>
+
+    </data>
+</openerp>

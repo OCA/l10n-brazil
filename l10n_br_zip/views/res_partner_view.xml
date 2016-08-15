@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_zip_view_partner_form2" model="ir.ui.view">
+            <field name="name">l10n_br_base.partner.form2</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">33</field>
+            <field name="arch" type="xml">              
+                <field name="zip" position="after">
+                    <button name="zip_search" type="object" class="oe_inline">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

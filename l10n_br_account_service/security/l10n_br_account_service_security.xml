@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="l10n_br_tax_definition_company_service_rule" model="ir.rule">
+            <field name="name">Tax Definition  Company Service multi-company</field>
+            <field model="ir.model" name="model_id" ref="model_l10n_br_tax_definition_company_service"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+    </data>
+</openerp>

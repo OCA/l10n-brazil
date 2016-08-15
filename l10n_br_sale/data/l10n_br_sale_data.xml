@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- REF Criar um ir.values como True para evitar futuras incompatibilidades -->
+        <record id="copy_note_value" model="ir.values">
+            <field name="name">copy_note</field>
+            <field name="model">sale.order</field>
+            <field name="key">default</field>
+            <field name="key2"></field>
+            <field name="value" eval="str('I01\n.')"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+    </data>
+</openerp>

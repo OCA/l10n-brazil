@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- res.company -->
+        <record id="base.main_company" model="res.company">
+            <field name="stock_fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a" />
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- l10n_br_account.document.serie -->
+        <record id="l10n_br_document_serie_1_product" model="l10n_br_account.document.serie">
+            <field name="code">1</field>
+            <field name="name">Série 1</field>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="active">True</field>
+            <field name="fiscal_type">product</field>
+        </record>
+
+        <!-- account.journal -->
+        <record id="aj_c333f0a13695741d07c872b54016c093" model="account.journal">
+            <field name="name">Bonificação</field>
+            <field name="code">IBON</field>
+            <field name="type">sale</field>
+            <field name="sequence_id" ref="account.sequence_sale_journal"/>
+            <field name="update_posted" eval="1" />
+            <field name="group_invoice_lines" eval="0" />
+            <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
+            <field name="default_debit_account_id" ref="account_demo_602"/>  -->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- l10n_br_account.fiscal.category -->
+        <record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
+            <field name="code">DevoluçãoVenda</field>
+            <field name="name">Devolução de Venda</field>
+            <field name="type">input</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale_refund</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+            <field name="code">Venda</field>
+            <field name="name">Venda</field>
+            <field name="type">output</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="refund_fiscal_category_id" ref="fc_7817d015cb9832d137d7939a224a79a5"/>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_c333f0a13695741d07c872b54016c093" model="l10n_br_account.fiscal.category">
+            <field name="code">Bonificação</field>
+            <field name="name">Bonificação</field>
+            <field name="type">output</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="property_journal" ref="aj_c333f0a13695741d07c872b54016c093"/>
+            <field name="state">approved</field>
+        </record>
+        
+        <record id="fc_9ca6c34b77a2c78171252551db171ff7" model="l10n_br_account.fiscal.category">
+            <field name="code">VendaST</field>
+            <field name="name">Venda de Mercadoria Sujeita a Substituição Tributária</field>
+            <field name="type">output</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_f8f20f4fc3420ac4fc03a8e409e54914" model="l10n_br_account.fiscal.category">
+            <field name="code">Revenda</field>
+            <field name="name">Revenda</field>
+            <field name="type">output</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_account.fiscal.category">
+            <field name="code">Compras para Ind</field>
+            <field name="name">Compras para Industrialização</field>
+            <field name="type">input</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">purchase</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_account.fiscal.category">
+            <field name="code">Entrada de Remessa</field>
+            <field name="name">Entrada de Remessa</field>
+            <field name="type">input</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_86d8c770fc2fb9d9fa242a3bdddd507a" model="l10n_br_account.fiscal.category">
+            <field name="code">SimplesRemessa</field>
+            <field name="name">Simples Remessa</field>
+            <field name="type">output</field>
+            <field name="refund_fiscal_category_id" ref="fc_d9132a81edff5374f33560f58666b792"/>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">sale</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="fc_f20c37a9e1e1c870af37efe62a786fbf" model="l10n_br_account.fiscal.category">
+            <field name="code">DevoluçãoCompra</field>
+            <field name="name">Devolução de Compra</field>
+            <field name="type">output</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">purchase_refund</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="in_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+            <field name="out_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="in_refund_fiscal_category_id" ref="l10n_br_account_product.fc_f20c37a9e1e1c870af37efe62a786fbf"/>
+            <field name="out_refund_fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+            <field name="product_invoice_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]"/>
+        </record>
+
+    </data>
+</openerp>

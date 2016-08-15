@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_product_template_form_view" model="ir.ui.view">
+            <field name="name">l10n_br_account_product_template_form_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="fiscal_type" invisible="1"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Fiscal">
+                        <field colspan="4" nolabel="1" name="fiscal_category_default_ids">
+                            <tree string="Operações Padrões" editable="top">
+                                <field name="fiscal_category_source_id" required="1" />
+                                <field name="fiscal_category_destination_id" required="1" />
+                                <field name="to_state_id" required="0" />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

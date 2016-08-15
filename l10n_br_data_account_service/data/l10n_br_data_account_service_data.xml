@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- account.fiscal.position -->
+        <record id="fp_00255d8d158663217906abb312aa0759_internal_template" model="account.fiscal.position.template">
+            <field name="name">Venda de Serviço</field>
+            <field name="chart_template_id" ref="l10n_br.l10n_br_account_chart_template"/>
+            <field name="type">output</field>
+            <field name="type_tax_use">sale</field>
+        </record>
+
+    </data>
+</openerp>

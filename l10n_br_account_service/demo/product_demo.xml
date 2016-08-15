@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+
+        <!-- product.product -->
+        <record id="product.product_product_consultant" model="product.product">
+            <field name="fiscal_type">service</field>
+        </record>
+
+    </data>
+
+</openerp>

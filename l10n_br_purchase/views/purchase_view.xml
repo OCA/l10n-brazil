@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--busca por cnpj_cpf e razao social nos pedidos de compra -->
+        <record id="view_l10n_br_purchase_partner_filter" model="ir.ui.view">
+            <field name="name">l10n_br_purchase.partner.filter</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="legal_name" string="Razão Social"/>
+                    <field name="cnpj_cpf" string="CNPJ/CPF"/>
+                    <field name="ie" string="Inscr. Estadual"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="l10n_br_purchase_order_form1" model="ir.ui.view">
+            <field name="name">l10n_br_purchase.order.form1</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="priority">36</field>
+            <field name="arch" type="xml">
+                <field name="fiscal_position" position="before" >
+                    <field name="fiscal_category_id" required="1"/>
+                </field>
+                <field name="fiscal_position" position="attributes" >
+                    <attribute name="domain">[('fiscal_category_id', '=', fiscal_category_id)]</attribute>
+                </field>
+                <field name="partner_id" position="attributes" >
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+                </field>
+                <field name="dest_address_id" position="attributes" >
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+                </field>
+                <field name="company_id" position="attributes" >
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id}</attribute>
+                </field>
+                <xpath expr="//tree[@string='Purchase Order Lines']" position="attributes">
+                    <attribute name="editable"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="replace">
+                </xpath>
+            </field>
+        </record>
+
+        <record id="l10n_br_purchase_order_line_form" model="ir.ui.view">
+            <field name="name">l10n_br_purchase.order.line.form</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+            <field name="arch" type="xml">
+                <field name="taxes_id" position="before" >
+                    <field name="fiscal_category_id" required="1" />
+                    <field name="fiscal_position" required="1" />
+                </field>
+                <field name="product_id" position="attributes" >
+                    <attribute name="context_br">{'fiscal_category_id': fiscal_category_id, 'company_id': parent.company_id, 'parent_fiscal_position_id': parent.fiscal_position, 'parent_fiscal_category_id': parent.fiscal_category_id}</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

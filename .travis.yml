@@ -1,0 +1,45 @@
+language: python
+
+python:
+  - "2.7"
+
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libxslt-dev
+
+env:
+  - VERSION="8.0" LINT_CHECK="1"
+  - VERSION="8.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - pip install reportlab
+  - pip install unidecode
+  - pip install suds
+  - pip install http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz
+  - pip install https://github.com/odoo-brazil/pyxmlsec/archive/master.zip
+  - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
+  - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip --allow-external PyXMLSec --allow-insecure PyXMLSec
+  - travis_install_nightly
+
+before_script:
+  - chmod +x configure_locale.sh
+
+script:
+  - ./configure_locale.sh
+  - travis_run_tests
+
+after_success:
+  coveralls

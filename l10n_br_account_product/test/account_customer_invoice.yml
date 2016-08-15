@@ -1,0 +1,539 @@
+-
+  Create a sale customer invoice from SP to SP fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente1_sp
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+    - invoice_line[0].fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo')
+    - invoice_line[0].cfop_id.code == '5101'
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].icms_cst_id.code == '00'
+    - invoice_line[0].icms_base == 2400.00
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 432.00
+    - invoice_line[0].icms_percent == 18.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+-
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].icms_st_base == 0.00
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 0.00
+    - invoice_line[0].icms_st_percent == 0.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 2400.00
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 240.00
+    - invoice_line[0].ipi_percent == 10.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 2400.00
+    - invoice_line[0].pis_value == 15.60
+    - invoice_line[0].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 2400.00
+    - invoice_line[0].cofins_value == 72.00
+    - invoice_line[0].cofins_percent == 3.00
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_sp}
+-
+  I check that the invoice state is "sefaz_export"
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - state == 'sefaz_export'
+-
+  I check invoice totals
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp}:
+    - amount_gross == 2400.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2400.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 240.00 , "Valor das taxas esta incorreto!"
+    - amount_total == 2640.00 , "Valor total da fatura esta incorreto!"
+    - residual == 2640.00 , "Valor residual esta incorreto!"
+-
+  I check invoice tax_lines
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_sp'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2400.00 , "Base de ipi incorreta"
+        assert tax.amount == 240.00 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2400.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 432.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2400.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  15.60 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2400.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 72.00  , "Total do cofins incorreto"
+-
+  Create a sale customer invoice from SP to RS fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  Check Invoice Line from SP to RS fiscal contributor
+-
+  !python {model: account.invoice}: |
+    from openerp.tools import float_compare
+
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs'), context=context)
+
+    # I check if found fiscal position and CFOP, document type and document serie
+    assert invoice.fiscal_position != False, "Wrong value in Fiscal Position"
+    assert invoice.fiscal_document_id.id == invoice.company_id.product_invoice_id.id, "Wrong value in Fiscal Document"
+
+    for line in invoice.invoice_line:
+
+        if line.product_id.id == ref('product.product_product_9'):
+
+            assert line.fiscal_position.id == ref('fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo'), "Wrong value in Fiscal Position in line"
+            assert line.cfop_id.code == '6101', "Wrong value in CFOP in line"
+
+            # I check tax values ICMS
+            assert line.icms_cst_id.code == '00', "Wrong value in CST of ICMS in line"
+            assert line.icms_base == 550.00, "Wrong value in Base of ICMS in line"
+            assert line.icms_base_other == 0.00, "Wrong value in Other Base of ICMS in line"
+            assert line.icms_value == 66.00, "Wrong value in ICMS in line"
+            assert line.icms_percent == 12.00, "Wrong value in Percent of ICMS in line"
+            assert line.icms_percent_reduction == 0.00, "Wrong value in Percent Reduction of ICMS in line"
+
+            # I check tax values ICMS ST
+            assert line.icms_st_base == 0.00, "Wrong value in Base ST of ICMS in line"
+            assert line.icms_st_base_other == 0.00, "Wrong value in Other Base of ICMS ST in line"
+            assert line.icms_st_value == 0.00, "Wrong value in Value of ICMS ST in line"
+            assert line.icms_st_percent == 0.00, "Wrong value to Percent of ICMS ST in line"
+            assert line.icms_st_percent_reduction == 0.00, "Wrong value to REduction Percent of ICMS ST in line"
+
+            # I check tax values IPI
+            assert line.ipi_cst_id.code == '50', "Wrong value in Code of IPI in line"
+            assert line.ipi_base == 550.00, "Wrong value in Base of IPI in line"
+            assert line.ipi_base_other == 0.00, "Wrong value in Other Base of IPI in line"
+            assert line.ipi_value == 82.50, "Wrong value in Value of IPI in line"
+            assert line.ipi_percent == 15.00, "Wrong value in Percent of IPI in line"
+
+            # I check tax values PIS
+            assert line.pis_cst_id.code == '01', "Wrong value in Code of PIS in line"
+            assert line.pis_base == 550.00, "Wrong value in Base of PIS in line"
+            assert float_compare(line.pis_value, 3.57, 2) == 0, "Wrong value in Value of PIS in line"
+            assert line.pis_percent == 0.65, "Wrong value in Percent of PIS in line"
+
+            # I check tax values COFINS
+            assert line.cofins_cst_id.code == '01', "Wrong value in CST of COFINS in line"
+            assert line.cofins_base == 550.00, "Wrong value in Base of COFINS in line"
+            assert line.cofins_value == 16.50, "Wrong value in Value of COFINS in line"
+            assert line.cofins_percent == 3.00, "Wrong value in Percent of COFINS in line"
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_rs}
+-
+  I check that the invoice state is "sefaz_export"
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - state == 'sefaz_export'
+-
+  I check invoice totals
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs}:
+    - amount_gross == 550.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 550.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 82.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 632.50 , "Valor total da fatura esta incorreto!"
+    - residual == 632.50 , "Valor residual esta incorreto!"
+-
+  I check invoice tax_lines
+-
+  !python {model: account.invoice}: |
+
+    from openerp.tools import float_compare
+
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs'), context=context)
+
+    for tax in invoice.tax_line:
+
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 550.00 , "Base de ipi incorreta"
+        assert tax.amount == 82.50 , "Total do ipi incorreto"
+
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 550.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 66.00 , "Total do icms incorreto"
+
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 550.00 , "Base de pis incorreta"
+        assert float_compare(tax.tax_amount, 3.57, 2) == 0  , "Total do pis incorreto"
+
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 550.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 16.50,  "Total do cofins incorreto"
+-
+  Create a sale customer invoice from SP to SP fiscal contributor with many manufectured goods
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente1_sp
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_mult}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_sp_mult'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 531.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 322.50  , "Total do cofins incorreto"
+-
+  Create a sale customer invoice from SP to SP fiscal contributor with many manufectured goods with insurance, freight and other costs
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente1_sp
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    amount_freight: 15.00
+    amount_insurance: 20.00
+    amount_costs: 20.00
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods with insurance, freight and other costs
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+    - amount_freight == 15.00 , "Valor do frete esta incorreto!"
+    - amount_insurance == 20.00 , "Valor do seguro esta incorreto!"
+    - amount_costs == 20.00 , "Valor de outros custos esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods with insurance, freight and other costs
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_sp_mult_with_other_costs'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
+-
+  I prepare tunneling extra args in the context for account_invoice_customer_sp_pe
+-
+  !python {model: account.invoice}: |
+    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'type': 'out_invoice'})
+-
+  Create a sale customer invoice from SP to PE fiscal contributor
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_pe, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente5_pe
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_10
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 56.39
+      - product_id: product.product_product_17
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 280.00
+-
+  I check if found fisal position and CFOP, document type and document serie
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - fiscal_position != False
+    - fiscal_document_id.id == company_id.product_invoice_id.id
+    - document_serie_id.fiscal_document_id.id == fiscal_document_id.id
+    - invoice_line[0].fiscal_position.id == ref('fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo')
+    - invoice_line[0].cfop_id.code == '6401'
+    - invoice_line[1].fiscal_position.id == ref('fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo')
+    - invoice_line[1].cfop_id.code == '6401'
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].icms_cst_id.code == '10'
+    - invoice_line[0].icms_base == 281,95
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 33.83
+    - invoice_line[0].icms_percent == 12.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+    - invoice_line[1].icms_cst_id.code == '10'
+    - invoice_line[1].icms_base == 1400.00
+    - invoice_line[1].icms_base_other == 0.00
+    - invoice_line[1].icms_value == 168.00
+    - invoice_line[1].icms_percent == 12.00
+    - invoice_line[1].icms_percent_reduction == 0.00
+-
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].icms_st_base == 468.30
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 22.37
+    - invoice_line[0].icms_st_mva == 44.43
+    - invoice_line[0].icms_st_percent == 12.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
+    - invoice_line[1].icms_st_base == 1540.00
+    - invoice_line[1].icms_st_base_other == 0.00
+    - invoice_line[1].icms_st_value == 16.80
+    - invoice_line[1].icms_st_mva == 0.00
+    - invoice_line[1].icms_st_percent == 12.00
+    - invoice_line[1].icms_st_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 281.95
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 42.29
+    - invoice_line[0].ipi_percent == 15.00
+    - invoice_line[1].ipi_cst_id.code == '50'
+    - invoice_line[1].ipi_base == 1400.00
+    - invoice_line[1].ipi_base_other == 0.00
+    - invoice_line[1].ipi_value == 140.00
+    - invoice_line[1].ipi_percent == 10.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 281.95
+    - invoice_line[0].pis_value == 1.83
+    - invoice_line[0].pis_percent == 0.65
+    - invoice_line[1].pis_cst_id.code == '01'
+    - invoice_line[1].pis_base == 1400.00
+    - invoice_line[1].pis_value == 9.10
+    - invoice_line[1].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 281.95
+    - invoice_line[0].cofins_value == 8.46
+    - invoice_line[0].cofins_percent == 3.00
+    - invoice_line[1].cofins_cst_id.code == '01'
+    - invoice_line[1].cofins_base == 1400.00
+    - invoice_line[1].cofins_value == 42.00
+    - invoice_line[1].cofins_percent == 3.00
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - state == 'draft'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_validate, ref: account_invoice_customer_sp_pe}
+-
+  I check that the invoice state is "sefaz_export"
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_pe}:
+    - state == 'sefaz_export'
+-
+  Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs_mult}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs_mult'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
+-
+  Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods with insurance, freight and other costs
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente7_rs
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    amount_freight: 15.00
+    amount_insurance: 20.00
+    amount_costs: 20.00
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check invoice totals of many manufectured goods with insurance, freight and other costs
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+    - amount_freight == 15.00 , "Valor do frete esta incorreto!"
+    - amount_insurance == 20.00 , "Valor do seguro esta incorreto!"
+    - amount_costs == 20.00 , "Valor de outros custos esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods with insurance, freight and other costs
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_rs_mult_with_other_costs'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"

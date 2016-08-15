@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+
+        <!-- account.payment.term -->
+        <record id="account_payment_term_0" model="account.payment.term">
+            <field name="active">True</field>
+            <field name="note"></field>
+            <field name="name">A Vista</field>
+        </record>
+
+        <record id="account_payment_term_ddl0" model="account.payment.term">
+            <field eval="1" name="active"/>
+            <field name="note">07 e 14 dias liquidos</field>
+            <field name="name">07 / 14 DDL</field>
+        </record>
+
+        <record id="account_payment_term_line_dias4" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 14 DDL')]"/>
+            <field eval="7" name="days"/>
+            <field name="value">procent</field>
+            <field eval="0.5" name="value_amount"/>
+        </record>
+
+        <record id="account_payment_term_line_dias11" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 14 DDL')]"/>
+            <field eval="14" name="days"/>
+            <field name="value">balance</field>
+            <field eval="0.5" name="value_amount"/>
+        </record>
+
+        <record id="account_payment_term_ddl1" model="account.payment.term">
+            <field eval="1" name="active"/>
+            <field name="name">07 / 28 DDL</field>
+
+        </record>
+
+        <record id="account_payment_term_line_dias0" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 28 DDL')]"/>
+            <field eval="7" name="days"/>
+            <field name="value">procent</field>
+            <field eval="0.5" name="value_amount"/>
+        </record>
+
+        <record id="account_payment_term_line_dias14" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'07 / 28 DDL')]"/>
+            <field eval="28" name="days"/>
+            <field name="value">balance</field>
+            <field eval="0.5" name="value_amount"/>
+        </record>
+
+        <record id="account_payment_term_ddl15" model="account.payment.term">
+            <field name="name">35 DDL</field>
+            <field eval="1" name="active"/>
+            <field name="note">35 dias</field>
+        </record>
+
+        <record id="account_payment_term_line_dias28" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'35 DDL')]"/>
+            <field eval="35" name="days"/>
+            <field name="value">balance</field>
+            <field eval="1.0" name="value_amount"/>
+        </record>
+
+        <record id="account_payment_term_ddl16" model="account.payment.term">
+            <field eval="1" name="active"/>
+            <field name="note">45 dias</field>
+            <field name="name">45 DDL</field>
+        </record>
+
+        <record id="account_payment_term_line_dias29" model="account.payment.term.line">
+            <field model="account.payment.term" name="payment_id" search="[('name', '=', u'45 DDL')]"/>
+            <field eval="45" name="days"/>
+            <field name="value">balance</field>
+            <field eval="1.0" name="value_amount"/>
+        </record>
+
+    </data>
+
+</openerp>

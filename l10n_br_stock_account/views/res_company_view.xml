@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_stock_company_form" model="ir.ui.view">
+            <field name="name">l10n_br_stock.res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
+            <field name="arch" type="xml">
+                <page position="before" string="NFe">
+                    <page string="Estoque">
+                        <group string="Configurações de Estoque">
+                            <field name="stock_fiscal_category_id" />
+                            <field name="stock_in_fiscal_category_id"/>
+                            <field name="stock_out_fiscal_category_id"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

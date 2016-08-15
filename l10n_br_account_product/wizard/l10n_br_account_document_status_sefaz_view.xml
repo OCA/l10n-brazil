@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="l10n_br_account_product_document_status_sefaz_form" model="ir.ui.view">
+            <field name="name">Consultar Documento</field>
+            <field name="model">l10n_br_account_product.document_status_sefaz</field>
+            <field name="arch" type="xml">
+                <form string="Consultar chave de acesso" version="7.0">
+                    <field invisible="1" name="state"/>
+                        <group>
+                            <field name="chNFe" attrs="{'readonly':[('state','=','done')]}" />
+                            <group states="done">           
+                                <field name="version" />
+                                <field name="nfe_environment" attrs="{'readonly': True}"/>
+                                <field name="xMotivo" />
+                                <field name="cUF" />
+                                <field name="protNFe" />
+                                <field name="retCancNFe" />
+                                <field name="procEventoNFe" />
+                            </group>
+                        </group>
+                    <footer states="init">
+                        <button name="get_document_status" string="Consultar" type="object" class="oe_highlight" />
+                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_l10n_br_account_product_document_status_sefaz" model="ir.actions.act_window">
+            <field name="name">Consultar chave de acesso</field>
+            <field name="res_model">l10n_br_account_product.document_status_sefaz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem action="action_l10n_br_account_product_document_status_sefaz" id="menu_l10n_br_account_product_document_status_sefaz"
+            name="Consultar Documento" parent="l10n_br_account.menu_l10n_br_account_fiscal"/>
+    </data>
+</openerp>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_product_nfe_export_invoice_form" model="ir.ui.view">
+            <field name="name">Exportar Nota Fiscal</field>
+            <field name="model">l10n_br_account_product.nfe_export_invoice</field>
+            <field name="arch" type="xml">
+                <form string="Exportar Nota Fiscal" version="7.0">
+                    <field invisible="1" name="state"/>
+                    <field name="name" invisible="1" />
+                    <group>
+                        <group states="init" string="Click em exportar para iniciar a exportação...">
+                            <field name="file_type" />
+                            <field name="nfe_environment" />
+                            <field name="sign_xml" attrs="{'invisible': [('file_type','!=', 'xml')]}"/>
+                            <field name="export_folder"/>
+                        </group>
+                        <group states="done" string="Resultado da Exportação">
+                            <field nolabel="1" readonly="1" colspan="4" name="nfe_export_result">
+                                <tree colors="green:status == 'success';red:status == 'error'">
+                                    <field name="document"/>
+                                    <field name="message"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                            <field name="file" colspan="4" filename="name" attrs="{'invisible': [('export_folder','=', True)]}"/>
+                        </group>
+                    </group>
+                    <footer states="init">
+                        <button name="nfe_export" string="Exportar" type="object" class="oe_highlight" /> ou
+                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_l10n_br_account_product_nfe_export_invoice" model="ir.actions.act_window">
+            <field name="name">Exportar Nota Fiscal</field>
+            <field name="res_model">l10n_br_account_product.nfe_export_invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <act_window id="nfe_export_invoice" key2="client_action_multi"
+            name="Exportar NFe" res_model="l10n_br_account_product.nfe_export_invoice"
+            src_model="account.invoice" view_id="l10n_br_account_product_nfe_export_invoice_form"
+            view_mode="form" target="new" view_type="form" />
+
+    </data>
+</openerp>

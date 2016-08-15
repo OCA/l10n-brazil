@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="l10n_br_stock_account_stock_location_path_form"
+                model="ir.ui.view">
+            <field name="name">l10n_br_stock_account.stock.location.path.form
+            </field>
+            <field name="model">stock.location.path</field>
+            <field name="inherit_id" ref="stock.stock_location_path_form"/>
+            <field name="priority">32</field>
+            <field name="arch" type="xml">
+                <field name="picking_type_id" position="after">
+                    <field name="fiscal_category_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view"
+                id="l10n_br_stock_account_procurement_rule_inherit_form">
+            <field name="name">
+                l10n_br_stock_account.procurement.rule.inherit.form
+            </field>
+            <field name="model">procurement.rule</field>
+            <field name="inherit_id"
+                   ref="stock_account.view_procurement_rule_form_stockaccount_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_state']" position="after">
+                    <field name="fiscal_category_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

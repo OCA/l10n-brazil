@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_position_template_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.fiscal.position.template.form</field>
+            <field name="model">account.fiscal.position.template</field>
+            <field name="inherit_id" ref="account.view_account_position_template_form"/>
+            <field name="arch" type="xml">
+                <form string="Fiscal Position Template" position="replace">
+                    <form string="Fiscal Position">
+                        <group colspan="4" col="6">
+                            <field name="name" select="1"/>
+                            <field name="type" required="1" on_change="onchange_type(type, context)"/>
+                            <field name="type_tax_use" invisible="1"/>
+                            <field name="chart_template_id"/>
+                                            <field name="state" invisible="1"/>
+                        </group>
+                        <newline/>
+                        <notebook colspan="4">
+                            <page string="Impostos">
+                                <separator string="Mapping" colspan="4"/>
+                                <field name="tax_ids" colspan="4" widget="one2many_list" nolabel="1">
+                                    <tree string="Tax Mapping" editable="bottom">
+                                        <field name="tax_code_src_id" attrs="{'required': [('tax_src_id', '=', False)]}"/>
+                                        <field name="tax_src_id" attrs="{'required': [('tax_code_src_id', '=', False)]}" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all'))]"/>
+                                        <field name="tax_dest_id" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
+                                        <field invisible="1" name="tax_src_domain" />
+                                        <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
+                                    </tree>
+                                    <form string="Tax Mapping">
+                                        <field name="tax_code_src_id" attrs="{'required': [('tax_src_id', '=', False)]}"/>
+                                        <field name="tax_src_id" attrs="{'required': [('tax_code_src_id', '=', False)]}" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all'))]" />
+                                        <field name="tax_dest_id" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
+                                        <field invisible="1" name="tax_src_domain" />
+                                        <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Fiscal">
+                                <group colspan="4" col="4">
+                                    <field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
+                                    <field invisible="1" name="fiscal_category_fiscal_type"/>
+                                    <field name="asset_operation"/>
+                                </group>
+                                <separator string="Notes" colspan="4"/>
+                                <field name="inv_copy_note" colspan="4"/>
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Contábil">
+                                <field name="account_ids" colspan="4" widget="one2many_list" nolabel="1">
+                                    <tree string="Account Mapping" editable="bottom">
+                                        <field name="account_src_id"/>
+                                        <field name="account_dest_id"/>
+                                    </tree>
+                                    <form string="Account Mapping">
+                                        <field name="account_src_id"/>
+                                        <field name="account_dest_id"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </form>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_position_tree" model="ir.ui.view">
+            <field name="name">l10n_br_account.fiscal.position.tree</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="account.view_account_position_tree"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_position_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="account.view_account_position_form"/>
+            <field name="arch" type="xml">
+                <form string="Fiscal Position" position="replace">
+                    <form string="Fiscal Position">
+                            <group colspan="4" col="6">
+                                <field name="name" select="1"/>
+                                <field name="type" required="1" on_change="onchange_type(type, context)"/>
+                                <field name="type_tax_use" invisible="1"/>
+                                <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                                <field name="active" groups="base.group_extended"/>
+                                                <field name="state" invisible="1"/>
+                            </group>
+                            <newline/>
+                            <notebook colspan="4">
+                                <page string="Impostos">
+                                    <separator string="Mapping" colspan="4"/>
+                                    <field name="tax_ids" colspan="4" widget="one2many_list" nolabel="1">
+                                        <tree string="Tax Mapping" editable="bottom">
+                                            <field name="tax_code_src_id"  attrs="{'required': [('tax_src_id', '=', False)]}"/>
+                                            <field name="tax_src_id" attrs="{'required': [('tax_code_src_id', '=', False)]}" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all'))]"/>
+                                            <field name="tax_dest_id" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
+                                            <field name="tax_src_domain" invisible="1"/>
+                                            <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
+                                        </tree>
+                                        <form string="Tax Mapping">
+                                            <field name="tax_code_src_id"  attrs="{'required': [('tax_src_id', '=', False)]}"/>
+                                            <field name="tax_src_id" attrs="{'required': [('tax_code_src_id', '=', False)]}" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all'))]"/>
+                                            <field name="tax_dest_id" domain="[('type_tax_use', 'in', (parent.type_tax_use, 'all')), ('domain', '=', tax_src_domain)]" />
+                                            <field name="tax_src_domain" invisible="1"/>
+                                            <field name="tax_code_dest_id" domain="[('domain', '=', tax_src_domain)]"/>
+                                        </form>
+                                    </field>
+                                </page>
+                                <page string="Fiscal">
+                                    <group colspan="4" col="4">
+                                        <field name="fiscal_category_id" domain="[('type', '=', type)]" on_change="onchange_fiscal_category_id(fiscal_category_id, context)"/>
+                                        <field name="fiscal_category_fiscal_type" invisible="1"/>
+                                        <field name="asset_operation"/>
+                                    </group>
+                                        <separator string="Notes" colspan="4"/>
+                                        <field name="inv_copy_note" colspan="4"/>
+                                        <field name="note" colspan="4" nolabel="1"/>
+                                </page>
+                                <page string="Contábil">
+                                    <field name="account_ids" colspan="4" widget="one2many_list" nolabel="1">
+                                        <tree string="Account Mapping" editable="bottom">
+                                            <field name="account_src_id"/>
+                                            <field name="account_dest_id"/>
+                                        </tree>
+                                        <form string="Account Mapping">
+                                            <field name="account_src_id"/>
+                                            <field name="account_dest_id"/>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+                    </form>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_view_partner_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="suframa" position="after">
+                    <field name="partner_fiscal_type_id" widget="radio" required="1"/>
+                    <field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

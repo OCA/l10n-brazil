@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- account.journal -->
+        <record id="aj_00255d8d158663217906abb312aa0759" model="account.journal">
+            <field name="name">Venda de Serviço</field>
+            <field name="code">VNDS</field>
+            <field name="type">sale</field>
+            <field name="update_posted" eval="1" />
+            <field name="group_invoice_lines" eval="0" />
+            <field eval="1" name="revenue_expense"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="aj_997850a05a6268f08afbe822383557d8" model="account.journal">
+            <field name="name">Aquisição de Serviço</field>
+            <field name="code">AQSS</field>
+            <field name="type">purchase</field>
+            <field name="update_posted" eval="1" />
+            <field name="group_invoice_lines" eval="0" />
+            <field eval="1" name="revenue_expense"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- l10n_br_account.fiscal.category -->
+        <!-- venda de Serviço -->
+        <record id="fc_00255d8d158663217906abb312aa0759" model="l10n_br_account.fiscal.category">
+            <field name="property_journal" ref="aj_00255d8d158663217906abb312aa0759"/>
+        </record>
+
+        <!-- Aquisição de Serviço -->
+        <record id="fc_997850a05a6268f08afbe822383557d8" model="l10n_br_account.fiscal.category">
+            <field name="property_journal" ref="aj_997850a05a6268f08afbe822383557d8"/>
+        </record>
+
+        <!-- account.fiscal.position - Fiscal position From l10n_br_data_account -->
+        <!-- venda de Serviço -->
+        <record id="fp_00255d8d158663217906abb312aa0759_demo" model="account.fiscal.position">
+            <field name="name">Venda de Serviço</field>
+            <field name="fiscal_category_id" ref="fc_00255d8d158663217906abb312aa0759"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">output</field>
+            <field name="type_tax_use">sale</field>
+        </record>
+
+        <!-- Aquisição de Serviço -->
+        <record id="fp_997850a05a6268f08afbe822383557d8_demo" model="account.fiscal.position">
+            <field name="name">Venda de Serviço</field>
+            <field name="fiscal_category_id" ref="fc_997850a05a6268f08afbe822383557d8"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">input</field>
+            <field name="type_tax_use">purchase</field>
+        </record>
+
+    </data>
+</openerp>

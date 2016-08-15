@@ -1,0 +1,48 @@
+-
+  Create Fiscal Category
+-
+  !record {model: l10n_br_account.fiscal.category, id: fiscal_category_purchase}:
+    code: Compras
+    name: Compras
+    type: input
+    journal_type: purchase
+    property_journal: account.expenses_journal
+-
+  Create Fiscal Position
+-
+  !record {model: account.fiscal.position, id: fiscal_position_purchase}:
+    name: Compras
+    type: input
+    company_id: base.main_company
+    fiscal_category_id: fiscal_category_purchase
+-
+  Create Fiscal Position Rule
+-
+  !record {model: account.fiscal.position.rule, id: fiscal_position_rule_purchase}:
+    name: Compras
+    description: Compras
+    company_id: base.main_company
+    from_country: base.br
+    fiscal_category_id: fiscal_category_purchase
+    fiscal_position_id: fiscal_position_purchase
+    use_purchase: true
+    use_invoice: true
+    use_picking: true
+-
+  Create a supplier invoice
+-
+  !record {model: account.invoice, id: account_invoice_supplier0, view: view_l10n_br_account_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: base.res_partner_3
+    fiscal_category_id: fiscal_category_purchase
+    reference_type: none
+    name: 'Test Supplier Invoice'
+    invoice_line:
+      - product_id: product.product_product_5
+        quantity: 10.0
+-
+  I check that Initially supplier invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0}:
+    - state == 'draft'
+    - fiscal_position.id == ref('fiscal_position_purchase')
