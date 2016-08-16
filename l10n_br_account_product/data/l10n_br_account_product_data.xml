@@ -73,10 +73,19 @@
 			<field name="journal_type">sale</field>
 			<field name="state">approved</field>
 		</record>
-
+                               
 		<record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_account.fiscal.category">
 			<field name="code">Compras para Ind</field>
 			<field name="name">Compras para Industrialização</field>
+			<field name="type">input</field>
+			<field name="fiscal_type">product</field>
+			<field name="journal_type">purchase</field>
+			<field name="state">approved</field>
+		</record>
+
+		<record id="fc_compras_para_com" model="l10n_br_account.fiscal.category">
+			<field name="code">Compras para Com</field>
+			<field name="name">Compras para Comercialização</field>
 			<field name="type">input</field>
 			<field name="fiscal_type">product</field>
 			<field name="journal_type">purchase</field>
