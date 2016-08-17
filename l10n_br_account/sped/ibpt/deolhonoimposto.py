@@ -12,8 +12,8 @@ WS_SERVICOS = 0
 WS_PRODUTOS = 1
 
 WS_IBPT = {
-    WS_SERVICOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/servico/?',
-    WS_PRODUTOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/produto/?',
+    WS_SERVICOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Servicos/?',
+    WS_PRODUTOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Produtos/?',
 }
 
 
