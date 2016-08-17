@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record forcecreate="True" id="ir_cron_update_due_ncm_action" model="ir.cron">
+            <field name="name">Update NCM Estimate Taxes</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.product.fiscal.classification'" name="model"/>
+            <field eval="'update_due_ncm'" name="function"/>
+            <field eval="" name="args"/>
+        </record>
+  </data>
+</openerp>
