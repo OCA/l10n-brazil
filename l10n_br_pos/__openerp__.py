@@ -11,11 +11,12 @@
     "license": "AGPL-3",
     "category": "Point Of Sale",
     "depends": [
-        'l10n_br_account_product',
+        'l10n_br_sale_stock',
         'point_of_sale',
         'pos_pricelist',
         'pos_payment_term',
         'nfe_attach',
+        'pos_order_picking_link'
     ],
     'data': [
         "wizard/l10n_br_pos_order_return.xml",
