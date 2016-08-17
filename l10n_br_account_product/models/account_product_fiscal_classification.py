@@ -2,6 +2,8 @@
 # Copyright (C) 2012  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from datetime import timedelta, date
+
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 
@@ -257,6 +259,52 @@ class AccountProductFiscalClassification(models.Model):
             tax_estimate.create(vals)
 
         return True
+
+    @api.model
+    def update_due_ncm(self):
+
+        config_date = self.env['account.config.settings'].browse(
+            [1]).ibpt_update_days
+        today = date.today()
+        data_max = today - timedelta(days=config_date)
+
+        all_ncm = self.env[
+            'account.product.fiscal.classification'].search([])
+
+        not_estimated = all_ncm.filtered(
+                lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
+        )
+
+        query = (
+            "WITH ncm_max_date AS ("
+            "   SELECT "
+            "       fiscal_classification_id, "
+            "       max(create_date) "
+            "   FROM  "
+            "       l10n_br_tax_estimate "
+            "   GROUP BY "
+            "       fiscal_classification_id"
+            ") SELECT fiscal_classification_id "
+            "FROM "
+            "   ncm_max_date "
+            "WHERE "
+            "   max < %(create_date)s  "
+        )
+        query_params = {'create_date': data_max.strftime('%Y-%m-%d')}
+
+        self._cr.execute(self._cr.mogrify(query, query_params))
+        past_estimated = self._cr.fetchall()
+
+        ids = [estimate[0] for estimate in past_estimated]
+
+        ncm_past_estimated = self.env[
+                'account.product.fiscal.classification'].browse(ids)
+
+        for ncm in not_estimated + ncm_past_estimated:
+            try:
+                ncm.get_ibpt()
+            except:
+                pass
 
 
 class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
