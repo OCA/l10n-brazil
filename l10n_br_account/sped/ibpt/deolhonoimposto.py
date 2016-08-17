@@ -41,7 +41,7 @@ def _request(req):
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
-def get_ibpt_product(config, ncm, ex, reference=None, description=None,
+def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
                      uom=None, amount=None, gtin=None):
 
     data = urllib.urlencode({
