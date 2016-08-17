@@ -226,7 +226,6 @@ class AccountProductFiscalClassification(models.Model):
 
     @api.multi
     def get_ibpt(self):
-
         for fiscal_classification in self:
 
             company = (
@@ -239,7 +238,8 @@ class AccountProductFiscalClassification(models.Model):
 
             result = get_ibpt_product(
                 config,
-                punctuation_rm(fiscal_classification.code or ''), ex='0')
+                punctuation_rm(fiscal_classification.code or ''),
+            )
 
             vals = {
                 'fiscal_classification_id': fiscal_classification.id,
