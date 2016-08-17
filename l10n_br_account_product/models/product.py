@@ -34,25 +34,22 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.multi
-    @api.depends('origin', 'fiscal_classification_id')
+    @api.depends('origin',
+                 'fiscal_classification_id',
+                 'fiscal_classification_id.tax_estimate_ids')
     def _compute_product_estimated_taxes_percent(self):
         for template in self:
-            if not (template.origin and template.fiscal_classification_id and
-                    template.fiscal_classification_id.tax_estimate_ids):
-                continue
 
             t_ids = template.fiscal_classification_id.tax_estimate_ids.ids
-            estimated = self.env['l10n_br_tax.estimate'].search(
-                t_ids, order='create_date DESC', limit=1)
+            last_estimated = self.env['l10n_br_tax.estimate'].search(
+                [('id', 'in', t_ids)], order='create_date DESC', limit=1)
 
             tax_estimate_percent = 0.00
             if template.origin in ('1', '2', '6', '7'):
-                tax_estimate_percent += estimated.federal_taxes_import
+                tax_estimate_percent += last_estimated.federal_taxes_import
             else:
-                tax_estimate_percent += estimated.federal_taxes_national
-
-            tax_estimate_percent += estimated.state_taxes
-            tax_estimate_percent /= 100
+                tax_estimate_percent += last_estimated.federal_taxes_national
+            tax_estimate_percent += last_estimated.state_taxes
             template.product_estimated_taxes_percent = tax_estimate_percent
 
     fiscal_type = fields.Selection(
