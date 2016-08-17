@@ -66,15 +66,18 @@ class StockPicking(models.Model):
             comment += picking.sale_id.note or ''
         if picking.note:
             comment += ' - ' + picking.note
-        fiscal_doc_ref = self._context.get(
-                'fiscal_doc_ref', False)
 
-        if vals.get('type', False) == 'out_refund' and fiscal_doc_ref and fiscal_doc_ref._name == 'account.invoice':
+        fiscal_doc_ref = self._context.get('fiscal_doc_ref', False)
+        if vals.get('type', False) == 'out_refund' and fiscal_doc_ref \
+                and fiscal_doc_ref._name == 'account.invoice':
             result['fiscal_document_related_ids'] = [
                 (0, False,
                  {'invoice_related_id': fiscal_doc_ref.id,
                   'document_type': 'nfe',
                   'access_key': fiscal_doc_ref.nfe_access_key})]
+
+        if picking.fiscal_category_id.purpose:
+            result['nfe_purpose'] = picking.fiscal_category_id.purpose
 
         result['partner_shipping_id'] = picking.partner_id.id
 
