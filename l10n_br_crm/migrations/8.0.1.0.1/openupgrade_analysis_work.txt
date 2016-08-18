@@ -1,0 +1,14 @@
+---Fields in module 'l10n_br_crm'---
+l10n_br_crm  / crm.lead                 / cnpj (char)                   : NEW 
+l10n_br_crm  / crm.lead                 / cnpj_cpf (char)               : DEL
+l10n_br_crm  / crm.lead                 / cpf (char)                    : NEW 
+l10n_br_crm  / crm.lead                 / name_surname (char)           : NEW 
+l10n_br_crm  / crm.lead                 / rg (char)                     : NEW
+# Nothing to do
+
+---XML records in module 'l10n_br_crm'---
+NEW ir.ui.view: l10n_br_crm.l10n_br_crm_leads_form
+NEW ir.ui.view: l10n_br_crm.l10n_br_crm_opportunities_form
+DEL ir.ui.view: l10n_br_crm.l10n_br_crm_case_form_view_leads1
+DEL ir.ui.view: l10n_br_crm.l10n_br_crm_case_form_view_oppor1
+# Nothing to do
