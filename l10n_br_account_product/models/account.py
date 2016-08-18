@@ -2,8 +2,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from datetime import datetime
-
 from openerp import models, fields, api
 
 
@@ -216,9 +214,9 @@ class AccountTax(models.Model):
 
         # Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
-                total_taxes = ((result['total_included'] - totaldc) *
-                               product.product_estimated_taxes_percent/100)
-                result['total_taxes'] = round(total_taxes, precision)
+            total_taxes = ((result['total_included'] - totaldc) *
+                           product.product_estimated_taxes_percent/100)
+            result['total_taxes'] = round(total_taxes, precision)
 
         return {
             'total': result['total'],
