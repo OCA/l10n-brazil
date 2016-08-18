@@ -272,7 +272,7 @@ class AccountProductFiscalClassification(models.Model):
             'account.product.fiscal.classification'].search([])
 
         not_estimated = all_ncm.filtered(
-                lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
+            lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
         )
 
         query = (
@@ -298,7 +298,7 @@ class AccountProductFiscalClassification(models.Model):
         ids = [estimate[0] for estimate in past_estimated]
 
         ncm_past_estimated = self.env[
-                'account.product.fiscal.classification'].browse(ids)
+            'account.product.fiscal.classification'].browse(ids)
 
         for ncm in not_estimated + ncm_past_estimated:
             try:
