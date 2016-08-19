@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012 - TODAY  Renato Lima - Akretion                          #
+# Copyright (C) 2012 - TODAY  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
@@ -31,27 +31,29 @@ class CrmLead(models.Model):
     cpf = fields.Char('CPF', size=18)
     rg = fields.Char('RG', size=16)
 
-    @api.one
+    @api.multi
     @api.constrains('cnpj')
     def _check_cnpj(self):
-        country_code = self.country_id.code or ''
-        if self.cnpj and country_code.upper() == 'BR':
-            cnpj = re.sub('[^0-9]', '', self.cnpj)
-            if not fiscal.validate_cnpj(cnpj):
-                raise ValidationError(_(u'CNPJ inválido!'))
-        return True
+        for record in self:
+            country_code = record.country_id.code or ''
+            if record.cnpj and country_code.upper() == 'BR':
+                cnpj = re.sub('[^0-9]', '', record.cnpj)
+                if not fiscal.validate_cnpj(cnpj):
+                    raise ValidationError(_(u'CNPJ inválido!'))
+            return True
 
-    @api.one
+    @api.multi
     @api.constrains('cpf')
     def _check_cpf(self):
-        country_code = self.country_id.code or ''
-        if self.cpf and country_code.upper() == 'BR':
-            cpf = re.sub('[^0-9]', '', self.cpf)
-            if not fiscal.validate_cpf(cpf):
-                raise ValidationError(_(u'CPF inválido!'))
-        return True
+        for record in self:
+            country_code = record.country_id.code or ''
+            if record.cpf and country_code.upper() == 'BR':
+                cpf = re.sub('[^0-9]', '', record.cpf)
+                if not fiscal.validate_cpf(cpf):
+                    raise ValidationError(_(u'CPF inválido!'))
+            return True
 
-    @api.one
+    @api.multi
     @api.constrains('inscr_est')
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
@@ -59,20 +61,21 @@ class CrmLead(models.Model):
 
         :Return: True or False.
         """
-        result = True
-        if self.inscr_est != 'ISENTO' or self.partner_name:
-            state_code = self.state_id.code or ''
-            uf = state_code.lower()
-            try:
-                mod = __import__(
-                    'openerp.addons.l10n_br_base.tools.fiscal',
-                    globals(), locals(), 'fiscal')
-                validate = getattr(mod, 'validate_ie_%s' % uf)
-                result = validate(self.inscr_est)
-            except AttributeError:
-                result = fiscal.validate_ie_param(uf, self.inscr_est)
-        if not result:
-            raise ValidationError(u"Inscrição Estadual Invalida!")
+        for record in self:
+            result = True
+            if record.inscr_est != 'ISENTO' or record.partner_name:
+                state_code = record.state_id.code or ''
+                uf = state_code.lower()
+                try:
+                    mod = __import__(
+                        'openerp.addons.l10n_br_base.tools.fiscal',
+                        globals(), locals(), 'fiscal')
+                    validate = getattr(mod, 'validate_ie_%s' % uf)
+                    result = validate(record.inscr_est)
+                except AttributeError:
+                    result = fiscal.validate_ie_param(uf, record.inscr_est)
+            if not result:
+                raise ValidationError(u"Inscrição Estadual Invalida!")
 
     @api.onchange('cnpj', 'country_id')
     def _onchange_cnpj(self):
