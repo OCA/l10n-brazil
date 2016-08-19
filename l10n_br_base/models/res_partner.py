@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2009 Gabriel C. Stabel                                        #
-# Copyright (C) 2009 Renato Lima (Akretion)                                   #
-# Copyright (C) 2012 Raphaël Valyi (Akretion)                                 #
+# Copyright (C) 2009 Gabriel C. Stabel
+# Copyright (C) 2009 Renato Lima (Akretion)
+# Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
@@ -72,58 +72,60 @@ class ResPartner(models.Model):
 
     number = fields.Char(u'Número', size=10)
 
-    @api.one
+    @api.multi
     @api.constrains('cnpj_cpf', 'inscr_est')
     def _check_cnpj_inscr_est(self):
-        domain = []
+        for record in self:
+            domain = []
 
-        # permite cnpj vazio
-        if not self.cnpj_cpf:
-            return
+            # permite cnpj vazio
+            if not record.cnpj_cpf:
+                return
 
-        allow_cnpj_multi_ie = self.env['ir.config_parameter'].get_param(
-            'l10n_br_base_allow_cnpj_multi_ie', default=True)
+            allow_cnpj_multi_ie = record.env['ir.config_parameter'].get_param(
+                'l10n_br_base_allow_cnpj_multi_ie', default=True)
 
-        if self.parent_id:
+            if record.parent_id:
+                domain += [
+                    ('id', 'not in', record.parent_id.ids),
+                    ('parent_id', 'not in', record.parent_id.ids)
+                ]
+
             domain += [
-                ('id', 'not in', self.parent_id.ids),
-                ('parent_id', 'not in', self.parent_id.ids)
+                ('cnpj_cpf', '=', record.cnpj_cpf),
+                ('id', '!=', record.id)
             ]
 
-        domain += [
-            ('cnpj_cpf', '=', self.cnpj_cpf),
-            ('id', '!=', self.id)
-        ]
+            # se encontrar CNPJ iguais
+            if record.env['res.partner'].search(domain):
 
-        # se encontrar CNPJ iguais
-        if self.env['res.partner'].search(domain):
+                if allow_cnpj_multi_ie == u'True':
+                    for partner in record.env['res.partner'].search(domain):
+                        if (partner.inscr_est == record.inscr_est and
+                                not record.inscr_est):
+                            raise ValidationError(
+                                u'Já existe um parceiro cadastrado com esta '
+                                u'Inscrição Estadual !')
+                else:
+                    raise ValidationError(
+                        u'Já existe um parceiro cadastrado com este CNPJ !')
 
-            if allow_cnpj_multi_ie == u'True':
-                for partner in self.env['res.partner'].search(domain):
-                    if (partner.inscr_est == self.inscr_est and
-                            not self.inscr_est):
-                        raise ValidationError(
-                            u'Já existe um parceiro cadastrado com esta '
-                            u'Inscrição Estadual !')
-            else:
-                raise ValidationError(
-                    u'Já existe um parceiro cadastrado com este CNPJ !')
-
-    @api.one
+    @api.multi
     @api.constrains('cnpj_cpf', 'country_id')
     def _check_cnpj_cpf(self):
         result = True
-        country_code = self.country_id.code or ''
-        if self.cnpj_cpf and country_code.upper() == 'BR':
-            if self.is_company:
-                if not fiscal.validate_cnpj(self.cnpj_cpf):
+        for record in self:
+            country_code = record.country_id.code or ''
+            if record.cnpj_cpf and country_code.upper() == 'BR':
+                if record.is_company:
+                    if not fiscal.validate_cnpj(record.cnpj_cpf):
+                        result = False
+                        document = u'CNPJ'
+                elif not fiscal.validate_cpf(record.cnpj_cpf):
                     result = False
-                    document = u'CNPJ'
-            elif not fiscal.validate_cpf(self.cnpj_cpf):
-                result = False
-                document = u'CPF'
-        if not result:
-            raise ValidationError(u"{} Invalido!".format(document))
+                    document = u'CPF'
+            if not result:
+                raise ValidationError(u"{} Invalido!".format(document))
 
     def _validate_ie_param(self, uf, inscr_est):
         result = True
@@ -140,7 +142,7 @@ class ResPartner(models.Model):
                 result = False
         return result
 
-    @api.one
+    @api.multi
     @api.constrains('inscr_est')
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
@@ -150,13 +152,14 @@ class ResPartner(models.Model):
 
         :Parameters:
         """
-        result = True
-        if self.inscr_est == 'ISENTO' or self.is_company:
-            state_code = self.state_id.code or ''
-            uf = state_code.lower()
-            result = self._validate_ie_param(uf, self.inscr_est)
-        if not result:
-            raise ValidationError(u"Inscrição Estadual Invalida!")
+        for record in self:
+            result = True
+            if record.inscr_est == 'ISENTO' or record.is_company:
+                state_code = record.state_id.code or ''
+                uf = state_code.lower()
+                result = record._validate_ie_param(uf, record.inscr_est)
+            if not result:
+                raise ValidationError(u"Inscrição Estadual Invalida!")
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
