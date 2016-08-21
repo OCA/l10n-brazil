@@ -151,7 +151,12 @@ class ResPartner(models.Model):
         :Parameters:
         """
         result = True
-        if self.inscr_est == 'ISENTO' or self.is_company:
+        if ((self.inscr_est and self.inscr_est != 'ISENTO')
+             and (self.inscr_est.upper() == 'ISENTA' or
+             self.inscr_est.upper() == 'ISENTO')):
+            self.inscr_est = 'ISENTO'
+
+        if self.inscr_est != 'ISENTO' and self.is_company:
             state_code = self.state_id.code or ''
             uf = state_code.lower()
             result = self._validate_ie_param(uf, self.inscr_est)

@@ -161,7 +161,7 @@ class L10nbrAccountDocumentRelated(models.Model):
         """
         check_ie = True
 
-        if self.inscr_est or self.inscr_est != 'ISENTO':
+        if self.inscr_est and self.inscr_est != 'ISENTO':
             uf = self.state_id and self.state_id.code.lower() or ''
             try:
                 mod = __import__('openerp.addons.l10n_br_base.tools.fiscal',
