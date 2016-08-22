@@ -8,6 +8,7 @@ from lxml import etree
 from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import RedirectWarning
+from openerp.exceptions import ValidationError
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
@@ -761,6 +762,23 @@ class AccountInvoiceLine(models.Model):
     freight_value = fields.Float(
         'Frete', digits=dp.get_precision('Account'), default=0.00)
     fiscal_comment = fields.Text(u'Observação Fiscal')
+    partner_order = fields.Char(
+        string=u"Código do Pedido (xPed)",
+        size=15,
+    )
+    partner_order_line = fields.Char(
+        string=u"Item do Pedido (nItemPed)",
+        size=6,
+    )
+
+    @api.onchange("partner_order_line")
+    def _check_partner_order_line(self):
+        if (self.partner_order_line and
+                not self.partner_order_line.isdigit()):
+            raise ValidationError(
+                _(u"Customer Order Line must "
+                  "be a number with up to six digits")
+            )
 
     def _amount_tax_icms(self, tax=None):
         result = {

@@ -3,6 +3,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
+from openerp import _
+from openerp.exceptions import ValidationError
+
 from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 
@@ -242,6 +245,23 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Float(compute='_amount_line',
                                   string='Subtotal',
                                   digits=dp.get_precision('Sale Price'))
+    customer_order = fields.Char(
+        string=u"Pedido do Cliente",
+        size=15,
+    )
+    customer_order_line = fields.Char(
+        string=u"Item do Pedido do Cliente",
+        size=6,
+    )
+
+    @api.onchange("customer_order_line")
+    def _check_customer_order_line(self):
+        if (self.customer_order_line and
+                not self.customer_order_line.isdigit()):
+            raise ValidationError(
+                _(u"Customer order line must be "
+                  "a number with up to six digits")
+            )
 
     def _prepare_order_line_invoice_line(self, cr, uid, line,
                                          account_id=False, context=None):
@@ -251,6 +271,8 @@ class SaleOrderLine(models.Model):
         result['insurance_value'] = line.insurance_value
         result['other_costs_value'] = line.other_costs_value
         result['freight_value'] = line.freight_value
+        result['partner_order'] = line.customer_order
+        result['partner_order_line'] = line.customer_order_line
 
         # FIXME
         # Necessário informar estes campos pois são related do
