@@ -1,0 +1,27 @@
+---Fields in module 'l10n_br_account'---
+l10n_br_account / account.fiscal.position  / fiscal_category_fiscal_type (char): selection_keys is now 'function' ('False')
+l10n_br_account / account.fiscal.position  / fiscal_category_fiscal_type (char): type is now 'selection' ('char')
+l10n_br_account / account.fiscal.position.template / fiscal_category_fiscal_type (char): selection_keys is now 'function' ('False')
+l10n_br_account / account.fiscal.position.template / fiscal_category_fiscal_type (char): type is now 'selection' ('char')
+l10n_br_account / l10n_br_account.document_event / cancel_document_event_id (many2one): NEW relation: l10n_br_account.invoice.cancel
+l10n_br_account / l10n_br_account.document_event / invalid_number_document_event_id (many2one): NEW relation: l10n_br_account.invoice.invalid.number
+l10n_br_account / l10n_br_account.document_event / type (selection)              : selection_keys is now '['-1', '0', '1', '10', '11', '12', '13', '2', '3', '4', '5', '6', '7', '8', '9']' ('['-1', '0', '1', '10', '11', '2', '3', '4', '5', '6', '7', '8', '9']')
+l10n_br_account / l10n_br_account.product.category / to_state_id (many2one)        : NEW relation: res.country.state
+# Nothing to do
+---XML records in module 'l10n_br_account'---
+NEW account.tax.template: l10n_br_account.tax_template_68
+NEW ir.model.access: l10n_br_account.l10n_br_account_invoice_cce_manager
+DEL ir.model.access: l10n_br_account.l10n_br_tax_definition_manager
+DEL ir.model.access: l10n_br_account.l10n_br_tax_definition_template_manager
+DEL ir.model.access: l10n_br_account.l10n_br_tax_definition_template_user
+DEL ir.model.access: l10n_br_account.l10n_br_tax_definition_user
+DEL ir.rule: l10n_br_account.l10n_br_tax_definition_rule
+DEL ir.rule: l10n_br_account.l10n_br_tax_definition_template_rule
+NEW ir.ui.view: l10n_br_account.l10n_br_account_invoice_line_form
+DEL ir.ui.view: l10n_br_account.l10n_br_account_invoice_filter
+DEL ir.ui.view: l10n_br_account.l10n_br_account_product_normal_form_view
+DEL ir.ui.view: l10n_br_account.view_l10n_br_account_invoice_tree
+DEL ir.ui.view: l10n_br_account.view_l10n_br_tax_definition_form
+DEL ir.ui.view: l10n_br_account.view_l10n_br_tax_definition_tree
+NEW product.pricelist: product.list0
+# Nothing to do
