@@ -20,7 +20,7 @@ class L10nbrAccountCFOP(models.Model):
 
     is_pos = fields.Boolean(
         string=u"Permitida no POS",
-        help=u"Marque esta selaçao para que a cfop possa ser utililizada no "
+        help=u"Marque esta seleção para que a CFOP possa ser utililizada no "
              u"NFC-E/SAT")
 
 
@@ -37,13 +37,19 @@ class L10nbrAccountDocumentRelated(models.Model):
          ('sat', 'CF-e/SAT')],
         'Tipo Documento', required=True)
 
+    @api.onchange('document_type')
+    def onchange_document_type(self):
+        if self.document_type:
+            if self.document_type != 'sat':
+                self.pos_order_related_id = False
+            if self.document_type != 'nfe':
+                self.invoice_related_id = False
+            if self.document_type not in ('nfe', 'sat', 'cte'):
+                self.access_key = False
+
     @api.onchange('pos_order_related_id')
     def onchange_pos_order_related_id(self):
-        result = {'value': {}}
-
         if self.pos_order_related_id:
-            result['value']['document_type'] = 'sat'
-            result['value']['access_key'] = self.pos_order_related_id.chave_cfe[3:]
-            result['value']['date'] = self.pos_order_related_id.date_order[:10]
-
-        return result
+            self.document_type = 'sat'
+            self.access_key = self.pos_order_related_id.chave_cfe[3:]
+            self.date = self.pos_order_related_id.date_order[:10]
