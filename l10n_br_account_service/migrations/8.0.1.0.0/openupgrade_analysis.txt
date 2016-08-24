@@ -1,0 +1,10 @@
+---Fields in module 'l10n_br_account_service'---
+l10n_br_account_service / l10n_br_account.fiscal.category / fiscal_type (False)           : now required, default = service
+l10n_br_account_service / l10n_br_account.fiscal.category / fiscal_type (False)           : selection_keys is now 'False' ('['service']')
+l10n_br_account_service / product.template         / fiscal_type (False)           : DEL selection_keys: ['service'], mode: modify
+---XML records in module 'l10n_br_account_service'---
+NEW ir.ui.view: l10n_br_account_service.l10n_br_account_service_normal_form
+DEL ir.ui.view: l10n_br_account_service.l10n_br_account_product_normal_form
+NEW l10n_br_account.fiscal.category: l10n_br_account_service.fc_00255d8d158663217906abb312aa0759
+NEW l10n_br_account.fiscal.category: l10n_br_account_service.fc_997850a05a6268f08afbe822383557d8
+DEL l10n_br_account.fiscal.category: l10n_br_account_service.fiscal_category_venda_servico
