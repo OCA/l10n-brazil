@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields
-from ..models.l10n_br_account import PRODUCT_FISCAL_TYPE
 
 
 class AccountInvoiceReport(models.Model):
@@ -20,19 +19,10 @@ class AccountInvoiceReport(models.Model):
             ('sefaz_cancelled', u'Cancelado no Sefaz'),
             ('sefaz_denied', u'Denegada no Sefaz'),
         ])
-    issuer = fields.Selection(
-        [('0', u'Emissão própria'),
-         ('1', 'Terceiros')],
-        string='Emitente',
-        readonly=True
-    )
     internal_number = fields.Char(
         string='Invoice Number',
         size=32,
         readonly=True,
-    )
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal'
     )
     fiscal_document_electronic = fields.Boolean(
         string='Electronic',
@@ -62,9 +52,7 @@ class AccountInvoiceReport(models.Model):
     def _select(self):
         return super(AccountInvoiceReport, self)._select() + (
             ", sub.fiscal_category_id as fiscal_category_id"
-            ", sub.issuer as issuer"
             ", sub.internal_number as internal_number"
-            ", sub.fiscal_type as fiscal_type"
             ", sub.fiscal_document_electronic as fiscal_document_electronic"
             ", sub.document_serie_id as document_serie_id"
             ", CASE WHEN sub.revenue_expense = 't' THEN 'Gera Financeiro' "
@@ -76,9 +64,7 @@ class AccountInvoiceReport(models.Model):
     def _sub_select(self):
         return super(AccountInvoiceReport, self)._sub_select() + (
             ", ail.fiscal_category_id as fiscal_category_id"
-            ", ai.issuer as issuer"
             ", ai.internal_number as internal_number"
-            ", ai.fiscal_type as fiscal_type"
             ", ai.fiscal_document_electronic as fiscal_document_electronic"
             ", ai.document_serie_id as document_serie_id"
             ", ai.revenue_expense as revenue_expense"
@@ -89,9 +75,7 @@ class AccountInvoiceReport(models.Model):
     def _group_by(self):
         return super(AccountInvoiceReport, self)._group_by() + (
             ", ail.fiscal_category_id"
-            ", ai.issuer"
             ", ai.internal_number"
-            ", ai.fiscal_type"
             ", ai.fiscal_document_electronic"
             ", ai.document_serie_id"
             ", ai.revenue_expense"
