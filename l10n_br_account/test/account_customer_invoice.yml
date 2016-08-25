@@ -34,7 +34,6 @@
   !record {model: account.invoice, id: account_invoice_customer0, view: view_l10n_br_account_invoice_form}:
     payment_term: account.account_payment_term_advance
     partner_id: base.res_partner_3
-    fiscal_category_id: fiscal_category_sale
     reference_type: none
     name: 'Test Customer Invoice'
     invoice_line:
@@ -45,4 +44,3 @@
 -
   !assert {model: account.invoice, id: account_invoice_customer0}:
     - state == 'draft'
-    - fiscal_position.id == ref('fiscal_position_sale')
