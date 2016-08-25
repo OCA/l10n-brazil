@@ -16,7 +16,6 @@
     ],
     'data': [
         'l10n_br_account_product_sequence.xml',
-        'account_invoice_workflow.xml',
         'data/l10n_br_account_product.cfop.csv',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
@@ -27,8 +26,9 @@
         'views/l10n_br_account_view.xml',
         'views/l10n_br_account_product_view.xml',
         'views/account_view.xml',
-        'wizard/l10n_br_account_invoice_costs_ratio_view.xml',
         'views/account_invoice_view.xml',
+        'wizard/l10n_br_account_invoice_costs_ratio_view.xml',
+        'views/nfe/account_invoice_nfe_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/account_product_fiscal_classification_view.xml',
