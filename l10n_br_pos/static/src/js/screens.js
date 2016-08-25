@@ -262,55 +262,13 @@ function l10n_br_pos_screens(instance, module) {
 
     module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
         validate_order: function(options) {
-            var self = this;
+            this._super();
             options = options || {};
             var currentOrder = this.pos.get('selectedOrder');
 
-            if(currentOrder.get('orderLines').models.length === 0){
-
-                this.pos_widget.screen_selector.show_popup('error',{
-                    'message': _t('Empty Order'),
-                    'comment': _t('There must be at least one product in your order before it can be validated'),
-                });
-                return;
-            }
-
-            var plines = currentOrder.get('paymentLines').models;
-            for (var i = 0; i < plines.length; i++) {
-                if (plines[i].get_type() === 'bank' && plines[i].get_amount() < 0) {
-                    this.pos_widget.screen_selector.show_popup('error',{
-                        'message': _t('Negative Bank Payment'),
-                        'comment': _t('You cannot have a negative amount in a Bank payment. Use a cash payment method to return money to the customer.'),
-                    });
-                    return;
-                }
-            }
-
-            if(!this.is_paid()){
-                return;
-            }
-
-            // The exact amount must be paid if there is no cash payment method defined.
-            if (Math.abs(currentOrder.getTotalTaxIncluded() - currentOrder.getPaidTotal()) > 0.00001) {
-                var cash = false;
-                for (var i = 0; i < this.pos.cashregisters.length; i++) {
-                    cash = cash || (this.pos.cashregisters[i].journal.type === 'cash');
-                }
-                if (!cash) {
-                    this.pos_widget.screen_selector.show_popup('error',{
-                        message: _t('Cannot return change without a cash payment method'),
-                        comment: _t('There is no cash payment method available in this point of sale to handle the change.\n\n Please pay the exact amount or add a cash payment method in the point of sale configuration'),
-                    });
-                    return;
-                }
-            }
-
-            if (this.pos.config.iface_cashdrawer) {
-                    this.pos.proxy.open_cashbox();
-            }
-            var status = this.pos.proxy.get('status');
-            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-            if( sat_status == 'connected'){
+            // var status = this.pos.proxy.get('status');
+            // var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            // if( sat_status == 'connected'){
                 if(options.invoice){
                     // deactivate the validation button while we try to send the order
                     this.pos_widget.action_bar.set_button_disabled('validation',true);
@@ -366,19 +324,13 @@ function l10n_br_pos_screens(instance, module) {
                         this.pos_widget.screen_selector.set_current_screen(this.next_screen);
                     }
                 }
-            }else{
-                self.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('SAT n\u00e3o est\u00e1 conectado'),
-                    comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
-                });
-            }
-
-            // hide onscreen (iOS) keyboard
-            setTimeout(function(){
-                document.activeElement.blur();
-                $("input").blur();
-            },250);
-        },
+            // }else{
+            //     self.pos_widget.screen_selector.show_popup('error',{
+            //         message: _t('SAT n\u00e3o est\u00e1 conectado'),
+            //         comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
+            //     });
+            // }
+        }
     });
 
     module.PosOrderListScreenWidget = module.ScreenWidget.extend({
