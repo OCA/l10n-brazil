@@ -1,7 +1,12 @@
 -
+  I prepare tunneling extra args in the context
+-
+  !python {model: account.invoice}: |
+    context.update({'fiscal_type': 'product', 'fiscal_document_code': '55'})
+-
   Create a sale supplier invoice from SP to SP fiscal contributor
 -
-  !record {model: account.invoice, id: account_invoice_supplier_sp_sp, view: l10n_br_account_product_invoice_supplier_form}:
+  !record {model: account.invoice, id: account_invoice_supplier_sp_sp, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_akretion
     fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
@@ -13,6 +18,7 @@
     invoice_line:
       - product_id: product.product_product_17
         fiscal_category_id: fc_b7aafa9c3056c3f020ceae63d7312504
+        fiscal_position: fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo
         quantity: 20.0
         price_unit: 140.00
 -
