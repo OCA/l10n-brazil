@@ -16,8 +16,10 @@ class ProductTemplate(models.Model):
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
     fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        default=PRODUCT_FISCAL_TYPE_DEFAULT
+    )
 
 
 class L10nBrAccountProductFiscalCategory(models.Model):
