@@ -42,27 +42,41 @@ class AccountInvoice(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company[default_fo_category[invoice_fiscal_type][invoice_type]]
 
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-                                   'Tipo Fiscal',
-                                   required=True,
-                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        default=PRODUCT_FISCAL_TYPE_DEFAULT
+    )
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]},
-        default=_default_fiscal_category)
-
+        'l10n_br_account.fiscal.category',
+        'Categoria Fiscal',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category
+    )
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', 'Documento', readonly=True,
+        'l10n_br_account.fiscal.document',
+        'Documento',
+        readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document)
+        default=_default_fiscal_document
+    )
     fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic')
+        related='fiscal_document_id.electronic'
+    )
     document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', u'Série',
+        'l10n_br_account.document.serie',
+        u'Série',
         domain="[('fiscal_document_id', '=', fiscal_document_id),\
-        ('company_id','=',company_id)]", readonly=True,
+        ('company_id','=',company_id)]",
+        readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document_serie)
+        default=_default_fiscal_document_serie
+    )
+
+    @api.onchange('fiscal_document_id')
+    def onchange_fiscal_document_id(self):
+        self.document_serie_id = self.company_id.document_serie_service_id
 
 
 class AccountInvoiceLine(models.Model):
