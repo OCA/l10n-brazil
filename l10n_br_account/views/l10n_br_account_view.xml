@@ -2,8 +2,9 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_l10n_br_account" icon="terp-crm" name="Localização Brasil"/>
-        <menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="0"/>
+        <menuitem id="menu_l10n_br_account" icon="terp-crm" name="Fiscal" sequence="45"/>
+	<menuitem id="menu_fiscal_document" name="Documentos Fiscais" parent="menu_l10n_br_account" sequence="10"/>
+        <menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="20"/>
         <menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="99"/>
         <menuitem id="menu_l10n_br_account_configuration_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
 
