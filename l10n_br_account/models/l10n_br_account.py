@@ -17,7 +17,7 @@ PRODUCT_FISCAL_TYPE = [
     ('service', u'Serviço'),
 ]
 
-PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
+PRODUCT_FISCAL_TYPE_DEFAULT = None
 
 
 class L10nBrAccountCce(models.Model):
