@@ -6,8 +6,7 @@ import datetime
 
 from openerp import models, fields, api, _, tools
 from openerp.addons import decimal_precision as dp
-from openerp.exceptions import RedirectWarning
-from openerp.exceptions import ValidationError
+from openerp.exceptions import RedirectWarning, Warning as UserError
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
@@ -94,28 +93,28 @@ class AccountInvoice(models.Model):
     @api.model
     def _default_fiscal_document(self):
         if self.env.context.get('fiscal_document_code'):
-            company = self.env['res.company'].browse(
-                self.env.user.company_id.id)
+            company = self.env['res.company'].browse(self.env.user.company_id.id)
             return company.product_invoice_id
 
     @api.model
     def _default_nfe_version(self):
         if self.env.context.get('fiscal_document_code'):
-           company = self.env['res.company'].browse(
-               self.env.user.company_id.id)
+           company = self.env['res.company'].browse(self.env.user.company_id.id)
            return company.nfe_version
 
     @api.model
     def _default_fiscal_document_serie(self):
         result = self.env['l10n_br_account.document.serie']
-        company = self.env['res.company'].browse(self.env.user.company_id.id)
-        fiscal_document_series = [doc_serie for doc_serie in
-                                  company.document_serie_product_ids if
-                                  doc_serie.fiscal_document_id.id ==
-                                  company.product_invoice_id.id and
-                                  doc_serie.active]
-        if fiscal_document_series:
-            result = fiscal_document_series[0]
+        if self.env.context.get('fiscal_document_code'):    
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
+            fiscal_document_series = [doc_serie for doc_serie in
+                                      company.document_serie_product_ids if
+                                      doc_serie.fiscal_document_id.id ==
+                                      company.product_invoice_id.id and
+                                      doc_serie.active]
+            if fiscal_document_series:
+                result = fiscal_document_series[0]
         return result
 
     @api.model
@@ -138,10 +137,30 @@ class AccountInvoice(models.Model):
                 lines |= line.cfop_id
         self.cfop_ids = (lines).sorted()
 
+    issuer = fields.Selection(
+        [('0', u'Emissão própria'), ('1', 'Terceiros')],
+        'Emitente',
+        default='0',
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
+    # FIXME
+    internal_number = fields.Char(
+        'Invoice Number', size=32, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help="""Unique number of the invoice, computed
+            automatically when the invoice is created.""")
+    type = fields.Selection(
+        states={'draft': [('readonly', False)]}
+    )
+    vendor_serie = fields.Char(
+        'Série NF Entrada', size=12, readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u"Série do número da Nota Fiscal do Fornecedor")
     nfe_version = fields.Selection(
         [('1.10', '1.10'), ('2.00', '2.00'), ('3.10', '3.10')],
         u'Versão NFe', readonly=True, default=_default_nfe_version,
-        states={'draft': [('readonly', False)]}, required=True)
+        states={'draft': [('readonly', False)]})
     date_hour_invoice = fields.Datetime(
         u'Data e hora de emissão', readonly=True,
         states={'draft': [('readonly', False)]},
@@ -179,8 +198,10 @@ class AccountInvoice(models.Model):
         default=_default_fiscal_document_serie)
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]},
-        default=_default_fiscal_category)
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category,
+    )
     date_in_out = fields.Datetime(
         u'Data de Entrada/Saida',
         readonly=True,
@@ -206,7 +227,6 @@ class AccountInvoice(models.Model):
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE,
         'Tipo Fiscal',
-        required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
     partner_shipping_id = fields.Many2one(
         'res.partner', u'Endereço de Entrega', readonly=True,
@@ -373,76 +393,55 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
 
-    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoice, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
+    @api.one
+    @api.constrains('number')
+    def _check_invoice_number(self):
+        domain = []
+        if self.number:
+            fiscal_document = self.fiscal_document_id and\
+                self.fiscal_document_id.id or False
+            domain.extend([('internal_number', '=', self.number),
+                           ('fiscal_type', '=', self.fiscal_type),
+                           ('fiscal_document_id', '=', fiscal_document)
+                           ])
+            if self.issuer == '0':
+                domain.extend([
+                    ('company_id', '=', self.company_id.id),
+                    ('internal_number', '=', self.number),
+                    ('fiscal_document_id', '=', self.fiscal_document_id.id),
+                    ('issuer', '=', '0')])
+            else:
+                domain.extend([
+                    ('partner_id', '=', self.partner_id.id),
+                    ('vendor_serie', '=', self.vendor_serie),
+                    ('issuer', '=', '1')])
 
-        if context is None:
-            context = {}
+            invoices = self.env['account.invoice'].search(domain)
+            if len(invoices) > 1:
+                raise UserError(u'Não é possível registrar documentos\
+                              fiscais com números repetidos.')
 
-        if not view_type:
-            view_id = self.pool.get('ir.ui.view').search(
-                cr, uid, [('name', '=', 'account.invoice.tree')])
-            view_type = 'tree'
+    def _fiscal_position_map(self, result, **kwargs):
+        ctx = dict(self._context)
+        ctx.update({'use_domain': ('use_invoice', '=', True)})
+        if ctx.get('fiscal_category_id'):
+            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
 
-        if view_type == 'form':
-            eview = etree.fromstring(result['arch'])
+        if not kwargs.get('fiscal_category_id'):
+            return result
 
-            if 'type' in context.keys():
-                fiscal_types = eview.xpath("//field[@name='invoice_line']")
-                for fiscal_type in fiscal_types:
-                    fiscal_type.set(
-                        'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
-                            context['type'],
-                            context.get('fiscal_type', 'product')))
+        company = self.env['res.company'].browse(kwargs.get('company_id'))
 
-                fiscal_categories = eview.xpath(
-                    "//field[@name='fiscal_category_id']")
-                for fiscal_category_id in fiscal_categories:
-                    fiscal_category_id.set(
-                        'domain',
-                        """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
-                        ('state', '=', 'approved'),
-                        ('journal_type', '=', '%s')]"""
-                        % (context.get('fiscal_type', 'product'),
-                            OPERATION_TYPE[context['type']],
-                            JOURNAL_TYPE[context['type']]))
-                    fiscal_category_id.set('required', '1')
-
-                document_series = eview.xpath(
-                    "//field[@name='document_serie_id']")
-                for document_serie_id in document_series:
-                    document_serie_id.set(
-                        'domain',
-                        "[('fiscal_type', '=', '%s'), "
-                        "('fiscal_document_id', '=', fiscal_document_id), "
-                        "('company_id','=',company_id)]"
-                        % (context.get('fiscal_type', 'product')))
-
-            if context.get('fiscal_type', False):
-                delivery_infos = eview.xpath("//group[@name='delivery_info']")
-                for delivery_info in delivery_infos:
-                    delivery_info.set('invisible', '1')
-
-            result['arch'] = etree.tostring(eview)
-
-        if view_type == 'tree':
-            doc = etree.XML(result['arch'])
-            nodes = doc.xpath("//field[@name='partner_id']")
-            partner_string = _('Customer')
-            if context.get(
-                    'type',
-                    'out_invoice') in (
-                    'in_invoice',
-                    'in_refund'):
-                partner_string = _('Supplier')
-            for node in nodes:
-                node.set('string', partner_string)
-            result['arch'] = etree.tostring(doc)
-        return result
+        fcategory = self.env['l10n_br_account.fiscal.category'].browse(
+            kwargs.get('fiscal_category_id'))
+        result['value']['journal_id'] = fcategory.property_journal.id
+        if not result['value'].get('journal_id', False):
+            raise UserError(
+                _('Nenhum Diário !'),
+                _("Categoria fiscal: '%s', não tem um diário contábil para a \
+                empresa %s") % (fcategory.name, company.name))
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(result, **kwargs)
 
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
@@ -458,21 +457,51 @@ class AccountInvoice(models.Model):
         return result
 
     def nfe_check(self, cr, uid, ids, context=None):
-        result = txt.validate(cr, uid, ids, context)
-        return result
+        if context.get('fiscal_document_code', '') == '55':
+            result = txt.validate(cr, uid, ids, context)
+            return result
 
     @api.multi
-    def action_move_create(self):
-        result = super(AccountInvoice, self).action_move_create()
+    def action_number(self):
+        # TODO: not correct fix but required a fresh values before reading it.
+        self.write({})
+
         for invoice in self:
-            date_time_now = fields.datetime.now()
+            if invoice.issuer == '0':
+                sequence_obj = self.env['ir.sequence']
+                sequence = sequence_obj.browse(
+                    invoice.document_serie_id.internal_sequence_id.id)
+                invalid_number = self.env[
+                    'l10n_br_account.invoice.invalid.number'].search(
+                    [('number_start', '<=', sequence.number_next),
+                     ('number_end', '>=', sequence.number_next),
+                     ('document_serie_id', '=', invoice.document_serie_id.id),
+                     ('state', '=', 'done')])
 
-            if not invoice.date_hour_invoice:
-                invoice.write({'date_hour_invoice': date_time_now})
+                if invalid_number:
+                    raise UserError(
+                        _(u'Número Inválido !'),
+                        _("O número: %s da série: %s, esta inutilizado") % (
+                            sequence.number_next,
+                            invoice.document_serie_id.name))
 
-            if not invoice.date_in_out:
-                invoice.write({'date_in_out': date_time_now})
-        return result
+                seq_number = sequence_obj.get_id(
+                    invoice.document_serie_id.internal_sequence_id.id)
+                date_time_now = fields.datetime.now()
+                self.write(
+                    {'internal_number': seq_number, 
+                     'number': seq_number,
+                     'date_hour_invoice': date_time_now,
+                     'date_in_out': date_time_now
+                    })
+        return True
+
+    @api.onchange('type')
+    def onchange_type(self):
+        ctx = dict(self.env.context)
+        ctx.update({'type': self.type})
+        self.fiscal_category_id = (self.with_context(ctx).
+                                   _default_fiscal_category())
 
     @api.onchange('fiscal_document_id')
     def onchange_fiscal_document_id(self):
@@ -492,6 +521,20 @@ class AccountInvoice(models.Model):
                     raise RedirectWarning(
                         msg, action.id, _(u'Criar uma nova série'))
                 self.document_serie_id = series[0]
+
+    @api.onchange('fiscal_category_id', 'fiscal_position')
+    def onchange_fiscal(self):
+        if self.company_id and self.partner_id and self.fiscal_category_id:
+            result = {'value': {}}
+            kwargs = {
+                'company_id': self.company_id.id,
+                'partner_id': self.partner_id.id,
+                'partner_invoice_id': self.partner_id.id,
+                'fiscal_category_id': self.fiscal_category_id.id,
+                'context': self.env.context
+            }
+            result = self._fiscal_position_map(result, **kwargs)
+            self.update(result['value'])
 
     @api.multi
     def action_date_assign(self):
@@ -609,7 +652,7 @@ class AccountInvoiceLine(models.Model):
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
     fiscal_position = fields.Many2one(
         'account.fiscal.position', u'Posição Fiscal',
-        domain="[('fiscal_category_id','=',fiscal_category_id)]")
+    )
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', u'Classificação Fiscal')
@@ -1083,6 +1126,14 @@ class AccountInvoiceLine(models.Model):
 
         return result
 
+    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+                        context=None, toolbar=False, submenu=False):
+        result = super(AccountInvoiceLine, self).fields_view_get(
+            cr, uid, view_id=view_id, view_type=view_type, context=context,
+            toolbar=toolbar, submenu=submenu)
+        return result
+
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
@@ -1113,6 +1164,9 @@ class AccountInvoiceLine(models.Model):
                     kwargs['product_id'])
                 taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
+                fc = self.env['l10n_br_account.fiscal.category'].browse(
+                    kwargs['fiscal_category_id'])
+                #result_rule['value']['type'] = fc.journal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
@@ -1144,7 +1198,7 @@ class AccountInvoiceLine(models.Model):
             ctx.update({'type_tax_use': 'sale'})
         else:
             ctx.update({'type_tax_use': 'purchase'})
-        self = self.with_context(ctx)
+
         result = super(AccountInvoiceLine, self).product_id_change(
             product, uom_id, qty, name, type, partner_id,
             fposition_id, price_unit, currency_id, company_id)
@@ -1155,63 +1209,58 @@ class AccountInvoiceLine(models.Model):
             return result
         product_obj = self.env['product.product'].browse(product)
         result['value']['name'] = product_obj.display_name
+        
         result = self.with_context(ctx)._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=fiscal_category_id,
             account_id=result['value']['account_id'])
-
         return result
 
-    @api.multi
-    def onchange_fiscal_category_id(self, partner_id, company_id, product_id,
-                                    fiscal_category_id, account_id):
-        result = {'value': {}}
-        return self._fiscal_position_map(
-            result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, fiscal_category_id=fiscal_category_id,
-            product_id=product_id, account_id=account_id)
-
-    @api.multi
-    def onchange_fiscal_position(self, partner_id, company_id, product_id,
-                                 fiscal_category_id, account_id, quantity,
-                                 price_unit, discount, insurance_value,
-                                 freight_value, other_costs_value):
-        result = {'value': {}}
+    @api.onchange('fiscal_category_id',
+                  'fiscal_position',
+                  'invoice_line_tax_id',
+                  'quantity',
+                  'price_unit',
+                  'discount',
+                  'insurance_value',
+                  'freight_value',
+                  'other_costs_value')
+    def onchange_fiscal(self):
         ctx = dict(self.env.context)
-        kwargs = {
-            'company_id': company_id,
-            'partner_id': partner_id,
-            'product_id': product_id,
-            'partner_invoice_id': partner_id,
-            'fiscal_category_id': fiscal_category_id,
-            'context': ctx
-        }
-        result.update(self._fiscal_position_map(result, **kwargs))
-        return result
+        if self.invoice_id.type in ('out_invoice', 'out_refund'):
+            ctx.update({'type_tax_use': 'sale'})
+        else:
+            ctx.update({'type_tax_use': 'purchase'})
 
-    @api.multi
-    def onchange_invoice_line_tax_id(self, product_id, partner_id,
-                                     invoice_line_tax_id, quantity,
-                                     price_unit, discount,
-                                     fiscal_position, insurance_value,
-                                     freight_value, other_costs_value):
+        partner_id = self.invoice_id.partner_id.id or ctx.get('partner_id')
+        company_id = self.invoice_id.company_id.id or ctx.get('company_id')
+        if company_id and partner_id and self.fiscal_category_id:
+            result = {'value': {}}
+            kwargs = {
+                'company_id': company_id,
+                'partner_id': partner_id,
+                'partner_invoice_id': self.invoice_id.partner_id.id,
+                'product_id': self.product_id.id,
+                'fiscal_category_id': self.fiscal_category_id.id,
+                'context': ctx
+            }
+            result = self.with_context(ctx)._fiscal_position_map(
+                result, **kwargs)
 
-        result = {'value': {}}
-        values = {
-            'product_id': product_id,
-            'partner_id': partner_id,
-            'invoice_line_tax_id': invoice_line_tax_id,
-            'quantity': quantity,
-            'price_unit': price_unit,
-            'discount': discount,
-            'fiscal_position': fiscal_position,
-            'insurance_value': insurance_value,
-            'freight_value': freight_value,
-            'other_costs_value': other_costs_value,
-        }
-        result['value'].update(self._validate_taxes(values))
-        return result
+            kwargs.update({
+                'invoice_line_tax_id': [
+                    (6, 0, self.invoice_line_tax_id.ids)],
+                'quantity': self.quantity,
+                'price_unit': self.price_unit,
+                'discount': self.discount,
+                'fiscal_position': self.fiscal_position.id,
+                'insurance_value': self.insurance_value,
+                'freight_value': self.freight_value,
+                'other_costs_value': self.other_costs_value,
+            })
+            result['value'].update(self._validate_taxes(kwargs))
+            self.update(result['value'])
 
     @api.model
     def tax_exists(self, domain=None):
