@@ -4,7 +4,7 @@
 
 from openerp import models, fields, api
 
-from .l10n_br_account import PRODUCT_FISCAL_TYPE
+from .l10n_br_account import PRODUCT_FISCAL_TYPE, TYPE
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -17,7 +17,7 @@ class AccountFiscalPositionTemplate(models.Model):
         PRODUCT_FISCAL_TYPE, related='fiscal_category_id.fiscal_type',
         readonly=True, store=True, string='Fiscal Type')
     type = fields.Selection(
-        [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
+        TYPE, 'Tipo')
     type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application')
@@ -163,7 +163,7 @@ class AccountFiscalPosition(models.Model):
         PRODUCT_FISCAL_TYPE, related='fiscal_category_id.fiscal_type',
         readonly=True, store=True, string='Fiscal Type')
     type = fields.Selection(
-        [('input', 'Entrada'), ('output', 'Saida')], 'Tipo')
+        TYPE, 'Tipo')
     type_tax_use = fields.Selection(
         [('sale', 'Sale'), ('purchase', 'Purchase'), ('all', 'All')],
         'Tax Application')
