@@ -14,4 +14,5 @@
         invoice_refund = self.pool.get('account.invoice').browse(cr, uid, invoice_refund_id)
         assert invoice_refund.fiscal_category_id.id == invoice.fiscal_category_id.refund_fiscal_category_id.id, "Wrong refund fiscal category!"
         for line in invoice_refund.invoice_line:
+            print ' CFOP ', line.cfop_id.code
             assert line.cfop_id.code == '1201', "Wrong CFOP Code"
