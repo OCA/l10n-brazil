@@ -16,8 +16,8 @@ class StockPicking(models.Model):
     @api.depends('invoice_id.nfe_access_key')
     def _get_fiscal_document_access_key(self):
         for picking in self:
-            picking.fiscal_document_access_key =\
-                picking.invoice_id and picking.invoice_id.nfe_access_key or ''
+            picking.fiscal_document_access_key = \
+                picking.invoice_id.nfe_access_key if picking.invoice_id else ''
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
