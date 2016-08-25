@@ -6,7 +6,9 @@ import datetime
 
 from openerp import models, fields, api, _, tools
 from openerp.addons import decimal_precision as dp
-from openerp.exceptions import RedirectWarning, Warning as UserError
+from openerp.exceptions import (RedirectWarning,
+                                ValidationError,
+                                Warning as UserError)
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
@@ -93,19 +95,21 @@ class AccountInvoice(models.Model):
     @api.model
     def _default_fiscal_document(self):
         if self.env.context.get('fiscal_document_code'):
-            company = self.env['res.company'].browse(self.env.user.company_id.id)
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
             return company.product_invoice_id
 
     @api.model
     def _default_nfe_version(self):
         if self.env.context.get('fiscal_document_code'):
-           company = self.env['res.company'].browse(self.env.user.company_id.id)
-           return company.nfe_version
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
+            return company.nfe_version
 
     @api.model
     def _default_fiscal_document_serie(self):
         result = self.env['l10n_br_account.document.serie']
-        if self.env.context.get('fiscal_document_code'):    
+        if self.env.context.get('fiscal_document_code'):
             company = self.env['res.company'].browse(
                 self.env.user.company_id.id)
             fiscal_document_series = [doc_serie for doc_serie in
@@ -489,11 +493,11 @@ class AccountInvoice(models.Model):
                     invoice.document_serie_id.internal_sequence_id.id)
                 date_time_now = fields.datetime.now()
                 self.write(
-                    {'internal_number': seq_number, 
+                    {'internal_number': seq_number,
                      'number': seq_number,
                      'date_hour_invoice': date_time_now,
-                     'date_in_out': date_time_now
-                    })
+                     'date_in_out': date_time_now}
+                )
         return True
 
     @api.onchange('type')
@@ -1164,9 +1168,6 @@ class AccountInvoiceLine(models.Model):
                     kwargs['product_id'])
                 taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
-                fc = self.env['l10n_br_account.fiscal.category'].browse(
-                    kwargs['fiscal_category_id'])
-                #result_rule['value']['type'] = fc.journal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
                     ctx['type_tax_use'] = 'sale'
                     if product.taxes_id:
