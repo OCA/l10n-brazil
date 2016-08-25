@@ -39,38 +39,38 @@ class AccountInvoiceRefund(models.TransientModel):
                                       "catégoria de devolução!") %
                                     invoice.fiscal_category_id.name)
 
-                fiscal_category_id = self.force_fiscal_category_id.id or \
-                    invoice.fiscal_category_id.refund_fiscal_category_id.id
+                invoice.fiscal_category_id = (
+                    self.force_fiscal_category_id.id or
+                    invoice.fiscal_category_id.refund_fiscal_category_id.id)
 
-                onchange = invoice.onchange_fiscal_category_id(
-                    invoice.partner_id.id, invoice.partner_id.id,
-                    invoice.company_id.id, fiscal_category_id)
+                invoice.onchange_fiscal()
 
-                onchange['value']['fiscal_category_id'] = \
-                    fiscal_category_id
-                onchange['value']['nfe_purpose'] = '4'
+                invoice_values = {
+                    'fiscal_category_id': invoice.fiscal_category_id.id,
+                    'fiscal_position': invoice.fiscal_position.id,
+                    'nfe_purpose': '4'
+                }
 
                 for line in invoice.invoice_line:
-
                     if not self.force_fiscal_category_id and not \
                             line.fiscal_category_id.refund_fiscal_category_id:
-                        raise UserError(_("Categoria Fiscal: %s não possui "
-                                          "uma catégoria de devolução!") %
+                        raise UserError(_(u"Categoria Fiscal: %s não possui"
+                                          u" uma catégoria de devolução!") %
                                         line.fiscal_category_id.name)
 
-                    line_fiscal_category_id = (line.fiscal_category_id
-                                               .refund_fiscal_category_id.id)
+                    line.fiscal_category_id = (
+                        self.force_fiscal_category_id.id or
+                        line.fiscal_category_id.refund_fiscal_category_id.id)
 
-                    line_onchange = line.onchange_fiscal_position(
-                        invoice.partner_id.id, invoice.company_id.id,
-                        line.product_id.id, line_fiscal_category_id,
-                        line.account_id.id, line.quantity,
-                        line.price_unit, line.discount, line.insurance_value,
-                        line.freight_value, line.other_costs_value)
-                    line_onchange['value']['fiscal_category_id'] = \
-                        line_fiscal_category_id
-                    line.write(line_onchange['value'])
-                invoice.write(onchange['value'])
+                    line.onchange_fiscal()
+
+                    line_values = {
+                        'fiscal_category_id': line.fiscal_category_id.id,
+                        'fiscal_position': line.fiscal_position.id,
+                        'cfop_id': line.fiscal_position.cfop_id.id
+                    }
+                    line.write(line_values)
+                invoice.write(invoice_values)
             return result
 
     def fields_view_get(self, cr, uid, view_id=None, view_type='form',
