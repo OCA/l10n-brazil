@@ -3,21 +3,15 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import datetime
-from lxml import etree
 
 from openerp import models, fields, api, _, tools
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import RedirectWarning, Warning as UserError
 
-from openerp.addons.l10n_br_account.models.account_invoice import (
-    OPERATION_TYPE,
-    JOURNAL_TYPE)
-
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
-from openerp.addons.l10n_br_account.models.l10n_br_account import TYPE
 from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
@@ -99,13 +93,15 @@ class AccountInvoice(models.Model):
     @api.model
     def _default_fiscal_document(self):
         if self.env.context.get('fiscal_document_code'):
-            company = self.env['res.company'].browse(self.env.user.company_id.id)
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
             return company.product_invoice_id
 
     @api.model
     def _default_nfe_version(self):
         if self.env.context.get('fiscal_document_code'):
-           company = self.env['res.company'].browse(self.env.user.company_id.id)
+           company = self.env['res.company'].browse(
+               self.env.user.company_id.id)
            return company.nfe_version
 
     @api.model
