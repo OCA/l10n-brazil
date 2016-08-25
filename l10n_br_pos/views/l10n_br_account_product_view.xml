@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-	   	<!-- Allowed CFOP in POS  -->
-	   	<record model="ir.ui.view" id="l10n_br_pos_cfop_form">
-			<field name="name">l10n_br_pos.cfop</field>
-			<field name="model">l10n_br_account_product.cfop/field>
-			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_cfop_form" />
-			<field name="arch" type="xml">
-				<field name="id_dest" position="after">
-					<field name="is_pos" />
-				</field>
-			</field>
-		</record>
+        <!-- Allowed CFOP in POS  -->
+        <record model="ir.ui.view" id="l10n_br_pos_cfop_form">
+            <field name="name">l10n_br_pos.cfop</field>
+            <field name="model">l10n_br_account_product.cfop/field>
+            <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_cfop_form" />
+            <field name="arch" type="xml">
+                <field name="id_dest" position="after">
+                    <field name="is_pos" />
+                </field>
+            </field>
+        </record>
 
-	</data>
+    </data>
 </openerp>
