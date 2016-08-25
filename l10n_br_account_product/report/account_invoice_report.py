@@ -5,12 +5,23 @@
 from openerp import models, fields
 
 from openerp.addons import decimal_precision as dp
+from ..models.l10n_br_account_product import PRODUCT_FISCAL_TYPE
 
 
 class AccountInvoiceReport(models.Model):
 
     _inherit = "account.invoice.report"
 
+    issuer = fields.Selection(
+        [('0', u'Emissão própria'),
+         ('1', 'Terceiros')],
+        string='Emitente',
+        readonly=True
+    )
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal'
+    )
     cfop_id = fields.Many2one(
         'l10n_br_account_product.cfop',
         'CFOP',
@@ -54,6 +65,8 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         return super(AccountInvoiceReport, self)._select() + (
+            ", sub.issuer as issuer"
+            ", sub.fiscal_type as fiscal_type"
             ", sub.cfop_id as cfop_id"
             ", sub.icms_value as icms_value"
             ", sub.icms_st_value as icms_st_value"
@@ -83,5 +96,7 @@ class AccountInvoiceReport(models.Model):
 
     def _group_by(self):
         return super(AccountInvoiceReport, self)._group_by() + (
+            ", ai.issuer"
+            ", ai.fiscal_type"
             ", ail.cfop_id"
         )
