@@ -1,7 +1,12 @@
 -
+  I prepare tunneling extra args in the context for account.invoice
+-
+  !python {model: account.invoice}: |
+    context.update({'parent_fiscal_category_id': ref('fc_78df616ab31e95ee46c6a519a2ce9e12'), 'type_tax_use': 'sale', 'type': 'out_invoice', 'fiscal_type': 'product', 'fiscal_document_code': '55', 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'})
+-
   Create a sale customer invoice from SP to SP fiscal contributor
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_sp, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -110,7 +115,7 @@
 -
   Create a sale customer invoice from SP to RS fiscal contributor
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_rs, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente7_rs
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -226,7 +231,7 @@
 -
   Create a sale customer invoice from SP to SP fiscal contributor with many manufectured goods
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -272,7 +277,7 @@
 -
   Create a sale customer invoice from SP to SP fiscal contributor with many manufectured goods with insurance, freight and other costs
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_sp_mult_with_other_costs, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -322,26 +327,28 @@
         assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
         assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
 -
-  I prepare tunneling extra args in the context for account_invoice_customer_sp_pe
+  I prepare tunneling extra args in the context for account.invoice
 -
   !python {model: account.invoice}: |
-    context.update({'fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'parent_fiscal_category_id': ref('l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'), 'type': 'out_invoice'})
+    context.update({'parent_fiscal_category_id': ref('fc_9ca6c34b77a2c78171252551db171ff7'), 'type_tax_use': 'sale', 'type': 'out_invoice', 'fiscal_type': 'product', 'fiscal_document_code': '55', 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'})
 -
   Create a sale customer invoice from SP to PE fiscal contributor
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_pe, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_pe, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente5_pe
-    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    fiscal_category_id: fc_9ca6c34b77a2c78171252551db171ff7
     reference_type: none
     name: 'NFe Invoice Test'
     invoice_line:
       - product_id: product.product_product_10
-        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        fiscal_category_id: fc_9ca6c34b77a2c78171252551db171ff7
+        fiscal_position: fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo
         quantity: 5.0
         price_unit: 56.39
       - product_id: product.product_product_17
-        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        fiscal_category_id: fc_9ca6c34b77a2c78171252551db171ff7
+        fiscal_position: fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo
         quantity: 5.0
         price_unit: 280.00
 -
@@ -442,7 +449,7 @@
 -
   Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente7_rs
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
@@ -488,7 +495,7 @@
 -
   Create a sale customer invoice from SP to RS fiscal contributor with many manufectured goods with insurance, freight and other costs
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_rs_mult_with_other_costs, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente7_rs
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
