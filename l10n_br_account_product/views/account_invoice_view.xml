@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="account.action_invoice_tree" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
+        </record>
 
-		<record id="account.action_invoice_tree1" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
+        </record>
 
-		<record id="account.action_invoice_tree2" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'in_invoice'), ('fiscal_document_code', '!=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'in_invoice'), ('fiscal_document_code', '!=', False)]</field>
+        </record>
 
-		<record id="account.action_invoice_tree3" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'out_refund'), ('fiscal_document_code', '!=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree3" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_refund'), ('fiscal_document_code', '!=', False)]</field>
+        </record>
 
-		<record id="account.action_invoice_tree4" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'in_refund'), ('fiscal_document_code', '!=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree4" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'in_refund'), ('fiscal_document_code', '!=', False)]</field>
+        </record>
 
-		<record id="account.action_invoice_tree_pending_invoice" model="ir.actions.act_window">
-			<field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '!=', False)]</field>
-		</record>
+        <record id="account.action_invoice_tree_pending_invoice" model="ir.actions.act_window">
+            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '!=', False)]</field>
+        </record>
 
-	</data>
-
+    </data>
 </openerp>
