@@ -13,8 +13,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def _get_fiscal_type(self):
-        return self.env.context.get('fiscal_type',
-                                    'product')
+        return self.env.context.get('fiscal_type', '')
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
@@ -44,57 +43,61 @@ class AccountInvoice(models.Model):
     @api.model
     def _default_fiscal_document(self):
         invoice_fiscal_type = self.env.context.get('fiscal_type', 'product')
-        fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
+        if invoice_fiscal_type in ('product', 'service'):
+            fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
 
-        company = self.env['res.company'].browse(self.env.user.company_id.id)
-        return company[fiscal_invoice_id]
+            company = self.env['res.company'].browse(self.env.user.company_id.id)
+            return company[fiscal_invoice_id]
 
     @api.model
     def _default_fiscal_document_serie(self):
         invoice_fiscal_type = self.env.context.get('fiscal_type', 'product')
-        fiscal_document_serie = self.env['l10n_br_account.document.serie']
-        company = self.env['res.company'].browse(self.env.user.company_id.id)
+        if invoice_fiscal_type in ('product', 'service'):
+            fiscal_document_serie = self.env['l10n_br_account.document.serie']
+            company = self.env['res.company'].browse(self.env.user.company_id.id)
 
-        if invoice_fiscal_type == 'product':
-            fiscal_document_series = [doc_serie for doc_serie in
-                                      company.document_serie_product_ids if
-                                      doc_serie.fiscal_document_id.id ==
-                                      company.product_invoice_id.id and
-                                      doc_serie.active]
-            if fiscal_document_series:
-                fiscal_document_serie = fiscal_document_series[0]
-        else:
-            fiscal_document_serie = company.document_serie_service_id
-        return fiscal_document_serie
+            if invoice_fiscal_type == 'product':
+                fiscal_document_series = [doc_serie for doc_serie in
+                                          company.document_serie_product_ids if
+                                          doc_serie.fiscal_document_id.id ==
+                                          company.product_invoice_id.id and
+                                          doc_serie.active]
+                if fiscal_document_series:
+                    fiscal_document_serie = fiscal_document_series[0]
+            else:
+                fiscal_document_serie = company.document_serie_service_id
+            return fiscal_document_serie
 
     @api.onchange('fiscal_document_id')
     def onchange_fiscal_document_id(self):
         serie = False
-        if self.issuer == '0':
-            if self.fiscal_type == 'product':
-                series = [doc_serie for doc_serie in
-                          self.company_id.document_serie_product_ids if
-                          doc_serie.fiscal_document_id.id ==
-                          self.fiscal_document_id.id and doc_serie.active]
-                if series:
-                    serie = series[0]
-            else:
-                serie = self.company_id.document_serie_service_id
+        if self.fiscal_type in ('product', 'service'):        
+            if self.issuer == '0':
+                if self.fiscal_type == 'product':
+                    series = [doc_serie for doc_serie in
+                              self.company_id.document_serie_product_ids if
+                              doc_serie.fiscal_document_id.id ==
+                              self.fiscal_document_id.id and doc_serie.active]
+                    if series:
+                        serie = series[0]
+                else:
+                    serie = self.company_id.document_serie_service_id
 
-            if not serie:
-                action = self.env.ref(
-                    'l10n_br_account.'
-                    'action_l10n_br_account_document_serie_form')
-                msg = _(u'Você deve ser uma série de documento fiscal'
-                        u'para este documento fiscal.')
-                raise RedirectWarning(
-                    msg, action.id, _(u'Criar uma nova série'))
-            self.document_serie_id = serie
+                if not serie:
+                    action = self.env.ref(
+                        'l10n_br_account.'
+                        'action_l10n_br_account_document_serie_form')
+                    msg = _(u'Você deve ter uma série de documento fiscal'
+                            u' para este documento fiscal.')
+                    raise RedirectWarning(
+                        msg, action.id, _(u'Criar uma nova série'))
+                self.document_serie_id = serie
 
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-                                   'Tipo Fiscal',
-                                   required=True,
-                                   default=_get_fiscal_type)
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        default=_get_fiscal_type
+    )
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, states={'draft': [('readonly', False)]},
