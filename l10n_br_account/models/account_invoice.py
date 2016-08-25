@@ -115,7 +115,7 @@ class AccountInvoice(models.Model):
         move_lines = super(
             AccountInvoice, self).finalize_invoice_move_lines(move_lines)
         count = 1
-        total = len([x for x in move_lines 
+        total = len([x for x in move_lines
                      if x[2]['account_id'] == self.account_id.id])
         number = self.name or self.number
         result = []
