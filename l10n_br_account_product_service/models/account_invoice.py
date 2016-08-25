@@ -46,7 +46,8 @@ class AccountInvoice(models.Model):
         if invoice_fiscal_type in ('product', 'service'):
             fiscal_invoice_id = invoice_fiscal_type + '_invoice_id'
 
-            company = self.env['res.company'].browse(self.env.user.company_id.id)
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
             return company[fiscal_invoice_id]
 
     @api.model
@@ -54,7 +55,8 @@ class AccountInvoice(models.Model):
         invoice_fiscal_type = self.env.context.get('fiscal_type', 'product')
         if invoice_fiscal_type in ('product', 'service'):
             fiscal_document_serie = self.env['l10n_br_account.document.serie']
-            company = self.env['res.company'].browse(self.env.user.company_id.id)
+            company = self.env['res.company'].browse(
+                self.env.user.company_id.id)
 
             if invoice_fiscal_type == 'product':
                 fiscal_document_series = [doc_serie for doc_serie in
@@ -71,7 +73,7 @@ class AccountInvoice(models.Model):
     @api.onchange('fiscal_document_id')
     def onchange_fiscal_document_id(self):
         serie = False
-        if self.fiscal_type in ('product', 'service'):        
+        if self.fiscal_type in ('product', 'service'):
             if self.issuer == '0':
                 if self.fiscal_type == 'product':
                     series = [doc_serie for doc_serie in
