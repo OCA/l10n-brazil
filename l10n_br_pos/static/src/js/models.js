@@ -170,29 +170,9 @@ function l10n_br_pos_models(instance, module) {
         },
     });
 
+    var PosOrderSuper = module.Order;
+
     module.Order = module.Order.extend({
-        initialize: function (attributes) {
-            Backbone.Model.prototype.initialize.apply(this, arguments);
-            this.pos = attributes.pos;
-            this.sequence_number = this.pos.pos_session.sequence_number++;
-            this.uid = this.generateUniqueId();
-            this.set({
-                creationDate: new Date(),
-                orderLines: new module.OrderlineCollection(),
-                paymentLines: new module.PaymentlineCollection(),
-                name: _t("Order ") + this.uid,
-                client: null
-            });
-            this.selected_orderline = undefined;
-            this.selected_paymentline = undefined;
-            this.screen_data = {};  // see ScreenSelector
-            this.receipt_type = 'receipt';  // 'receipt' || 'invoice'
-            this.temporary = attributes.temporary || false;
-            this.cfe_return = null;
-            this.num_sessao_sat = null;
-            this.chave_cfe = null;
-            return this;
-        },
         get_return_cfe: function () {
             return this.cfe_return;
         },
@@ -212,142 +192,88 @@ function l10n_br_pos_models(instance, module) {
             this.num_sessao_sat = num_sessao_sat;
         },
         export_for_printing: function () {
-            var orderlines = [];
-            this.get('orderLines').each(function (orderline) {
-                orderlines.push(orderline.export_for_printing());
-            });
-
-            var paymentlines = [];
-            this.get('paymentLines').each(function (paymentline) {
-                paymentlines.push(paymentline.export_for_printing());
-            });
             var client = this.get('client');
-            var cashier = this.pos.cashier || this.pos.user;
-            var company = this.pos.company;
-            var shop = this.pos.shop;
-            var date = new Date();
-            // Refactory
-            if (this.pos.company.ambiente_sat == "homologacao") {
-                company.cnpj = this.pos.config.cnpj_homologacao;
-                company.ie = this.pos.config.ie_homologacao;
-                company.cnpj_software_house = this.pos.config.cnpj_software_house;
-            } else {
-                company.cnpj = this.pos.company.cnpj_cpf;
-                company.ie = this.pos.company.inscr_est;
-                company.cnpj_software_house = this.pos.config.cnpj_software_house;
-            }
 
-            return {
-                orderlines: orderlines,
-                paymentlines: paymentlines,
-                subtotal: this.getSubtotal(),
-                total_with_tax: this.getTotalTaxIncluded(),
-                total_without_tax: this.getTotalTaxExcluded(),
-                total_tax: this.getTax(),
-                total_paid: this.getPaidTotal(),
-                total_discount: this.getDiscountTotal(),
-                tax_details: this.getTaxDetails(),
-                change: this.getChange(),
-                name: this.getName(),
-                client: client ? client.cnpj_cpf : null,
-                invoice_id: null,   //TODO
-                cashier: cashier ? cashier.name : null,
-                header: this.pos.config.receipt_header || '',
-                footer: this.pos.config.receipt_footer || '',
-                precision: {
-                    price: 2,
-                    money: 2,
-                    quantity: 3,
-                },
-                date: {
-                    year: date.getFullYear(),
-                    month: date.getMonth(),
-                    date: date.getDate(),       // day of the month
-                    day: date.getDay(),         // day of the week
-                    hour: date.getHours(),
-                    minute: date.getMinutes(),
-                    isostring: date.toISOString(),
-                    localestring: date.toLocaleString(),
-                },
-                company: {
-                    email: company.email,
-                    website: company.website,
-                    company_registry: company.company_registry,
-                    contact_address: company.partner_id[1],
-                    vat: company.vat,
-                    name: company.name,
-                    phone: company.phone,
-                    logo: this.pos.company_logo_base64,
-                    cnpj: company.cnpj,
-                    ie: company.ie,
-                    cnpj_software_house: company.cnpj_software_house,
-                },
-                shop: {
-                    name: shop.name,
-                },
-                configs_sat: {
-                    sat_path: this.pos.config.sat_path,
-                    numero_caixa: this.pos.config.numero_caixa,
-                    cod_ativacao: this.pos.config.cod_ativacao,
-                    impressora: this.pos.config.impressora,
-                    printer_params: this.pos.config.printer_params,
-                },
-                currency: this.pos.currency,
-            };
+            var status = this.pos.proxy.get('status');
+            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            if( sat_status == 'connected') {
+            // Refactory
+                if (this.pos.company.ambiente_sat == "homologacao") {
+                    company.cnpj = this.pos.config.cnpj_homologacao;
+                    company.ie = this.pos.config.ie_homologacao;
+                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                } else {
+                    company.cnpj = this.pos.company.cnpj_cpf;
+                    company.ie = this.pos.company.inscr_est;
+                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                }
+
+                var result = PosOrderSuper.prototype.export_for_printing.call(this);
+                result['pos_session_id'] = this.pos.pos_session.id;
+                result['client'] = client ? client.cnpj_cpf : null;
+                result['company']['cnpj'] = company.cnpj;
+                result['company']['ie'] = company.ie;
+                result['company']['cnpj_software_house'] = company.cnpj_software_house;
+                result['configs_sat']['sat_path'] = this.pos.config.sat_path;
+                result['configs_sat']['numero_caixa'] = this.pos.config.numero_caixa;
+                result['configs_sat']['cod_ativacao'] = this.pos.config.cod_ativacao;
+                result['configs_sat']['impressora'] = this.pos.config.impressora;
+                result['configs_sat']['printer_params'] = this.pos.config.printer_params;
+
+                return result;
+            }else{
+                var result = PosOrderSuper.prototype.export_for_printing.call(this);
+                result['pos_session_id'] = this.pos.pos_session.id;
+                result['client'] = client ? client.cnpj_cpf : null;
+                result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
+                result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
+                result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+
+                return result;
+            }
         },
         export_as_JSON: function () {
-            var orderLines, paymentLines;
-            orderLines = [];
-            (this.get('orderLines')).each(_.bind(function (item) {
-                return orderLines.push([0, 0, item.export_as_JSON()]);
-            }, this));
-            paymentLines = [];
-            (this.get('paymentLines')).each(_.bind(function (item) {
-                return paymentLines.push([0, 0, item.export_as_JSON()]);
-            }, this));
-            return {
-                name: this.getName(),
-                amount_paid: this.getPaidTotal(),
-                amount_total: this.getTotalTaxIncluded(),
-                amount_tax: this.getTax(),
-                amount_return: this.getChange(),
-                lines: orderLines,
-                statement_ids: paymentLines,
-                pos_session_id: this.pos.pos_session.id,
-                partner_id: this.get_client() ? this.get_client().id : false,
-                user_id: this.pos.cashier ? this.pos.cashier.id : this.pos.user.id,
-                uid: this.uid,
-                sequence_number: this.sequence_number,
-                cfe_return: this.get_return_cfe(),
-                num_sessao_sat: this.get_num_sessao_sat(),
-                chave_cfe: this.get_chave_cfe()
-            };
+            var client = this.get('client');
+
+            var status = this.pos.proxy.get('status');
+            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            if( sat_status == 'connected') {
+                if (this.pos.company.ambiente_sat == "homologacao") {
+                    company.cnpj = this.pos.config.cnpj_homologacao;
+                    company.ie = this.pos.config.ie_homologacao;
+                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                } else {
+                    company.cnpj = this.pos.company.cnpj_cpf;
+                    company.ie = this.pos.company.inscr_est;
+                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                }
+
+                var result = PosOrderSuper.prototype.export_as_JSON.call(this);
+                result['company']['cnpj'] = company.cnpj;
+                result['company']['ie'] = company.ie;
+                result['company']['cnpj_software_house'] = company.cnpj_software_house;
+                result['configs_sat']['sat_path'] = this.pos.config.sat_path;
+                result['configs_sat']['numero_caixa'] = this.pos.config.numero_caixa;
+                result['configs_sat']['cod_ativacao'] = this.pos.config.cod_ativacao;
+                result['configs_sat']['impressora'] = this.pos.config.impressora;
+                result['configs_sat']['printer_params'] = this.pos.config.printer_params;
+                result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
+                result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
+                result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+
+                return result;
+            }else{
+                var result = PosOrderSuper.prototype.export_as_JSON.call(this);
+                result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
+                result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
+                result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+
+                return result;
+            }
         }
     });
 
-    module.Orderline = module.Orderline.extend({
-            //used to create a json of the ticket, to be sent to the printer
-            export_for_printing: function () {
-                return {
-                    quantity: this.get_quantity(),
-                    unit_name: this.get_unit().name,
-                    price: this.get_unit_price(),
-                    discount: this.get_discount(),
-                    product_name: this.get_product().name,
-                    price_display: this.get_display_price(),
-                    price_with_tax: this.get_price_with_tax(),
-                    price_without_tax: this.get_price_without_tax(),
-                    tax: this.get_tax(),
-                    product_description: this.get_product().description,
-                    product_description_sale: this.get_product().description_sale,
-                    product_default_code: this.get_product().default_code,
-                    fiscal_classification_id: this.get_product().fiscal_classification_id,
-                    estimated_taxes: this.get_product().estimated_taxes,
-                    origin: this.get_product().origin
-                };
-            },
-        });
-
+    var PosPaymentlineSuper = module.Paymentline;
 
     module.Paymentline = module.Paymentline.extend({
         set_payment_term: function(payment_term){
@@ -357,28 +283,16 @@ function l10n_br_pos_models(instance, module) {
             return this.payment_term;
         },
         export_as_JSON: function() {
-            return {
-                name: instance.web.datetime_to_str(new Date()),
-                statement_id: this.cashregister.id,
-                account_id: this.cashregister.account_id[0],
-                journal_id: this.cashregister.journal_id[0],
-                amount: this.get_amount(),
-                payment_term: this.get_payment_term(),
-                sat_payment_mode: this.cashregister.journal.sat_payment_mode,
-                sat_card_accrediting: this.cashregister.journal.sat_card_accrediting,
-            };
+            var result = PosPaymentlineSuper.prototype.export_as_JSON.call(this);
+            result['sat_payment_mode'] = this.cashregister.journal.sat_payment_mode;
+            result['sat_card_accrediting'] = this.cashregister.journal.sat_card_accrediting;
+            return result;
         },
         export_for_printing: function(){
-            return {
-                name: instance.web.datetime_to_str(new Date()),
-                statement_id: this.cashregister.id,
-                account_id: this.cashregister.account_id[0],
-                journal_id: this.cashregister.journal_id[0],
-                amount: this.get_amount(),
-                payment_term: this.get_payment_term(),
-                sat_payment_mode: this.cashregister.journal.sat_payment_mode,
-                sat_card_accrediting: this.cashregister.journal.sat_card_accrediting,
-            };
+            var result = PosPaymentlineSuper.prototype.export_for_printing.call(this);
+            result['sat_payment_mode'] = this.cashregister.journal.sat_payment_mode;
+            result['sat_card_accrediting'] = this.cashregister.journal.sat_card_accrediting;
+            return result;
         }
     });
 
