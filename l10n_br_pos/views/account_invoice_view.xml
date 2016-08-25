@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="l10n_br_pos_invoice_form" model="ir.ui.view">
-			<field name="name">l10n_br_pos.invoice.form</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_form"/>
-			<field name="arch" type="xml">
-				<xpath expr="//form[@string='Documentos Fiscais']/group" position="after">
+        <record id="l10n_br_pos_invoice_form" model="ir.ui.view">
+            <field name="name">l10n_br_pos.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Documentos Fiscais']/group" position="after">
                     <group col="4">
-					    <field name="pos_order_related_id" attrs="{'invisible': [('document_type', 'not in', ('sat'))]}" />
+                        <field name="pos_order_related_id" attrs="{'invisible': [('document_type', 'not in', ('sat'))]}" />
                     </group>
-				</xpath>
-				<field name="invoice_related_id" position="attributes">
-					<attribute name="attrs">{'invisible': [('document_type', 'in', 'sat')]}</attribute>
-				</field>
-				<xpath expr='//group[@string="Nota Fiscal/Produtor/Cupom Fiscal"]' position="attributes">
-					<attribute name="attrs">{'invisible': [('document_type', 'in', ('sat', 'nfe','cte', False))]}</attribute>
-				</xpath>
-			</field>
-		</record>
+                </xpath>
+                <field name="invoice_related_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('document_type', 'in', 'sat')]}</attribute>
+                </field>
+                <xpath expr='//group[@string="Nota Fiscal/Produtor/Cupom Fiscal"]' position="attributes">
+                    <attribute name="attrs">{'invisible': [('document_type', 'in', ('sat', 'nfe','cte', False))]}</attribute>
+                </xpath>
+            </field>
+        </record>
 
-		<record id="l10n_br_pos_invoice_supplier_form" model="ir.ui.view">
-			<field name="name">l10n_br_pos.invoice.supplier.form</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_supplier_form" />
-			<field name="arch" type="xml">
-				<xpath expr="//form[@string='Documentos Fiscais']/group" position="after">
+        <record id="l10n_br_pos_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">l10n_br_pos.invoice.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Documentos Fiscais']/group" position="after">
                     <group col="4">
-					    <field name="pos_order_related_id" attrs="{'invisible': [('document_type', 'not in', ('sat'))]}" />
+                        <field name="pos_order_related_id" attrs="{'invisible': [('document_type', 'not in', ('sat'))]}" />
                     </group>
-				</xpath>
-				<field name="invoice_related_id" position="attributes">
-					<attribute name="attrs">{'invisible': [('document_type', 'in', 'sat')]}</attribute>
-				</field>
-				<xpath expr='//group[@string="Nota Fiscal/Produtor/Cupom Fiscal"]' position="attributes">
-					<attribute name="attrs">{'invisible': [('document_type', 'in', ('sat', 'nfe','cte', False))]}</attribute>
-				</xpath>
-			</field>
-		</record>
-	</data>
+                </xpath>
+                <field name="invoice_related_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('document_type', 'in', 'sat')]}</attribute>
+                </field>
+                <xpath expr='//group[@string="Nota Fiscal/Produtor/Cupom Fiscal"]' position="attributes">
+                    <attribute name="attrs">{'invisible': [('document_type', 'in', ('sat', 'nfe','cte', False))]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </openerp>

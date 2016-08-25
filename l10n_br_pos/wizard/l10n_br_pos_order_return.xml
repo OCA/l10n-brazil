@@ -9,7 +9,7 @@
                     <group string="Selecione / Cadastre um cliente para efetuar a devolução">
                         <field name="partner_id"/>
                     </group>
-			        <footer>
+                    <footer>
                         <button name="create_returns" string="Retornar" type="object" class="oe_highlight"/>
                             or
                         <button string="Cancel" class="oe_link" special="cancel" />
