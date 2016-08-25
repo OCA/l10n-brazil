@@ -61,6 +61,11 @@
             <field name="property_journal" ref="account.sales_journal"/>
         </record>
 
+        <!-- VendaST -->
+        <record id="fc_9ca6c34b77a2c78171252551db171ff7" model="l10n_br_account.fiscal.category">
+            <field name="property_journal" ref="account.sales_journal"/>
+        </record>
+
         <!-- Devolução de Venda -->
         <record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
             <field name="property_journal" ref="account.refund_sales_journal" />
