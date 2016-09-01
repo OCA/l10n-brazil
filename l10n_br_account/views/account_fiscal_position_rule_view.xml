@@ -40,7 +40,7 @@
                     <separator colspan="4" />
                     <field name="parent_id" />
                     <field name="fiscal_type" />
-                    <field name="fiscal_category_id" attrs="{'required': [('parent_id', '=', True)]}"/>
+                    <field name="fiscal_category_id" required="True"/>
                     <newline />
                     <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
                         <separator string="Faixa de Faturamento" colspan="4" />
@@ -67,7 +67,7 @@
                     <separator colspan="4" />
                     <field name="parent_id" />
                     <field name="fiscal_type" />
-                    <field name="fiscal_category_id" attrs="{'required': [('parent_id', '=', True)]}"/>
+                    <field name="fiscal_category_id" required="True"/>
                     <newline />
                     <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
                         <separator string="Faixa de Faturamento" colspan="4" />
