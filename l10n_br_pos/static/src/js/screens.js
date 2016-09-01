@@ -114,6 +114,10 @@ function l10n_br_pos_screens(instance, module) {
             fields.country_id   = fields.country_id || false;
             fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
 
+            if(this.pos.company.parent_id){
+                partner['company_id'] = this.pos.company.parent_id[0];
+            }
+
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
