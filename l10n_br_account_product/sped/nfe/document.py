@@ -100,7 +100,8 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.cUF.valor = (company.state_id and
                                          company.state_id.ibge_code or '')
         self.nfe.infNFe.ide.cNF.valor = ''
-        self.nfe.infNFe.ide.natOp.valor = invoice.fiscal_category_id.name or ''
+        self.nfe.infNFe.ide.natOp.valor = (
+            invoice.fiscal_category_id.name[:60] or '')
         self.nfe.infNFe.ide.indPag.valor = (invoice.payment_term and
                                             invoice.payment_term.indPag or '0')
         self.nfe.infNFe.ide.mod.valor = invoice.fiscal_document_id.code or ''
