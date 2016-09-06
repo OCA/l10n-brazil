@@ -180,6 +180,24 @@
             <field name="fiscal_type">3</field>
         </record>
 
+        <record id="demo_account_fiscal_position_rule_11" model="account.fiscal.position.rule">
+            <field name="name">Vendas</field>
+            <field name="description">Vendas para Fora do Estado Não Contribuinte</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="from_country" ref="base.br"/>
+            <field name="from_state" ref="l10n_br_base.br_sp"/>
+            <field name="to_invoice_country" ref="base.br"/>
+            <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+            <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo"/>
+            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="use_sale">True</field>
+            <field name="use_picking">True</field>
+            <field name="use_invoice">True</field>
+            <field name="fiscal_type">3</field>
+            <field name="partner_fiscal_type_id" eval="[(6, 0, [ref('l10n_br_account.partner_fiscal_type_4')])]"/>
+            <field name="sequence">5</field>
+        </record>
+
         <record id="demo_account_fiscal_position_rule_12" model="account.fiscal.position.rule">
             <field name="name">Vendas</field>
             <field name="description">Vendas para Fora do Estado</field>
