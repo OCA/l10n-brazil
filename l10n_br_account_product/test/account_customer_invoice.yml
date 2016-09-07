@@ -537,3 +537,146 @@
       if tax.base_code_id.domain == 'cofins':
         assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
         assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
+-
+  I prepare tunneling extra args in the context for account.invoice.line
+-
+  !python {model: account.invoice.line}: |
+    context.update({'type_tax_use': 'sale', 'type': 'out_invoice', 'fiscal_type': 'product', 'parent_fiscal_category_id': ref('fc_78df616ab31e95ee46c6a519a2ce9e12')})
+-
+  Create a sale customer invoice from SP to MG Non contributor to compute DIFAL
+-
+  !record {model: account.invoice, id: account_invoice_customer_sp_mg_difal, view: l10n_br_account_product_invoice_form}:
+    payment_term: account.account_payment_term_advance
+    partner_id: l10n_br_base.res_partner_cliente10_mg
+    fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+    reference_type: none
+    name: 'NFe Invoice Test'
+    amount_freight: 15.00
+    invoice_line:
+      - product_id: product.product_product_18
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 10.0
+        price_unit: 240.00
+      - product_id: product.product_product_9
+        fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
+        quantity: 5.0
+        price_unit: 110.00
+-
+  I check tax values ICMS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].icms_cst_id.code == '00'
+    - invoice_line[0].icms_base == 2400.00
+    - invoice_line[0].icms_base_other == 0.00
+    - invoice_line[0].icms_value == 288.00
+    - invoice_line[0].icms_percent == 12.00
+    - invoice_line[0].icms_percent_reduction == 0.00
+    - invoice_line[1].icms_cst_id.code == '00'
+    - invoice_line[1].icms_base == 550.00
+    - invoice_line[1].icms_base_other == 0.00
+    - invoice_line[1].icms_value == 66.00
+    - invoice_line[1].icms_percent == 12.00
+    - invoice_line[1].icms_percent_reduction == 0.00
+-
+  I check tax values ICMS DIFAL
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].icms_dest_base == 2400.00
+    - invoice_line[0].icms_fcp_percent == 2.00
+    - invoice_line[0].icms_dest_percent == 18.00
+    - invoice_line[0].icms_origin_percent == 12.00
+    - invoice_line[0].icms_part_percent == 40.00
+    - invoice_line[0].icms_fcp_value == 48.00
+    - invoice_line[0].icms_dest_value == 57.60
+    - invoice_line[0].icms_origin_value == 86.40
+    - invoice_line[1].icms_dest_base == 550.00
+    - invoice_line[1].icms_fcp_percent == 2.00
+    - invoice_line[1].icms_dest_percent == 18.00
+    - invoice_line[1].icms_origin_percent == 12.00
+    - invoice_line[1].icms_part_percent == 40.00
+    - invoice_line[1].icms_fcp_value == 11.00
+    - invoice_line[1].icms_dest_value == 13.20
+    - invoice_line[1].icms_origin_value == 19.80
+-
+  I check tax values ICMS ST
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].icms_st_base == 0.00
+    - invoice_line[0].icms_st_base_other == 0.00
+    - invoice_line[0].icms_st_value == 0.00
+    - invoice_line[0].icms_st_mva == 0.00
+    - invoice_line[0].icms_st_percent == 0.00
+    - invoice_line[0].icms_st_percent_reduction == 0.00
+    - invoice_line[1].icms_st_base == 0.00
+    - invoice_line[1].icms_st_base_other == 0.00
+    - invoice_line[1].icms_st_value == 0.00
+    - invoice_line[1].icms_st_mva == 0.00
+    - invoice_line[1].icms_st_percent == 0.00
+    - invoice_line[1].icms_st_percent_reduction == 0.00
+-
+  I check tax values IPI
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].ipi_cst_id.code == '50'
+    - invoice_line[0].ipi_base == 2400.00
+    - invoice_line[0].ipi_base_other == 0.00
+    - invoice_line[0].ipi_value == 240.00
+    - invoice_line[0].ipi_percent == 10.00
+    - invoice_line[1].ipi_cst_id.code == '50'
+    - invoice_line[1].ipi_base == 550.00
+    - invoice_line[1].ipi_base_other == 0.00
+    - invoice_line[1].ipi_value == 82.50
+    - invoice_line[1].ipi_percent == 15.00
+-
+  I check tax values PIS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].pis_cst_id.code == '01'
+    - invoice_line[0].pis_base == 2400.00
+    - invoice_line[0].pis_value == 15.60
+    - invoice_line[0].pis_percent == 0.65
+    - invoice_line[1].pis_cst_id.code == '01'
+    - invoice_line[1].pis_base == 550.00
+    - invoice_line[1].pis_value == 3.57
+    - invoice_line[1].pis_percent == 0.65
+-
+  I check tax values COFINS
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - invoice_line[0].cofins_cst_id.code == '01'
+    - invoice_line[0].cofins_base == 2400.00
+    - invoice_line[0].cofins_value == 72.00
+    - invoice_line[0].cofins_percent == 3.00
+    - invoice_line[1].cofins_cst_id.code == '01'
+    - invoice_line[1].cofins_base == 550.00
+    - invoice_line[1].cofins_value == 16.50
+    - invoice_line[1].cofins_percent == 3.00
+-
+  I check invoice totals from SP to MG DIFAL
+-
+  !assert {model: account.invoice, id: account_invoice_customer_sp_mg_difal}:
+    - amount_gross == 2950.00 , "Valor bruto esta incorreto!"
+    - amount_discount == 0.00 , "Valor de desconto esta incorreto!"
+    - amount_untaxed == 2950.00 , "Valor sem taxa esta incorreto!"
+    - amount_tax == 322.50 , "Valor das taxas esta incorreto!"
+    - amount_total == 3272.50 , "Valor total da fatura esta incorreto!"
+    - residual == 0.00 , "Valor residual esta incorreto!"
+    - amount_freight == 15.00 , "Valor do frete esta incorreto!"
+-
+  I check invoice tax_lines of many manufectured goods with insurance, freight and other costs
+-
+  !python {model: account.invoice}: |
+    invoice = self.browse(cr, uid, ref('account_invoice_customer_sp_mg_difal'), context=context)
+    for tax in invoice.tax_line:
+      if tax.base_code_id.domain == 'ipi':
+        assert tax.base == 2950.00 , "Base de ipi incorreta"
+        assert tax.amount == 322.50 , "Total do ipi incorreto"
+      if tax.base_code_id.domain == 'icms':
+        assert tax.base_amount == 2950.00 , "Base de icms incorreta"
+        assert tax.tax_amount == 354.00 , "Total do icms incorreto"
+      if tax.base_code_id.domain == 'pis':
+        assert tax.base_amount == 2950.00 , "Base de pis incorreta"
+        assert tax.tax_amount ==  19.18 , "Total do pis incorreto"
+      if tax.base_code_id.domain == 'cofins':
+        assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
+        assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
