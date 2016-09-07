@@ -16,7 +16,7 @@
         <record id="tax_code_demo_icmsinter" model="account.tax.code">
             <field name="code">ICMS Inter</field>
             <field name="name">ICMS Inter</field>
-            <field name="domain">cofins</field>
+            <field name="domain">icmsinter</field>
             <field name="sign">1</field>
             <field name="tax_discount" eval="1"/>
             <field name="parent_id" ref="l10n_br_account.tax_code_chart_root"/>
@@ -26,7 +26,7 @@
         <record id="tax_code_demo_icmsfcp" model="account.tax.code">
             <field name="code">ICMS FCP</field>
             <field name="name">ICMS FCP</field>
-            <field name="domain">cofins</field>
+            <field name="domain">icmsfcp</field>
             <field name="sign">1</field>
             <field name="tax_discount" eval="1"/>
             <field name="parent_id" ref="l10n_br_account.tax_code_chart_root"/>
