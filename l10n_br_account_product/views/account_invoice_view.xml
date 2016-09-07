@@ -404,6 +404,7 @@
                                                 <field name="pis_base"/>
                                             </group>
                                             <group>
+                                                <field name="pis_base_other"/>
                                                 <field name="pis_percent"/>
                                                 <field name="pis_value"/>
                                             </group>
@@ -428,6 +429,7 @@
                                                 <field name="cofins_base"/>
                                             </group>
                                             <group>
+                                                <field name="cofins_base_other"/>
                                                 <field name="cofins_percent"/>
                                                 <field name="cofins_value"/>
                                             </group>
