@@ -139,6 +139,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-city)" t-operation="replace">
         </t>
     </t>
+
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">
             <div class='client-detail'>
@@ -154,6 +155,18 @@
             </div>
         </t>
     </t>
+
+    <t t-extend="PosWidget">
+        <t t-jquery="div.pads" t-operation="before">
+            <div class="placeholder-PosOrderListWidget"></div>
+        </t>
+    </t>
+
+    <t t-name="PosOrderListWidget">
+        <div class="paypad touch-scrollable">
+        </div>
+    </t>
+
     <t t-name="PosOrderListButtonWidget">
        <button class="paypad-button btn-orders-vendas">
             Ultimas Vendas

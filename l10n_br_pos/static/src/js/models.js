@@ -91,7 +91,7 @@ function l10n_br_pos_models(instance, module) {
             });
             this.models.push({
                 model:  'res.partner',
-                fields: ['name', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date'],
+                fields: ['name', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date', 'debit', 'credit', 'credit_limit'],
                 domain: [['customer','=',true]],
                 loaded: function(self,partners){
                     self.partners = partners;
