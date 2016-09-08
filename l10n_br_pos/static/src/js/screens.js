@@ -219,8 +219,8 @@ function l10n_br_pos_screens(instance, module) {
         }
     });
 
-    module.PaypadWidget = module.PosBaseWidget.extend({
-        template: 'PaypadWidget',
+    module.PosOrderListWidget = module.PosBaseWidget.extend({
+        template: 'PosOrderListWidget',
         renderElement: function() {
             var self = this;
             this._super();
@@ -230,16 +230,6 @@ function l10n_br_pos_screens(instance, module) {
                 pos_widget : self.pos_widget,
             });
             button.appendTo(self.$el);
-
-            _.each(this.pos.cashregisters,function(cashregister) {
-                var button = new module.PaypadButtonWidget(self,{
-                    pos: self.pos,
-                    pos_widget : self.pos_widget,
-                    cashregister: cashregister,
-                });
-                button.appendTo(self.$el);
-            });
-
         }
     });
 
