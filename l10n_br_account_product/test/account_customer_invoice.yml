@@ -541,7 +541,7 @@
   I prepare tunneling extra args in the context for account.invoice.line
 -
   !python {model: account.invoice.line}: |
-    context.update({'type_tax_use': 'sale', 'type': 'out_invoice', 'fiscal_type': 'product', 'parent_fiscal_category_id': ref('fc_78df616ab31e95ee46c6a519a2ce9e12')})
+    context.update({'type_tax_use': 'sale', 'type': 'out_invoice', 'fiscal_type': 'product', 'partner_id': ref('l10n_br_base.res_partner_cliente10_mg'), 'parent_fiscal_category_id': ref('fc_78df616ab31e95ee46c6a519a2ce9e12')})
 -
   Create a sale customer invoice from SP to MG Non contributor to compute DIFAL
 -
