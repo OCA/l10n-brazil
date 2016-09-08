@@ -69,6 +69,10 @@ function l10n_br_pos_widgets(instance, module){
         build_widgets: function(){
             this._super();
             var self = this;
+
+            this.last_orders = new module.PosOrderListWidget(this, {});
+            this.last_orders.replace(this.$('.placeholder-PosOrderListWidget'));
+
             this.posorderlist_screen = new module.PosOrderListScreenWidget(this, {});
             this.posorderlist_screen.appendTo(this.$('.screens'));
             this.posorderlist_screen.hide();

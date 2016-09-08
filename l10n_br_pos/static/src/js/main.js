@@ -53,7 +53,7 @@ if (typeof jQuery === 'undefined') { throw new Error('l10n_br POS Simplified inv
                 && posmodel.config
                 && posmodel.config.simplified_invoice_type
             ) {
-                type = posmodel.config.simplified_invoice_type;
+                var type = posmodel.config.simplified_invoice_type;
             }
             return type;
         };
