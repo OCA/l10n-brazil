@@ -60,6 +60,7 @@ class AccountFiscalPosition(models.Model):
     def _map_tax(self, product_id, taxes):
         result = {}
         product = self.env['product.product'].browse(product_id)
+        product_fc = product.fiscal_classification_id
         if self.company_id and \
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'product') == 'product':
@@ -70,40 +71,69 @@ class AccountFiscalPosition(models.Model):
                         result[tax_def.tax_id.domain] = {
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
+                            'icms_relief': tax_def.tax_icms_relief_id,
+                            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
                         }
-            else:
-                company_taxes = self.company_id.service_tax_definition_line
-                for tax_def in company_taxes:
-                    if tax_def.tax_id:
-                        taxes |= tax_def.tax_id
-                        result[tax_def.tax_id.domain] = {
-                            'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
-                        }
-            product_ncm_tax_def = (product.fiscal_classification_id.
-                                   sale_tax_definition_line)
+
+            # FIXME se tiver com o admin pegar impostos de outras empresas
+            product_ncm_tax_def = product_fc.sale_tax_definition_line
 
         else:
-            product_ncm_tax_def = (product.fiscal_classification_id.
-                                   purchase_tax_definition_line)
+            company_taxes = self.company_id.service_tax_definition_line
+            for tax_def in company_taxes:
+                if tax_def.tax_id:
+                    taxes |= tax_def.tax_id
+                    result[tax_def.tax_id.domain] = {
+                        'tax': tax_def.tax_id,
+                        'tax_code': tax_def.tax_code_id,
+                    }
+            product_ncm_tax_def = product_fc.purchase_tax_definition_line
 
         for ncm_tax_def in product_ncm_tax_def:
             if ncm_tax_def.tax_id:
                 result[ncm_tax_def.tax_id.domain] = {
                     'tax': ncm_tax_def.tax_id,
                     'tax_code': ncm_tax_def.tax_code_id,
+                    'icms_relief': ncm_tax_def.tax_icms_relief_id,
+                    'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
                 }
+
+        if self.env.context.get('partner_id'):
+            partner = self.env['res.partner'].browse(
+                self.env.context.get('partner_id'))
+            if (self.env.context.get('type_tax_use') in ('sale', 'all') and
+                    self.env.context.get(
+                        'fiscal_type', 'product') == 'product'):
+                state_taxes = partner.state_id.product_tax_definition_line
+                for tax_def in state_taxes:
+                    if tax_def.tax_id and \
+                            (not tax_def.fiscal_classification_id or
+                             tax_def.fiscal_classification_id == product_fc):
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                        }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
-                if map.tax_src_id == tax or \
-                        map.tax_code_src_id == tax.tax_code_id:
-                    if map.tax_dest_id or tax.tax_code_id:
+                if map.tax_src_id.id == tax.id or \
+                        map.tax_code_src_id.id == tax.tax_code_id.id:
+                    if map.tax_dest_id.id or tax.tax_code_id.id:
+                        map_taxes |= map
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
+                        if map.origin == product.origin:
+                            map_taxes_origin |= map
+                        if (map.fiscal_classification_id.id ==
+                                product.fiscal_classification_id.id and
+                                map.origin == product.origin):
+                            map_taxes_origin_ncm |= map
                         else:
                             map_taxes |= map
             else:
@@ -113,7 +143,9 @@ class AccountFiscalPosition(models.Model):
                     result[tax.domain] = {'tax': tax}
 
         result.update(self._map_tax_code(map_taxes))
+        result.update(self._map_tax_code(map_taxes_origin))
         result.update(self._map_tax_code(map_taxes_ncm))
+        result.update(self._map_tax_code(map_taxes_origin_ncm))
         return result
 
     @api.v8
