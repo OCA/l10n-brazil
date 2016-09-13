@@ -25,6 +25,8 @@
 							attrs="{'invisible':['|',('issuer','!=','0'),
                                                  ('state','not in',['open','paid'])]}"
 							string="Enviar Carta de correção" type="action"/>
+					<button name="action_check_nfe" type="object" string="Consultar"
+                        attrs="{'invisible':[('state','in', ['draft', 'paid', 'cancel', 'sefaz_cancelled'])]}"/>
 				</button>
 				<xpath expr="//button[@name='invoice_cancel']" position="replace">
 				</xpath>

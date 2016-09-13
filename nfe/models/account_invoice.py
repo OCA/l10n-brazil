@@ -29,6 +29,7 @@ from openerp.addons.nfe.sped.nfe.nfe_factory import NfeFactory
 from openerp.addons.nfe.sped.nfe.validator.xml import XMLValidator
 from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
 from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
+from openerp.addons.nfe.sped.nfe.processing.xml import check_key_nfe
 from openerp.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_invoice_cancel
 
@@ -329,3 +330,95 @@ class AccountInvoice(models.Model):
                 'datas': datas,
                 'nodestroy': True
             }
+
+    @api.multi
+    def action_check_nfe(self):
+        for inv in self:
+
+            event_obj = self.env['l10n_br_account.document_event']
+            # event = max(
+            #     event_obj.search([('document_event_ids', '=', inv.id),
+            #                       ('type', '=', '0')]))
+            # arquivo = event.file_sent
+            nfe_obj = self._get_nfe_factory(inv.nfe_version)
+
+            nfe = []
+            results = []
+            protNFe = {}
+            protNFe["state"] = 'sefaz_exception'
+            protNFe["status_code"] = ''
+            protNFe["message"] = ''
+            protNFe["nfe_protocol_number"] = ''
+            try:
+                file_xml = monta_caminho_nfe(
+                    inv.company_id, inv.nfe_access_key)
+                # if inv.state not in (
+                # 'open', 'paid', 'sefaz_cancelled'):
+                #     file_xml = os.path.join(file_xml, 'tmp/')
+                arquivo = os.path.join(
+                    file_xml, inv.nfe_access_key + '-nfe.xml')
+                nfe = nfe_obj.set_xml(arquivo)
+                nfe.monta_chave()
+                processo = check_key_nfe(inv.company_id, nfe.chave, nfe)
+                vals = {
+                    'type': str(processo.webservice),
+                    'status': processo.resposta.cStat.valor,
+                    'response': '',
+                    'company_id': inv.company_id.id,
+                    'origin': '[NF-E]' + inv.internal_number,
+                    # TODO: Manipular os arquivos manualmente
+                    # 'file_sent': processo.arquivos[0]['arquivo'],
+                    # 'file_returned': processo.arquivos[1]['arquivo'],
+                    'message': processo.resposta.xMotivo.valor,
+                    'state': 'done',
+                    'document_event_ids': inv.id}
+                print 'VALS ==========', vals
+                results.append(vals)
+                if processo.webservice == 4:
+                    prot = processo.resposta.protNFe
+                    protNFe["status_code"] = prot.infProt.cStat.valor
+                    protNFe["nfe_protocol_number"] = \
+                        prot.infProt.nProt.valor
+                    protNFe["message"] = prot.infProt.xMotivo.valor
+                    vals["status"] = prot.infProt.cStat.valor
+                    vals["message"] = prot.infProt.xMotivo.valor
+                    if prot.infProt.cStat.valor in ('100', '150'):
+                        protNFe["state"] = 'open'
+                        inv.invoice_validate()
+                    elif prot.infProt.cStat.valor in ('110', '301',
+                                                      '302'):
+                        protNFe["state"] = 'sefaz_denied'
+                    # import pudb; pudb.set_trace()
+                    # print 'ERROR TEST =========', self.ir.attachment.type
+                    self.attach_file_event(None, 'nfe', 'xml')
+                    self.attach_file_event(None, None, 'pdf')
+            except Exception as e:
+                _logger.error(e.message, exc_info=True)
+                vals = {
+                    'type': '-1',
+                    'status': '000',
+                    'response': 'response',
+                    'company_id': self.company_id.id,
+                    'origin': '[NF-E]' + inv.internal_number,
+                    'file_sent': 'False',
+                    'file_returned': 'False',
+                    'message': 'Erro desconhecido ' + str(e),
+                    'state': 'done',
+                    'document_event_ids': inv.id
+                }
+                results.append(vals)
+            finally:
+                for result in results:
+                    if result['type'] == '0':
+                        event_obj.write(result)
+                    else:
+                        event_obj.create(result)
+
+                self.write({
+                    'nfe_status': protNFe["status_code"] + ' - ' +
+                                  protNFe["message"],
+                    'nfe_date': datetime.datetime.now(),
+                    'state': protNFe["state"],
+                    'nfe_protocol_number': protNFe["nfe_protocol_number"],
+                })
+        return True
