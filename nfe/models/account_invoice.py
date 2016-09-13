@@ -372,7 +372,6 @@ class AccountInvoice(models.Model):
                     'message': processo.resposta.xMotivo.valor,
                     'state': 'done',
                     'document_event_ids': inv.id}
-                print 'VALS ==========', vals
                 results.append(vals)
                 if processo.webservice == 4:
                     prot = processo.resposta.protNFe
@@ -388,8 +387,6 @@ class AccountInvoice(models.Model):
                     elif prot.infProt.cStat.valor in ('110', '301',
                                                       '302'):
                         protNFe["state"] = 'sefaz_denied'
-                    # import pudb; pudb.set_trace()
-                    # print 'ERROR TEST =========', self.ir.attachment.type
                     self.attach_file_event(None, 'nfe', 'xml')
                     self.attach_file_event(None, None, 'pdf')
             except Exception as e:
@@ -416,7 +413,7 @@ class AccountInvoice(models.Model):
 
                 self.write({
                     'nfe_status': protNFe["status_code"] + ' - ' +
-                                  protNFe["message"],
+                    protNFe["message"],
                     'nfe_date': datetime.datetime.now(),
                     'state': protNFe["state"],
                     'nfe_protocol_number': protNFe["nfe_protocol_number"],
