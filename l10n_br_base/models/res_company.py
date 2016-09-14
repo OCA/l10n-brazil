@@ -18,15 +18,16 @@ class ResCompany(models.Model):
     @api.multi
     def _get_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.legal_name = self.partner_id.legal_name
-        self.cnpj_cpf = self.partner_id.cnpj_cpf
-        self.number = self.partner_id.number
-        self.district = self.partner_id.district
-        self.l10n_br_city_id = self.partner_id.l10n_br_city_id
-        self.inscr_est = self.partner_id.inscr_est
-        self.inscr_mun = self.partner_id.inscr_mun
-        self.suframa = self.partner_id.suframa
+
+        for obj in self:
+            obj.legal_name = obj.partner_id.legal_name
+            obj.cnpj_cpf = obj.partner_id.cnpj_cpf
+            obj.number = obj.partner_id.number
+            obj.district = obj.partner_id.district
+            obj.l10n_br_city_id = obj.partner_id.l10n_br_city_id
+            obj.inscr_est = obj.partner_id.inscr_est
+            obj.inscr_mun = obj.partner_id.inscr_mun
+            obj.suframa = obj.partner_id.suframa
 
     @api.multi
     def _set_l10n_br_legal_name(self):
