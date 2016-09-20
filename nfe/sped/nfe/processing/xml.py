@@ -91,6 +91,7 @@ def send(company, nfe):
     p.versao = str(nfe[0].infNFe.versao.valor)
     p.danfe.logo = add_backgound_to_logo_image(company)
     p.danfe.leiaute_logo_vertical = company.nfe_logo_vertical
+    p.danfe.salvar_arquivo = company.danfe_automatic_generate
     p.danfe.nome_sistema = company.nfe_email or \
         u"""Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto
         - 100%% WEB - www.openerpbrasil.org"""

@@ -20,6 +20,7 @@
                 </page>
 				<xpath expr="//field[@name='export_folder']" position="after">
 					<field name="nfe_email"/>
+					<field name="danfe_automatic_generate"/>
 				</xpath>
 			</field>
 		</record>
