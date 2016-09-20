@@ -956,9 +956,9 @@ class AccountInvoiceLine(models.Model):
     def _get_tax_codes(self, product_id, fiscal_position, taxes):
 
         result = {}
-
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
+        ctx.update({'product_id': product_id})
 
         if fiscal_position.fiscal_category_id.journal_type in (
                 'sale', 'sale_refund'):
