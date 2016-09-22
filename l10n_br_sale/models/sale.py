@@ -361,13 +361,14 @@ class SaleOrderLine(models.Model):
                 'fiscal_category_id': self.fiscal_category_id.id,
                 'context': self.env.context
             }
-            result = self.env[
-                'account.fiscal.position.rule'].apply_fiscal_mapping(
-                    result, **kwargs)
-            self.fiscal_category_id = result['value'].get(
-                'fiscal_category_id', self.fiscal_category_id.id)
-            self.fiscal_position = result['value'].get('fiscal_position')
-            self.tax_ids = result['value'].get('tax_id')
+            result = self._fiscal_position_map(result, **kwargs)
+
+            kwargs.update({
+                'fiscal_category_id': self.fiscal_category_id.id,
+                'fiscal_position': self.fiscal_position.id,
+                'tax_id': [(6, 0, self.tax_id.ids)],
+            })
+            self.update(result['value'])
 
     @api.model
     def _prepare_order_line_invoice_line(self, line, account_id=False):
