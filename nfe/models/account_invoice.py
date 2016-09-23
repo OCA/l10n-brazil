@@ -320,7 +320,7 @@ class AccountInvoice(models.Model):
             datas = {
                 'ids': inv.ids,
                 'model': 'account.invoice',
-                'form': self.read(inv.id)
+                'form': self.read()
             }
 
             return {
