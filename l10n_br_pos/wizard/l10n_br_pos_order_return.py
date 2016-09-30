@@ -20,10 +20,18 @@ class PorOrderReturn(models.TransientModel):
     _name = 'pos.order.return'
     _description = "Pos Order Return"
 
+    @api.model
+    def _get_partner(self):
+        order_id = self._context.get('active_id', False)
+        partner = self.env['pos.order'].browse(order_id).partner_id
+        if partner:
+            return partner
+
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string=u"Cliente",
         help=u"Selecione ou Defina um novo cliente para efetuar a devoluçao",
+        default=_get_partner,
         required=True
     )
 
