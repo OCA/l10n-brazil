@@ -21,8 +21,9 @@ class StockPicking(models.Model):
                 or pos_order_access_key[0] or '')
 
     fiscal_document_access_key = fields.Char(
-        u'Chave de acesso do Documento',
-        compute=_get_fiscal_document_access_key, store=True)
+        u'Chave de acesso do Documento', compute_sudo=True,
+        compute=_get_fiscal_document_access_key,
+        store=True)
 
     @api.model
     def _create_invoice_from_picking(self, picking, vals):
@@ -37,7 +38,7 @@ class StockPicking(models.Model):
                   {
                     'pos_order_related_id': fiscal_doc_ref.id,
                      'document_type': 'sat',
-                     'access_key': fiscal_doc_ref.chave_cfe
+                     'access_key': fiscal_doc_ref.chave_cfe[3:]
                   }
                   )]
         vals.update(result)
