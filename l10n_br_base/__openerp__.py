@@ -18,6 +18,7 @@
         'data/l10n_br_base.city.csv',
         'data/l10n_br_base_data.xml',
         'views/l10n_br_base_view.xml',
+        'views/res_bank_view.xml',
         'views/res_country_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
