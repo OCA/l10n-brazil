@@ -148,7 +148,7 @@
                 <field name="owner_name" position="replace"/>
                 <field name="partner_id" position="replace">
                     <field name="partner_id"/>
-                    <field name="owner_name" string="Owner Name"/>
+                    <field name="owner_name"/>
                 </field>
                 <field name="zip" position="replace"/>
                 <field name="street" position="replace">
