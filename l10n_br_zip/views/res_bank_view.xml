@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_bank_form_zip_button">
+            <field name="name">l10n_br_zip.view_bank_form_zip_button</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_bank_form"/>
+            <field name="arch" type="xml">
+                <field name="zip" position="after">
+                    <button name="zip_search" type="object" class="oe_inline">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
