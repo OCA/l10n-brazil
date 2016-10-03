@@ -90,7 +90,7 @@ class L10nBrZip(models.Model):
                    country_id=False, state_id=False,
                    l10n_br_city_id=False, district=False,
                    street=False, zip_code=False):
-        result = self.set_result(cr, uid, ids, context)
+        # result = self.set_result(cr, uid, ids, context)
         zip_id = self.zip_search_multi(
             cr, uid, ids, context,
             country_id, state_id,
