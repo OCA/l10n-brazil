@@ -4,8 +4,10 @@
 
 import re
 
-from openerp import models, fields
+from openerp import models, fields, api
+from openerp.tools.translate import _
 from openerp.exceptions import except_orm
+from openerp.exceptions import Warning as UserError
 
 
 class L10nBrZip(models.Model):
@@ -86,21 +88,41 @@ class L10nBrZip(models.Model):
             zip_code=zip_code)
         return self.search(domain)
 
-    def zip_search(self, cr, uid, ids, context,
-                   country_id=False, state_id=False,
-                   l10n_br_city_id=False, district=False,
-                   street=False, zip_code=False):
-        # result = self.set_result(cr, uid, ids, context)
-        zip_id = self.zip_search_multi(
-            cr, uid, ids, context,
-            country_id, state_id,
-            l10n_br_city_id, district,
-            street, zip_code)
-        if len(zip_id) == 1:
-            result = self.set_result(cr, uid, ids, context, zip_id[0])
-            return result
+    @api.multi
+    def zip_search(self, obj):
+
+        zip_ids = self.zip_search_multi(
+            country_id=obj.country_id.id,
+            state_id=obj.state_id.id,
+            l10n_br_city_id=obj.l10n_br_city_id.id,
+            district=obj.district,
+            street=obj.street,
+            zip_code=obj.zip,
+        )
+
+        if len(zip_ids) == 1:
+            result = self.set_result(zip_ids[0])
+            obj.write(result)
+            return True
         else:
-            return False
+            if len(zip_ids) > 1:
+                obj_zip_result = self.env['l10n_br.zip.result']
+                zip_ids = obj_zip_result.map_to_zip_result(
+                    zip_ids, obj._name, obj.id)
+
+                return self.create_wizard(
+                    obj._name,
+                    obj.id,
+                    country_id=obj.country_id.id,
+                    state_id=obj.state_id.id,
+                    l10n_br_city_id=obj.l10n_br_city_id.id,
+                    district=obj.district,
+                    street=obj.street,
+                    zip_code=obj.zip,
+                    zip_ids=[zip.id for zip in zip_ids]
+                )
+            else:
+                raise UserError(_('Nenhum registro encontrado'))
 
     def create_wizard(self, object_name, address_id, country_id=False,
                       state_id=False, l10n_br_city_id=False,
