@@ -31,3 +31,4 @@
 "l10n_br_account_product_ipi_guideline","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,1,1,1
 "l10n_br_account_product_ipi_guideline_user","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
 "l10n_br_account_product_ipi_guideline_invoice","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
+"ir_sequence_account_invoice","ir_sequence account_invoice","base.model_ir_sequence","account.group_account_invoice",1,1,1,0
