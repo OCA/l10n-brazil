@@ -13,13 +13,14 @@ from openerp.addons.l10n_br_account.models.l10n_br_account import (
 class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 
-    @api.one
+    @api.multi
     @api.depends('product_tax_definition_line.tax_id')
     def _compute_taxes(self):
-        product_taxes = self.env['account.tax']
-        for tax in self.product_tax_definition_line:
-            product_taxes += tax.tax_id
-        self.product_tax_ids = product_taxes
+        for state in self:
+            product_taxes = self.env['account.tax']
+            for tax in state.product_tax_definition_line:
+                product_taxes += tax.tax_id
+            state.product_tax_ids = product_taxes
 
     product_tax_definition_line = fields.One2many(
         'l10n_br_tax.definition.state.product',
