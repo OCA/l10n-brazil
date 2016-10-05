@@ -840,7 +840,6 @@ class AccountInvoiceLine(models.Model):
                   "be a number with up to six digits")
             )
 
-
     def _amount_tax_icms(self, tax=None):
         result = {
             'icms_base': tax.get('total_base', 0.0),
