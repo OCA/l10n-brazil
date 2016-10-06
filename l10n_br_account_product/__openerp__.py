@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
@@ -21,6 +21,7 @@
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
         'data/l10n_br_account_product_data.xml',
+        'data/l10n_br_tax.icms_partition.csv',
         'views/l10n_br_account_product_view.xml',
         'views/l10n_br_account_view.xml',
         'views/l10n_br_account_product_view.xml',
@@ -31,6 +32,7 @@
         'views/res_company_view.xml',
         'views/account_product_fiscal_classification_view.xml',
         'views/product_view.xml',
+        'views/res_country_view.xml',
         'wizard/l10n_br_account_nfe_export_invoice_view.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
         'wizard/l10n_br_account_document_status_sefaz_view.xml',

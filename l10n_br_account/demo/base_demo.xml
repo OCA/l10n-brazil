@@ -300,5 +300,15 @@
             <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_3" />
         </record>
 
+        <!-- Cliente 9 MG Não Contribuinte -->
+        <record id="l10n_br_base.res_partner_cliente9_mg" model="res.partner">
+            <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_2" />
+        </record>
+
+        <!-- Cliente 10 MG Não Contribuinte -->
+        <record id="l10n_br_base.res_partner_cliente10_mg" model="res.partner">
+            <field name="partner_fiscal_type_id" ref="l10n_br_account.partner_fiscal_type_4" />
+        </record>
+
     </data>
 </openerp>

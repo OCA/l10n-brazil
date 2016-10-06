@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
+# Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
+from openerp.addons.l10n_br_account_product.models.product import \
+    PRODUCT_ORIGIN
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -11,7 +13,7 @@ class AccountFiscalPositionTemplate(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
@@ -26,6 +28,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
         'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)
 
 
 class AccountFiscalPosition(models.Model):
@@ -34,7 +37,7 @@ class AccountFiscalPosition(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     ind_final = fields.Selection([
         ('0', u'Não'),
-        ('1', u'Consumidor final')
+        ('1', u'Sim')
     ], u'Operação com Consumidor final', readonly=True,
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
@@ -83,7 +86,8 @@ class AccountFiscalPosition(models.Model):
     def _map_tax_code(self, map_tax):
         result = {}
         for map in map_tax:
-            result[map.tax_dest_id.domain] = {
+            domain = map.tax_dest_id.domain or map.tax_code_src_id.domain
+            result[domain] = {
                 'tax': map.tax_dest_id,
                 'tax_code': map.tax_code_dest_id,
                 'icms_relief': map.tax_icms_relief_id,
@@ -126,17 +130,43 @@ class AccountFiscalPosition(models.Model):
                     'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
                 }
 
+        if self.env.context.get('partner_id'):
+            partner = self.env['res.partner'].browse(
+                self.env.context.get('partner_id'))
+            if (self.env.context.get('type_tax_use') in ('sale', 'all') and
+                    self.env.context.get('fiscal_type',
+                                         'product') == 'product'):
+                state_taxes = partner.state_id.product_tax_definition_line
+                for tax_def in state_taxes:
+                    if tax_def.tax_id and \
+                            (not tax_def.fiscal_classification_id or
+                             tax_def.fiscal_classification_id == product_fc):
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                        }
+
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
             for map in self.tax_ids:
                 if (map.tax_src_id.id == tax.id or
                         map.tax_dest_id == tax or
                         map.tax_code_src_id.id == tax.tax_code_id.id):
                     if map.tax_dest_id.id or tax.tax_code_id.id:
+                        map_taxes |= map
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
+                        if map.origin == product.origin:
+                            map_taxes_origin |= map
+                        if (map.fiscal_classification_id.id ==
+                                product.fiscal_classification_id.id and
+                                map.origin == product.origin):
+                            map_taxes_origin_ncm |= map
                         else:
                             map_taxes |= map
             else:
@@ -146,7 +176,9 @@ class AccountFiscalPosition(models.Model):
                     result[tax.domain] = {'tax': tax}
 
         result.update(self._map_tax_code(map_taxes))
+        result.update(self._map_tax_code(map_taxes_origin))
         result.update(self._map_tax_code(map_taxes_ncm))
+        result.update(self._map_tax_code(map_taxes_origin_ncm))
         return result
 
     @api.v8
@@ -185,3 +217,4 @@ class AccountFiscalPositionTax(models.Model):
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
         'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+    origin = fields.Selection(PRODUCT_ORIGIN, 'Origem',)

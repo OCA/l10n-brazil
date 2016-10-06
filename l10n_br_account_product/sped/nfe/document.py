@@ -405,6 +405,23 @@ class NFe200(FiscalDocument):
             self.det.imposto.ICMS.vICMSST.valor = str(
                 "%.2f" % invoice_line.icms_st_value)
 
+            # Informação do ICMS Interestadual nas vendas para consumidor final
+            self.det.imposto.ICMSUFDest.vBCUFDest.valor = str(
+                "%.2f" % invoice_line.icms_dest_base)
+            self.det.imposto.ICMSUFDest.pFCPUFDest.valor = str(
+                "%.2f" % invoice_line.icms_fcp_percent)
+            self.det.imposto.ICMSUFDest.pICMSUFDest.valor = str(
+                "%.2f" % invoice_line.icms_dest_percent)
+            self.det.imposto.ICMSUFDest.pICMSInter.valor = str(
+                "%.2f" % invoice_line.icms_origin_percent)
+            self.det.imposto.ICMSUFDest.pICMSInterPart.valor = str(
+                "%.2f" % invoice_line.icms_part_percent)
+            self.det.imposto.ICMSUFDest.vFCPUFDest.valor = str(
+                "%.2f" % invoice_line.icms_fcp_value)
+            self.det.imposto.ICMSUFDest.vICMSUFDest.valor = str(
+                "%.2f" % invoice_line.icms_dest_value)
+            self.det.imposto.ICMSUFDest.vICMSUFRemet.valor = str(
+                "%.2f" % invoice_line.icms_origin_value)
             # IPI
             self.det.imposto.IPI.CST.valor = invoice_line.ipi_cst_id.code
             if invoice_line.ipi_type == 'percent' or '':
@@ -575,6 +592,12 @@ class NFe200(FiscalDocument):
             "%.2f" % invoice.icms_base)
         self.nfe.infNFe.total.ICMSTot.vICMS.valor = str(
             "%.2f" % invoice.icms_value)
+        self.nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(
+            "%.2f" % invoice.icms_fcp_value)
+        self.nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(
+            "%.2f" % invoice.icms_dest_value)
+        self.nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
+            "%.2f" % invoice.icms_origin_value)
         self.nfe.infNFe.total.ICMSTot.vBCST.valor = str(
             "%.2f" % invoice.icms_st_base)
         self.nfe.infNFe.total.ICMSTot.vST.valor = str(

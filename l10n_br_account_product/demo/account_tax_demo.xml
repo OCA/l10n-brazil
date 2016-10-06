@@ -261,6 +261,56 @@
             <field ref="tax_code_demo_icmsst" name="ref_tax_code_id" />
         </record>
 
+        <record id="demo_tax_out_icmsinter_18" model="account.tax">
+            <field name="description">ICMS Inter 18%</field>
+            <field name="name">ICMS Inter 18%</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount">0.18</field>
+            <field ref="l10n_br_account.account_demo_201010302" name="account_collected_id"/>
+            <field ref="l10n_br_account.account_demo_101050505" name="account_paid_id"/>
+            <field eval="0" name="price_include"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="1" name="tax_discount"/>
+            <field name="domain">icmsinter</field>
+            <field ref="tax_code_demo_icmsinter" name="base_code_id"/>
+            <field ref="tax_code_demo_icmsinter" name="tax_code_id"/>
+            <field ref="tax_code_demo_icmsinter" name="ref_base_code_id"/>
+            <field ref="tax_code_demo_icmsinter" name="ref_tax_code_id"/>
+        </record>
+
+        <record id="demo_mg_tax_out_icmsinter_18" model="l10n_br_tax.definition.state.product">
+            <field name="state_id" ref="l10n_br_base.br_mg"/>
+            <field name="tax_id" ref="demo_tax_out_icmsinter_18"/>
+            <field name="tax_domain">icmsinter</field>
+            <field name="tax_code_id" ref="tax_code_demo_icmsinter"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="demo_tax_out_icmsfcp_2" model="account.tax">
+            <field name="description">ICMS FCP 2%</field>
+            <field name="name">ICMS FCP 2%</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount">0.02</field>
+            <field ref="l10n_br_account.account_demo_201010302" name="account_collected_id"/>
+            <field ref="l10n_br_account.account_demo_101050505" name="account_paid_id"/>
+            <field eval="0" name="price_include"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="1" name="tax_discount"/>
+            <field name="domain">icmsinter</field>
+            <field ref="tax_code_demo_icmsfcp" name="base_code_id"/>
+            <field ref="tax_code_demo_icmsfcp" name="tax_code_id"/>
+            <field ref="tax_code_demo_icmsfcp" name="ref_base_code_id"/>
+            <field ref="tax_code_demo_icmsfcp" name="ref_tax_code_id"/>
+        </record>
+
+        <record id="demo_mg_tax_out_icmsfcp_2" model="l10n_br_tax.definition.state.product">
+            <field name="state_id" ref="l10n_br_base.br_mg"/>
+            <field name="tax_id" ref="demo_tax_out_icmsfcp_2"/>
+            <field name="tax_domain">icmsfcp</field>
+            <field name="tax_code_id" ref="tax_code_demo_icmsfcp"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
         <record id="demo_tax_out_pis" model="account.tax">
             <field name="description">PIS Saída</field>
             <field name="name">PIS Saída</field>

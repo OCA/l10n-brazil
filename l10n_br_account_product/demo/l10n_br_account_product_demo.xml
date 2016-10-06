@@ -123,7 +123,25 @@
             <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_icms_externo12"/>
             <field name="tax_code_dest_id" ref="l10n_br_account_product.tax_code_demo_icms_00"/>
             <field name="tax_src_domain">icms</field>
-        </record>       
+        </record>  
+
+        <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo" model="account.fiscal.position">
+            <field name="name">Venda Fora do Estado ICMS 12% Não Contribuinte</field>
+            <field name="cfop_id" ref="cfop_6107" />
+            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12" />
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">output</field>
+            <field name="type_tax_use">sale</field>
+            <field name="ind_final">1</field>
+        </record>
+
+        <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_pf_demo" model="account.fiscal.position.tax">
+            <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo"/>
+            <field name="tax_code_src_id" ref="l10n_br_account_product.tax_code_demo_icms"/>
+            <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_icms_externo12"/>
+            <field name="tax_code_dest_id" ref="l10n_br_account_product.tax_code_demo_icms_00"/>
+            <field name="tax_src_domain">icms</field>
+        </record>
 
         <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_exportation_demo" model="account.fiscal.position">
             <field name="name">Venda Ex</field>
