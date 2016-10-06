@@ -12,8 +12,8 @@ WS_SERVICOS = 0
 WS_PRODUTOS = 1
 
 WS_IBPT = {
-    WS_SERVICOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/servico/?',
-    WS_PRODUTOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/produto/?',
+    WS_SERVICOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Servicos/?',
+    WS_PRODUTOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Produtos/?',
 }
 
 
@@ -41,7 +41,7 @@ def _request(req):
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
-def get_ibpt_product(config, ncm, ex, reference=None, description=None,
+def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
                      uom=None, amount=None, gtin=None):
 
     data = urllib.urlencode({

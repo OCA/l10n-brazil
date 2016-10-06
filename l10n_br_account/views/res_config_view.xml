@@ -17,6 +17,12 @@
                                 <div>
                                    <field name="ipbt_token" class="oe_inline" />
                                 </div>
+                                <div>
+                                    <label string="Quantidade de dias para Atualizar:"/>
+                                </div>
+                                <div>
+                                    <field name="ibpt_update_days"/>
+                                </div>
                             </div>
                         </group>
                     </xpath>
