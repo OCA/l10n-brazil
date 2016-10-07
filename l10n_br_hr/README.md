@@ -4,7 +4,7 @@ l10n_br_hr
 Goal
 ----
 
-Este projeto contêm módulos da localização brasileira do OpenERP para Recursos Humanos:
+Este projeto contêm módulos da localização brasileira do Odoo para Recursos Humanos:
 
-* Dados de cadasto de funcionários
+* Dados de cadastro de funcionários
 * Classificação Brasileira de Ocupações (CBO) integrada
