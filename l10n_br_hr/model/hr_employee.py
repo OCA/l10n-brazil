@@ -13,19 +13,6 @@ from openerp.exceptions import Warning as UserError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    @api.model
-    def _get_dependents(self):
-        res = {}
-        dependent = self.env['hr.employee.dependent']
-        dep_ids = dependent.search([('employee_id', '=', self._id),
-                                    ('dependent_verification', '=', True)])
-        if dep_ids:
-            # TODO: make the value for each dependent a field,
-            # because it can vary each year
-            return len(dep_ids)*179.71
-        else:
-            return 0
-
     @api.constrains('pis_pasep')
     def _validate_pis_pasep(self):
         employee = self
@@ -92,8 +79,6 @@ class HrEmployee(models.Model):
     mother_name = fields.Char(string=u'Nome da mãe')
     expiration_date = fields.Date(string=u'Validade')
     sindicate = fields.Char(string=u'Sindicato', help=u'Sigla do sindicato')
-    n_dependents = fields.Float(compute=_get_dependents,
-                                digits_compute=dp.get_precision('Payroll'))
 
     @api.model
     @api.onchange('address_home_id')
