@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import time
-from datetime import datetime
 
 from openerp import models, fields, api
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
@@ -287,8 +286,12 @@ class AccountTax(models.Model):
 
         # Estimate Taxes
         if fiscal_position and fiscal_position.asset_operation:
-            total_taxes = ((result['total_included'] - totaldc) *
-                           product.product_estimated_taxes_percent/100)
+            if product.origin in ('1', '2', '6', '7'):
+                total_taxes = ((result['total_included'] - totaldc) *
+                               product.estd_import_taxes_perct/100)
+            else:
+                total_taxes = ((result['total_included'] - totaldc) *
+                               product.estd_national_taxes_perct/100)
             result['total_taxes'] = round(total_taxes, precision)
 
         return {
