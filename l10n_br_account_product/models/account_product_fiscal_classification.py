@@ -177,6 +177,21 @@ class AccountProductFiscalClassification(models.Model):
             fc.purchase_tax_ids = [line.tax_id.id for line in
                                    fc.purchase_tax_definition_line]
 
+    @api.multi
+    @api.depends('tax_estimate_ids')
+    def _compute_product_estimated_taxes_percent(self):
+        for record in self:
+            t_ids = record.tax_estimate_ids.ids
+            last_estimated = self.env['l10n_br_tax.estimate'].search(
+                [('id', 'in', t_ids)], order='create_date DESC', limit=1)
+
+            record.estd_import_taxes_perct = (
+                last_estimated.federal_taxes_import +
+                last_estimated.state_taxes + last_estimated.municipal_taxes)
+            record.estd_national_taxes_perct = (
+                last_estimated.federal_taxes_national +
+                last_estimated.state_taxes + last_estimated.municipal_taxes)
+
     type = fields.Selection([('view', u'Visão'),
                              ('normal', 'Normal'),
                              ('extension', u'Extensão')], 'Tipo',
@@ -222,6 +237,14 @@ class AccountProductFiscalClassification(models.Model):
         string='CEST',
         size=9,
         help=u"Código Especificador da Substituição Tributária ")
+
+    estd_import_taxes_perct = fields.Float(
+        string=u'Impostos de Importação Estimados(%)',
+        compute='_compute_product_estimated_taxes_percent', store=True)
+
+    estd_national_taxes_perct = fields.Float(
+        string=u'Impostos Nacionais Estimados(%)',
+        compute='_compute_product_estimated_taxes_percent', store=True)
 
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',

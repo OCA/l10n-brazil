@@ -83,6 +83,10 @@
                                     <div>Consultar<br/>IBPT</div>
                                 </button>
                             </div>
+                            <div>
+                                <field name="estd_import_taxes_perct" invisible="1"/>
+                                <field name="estd_national_taxes_perct" invisible="1"/>
+                            </div>
                             <field name="tax_estimate_ids" nolabel="1">
                                 <tree>
                                     <field name="state_id"/>
