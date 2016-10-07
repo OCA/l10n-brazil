@@ -18,7 +18,8 @@
                         <group>
                             <field name="fiscal_type" required="1"/>
                             <field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')]}" />
-                            <field name="product_estimated_taxes_percent"/>
+                            <field name="estd_import_taxes_perct" attrs="{'invisible': [('origin', 'in', ('3', '4', '5', '8'))]}"/>
+                            <field name="estd_national_taxes_perct" attrs="{'invisible': [('origin', 'in', ('1', '2', '6', '7'))]}"/>
                         </group>
                         <group>
                             <field name="fiscal_classification_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" domain="[('type', '=', 'normal')]"/>
