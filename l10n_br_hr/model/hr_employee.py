@@ -6,7 +6,6 @@
 from openerp import models, fields, api
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning as UserError
 
 
@@ -98,6 +97,7 @@ class HrEmployee(models.Model):
             [('user_ids', '=', user_id)], limit=1)
         res['value'].update({'address_home_id': partner.id})
         return res
+
 
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
