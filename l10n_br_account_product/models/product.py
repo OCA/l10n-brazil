@@ -43,3 +43,9 @@ class ProductTemplate(models.Model):
 
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
+
+    estd_import_taxes_perct = fields.Float(
+        related='fiscal_classification_id.estd_import_taxes_perct')
+
+    estd_national_taxes_perct = fields.Float(
+        related='fiscal_classification_id.estd_national_taxes_perct')
