@@ -54,17 +54,43 @@ function l10n_br_pos_db(instance, module) {
             return str;
         },
         get_partner_by_identification: function(partners, identification){
+            var identification_with_pontuation = this.add_pontuation_document(identification);
             for (var i = 0; i < partners.length; i++){
                 var cnpj_cpf = partners[i].cnpj_cpf;
                 if (cnpj_cpf){
-                    cnpj_cpf = cnpj_cpf.replace(".", "").replace("/", "").replace("-","");
-                    cnpj_cpf = cnpj_cpf.replace(".","");
-                    if (cnpj_cpf == identification){
+                    if ((cnpj_cpf == identification) || (cnpj_cpf == identification_with_pontuation)){
                         return partners[i];
                     }
                 }
             }
             return false;
+        },
+        add_pontuation_document: function(document){
+            var document_with_pontuation = '';
+            if(document.length <= 11){
+                for (var j = 1; j <= document.length; j++){
+                    if ((j == 3) || (j == 6)){
+                        document_with_pontuation += document.split('')[j-1] + ".";
+                    }else if (j == 9){
+                        document_with_pontuation += document.split('')[j-1] + "-";
+                    }else{
+                        document_with_pontuation += document.split('')[j-1];
+                    }
+                }
+            }else if(document.length > 11 && document.length <= 14){
+                for (var j = 1; j <= document.length; j++){
+                    if ((j == 2) || (j == 5)){
+                        document_with_pontuation += document.split('')[j-1] + ".";
+                    }else if (j == 8){
+                        document_with_pontuation += document.split('')[j-1] + "/";
+                    }else if (j == 12){
+                        document_with_pontuation += document.split('')[j-1] + "-";
+                    }else{
+                        document_with_pontuation += document.split('')[j-1];
+                    }
+                }
+            }
+            return document_with_pontuation;
         },
         search_partner: function(query){
             try {
