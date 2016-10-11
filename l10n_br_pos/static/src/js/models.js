@@ -193,7 +193,7 @@ function l10n_br_pos_models(instance, module) {
         },
         export_for_printing: function () {
             var client = this.get('client');
-
+            var company = this.pos.company;
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
             if( sat_status == 'connected') {
@@ -209,6 +209,8 @@ function l10n_br_pos_models(instance, module) {
                 }
 
                 var result = PosOrderSuper.prototype.export_for_printing.call(this);
+                result['company'] = {};
+                result['configs_sat'] = {};
                 result['pos_session_id'] = this.pos.pos_session.id;
                 result['client'] = client ? client.cnpj_cpf : null;
                 result['company']['cnpj'] = company.cnpj;
@@ -234,7 +236,7 @@ function l10n_br_pos_models(instance, module) {
         },
         export_as_JSON: function () {
             var client = this.get('client');
-
+            var company = this.pos.company;
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
             if( sat_status == 'connected') {
@@ -249,6 +251,8 @@ function l10n_br_pos_models(instance, module) {
                 }
 
                 var result = PosOrderSuper.prototype.export_as_JSON.call(this);
+                result['company'] = {};
+                result['configs_sat'] = {};
                 result['company']['cnpj'] = company.cnpj;
                 result['company']['ie'] = company.ie;
                 result['company']['cnpj_software_house'] = company.cnpj_software_house;
@@ -270,6 +274,19 @@ function l10n_br_pos_models(instance, module) {
 
                 return result;
             }
+        }
+    });
+
+    var OrderlineSuper = module.Orderline;
+
+    module.Orderline = module.Orderline.extend({
+        //used to create a json of the ticket, to be sent to the printer
+        export_for_printing: function () {
+            var result = OrderlineSuper.prototype.export_as_JSON.call(this);
+            result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
+            result['estimated_taxes'] = this.get_product().estimated_taxes;
+            result['origin'] = this.get_product().origin;
+            return result;
         }
     });
 
