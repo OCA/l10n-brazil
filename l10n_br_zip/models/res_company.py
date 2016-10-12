@@ -14,5 +14,4 @@ class ResCompany(models.Model):
     @api.multi
     def zip_search(self):
         self.ensure_one()
-        obj_zip = self.env['l10n_br.zip']
-        return obj_zip.zip_search(self)
+        return self.env['l10n_br.zip'].zip_search(self)
