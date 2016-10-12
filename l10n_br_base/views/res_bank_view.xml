@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
 
@@ -17,6 +18,10 @@
                     <field name="country_id" placeholder="País"/>
                     <field name="state_id" placeholder="Estado"/>
                     <field name="l10n_br_city_id" placeholder="Cidade"/>
+                </field>
+                <field name="state_id" position="attributes">
+                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
+                    <attribute name="style">width:100%</attribute>
                 </field>
                 <field name="country" position="replace">
                     <field name="country" invisible="1"/>
