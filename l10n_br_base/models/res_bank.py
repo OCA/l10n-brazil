@@ -13,12 +13,15 @@ class ResBank(models.Model):
 
     district = fields.Char(u'Bairro', size=32)
     number = fields.Char(u'Número', size=10)
-    country_id = fields.Many2one('res.country', u'País')
 
-    state_id = fields.Many2one('res.country.state', u'Estado',
+    country_id = fields.Many2one('res.country', related='country',
+                                 string=u'País')
+
+    state_id = fields.Many2one('res.country.state', related='state',
+                               string=u'Estado',
                                domain="[('country_id','=',country_id)]")
 
-    l10n_br_city_id = fields.Many2one('l10n_br_base.city', u'Municipio',
+    l10n_br_city_id = fields.Many2one('l10n_br_base.city', string=u'Municipio',
                                       domain="[('state_id','=',state_id)]")
 
     @api.onchange('l10n_br_city_id')
@@ -31,28 +34,6 @@ class ResBank(models.Model):
         """
         if self.l10n_br_city_id:
             self.city = self.l10n_br_city_id.name
-
-    @api.onchange('state_id')
-    def _onchange_state_id(self):
-        """ Ao alterar o campo state_id que é um campo relacional
-        com o res.country.state, copia o nome do estado para o
-        campo state que é o campo nativo do módulo base
-        para manter a compatibilidade entre os demais módulos que usam o
-        campo state.
-        """
-        if self.state_id:
-            self.state = self.state_id
-
-    @api.onchange('country_id')
-    def _onchange_country_id(self):
-        """ Ao alterar o campo country_id que é um campo relacional
-        com o res.country.state, copia o nome do país para o
-        campo country que é o campo nativo do módulo base
-        para manter a compatibilidade entre os demais módulos que usam o
-        campo country.
-        """
-        if self.country_id:
-            self.country = self.country_id
 
     @api.onchange('zip')
     def _onchange_zip(self):
