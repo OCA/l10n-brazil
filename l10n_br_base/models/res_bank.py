@@ -18,8 +18,7 @@ class ResBank(models.Model):
                                  string=u'País')
 
     state_id = fields.Many2one('res.country.state', related='state',
-                               string=u'Estado',
-                               domain="[('country_id','=',country_id)]")
+                               string=u'Estado')
 
     l10n_br_city_id = fields.Many2one('l10n_br_base.city', string=u'Municipio',
                                       domain="[('state_id','=',state_id)]")
