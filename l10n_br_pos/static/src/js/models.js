@@ -283,6 +283,18 @@ function l10n_br_pos_models(instance, module) {
         //used to create a json of the ticket, to be sent to the printer
         export_for_printing: function () {
             var result = OrderlineSuper.prototype.export_as_JSON.call(this);
+            result['quantity'] = this.get_quantity(),
+            result['unit_name'] = this.get_unit().name,
+            result['price'] = this.get_unit_price(),
+            result['discount'] = this.get_discount(),
+            result['product_name'] = this.get_product().name,
+            result['price_display'] = this.get_display_price(),
+            result['price_with_tax'] = this.get_price_with_tax(),
+            result['price_without_tax'] = this.get_price_without_tax(),
+            result['tax'] = this.get_tax(),
+            result['product_description'] = this.get_product().description,
+            result['product_description_sale'] = this.get_product().description_sale,
+            result['product_default_code'] = this.get_product().default_code,
             result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
             result['estimated_taxes'] = this.get_product().estimated_taxes;
             result['origin'] = this.get_product().origin;
