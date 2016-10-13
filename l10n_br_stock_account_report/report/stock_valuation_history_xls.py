@@ -2,10 +2,17 @@
 # @ 2016 Kmee - www.kmee.com.br - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import xlwt
 from openerp.report import report_sxw
 from openerp.addons.report_xls.report_xls import report_xls
 from openerp.addons.report_xls.utils import _render
+from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
+
+try:
+    import xlwt
+except ImportError:
+    raise UserError(_(u'Erro!'), _(u"Biblioteca xlwt não instalada!"))
+
 import logging
 _logger = logging.getLogger(__name__)
 
