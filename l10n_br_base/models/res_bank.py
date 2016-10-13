@@ -3,8 +3,9 @@
 #    @author Michell Stuttgart <michellstut@gmail.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
 import re
+
+from openerp import models, fields, api
 
 
 class ResBank(models.Model):
@@ -20,7 +21,7 @@ class ResBank(models.Model):
     state_id = fields.Many2one('res.country.state', related='state',
                                string=u'Estado')
 
-    l10n_br_city_id = fields.Many2one('l10n_br_base.city', string=u'Municipio',
+    l10n_br_city_id = fields.Many2one('l10n_br_base.city', u'Municipio',
                                       domain="[('state_id','=',state_id)]")
 
     @api.onchange('l10n_br_city_id')
