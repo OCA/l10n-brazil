@@ -44,6 +44,7 @@ function l10n_br_pos_devices(instance, module) {
                 if (self.receipt_queue.length > 0){
                    var r = self.receipt_queue.shift();
                    var j = self.receipt_queue.shift();
+                    j['client'] = self.remove_document_pontuations(j['client']);
                    self.message('enviar_cfe_sat',{json: j},{ timeout: 5000 })
                         .then(function(result){
                             if (!result['excessao']){
@@ -72,6 +73,9 @@ function l10n_br_pos_devices(instance, module) {
                 }
             }
             send_sat_job();
+        },
+        remove_document_pontuations: function(document){
+            return document.replace(/[^\d]+/g,'');
         },
         cancel_last_order: function(order){
             var self = this;
