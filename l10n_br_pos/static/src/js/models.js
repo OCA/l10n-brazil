@@ -297,7 +297,7 @@ function l10n_br_pos_models(instance, module) {
             result['product_default_code'] = this.get_product().default_code;
             result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
             result['estimated_taxes'] = this.get_product().estimated_taxes ? this.get_product().estimated_taxes < 1 : this.get_product().estimated_taxes/100;
-
+            result['origin'] = this.get_product().origin;
             return result;
         }
     });
