@@ -196,6 +196,7 @@ function l10n_br_pos_models(instance, module) {
             var company = this.pos.company;
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            var result = PosOrderSuper.prototype.export_for_printing.call(this);
             if( sat_status == 'connected') {
             // Refactory
                 if (this.pos.company.ambiente_sat == "homologacao") {
@@ -207,8 +208,6 @@ function l10n_br_pos_models(instance, module) {
                     company.ie = this.pos.company.inscr_est;
                     company.cnpj_software_house = this.pos.config.cnpj_software_house;
                 }
-
-                var result = PosOrderSuper.prototype.export_for_printing.call(this);
                 result['company'] = {};
                 result['configs_sat'] = {};
                 result['pos_session_id'] = this.pos.pos_session.id;
@@ -224,7 +223,6 @@ function l10n_br_pos_models(instance, module) {
 
                 return result;
             }else{
-                var result = PosOrderSuper.prototype.export_for_printing.call(this);
                 result['pos_session_id'] = this.pos.pos_session.id;
                 result['client'] = client ? client.cnpj_cpf : null;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
@@ -239,6 +237,7 @@ function l10n_br_pos_models(instance, module) {
             var company = this.pos.company;
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            var result = PosOrderSuper.prototype.export_as_JSON.call(this);
             if( sat_status == 'connected') {
                 if (this.pos.company.ambiente_sat == "homologacao") {
                     company.cnpj = this.pos.config.cnpj_homologacao;
@@ -250,7 +249,6 @@ function l10n_br_pos_models(instance, module) {
                     company.cnpj_software_house = this.pos.config.cnpj_software_house;
                 }
 
-                var result = PosOrderSuper.prototype.export_as_JSON.call(this);
                 result['company'] = {};
                 result['configs_sat'] = {};
                 result['company']['cnpj'] = company.cnpj;
@@ -261,13 +259,15 @@ function l10n_br_pos_models(instance, module) {
                 result['configs_sat']['cod_ativacao'] = this.pos.config.cod_ativacao;
                 result['configs_sat']['impressora'] = this.pos.config.impressora;
                 result['configs_sat']['printer_params'] = this.pos.config.printer_params;
+                result['client'] = client ? client.cnpj_cpf : null;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
 
                 return result;
             }else{
-                var result = PosOrderSuper.prototype.export_as_JSON.call(this);
+                result['pos_session_id'] = this.pos.pos_session.id;
+                result['client'] = client ? client.cnpj_cpf : null;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
@@ -283,21 +283,21 @@ function l10n_br_pos_models(instance, module) {
         //used to create a json of the ticket, to be sent to the printer
         export_for_printing: function () {
             var result = OrderlineSuper.prototype.export_as_JSON.call(this);
-            result['quantity'] = this.get_quantity(),
-            result['unit_name'] = this.get_unit().name,
-            result['price'] = this.get_unit_price(),
-            result['discount'] = this.get_discount(),
-            result['product_name'] = this.get_product().name,
-            result['price_display'] = this.get_display_price(),
-            result['price_with_tax'] = this.get_price_with_tax(),
-            result['price_without_tax'] = this.get_price_without_tax(),
-            result['tax'] = this.get_tax(),
-            result['product_description'] = this.get_product().description,
-            result['product_description_sale'] = this.get_product().description_sale,
-            result['product_default_code'] = this.get_product().default_code,
+            result['quantity'] = this.get_quantity();
+            result['unit_name'] = this.get_unit().name;
+            result['price'] = this.get_unit_price();
+            result['discount'] = this.get_discount();
+            result['product_name'] = this.get_product().name;
+            result['price_display'] = this.get_display_price();
+            result['price_with_tax'] = this.get_price_with_tax();
+            result['price_without_tax'] = this.get_price_without_tax();
+            result['tax'] = this.get_tax();
+            result['product_description'] = this.get_product().description;
+            result['product_description_sale'] = this.get_product().description_sale;
+            result['product_default_code'] = this.get_product().default_code;
             result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
-            result['estimated_taxes'] = this.get_product().estimated_taxes;
-            result['origin'] = this.get_product().origin;
+            result['estimated_taxes'] = this.get_product().estimated_taxes ? this.get_product().estimated_taxes < 1 : this.get_product().estimated_taxes/100;
+
             return result;
         }
     });
