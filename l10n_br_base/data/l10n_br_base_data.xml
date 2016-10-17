@@ -2,9 +2,9 @@
 <openerp>
 
     <data noupdate="True">
-
-        <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set"/>
-
+        <!-- TODO
+        <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set_default"/>
+        -->
         <record id="base.ad" model="res.country">
             <field name="bc_code">00370</field>
         </record>
