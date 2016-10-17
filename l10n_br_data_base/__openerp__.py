@@ -18,35 +18,18 @@
 ###############################################################################
 
 {
-    'name': 'Brazilian Localization Base',
-    'category': 'Localisation',
+    'name': 'Brazilian Localisation Data Extension for Base',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
     'version': '9.0.1.0.1',
     'depends': [
-        'base',
+        'l10n_br_base',
     ],
     'data': [
-        'data/l10n_br_base.city.csv',
-        'data/l10n_br_base_data.xml',
-        'views/l10n_br_base_view.xml',
-        'views/res_country_view.xml',
-        'views/res_partner_view.xml',
-        'views/res_company_view.xml',
-        'security/ir.model.access.csv',
+        'data/res.bank.csv',
     ],
-    'demo': [
-        'demo/base_demo.xml',
-        'demo/l10n_br_base_demo.xml',
-        'demo/res_partner_demo.xml',
-    ],
-    'test': [
-        'test/base_inscr_est_valid.yml',
-        'test/base_inscr_est_invalid.yml',
-        'test/res_partner_test.yml',
-        'test/res_company_test.yml',
-    ],
+    'demo': [],
+    'category': 'Localisation',
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
 }
