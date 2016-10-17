@@ -158,7 +158,8 @@ class ResPartner(models.Model):
             elif not self.is_company and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s" % (
                     val[0:3], val[3:6], val[6:9], val[9:11])
-            self.cnpj_cpf = cnpj_cpf
+            if cnpj_cpf:
+                self.cnpj_cpf = cnpj_cpf
 
     @api.onchange('l10n_br_city_id')
     def _onchange_l10n_br_city_id(self):
@@ -182,14 +183,37 @@ class ResPartner(models.Model):
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
 
-    @api.cr_uid_context
-    def _address_fields(self, cr, uid, context=None):
+    def _address_fields(self):
         """ Returns the list of address fields that are synced from the parent
         when the `use_parent_address` flag is set.
         Extenção para os novos campos do endereço """
-        address_fields = super(ResPartner, self)._address_fields(
-            cr, uid, context=context)
+        address_fields = super(ResPartner, self)._address_fields()
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
+
+
+class Bank(models.Model):
+    _inherit = 'res.bank'
+
+    number = fields.Char(u'Número', size=10)
+    district = fields.Char('Bairro', size=32)
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', 'Municipio',
+        domain="[('state_id','=',state_id)]")
+
+    @api.onchange('l10n_br_city_id')
+    def _onchange_l10n_br_city_id(self):
+        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
+        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
+        do município para o campo city que é o campo nativo do módulo base
+        para manter a compatibilidade entre os demais módulos que usam o
+        campo city.
+
+        param int l10n_br_city_id: id do l10n_br_city_id digitado.
+
+        return: dicionário com o nome e id do município.
+        """
+        if self.l10n_br_city_id:
+            self.city = self.l10n_br_city_id.name
 
 
 class ResPartnerBank(models.Model):

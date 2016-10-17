@@ -46,8 +46,9 @@
         </record>
 
         <menuitem id="menu_l10n_br_base_fiscal" name="Fiscal" parent="menu_l10n_br_base_configuration" sequence="0"/>
+		<!--
         <menuitem id="menu_action_l10n_br_base_city_form" name="Municípios" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
-
+		-->
     </data>
 
 </openerp>
