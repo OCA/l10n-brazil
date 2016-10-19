@@ -15,6 +15,7 @@ to the national context of HR""",
     'depends': ['hr', 'l10n_br_base'],
     'data': [
         'data/l10n_br_hr.cbo.csv',
+        'data/dependent_type_data.xml',
         'security/ir.model.access.csv',
         'view/l10n_br_hr_cbo_view.xml',
         'view/hr_employee_view.xml',
