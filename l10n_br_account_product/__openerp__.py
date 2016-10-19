@@ -16,6 +16,7 @@
     ],
     'data': [
         'l10n_br_account_product_sequence.xml',
+        'account_invoice_workflow.xml',
         'data/l10n_br_account_product.cfop.csv',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
