@@ -56,6 +56,9 @@ NATIONALITY_CODE = [
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    def _default_country(self):
+        return self.env['res.country'].search([('code', '=', 'BR')])
+
     @api.constrains('dependent_ids')
     def _check_dependents(self):
         self._check_dob()
@@ -72,11 +75,16 @@ class HrEmployee(models.Model):
 
     def _check_dependent_type(self):
         seen = set()
+        restrictions = (
+            self.env.ref('l10n_br_hr.l10n_br_dependent_1'),
+            self.env.ref('l10n_br_hr.l10n_br_dependent_9_1'),
+            self.env.ref('l10n_br_hr.l10n_br_dependent_9_2')
+        )
         for dependent in self.dependent_ids:
             dep_type = dependent.dependent_type_id
-            if dep_type not in seen and dep_type.code in (1, 9):
+            if dep_type not in seen and dep_type in restrictions:
                 seen.add(dep_type)
-            elif dep_type in seen and dep_type.code in (1, 9):
+            elif dep_type in seen and dep_type in restrictions:
                 raise ValidationError(
                     _(u'Já existe um dependente com o mesmo grau '
                       u'de parentesco de %s'
@@ -123,7 +131,8 @@ class HrEmployee(models.Model):
                                    selection=[
                                        ('1', 'Primeira Categoria'),
                                        ('2', 'Segunda Categoria'),
-                                       ('3', 'Terceira Categoria')])
+                                       ('3', 'Terceira Categoria')],
+                                   default=('3', 'Terceira Categoria'))
     ginstru = fields.Selection(
         string=u'Grau de instrução',
         selection=[
@@ -200,6 +209,9 @@ class HrEmployee(models.Model):
                                         selection=NATIONALITY_CODE)
     arrival_year = fields.Integer(string="Ano de chegada ao Brasil",
                                   default=None)
+    country_id = fields.Many2one(string="Nacionalidade",
+                                 comodel_name='res.country',
+                                 default=_default_country)
 
     @api.model
     @api.onchange('address_home_id')
