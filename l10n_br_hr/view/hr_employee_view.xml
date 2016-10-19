@@ -18,7 +18,7 @@
                         <field name="ethnicity" />
                     </group>
                 </xpath>
-                <xpath expr="//field[@name='manager']" position="after" >
+                <xpath expr="//field[@name='coach_id']" position="after" >
                     <field name="registration" />
                 </xpath>
                 <xpath expr="//page[@string='Personal Information']" position="before">
