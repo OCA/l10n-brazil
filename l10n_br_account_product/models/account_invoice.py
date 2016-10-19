@@ -221,13 +221,6 @@ class AccountInvoice(models.Model):
         readonly=True, required=True,
         states={'draft': [('readonly', False)]},
         help="Delivery address for current sales order.")
-    state = fields.Selection(
-        selection_add=[
-            ('sefaz_export', 'Enviar para Receita'),
-            ('sefaz_exception', u'Erro de autorização da Receita'),
-            ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz'),
-        ])
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE,
         'Tipo Fiscal',
