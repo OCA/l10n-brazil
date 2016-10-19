@@ -120,10 +120,10 @@ class HrEmployee(models.Model):
                                  comodel_name='res.country.state')
     creservist = fields.Char('Título de reservista')
     cresv_categ = fields.Selection(string='Categoria de reservista',
-                                   selection=
-                                   [('1', 'Primeira Categoria'),
-                                    ('2', 'Segunda Categoria'),
-                                    ('3', 'Terceira Categoria')])
+                                   selection=[
+                                       ('1', 'Primeira Categoria'),
+                                       ('2', 'Segunda Categoria'),
+                                       ('3', 'Terceira Categoria')])
     ginstru = fields.Selection(
         string=u'Grau de instrução',
         selection=[
