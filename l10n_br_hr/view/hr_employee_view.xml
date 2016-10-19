@@ -4,63 +4,55 @@
         <record model="ir.ui.view" id="view_l10n_br_hr_employee_form">
             <field name="name">l10n_br_hr_employee.form</field>
             <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='identification_id']" position="replace">
                     <field name="check_cpf" invisible="1"/>
                     <field name="cpf"/>
-                    <field name="ginstru" />
-                    <field name="sindicate" />
+                    <field name="ginstru"/>
+                    <field name="sindicate"/>
                 </xpath>
                 <xpath expr="//group[@string='Birth']" position="after">
                     <group string="Características">
-                        <field name="ethnicity" />
+                        <field name="ethnicity"/>
                     </group>
                 </xpath>
-                <xpath expr="//field[@name='coach_id']" position="after" >
-                    <field name="registration" />
-                </xpath>
-                <xpath expr="//page[@string='Personal Information']" position="before">
-                    <page string="Saúde">
-                        <group>
-                            <field name="blood_type" />
-                            <field name="deficiencies_ids" />
-                            <field name="chronic_disease_ids" />
-                        </group>
-                    </page>
+                <xpath expr="//field[@name='coach_id']" position="after">
+                    <field name="registration"/>
                 </xpath>
                 <xpath expr="//field[@name='country_id']" position="after">
-                    <field name="nationality_code" />
-                    <field name="arrival_year" attrs="{'invisible': [('nationality_code','in',('10', False))]}" placeholder=""/>
+                    <field name="nationality_code"/>
+                    <field name="arrival_year" attrs="{'invisible': [('nationality_code','in',('10', False))]}"
+                           placeholder=""/>
                 </xpath>
                 <xpath expr="//field[@name='address_home_id']" position="after">
-                    <field name="alternate_phone" />
-                    <field name="emergency_phone" />
-                    <field name="talk_to" />
-                    <field name="alternate_email" />
+                    <field name="alternate_phone"/>
+                    <field name="emergency_phone"/>
+                    <field name="talk_to"/>
+                    <field name="alternate_email"/>
                 </xpath>
-                <xpath expr="//page[@string='HR Settings']" position="after">
+                <xpath expr="//page[@string='Public Information']" position="after">
                     <page string="Documents">
                         <form string="Documents" version="7.0">
                             <group>
                                 <group string="CTPS">
                                     <field name="ctps" string="Number"/>
-                                    <field name="ctps_series" />
+                                    <field name="ctps_series"/>
                                     <field name="ctps_date"/>
                                     <field name="ctps_uf_id" domain="[('country_id','=',country_id)]"/>
                                 </group>
                                 <group string="Certidão Civil">
-                                    <field name="civil_certificate_type_id" />
+                                    <field name="civil_certificate_type_id"/>
                                 </group>
                                 <group string="Identidade">
-                                    <field name="identity_type_id" />
+                                    <field name="identity_type_id"/>
                                     <field name="rg" string="Number"/>
                                     <field name="organ_exp"/>
                                     <field name="rg_emission"/>
-                                    <field name="identity_validity" />
+                                    <field name="identity_validity"/>
                                     <field name="identity_uf_id" domain="[('country_id','=',country_id)]"/>
-                                    <field name="identity_city_id" />
+                                    <field name="identity_city_id"/>
                                 </group>
                                 <group string="Reservist">
                                     <field name="creservist" string="Number"/>
@@ -77,7 +69,7 @@
                                     <field name="expiration_date"/>
                                 </group>
                                 <group string="PIS/PASEP">
-                                    <field name="pis_pasep" placeholder="XXX.XXXXX.XX-X" />
+                                    <field name="pis_pasep" placeholder="XXX.XXXXX.XX-X"/>
                                 </group>
                                 <group string="Parents names">
                                     <field name="father_name"/>
@@ -86,14 +78,18 @@
                             </group>
                         </form>
                     </page>
+                </xpath>
+
+                <xpath expr="//page[@string='Personal Information']" position="after">
                     <page string="Spouse and Dependents">
                         <form string="Spouse and Dependents" version="7.0">
                             <group colspan="4" col="4">
                                 <field name="have_dependent"/>
                             </group>
-                            <field name="dependent_ids"  widget="one2many_list" attrs="{'invisible':[('have_dependent', '!=', True)]}">
+                            <field name="dependent_ids" widget="one2many_list"
+                                   attrs="{'invisible':[('have_dependent', '!=', True)]}">
                                 <tree>
-                                    <field name="dependent_name" />
+                                    <field name="dependent_name"/>
                                     <field name="dependent_dob"/>
                                     <field name="dependent_type_id"/>
                                     <field name="pension_benefits"/>
@@ -103,14 +99,14 @@
                                 <form>
                                     <group>
                                         <group>
-                                            <field name="dependent_name" />
+                                            <field name="dependent_name"/>
                                             <field name="dependent_dob"/>
                                             <field name="dependent_type_id"/>
-                                            <field name="dependent_rg" />
-                                            <field name="dependent_cpf" />
+                                            <field name="dependent_rg"/>
+                                            <field name="dependent_cpf"/>
                                         </group>
                                         <group>
-                                            <field name="dependent_gender" />
+                                            <field name="dependent_gender"/>
                                             <field name="pension_benefits"/>
                                             <field name="health_verification"/>
                                             <field name="dependent_verification"/>
@@ -119,6 +115,13 @@
                                 </form>
                             </field>
                         </form>
+                    </page>
+                    <page string="Saúde">
+                        <group>
+                            <field name="blood_type"/>
+                            <field name="deficiencies_ids"/>
+                            <field name="chronic_disease_ids"/>
+                        </group>
                     </page>
                 </xpath>
             </field>
