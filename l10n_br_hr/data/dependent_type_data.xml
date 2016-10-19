@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id='l10n_br_dependent_1' model="hr.dependent.type">
+            <field name="name">Cônjuge</field>
+            <field name="code">1</field>
+        </record>
+
+        <record id='l10n_br_dependent_2' model="hr.dependent.type">
+            <field name="name">Companheiro(a) com o(a) qual tenha filho ou viva há mais de 5 (cinco) anos</field>
+            <field name="code">2</field>
+        </record>
+
+        <record id='l10n_br_dependent_3' model="hr.dependent.type">
+            <field name="name">Filho(a) ou enteado(a) até 21 (vinte e um) anos</field>
+            <field name="code">3</field>
+        </record>
+
+        <record id='l10n_br_dependent_4' model="hr.dependent.type">
+            <field name="name">Filho(a) ou enteado(a) universitário(a) ou cursando escola técnica de 2º grau, até 24 (vinte e quatro) anos</field>
+            <field name="code">4</field>
+        </record>
+
+        <record id='l10n_br_dependent_5' model="hr.dependent.type">
+            <field name="name">Filho(a) ou enteado(a) em qualquer idade, quando incapacitado física e/ou mentalmente para o trabalho</field>
+            <field name="code">5</field>
+        </record>
+
+        <record id='l10n_br_dependent_6' model="hr.dependent.type">
+            <field name="name">Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, do(a) qual detenha a guarda judicial, até 21 (vinte e um) anos</field>
+            <field name="code">6</field>
+        </record>
+
+        <record id='l10n_br_dependent_7' model="hr.dependent.type">
+            <field name="name">Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, com idade até 24 anos, se ainda estiver cursando estabelecimento de nível superior ou escola técnica de 2º grau, desde que tenha detido sua guarda judicial até os 21 anos</field>
+            <field name="code">7</field>
+        </record>
+
+        <record id='l10n_br_dependent_8' model="hr.dependent.type">
+            <field name="name">Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, do(a) qual detenha a guarda judicial, em qualquer idade, quando incapacitado física e/ou mentalmente para o trabalho</field>
+            <field name="code">8</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_1' model="hr.dependent.type">
+            <field name="name">Pai</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_2' model="hr.dependent.type">
+            <field name="name">Mãe</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_3' model="hr.dependent.type">
+            <field name="name">Avós e bisavós</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_10' model="hr.dependent.type">
+            <field name="name">Menor pobre, até 21 (vinte e um) anos, que crie e eduque e do qual detenha a guarda judicial</field>
+            <field name="code">10</field>
+        </record>
+
+        <record id='l10n_br_dependent_11' model="hr.dependent.type">
+            <field name="name">A pessoa absolutamente incapaz, da qual seja tutor ou curador</field>
+            <field name="code">11</field>
+        </record>
+
+        <record id='l10n_br_dependent_12' model="hr.dependent.type">
+            <field name="name">Ex-cônjuge que Receba Pensão de Alimentos</field>
+            <field name="code">12</field>
+        </record>
+
+    </data>
+</openerp>
