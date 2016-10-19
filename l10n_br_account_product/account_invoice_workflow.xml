@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Customização do Workflow para seguir a importação para Sefaz -->
+        <record id="l10n_br_account.act_router" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">router</field>
+            <field name="action">nfe_check()
+action_date_assign()
+action_number()
+action_move_create()</field>
+            <field name="kind">function</field>
+        </record>
+
+    </data>
+
+</openerp>
