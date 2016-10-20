@@ -100,6 +100,13 @@ class PurchaseOrder(models.Model):
 
         self.fiscal_position = result['value'].get('fiscal_position')
 
+    @api.multi
+    def action_invoice_create(self):
+        context = dict(self.env.context)
+        context.update({'fiscal_document_code': 55})
+        return super(PurchaseOrder,
+                     self.with_context(context)).action_invoice_create()
+
     # TODO migrate to new API
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
 
