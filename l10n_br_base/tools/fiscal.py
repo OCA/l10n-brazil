@@ -491,6 +491,7 @@ def validate_cpf(cpf):
 
     return False
 
+
 def validate_pis_pasep(pis_pasep):
     digits = []
     for c in pis_pasep:
