@@ -33,8 +33,8 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <field name="parent_id" position="before">
-                    <group colspan="4">
+                <xpath expr="//h1" position="after">
+                    <group>
                         <div class="oe_edit_only">
                             <label for="legal_name" string="Nome e Sobrenome"
                                    attrs="{'invisible': [('is_company','=', True)]}"/>
@@ -49,7 +49,7 @@
                         </div>
                         <field colspan="4" name="cnpj_cpf" nolabel="1"/>
                     </group>
-                </field>
+                </xpath>
                 <field name="street2" position="replace"/>
                 <field name="zip" position="replace"/>
                 <field name="street" position="replace">
@@ -74,7 +74,7 @@
                     <field name="city" invisible="1"/>
                 </field>
                 <page position="after" name="sales_purchases">
-                    <page string="Dados Fiscais">
+                    <page string="Dados Fiscais" name="dados_fiscais">
                         <group>
                             <div>
                                 <label for="inscr_est" string="Inscr. Estadual"
