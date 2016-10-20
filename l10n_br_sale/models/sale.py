@@ -181,6 +181,14 @@ class SaleOrder(models.Model):
         return fp_comment
 
     @api.model
+    def _make_invoice(self, order, lines):
+        context = dict(self.env.context)
+        context.update({'fiscal_document_code': 55})
+        return super(SaleOrder,
+                     self.with_context(context))._make_invoice(order,
+                                                               lines)
+
+    @api.model
     def _prepare_invoice(self, order, lines):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom

@@ -78,6 +78,27 @@ class AccountInvoice(models.Model):
     def onchange_fiscal_document_id(self):
         self.document_serie_id = self.company_id.document_serie_service_id
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
+                        toolbar=False, submenu=False):
+        context = self.env.context
+        active_id = context.get('active_id')
+        nfse_form = ('l10n_br_account_product.'
+                     'l10n_br_account_product_nfse_form')
+        nfse_tree = ('l10n_br_account_product.'
+                     'l10n_br_account_product_nfse_tree')
+        nfse_views = {'form': nfse_form, 'tree': nfse_tree}
+
+        if active_id and nfse_views.get(view_type):
+            invoice = self.browse(active_id)
+
+            if invoice.fiscal_document_code == 'XX':
+                view_id = self.env.ref(nfse_views.get(view_type)).id
+
+        return super(AccountInvoice, self).fields_view_get(
+            view_id=view_id, view_type=view_type,
+            toolbar=toolbar, submenu=submenu)
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'

@@ -440,6 +440,25 @@ class AccountInvoice(models.Model):
         return self.env['account.fiscal.position.rule'].with_context(
             ctx).apply_fiscal_mapping(result, **kwargs)
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
+                        toolbar=False, submenu=False):
+        context = self.env.context
+        active_id = context.get('active_id')
+        nfe_form = 'l10n_br_account_product.l10n_br_account_product_nfe_form'
+        nfe_tree = 'l10n_br_account_product.l10n_br_account_product_nfe_tree'
+        nfe_views = {'form': nfe_form, 'tree': nfe_tree}
+
+        if active_id and nfe_views.get(view_type):
+            invoice = self.browse(active_id)
+
+            if invoice.fiscal_document_code == '55':
+                view_id = self.env.ref(nfe_views.get(view_type)).id
+
+        return super(AccountInvoice, self).fields_view_get(
+            view_id=view_id, view_type=view_type,
+            toolbar=toolbar, submenu=submenu)
+
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
     @api.multi
