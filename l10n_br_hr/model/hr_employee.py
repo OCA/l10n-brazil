@@ -183,7 +183,6 @@ class HrEmployee(models.Model):
     alternate_email = fields.Char(string='Email alternativo')
     chronic_disease_ids = fields.Many2many(string=u'Doenças Crônicas',
                                            comodel_name='hr.chronic.disease')
-    admission_date = fields.Date(string=u'Data de admissão')
     marital = fields.Selection(selection_add=[
         ('stable_union', u'União Estável'), ('separado', 'Separado')])
     registration = fields.Char(string=u'Matrícula')
