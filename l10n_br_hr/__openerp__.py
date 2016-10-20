@@ -4,14 +4,10 @@
 
 {
     'name': 'Brazilian Localization HR',
-    'description': """
-Brazilian Localization HR with informations refered
-to the national context of HR""",
     'category': 'Localization',
-    'author': 'KMEE',
-    'maintainer': 'KMEE',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
-    'version': '0.1',
+    'version': '8.0.0.0.0',
     'depends': ['hr', 'l10n_br_base'],
     'data': [
         'data/l10n_br_hr.cbo.csv',
