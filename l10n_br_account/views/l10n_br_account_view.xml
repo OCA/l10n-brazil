@@ -11,7 +11,7 @@
             <field name="name">l10n_br_account.invoice.cancel.form</field>
             <field name="model">l10n_br_account.invoice.cancel</field>
             <field name="arch" type="xml">
-                <form string="Cancelar Documento Eletrônico" version="7.0">
+                <form string="Cancelar Documento Eletrônico" version="7.0" edit="false" create="false">
                     <header>
                         <button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
@@ -44,7 +44,8 @@
             <field name="name">l10n_br_account.invoice.cancel.tree</field>
             <field name="model">l10n_br_account.invoice.cancel</field>
             <field name="arch" type="xml">
-                <tree string="Cancelar Documento Eletrônico">                                      
+                <tree string="Cancelar Documento Eletrônico" edit="false" create="false">
+
                     <field name="invoice_id"/>
                     <field name="justificative"/>
                     <field name="state"/>
