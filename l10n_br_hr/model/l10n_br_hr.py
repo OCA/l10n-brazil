@@ -44,18 +44,6 @@ class HrChronicDisease(models.Model):
                                     comodel_name='hr.employee')
 
 
-class HrAdmissionType(models.Model):
-    _name = 'hr.admission.type'
-
-    name = fields.Char(string=u'Tipo de admissão')
-
-
-class HrEmploymentRelationship(models.Model):
-    _name = 'hr.employment.relationship'
-
-    name = fields.Char(string=u'Vínculo Trabalhista')
-
-
 class HrDependentType(models.Model):
     _name = 'hr.dependent.type'
 
