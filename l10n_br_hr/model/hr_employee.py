@@ -7,6 +7,7 @@
 from openerp import models, fields, api, _
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.exceptions import ValidationError
 
 
@@ -95,28 +96,9 @@ class HrEmployee(models.Model):
         employee = self
         if not employee.pis_pasep:
             return True
-        digits = []
-        for c in employee.pis_pasep:
-            if c == '.' or c == ' ' or c == '\t':
-                continue
-            if c == '-':
-                if len(digits) != 10:
-                    raise ValidationError(_(u'PIS/PASEP inválido'))
-                continue
-            if c.isdigit():
-                digits.append(int(c))
-                continue
-            raise ValidationError(_(u'PIS/PASEP inválido'))
-        if len(digits) != 11:
-            raise ValidationError(_(u'PIS/PASEP inválido'))
-        height = [int(x) for x in "3298765432"]
-        total = 0
-        for i in range(10):
-            total += digits[i] * height[i]
-        rest = total % 11
-        if rest != 0:
-            rest = 11 - rest
-        if not rest == digits[10]:
+        elif fiscal.validate_pis_pasep(self.pis_pasep):
+            return True
+        else:
             raise ValidationError(_(u'PIS/PASEP inválido'))
 
     check_cpf = fields.Boolean('Verificar CPF', default=True)
