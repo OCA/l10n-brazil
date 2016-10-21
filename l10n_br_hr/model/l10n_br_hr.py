@@ -16,36 +16,36 @@ class L10nBrHrCbo(models.Model):
 class HrDeficiency(models.Model):
     _name = 'hr.deficiency'
 
-    name = fields.Char(string=u'Deficiência')
-    employee_ids = fields.Many2many(string=u"Funcionários",
+    name = fields.Char(string='Deficiency')
+    employee_ids = fields.Many2many(string="Employees",
                                     comodel_name='hr.employee')
 
 
 class HrIdentityType(models.Model):
     _name = 'hr.identity.type'
 
-    name = fields.Char(string='Tipo de identidade')
-    initials = fields.Char(string='Sigla')
-    employee_ids = fields.Many2many(string=u"Funcionários",
+    name = fields.Char(string='Identity type')
+    initials = fields.Char(string='Initials')
+    employee_ids = fields.Many2many(string=u"Employees",
                                     comodel_name='hr.employee')
 
 
 class HrCivilCertificateType(models.Model):
     _name = 'hr.civil.certificate.type'
 
-    name = fields.Char(string=u'Tipo de certidão civil')
+    name = fields.Char(string='Civil certificate type')
 
 
 class HrChronicDisease(models.Model):
     _name = 'hr.chronic.disease'
 
-    name = fields.Char(string=u'Nome da doença')
-    employee_ids = fields.Many2many(string=u"Funcionários",
+    name = fields.Char(string='Disease name')
+    employee_ids = fields.Many2many(string="Employee",
                                     comodel_name='hr.employee')
 
 
 class HrDependentType(models.Model):
     _name = 'hr.dependent.type'
 
-    name = fields.Char(string=u'Grau de parentesco')
-    code = fields.Integer(string=u'Código')
+    name = fields.Char(string='Relatedness degree')
+    code = fields.Integer(string='Code')
