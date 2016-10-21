@@ -23,7 +23,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '9.0.1.0.1',
+    'version': '10.0.1.0.1',
     'depends': [
         'base',
     ],
