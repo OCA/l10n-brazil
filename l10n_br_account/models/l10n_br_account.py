@@ -22,13 +22,13 @@ PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
-    _description = u'Cartão de Correção no Sefaz'
+    _description = u'Carta de Correção no Sefaz'
 
     # TODO nome de campos devem ser em ingles
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
     motivo = fields.Text('Motivo', readonly=True, required=True)
     sequencia = fields.Char(
-        'Sequencia', help=u"Indica a sequencia da carta de correcão")
+        'Sequencia', help=u"Indica a sequência da carta de correcão")
     cce_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
 
@@ -85,7 +85,7 @@ class L10nBrDocumentEvent(models.Model):
         help="Reference of the document that produced event.")
     file_sent = fields.Char('Envio', readonly=True)
     file_returned = fields.Char('Retorno', readonly=True)
-    status = fields.Char('Codigo', readonly=True)
+    status = fields.Char(u'Código', readonly=True)
     message = fields.Char('Mensagem', readonly=True)
     create_date = fields.Datetime(u'Data Criação', readonly=True)
     write_date = fields.Datetime(u'Data Alteração', readonly=True)
@@ -153,7 +153,7 @@ class L10nBrAccountFiscalCategory(models.Model):
 
     _sql_constraints = [
         ('l10n_br_account_fiscal_category_code_uniq', 'unique (code)',
-         u'Já existe uma categoria fiscal com esse código !')
+         u'Já existe uma categoria fiscal com esse código!')
     ]
 
     @api.multi
@@ -368,7 +368,7 @@ class L10nBrAccountPartnerFiscalType(models.Model):
 
     name = fields.Char(u'Descrição', size=64)
 
-    is_company = fields.Boolean('Pessoa Juridica?')
+    is_company = fields.Boolean(u'Pessoa Jurídica?')
 
     default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
 
@@ -385,7 +385,7 @@ class L10nBrAccountPartnerFiscalType(models.Model):
             ])) > 1:
                 raise UserError(
                     _(u'Mantenha apenas um tipo fiscal padrão'
-                      u' para Pessoa Fisíca ou para Pessoa Jurídica!'))
+                      u' para Pessoa Física ou para Pessoa Jurídica!'))
             return True
 
 
@@ -393,7 +393,7 @@ class L10nBrAccountPartnerSpecialFiscalType(models.Model):
     _name = 'l10n_br_account.partner.special.fiscal.type'
     _description = 'Regime especial do parceiro'
 
-    name = fields.Char(u'Name', size=20)
+    name = fields.Char(u'Nome', size=20)
 
 
 class L10nBrAccountCNAE(models.Model):
