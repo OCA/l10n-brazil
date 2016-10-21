@@ -12,10 +12,9 @@
                     <field name="check_cpf" invisible="1"/>
                     <field name="cpf"/>
                     <field name="ginstru"/>
-                    <field name="sindicate"/>
                 </xpath>
                 <xpath expr="//group[@string='Birth']" position="after">
-                    <group string="Características">
+                    <group string="Characteristics">
                         <field name="ethnicity"/>
                     </group>
                 </xpath>
@@ -43,10 +42,10 @@
                                     <field name="ctps_date"/>
                                     <field name="ctps_uf_id" domain="[('country_id','=',country_id)]"/>
                                 </group>
-                                <group string="Certidão Civil">
+                                <group string="Civil certificate">
                                     <field name="civil_certificate_type_id"/>
                                 </group>
-                                <group string="Identidade">
+                                <group string="ID">
                                     <field name="identity_type_id"/>
                                     <field name="rg" string="Number"/>
                                     <field name="organ_exp"/>
@@ -117,7 +116,7 @@
                             </field>
                         </form>
                     </page>
-                    <page string="Saúde">
+                    <page string="Health">
                         <group>
                             <field name="blood_type"/>
                             <field name="deficiencies_ids"/>
@@ -129,37 +128,37 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_hr_deficiency">
-            <field name="name">Deficiência</field>
+            <field name="name">Deficiency</field>
             <field name="res_model">hr.deficiency</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="action_hr_identity_type">
-            <field name="name">Tipo de Identidade</field>
+            <field name="name">Identity type</field>
             <field name="res_model">hr.identity.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="action_hr_civil_certificate_type">
-            <field name="name">Tipo de Certificado Civil</field>
+            <field name="name">Civil certificate type</field>
             <field name="res_model">hr.civil.certificate.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="action_hr_chronic_disease">
-            <field name="name">Doença Crônica</field>
+            <field name="name">Chronic disease</field>
             <field name="res_model">hr.chronic.disease</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="action_hr_dependent_type">
-            <field name="name">Grau de Parentesco</field>
+            <field name="name">Relatedness</field>
             <field name="res_model">hr.dependent.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_hr_employee_register" parent="hr.menu_hr_configuration" name="Registro de Funcionário"
+        <menuitem id="menu_hr_employee_register" parent="hr.menu_hr_configuration" name="Employee register"
                   sequence="20" groups="base.group_hr_manager"/>
         <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register"
                   sequence="1"/>
