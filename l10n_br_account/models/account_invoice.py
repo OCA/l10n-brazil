@@ -62,6 +62,8 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         help="""Unique number of the invoice, computed
             automatically when the invoice is created.""")
+    invoice_reserved_number = fields.Char(
+        u'Número reservado da fatura', size=32, copy=False)
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
@@ -219,7 +221,11 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for invoice in self:
-            if invoice.issuer == '0':
+            if invoice.invoice_reserved_number:
+                aux_number = invoice.invoice_reserved_number
+                invoice.write({'internal_number': aux_number,
+                               'number': aux_number})
+            elif invoice.issuer == '0':
                 sequence_obj = self.env['ir.sequence']
                 sequence = sequence_obj.browse(
                     invoice.document_serie_id.internal_sequence_id.id)
@@ -240,7 +246,10 @@ class AccountInvoice(models.Model):
                 seq_number = sequence_obj.get_id(
                     invoice.document_serie_id.internal_sequence_id.id)
                 self.write(
-                    {'internal_number': seq_number, 'number': seq_number})
+                    {'internal_number': seq_number,
+                     'number': seq_number,
+                     'invoice_reserved_number': seq_number,
+                     })
         return True
 
     # TODO Talvez este metodo substitui o metodo action_move_create
