@@ -28,14 +28,26 @@ class L10nBrAccountCce(models.Model):
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
     motivo = fields.Text('Motivo', readonly=True, required=True)
     sequencia = fields.Char(
-        'Sequencia', help=u"Indica a sequência da carta de correcão")
+        u'Sequência', help=u"Indica a sequência da carta de correcão")
     cce_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+
+    display_name = fields.Char(
+        string='Name', compute='_compute_display_name',
+    )
+
+    @api.multi
+    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Fatura', self.invoice_id.internal_number,
+                 self.invoice_id.partner_id.name]
+        self.display_name = ' / '.join(filter(None, names))
 
 
 class L10nBrAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
-    _description = u'Cancelar Documento Eletrônico no Sefaz'
+    _description = u'Documento Eletrônico no Sefaz'
 
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
     justificative = fields.Char(string='Justificativa', size=255,
@@ -43,6 +55,18 @@ class L10nBrAccountInvoiceCancel(models.Model):
     cancel_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'cancel_document_event_id',
         u'Eventos')
+
+    display_name = fields.Char(
+        string='Nome', compute='_compute_display_name',
+    )
+
+    @api.multi
+    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Fatura', self.invoice_id.internal_number,
+                 self.invoice_id.partner_id.name]
+        self.display_name = ' / '.join(filter(None, names))
 
     def _check_justificative(self, cr, uid, ids):
         for invalid in self.browse(cr, uid, ids):
@@ -52,7 +76,7 @@ class L10nBrAccountInvoiceCancel(models.Model):
 
     _constraints = [(
         _check_justificative,
-        'Justificativa deve ter tamanho minimo de 15 caracteres.',
+        u'Justificativa deve ter tamanho mínimo de 15 caracteres.',
         ['justificative'])]
 
 
@@ -82,7 +106,7 @@ class L10nBrDocumentEvent(models.Model):
     origin = fields.Char(
         'Documento de Origem', size=64,
         readonly=True, states={'draft': [('readonly', False)]},
-        help="Reference of the document that produced event.")
+        help="Referência ao documento que gerou o evento.")
     file_sent = fields.Char('Envio', readonly=True)
     file_returned = fields.Char('Retorno', readonly=True)
     status = fields.Char(u'Código', readonly=True)
@@ -100,8 +124,16 @@ class L10nBrDocumentEvent(models.Model):
         'l10n_br_account.invoice.cancel', 'Cancelamento')
     invalid_number_document_event_id = fields.Many2one(
         'l10n_br_account.invoice.invalid.number', u'Inutilização')
+    display_name = fields.Char(string='Nome', compute='_compute_display_name')
 
     _order = 'write_date desc'
+
+    @api.multi
+    @api.depends('company_id.name', 'origin')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Evento', self.company_id.name, self.origin]
+        self.display_name = ' / '.join(filter(None, names))
 
     @api.multi
     def set_done(self):
