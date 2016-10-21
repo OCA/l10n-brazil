@@ -50,6 +50,9 @@ class L10nBrAccountInvoiceCancel(models.Model):
     _description = u'Documento Eletrônico no Sefaz'
 
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
+    partner_id = fields.Many2one('res.partner',
+                                 related='invoice_id.partner_id',
+                                 string='Cliente')
     justificative = fields.Char(string='Justificativa', size=255,
                                 readonly=True, required=True)
     cancel_document_event_ids = fields.One2many(
