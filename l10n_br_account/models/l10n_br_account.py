@@ -38,15 +38,11 @@ class L10nBrAccountInvoiceCancel(models.Model):
     _description = u'Cancelar Documento Eletrônico no Sefaz'
 
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
-    justificative = fields.Char(
-        'Justificativa', size=255, readonly=True, required=True,
-        states={'draft': [('readonly', False)]})
+    justificative = fields.Char(string='Justificativa', size=255,
+                                readonly=True, required=True)
     cancel_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'cancel_document_event_id',
         u'Eventos')
-    state = fields.Selection(
-        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-         ('done', u'Concluído')], 'Status', required=True, default='draft')
 
     def _check_justificative(self, cr, uid, ids):
         for invalid in self.browse(cr, uid, ids):
@@ -58,10 +54,6 @@ class L10nBrAccountInvoiceCancel(models.Model):
         _check_justificative,
         'Justificativa deve ter tamanho minimo de 15 caracteres.',
         ['justificative'])]
-
-    def action_draft_done(self):
-        self.write({'state': 'done'})
-        return True
 
 
 class L10nBrDocumentEvent(models.Model):
