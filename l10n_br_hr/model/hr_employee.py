@@ -218,6 +218,14 @@ class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
     _description = 'Employee\'s Dependents'
 
+    @api.constrains('dependent_cpf')
+    def _validate_cpf(self):
+        if self.dependent_cpf:
+            if not fiscal.validate_cpf(self.dependent_cpf):
+                raise ValidationError(_
+                                      (u'CPF do dependente %s inválido'
+                                       % self.dependent_name))
+
     employee_id = fields.Many2one(comodel_name='hr.employee',
                                   string=u'Funcionário')
     dependent_name = fields.Char(string=u'Nome', size=64, required=True)
