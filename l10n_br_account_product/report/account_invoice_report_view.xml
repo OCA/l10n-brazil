@@ -17,5 +17,21 @@
             </field>
         </record>
 
+        <record id="l10n_br_account_product_view_account_invoice_report_pivot" model="ir.ui.view">
+            <field name="name">l10n_br_account.invoice.report.graph</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_graph"/>
+            <field name="arch" type="xml">
+                <field name="price_total" position="after">
+                    <field name="icms_value"/>
+                    <field name="icms_st_value"/>
+                    <field name="ipi_value"/>
+                    <field name="pis_value"/>
+                    <field name="cofins_value"/>
+                    <field name="ii_value"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
