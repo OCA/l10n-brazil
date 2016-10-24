@@ -19,7 +19,6 @@
 
 import datetime
 import logging
-from openerp import netsvc
 from openerp import models, fields, api
 from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
@@ -129,26 +128,6 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
                 for result in results:
                     event_obj.create(result)
             return processo
-
-
-class L10n_brAccountInvoiceCancel(models.Model):
-    _inherit = 'l10n_br_account.invoice.cancel'
-
-    @api.multi
-    def action_draft_done(self):
-        if len(self.ids) == 1:
-            record = self.browse(self.id)
-            wf_service = netsvc.LocalService('workflow')
-            wf_service.trg_validate('account.invoice',
-                                    record.invoice_id.id, 'invoice_cancel')
-
-            self.write({'state': 'done'})
-        else:
-            raise RedirectWarning(_(u'Erro!'), _(u'Você pode cancelar '
-                                                 u'apenas uma fatura por vez.')
-                                  )
-
-        return True
 
 
 class L10n_brDocumentEvent(models.Model):
