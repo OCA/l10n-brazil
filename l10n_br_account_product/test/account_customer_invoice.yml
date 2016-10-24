@@ -552,7 +552,7 @@
 -
   Create a sale customer invoice from SP to MG Non contributor to compute DIFAL
 -
-  !record {model: account.invoice, id: account_invoice_customer_sp_mg_difal, view: l10n_br_account_product_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_customer_sp_mg_difal, view: l10n_br_account_product_nfe_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente10_mg
     fiscal_category_id: fc_78df616ab31e95ee46c6a519a2ce9e12
