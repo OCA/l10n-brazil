@@ -444,15 +444,14 @@ class AccountInvoice(models.Model):
     def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
         context = self.env.context
-        active_id = context.get('active_id')
+        fiscal_document_code = context.get('fiscal_document_code')
         nfe_form = 'l10n_br_account_product.l10n_br_account_product_nfe_form'
         nfe_tree = 'l10n_br_account_product.l10n_br_account_product_nfe_tree'
         nfe_views = {'form': nfe_form, 'tree': nfe_tree}
 
-        if active_id and nfe_views.get(view_type):
-            invoice = self.browse(active_id)
+        if fiscal_document_code and nfe_views.get(view_type):
 
-            if invoice.fiscal_document_code == '55':
+            if fiscal_document_code == u'55':
                 view_id = self.env.ref(nfe_views.get(view_type)).id
 
         return super(AccountInvoice, self).fields_view_get(
