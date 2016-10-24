@@ -271,10 +271,11 @@ class AccountInvoice(models.Model):
                                             })
                                 obj_cancel = self.env[
                                     'l10n_br_account.invoice.cancel']
-                                obj_cancel.create({
+                                obj = obj_cancel.create({
                                     'invoice_id': inv.id,
                                     'justificative': justificative,
                                 })
+                                vals['cancel_document_event_id'] = obj.id
                     results.append(vals)
                 except Exception as e:
                     _logger.error(e.message, exc_info=True)
