@@ -68,8 +68,8 @@ class StockPicking(models.Model):
             result['nfe_purpose'] = '4'
 
         vals.update(result)
-        return super(StockPicking, self)._create_invoice_from_picking(
-            picking, vals)
+        return super(StockPicking, self)._create_invoice_from_picking(picking,
+                                                                      vals)
 
 
 class StockMove(models.Model):
