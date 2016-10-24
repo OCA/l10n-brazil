@@ -182,7 +182,8 @@ class HrEmployee(models.Model):
     chronic_disease_ids = fields.Many2many(string='Chronic Diseases',
                                            comodel_name='hr.chronic.disease')
     marital = fields.Selection(selection_add=[
-        ('common_law_marriage', 'Common law marriage'), ('separated', 'Separated')])
+        ('common_law_marriage', 'Common law marriage'),
+        ('separated', 'Separated')])
     registration = fields.Char(string='Registration number')
     nationality_code = fields.Selection(string='Nationality code',
                                         selection=NATIONALITY_CODE)
