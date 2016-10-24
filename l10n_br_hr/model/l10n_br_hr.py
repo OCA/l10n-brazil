@@ -9,7 +9,7 @@ class L10nBrHrCbo(models.Model):
     _name = "l10n_br_hr.cbo"
     _description = "Brazilian Classification of Occupation"
 
-    code = fields.Integer('Code', required=True)
+    code = fields.Char('Code', required=True)
     name = fields.Char('Name', size=255, required=True, translate=True)
 
 
