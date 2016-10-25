@@ -18,203 +18,203 @@ msgstr ""
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "10 - BRAZILIAN"
-msgstr "10 - BRAZILIAN"
+msgstr "10 - Brasileiro"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "20 - BRAZILIAN NATURALIZED"
-msgstr "20 - BRAZILIAN NATURALIZED"
+msgstr "20 - Naturalizado Brasileiro"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "21 - ARGENTINE"
-msgstr "21 - ARGENTINE"
+msgstr "21 - Argentino"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "22 - BOLIVIAN"
-msgstr "22 - BOLIVIAN"
+msgstr "22 - Boliviano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "23 - CHILEAN"
-msgstr "23 - CHILEAN"
+msgstr "23 - Chileno"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "24 - PARAGUAYAN"
-msgstr "24 - PARAGUAYAN"
+msgstr "24 - Paraguaio"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "25 - URUGUAYAN"
-msgstr "25 - URUGUAYAN"
+msgstr "25 - Uruguaio"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "26 - VENEZUELAN"
-msgstr "26 - VENEZUELAN"
+msgstr "26 - Venezuelano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "27 - COLOMBIAN"
-msgstr "27 - COLOMBIAN"
+msgstr "27 - Colombiano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "28 - PERUVIAN"
-msgstr "28 - PERUVIAN"
+msgstr "28 - Peruano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "29 - ECUADORIAN"
-msgstr "29 - ECUADORIAN"
+msgstr "29 - Equatoriano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "30 - GERMAN"
-msgstr "30 - GERMAN"
+msgstr "30 - Alemão"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "31 - BELGIAN"
-msgstr "31 - BELGIAN"
+msgstr "31 - Belga"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "32 - BRITISH"
-msgstr "32 - BRITISH"
+msgstr "32 - Britânico"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "34 - CANADIAN"
-msgstr "34 - CANADIAN"
+msgstr "34 - Canadense"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "35 - SPANISH"
-msgstr "35 - SPANISH"
+msgstr "35 - Espanhol"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "36 - NORTH-AMERICAN"
-msgstr "36 - NORTH-AMERICAN"
+msgstr "36 - Norte Americano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "37 - FRENCH"
-msgstr "37 - FRENCH"
+msgstr "37 - Francês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "38 - SWISS"
-msgstr "38 - SWISS"
+msgstr "38 - Suíço"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "39 - ITALIAN"
-msgstr "39 - ITALIAN"
+msgstr "39 - Italiano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "40 - HAITIAN"
-msgstr "40 - HAITIAN"
+msgstr "40 - Haitiano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "41 - JAPANESE"
-msgstr "41 - JAPANESE"
+msgstr "41 - Japonês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "42 - CHINESE"
-msgstr "42 - CHINESE"
+msgstr "42 - Chinês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "43 - KOREAN"
-msgstr "43 - KOREAN"
+msgstr "43 - Coreano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "44 - RUSSIAN"
-msgstr "44 - RUSSIAN"
+msgstr "44 - Russo"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "45 - PORTUGUESE"
-msgstr "45 - PORTUGUESE"
+msgstr "45 - Português"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "46 - PAKISTANI"
-msgstr "46 - PAKISTANI"
+msgstr "46 - Paquistanês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "47 - INDIAN"
-msgstr "47 - INDIAN"
+msgstr "47 - Indiano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "48 - OTHER LATIN-AMERICAN"
-msgstr "48 - OTHER LATIN-AMERICAN"
+msgstr "48 - Outros Latino Americanos"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "49 - OTHER ASIAN"
-msgstr "49 - OTHER ASIAN"
+msgstr "49 - Outros asiáticos"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "50 - BANGLA"
-msgstr "50 - BANGLA"
+msgstr "50 - Bengalês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "51 - OTHER EUROPEAN"
-msgstr "51 - OTHER EUROPEAN"
+msgstr "51 - Outros Europeus"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "60 - ANGOLAN"
-msgstr "60 - ANGOLAN"
+msgstr "60 - Angolano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "61 - CONGOLESE"
-msgstr "61 - CONGOLESE"
+msgstr "61 - Congolês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "62 - SOUTH AFRICAN"
-msgstr "62 - SOUTH AFRICAN"
+msgstr "62 - Sul-Africano"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "63 - GHANAIAN"
-msgstr "63 - GHANAIAN"
+msgstr "63 - Ganês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "64 - SENEGALESE"
-msgstr "64 - SENEGALESE"
+msgstr "64 - Senegalês"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "70 - OTHER AFRICAN"
-msgstr "70 - OTHER AFRICAN"
+msgstr "70 - Outros Africanos"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,nationality_code:0
 msgid "80 - OTHER"
-msgstr "80 - OTHER"
+msgstr "80 - Outros"
 
 #. module: l10n_br_hr
 #: code:addons/l10n_br_hr/model/hr_employee.py:89
 #, python-format
 msgid "A dependent with the same level of relatedness already exists for dependent %s"
-msgstr "A dependent with the same level of relatedness already exists for dependent %s"
+msgstr "Um dependente com o mesmo grau de parentesco já existe para o dependente %s"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,blood_type:0
@@ -653,7 +653,7 @@ msgstr "Alinhador de pneus"
 #. module: l10n_br_hr
 #: field:hr.employee.dependent,pension_benefits:0
 msgid "Allowance value"
-msgstr "Allowance value"
+msgstr "Valor da pensão"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -664,12 +664,12 @@ msgstr "Almoxarife"
 #. module: l10n_br_hr
 #: field:hr.employee,alternate_email:0
 msgid "Alternate email"
-msgstr "Alternate email"
+msgstr "Email alternativo"
 
 #. module: l10n_br_hr
 #: field:hr.employee,alternate_phone:0
 msgid "Alternate phone"
-msgstr "Alternate phone"
+msgstr "Telefone alternativo"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -962,7 +962,7 @@ msgstr "Arrematadeira"
 #. module: l10n_br_hr
 #: field:hr.employee,arrival_year:0
 msgid "Arrival year in Brazil"
-msgstr "Arrival year in Brazil"
+msgstr "Ano de chegada ao Brasil"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -1075,7 +1075,7 @@ msgstr "Ascensorista"
 #. module: l10n_br_hr
 #: selection:hr.employee,ethnicity:0
 msgid "Asian"
-msgstr "Asian"
+msgstr "Asiático"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -1630,12 +1630,12 @@ msgstr "Biólogo"
 #. module: l10n_br_hr
 #: selection:hr.employee,ethnicity:0
 msgid "Black"
-msgstr "Black"
+msgstr "Negro"
 
 #. module: l10n_br_hr
 #: field:hr.employee,blood_type:0
 msgid "Blood type"
-msgstr "Blood type"
+msgstr "Tipo sanguíneo"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -1690,7 +1690,7 @@ msgstr "Brasador"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
 msgid "Brazilian Classification of Occupation"
-msgstr "Brazilian Classification of Occupation"
+msgstr "Classificação brasileira de ocupação"
 
 #. module: l10n_br_hr
 #: field:hr.job,cbo_id:0
@@ -1713,22 +1713,22 @@ msgstr "CTPS"
 #. module: l10n_br_hr
 #: field:hr.employee,ctps_uf_id:0
 msgid "CTPS district"
-msgstr "CTPS district"
+msgstr "Estado da CTPS"
 
 #. module: l10n_br_hr
 #: field:hr.employee,ctps_date:0
 msgid "CTPS emission date"
-msgstr "CTPS emission date"
+msgstr "Data de emissão da CTPS"
 
 #. module: l10n_br_hr
 #: help:hr.employee,ctps:0
 msgid "CTPS number"
-msgstr "CTPS number"
+msgstr "Número da CTPS"
 
 #. module: l10n_br_hr
 #: field:hr.employee,ctps_series:0
 msgid "CTPS series"
-msgstr "CTPS series"
+msgstr "Série da CTPS"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -2148,7 +2148,7 @@ msgstr "Chapeleiro de senhoras"
 #. module: l10n_br_hr
 #: view:hr.employee:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Characteristics"
-msgstr "Characteristics"
+msgstr "Características"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -2165,7 +2165,7 @@ msgstr "Chaveiro"
 #. module: l10n_br_hr
 #: field:hr.employee,check_cpf:0
 msgid "Check CPF"
-msgstr "Check CPF"
+msgstr "Validar CPF"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -2218,13 +2218,13 @@ msgstr "Chefe de serviços bancários"
 #. module: l10n_br_hr
 #: field:hr.employee,chronic_disease_ids:0
 msgid "Chronic Diseases"
-msgstr "Chronic Diseases"
+msgstr "Doenças crônicas"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_chronic_disease
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_chronic_disease
 msgid "Chronic disease"
-msgstr "Chronic disease"
+msgstr "Doença crônica"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -2403,7 +2403,7 @@ msgstr "Cirurgião-dentista da estratégia de saúde da família"
 #. module: l10n_br_hr
 #: view:hr.employee:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Civil certificate"
-msgstr "Civil certificate"
+msgstr "Certidão civil"
 
 #. module: l10n_br_hr
 #: field:hr.civil.certificate.type,name:0
@@ -2411,7 +2411,7 @@ msgstr "Civil certificate"
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_civil_certificate_type
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_civil_certificate_type
 msgid "Civil certificate type"
-msgstr "Civil certificate type"
+msgstr "Tipo de certidão civil"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -2583,17 +2583,17 @@ msgstr "Compensador de banco"
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Complete elementary school"
-msgstr "Complete elementary school"
+msgstr "Ensino Fundamental Completo"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Complete graduation"
-msgstr "Complete graduation"
+msgstr "Superior completo"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Complete high school"
-msgstr "Complete high school"
+msgstr "Ensino Médio Completo"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -3117,7 +3117,7 @@ msgstr "Cozinheiro industrial"
 #: field:hr.identity.type,create_uid:0
 #: field:l10n_br_hr.cbo,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Criado por"
 
 #. module: l10n_br_hr
 #: field:hr.chronic.disease,create_date:0
@@ -3128,7 +3128,7 @@ msgstr "Created by"
 #: field:hr.identity.type,create_date:0
 #: field:l10n_br_hr.cbo,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Criado em"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -3335,7 +3335,7 @@ msgstr "Dançarino tradicional"
 #. module: l10n_br_hr
 #: field:hr.employee.dependent,dependent_dob:0
 msgid "Date of birth"
-msgstr "Date of birth"
+msgstr "Data de nascimento"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -3388,14 +3388,14 @@ msgstr "Defensor público"
 #. module: l10n_br_hr
 #: field:hr.employee,deficiencies_ids:0
 msgid "Deficiencies"
-msgstr "Deficiencies"
+msgstr "Deficiências"
 
 #. module: l10n_br_hr
 #: field:hr.deficiency,name:0
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_deficiency
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_deficiency
 msgid "Deficiency"
-msgstr "Deficiency"
+msgstr "Deficiência"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -3454,7 +3454,7 @@ msgstr "Demonstrador de mercadorias"
 #. module: l10n_br_hr
 #: field:hr.employee,dependent_ids:0
 msgid "Dependents"
-msgstr "Dependents"
+msgstr "Dependentes"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -4107,12 +4107,12 @@ msgstr "Dirigentes de entidades patronais"
 #. module: l10n_br_hr
 #: field:hr.chronic.disease,name:0
 msgid "Disease name"
-msgstr "Disease name"
+msgstr "Nome da doença"
 
 #. module: l10n_br_hr
 #: field:hr.employee,organ_exp:0
 msgid "Dispatcher organ"
-msgstr "Dispatcher organ"
+msgstr "Órgão Expedidor"
 
 #. module: l10n_br_hr
 #: field:hr.chronic.disease,display_name:0
@@ -4162,12 +4162,12 @@ msgstr "Carteira de Motorista"
 #. module: l10n_br_hr
 #: field:hr.employee,driver_categ:0
 msgid "Driver license category"
-msgstr "Driver license category"
+msgstr "Categoria da carteira de motorista"
 
 #. module: l10n_br_hr
 #: field:hr.employee,driver_license:0
 msgid "Driver license number"
-msgstr "Driver license number"
+msgstr "Número da carteira de motorista"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -4274,7 +4274,7 @@ msgstr "Educador social"
 #. module: l10n_br_hr
 #: field:hr.employee,ginstru:0
 msgid "Educational attainment"
-msgstr "Educational attainment"
+msgstr "Nível de instrução"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -4388,17 +4388,17 @@ msgstr "Emendador de cabos elétricos e telefônicos (aéreos e subterrâneos)"
 #. module: l10n_br_hr
 #: field:hr.employee,talk_to:0
 msgid "Emergency contact name"
-msgstr "Emergency contact name"
+msgstr "Nome do contato de emergência"
 
 #. module: l10n_br_hr
 #: field:hr.employee,emergency_phone:0
 msgid "Emergency phone"
-msgstr "Emergency phone"
+msgstr "Telefone de emergência"
 
 #. module: l10n_br_hr
 #: field:hr.employee,rg_emission:0
 msgid "Emission date"
-msgstr "Emission date"
+msgstr "Data de emissão"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -4416,18 +4416,18 @@ msgstr "Funcionário"
 #. module: l10n_br_hr
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_employee_register
 msgid "Employee register"
-msgstr "Employee register"
+msgstr "Registro de funcionário"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_employee_dependent
 msgid "Employee's Dependents"
-msgstr "Employee's Dependents"
+msgstr "Dependentes do funcionário"
 
 #. module: l10n_br_hr
 #: field:hr.deficiency,employee_ids:0
 #: field:hr.identity.type,employee_ids:0
 msgid "Employees"
-msgstr "Employees"
+msgstr "Funcionários"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -5248,7 +5248,7 @@ msgstr "Estofador de móveis"
 #. module: l10n_br_hr
 #: field:hr.employee,ethnicity:0
 msgid "Ethnicity"
-msgstr "Ethnicity"
+msgstr "Etnia"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -5259,7 +5259,7 @@ msgstr "Examinador de cabos"
 #. module: l10n_br_hr
 #: field:hr.employee,expiration_date:0
 msgid "Expiration date"
-msgstr "Expiration date"
+msgstr "Data de expiração"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -5299,7 +5299,7 @@ msgstr "Feirante"
 #. module: l10n_br_hr
 #: selection:hr.employee.dependent,dependent_gender:0
 msgid "Female"
-msgstr "Female"
+msgstr "Feminino"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -5352,7 +5352,7 @@ msgstr "Finalizador de vídeo"
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
 msgid "First Category"
-msgstr "First Category"
+msgstr "Primeira categoria"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -5765,7 +5765,7 @@ msgstr "Gelador profissional"
 #. module: l10n_br_hr
 #: field:hr.employee.dependent,dependent_gender:0
 msgid "Gender"
-msgstr "Gender"
+msgstr "Gênero"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6274,17 +6274,17 @@ msgstr "Guincheiro (construção civil)"
 #. module: l10n_br_hr
 #: field:hr.employee,have_dependent:0
 msgid "Has dependents"
-msgstr "Has dependents"
+msgstr "Tem dependente"
 
 #. module: l10n_br_hr
 #: view:hr.employee:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Health"
-msgstr "Health"
+msgstr "Saúde"
 
 #. module: l10n_br_hr
 #: field:hr.employee.dependent,health_verification:0
 msgid "Healthcare plan"
-msgstr "Healthcare plan"
+msgstr "Plano de saúde"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6312,22 +6312,22 @@ msgstr "ID"
 #. module: l10n_br_hr
 #: field:hr.employee,identity_city_id:0
 msgid "ID expedition city"
-msgstr "ID expedition city"
+msgstr "Data de expedição da identidade"
 
 #. module: l10n_br_hr
 #: field:hr.employee,identity_uf_id:0
 msgid "ID expedition district"
-msgstr "ID expedition district"
+msgstr "Estado de expedição da identidade"
 
 #. module: l10n_br_hr
 #: field:hr.employee,identity_validity:0
 msgid "ID expiration date"
-msgstr "ID expiration date"
+msgstr "Data de expiração da identidade"
 
 #. module: l10n_br_hr
 #: field:hr.employee,identity_type_id:0
 msgid "ID type"
-msgstr "ID type"
+msgstr "Tipo de identidade"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6340,7 +6340,7 @@ msgstr "Identificador florestal"
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_identity_type
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_identity_type
 msgid "Identity type"
-msgstr "Identity type"
+msgstr "Tipo de identidade"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6429,27 +6429,27 @@ msgstr "Impressor tipográfico"
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Incomplete elementary school"
-msgstr "Incomplete elementary school"
+msgstr "Ensino Fundamental Incompleto"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Incomplete graduation"
-msgstr "Incomplete graduation"
+msgstr "Superior Incompleto"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Incomplete high school"
-msgstr "Incomplete high school"
+msgstr "Ensino Médio Incompleto"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ethnicity:0
 msgid "Indigene"
-msgstr "Indigene"
+msgstr "Indígena"
 
 #. module: l10n_br_hr
 #: field:hr.identity.type,initials:0
 msgid "Initials"
-msgstr "Initials"
+msgstr "Iniciais"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6708,19 +6708,19 @@ msgstr "Intérprete de língua de sinais"
 #: code:addons/l10n_br_hr/model/hr_employee.py:221
 #, python-format
 msgid "Invalid CPF for dependent %s"
-msgstr "Invalid CPF for dependent %s"
+msgstr "CPF inválido para o dependente %s"
 
 #. module: l10n_br_hr
 #: code:addons/l10n_br_hr/model/hr_employee.py:101
 #, python-format
 msgid "Invalid PIS/PASEP"
-msgstr "Invalid PIS/PASEP"
+msgstr "PIS/PASEP inválido"
 
 #. module: l10n_br_hr
 #: code:addons/l10n_br_hr/model/hr_employee.py:73
 #, python-format
 msgid "Invalid birth date for dependent %s"
-msgstr "Invalid birth date for dependent %s"
+msgstr "Data de nascimento inválida para o dependente %s"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -6861,7 +6861,7 @@ msgstr "Lapidador de vidros e cristais"
 #: field:hr.identity.type,__last_update:0
 #: field:l10n_br_hr.cbo,__last_update:0
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Última modificação em"
 
 #. module: l10n_br_hr
 #: field:hr.chronic.disease,write_uid:0
@@ -6872,7 +6872,7 @@ msgstr "Last Modified on"
 #: field:hr.identity.type,write_uid:0
 #: field:l10n_br_hr.cbo,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Última atualização por"
 
 #. module: l10n_br_hr
 #: field:hr.chronic.disease,write_date:0
@@ -6883,7 +6883,7 @@ msgstr "Last Updated by"
 #: field:hr.identity.type,write_date:0
 #: field:l10n_br_hr.cbo,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Última atualização em"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -7105,7 +7105,7 @@ msgstr "Malabarista"
 #. module: l10n_br_hr
 #: selection:hr.employee.dependent,dependent_gender:0
 msgid "Male"
-msgstr "Male"
+msgstr "Masculino"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -7739,12 +7739,12 @@ msgstr "Microfonista"
 #. module: l10n_br_hr
 #: field:hr.employee,cresv_categ:0
 msgid "Military service status category"
-msgstr "Military service status category"
+msgstr "Categoria de serviços militares"
 
 #. module: l10n_br_hr
 #: field:hr.employee,creservist:0
 msgid "Military service status certificate"
-msgstr "Military service status certificate"
+msgstr "Status do certificado de serviços militares "
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -8716,12 +8716,12 @@ msgstr "Narrador em programas de rádio e televisão"
 #. module: l10n_br_hr
 #: help:hr.employee,rg:0
 msgid "National ID number"
-msgstr "National ID number"
+msgstr "Número da identidade"
 
 #. module: l10n_br_hr
 #: field:hr.employee,nationality_code:0
 msgid "Nationality code"
-msgstr "Nationality code"
+msgstr "Código da nacionalidade"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -8738,7 +8738,7 @@ msgstr "Normalizador de metais e de compósitos"
 #. module: l10n_br_hr
 #: selection:hr.employee,ethnicity:0
 msgid "Not informed"
-msgstr "Not informed"
+msgstr "Não informado"
 
 #. module: l10n_br_hr
 #: view:hr.employee:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -10915,7 +10915,7 @@ msgstr "Petrógrafo"
 #. module: l10n_br_hr
 #: selection:hr.employee,ginstru:0
 msgid "Ph.D"
-msgstr "Ph.D"
+msgstr "PHD"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -12696,19 +12696,19 @@ msgstr "Refinador de óleo e gordura"
 #. module: l10n_br_hr
 #: field:hr.employee,registration:0
 msgid "Registration number"
-msgstr "Registration number"
+msgstr "Número de Registro"
 
 #. module: l10n_br_hr
 #: field:hr.employee.dependent,dependent_type_id:0
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_dependent_type
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_dependent_type
 msgid "Relatedness"
-msgstr "Relatedness"
+msgstr "Parentesco"
 
 #. module: l10n_br_hr
 #: field:hr.dependent.type,name:0
 msgid "Relatedness degree"
-msgstr "Relatedness degree"
+msgstr "Grau de parentesco"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -12929,7 +12929,7 @@ msgstr "Secador de madeira"
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
 msgid "Second Category"
-msgstr "Second Category"
+msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -13978,7 +13978,7 @@ msgstr "Teólogo"
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
 msgid "Third Category"
-msgstr "Third Category"
+msgstr "Terceira categoria"
 
 #. module: l10n_br_hr
 #: model:l10n_br_hr.cbo,name:0
@@ -15871,22 +15871,22 @@ msgstr "Título de Eleitor"
 #. module: l10n_br_hr
 #: field:hr.employee,voter_section:0
 msgid "Voter section"
-msgstr "Voter section"
+msgstr "Seção"
 
 #. module: l10n_br_hr
 #: field:hr.employee,voter_title:0
 msgid "Voter title"
-msgstr "Voter title"
+msgstr "Título de eleitor"
 
 #. module: l10n_br_hr
 #: field:hr.employee,voter_zone:0
 msgid "Voter zone"
-msgstr "Voter zone"
+msgstr "Zona"
 
 #. module: l10n_br_hr
 #: selection:hr.employee,ethnicity:0
 msgid "White"
-msgstr "White"
+msgstr "Branco"
 
 #. module: l10n_br_hr
 #: view:hr.employee:l10n_br_hr.view_l10n_br_hr_employee_form
