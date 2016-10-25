@@ -117,9 +117,11 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def name_get(self):
-        self.ensure_one()
-        name = 'Fatura ' + self.internal_number if self.internal_number else ''
-        return [(self.id, name)]
+        lista = []
+        for obj in self:
+            name = obj.internal_number if obj.internal_number else ''
+            lista.append((obj.id, name))
+        return lista
 
     @api.one
     @api.constrains('number')
