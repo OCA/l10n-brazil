@@ -75,6 +75,7 @@ class AccountInvoice(models.Model):
                         toolbar=False, submenu=False):
         context = self.env.context
         fiscal_document_code = context.get('fiscal_document_code')
+        active_id = context.get('active_id')
         nfe_form = ('l10n_br_account_product.'
                     'l10n_br_account_product_nfe_form')
         nfe_tree = ('l10n_br_account_product.'
@@ -87,14 +88,17 @@ class AccountInvoice(models.Model):
                      'l10n_br_account_product_nfse_tree')
         nfse_views = {'form': nfse_form, 'tree': nfse_tree}
 
-        if fiscal_document_code:
-            if fiscal_document_code == '55':
-                if nfe_views.get(view_type):
-                    view_id = self.env.ref(nfe_views.get(view_type)).id
+        if active_id:
+            invoice = self.browse(active_id)
+            fiscal_document_code = invoice.fiscal_document_id.code
 
-            if fiscal_document_code == 'XX':
-                if nfse_views.get(view_type):
-                    view_id = self.env.ref(nfse_views.get(view_type)).id
+        if fiscal_document_code == '55':
+            if nfe_views.get(view_type):
+                view_id = self.env.ref(nfe_views.get(view_type)).id
+
+        if fiscal_document_code == 'XX':
+            if nfse_views.get(view_type):
+                view_id = self.env.ref(nfse_views.get(view_type)).id
 
         return super(AccountInvoice, self).fields_view_get(
             view_id=view_id, view_type=view_type,
