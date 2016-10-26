@@ -725,6 +725,7 @@
         <record id="product.product_product_18_product_template" model="product.template">
             <field name="fiscal_type">product</field>
             <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+            <field name="fci">EEAEEDF6-8244-8244-8244-3A14AB21D3B3</field>
         </record>
 
         <!-- HDD on Demand -->
