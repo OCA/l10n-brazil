@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==========================================
+=====================================================
 Módulo de Contratos para RH da localização Brasileira
-==========================================
+=====================================================
 
 This module was written to extend the functionality of hr_contract module to support the brazilian requirements
 for contracts.
