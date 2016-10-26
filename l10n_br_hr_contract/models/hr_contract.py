@@ -5,18 +5,18 @@
 from openerp import models, fields, api
 
 MONTHS = [
-    ('january', 'January'),
-    ('february', 'February'),
-    ('march', 'March'),
-    ('april', 'April'),
-    ('may', 'May'),
-    ('june', 'June'),
-    ('july', 'July'),
-    ('august', 'August'),
-    ('september', 'September'),
-    ('october', 'October'),
-    ('november', 'November'),
-    ('december', 'December'),
+    ('1', 'January'),
+    ('2', 'February'),
+    ('3', 'March'),
+    ('4', 'April'),
+    ('5', 'May'),
+    ('6', 'June'),
+    ('7', 'July'),
+    ('8', 'August'),
+    ('9', 'September'),
+    ('10', 'October'),
+    ('11', 'November'),
+    ('12', 'December'),
 ]
 
 
@@ -36,6 +36,17 @@ class HrContractLaborRegime(models.Model):
     _name = 'hr.contract.labor.regime'
 
     name = fields.Char(string='Labor regime')
+    short_name = fields.Char(string='Short name')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['short_name']:
+                name = record['short_name'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
 
 
 class HrContract(models.Model):
@@ -63,8 +74,10 @@ class HrContract(models.Model):
     trade_union = fields.Char(string='Trade union')
     trade_union_cnpj = fields.Char(string='Trade union CNPJ')
     trade_union_entity_code = fields.Char(string='Trade union entity code')
-    base_date_month = fields.Selection(string='Base date month',
+    month_base_date = fields.Selection(string='Base date month',
                                        selection=MONTHS)
+    discount_trade_union_contribution = fields.Boolean(
+        string='Discount trade union contribution in admission')
 
 
 
