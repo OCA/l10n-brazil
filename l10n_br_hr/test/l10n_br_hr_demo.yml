@@ -1,0 +1,32 @@
+-
+    Create a l10n_br employee
+-
+  !record {model: hr.civil.certificate.type, id: l10n_br_hr_civil_certificate_type, view: False}:
+    name: 'Certidão de nascimento'
+-
+  !record {model: hr.identity.type, id: l10n_br_hr_identity_type, view: False}:
+    name: 'RG'
+-
+  !record {model: hr.identity.type, id: l10n_br_hr_identity_type, view: False}:
+    name: 'RG'
+-
+  !record {model: hr.deficiency, id: l10n_br_hr_deficiency_01, view: False}:
+    name: 'Deficiency'
+-
+  !record {model: hr.chronic.disease, id: l10n_br_hr_chronic_disease_01, view: False}:
+    name: 'Cronic'
+-
+  !record {model: hr.employee, id: l10n_br_employee, view: False}:
+    address_id: base.main_partner
+    company_id: base.main_company
+    department_id: hr.dep_management
+    user_id: base.user_demo
+    civil_certificate_type_id: l10n_br_hr_civil_certificate_type
+    identity_type_id:  l10n_br_hr_identity_type
+    deficiencies_ids:
+      - l10n_br_hr_deficiency_01
+    chronic_disease_ids:
+      - l10n_br_hr_chronic_disease_01
+    name: 'l10n brazil demo employee'
+    pis_pasep: '496.85994.95-6'
+    cpf: '853.334.271-35'
