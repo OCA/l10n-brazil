@@ -1064,10 +1064,11 @@ class AccountInvoiceLine(models.Model):
                 # no documento fiscal, os mesmos são calculados.
                 continue
 
-        result.update(self._get_tax_codes(
-            product_id, fiscal_position, taxes))
+        taxes_dict = self._get_tax_codes(product_id, fiscal_position, taxes)
 
-        result['cfop_id'] = values.get('cfop_id') or result['cfop_id']
+        for key in taxes_dict:
+            result[key] = values.get(key) or taxes_dict[key]
+
         return result
 
     @api.model
