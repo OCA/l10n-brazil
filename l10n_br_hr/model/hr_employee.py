@@ -113,7 +113,7 @@ class HrEmployee(models.Model):
                                        ('1', 'First Category'),
                                        ('2', 'Second Category'),
                                        ('3', 'Third Category')],
-                                   default=('3', 'Third Category'))
+                                   default='3')
     ginstru = fields.Selection(
         string='Educational attainment',
         selection=[

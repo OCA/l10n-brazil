@@ -17,7 +17,9 @@
         'view/hr_employee_view.xml',
         'view/hr_job_view.xml',
     ],
-    'test': [],
+    'test': [
+        'test/l10n_br_hr_demo.yml'
+    ],
     'installable': True,
     'images': [],
     'auto_install': False,
