@@ -13,7 +13,8 @@
         'hr_contract',
     ],
     'data': [
-
+        'views/hr_contract_view.xml',
+        'data/l10n_br_hr_contract_data.xml'
     ],
     'test': [],
     'demo': [],
