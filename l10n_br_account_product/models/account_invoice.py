@@ -1066,6 +1066,8 @@ class AccountInvoiceLine(models.Model):
 
         result.update(self._get_tax_codes(
             product_id, fiscal_position, taxes))
+
+        result['cfop_id'] = values.get('cfop_id') or result['cfop_id']
         return result
 
     @api.model
