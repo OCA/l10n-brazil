@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
+        <field name="model">hr.contract</field>
+        <field name="name">l10n_br.hr.contract.view.form</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_id']" position="after">
+                <field name="admission_type_id"/>
+                <field name="labor_bond_type_id"/>
+                <field name="labor_regime_id"/>
+            </xpath>
+            <xpath expr="//group[@name='duration_group']" position="after">
+                <group name="trade_union" string="Trade Union">
+                    <field name="trade_union"/>
+                    <field name="trade_union_cnpj"/>
+                    <field name="trade_union_entity_code"/>
+                    <field name="discount_trade_union_contribution"/>
+                    <field name="month_base_date" attrs="{'invisible':[('discount_trade_union_contribution','=', False)]}"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='wage']" position="after">
+                <field name="salary_unit"/>
+                <field name="welfare_policy"/>
+
+            </xpath>
+            <xpath expr="//group[@name='duration_group']" position="inside">
+                <field name="monthly_hours"/>
+                <field name="weekly_hours"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</data>
+</openerp>
