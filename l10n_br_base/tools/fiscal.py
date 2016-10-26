@@ -516,3 +516,4 @@ def validate_pis_pasep(pis_pasep):
         rest = 11 - rest
     if rest == digits[10]:
         return True
+    return False
