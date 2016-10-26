@@ -210,7 +210,7 @@ class AccountInvoice(models.Model):
         required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
     partner_shipping_id = fields.Many2one(
-        'res.partner', 'Endereço de Entrega', readonly=True,
+        'res.partner', u'Endereço de Entrega', readonly=True,
         states={'draft': [('readonly', False)]},
         help="Shipping address for current sales order.")
     shipping_state_id = fields.Many2one(
@@ -222,7 +222,7 @@ class AccountInvoice(models.Model):
          ('2', 'Complementar'),
          ('3', 'Ajuste'),
          ('4', u'Devolução de Mercadoria')],
-        'Finalidade da Emissão', readonly=True,
+        u'Finalidade da Emissão', readonly=True,
         states={'draft': [('readonly', False)]}, default=_default_nfe_purpose)
     nfe_access_key = fields.Char(
         'Chave de Acesso NFE', size=44,
@@ -234,7 +234,7 @@ class AccountInvoice(models.Model):
                              copy=False)
     nfe_date = fields.Datetime('Data do Status NFE', readonly=True,
                                copy=False)
-    nfe_export_date = fields.Datetime('Exportação NFE', readonly=True)
+    nfe_export_date = fields.Datetime(u'Exportação NFE', readonly=True)
     cfop_ids = fields.Many2many(
         'l10n_br_account_product.cfop', string='CFOP',
         copy=False, compute='_compute_cfops')
@@ -243,11 +243,11 @@ class AccountInvoice(models.Model):
         'Fiscal Document Related', readonly=True,
         states={'draft': [('readonly', False)]})
     carrier_name = fields.Char('Nome Transportadora', size=32)
-    vehicle_plate = fields.Char('Placa do Veiculo', size=7)
+    vehicle_plate = fields.Char(u'Placa do Veículo', size=7)
     vehicle_state_id = fields.Many2one('res.country.state', 'UF da Placa')
     vehicle_l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city',
-        'Municipio',
+        u'Município',
         domain="[('state_id', '=', vehicle_state_id)]")
     amount_untaxed = fields.Float(
         string='Untaxed',
@@ -348,7 +348,7 @@ class AccountInvoice(models.Model):
     number_of_packages = fields.Integer(
         'Volume', readonly=True, states={'draft': [('readonly', False)]})
     kind_of_packages = fields.Char(
-        'Espécie', size=60, readonly=True, states={
+        u'Espécie', size=60, readonly=True, states={
             'draft': [
                 ('readonly', False)]})
     brand_of_packages = fields.Char(
@@ -356,7 +356,7 @@ class AccountInvoice(models.Model):
             'draft': [
                 ('readonly', False)]})
     notation_of_packages = fields.Char(
-        'Numeração', size=60, readonly=True, states={
+        u'Numeração', size=60, readonly=True, states={
             'draft': [
                 ('readonly', False)]})
     amount_insurance = fields.Float(
@@ -589,7 +589,7 @@ class AccountInvoiceLine(models.Model):
                 self.price_gross - taxes['total'])
 
     code = fields.Char(
-        u'código do Produto', size=60)
+        u'Código do Produto', size=60)
     date_invoice = fields.Datetime(
         'Invoice Date', readonly=True, states={'draft': [('readonly', False)]},
         select=True, help="Keep empty to use the current date")
@@ -600,7 +600,7 @@ class AccountInvoiceLine(models.Model):
         domain="[('fiscal_category_id','=',fiscal_category_id)]")
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
-        'account.product.fiscal.classification', 'Classificação Fiscal')
+        'account.product.fiscal.classification', u'Classificação Fiscal')
     cest = fields.Char(
         string="CEST",
         related='fiscal_classification_id.cest')
@@ -627,8 +627,8 @@ class AccountInvoiceLine(models.Model):
     icms_origin = fields.Selection(PRODUCT_ORIGIN, 'Origem', default='0')
     icms_base_type = fields.Selection(
         [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
-         ('2', 'Preço Tabelado Máximo (valor)'),
-         ('3', 'Valor da Operação')],
+         ('2', u'Preço Tabelado Máximo (valor)'),
+         ('3', u'Valor da Operação')],
         'Tipo Base ICMS', required=True, default='0')
     icms_base = fields.Float('Base ICMS', required=True,
                              digits=dp.get_precision('Account'), default=0.00)
@@ -641,10 +641,10 @@ class AccountInvoiceLine(models.Model):
     icms_percent = fields.Float(
         'Perc ICMS', digits=dp.get_precision('Discount'), default=0.00)
     icms_percent_reduction = fields.Float(
-        'Perc Redução de Base ICMS', digits=dp.get_precision('Discount'),
+        u'Perc Redução de Base ICMS', digits=dp.get_precision('Discount'),
         default=0.00)
     icms_st_base_type = fields.Selection(
-        [('0', 'Preço tabelado ou máximo  sugerido'),
+        [('0', u'Preço tabelado ou máximo  sugerido'),
          ('1', 'Lista Negativa (valor)'),
          ('2', 'Lista Positiva (valor)'), ('3', 'Lista Neutra (valor)'),
          ('4', 'Margem Valor Agregado (%)'), ('5', 'Pauta (valor)')],
@@ -659,7 +659,7 @@ class AccountInvoiceLine(models.Model):
         'Percentual ICMS ST', digits=dp.get_precision('Discount'),
         default=0.00)
     icms_st_percent_reduction = fields.Float(
-        'Perc Redução de Base ICMS ST',
+        u'Perc Redução de Base ICMS ST',
         digits=dp.get_precision('Discount'), default=0.00)
     icms_st_mva = fields.Float(
         'MVA Ajustado ICMS ST',
@@ -678,7 +678,7 @@ class AccountInvoiceLine(models.Model):
          ('S', 'Substituta'), ('I', 'Isenta')], 'Tipo do ISSQN',
         required=True, default='N')
     service_type_id = fields.Many2one(
-        'l10n_br_account.service.type', 'Tipo de Serviço')
+        'l10n_br_account.service.type', u'Tipo de Serviço')
     issqn_base = fields.Float(
         'Base ISSQN', required=True, digits=dp.get_precision('Account'),
         default=0.00)
@@ -780,7 +780,7 @@ class AccountInvoiceLine(models.Model):
         'Valor IOF', required=True, digits=dp.get_precision('Account'),
         default=0.00)
     ii_customhouse_charges = fields.Float(
-        'Depesas Atuaneiras', required=True,
+        'Despesas Aduaneiras', required=True,
         digits=dp.get_precision('Account'), default=0.00)
     insurance_value = fields.Float(
         'Valor do Seguro', digits=dp.get_precision('Account'), default=0.00)
