@@ -2,7 +2,7 @@
 # (c) 2016 Kmee - Fernando Marcato
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
+from openerp import models, api
 
 
 class AccountInvoice(models.Model):
@@ -15,17 +15,15 @@ class AccountInvoice(models.Model):
         value and to allow the code to pass if the rules validate.
         Returns: true or false
         """
-        if (not object.journal_id.revenue_expense
-            and object.journal_id.automatic_conciliation
-            and object.fiscal_category_id.property_journal ==
-                object.journal_id
-            and object.state == 'open'
-            and object.company_id.id ==
-                self.env.user.company_id.id
-            and object.journal_id.conciliation_journal):
-                return True
-        else:
-            return False
+        if (not object.journal_id.revenue_expense and
+                object.journal_id.automatic_conciliation and
+                (object.fiscal_category_id.property_journal ==
+                 object.journal_id) and
+                object.state == 'open' and
+                object.company_id.id == self.env.user.company_id.id and
+                object.journal_id.conciliation_journal):
+            return True
+        return False
 
     @api.multi
     def invoice_validate(self):
@@ -38,19 +36,21 @@ class AccountInvoice(models.Model):
                 context.update({
                     'invoice_id': object.id,
                     'invoice_type': object.type,
-                    'type': object.type in (
-                        'out_invoice', 'out_refund')
-                            and 'receipt' or 'payment',
+                    'type': (object.type in ('out_invoice', 'out_refund') and
+                             'receipt' or 'payment'),
                     'payment_expected_currency': object.currency_id.id,
-                    'default_partner_id': self.env['res.partner'].
-                        _find_accounting_partner(object.partner_id).id,
-                    'default_amount': object.type in (
-                        'out_refund', 'in_refund') and -object.residual
-                                      or object.residual,
+                    'default_partner_id':
+                        self.env['res.partner']._find_accounting_partner(
+                            object.partner_id).id,
+                    'default_amount': (object.type in ('out_refund',
+                                                       'in_refund'
+                                                       ) and
+                                       object.residual or
+                                       object.residual),
                     'default_reference': object.name,
                     'default_type': object.type in (
-                        'out_invoice', 'out_refund')
-                                    and 'receipt' or 'payment',
+                        'out_invoice', 'out_refund'
+                    ) and 'receipt' or 'payment',
                     'default_journal_id':
                         object.journal_id.conciliation_journal.id
                 })
