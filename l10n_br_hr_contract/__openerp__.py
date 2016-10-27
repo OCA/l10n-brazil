@@ -14,9 +14,12 @@
     ],
     'data': [
         'views/hr_contract_view.xml',
-        'data/l10n_br_hr_contract_data.xml'
+        'data/l10n_br_hr_contract_data.xml',
+        'data/l10n_br_hr_contract_resignation_data.xml'
     ],
-    'test': [],
+    'test': [
+        'test/l10n_br_hr_contract_demo.yml'
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,

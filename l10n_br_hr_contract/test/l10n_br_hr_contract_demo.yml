@@ -1,0 +1,29 @@
+-
+    Create a l10n_br contract
+-
+  !record {model: hr.contract, id: l10n_br_contract, view: False}:
+    name: 'Test Contract'
+    employee_id: hr.employee_qdp
+    job_id: hr.job_consultant
+    type_id: hr_contract.hr_contract_type_emp
+    wage: 2000
+    advantages: 'Demo advantages'
+    notes: 'Demo notes'
+    trial_date_start: '2016-01-01'
+    trial_date_end: '2016-03-01'
+    date_start: '2016-03-02'
+    date_end:
+    working_hours: resource.timesheet_group1
+
+    admission_type_id: l10n_br_hr_contract.admission_type_admissao
+    labor_bond_type_id: l10n_br_hr_contract.labor_bond_type_tu
+    labor_regime_id: l10n_br_hr_contract.labor_regime_clt
+    salary_unit: 'month'
+    welfare_policy: 'rgps'
+    trade_union: 'Demo trade union'
+    trade_union_cnpj: '00.874.955/0001-78'
+    trade_union_entity_code: 'DTU'
+    discount_trade_union_contribution: True
+    month_base_date: '4'
+    monthly_hours: 180
+    weekly_hours: 45

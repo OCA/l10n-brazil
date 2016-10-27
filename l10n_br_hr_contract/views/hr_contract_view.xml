@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-    <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
-        <field name="model">hr.contract</field>
-        <field name="name">l10n_br.hr.contract.view.form</field>
-        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='type_id']" position="after">
-                <field name="admission_type_id"/>
-                <field name="labor_bond_type_id"/>
-                <field name="labor_regime_id"/>
-            </xpath>
-            <xpath expr="//group[@name='duration_group']" position="after">
-                <group name="trade_union" string="Trade Union">
-                    <field name="trade_union"/>
-                    <field name="trade_union_cnpj"/>
-                    <field name="trade_union_entity_code"/>
-                    <field name="discount_trade_union_contribution"/>
-                    <field name="month_base_date" attrs="{'invisible':[('discount_trade_union_contribution','=', False)]}"/>
-                </group>
-            </xpath>
-            <xpath expr="//field[@name='wage']" position="after">
-                <field name="salary_unit"/>
-                <field name="welfare_policy"/>
+    <data>
+        <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
+            <field name="model">hr.contract</field>
+            <field name="name">l10n_br.hr.contract.view.form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="admission_type_id"/>
+                    <field name="labor_bond_type_id"/>
+                    <field name="labor_regime_id"/>
+                </xpath>
+                <xpath expr="//group[@name='duration_group']" position="after">
+                    <group name="union" string="Union">
+                        <field name="union"/>
+                        <field name="union_cnpj"/>
+                        <field name="union_entity_code"/>
+                        <field name="discount_union_contribution"/>
+                        <field name="month_base_date"
+                               attrs="{'invisible':[('discount_union_contribution','=', False)]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='wage']" position="after">
+                    <field name="salary_unit"/>
+                    <field name="welfare_policy"/>
 
-            </xpath>
-            <xpath expr="//group[@name='duration_group']" position="inside">
-                <field name="monthly_hours"/>
-                <field name="weekly_hours"/>
-            </xpath>
-        </field>
-    </record>
+                </xpath>
+                <xpath expr="//group[@name='duration_group']" position="inside">
+                    <field name="monthly_hours"/>
+                    <field name="weekly_hours"/>
+                </xpath>
 
+                <xpath expr="//page[@string='Work Permit']" position="after">
+                    <page string="Resignation">
+                        <group string="Resignation">
+                            <field name="resignation_cause_id"/>
+                            <field name="resignation_date"/>
+                            <field name="resignation_code" invisible='1'/>
+                            <field name="by_death"
+                                   attrs="{'invisible': [('resignation_code', 'not in', ('60', '62', '63', '64'))]}"/>
+                        </group>
+                        <group string="Notice of Termination">
+                            <field name="notice_of_termination_id"/>
+                            <field name="notice_of_termination_date"/>
+                            <field name="notice_of_termination_payment_date"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
 
-</data>
+    </data>
 </openerp>
