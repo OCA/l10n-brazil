@@ -16,7 +16,8 @@
         'pos_pricelist',
         'pos_payment_term',
         'nfe_attach',
-        'pos_order_picking_link'
+        'pos_order_picking_link',
+        'stock_picking_invoice_link',
     ],
     'data': [
         "wizard/l10n_br_pos_order_return.xml",
