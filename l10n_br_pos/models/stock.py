@@ -10,6 +10,7 @@ class StockPicking(models.Model):
 
     @api.multi
     @api.depends('invoice_id.nfe_access_key',
+                 'invoice_ids.nfe_access_key',
                  'pos_order_ids.chave_cfe')
     def _get_fiscal_document_access_key(self):
         for picking in self:
