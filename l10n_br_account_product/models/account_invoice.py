@@ -991,9 +991,11 @@ class AccountInvoiceLine(models.Model):
             'other_costs_value', 0.0) or self.other_costs_value
         tax_ids = []
         if values.get('invoice_line_tax_id'):
-            if isinstance(values.get('invoice_line_tax_id')[0], (tuple)):
-                tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-                0][2]
+            if isinstance(values.get('invoice_line_tax_id')[0], tuple):
+                tax_ids = values.get(
+                    'invoice_line_tax_id',
+                    [[6, 0, []]]
+                )[0][2]
             else:
                 tax_ids = values.get('invoice_line_tax_id')
         else:
