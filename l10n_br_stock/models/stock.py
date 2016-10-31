@@ -17,3 +17,20 @@ class StockIncoterms(models.Model):
                                               'Frete por Conta',
                                               required=True,
                                               default='0')
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
+    legal_name = fields.Char(
+        string=u'Razão Social',
+        related='partner_id.legal_name',
+    )
+    ie = fields.Char(
+        string=u'Inscrição Estadual',
+        related='partner_id.inscr_est',
+    )
