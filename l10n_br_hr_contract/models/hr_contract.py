@@ -3,6 +3,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
+from openerp.addons.l10n_br_base.tools import fiscal
+from openerp.exceptions import ValidationError
+
 
 MONTHS = [
     ('1', 'January'),
@@ -156,3 +159,11 @@ class HrContract(models.Model):
                            help='Death certificate/Process/Beneficiary')
     resignation_code = fields.Char(related='resignation_cause_id.code',
                                    invisible=True)
+
+    @api.multi
+    @api.constrains('union_cnpj')
+    def _validate_union_cnpj(self):
+        for record in self:
+            if record.union_cnpj:
+                if not fiscal.validate_cnpj(record.union_cnpj):
+                    raise ValidationError("Invalid union CNPJ!")
