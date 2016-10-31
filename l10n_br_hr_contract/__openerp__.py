@@ -11,6 +11,7 @@
     'version': '8.0.0.0.0',
     'depends': [
         'hr_contract',
+        'l10n_br_hr',
     ],
     'data': [
         'views/hr_contract_view.xml',
