@@ -50,5 +50,50 @@
             </field>
         </record>
 
+        <record id="action_hr_contract_admission_type" model="ir.actions.act_window">
+            <field name="name">Admission Type</field>
+            <field name="res_model">hr.contract.admission.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_hr_contract_labor_bond_type" model="ir.actions.act_window">
+            <field name="name">Labor Bond Type</field>
+            <field name="res_model">hr.contract.labor.bond.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_hr_contract_labor_regime" model="ir.actions.act_window">
+            <field name="name">Labor Regime</field>
+            <field name="res_model">hr.contract.labor.regime</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_hr_contract_salary_unit" model="ir.actions.act_window">
+            <field name="name">Salary Unit</field>
+            <field name="res_model">hr.contract.salary.unit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_hr_contract_resignation_cause" model="ir.actions.act_window">
+            <field name="name">Resignation Cause</field>
+            <field name="res_model">hr.contract.resignation.cause</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_hr_contract_notice_termination" model="ir.actions.act_window">
+            <field name="name">Notice Termination</field>
+            <field name="res_model">hr.contract.notice.termination</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="" id="menu_hr_contract_configuration_rais_contract" parent="l10n_br_hr.menu_hr_contract_configuration_rais" name="Contract" sequence="30" groups="base.group_hr_manager"/>
+        <menuitem action="action_hr_contract_admission_type" id="menu_hr_contract_admission_type" parent="menu_hr_contract_configuration_rais_contract" name="Admission Type" sequence="10" />
+        <menuitem action="action_hr_contract_labor_bond_type" id="menu_hr_contract_labor_bond_type" parent="menu_hr_contract_configuration_rais_contract" name="Labor Bond Type" sequence="11" />
+        <menuitem action="action_hr_contract_labor_regime" id="menu_hr_contract_labor_regime" parent="menu_hr_contract_configuration_rais_contract" name="Labor Regime" sequence="12" />
+        <menuitem action="action_hr_contract_salary_unit" id="menu_hr_contract_salary_unit" parent="menu_hr_contract_configuration_rais_contract" name="Salary Unit" sequence="13" />
+        <menuitem action="action_hr_contract_resignation_cause" id="menu_hr_contract_resignation_cause" parent="menu_hr_contract_configuration_rais_contract" name="Resignation Cause" sequence="14" />
+        <menuitem action="action_hr_contract_notice_termination" id="menu_hr_contract_notice_termination" parent="menu_hr_contract_configuration_rais_contract" name="Notice Termination" sequence="15"/>
+
     </data>
 </openerp>
