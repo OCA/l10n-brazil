@@ -158,7 +158,9 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_hr_employee_register" parent="hr.menu_hr_configuration" name="Employee register"
+        <menuitem action="" id="menu_hr_contract_configuration_rais" parent="hr.menu_hr_configuration" name="RAIS" sequence="30" groups="base.group_hr_manager"/>
+
+        <menuitem id="menu_hr_employee_register" parent="menu_hr_contract_configuration_rais" name="Employee register"
                   sequence="20" groups="base.group_hr_manager"/>
         <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register"
                   sequence="1"/>
