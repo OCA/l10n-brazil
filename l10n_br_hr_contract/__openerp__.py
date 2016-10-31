@@ -16,7 +16,8 @@
     'data': [
         'views/hr_contract_view.xml',
         'data/l10n_br_hr_contract_data.xml',
-        'data/l10n_br_hr_contract_resignation_data.xml'
+        'data/l10n_br_hr_contract_resignation_data.xml',
+        'security/ir.model.access.csv'
     ],
     'test': [
         'test/l10n_br_hr_contract_demo.yml'
