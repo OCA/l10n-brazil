@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        sequence="-98"
+        id="menu_sped"
+        name="Fiscal"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="1"
+        id="menu_sped_documento_emissao"
+        name="Emissão"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="2"
+        id="menu_sped_documento_recebimento"
+        name="Recebimento"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="100"
+        id="menu_sped_configuracao"
+        name="Configuração"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="1"
+        id="menu_sped_aliquota"
+        name="Alíquotas"
+        />
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="2"
+        id="menu_sped_aliquota_icms_proprio"
+        name="ICMS próprio"
+        />
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="3"
+        id="menu_sped_aliquota_icms_st"
+        name="ICMS ST"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="2"
+        id="menu_sped_operacao"
+        name="Operações"
+        />
+
+    <menuitem
+        parent="menu_sped_operacao"
+        sequence="1"
+        id="menu_sped_operacao_emissao"
+        name="Emissão"
+        />
+
+    <menuitem
+        parent="menu_sped_operacao"
+        sequence="2"
+        id="menu_sped_operacao_recebimento"
+        name="Recebimento"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="4"
+        id="menu_sped_tabela"
+        name="Tabelas"
+        />
+
+</odoo>
