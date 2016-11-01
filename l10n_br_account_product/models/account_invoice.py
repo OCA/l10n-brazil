@@ -505,12 +505,14 @@ class AccountInvoice(models.Model):
 
                 seq_number = sequence_obj.get_id(
                     invoice.document_serie_id.internal_sequence_id.id)
-                date_time_now = fields.datetime.now()
+                date_time_invoice = (invoice.date_hour_invoice or
+                                     fields.datetime.now())
+                date_in_out = invoice.date_in_out or fields.datetime.now()
                 self.write(
                     {'internal_number': seq_number,
                      'number': seq_number,
-                     'date_hour_invoice': date_time_now,
-                     'date_in_out': date_time_now}
+                     'date_hour_invoice': date_time_invoice,
+                     'date_in_out': date_in_out}
                 )
         return True
 
