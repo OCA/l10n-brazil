@@ -2,7 +2,7 @@
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from openerp import api, fields, models
 
 
 class L10nBrHrCbo(models.Model):
@@ -12,13 +12,32 @@ class L10nBrHrCbo(models.Model):
     code = fields.Char('Code', required=True)
     name = fields.Char('Name', size=255, required=True, translate=True)
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
+
 
 class HrDeficiency(models.Model):
     _name = 'hr.deficiency'
 
     name = fields.Char(string='Deficiency')
-    employee_ids = fields.Many2many(string="Employees",
-                                    comodel_name='hr.employee')
+    code = fields.Char(string='Code')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
 
 
 class HrIdentityType(models.Model):
@@ -48,4 +67,65 @@ class HrDependentType(models.Model):
     _name = 'hr.dependent.type'
 
     name = fields.Char(string='Relatedness degree')
-    code = fields.Integer(string='Code')
+    code = fields.Char(string='Code')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
+
+
+class HrEthnicity(models.Model):
+    _name = 'hr.ethnicity'
+
+    name = fields.Char(string='Ethnicity')
+    code = fields.Char('code')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
+
+
+class HrEducationalAttainment(models.Model):
+    _name = 'hr.educational.attainment'
+
+    name = fields.Char(string='Educational Attainment')
+    code = fields.Char(string='Code')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
+
+
+class HrNationalityCode(models.Model):
+    _name = 'hr.nationality.code'
+
+    name = fields.Char(string='Nationality')
+    code = fields.Char(string='Code')
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
