@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- NATIONALITY CODE -->
+        <record id="nationality_code_10" model="hr.nationality.code">
+            <field name="name">Brasileiro</field>
+            <field name="code">10</field>
+        </record>
+        <record id="nationality_code_20" model="hr.nationality.code">
+            <field name="name">Naturalizado Brasileiro</field>
+            <field name="code">20</field>
+        </record>
+        <record id="nationality_code_21" model="hr.nationality.code">
+            <field name="name">Argentino</field>
+            <field name="code">21</field>
+        </record>
+        <record id="nationality_code_22" model="hr.nationality.code">
+            <field name="name">Boliviano</field>
+            <field name="code">22</field>
+        </record>
+        <record id="nationality_code_23" model="hr.nationality.code">
+            <field name="name">Chileno</field>
+            <field name="code">23</field>
+        </record>
+        <record id="nationality_code_24" model="hr.nationality.code">
+            <field name="name">Paraguaio</field>
+            <field name="code">24</field>
+        </record>
+        <record id="nationality_code_25" model="hr.nationality.code">
+            <field name="name">Uruguaio</field>
+            <field name="code">25</field>
+        </record>
+        <record id="nationality_code_26" model="hr.nationality.code">
+            <field name="name">Venezuelano</field>
+            <field name="code">26</field>
+        </record>
+        <record id="nationality_code_27" model="hr.nationality.code">
+            <field name="name">Colombiano</field>
+            <field name="code">27</field>
+        </record>
+        <record id="nationality_code_28" model="hr.nationality.code">
+            <field name="name">Peruano</field>
+            <field name="code">28</field>
+        </record>
+        <record id="nationality_code_29" model="hr.nationality.code">
+            <field name="name">Equatoriano</field>
+            <field name="code">29</field>
+        </record>
+        <record id="nationality_code_30" model="hr.nationality.code">
+            <field name="name">Alemão</field>
+            <field name="code">30</field>
+        </record>
+        <record id="nationality_code_31" model="hr.nationality.code">
+            <field name="name">Belga</field>
+            <field name="code">31</field>
+        </record>
+        <record id="nationality_code_32" model="hr.nationality.code">
+            <field name="name">Britânico</field>
+            <field name="code">32</field>
+        </record>
+        <record id="nationality_code_34" model="hr.nationality.code">
+            <field name="name">Canadense</field>
+            <field name="code">34</field>
+        </record>
+        <record id="nationality_code_35" model="hr.nationality.code">
+            <field name="name">Espanhol</field>
+            <field name="code">35</field>
+        </record>
+        <record id="nationality_code_36" model="hr.nationality.code">
+            <field name="name">Norte-americano(EUA)</field>
+            <field name="code">36</field>
+        </record>
+        <record id="nationality_code_37" model="hr.nationality.code">
+            <field name="name">Francês</field>
+            <field name="code">37</field>
+        </record>
+        <record id="nationality_code_38" model="hr.nationality.code">
+            <field name="name">Suiço</field>
+            <field name="code">38</field>
+        </record>
+        <record id="nationality_code_39" model="hr.nationality.code">
+            <field name="name">Italiano</field>
+            <field name="code">39</field>
+        </record>
+        <record id="nationality_code_40" model="hr.nationality.code">
+            <field name="name">Haitiano</field>
+            <field name="code">40</field>
+        </record>
+        <record id="nationality_code_41" model="hr.nationality.code">
+            <field name="name">Japonês</field>
+            <field name="code">41</field>
+        </record>
+        <record id="nationality_code_42" model="hr.nationality.code">
+            <field name="name">Chinês</field>
+            <field name="code">42</field>
+        </record>
+        <record id="nationality_code_43" model="hr.nationality.code">
+            <field name="name">Coreano</field>
+            <field name="code">43</field>
+        </record>
+        <record id="nationality_code_44" model="hr.nationality.code">
+            <field name="name">Russo</field>
+            <field name="code">44</field>
+        </record>
+        <record id="nationality_code_45" model="hr.nationality.code">
+            <field name="name">Português</field>
+            <field name="code">45</field>
+        </record>
+        <record id="nationality_code_46" model="hr.nationality.code">
+            <field name="name">Paquistanês</field>
+            <field name="code">46</field>
+        </record>
+        <record id="nationality_code_47" model="hr.nationality.code">
+            <field name="name">Indiano</field>
+            <field name="code">47</field>
+        </record>
+        <record id="nationality_code_48" model="hr.nationality.code">
+            <field name="name">Outros latino-americanos</field>
+            <field name="code">48</field>
+        </record>
+        <record id="nationality_code_49" model="hr.nationality.code">
+            <field name="name">Outros asiáticos</field>
+            <field name="code">49</field>
+        </record>
+        <record id="nationality_code_50" model="hr.nationality.code">
+            <field name="name">Bengalês</field>
+            <field name="code">50</field>
+        </record>
+        <record id="nationality_code_51" model="hr.nationality.code">
+            <field name="name">Outros europeus</field>
+            <field name="code">51</field>
+        </record>
+        <record id="nationality_code_60" model="hr.nationality.code">
+            <field name="name">Angolano</field>
+            <field name="code">60</field>
+        </record>
+        <record id="nationality_code_61" model="hr.nationality.code">
+            <field name="name">Congolês</field>
+            <field name="code">61</field>
+        </record>
+        <record id="nationality_code_62" model="hr.nationality.code">
+            <field name="name">Sul-africano</field>
+            <field name="code">62</field>
+        </record>
+        <record id="nationality_code_63" model="hr.nationality.code">
+            <field name="name">Ganês</field>
+            <field name="code">63</field>
+        </record>
+        <record id="nationality_code_64" model="hr.nationality.code">
+            <field name="name">Senegalês</field>
+            <field name="code">64</field>
+        </record>
+        <record id="nationality_code_70" model="hr.nationality.code">
+            <field name="name">Outros africanos</field>
+            <field name="code">70</field>
+        </record>
+        <record id="nationality_code_80" model="hr.nationality.code">
+            <field name="name">Outros</field>
+            <field name="code">80</field>
+        </record>
+
+    </data>
+</openerp>
