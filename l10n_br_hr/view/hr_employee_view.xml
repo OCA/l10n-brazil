@@ -11,7 +11,7 @@
                 <xpath expr="//field[@name='identification_id']" position="replace">
                     <field name="check_cpf" invisible="1"/>
                     <field name="cpf"/>
-                    <field name="ginstru"/>
+                    <field name="educational_attainment"/>
                 </xpath>
                 <xpath expr="//group[@string='Birth']" position="after">
                     <group string="Characteristics">
@@ -23,7 +23,8 @@
                 </xpath>
                 <xpath expr="//field[@name='country_id']" position="after">
                     <field name="nationality_code"/>
-                    <field name="arrival_year" attrs="{'invisible': [('nationality_code','in',('10', False))]}"
+                    <field name="nat_code" invisible="1"/>
+                    <field name="arrival_year" attrs="{'invisible': [('nat_code','in',('10', False))]}"
                            placeholder=""/>
                 </xpath>
                 <xpath expr="//field[@name='address_home_id']" position="after">
@@ -119,11 +120,82 @@
                     <page string="Health">
                         <group>
                             <field name="blood_type"/>
-                            <field name="deficiencies_ids"/>
+                            <field name="deficiency_id"/>
+                            <field name="deficiency_description"/>
                             <field name="chronic_disease_ids"/>
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='country_id']" position="replace">
+                    <field name="country_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_deficiency_tree">
+            <field name="name">hr.deficiency.tree.view</field>
+            <field name="model">hr.deficiency</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_identity_type_tree">
+            <field name="name">hr.identity.type.tree.view</field>
+            <field name="model">hr.identity.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="initials"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_dependent_type_tree">
+            <field name="name">hr.dependent.type.tree.view</field>
+            <field name="model">hr.dependent.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_ethnicity_tree">
+            <field name="name">hr.ethnicity.tree.view</field>
+            <field name="model">hr.ethnicity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_educational_attainment_tree">
+            <field name="name">hr.educational.attainment.tree.view</field>
+            <field name="model">hr.educational.attainment</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_nationality_code_tree">
+            <field name="name">hr.nationality.code.tree.view</field>
+            <field name="model">hr.nationality.code</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
             </field>
         </record>
 
@@ -157,9 +229,26 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+        <record model="ir.actions.act_window" id="action_hr_ethnicity">
+            <field name="name">Ethnicity</field>
+            <field name="res_model">hr.ethnicity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_educational_attainment">
+            <field name="name">Educational Attainment</field>
+            <field name="res_model">hr.educational.attainment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_nationality_code">
+            <field name="name">Nationality Code</field>
+            <field name="res_model">hr.nationality.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
         <menuitem action="" id="menu_hr_contract_configuration_rais" parent="hr.menu_hr_configuration" name="RAIS" sequence="30" groups="base.group_hr_manager"/>
-
         <menuitem id="menu_hr_employee_register" parent="menu_hr_contract_configuration_rais" name="Employee register"
                   sequence="20" groups="base.group_hr_manager"/>
         <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register"
@@ -172,5 +261,11 @@
                   sequence="4"/>
         <menuitem action="action_hr_dependent_type" id="menu_hr_dependent_type" parent="menu_hr_employee_register"
                   sequence="5"/>
+        <menuitem action="action_hr_ethnicity" id="menu_hr_ethnicity" parent="menu_hr_employee_register"
+                  sequence="6"/>
+        <menuitem action="action_hr_educational_attainment" id="menu_hr_educational_attainment" parent="menu_hr_employee_register"
+                  sequence="7"/>
+        <menuitem action="action_hr_nationality_code" id="menu_hr_nationality_code" parent="menu_hr_employee_register"
+                  sequence="8"/>
     </data>
 </openerp>
