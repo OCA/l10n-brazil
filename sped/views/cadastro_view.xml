@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cadastro"
+        name="Cadastro"
+        sequence="-100"
+        />
+
+    <menuitem id="menu_cadastro_empresa"
+        name="Grupos, matrizes e filiais"
+        sequence="100"
+        parent="menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_parceiro"
+        name="Pessoas e empresas"
+        sequence="1"
+        parent="menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_produto"
+        name="Produtos"
+        sequence="2"
+        parent="menu_cadastro"
+        />
+
+<!--    <menuitem id="menu_cadastro_produto_unidade"
+        name="Unidades de medida"
+        sequence="99"
+        parent="menu_cadastro_produto"
+        />-->
+
+    <menuitem id="menu_cadastro_servico"
+        name="Serviços"
+        sequence="3"
+        parent="menu_cadastro"
+        />
+
+<!--    <menuitem id="menu_cadastro_servico_unidade"
+        name="Unidades de medida"
+        sequence="99"
+        parent="menu_cadastro_servico"
+        />-->
+<!--        <menuitem id="menu_cadastro"
+        name="Cadastro"
+        groups="group_finan_manager,group_finan_staff"
+        web_icon="images/finance_grey.png"
+        web_icon_hover="images/finance.png" />-->
+
+<!--        <menuitem id="menu_finan_gestao_financeira"
+        name="Gestão Financeira"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan"
+        sequence="10"/>
+
+    <menuitem id="menu_finan_conta_receber"
+        name="Contas Receber"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan"
+        sequence="20" />
+
+    <menuitem id="menu_rel_conta_receber"
+        name="Relatórios"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan_conta_receber"
+        sequence="20" />
+
+    <menuitem id="menu_finan_conta_pagar"
+        name="Contas Pagar"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan"
+        sequence="40"/>
+
+    <menuitem id="menu_rel_conta_pagar"
+        name="Relatórios"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan_conta_pagar"
+        sequence="20" />
+
+    <menuitem id="menu_finan_tesouraria"
+        name="Tesouraria"
+        parent="menu_finan"
+        sequence="70" />
+
+    <menuitem id="menu_rel_tesouraria"
+        name="Relatórios"
+        parent="menu_finan_tesouraria"
+        sequence="20" />
+
+    <menuitem id="menu_finan_relatorios"
+        name="Relatórios Gerenciais"
+        parent="menu_finan"
+        sequence="80"/>
+
+    <menuitem id="menu_rel_fluxo_caixa"
+        name="Fluxo de caixa"
+        groups="group_finan_manager,group_finan_staff"
+        parent="menu_finan_relatorios"
+        sequence="3"/>
+
+    <menuitem id="menu_finan_config"
+        name="Configurações"
+        groups="group_finan_manager"
+        parent="menu_finan"
+        sequence="90"/>
+
+    <record model="ir.actions.act_window" id="finan_banco_acao">
+        <field name="name">Bancos</field>
+        <field name="res_model">res.bank</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem action="finan_banco_acao"
+        name="Bancos"
+        id="menu_finan_banco"
+        parent="menu_finan_config"
+        sequence="7"/>
+
+    <record model="ir.actions.act_window" id="finan_moedas_acao">
+        <field name="name">Moedas e índices</field>
+        <field name="res_model">res.currency</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem action="finan_moedas_acao"
+        id="menu_finan_moedas"
+        name="Moedas e índices"
+        parent="menu_finan_config"
+        sequence="8"/>
+
+    <record model="ir.actions.act_window" id="finan_tipo_conta_bancaria_acao">
+        <field name="name">Tipos de contas bancárias</field>
+        <field name="res_model">res.partner.bank.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem action="finan_tipo_conta_bancaria_acao"
+        id="menu_finan_tipo_conta_bancaria"
+        name="Tipos de contas bancárias"
+        parent="menu_finan_config"
+        sequence="9"/>
+
+    <record model="ir.actions.act_window" id="finan_contas_bancarias_acao">
+        <field name="name">Contas bancárias</field>
+        <field name="res_model">res.partner.bank</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem action="finan_contas_bancarias_acao"
+        id="menu_finan_contas_bancarias"
+        name="Contas bancárias"
+        parent="menu_finan_config"
+        sequence="10"/>
+
+    <record model="ir.actions.act_window" id="finan_modelos_de_emails_acao">
+        <field name="name">Modelos de e-mail</field>
+        <field name="res_model">email.template</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem action="finan_modelos_de_emails_acao"
+        id="menu_finan_modelos_de_emails"
+        name="Modelo de e-mail"
+        parent="menu_finan_config"
+        sequence="11"/>-->
+
+</odoo>
