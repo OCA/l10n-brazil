@@ -13,6 +13,8 @@
                     <filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]" />
                     <filter name="invoices" string="Invoices" domain="[('state','not in',['draft','cancel'])]" help="Proforma/Open/Paid Invoices"/>
                     <filter name="unpaid" string="Unpaid" domain="[('state','=','open')]" help="Unpaid Invoices"/>
+                    <filter name="customer" string="Customer" domain="[('type','in',('out_invoice','out_refund'))]" help="Only show Client Invoices."/>
+                    <filter name="supplier" string="Supplier" domain="[('type','in',('in_invoice','in_refund'))]" help="Only show Supplier Invoices."/>
                     <separator/>
                     <field name="partner_id" operator="child_of"/>
                     <field name="user_id" string="Salesperson"/>
