@@ -11,49 +11,6 @@ from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.exceptions import ValidationError
 
 
-NATIONALITY_CODE = [
-    ('10', '10 - BRAZILIAN'),
-    ('20', '20 - BRAZILIAN NATURALIZED'),
-    ('21', '21 - ARGENTINE'),
-    ('22', '22 - BOLIVIAN'),
-    ('23', '23 - CHILEAN'),
-    ('24', '24 - PARAGUAYAN'),
-    ('25', '25 - URUGUAYAN'),
-    ('26', '26 - VENEZUELAN'),
-    ('27', '27 - COLOMBIAN'),
-    ('28', '28 - PERUVIAN'),
-    ('29', '29 - ECUADORIAN'),
-    ('30', '30 - GERMAN'),
-    ('31', '31 - BELGIAN'),
-    ('32', '32 - BRITISH'),
-    ('34', '34 - CANADIAN'),
-    ('35', '35 - SPANISH'),
-    ('36', '36 - NORTH-AMERICAN'),
-    ('37', '37 - FRENCH'),
-    ('38', '38 - SWISS'),
-    ('39', '39 - ITALIAN'),
-    ('40', '40 - HAITIAN'),
-    ('41', '41 - JAPANESE'),
-    ('42', '42 - CHINESE'),
-    ('43', '43 - KOREAN'),
-    ('44', '44 - RUSSIAN'),
-    ('45', '45 - PORTUGUESE'),
-    ('46', '46 - PAKISTANI'),
-    ('47', '47 - INDIAN'),
-    ('48', '48 - OTHER LATIN-AMERICAN'),
-    ('49', '49 - OTHER ASIAN'),
-    ('50', '50 - BANGLA'),
-    ('51', '51 - OTHER EUROPEAN'),
-    ('60', '60 - ANGOLAN'),
-    ('61', '61 - CONGOLESE'),
-    ('62', '62 - SOUTH AFRICAN'),
-    ('63', '63 - GHANAIAN'),
-    ('64', '64 - SENEGALESE'),
-    ('70', '70 - OTHER AFRICAN'),
-    ('80', '80 - OTHER')
-]
-
-
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
@@ -114,18 +71,10 @@ class HrEmployee(models.Model):
                                        ('2', 'Second Category'),
                                        ('3', 'Third Category')],
                                    default='3')
-    ginstru = fields.Selection(
+    educational_attainment = fields.Many2one(
         string='Educational attainment',
-        selection=[
-            ('incomplete_elementary_school', 'Incomplete elementary school'),
-            ('complete_elementary_school', 'Complete elementary school'),
-            ('incomplete_high_school', 'Incomplete high school'),
-            ('complete_high_school', 'Complete high school'),
-            ('incomplete_graduation', 'Incomplete graduation'),
-            ('Graduation', 'Complete graduation'),
-            ('master', 'Master'),
-            ('phd', 'Ph.D')
-        ])
+        comodel_name='hr.educational.attainment'
+        )
     have_dependent = fields.Boolean('Has dependents')
     dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
                                     inverse_name='employee_id',
@@ -143,14 +92,8 @@ class HrEmployee(models.Model):
     father_name = fields.Char(string='Father name')
     mother_name = fields.Char(string='Mother name')
     expiration_date = fields.Date(string='Expiration date')
-    ethnicity = fields.Selection(string='Ethnicity', selection=[
-        ('indigene', 'Indigene'),
-        ('white', 'White'),
-        ('black', 'Black'),
-        ('asian', 'Asian'),
-        ('pardo', 'Pardo'),
-        ('not_informed', 'Not informed')
-    ])
+    ethnicity = fields.Many2one(string='Ethnicity',
+                                comodel_name='hr.ethnicity')
     blood_type = fields.Selection(string='Blood type', selection=[
         ('a+', 'A+'),
         ('a-', 'A-'),
@@ -161,8 +104,9 @@ class HrEmployee(models.Model):
         ('ab+', 'AB+'),
         ('ab-', 'AB-'),
     ])
-    deficiencies_ids = fields.Many2many(string='Deficiencies',
-                                        comodel_name='hr.deficiency')
+    deficiency_id = fields.Many2one(string='Deficiency',
+                                    comodel_name='hr.deficiency')
+    deficiency_description = fields.Char(string='Deficiency description')
     identity_type_id = fields.Many2one(string='ID type',
                                        comodel_name='hr.identity.type')
     identity_validity = fields.Date(string='ID expiration date')
@@ -185,8 +129,9 @@ class HrEmployee(models.Model):
         ('common_law_marriage', 'Common law marriage'),
         ('separated', 'Separated')])
     registration = fields.Char(string='Registration number')
-    nationality_code = fields.Selection(string='Nationality code',
-                                        selection=NATIONALITY_CODE)
+    nationality_code = fields.Many2one(string='Nationality code',
+                                       comodel_name='hr.nationality.code')
+    nat_code = fields.Char(related='nationality_code.code')
     arrival_year = fields.Integer(string="Arrival year in Brazil")
     country_id = fields.Many2one(comodel_name='res.country',
                                  default=_default_country)
