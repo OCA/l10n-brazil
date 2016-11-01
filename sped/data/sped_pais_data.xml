@@ -1,0 +1,1733 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="PAIS_AF" model="sped.pais">
+        <field name="codigo_bacen">0132</field>
+        <field name="codigo_siscomex">116</field>
+        <field name="iso_3166_alfa_2">AF</field>
+        <field name="nome">Afeganistão</field>
+    </record>
+
+    <record id="PAIS_ZA" model="sped.pais">
+        <field name="codigo_bacen">7560</field>
+        <field name="codigo_siscomex">167</field>
+        <field name="iso_3166_alfa_2">ZA</field>
+        <field name="nome">África do Sul</field>
+    </record>
+
+    <record id="PAIS_AL" model="sped.pais">
+        <field name="codigo_bacen">0175</field>
+        <field name="codigo_siscomex">272</field>
+        <field name="iso_3166_alfa_2">AL</field>
+        <field name="nome">Albânia</field>
+    </record>
+
+    <record id="PAIS_DE" model="sped.pais">
+        <field name="codigo_bacen">0230</field>
+        <field name="codigo_siscomex">9904</field>
+        <field name="iso_3166_alfa_2">DE</field>
+        <field name="nome">Alemanha</field>
+    </record>
+
+    <record id="PAIS_AD" model="sped.pais">
+        <field name="codigo_bacen">0370</field>
+        <field name="codigo_siscomex">493</field>
+        <field name="iso_3166_alfa_2">AD</field>
+        <field name="nome">Andorra</field>
+    </record>
+
+    <record id="PAIS_AO" model="sped.pais">
+        <field name="codigo_bacen">0400</field>
+        <field name="codigo_siscomex">558</field>
+        <field name="iso_3166_alfa_2">AO</field>
+        <field name="nome">Angola</field>
+    </record>
+
+    <record id="PAIS_AI" model="sped.pais">
+        <field name="codigo_bacen">0418</field>
+        <field name="codigo_siscomex">9905</field>
+        <field name="iso_3166_alfa_2">AI</field>
+        <field name="nome">Anguila</field>
+    </record>
+
+    <record id="PAIS_AG" model="sped.pais">
+        <field name="codigo_bacen">0434</field>
+        <field name="codigo_siscomex">9906</field>
+        <field name="iso_3166_alfa_2">AG</field>
+        <field name="nome">Antígua e Barbuda</field>
+    </record>
+
+    <record id="PAIS_SA" model="sped.pais">
+        <field name="codigo_bacen">0531</field>
+        <field name="codigo_siscomex">604</field>
+        <field name="iso_3166_alfa_2">SA</field>
+        <field name="nome">Arábia Saudita</field>
+    </record>
+
+    <record id="PAIS_DZ" model="sped.pais">
+        <field name="codigo_bacen">0590</field>
+        <field name="codigo_siscomex">655</field>
+        <field name="iso_3166_alfa_2">DZ</field>
+        <field name="nome">Argélia</field>
+    </record>
+
+    <record id="PAIS_AR" model="sped.pais">
+        <field name="codigo_bacen">0639</field>
+        <field name="codigo_siscomex">728</field>
+        <field name="iso_3166_alfa_2">AR</field>
+        <field name="nome">Argentina</field>
+    </record>
+
+    <record id="PAIS_AM" model="sped.pais">
+        <field name="codigo_bacen">0647</field>
+        <field name="codigo_siscomex">779</field>
+        <field name="iso_3166_alfa_2">AM</field>
+        <field name="nome">Armênia</field>
+    </record>
+
+    <record id="PAIS_AW" model="sped.pais">
+        <field name="codigo_bacen">0655</field>
+        <field name="codigo_siscomex">9907</field>
+        <field name="iso_3166_alfa_2">AW</field>
+        <field name="nome">Aruba</field>
+    </record>
+
+    <record id="PAIS_AU" model="sped.pais">
+        <field name="codigo_bacen">0698</field>
+        <field name="codigo_siscomex">825</field>
+        <field name="iso_3166_alfa_2">AU</field>
+        <field name="nome">Austrália</field>
+    </record>
+
+    <record id="PAIS_AT" model="sped.pais">
+        <field name="codigo_bacen">0728</field>
+        <field name="codigo_siscomex">884</field>
+        <field name="iso_3166_alfa_2">AT</field>
+        <field name="nome">Áustria</field>
+    </record>
+
+    <record id="PAIS_AZ" model="sped.pais">
+        <field name="codigo_bacen">0736</field>
+        <field name="codigo_siscomex">930</field>
+        <field name="iso_3166_alfa_2">AZ</field>
+        <field name="nome">Azerbaijão</field>
+    </record>
+
+    <record id="PAIS_BS" model="sped.pais">
+        <field name="codigo_bacen">0779</field>
+        <field name="codigo_siscomex">981</field>
+        <field name="iso_3166_alfa_2">BS</field>
+        <field name="nome">Bahamas</field>
+    </record>
+
+    <record id="PAIS_BD" model="sped.pais">
+        <field name="codigo_bacen">0817</field>
+        <field name="codigo_siscomex">1104</field>
+        <field name="iso_3166_alfa_2">BD</field>
+        <field name="nome">Bangladeche</field>
+    </record>
+
+    <record id="PAIS_BB" model="sped.pais">
+        <field name="codigo_bacen">0833</field>
+        <field name="codigo_siscomex">1155</field>
+        <field name="iso_3166_alfa_2">BB</field>
+        <field name="nome">Barbados</field>
+    </record>
+
+    <record id="PAIS_BH" model="sped.pais">
+        <field name="codigo_bacen">0809</field>
+        <field name="codigo_siscomex">1058</field>
+        <field name="iso_3166_alfa_2">BH</field>
+        <field name="nome">Barêin</field>
+    </record>
+
+    <record id="PAIS_BE" model="sped.pais">
+        <field name="codigo_bacen">0876</field>
+        <field name="codigo_siscomex">1228</field>
+        <field name="iso_3166_alfa_2">BE</field>
+        <field name="nome">Bélgica</field>
+    </record>
+
+    <record id="PAIS_BZ" model="sped.pais">
+        <field name="codigo_bacen">0884</field>
+        <field name="codigo_siscomex">9909</field>
+        <field name="iso_3166_alfa_2">BZ</field>
+        <field name="nome">Belize</field>
+    </record>
+
+    <record id="PAIS_BJ" model="sped.pais">
+        <field name="codigo_bacen">2291</field>
+        <field name="codigo_siscomex">1279</field>
+        <field name="iso_3166_alfa_2">BJ</field>
+        <field name="nome">Benin</field>
+    </record>
+
+    <record id="PAIS_BM" model="sped.pais">
+        <field name="codigo_bacen">0906</field>
+        <field name="codigo_siscomex">1295</field>
+        <field name="iso_3166_alfa_2">BM</field>
+        <field name="nome">Bermudas</field>
+    </record>
+
+    <record id="PAIS_BY" model="sped.pais">
+        <field name="codigo_bacen">0850</field>
+        <field name="codigo_siscomex">9908</field>
+        <field name="iso_3166_alfa_2">BY</field>
+        <field name="nome">Bielorrússia</field>
+    </record>
+
+    <record id="PAIS_BO" model="sped.pais">
+        <field name="codigo_bacen">0973</field>
+        <field name="codigo_siscomex">1430</field>
+        <field name="iso_3166_alfa_2">BO</field>
+        <field name="nome">Bolívia</field>
+    </record>
+
+    <record id="PAIS_BQ" model="sped.pais">
+        <field name="codigo_bacen">0477</field>
+        <field name="codigo_siscomex">574</field>
+        <field name="iso_3166_alfa_2">BQ</field>
+        <field name="nome">Bonaire, Santo Eustáquio e Saba</field>
+    </record>
+
+    <record id="PAIS_BA" model="sped.pais">
+        <field name="codigo_bacen">0981</field>
+        <field name="codigo_siscomex">9910</field>
+        <field name="iso_3166_alfa_2">BA</field>
+        <field name="nome">Bósnia Herzegóvina</field>
+    </record>
+
+    <record id="PAIS_BW" model="sped.pais">
+        <field name="codigo_bacen">1015</field>
+        <field name="codigo_siscomex">1481</field>
+        <field name="iso_3166_alfa_2">BW</field>
+        <field name="nome">Botsuana</field>
+    </record>
+
+    <record id="PAIS_BR" model="sped.pais">
+        <field name="codigo_bacen">1058</field>
+        <field name="codigo_siscomex">1554</field>
+        <field name="iso_3166_alfa_2">BR</field>
+        <field name="nome">Brasil</field>
+    </record>
+
+    <record id="PAIS_BN" model="sped.pais">
+        <field name="codigo_bacen">1082</field>
+        <field name="codigo_siscomex">1589</field>
+        <field name="iso_3166_alfa_2">BN</field>
+        <field name="nome">Brunei</field>
+    </record>
+
+    <record id="PAIS_BG" model="sped.pais">
+        <field name="codigo_bacen">1112</field>
+        <field name="codigo_siscomex">1600</field>
+        <field name="iso_3166_alfa_2">BG</field>
+        <field name="nome">Bulgária</field>
+    </record>
+
+    <record id="PAIS_BF" model="sped.pais">
+        <field name="codigo_bacen">0310</field>
+        <field name="codigo_siscomex">9911</field>
+        <field name="iso_3166_alfa_2">BF</field>
+        <field name="nome">Burquina Fasso</field>
+    </record>
+
+    <record id="PAIS_BI" model="sped.pais">
+        <field name="codigo_bacen">1155</field>
+        <field name="codigo_siscomex">1651</field>
+        <field name="iso_3166_alfa_2">BI</field>
+        <field name="nome">Burúndi</field>
+    </record>
+
+    <record id="PAIS_BT" model="sped.pais">
+        <field name="codigo_bacen">1198</field>
+        <field name="codigo_siscomex">1716</field>
+        <field name="iso_3166_alfa_2">BT</field>
+        <field name="nome">Butão</field>
+    </record>
+
+    <record id="PAIS_CV" model="sped.pais">
+        <field name="codigo_bacen">1279</field>
+        <field name="codigo_siscomex">1767</field>
+        <field name="iso_3166_alfa_2">CV</field>
+        <field name="nome">Cabo Verde</field>
+    </record>
+
+    <record id="PAIS_KY" model="sped.pais">
+        <field name="codigo_bacen">1376</field>
+        <field name="codigo_siscomex">1996</field>
+        <field name="iso_3166_alfa_2">KY</field>
+        <field name="nome">Caimã, Ilhas</field>
+    </record>
+
+    <record id="PAIS_CM" model="sped.pais">
+        <field name="codigo_bacen">1457</field>
+        <field name="codigo_siscomex">1813</field>
+        <field name="iso_3166_alfa_2">CM</field>
+        <field name="nome">Camarões</field>
+    </record>
+
+    <record id="PAIS_KH" model="sped.pais">
+        <field name="codigo_bacen">1414</field>
+        <field name="codigo_siscomex">1872</field>
+        <field name="iso_3166_alfa_2">KH</field>
+        <field name="nome">Camboja</field>
+    </record>
+
+    <record id="PAIS_CA" model="sped.pais">
+        <field name="codigo_bacen">1490</field>
+        <field name="codigo_siscomex">1929</field>
+        <field name="iso_3166_alfa_2">CA</field>
+        <field name="nome">Canadá</field>
+    </record>
+
+    <record id="PAIS_ES" model="sped.pais">
+        <field name="codigo_bacen">1511</field>
+        <field name="codigo_siscomex">9912</field>
+        <field name="iso_3166_alfa_2">ES</field>
+        <field name="nome">Canárias, Ilhas</field>
+    </record>
+
+    <record id="PAIS_QA" model="sped.pais">
+        <field name="codigo_bacen">1546</field>
+        <field name="codigo_siscomex">9913</field>
+        <field name="iso_3166_alfa_2">QA</field>
+        <field name="nome">Catar</field>
+    </record>
+
+    <record id="PAIS_KZ" model="sped.pais">
+        <field name="codigo_bacen">1538</field>
+        <field name="codigo_siscomex">1988</field>
+        <field name="iso_3166_alfa_2">KZ</field>
+        <field name="nome">Cazaquistão</field>
+    </record>
+
+    <record id="PAIS_TD" model="sped.pais">
+        <field name="codigo_bacen">7889</field>
+        <field name="codigo_siscomex">2046</field>
+        <field name="iso_3166_alfa_2">TD</field>
+        <field name="nome">Chade</field>
+    </record>
+
+    <record id="PAIS_CL" model="sped.pais">
+        <field name="codigo_bacen">1589</field>
+        <field name="codigo_siscomex">2097</field>
+        <field name="iso_3166_alfa_2">CL</field>
+        <field name="nome">Chile</field>
+    </record>
+
+    <record id="PAIS_CN" model="sped.pais">
+        <field name="codigo_bacen">1600</field>
+        <field name="codigo_siscomex">2143</field>
+        <field name="iso_3166_alfa_2">CN</field>
+        <field name="nome">China</field>
+    </record>
+
+    <record id="PAIS_CY" model="sped.pais">
+        <field name="codigo_bacen">1635</field>
+        <field name="codigo_siscomex">2208</field>
+        <field name="iso_3166_alfa_2">CY</field>
+        <field name="nome">Chipre</field>
+    </record>
+
+    <record id="PAIS_CX" model="sped.pais">
+        <field name="codigo_bacen">5118</field>
+        <field name="codigo_siscomex">9914</field>
+        <field name="iso_3166_alfa_2">CX</field>
+        <field name="nome">Christmas, Ilha</field>
+    </record>
+
+    <record id="PAIS_CC" model="sped.pais">
+        <field name="codigo_bacen">1651</field>
+        <field name="codigo_siscomex">9915</field>
+        <field name="iso_3166_alfa_2">CC</field>
+        <field name="nome">Cocos (Keeling), Ilhas</field>
+    </record>
+
+    <record id="PAIS_CO" model="sped.pais">
+        <field name="codigo_bacen">1694</field>
+        <field name="codigo_siscomex">2305</field>
+        <field name="iso_3166_alfa_2">CO</field>
+        <field name="nome">Colômbia</field>
+    </record>
+
+    <record id="PAIS_KM" model="sped.pais">
+        <field name="codigo_bacen">1732</field>
+        <field name="codigo_siscomex">4626</field>
+        <field name="iso_3166_alfa_2">KM</field>
+        <field name="nome">Comores</field>
+    </record>
+
+    <record id="PAIS_CG" model="sped.pais">
+        <field name="codigo_bacen">1775</field>
+        <field name="codigo_siscomex">9917</field>
+        <field name="iso_3166_alfa_2">CG</field>
+        <field name="nome">Congo Brazavile</field>
+    </record>
+
+    <record id="PAIS_CD" model="sped.pais">
+        <field name="codigo_bacen">8885</field>
+        <field name="codigo_siscomex">9916</field>
+        <field name="iso_3166_alfa_2">CD</field>
+        <field name="nome">Congo Quinxassa</field>
+    </record>
+
+    <record id="PAIS_CK" model="sped.pais">
+        <field name="codigo_bacen">1830</field>
+        <field name="codigo_siscomex">9918</field>
+        <field name="iso_3166_alfa_2">CK</field>
+        <field name="nome">Cook, Ilhas</field>
+    </record>
+
+    <record id="PAIS_KR" model="sped.pais">
+        <field name="codigo_bacen">1872</field>
+        <field name="codigo_siscomex">9919</field>
+        <field name="iso_3166_alfa_2">KR</field>
+        <field name="nome">Coreia do Norte</field>
+    </record>
+
+    <record id="PAIS_KP" model="sped.pais">
+        <field name="codigo_bacen">1902</field>
+        <field name="codigo_siscomex">9920</field>
+        <field name="iso_3166_alfa_2">KP</field>
+        <field name="nome">Coreia do Sul</field>
+    </record>
+
+    <record id="PAIS_CI" model="sped.pais">
+        <field name="codigo_bacen">1937</field>
+        <field name="codigo_siscomex">2534</field>
+        <field name="iso_3166_alfa_2">CI</field>
+        <field name="nome">Costa do Marfim</field>
+    </record>
+
+    <record id="PAIS_CR" model="sped.pais">
+        <field name="codigo_bacen">1961</field>
+        <field name="codigo_siscomex">2585</field>
+        <field name="iso_3166_alfa_2">CR</field>
+        <field name="nome">Costa Rica</field>
+    </record>
+
+    <record id="PAIS_HR" model="sped.pais">
+        <field name="codigo_bacen">1953</field>
+        <field name="codigo_siscomex">9922</field>
+        <field name="iso_3166_alfa_2">HR</field>
+        <field name="nome">Croácia</field>
+    </record>
+
+    <record id="PAIS_CU" model="sped.pais">
+        <field name="codigo_bacen">1996</field>
+        <field name="codigo_siscomex">2631</field>
+        <field name="iso_3166_alfa_2">CU</field>
+        <field name="nome">Cuba</field>
+    </record>
+
+    <record id="PAIS_CW" model="sped.pais">
+        <field name="codigo_bacen">0477</field>
+        <field name="codigo_siscomex">574</field>
+        <field name="iso_3166_alfa_2">CW</field>
+        <field name="nome">Curaçao</field>
+    </record>
+
+    <record id="PAIS_DK" model="sped.pais">
+        <field name="codigo_bacen">2321</field>
+        <field name="codigo_siscomex">2690</field>
+        <field name="iso_3166_alfa_2">DK</field>
+        <field name="nome">Dinamarca</field>
+    </record>
+
+    <record id="PAIS_DJ" model="sped.pais">
+        <field name="codigo_bacen">7838</field>
+        <field name="codigo_siscomex">2747</field>
+        <field name="iso_3166_alfa_2">DJ</field>
+        <field name="nome">Djibúti</field>
+    </record>
+
+    <record id="PAIS_DM" model="sped.pais">
+        <field name="codigo_bacen">2356</field>
+        <field name="codigo_siscomex">2801</field>
+        <field name="iso_3166_alfa_2">DM</field>
+        <field name="nome">Dominica</field>
+    </record>
+
+    <record id="PAIS_EG" model="sped.pais">
+        <field name="codigo_bacen">2402</field>
+        <field name="codigo_siscomex">2917</field>
+        <field name="iso_3166_alfa_2">EG</field>
+        <field name="nome">Egito</field>
+    </record>
+
+    <record id="PAIS_SV" model="sped.pais">
+        <field name="codigo_bacen">6874</field>
+        <field name="codigo_siscomex">2976</field>
+        <field name="iso_3166_alfa_2">SV</field>
+        <field name="nome">El Salvador</field>
+    </record>
+
+    <record id="PAIS_AE" model="sped.pais">
+        <field name="codigo_bacen">2445</field>
+        <field name="codigo_siscomex">9923</field>
+        <field name="iso_3166_alfa_2">AE</field>
+        <field name="nome">Emirados Árabes Unidos</field>
+    </record>
+
+    <record id="PAIS_EC" model="sped.pais">
+        <field name="codigo_bacen">2399</field>
+        <field name="codigo_siscomex">3034</field>
+        <field name="iso_3166_alfa_2">EC</field>
+        <field name="nome">Equador</field>
+    </record>
+
+    <record id="PAIS_ER" model="sped.pais">
+        <field name="codigo_bacen">2437</field>
+        <field name="codigo_siscomex">9924</field>
+        <field name="iso_3166_alfa_2">ER</field>
+        <field name="nome">Eritreia</field>
+    </record>
+
+    <record id="PAIS_SK" model="sped.pais">
+        <field name="codigo_bacen">2470</field>
+        <field name="codigo_siscomex">9925</field>
+        <field name="iso_3166_alfa_2">SK</field>
+        <field name="nome">Eslováquia</field>
+    </record>
+
+    <record id="PAIS_SI" model="sped.pais">
+        <field name="codigo_bacen">2461</field>
+        <field name="codigo_siscomex">9926</field>
+        <field name="iso_3166_alfa_2">SI</field>
+        <field name="nome">Eslovênia</field>
+    </record>
+
+    <record id="PAIS_ES" model="sped.pais">
+        <field name="codigo_bacen">2453</field>
+        <field name="codigo_siscomex">3131</field>
+        <field name="iso_3166_alfa_2">ES</field>
+        <field name="nome">Espanha</field>
+    </record>
+
+    <record id="PAIS_US" model="sped.pais">
+        <field name="codigo_bacen">2496</field>
+        <field name="codigo_siscomex">3190</field>
+        <field name="iso_3166_alfa_2">US</field>
+        <field name="nome">Estados Unidos</field>
+    </record>
+
+    <record id="PAIS_EE" model="sped.pais">
+        <field name="codigo_bacen">2518</field>
+        <field name="codigo_siscomex">3247</field>
+        <field name="iso_3166_alfa_2">EE</field>
+        <field name="nome">Estônia</field>
+    </record>
+
+    <record id="PAIS_ET" model="sped.pais">
+        <field name="codigo_bacen">2534</field>
+        <field name="codigo_siscomex">3301</field>
+        <field name="iso_3166_alfa_2">ET</field>
+        <field name="nome">Etiópia</field>
+    </record>
+
+    <record id="PAIS_FK" model="sped.pais">
+        <field name="codigo_bacen">2550</field>
+        <field name="codigo_siscomex">9927</field>
+        <field name="iso_3166_alfa_2">FK</field>
+        <field name="nome">Falkland, Ilhas</field>
+    </record>
+
+    <record id="PAIS_FO" model="sped.pais">
+        <field name="codigo_bacen">2593</field>
+        <field name="codigo_siscomex">9928</field>
+        <field name="iso_3166_alfa_2">FO</field>
+        <field name="nome">Faroe, Ilhas</field>
+    </record>
+
+    <record id="PAIS_FJ" model="sped.pais">
+        <field name="codigo_bacen">8702</field>
+        <field name="codigo_siscomex">3360</field>
+        <field name="iso_3166_alfa_2">FJ</field>
+        <field name="nome">Fiji</field>
+    </record>
+
+    <record id="PAIS_PH" model="sped.pais">
+        <field name="codigo_bacen">2674</field>
+        <field name="codigo_siscomex">3417</field>
+        <field name="iso_3166_alfa_2">PH</field>
+        <field name="nome">Filipinas</field>
+    </record>
+
+    <record id="PAIS_FI" model="sped.pais">
+        <field name="codigo_bacen">2712</field>
+        <field name="codigo_siscomex">3476</field>
+        <field name="iso_3166_alfa_2">FI</field>
+        <field name="nome">Finlândia</field>
+    </record>
+
+    <record id="PAIS_FR" model="sped.pais">
+        <field name="codigo_bacen">2755</field>
+        <field name="codigo_siscomex">3646</field>
+        <field name="iso_3166_alfa_2">FR</field>
+        <field name="nome">França</field>
+    </record>
+
+    <record id="PAIS_GA" model="sped.pais">
+        <field name="codigo_bacen">2810</field>
+        <field name="codigo_siscomex">3697</field>
+        <field name="iso_3166_alfa_2">GA</field>
+        <field name="nome">Gabão</field>
+    </record>
+
+    <record id="PAIS_GM" model="sped.pais">
+        <field name="codigo_bacen">2852</field>
+        <field name="codigo_siscomex">3743</field>
+        <field name="iso_3166_alfa_2">GM</field>
+        <field name="nome">Gâmbia</field>
+    </record>
+
+    <record id="PAIS_GH" model="sped.pais">
+        <field name="codigo_bacen">2895</field>
+        <field name="codigo_siscomex">3808</field>
+        <field name="iso_3166_alfa_2">GH</field>
+        <field name="nome">Gana</field>
+    </record>
+
+    <record id="PAIS_GE" model="sped.pais">
+        <field name="codigo_bacen">2917</field>
+        <field name="codigo_siscomex">3859</field>
+        <field name="iso_3166_alfa_2">GE</field>
+        <field name="nome">Geórgia</field>
+    </record>
+
+    <record id="PAIS_GI" model="sped.pais">
+        <field name="codigo_bacen">2933</field>
+        <field name="codigo_siscomex">9929</field>
+        <field name="iso_3166_alfa_2">GI</field>
+        <field name="nome">Gibraltar</field>
+    </record>
+
+    <record id="PAIS_GD" model="sped.pais">
+        <field name="codigo_bacen">2976</field>
+        <field name="codigo_siscomex">3905</field>
+        <field name="iso_3166_alfa_2">GD</field>
+        <field name="nome">Granada</field>
+    </record>
+
+    <record id="PAIS_GR" model="sped.pais">
+        <field name="codigo_bacen">3018</field>
+        <field name="codigo_siscomex">3964</field>
+        <field name="iso_3166_alfa_2">GR</field>
+        <field name="nome">Grécia</field>
+    </record>
+
+    <record id="PAIS_GL" model="sped.pais">
+        <field name="codigo_bacen">3050</field>
+        <field name="codigo_siscomex">9930</field>
+        <field name="iso_3166_alfa_2">GL</field>
+        <field name="nome">Groenlândia</field>
+    </record>
+
+    <record id="PAIS_GP" model="sped.pais">
+        <field name="codigo_bacen">3093</field>
+        <field name="codigo_siscomex">9931</field>
+        <field name="iso_3166_alfa_2">GP</field>
+        <field name="nome">Guadalupe</field>
+    </record>
+
+    <record id="PAIS_GU" model="sped.pais">
+        <field name="codigo_bacen">3131</field>
+        <field name="codigo_siscomex">9932</field>
+        <field name="iso_3166_alfa_2">GU</field>
+        <field name="nome">Guam</field>
+    </record>
+
+    <record id="PAIS_GT" model="sped.pais">
+        <field name="codigo_bacen">3174</field>
+        <field name="codigo_siscomex">4014</field>
+        <field name="iso_3166_alfa_2">GT</field>
+        <field name="nome">Guatemala</field>
+    </record>
+
+    <record id="PAIS_GG" model="sped.pais">
+        <field name="codigo_bacen">1504</field>
+        <field name="codigo_siscomex">9933</field>
+        <field name="iso_3166_alfa_2">GG</field>
+        <field name="nome">Guérnesei</field>
+    </record>
+
+    <record id="PAIS_GY" model="sped.pais">
+        <field name="codigo_bacen">3379</field>
+        <field name="codigo_siscomex">4065</field>
+        <field name="iso_3166_alfa_2">GY</field>
+        <field name="nome">Guiana</field>
+    </record>
+
+    <record id="PAIS_GF" model="sped.pais">
+        <field name="codigo_bacen">3255</field>
+        <field name="codigo_siscomex">9934</field>
+        <field name="iso_3166_alfa_2">GF</field>
+        <field name="nome">Guiana Francesa</field>
+    </record>
+
+    <record id="PAIS_GN" model="sped.pais">
+        <field name="codigo_bacen">3298</field>
+        <field name="codigo_siscomex">4138</field>
+        <field name="iso_3166_alfa_2">GN</field>
+        <field name="nome">Guiné</field>
+    </record>
+
+    <record id="PAIS_GQ" model="sped.pais">
+        <field name="codigo_bacen">3310</field>
+        <field name="codigo_siscomex">4235</field>
+        <field name="iso_3166_alfa_2">GQ</field>
+        <field name="nome">Guiné Equatorial</field>
+    </record>
+
+    <record id="PAIS_GW" model="sped.pais">
+        <field name="codigo_bacen">3344</field>
+        <field name="codigo_siscomex">4189</field>
+        <field name="iso_3166_alfa_2">GW</field>
+        <field name="nome">Guiné-Bissau</field>
+    </record>
+
+    <record id="PAIS_HT" model="sped.pais">
+        <field name="codigo_bacen">3417</field>
+        <field name="codigo_siscomex">4294</field>
+        <field name="iso_3166_alfa_2">HT</field>
+        <field name="nome">Haiti</field>
+    </record>
+
+    <record id="PAIS_HN" model="sped.pais">
+        <field name="codigo_bacen">3450</field>
+        <field name="codigo_siscomex">4391</field>
+        <field name="iso_3166_alfa_2">HN</field>
+        <field name="nome">Honduras</field>
+    </record>
+
+    <record id="PAIS_HK" model="sped.pais">
+        <field name="codigo_bacen">3514</field>
+        <field name="codigo_siscomex">4405</field>
+        <field name="iso_3166_alfa_2">HK</field>
+        <field name="nome">Hong Kong</field>
+    </record>
+
+    <record id="PAIS_HU" model="sped.pais">
+        <field name="codigo_bacen">3557</field>
+        <field name="codigo_siscomex">4456</field>
+        <field name="iso_3166_alfa_2">HU</field>
+        <field name="nome">Hungria</field>
+    </record>
+
+    <record id="PAIS_YE" model="sped.pais">
+        <field name="codigo_bacen">3573</field>
+        <field name="codigo_siscomex">4502</field>
+        <field name="iso_3166_alfa_2">YE</field>
+        <field name="nome">Iêmen</field>
+    </record>
+
+    <record id="PAIS_IN" model="sped.pais">
+        <field name="codigo_bacen">3611</field>
+        <field name="codigo_siscomex">4782</field>
+        <field name="iso_3166_alfa_2">IN</field>
+        <field name="nome">Índia</field>
+    </record>
+
+    <record id="PAIS_ID" model="sped.pais">
+        <field name="codigo_bacen">3654</field>
+        <field name="codigo_siscomex">4839</field>
+        <field name="iso_3166_alfa_2">ID</field>
+        <field name="nome">Indonésia</field>
+    </record>
+
+    <record id="PAIS_IR" model="sped.pais">
+        <field name="codigo_bacen">3727</field>
+        <field name="codigo_siscomex">4952</field>
+        <field name="iso_3166_alfa_2">IR</field>
+        <field name="nome">Irã</field>
+    </record>
+
+    <record id="PAIS_IQ" model="sped.pais">
+        <field name="codigo_bacen">3697</field>
+        <field name="codigo_siscomex">5002</field>
+        <field name="iso_3166_alfa_2">IQ</field>
+        <field name="nome">Iraque</field>
+    </record>
+
+    <record id="PAIS_IE" model="sped.pais">
+        <field name="codigo_bacen">3751</field>
+        <field name="codigo_siscomex">5053</field>
+        <field name="iso_3166_alfa_2">IE</field>
+        <field name="nome">Irlanda</field>
+    </record>
+
+    <record id="PAIS_IS" model="sped.pais">
+        <field name="codigo_bacen">3794</field>
+        <field name="codigo_siscomex">5177</field>
+        <field name="iso_3166_alfa_2">IS</field>
+        <field name="nome">Islândia</field>
+    </record>
+
+    <record id="PAIS_IL" model="sped.pais">
+        <field name="codigo_bacen">3832</field>
+        <field name="codigo_siscomex">5223</field>
+        <field name="iso_3166_alfa_2">IL</field>
+        <field name="nome">Israel</field>
+    </record>
+
+    <record id="PAIS_IT" model="sped.pais">
+        <field name="codigo_bacen">3867</field>
+        <field name="codigo_siscomex">5282</field>
+        <field name="iso_3166_alfa_2">IT</field>
+        <field name="nome">Itália</field>
+    </record>
+
+    <record id="PAIS_JM" model="sped.pais">
+        <field name="codigo_bacen">3913</field>
+        <field name="codigo_siscomex">5398</field>
+        <field name="iso_3166_alfa_2">JM</field>
+        <field name="nome">Jamaica</field>
+    </record>
+
+    <record id="PAIS_JP" model="sped.pais">
+        <field name="codigo_bacen">3999</field>
+        <field name="codigo_siscomex">5452</field>
+        <field name="iso_3166_alfa_2">JP</field>
+        <field name="nome">Japão</field>
+    </record>
+
+    <record id="PAIS_JE" model="sped.pais">
+        <field name="codigo_bacen">1508</field>
+        <field name="codigo_siscomex">9935</field>
+        <field name="iso_3166_alfa_2">JE</field>
+        <field name="nome">Jérsei</field>
+    </record>
+
+    <record id="PAIS_UM" model="sped.pais">
+        <field name="codigo_bacen">3964</field>
+        <field name="codigo_siscomex">9936</field>
+        <field name="iso_3166_alfa_2">UM</field>
+        <field name="nome">Johnston, Ilhas</field>
+    </record>
+
+    <record id="PAIS_JO" model="sped.pais">
+        <field name="codigo_bacen">4030</field>
+        <field name="codigo_siscomex">5509</field>
+        <field name="iso_3166_alfa_2">JO</field>
+        <field name="nome">Jordânia</field>
+    </record>
+
+    <record id="PAIS_KW" model="sped.pais">
+        <field name="codigo_bacen">1988</field>
+        <field name="codigo_siscomex">9921</field>
+        <field name="iso_3166_alfa_2">KW</field>
+        <field name="nome">Kuwait</field>
+    </record>
+
+    <record id="PAIS_LA" model="sped.pais">
+        <field name="codigo_bacen">4200</field>
+        <field name="codigo_siscomex">5665</field>
+        <field name="iso_3166_alfa_2">LA</field>
+        <field name="nome">Laos</field>
+    </record>
+
+    <record id="PAIS_LS" model="sped.pais">
+        <field name="codigo_bacen">4260</field>
+        <field name="codigo_siscomex">5738</field>
+        <field name="iso_3166_alfa_2">LS</field>
+        <field name="nome">Lesoto</field>
+    </record>
+
+    <record id="PAIS_LV" model="sped.pais">
+        <field name="codigo_bacen">4278</field>
+        <field name="codigo_siscomex">5789</field>
+        <field name="iso_3166_alfa_2">LV</field>
+        <field name="nome">Letônia</field>
+    </record>
+
+    <record id="PAIS_LB" model="sped.pais">
+        <field name="codigo_bacen">4316</field>
+        <field name="codigo_siscomex">5835</field>
+        <field name="iso_3166_alfa_2">LB</field>
+        <field name="nome">Líbano</field>
+    </record>
+
+    <record id="PAIS_LR" model="sped.pais">
+        <field name="codigo_bacen">4340</field>
+        <field name="codigo_siscomex">5894</field>
+        <field name="iso_3166_alfa_2">LR</field>
+        <field name="nome">Libéria</field>
+    </record>
+
+    <record id="PAIS_LY" model="sped.pais">
+        <field name="codigo_bacen">4383</field>
+        <field name="codigo_siscomex">5940</field>
+        <field name="iso_3166_alfa_2">LY</field>
+        <field name="nome">Líbia</field>
+    </record>
+
+    <record id="PAIS_LI" model="sped.pais">
+        <field name="codigo_bacen">4405</field>
+        <field name="codigo_siscomex">5991</field>
+        <field name="iso_3166_alfa_2">LI</field>
+        <field name="nome">Liechtenstein</field>
+    </record>
+
+    <record id="PAIS_LT" model="sped.pais">
+        <field name="codigo_bacen">4421</field>
+        <field name="codigo_siscomex">6041</field>
+        <field name="iso_3166_alfa_2">LT</field>
+        <field name="nome">Lituânia</field>
+    </record>
+
+    <record id="PAIS_LU" model="sped.pais">
+        <field name="codigo_bacen">4456</field>
+        <field name="codigo_siscomex">6106</field>
+        <field name="iso_3166_alfa_2">LU</field>
+        <field name="nome">Luxemburgo</field>
+    </record>
+
+    <record id="PAIS_MO" model="sped.pais">
+        <field name="codigo_bacen">4472</field>
+        <field name="codigo_siscomex">9938</field>
+        <field name="iso_3166_alfa_2">MO</field>
+        <field name="nome">Macau</field>
+    </record>
+
+    <record id="PAIS_MK" model="sped.pais">
+        <field name="codigo_bacen">4499</field>
+        <field name="codigo_siscomex">9939</field>
+        <field name="iso_3166_alfa_2">MK</field>
+        <field name="nome">Macedônia</field>
+    </record>
+
+    <record id="PAIS_MG" model="sped.pais">
+        <field name="codigo_bacen">4502</field>
+        <field name="codigo_siscomex">6157</field>
+        <field name="iso_3166_alfa_2">MG</field>
+        <field name="nome">Madagascar</field>
+    </record>
+
+    <record id="PAIS_PT" model="sped.pais">
+        <field name="codigo_bacen">4525</field>
+        <field name="codigo_siscomex">7706</field>
+        <field name="iso_3166_alfa_2">PT</field>
+        <field name="nome">Madeira, Ilha da</field>
+    </record>
+
+    <record id="PAIS_MY" model="sped.pais">
+        <field name="codigo_bacen">4553</field>
+        <field name="codigo_siscomex">6211</field>
+        <field name="iso_3166_alfa_2">MY</field>
+        <field name="nome">Malásia</field>
+    </record>
+
+    <record id="PAIS_MW" model="sped.pais">
+        <field name="codigo_bacen">4588</field>
+        <field name="codigo_siscomex">6270</field>
+        <field name="iso_3166_alfa_2">MW</field>
+        <field name="nome">Malawi</field>
+    </record>
+
+    <record id="PAIS_MV" model="sped.pais">
+        <field name="codigo_bacen">4618</field>
+        <field name="codigo_siscomex">6289</field>
+        <field name="iso_3166_alfa_2">MV</field>
+        <field name="nome">Maldivas</field>
+    </record>
+
+    <record id="PAIS_ML" model="sped.pais">
+        <field name="codigo_bacen">4642</field>
+        <field name="codigo_siscomex">6327</field>
+        <field name="iso_3166_alfa_2">ML</field>
+        <field name="nome">Máli</field>
+    </record>
+
+    <record id="PAIS_MT" model="sped.pais">
+        <field name="codigo_bacen">4677</field>
+        <field name="codigo_siscomex">6386</field>
+        <field name="iso_3166_alfa_2">MT</field>
+        <field name="nome">Malta</field>
+    </record>
+
+    <record id="PAIS_IM" model="sped.pais">
+        <field name="codigo_bacen">3595</field>
+        <field name="codigo_siscomex">9940</field>
+        <field name="iso_3166_alfa_2">IM</field>
+        <field name="nome">Man, Ilha de</field>
+    </record>
+
+    <record id="PAIS_MP" model="sped.pais">
+        <field name="codigo_bacen">4723</field>
+        <field name="codigo_siscomex">9941</field>
+        <field name="iso_3166_alfa_2">MP</field>
+        <field name="nome">Marianas do Norte, Ilhas</field>
+    </record>
+
+    <record id="PAIS_MA" model="sped.pais">
+        <field name="codigo_bacen">4740</field>
+        <field name="codigo_siscomex">6432</field>
+        <field name="iso_3166_alfa_2">MA</field>
+        <field name="nome">Marrocos</field>
+    </record>
+
+    <record id="PAIS_MH" model="sped.pais">
+        <field name="codigo_bacen">4766</field>
+        <field name="codigo_siscomex">9942</field>
+        <field name="iso_3166_alfa_2">MH</field>
+        <field name="nome">Marshall, Ilhas</field>
+    </record>
+
+    <record id="PAIS_MQ" model="sped.pais">
+        <field name="codigo_bacen">4774</field>
+        <field name="codigo_siscomex">9943</field>
+        <field name="iso_3166_alfa_2">MQ</field>
+        <field name="nome">Martinica</field>
+    </record>
+
+    <record id="PAIS_MU" model="sped.pais">
+        <field name="codigo_bacen">4855</field>
+        <field name="codigo_siscomex">6483</field>
+        <field name="iso_3166_alfa_2">MU</field>
+        <field name="nome">Maurício</field>
+    </record>
+
+    <record id="PAIS_MR" model="sped.pais">
+        <field name="codigo_bacen">4880</field>
+        <field name="codigo_siscomex">6548</field>
+        <field name="iso_3166_alfa_2">MR</field>
+        <field name="nome">Mauritânia</field>
+    </record>
+
+    <record id="PAIS_YT" model="sped.pais">
+        <field name="codigo_bacen">4885</field>
+        <field name="codigo_siscomex"></field>
+        <field name="iso_3166_alfa_2">YT</field>
+        <field name="nome">Mayotte</field>
+    </record>
+
+    <record id="PAIS_MX" model="sped.pais">
+        <field name="codigo_bacen">4936</field>
+        <field name="codigo_siscomex">6599</field>
+        <field name="iso_3166_alfa_2">MX</field>
+        <field name="nome">México</field>
+    </record>
+
+    <record id="PAIS_MM" model="sped.pais">
+        <field name="codigo_bacen">0930</field>
+        <field name="codigo_siscomex">9944</field>
+        <field name="iso_3166_alfa_2">MM</field>
+        <field name="nome">Mianmar</field>
+    </record>
+
+    <record id="PAIS_FM" model="sped.pais">
+        <field name="codigo_bacen">4995</field>
+        <field name="codigo_siscomex">9945</field>
+        <field name="iso_3166_alfa_2">FM</field>
+        <field name="nome">Micronésia</field>
+    </record>
+
+    <record id="PAIS_UM" model="sped.pais">
+        <field name="codigo_bacen">4901</field>
+        <field name="codigo_siscomex">9946</field>
+        <field name="iso_3166_alfa_2">UM</field>
+        <field name="nome">Midway, Ilhas</field>
+    </record>
+
+    <record id="PAIS_MZ" model="sped.pais">
+        <field name="codigo_bacen">5053</field>
+        <field name="codigo_siscomex">6645</field>
+        <field name="iso_3166_alfa_2">MZ</field>
+        <field name="nome">Moçambique</field>
+    </record>
+
+    <record id="PAIS_MD" model="sped.pais">
+        <field name="codigo_bacen">4944</field>
+        <field name="codigo_siscomex">6718</field>
+        <field name="iso_3166_alfa_2">MD</field>
+        <field name="nome">Moldávia</field>
+    </record>
+
+    <record id="PAIS_MC" model="sped.pais">
+        <field name="codigo_bacen">4952</field>
+        <field name="codigo_siscomex">6769</field>
+        <field name="iso_3166_alfa_2">MC</field>
+        <field name="nome">Mônaco</field>
+    </record>
+
+    <record id="PAIS_MN" model="sped.pais">
+        <field name="codigo_bacen">4979</field>
+        <field name="codigo_siscomex">6815</field>
+        <field name="iso_3166_alfa_2">MN</field>
+        <field name="nome">Mongólia</field>
+    </record>
+
+    <record id="PAIS_ME" model="sped.pais">
+        <field name="codigo_bacen">4985</field>
+        <field name="codigo_siscomex"></field>
+        <field name="iso_3166_alfa_2">ME</field>
+        <field name="nome">Montenegro</field>
+    </record>
+
+    <record id="PAIS_MS" model="sped.pais">
+        <field name="codigo_bacen">5010</field>
+        <field name="codigo_siscomex">9947</field>
+        <field name="iso_3166_alfa_2">MS</field>
+        <field name="nome">Montserrat</field>
+    </record>
+
+    <record id="PAIS_NA" model="sped.pais">
+        <field name="codigo_bacen">5070</field>
+        <field name="codigo_siscomex">9948</field>
+        <field name="iso_3166_alfa_2">NA</field>
+        <field name="nome">Namíbia</field>
+    </record>
+
+    <record id="PAIS_NR" model="sped.pais">
+        <field name="codigo_bacen">5088</field>
+        <field name="codigo_siscomex">6874</field>
+        <field name="iso_3166_alfa_2">NR</field>
+        <field name="nome">Nauru</field>
+    </record>
+
+    <record id="PAIS_NP" model="sped.pais">
+        <field name="codigo_bacen">5177</field>
+        <field name="codigo_siscomex">6920</field>
+        <field name="iso_3166_alfa_2">NP</field>
+        <field name="nome">Nepal</field>
+    </record>
+
+    <record id="PAIS_NI" model="sped.pais">
+        <field name="codigo_bacen">5215</field>
+        <field name="codigo_siscomex">6971</field>
+        <field name="iso_3166_alfa_2">NI</field>
+        <field name="nome">Nicarágua</field>
+    </record>
+
+    <record id="PAIS_NE" model="sped.pais">
+        <field name="codigo_bacen">5258</field>
+        <field name="codigo_siscomex">7048</field>
+        <field name="iso_3166_alfa_2">NE</field>
+        <field name="nome">Níger</field>
+    </record>
+
+    <record id="PAIS_NG" model="sped.pais">
+        <field name="codigo_bacen">5282</field>
+        <field name="codigo_siscomex">7099</field>
+        <field name="iso_3166_alfa_2">NG</field>
+        <field name="nome">Nigéria</field>
+    </record>
+
+    <record id="PAIS_NU" model="sped.pais">
+        <field name="codigo_bacen">5312</field>
+        <field name="codigo_siscomex">9949</field>
+        <field name="iso_3166_alfa_2">NU</field>
+        <field name="nome">Niue</field>
+    </record>
+
+    <record id="PAIS_NF" model="sped.pais">
+        <field name="codigo_bacen">5355</field>
+        <field name="codigo_siscomex">9950</field>
+        <field name="iso_3166_alfa_2">NF</field>
+        <field name="nome">Norfolk, Ilha</field>
+    </record>
+
+    <record id="PAIS_NO" model="sped.pais">
+        <field name="codigo_bacen">5380</field>
+        <field name="codigo_siscomex">7145</field>
+        <field name="iso_3166_alfa_2">NO</field>
+        <field name="nome">Noruega</field>
+    </record>
+
+    <record id="PAIS_NC" model="sped.pais">
+        <field name="codigo_bacen">5428</field>
+        <field name="codigo_siscomex">9951</field>
+        <field name="iso_3166_alfa_2">NC</field>
+        <field name="nome">Nova Caledônia</field>
+    </record>
+
+    <record id="PAIS_NZ" model="sped.pais">
+        <field name="codigo_bacen">5487</field>
+        <field name="codigo_siscomex">7218</field>
+        <field name="iso_3166_alfa_2">NZ</field>
+        <field name="nome">Nova Zelândia</field>
+    </record>
+
+    <record id="PAIS_OM" model="sped.pais">
+        <field name="codigo_bacen">5568</field>
+        <field name="codigo_siscomex">7269</field>
+        <field name="iso_3166_alfa_2">OM</field>
+        <field name="nome">Omã</field>
+    </record>
+
+    <record id="PAIS_UM" model="sped.pais">
+        <field name="codigo_bacen">5665</field>
+        <field name="codigo_siscomex">9978</field>
+        <field name="iso_3166_alfa_2">UM</field>
+        <field name="nome">Pacífico, Ilhas do (Possessão dos EUA)</field>
+    </record>
+
+    <record id="PAIS_NL" model="sped.pais">
+        <field name="codigo_bacen">5738</field>
+        <field name="codigo_siscomex">9952</field>
+        <field name="iso_3166_alfa_2">NL</field>
+        <field name="nome">Países Baixos (Holanda)</field>
+    </record>
+
+    <record id="PAIS_PW" model="sped.pais">
+        <field name="codigo_bacen">5754</field>
+        <field name="codigo_siscomex">9953</field>
+        <field name="iso_3166_alfa_2">PW</field>
+        <field name="nome">Palau</field>
+    </record>
+
+    <record id="PAIS_PS" model="sped.pais">
+        <field name="codigo_bacen">5780</field>
+        <field name="codigo_siscomex"></field>
+        <field name="iso_3166_alfa_2">PS</field>
+        <field name="nome">Palestina</field>
+    </record>
+
+    <record id="PAIS_PA" model="sped.pais">
+        <field name="codigo_bacen">5800</field>
+        <field name="codigo_siscomex">7374</field>
+        <field name="iso_3166_alfa_2">PA</field>
+        <field name="nome">Panamá</field>
+    </record>
+
+    <record id="PAIS_PG" model="sped.pais">
+        <field name="codigo_bacen">5452</field>
+        <field name="codigo_siscomex">7420</field>
+        <field name="iso_3166_alfa_2">PG</field>
+        <field name="nome">Papua Nova Guiné</field>
+    </record>
+
+    <record id="PAIS_PK" model="sped.pais">
+        <field name="codigo_bacen">5762</field>
+        <field name="codigo_siscomex">7471</field>
+        <field name="iso_3166_alfa_2">PK</field>
+        <field name="nome">Paquistão</field>
+    </record>
+
+    <record id="PAIS_PY" model="sped.pais">
+        <field name="codigo_bacen">5860</field>
+        <field name="codigo_siscomex">7544</field>
+        <field name="iso_3166_alfa_2">PY</field>
+        <field name="nome">Paraguai</field>
+    </record>
+
+    <record id="PAIS_PE" model="sped.pais">
+        <field name="codigo_bacen">5894</field>
+        <field name="codigo_siscomex">7595</field>
+        <field name="iso_3166_alfa_2">PE</field>
+        <field name="nome">Peru</field>
+    </record>
+
+    <record id="PAIS_PN" model="sped.pais">
+        <field name="codigo_bacen">5932</field>
+        <field name="codigo_siscomex">9955</field>
+        <field name="iso_3166_alfa_2">PN</field>
+        <field name="nome">Pitcairn</field>
+    </record>
+
+    <record id="PAIS_PF" model="sped.pais">
+        <field name="codigo_bacen">5991</field>
+        <field name="codigo_siscomex">9956</field>
+        <field name="iso_3166_alfa_2">PF</field>
+        <field name="nome">Polinésia Francesa</field>
+    </record>
+
+    <record id="PAIS_PL" model="sped.pais">
+        <field name="codigo_bacen">6033</field>
+        <field name="codigo_siscomex">7641</field>
+        <field name="iso_3166_alfa_2">PL</field>
+        <field name="nome">Polônia</field>
+    </record>
+
+    <record id="PAIS_PR" model="sped.pais">
+        <field name="codigo_bacen">6114</field>
+        <field name="codigo_siscomex">7650</field>
+        <field name="iso_3166_alfa_2">PR</field>
+        <field name="nome">Porto Rico</field>
+    </record>
+
+    <record id="PAIS_PT" model="sped.pais">
+        <field name="codigo_bacen">6076</field>
+        <field name="codigo_siscomex">7706</field>
+        <field name="iso_3166_alfa_2">PT</field>
+        <field name="nome">Portugal</field>
+    </record>
+
+    <record id="PAIS_KE" model="sped.pais">
+        <field name="codigo_bacen">6238</field>
+        <field name="codigo_siscomex">7811</field>
+        <field name="iso_3166_alfa_2">KE</field>
+        <field name="nome">Quênia</field>
+    </record>
+
+    <record id="PAIS_KG" model="sped.pais">
+        <field name="codigo_bacen">6254</field>
+        <field name="codigo_siscomex">7870</field>
+        <field name="iso_3166_alfa_2">KG</field>
+        <field name="nome">Quirguistão</field>
+    </record>
+
+    <record id="PAIS_KI" model="sped.pais">
+        <field name="codigo_bacen">4111</field>
+        <field name="codigo_siscomex">5568</field>
+        <field name="iso_3166_alfa_2">KI</field>
+        <field name="nome">Quiribati</field>
+    </record>
+
+    <record id="PAIS_GB" model="sped.pais">
+        <field name="codigo_bacen">6289</field>
+        <field name="codigo_siscomex">7986</field>
+        <field name="iso_3166_alfa_2">GB</field>
+        <field name="nome">Reino Unido</field>
+    </record>
+
+    <record id="PAIS_CF" model="sped.pais">
+        <field name="codigo_bacen">6408</field>
+        <field name="codigo_siscomex">8044</field>
+        <field name="iso_3166_alfa_2">CF</field>
+        <field name="nome">República Centro-Africana</field>
+    </record>
+
+    <record id="PAIS_DO" model="sped.pais">
+        <field name="codigo_bacen">6475</field>
+        <field name="codigo_siscomex">8095</field>
+        <field name="iso_3166_alfa_2">DO</field>
+        <field name="nome">República Dominicana</field>
+    </record>
+
+    <record id="PAIS_CZ" model="sped.pais">
+        <field name="codigo_bacen">7919</field>
+        <field name="codigo_siscomex">9966</field>
+        <field name="iso_3166_alfa_2">CZ</field>
+        <field name="nome">República Tcheca</field>
+    </record>
+
+    <record id="PAIS_RE" model="sped.pais">
+        <field name="codigo_bacen">6602</field>
+        <field name="codigo_siscomex">9957</field>
+        <field name="iso_3166_alfa_2">RE</field>
+        <field name="nome">Reunião</field>
+    </record>
+
+    <record id="PAIS_RO" model="sped.pais">
+        <field name="codigo_bacen">6700</field>
+        <field name="codigo_siscomex">8192</field>
+        <field name="iso_3166_alfa_2">RO</field>
+        <field name="nome">Romênia</field>
+    </record>
+
+    <record id="PAIS_RW" model="sped.pais">
+        <field name="codigo_bacen">6750</field>
+        <field name="codigo_siscomex">8230</field>
+        <field name="iso_3166_alfa_2">RW</field>
+        <field name="nome">Ruanda</field>
+    </record>
+
+    <record id="PAIS_RU" model="sped.pais">
+        <field name="codigo_bacen">6769</field>
+        <field name="codigo_siscomex">8273</field>
+        <field name="iso_3166_alfa_2">RU</field>
+        <field name="nome">Rússia</field>
+    </record>
+
+    <record id="PAIS_EH" model="sped.pais">
+        <field name="codigo_bacen">6858</field>
+        <field name="codigo_siscomex">9958</field>
+        <field name="iso_3166_alfa_2">EH</field>
+        <field name="nome">Saara Ocidental</field>
+    </record>
+
+    <record id="PAIS_SB" model="sped.pais">
+        <field name="codigo_bacen">6777</field>
+        <field name="codigo_siscomex">4723</field>
+        <field name="iso_3166_alfa_2">SB</field>
+        <field name="nome">Salomão, Ilhas</field>
+    </record>
+
+    <record id="PAIS_WS" model="sped.pais">
+        <field name="codigo_bacen">6904</field>
+        <field name="codigo_siscomex">9960</field>
+        <field name="iso_3166_alfa_2">WS</field>
+        <field name="nome">Samoa</field>
+    </record>
+
+    <record id="PAIS_AS" model="sped.pais">
+        <field name="codigo_bacen">6912</field>
+        <field name="codigo_siscomex">9961</field>
+        <field name="iso_3166_alfa_2">AS</field>
+        <field name="nome">Samoa Americana</field>
+    </record>
+
+    <record id="PAIS_SM" model="sped.pais">
+        <field name="codigo_bacen">6971</field>
+        <field name="codigo_siscomex">8370</field>
+        <field name="iso_3166_alfa_2">SM</field>
+        <field name="nome">San Marino</field>
+    </record>
+
+    <record id="PAIS_SH" model="sped.pais">
+        <field name="codigo_bacen">7102</field>
+        <field name="codigo_siscomex">9962</field>
+        <field name="iso_3166_alfa_2">SH</field>
+        <field name="nome">Santa Helena, Ascensão e Tristão da Cunha</field>
+    </record>
+
+    <record id="PAIS_LC" model="sped.pais">
+        <field name="codigo_bacen">7153</field>
+        <field name="codigo_siscomex">8419</field>
+        <field name="iso_3166_alfa_2">LC</field>
+        <field name="nome">Santa Lúcia</field>
+    </record>
+
+    <record id="PAIS_VA" model="sped.pais">
+        <field name="codigo_bacen">8486</field>
+        <field name="codigo_siscomex">9776</field>
+        <field name="iso_3166_alfa_2">VA</field>
+        <field name="nome">Santa Sé (Estado da Cidade do Vaticano)</field>
+    </record>
+
+    <record id="PAIS_BL" model="sped.pais">
+        <field name="codigo_bacen">2755</field>
+        <field name="codigo_siscomex">3646</field>
+        <field name="iso_3166_alfa_2">BL</field>
+        <field name="nome">São Bartolomeu</field>
+    </record>
+
+    <record id="PAIS_KN" model="sped.pais">
+        <field name="codigo_bacen">6955</field>
+        <field name="codigo_siscomex">9963</field>
+        <field name="iso_3166_alfa_2">KN</field>
+        <field name="nome">São Cristóvão e Neves, Ilhas</field>
+    </record>
+
+    <record id="PAIS_MF" model="sped.pais">
+        <field name="codigo_bacen">2755</field>
+        <field name="codigo_siscomex">3646</field>
+        <field name="iso_3166_alfa_2">MF</field>
+        <field name="nome">São Martinho (parte francesa)</field>
+    </record>
+
+    <record id="PAIS_SX" model="sped.pais">
+        <field name="codigo_bacen">0477</field>
+        <field name="codigo_siscomex">574</field>
+        <field name="iso_3166_alfa_2">SX</field>
+        <field name="nome">São Martinho (parte neerlandesa)</field>
+    </record>
+
+    <record id="PAIS_PM" model="sped.pais">
+        <field name="codigo_bacen">7005</field>
+        <field name="codigo_siscomex">9964</field>
+        <field name="iso_3166_alfa_2">PM</field>
+        <field name="nome">São Pedro e Miquelon</field>
+    </record>
+
+    <record id="PAIS_ST" model="sped.pais">
+        <field name="codigo_bacen">7200</field>
+        <field name="codigo_siscomex">8451</field>
+        <field name="iso_3166_alfa_2">ST</field>
+        <field name="nome">São Tomé e Príncipe, Ilhas</field>
+    </record>
+
+    <record id="PAIS_VC" model="sped.pais">
+        <field name="codigo_bacen">7056</field>
+        <field name="codigo_siscomex">9965</field>
+        <field name="iso_3166_alfa_2">VC</field>
+        <field name="nome">São Vicente e Granadinas</field>
+    </record>
+
+    <record id="PAIS_SN" model="sped.pais">
+        <field name="codigo_bacen">7285</field>
+        <field name="codigo_siscomex">8508</field>
+        <field name="iso_3166_alfa_2">SN</field>
+        <field name="nome">Senegal</field>
+    </record>
+
+    <record id="PAIS_SL" model="sped.pais">
+        <field name="codigo_bacen">7358</field>
+        <field name="codigo_siscomex">8540</field>
+        <field name="iso_3166_alfa_2">SL</field>
+        <field name="nome">Serra Leoa</field>
+    </record>
+
+    <record id="PAIS_RS" model="sped.pais">
+        <field name="codigo_bacen">7370</field>
+        <field name="codigo_siscomex"></field>
+        <field name="iso_3166_alfa_2">RS</field>
+        <field name="nome">Sérvia</field>
+    </record>
+
+    <record id="PAIS_SC" model="sped.pais">
+        <field name="codigo_bacen">7315</field>
+        <field name="codigo_siscomex">8583</field>
+        <field name="iso_3166_alfa_2">SC</field>
+        <field name="nome">Seychelles</field>
+    </record>
+
+    <record id="PAIS_SG" model="sped.pais">
+        <field name="codigo_bacen">7412</field>
+        <field name="codigo_siscomex">2259</field>
+        <field name="iso_3166_alfa_2">SG</field>
+        <field name="nome">Singapura</field>
+    </record>
+
+    <record id="PAIS_SY" model="sped.pais">
+        <field name="codigo_bacen">7447</field>
+        <field name="codigo_siscomex">8672</field>
+        <field name="iso_3166_alfa_2">SY</field>
+        <field name="nome">Síria</field>
+    </record>
+
+    <record id="PAIS_SO" model="sped.pais">
+        <field name="codigo_bacen">7480</field>
+        <field name="codigo_siscomex">8710</field>
+        <field name="iso_3166_alfa_2">SO</field>
+        <field name="nome">Somália</field>
+    </record>
+
+    <record id="PAIS_LK" model="sped.pais">
+        <field name="codigo_bacen">7501</field>
+        <field name="codigo_siscomex">8753</field>
+        <field name="iso_3166_alfa_2">LK</field>
+        <field name="nome">Sri Lanka</field>
+    </record>
+
+    <record id="PAIS_SZ" model="sped.pais">
+        <field name="codigo_bacen">7544</field>
+        <field name="codigo_siscomex">8818</field>
+        <field name="iso_3166_alfa_2">SZ</field>
+        <field name="nome">Suazilândia</field>
+    </record>
+
+    <record id="PAIS_SD" model="sped.pais">
+        <field name="codigo_bacen">7595</field>
+        <field name="codigo_siscomex">8850</field>
+        <field name="iso_3166_alfa_2">SD</field>
+        <field name="nome">Sudão</field>
+    </record>
+
+    <record id="PAIS_SS" model="sped.pais">
+        <field name="codigo_bacen">7600</field>
+        <field name="codigo_siscomex"></field>
+        <field name="iso_3166_alfa_2">SS</field>
+        <field name="nome">Sudão do Sul</field>
+    </record>
+
+    <record id="PAIS_SE" model="sped.pais">
+        <field name="codigo_bacen">7641</field>
+        <field name="codigo_siscomex">8893</field>
+        <field name="iso_3166_alfa_2">SE</field>
+        <field name="nome">Suécia</field>
+    </record>
+
+    <record id="PAIS_CH" model="sped.pais">
+        <field name="codigo_bacen">7676</field>
+        <field name="codigo_siscomex">8931</field>
+        <field name="iso_3166_alfa_2">CH</field>
+        <field name="nome">Suíça</field>
+    </record>
+
+    <record id="PAIS_SR" model="sped.pais">
+        <field name="codigo_bacen">7706</field>
+        <field name="codigo_siscomex">8982</field>
+        <field name="iso_3166_alfa_2">SR</field>
+        <field name="nome">Suriname</field>
+    </record>
+
+    <record id="PAIS_TH" model="sped.pais">
+        <field name="codigo_bacen">7765</field>
+        <field name="codigo_siscomex">9067</field>
+        <field name="iso_3166_alfa_2">TH</field>
+        <field name="nome">Tailândia</field>
+    </record>
+
+    <record id="PAIS_TW" model="sped.pais">
+        <field name="codigo_bacen">1619</field>
+        <field name="codigo_siscomex">3522</field>
+        <field name="iso_3166_alfa_2">TW</field>
+        <field name="nome">Taiwan</field>
+    </record>
+
+    <record id="PAIS_TJ" model="sped.pais">
+        <field name="codigo_bacen">7722</field>
+        <field name="codigo_siscomex">9024</field>
+        <field name="iso_3166_alfa_2">TJ</field>
+        <field name="nome">Tajiquistão</field>
+    </record>
+
+    <record id="PAIS_TZ" model="sped.pais">
+        <field name="codigo_bacen">7803</field>
+        <field name="codigo_siscomex">9105</field>
+        <field name="iso_3166_alfa_2">TZ</field>
+        <field name="nome">Tanzânia</field>
+    </record>
+
+    <record id="PAIS_IO" model="sped.pais">
+        <field name="codigo_bacen">7820</field>
+        <field name="codigo_siscomex">9967</field>
+        <field name="iso_3166_alfa_2">IO</field>
+        <field name="nome">Território Britânico no Oceano Índico</field>
+    </record>
+
+    <record id="PAIS_TL" model="sped.pais">
+        <field name="codigo_bacen">7951</field>
+        <field name="codigo_siscomex">9968</field>
+        <field name="iso_3166_alfa_2">TL</field>
+        <field name="nome">Timor Leste</field>
+    </record>
+
+    <record id="PAIS_TG" model="sped.pais">
+        <field name="codigo_bacen">8001</field>
+        <field name="codigo_siscomex">9199</field>
+        <field name="iso_3166_alfa_2">TG</field>
+        <field name="nome">Togo</field>
+    </record>
+
+    <record id="PAIS_TO" model="sped.pais">
+        <field name="codigo_bacen">8109</field>
+        <field name="codigo_siscomex">9237</field>
+        <field name="iso_3166_alfa_2">TO</field>
+        <field name="nome">Tonga</field>
+    </record>
+
+    <record id="PAIS_TK" model="sped.pais">
+        <field name="codigo_bacen">8052</field>
+        <field name="codigo_siscomex">9969</field>
+        <field name="iso_3166_alfa_2">TK</field>
+        <field name="nome">Toquelau</field>
+    </record>
+
+    <record id="PAIS_TT" model="sped.pais">
+        <field name="codigo_bacen">8150</field>
+        <field name="codigo_siscomex">9288</field>
+        <field name="iso_3166_alfa_2">TT</field>
+        <field name="nome">Trinidade e Tobago</field>
+    </record>
+
+    <record id="PAIS_TN" model="sped.pais">
+        <field name="codigo_bacen">8206</field>
+        <field name="codigo_siscomex">9334</field>
+        <field name="iso_3166_alfa_2">TN</field>
+        <field name="nome">Tunísia</field>
+    </record>
+
+    <record id="PAIS_TC" model="sped.pais">
+        <field name="codigo_bacen">8230</field>
+        <field name="codigo_siscomex">9979</field>
+        <field name="iso_3166_alfa_2">TC</field>
+        <field name="nome">Turcas e Caicos, Ilhas</field>
+    </record>
+
+    <record id="PAIS_TM" model="sped.pais">
+        <field name="codigo_bacen">8249</field>
+        <field name="codigo_siscomex">9970</field>
+        <field name="iso_3166_alfa_2">TM</field>
+        <field name="nome">Turcomenistão</field>
+    </record>
+
+    <record id="PAIS_TR" model="sped.pais">
+        <field name="codigo_bacen">8273</field>
+        <field name="codigo_siscomex">9415</field>
+        <field name="iso_3166_alfa_2">TR</field>
+        <field name="nome">Turquia</field>
+    </record>
+
+    <record id="PAIS_TV" model="sped.pais">
+        <field name="codigo_bacen">8281</field>
+        <field name="codigo_siscomex">9971</field>
+        <field name="iso_3166_alfa_2">TV</field>
+        <field name="nome">Tuvalu</field>
+    </record>
+
+    <record id="PAIS_UA" model="sped.pais">
+        <field name="codigo_bacen">8311</field>
+        <field name="codigo_siscomex">9466</field>
+        <field name="iso_3166_alfa_2">UA</field>
+        <field name="nome">Ucrânia</field>
+    </record>
+
+    <record id="PAIS_UG" model="sped.pais">
+        <field name="codigo_bacen">8338</field>
+        <field name="codigo_siscomex">9504</field>
+        <field name="iso_3166_alfa_2">UG</field>
+        <field name="nome">Uganda</field>
+    </record>
+
+    <record id="PAIS_UY" model="sped.pais">
+        <field name="codigo_bacen">8451</field>
+        <field name="codigo_siscomex">9687</field>
+        <field name="iso_3166_alfa_2">UY</field>
+        <field name="nome">Uruguai</field>
+    </record>
+
+    <record id="PAIS_UZ" model="sped.pais">
+        <field name="codigo_bacen">8478</field>
+        <field name="codigo_siscomex">9725</field>
+        <field name="iso_3166_alfa_2">UZ</field>
+        <field name="nome">Usbequistão</field>
+    </record>
+
+    <record id="PAIS_VU" model="sped.pais">
+        <field name="codigo_bacen">5517</field>
+        <field name="codigo_siscomex">9972</field>
+        <field name="iso_3166_alfa_2">VU</field>
+        <field name="nome">Vanuatu</field>
+    </record>
+
+    <record id="PAIS_VE" model="sped.pais">
+        <field name="codigo_bacen">8508</field>
+        <field name="codigo_siscomex">9814</field>
+        <field name="iso_3166_alfa_2">VE</field>
+        <field name="nome">Venezuela</field>
+    </record>
+
+    <record id="PAIS_VN" model="sped.pais">
+        <field name="codigo_bacen">8583</field>
+        <field name="codigo_siscomex">9857</field>
+        <field name="iso_3166_alfa_2">VN</field>
+        <field name="nome">Vietnã</field>
+    </record>
+
+    <record id="PAIS_VG" model="sped.pais">
+        <field name="codigo_bacen">8630</field>
+        <field name="codigo_siscomex">9973</field>
+        <field name="iso_3166_alfa_2">VG</field>
+        <field name="nome">Virgens, Ilhas (Britânicas)</field>
+    </record>
+
+    <record id="PAIS_VI" model="sped.pais">
+        <field name="codigo_bacen">8664</field>
+        <field name="codigo_siscomex">9974</field>
+        <field name="iso_3166_alfa_2">VI</field>
+        <field name="nome">Virgens, Ilhas (EUA)</field>
+    </record>
+
+    <record id="PAIS_UM" model="sped.pais">
+        <field name="codigo_bacen">8737</field>
+        <field name="codigo_siscomex">9975</field>
+        <field name="iso_3166_alfa_2">UM</field>
+        <field name="nome">Wake, Ilha</field>
+    </record>
+
+    <record id="PAIS_WF" model="sped.pais">
+        <field name="codigo_bacen">2755</field>
+        <field name="codigo_siscomex">3646</field>
+        <field name="iso_3166_alfa_2">WF</field>
+        <field name="nome">Wallis e Futuna</field>
+    </record>
+
+    <record id="PAIS_ZM" model="sped.pais">
+        <field name="codigo_bacen">8907</field>
+        <field name="codigo_siscomex">9954</field>
+        <field name="iso_3166_alfa_2">ZM</field>
+        <field name="nome">Zâmbia</field>
+    </record>
+
+    <record id="PAIS_ZW" model="sped.pais">
+        <field name="codigo_bacen">6653</field>
+        <field name="codigo_siscomex">9976</field>
+        <field name="iso_3166_alfa_2">ZW</field>
+        <field name="nome">Zimbábue</field>
+    </record>
+
+</odoo>
