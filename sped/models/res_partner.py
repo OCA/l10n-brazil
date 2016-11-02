@@ -138,6 +138,39 @@ class Partner(models.Model):
     #
     transportadora_id = fields.Many2one('res.partner', string='Transportadora', ondelete='restrict')
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, string='Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES, index=True)
+    protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
+    simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
+    simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
+    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
+    operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_produto_pessoa_fisica_id = fields.Many2one('sped.operacao', 'Operação padrão para venda pessoa física', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_produto_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_produto', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_servico_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
+    operacao_servico_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_servico', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
+
+    #
+    # Emissão de NF-e, NFC-e e NFS-e
+    #
+    ambiente_nfe = fields.Selection(AMBIENTE_NFE, 'Ambiente NF-e')
+    tipo_emissao_nfe = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão NF-e')
+    serie_nfe_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_nfe_homologacao = fields.Char('Série em produção', size=3, default='100')
+    serie_nfe_contingencia_producao = fields.Char('Série em produção', size=3, default='900')
+    serie_nfe_contingencia_homologacao = fields.Char('Série em produção', size=3, default='999')
+
+    ambiente_nfce = fields.Selection(AMBIENTE_NFE, 'Ambiente NFC-e')
+    tipo_emissao_nfce = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão NFC-e')
+    serie_nfce_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_nfce_homologacao = fields.Char('Série em produção', size=3, default='100')
+    serie_nfce_contingencia_producao = fields.Char('Série em produção', size=3, default='900')
+    serie_nfce_contingencia_homologacao = fields.Char('Série em produção', size=3, default='999')
+
+    ambiente_nfse = fields.Selection(AMBIENTE_NFE, 'Ambiente NFS-e')
+    #provedor_nfse = fields.Selection(PROVEDOR_NFSE, 'Provedor NFS-e')
+    serie_rps_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_rps_homologacao = fields.Char('Série em produção', size=3, default='100')
+    ultimo_rps = fields.Integer('Último RPS')
+    ultimo_lote_rps = fields.Integer('Último lote de RPS')
 
     #@api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
     #def name_get(self, cr, uid, ids, context={}):
@@ -464,5 +497,25 @@ class Partner(models.Model):
 
         if self.profissao:
             valores['profissao'] = primeira_maiuscula(self.profissao)
+
+        return res
+
+    @api.onchange('regime_tributario')
+    def onchange_regime_tributario(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES').id
+
+        elif self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES_EXCESSO:
+            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id
+
+        elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_PRESUMIDO:
+            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id
+
+        elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_REAL:
+            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_REAL').id
 
         return res
