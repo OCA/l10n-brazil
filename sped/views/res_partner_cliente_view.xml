@@ -47,7 +47,7 @@
 
                 <notebook>
                     <page string="Inscrições e registros">
-                        <group>
+                        <group col="4">
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
                                 <field name="contribuinte" colspan="2" />
@@ -65,20 +65,20 @@
                                 <separator string="Outras inscrições" colspan="6" />
                                 <separator string="Inscrição Municipal" colspan="2" />
                                 <separator string="CEI" colspan="2" />
-                                <field name="im" colspan="2" />
-                                <field name="cei" colspan="2" />
+                                <field name="im" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
                                 <separator string="SUFRAMA" colspan="2" />
                                 <separator string="RNTRC" colspan="2" />
-                                <field name="suframa" colspan="2" />
-                                <field name="rntrc" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
                                 <separator string="CRC" />
+                                <newline />
                                 <field name="crc" colspan="2" />
                                 <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
-                                <field name="cnae_id" colspan="8" options="{'no_open': True, 'no_create': True}" />
                             </group>
                         </group>
                     </page>
-<!--                    <page string="Contatos e endereços" autofocus="autofocus">
+                    <!--                    <page string="Contatos e endereços" autofocus="autofocus">
                         <field name="address_ids"
                                 context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
                     </page>-->
@@ -99,11 +99,15 @@
                         </group>
                     </page>
                     <page string="Fiscal">
-                        <field name="regime_tributario" />
-                        <field name="eh_consumidor_final" />
-                        <field name="eh_orgao_publico" />
-                        <field name="eh_transportadora" />
-                        <field name="eh_funcionario" />
+                        <group col="4">
+                            <field name="regime_tributario" />
+                            <newline />
+                            <field name="eh_consumidor_final" />
+                            <field name="eh_orgao_publico" />
+                            <field name="eh_transportadora" />
+                            <field name="eh_funcionario" />
+                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                        </group>
                         <!--                        <field name="eh_cooperativa" />
                         <field name="eh_convenio" />
                         <field name="eh_sindicato" />-->

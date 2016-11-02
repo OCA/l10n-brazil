@@ -1024,7 +1024,7 @@ ALIQUOTAS_ICMS = {
 #
 # TABELA DE NATUREZA JURÍDICA 2014
 #
-NATURA_JURIDICA = (
+NATUREZA_JURIDICA = (
        ('2011', 'Empresa pública'),
        ('2038', 'Sociedade de economia mista'),
        ('2046', 'Sociedade anônima aberta'),
