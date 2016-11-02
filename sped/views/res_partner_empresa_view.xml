@@ -45,7 +45,7 @@
 
                 <notebook>
                     <page string="Inscrições e registros">
-                        <group>
+                        <group col="4">
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
                                 <field name="contribuinte" colspan="2" />
@@ -63,27 +63,106 @@
                                 <separator string="Outras inscrições" colspan="6" />
                                 <separator string="Inscrição Municipal" colspan="2" />
                                 <separator string="CEI" colspan="2" />
-                                <field name="im" colspan="2" />
-                                <field name="cei" colspan="2" />
+                                <field name="im" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
                                 <separator string="SUFRAMA" colspan="2" />
                                 <separator string="RNTRC" colspan="2" />
-                                <field name="suframa" colspan="2" />
-                                <field name="rntrc" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
                                 <separator string="CRC" />
+                                <newline />
                                 <field name="crc" colspan="2" />
                                 <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
-                                <field name="cnae_id" colspan="8" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Comercial">
+                        <group>
+                            <group string="Vendas" name="vendas">
+                                <field name="eh_cliente" />
+                            </group>
+                            <group string="Compras" name="compras">
+                                <field name="eh_fornecedor" />
+                            </group>
+                            <group string="Outras informações" colspan="4" col="4">
+                                <field name="codigo" colspan="2" />
                             </group>
                         </group>
                     </page>
                     <page string="Fiscal">
-                        <group>
-                            <group string="Outras informações" colspan="4" col="4">
-                                <field name="codigo" colspan="2" />
-                                <field name="is_company" colspan="2" invisible="1" />
-                                <field name="eh_empresa" colspan="2" invisible="1" />
-                            </group>
-                        </group>
+                        <notebook colspan="4">
+                            <page string="Geral">
+                                <group col="4">
+                                    <group col="4" colspan="4">
+                                        <field name="regime_tributario" colspan="4" />
+                                    </group>
+                                    <newline />
+                                    <group col="4" colspan="4" attrs="{'invisible': ['!', ('regime_tributario', 'in', ('1', '2'))]}">
+                                        <field name="simples_anexo_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
+                                        <field name="simples_teto_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
+                                    </group>
+                                    <newline />
+        <!--                            <field name="eh_consumidor_final" />
+                                    <field name="eh_orgao_publico" />
+                                    <field name="eh_transportadora" />
+                                    <field name="eh_funcionario" />-->
+                                    <group col="4" colspan="4">
+                                        <field name="al_pis_cofins_id" colspan="4" options="{'no_open': True, 'no_create': True}" attrs="{'required': True}" />
+                                        <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="NF-e/NFC-e - Produtos">
+                                <group col="4">
+                                    <separator string="NF-e" colspan="4" />
+                                    <field name="ambiente_nfe" />
+                                    <field name="tipo_emissao_nfe" />
+                                    <newline />
+                                    <field name="serie_nfe_producao" />
+                                    <field name="serie_nfe_homologacao" />
+                                    <newline />
+                                    <field name="serie_nfe_contingencia_producao" />
+                                    <field name="serie_nfe_contingencia_homologacao" />
+                                    <newline />
+                                    <separator string="NC-e" colspan="4" />
+                                    <field name="ambiente_nfce" />
+                                    <field name="tipo_emissao_nfce" />
+                                    <newline />
+                                    <field name="serie_nfce_producao" />
+                                    <field name="serie_nfce_homologacao" />
+                                    <newline />
+                                    <field name="serie_nfce_contingencia_producao" />
+                                    <field name="serie_nfce_contingencia_homologacao" />
+                                    <newline />
+                                    <separator string="Operações Fiscais" colspan="4" />
+                                    <field name="operacao_produto_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_pessoa_fisica_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" />
+<!--                                     <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" /> -->
+
+                                </group>
+                            </page>
+                            <page string="NFS-e - Serviços">
+                                <group col="4">
+                                    <separator string="NS-e" colspan="4" />
+                                    <field name="ambiente_nfse" />
+<!--                                     <field name="provedor_nfse" /> -->
+                                    <newline />
+                                    <field name="serie_rps_producao" />
+                                    <field name="serie_rps_homologacao" />
+                                    <newline />
+                                    <field name="ultimo_rps" />
+                                    <field name="ultimo_lote_rps" />
+                                    <newline />
+                                    <separator string="Operações Fiscais" colspan="4" />
+                                    <field name="operacao_servico_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_servico_ids" colspan="4" widget="many2many_tags" />
+                                </group>
+                            </page>
+                        </notebook>
+                        <!--                        <field name="eh_cooperativa" />
+                        <field name="eh_convenio" />
+                        <field name="eh_sindicato" />-->
                     </page>
                 </notebook>
             </sheet>
