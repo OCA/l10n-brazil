@@ -82,10 +82,10 @@ class AccountInvoice(models.Model):
                     'l10n_br_account_product_nfe_tree')
         nfe_views = {'form': nfe_form, 'tree': nfe_tree}
 
-        nfse_form = ('l10n_br_account_product.'
-                     'l10n_br_account_product_nfse_form')
-        nfse_tree = ('l10n_br_account_product.'
-                     'l10n_br_account_product_nfse_tree')
+        nfse_form = ('l10n_br_account_service.'
+                     'l10n_br_account_service_nfse_form')
+        nfse_tree = ('l10n_br_account_service.'
+                     'l10n_br_account_service_nfse_tree')
         nfse_views = {'form': nfse_form, 'tree': nfse_tree}
 
         if active_id:
