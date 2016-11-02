@@ -134,10 +134,10 @@
                                     <field name="serie_nfce_contingencia_producao" />
                                     <field name="serie_nfce_contingencia_homologacao" />
                                     <newline />
-                                    <separator string="Operações Fiscais" colspan="4" />
-                                    <field name="operacao_produto_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                    <field name="operacao_produto_pessoa_fisica_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                    <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" />
+                                    <separator string="Operações Fiscais padrão" colspan="4" />
+                                    <field name="operacao_produto_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_pessoa_fisica_id" string="Venda pessoa física" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_ids" string="Outras operações permitidas" colspan="4" widget="many2many_tags" />
 <!--                                     <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" /> -->
 
                                 </group>
@@ -154,9 +154,9 @@
                                     <field name="ultimo_rps" />
                                     <field name="ultimo_lote_rps" />
                                     <newline />
-                                    <separator string="Operações Fiscais" colspan="4" />
-                                    <field name="operacao_servico_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                    <field name="operacao_servico_ids" colspan="4" widget="many2many_tags" />
+                                    <separator string="Operações Fiscais padrão" colspan="4" />
+                                    <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
                                 </group>
                             </page>
                         </notebook>
