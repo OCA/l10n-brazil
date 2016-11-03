@@ -533,7 +533,7 @@ class AccountInvoice(models.Model):
             for tax, cost in costs:
                 ait_id = ait.search([
                     ('invoice_id', '=', invoice.id),
-                    ('tax_code_id', '=', tax.id),
+                    ('tax_code_id', '=', tax.tax_code_id.id),
                 ])
                 vals = {
                     'tax_amount': cost,
