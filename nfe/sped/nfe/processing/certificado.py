@@ -18,9 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from pysped.xml_sped.certificado import Certificado as PySpedCertificado
 import tempfile
 import base64
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pysped.xml_sped.certificado import Certificado as PySpedCertificado
+except ImportError as exc:
+    logging.exception(exc.message)
 
 
 class Certificado(PySpedCertificado):

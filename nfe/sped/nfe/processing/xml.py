@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2013  Danimar Ribeiro 22/08/2013                              #
@@ -28,9 +28,15 @@ from StringIO import StringIO
 from pyPdf import PdfFileReader, PdfFileWriter
 from .certificado import Certificado
 from .processor import ProcessadorNFe
-from pysped.nfe.danfe import DANFE
-
 from openerp.addons.nfe.tools.misc import mount_path_nfe
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pysped.nfe.danfe import DANFE
+except ImportError as exc:
+    logging.exception(exc.message)
 
 
 def __processo(company):
