@@ -46,6 +46,11 @@ class AccountInvoiceReport(models.Model):
         required=True,
         digits=dp.get_precision('Account'),
     )
+    total_with_taxes = fields.Float(
+        'Total com Impostos',
+        required=True,
+        digits=dp.get_precision('Account'),
+    )
 
     def _select(self):
         return super(AccountInvoiceReport, self)._select() + (
@@ -56,17 +61,24 @@ class AccountInvoiceReport(models.Model):
             ", sub.pis_value as pis_value"
             ", sub.cofins_value as cofins_value"
             ", sub.ii_value as ii_value"
+            ", sub.total_with_taxes as total_with_taxes"
         )
 
     def _sub_select(self):
-        return super(AccountInvoiceReport, self)._sub_select() + (
-            ", ail.cfop_id as cfop_id"
-            ", SUM(ail.icms_value) as icms_value"
-            ", SUM(ail.icms_st_value) as icms_st_value"
-            ", SUM(ail.ipi_value) as ipi_value"
-            ", SUM(ail.pis_value) as pis_value"
-            ", SUM(ail.cofins_value) as cofins_value"
-            ", SUM(ail.ii_value) as ii_value"
+        return super(
+            AccountInvoiceReport, self)._sub_select() + (
+                ", ail.cfop_id as cfop_id"
+                ", SUM(ail.icms_value) as icms_value"
+                ", SUM(ail.icms_st_value) as icms_st_value"
+                ", SUM(ail.ipi_value) as ipi_value"
+                ", SUM(ail.pis_value) as pis_value"
+                ", SUM(ail.cofins_value) as cofins_value"
+                ", SUM(ail.ii_value) as ii_value"
+                ", SUM("
+                "ail.price_subtotal + ail.ipi_value + "
+                "ail.icms_st_value + ail.freight_value + "
+                "ail.insurance_value + ail.other_costs_value) "
+                "as total_with_taxes"
         )
 
     def _group_by(self):
