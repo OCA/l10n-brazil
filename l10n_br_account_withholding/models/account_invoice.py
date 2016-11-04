@@ -33,11 +33,10 @@ class AccountInvoice(models.Model):
             inv.inss_base = sum(line.inss_base for line in inv.invoice_line)
             inv.inss_value = sum(line.inss_value for line in inv.invoice_line)
 
-            inv.amount_total = inv.amount_tax + \
-                inv.amount_untaxed
-            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
-                inv.cofins_value_wh + inv.csll_value_wh + \
-                inv.irrf_value_wh + inv.inss_value_wh
+            inv.amount_total = inv.amount_tax + inv.amount_untaxed
+            inv.amount_wh = (inv.issqn_value_wh + inv.pis_value_wh + inv.
+                             cofins_value_wh + inv.csll_value_wh + inv.
+                             irrf_value_wh + inv.inss_value_wh)
 
     @api.multi
     @api.depends('amount_total', 'amount_wh')
@@ -127,10 +126,14 @@ class AccountInvoice(models.Model):
         compute='_amount_all_service',
         store=True, digits_compute=dp.get_precision('Account'))
     amount_services = fields.Float(
-        string=u'Total dos serviços', compute='_amount_all_service',
-        store=True, digits_compute=dp.get_precision('Account'))
+        string=u'Total dos serviços',
+        compute='_amount_all_service',
+        store=True,
+        digits_compute=dp.get_precision('Account'))
     amount_wh = fields.Float(
-        string=u'Total de retenção', compute='_amount_all_service', store=True,
+        string=u'Total de retenção',
+        compute='_amount_all_service',
+        store=True,
         digits_compute=dp.get_precision('Account'))
     amount_net = fields.Float(
         string=u'Total Líquido', compute='_amount_net',
@@ -143,18 +146,18 @@ class AccountInvoice(models.Model):
         obj_company = self.pool.get('res.company').browse(
             cr, uid, kwargs.get('company_id', False))
 
-        result['issqn_wh'] = obj_company.issqn_wh or \
-            obj_partner.partner_fiscal_type_id.issqn_wh
-        result['inss_wh'] = obj_company.inss_wh or \
-            obj_partner.partner_fiscal_type_id.inss_wh
-        result['pis_wh'] = obj_company.pis_wh or \
-            obj_partner.partner_fiscal_type_id.pis_wh
-        result['cofins_wh'] = obj_company.cofins_wh or \
-            obj_partner.partner_fiscal_type_id.cofins_wh
-        result['csll_wh'] = obj_company.csll_wh or \
-            obj_partner.partner_fiscal_type_id.csll_wh
-        result['irrf_wh'] = obj_company.irrf_wh or \
-            obj_partner.partner_fiscal_type_id.irrf_wh
+        result['issqn_wh'] = obj_company.issqn_wh or obj_partner.\
+            partner_fiscal_type_id.issqn_wh
+        result['inss_wh'] = obj_company.inss_wh or obj_partner.\
+            partner_fiscal_type_id.inss_wh
+        result['pis_wh'] = obj_company.pis_wh or obj_partner.\
+            partner_fiscal_type_id.pis_wh
+        result['cofins_wh'] = obj_company.cofins_wh or obj_partner.\
+            partner_fiscal_type_id.cofins_wh
+        result['csll_wh'] = obj_company.csll_wh or obj_partner.\
+            partner_fiscal_type_id.csll_wh
+        result['irrf_wh'] = obj_company.irrf_wh or obj_partner.\
+            partner_fiscal_type_id.irrf_wh
 
         return result
 
@@ -185,14 +188,14 @@ class AccountInvoice(models.Model):
         value_to_debit = 0.0
         move_lines_new = []
         move_lines_tax = [move for move in move_lines
-                          if not move[2]['product_id']
-                          and not move[2]['date_maturity']]
+                          if not move[2]['product_id'] and
+                          not move[2]['date_maturity']]
         move_lines_payment = [move for move in move_lines
-                              if not move[2]['product_id']
-                              and move[2]['date_maturity']]
+                              if not move[2]['product_id'] and
+                              move[2]['date_maturity']]
         move_lines_products = [move for move in move_lines
-                               if move[2]['product_id']
-                               and not move[2]['date_maturity']]
+                               if move[2]['product_id'] and
+                               not move[2]['date_maturity']]
 
         move_lines_new.extend(move_lines_products)
 
@@ -249,21 +252,21 @@ class AccountInvoice(models.Model):
     def compute_with_holding(self):
         for inv in self:
             if inv.pis_value > inv.company_id.cofins_csll_pis_wh_base and \
-               inv.pis_wh:
+                    inv.pis_wh:
                 inv.pis_value_wh = inv.pis_value
             else:
                 inv.pis_wh = False
                 inv.pis_value_wh = 0.0
 
             if inv.cofins_value > inv.company_id.cofins_csll_pis_wh_base and \
-               inv.cofins_wh:
+                    inv.cofins_wh:
                 inv.cofins_value_wh = inv.cofins_value
             else:
                 inv.cofins_wh = False
                 inv.cofins_value_wh = 0.0
 
             if inv.csll_value > inv.company_id.cofins_csll_pis_wh_base and \
-               inv.csll_wh:
+                    inv.csll_wh:
                 inv.csll_value_wh = inv.csll_value
             else:
                 inv.csll_wh = False
@@ -288,15 +291,15 @@ class AccountInvoice(models.Model):
                 inv.inss_wh = False
                 inv.inss_value_wh = 0.0
 
-            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + \
-                inv.cofins_value_wh + inv.csll_value_wh + \
-                inv.irrf_value_wh + inv.inss_value_wh
+            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + inv.\
+                cofins_value_wh + inv.csll_value_wh + inv.irrf_value_wh + inv.\
+                inss_value_wh
 
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
-    csll_base = fields.Float('Base CSLL', required=True,  default=0.0,
+    csll_base = fields.Float('Base CSLL', required=True, default=0.0,
                              digits_compute=dp.get_precision('Account'))
     csll_value = fields.Float('Valor CSLL', required=True, default=0.0,
                               digits_compute=dp.get_precision('Account'))
