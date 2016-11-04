@@ -39,5 +39,4 @@ class SaleOrder(models.Model):
         result.update(self._witholding_map(
             cr, uid, partner_id=order.partner_id.id,
             company_id=order.company_id.id))
-        print result
         return result
