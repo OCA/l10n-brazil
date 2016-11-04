@@ -54,8 +54,7 @@ class SaleOrder(models.Model):
             order.amount_extra = order.pricelist_id.currency_id.round(
                 amount_extra)
             order.amount_total = (order.amount_untaxed +
-                                  order.amount_tax +
-                                  order.amount_extra)
+                                  order.amount_tax)
             order.amount_discount = order.pricelist_id.currency_id.round(
                 amount_discount)
             order.amount_gross = order.pricelist_id.currency_id.round(
@@ -101,8 +100,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_freight(self):
         for line in self.order_line:
-            if not self.amount_gross:
-                break
             line.write({
                 'freight_value': calc_price_ratio(
                     line.price_gross,
@@ -114,8 +111,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_insurance(self):
         for line in self.order_line:
-            if not self.amount_gross:
-                break
             line.write({
                 'insurance_value': calc_price_ratio(
                     line.price_gross,
@@ -127,8 +122,6 @@ class SaleOrder(models.Model):
     @api.one
     def _set_amount_costs(self):
         for line in self.order_line:
-            if not self.amount_gross:
-                break
             line.write({
                 'other_costs_value': calc_price_ratio(
                     line.price_gross,
