@@ -5,7 +5,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 from ..constante_tributaria import *
-from pybrasil.data import parse_datetime
+from pybrasil.data import parse_datetime, data_hora_horario_brasilia
 
 
 class Documento(models.Model):
@@ -171,7 +171,6 @@ class Documento(models.Model):
     reboque_4_id = fields.Many2one('sped.veiculo', 'Reboque 4', ondelete='restrict')
     reboque_5_id = fields.Many2one('sped.veiculo', 'Reboque 5', ondelete='restrict')
 
-
     #
     # Totais dos itens
     #
@@ -283,3 +282,5 @@ class Documento(models.Model):
     ##'vr_fatura = fields.Dinheiro('Valor total da fatura'),
 
     ##'vr_ibpt = fields.Dinheiro('Valor IBPT'),
+
+    item_ids = fields.One2many('sped.documento.item', 'documento_id', 'Itens')
