@@ -71,6 +71,13 @@
                                 </group>
                             </group>
                         </page>
+                        <page string="Itens">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="item_ids" nolabel="1" colspan="4" context="{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree'}" />
+                                </group>
+                            </group>
+                        </page>
                         <page string="Totais">
                             <group>
                                 <group colspan="4" col="4">
@@ -86,18 +93,18 @@
 <!--                                         <field name="vr_nf" colspan="2" /> -->
                                     </group>
                                     <group colspan="2" col="2">
-                                        <separator string="ICMS" colspan="2" />
+                                        <separator string="ICMS próprio" colspan="2" />
                                         <newline />
-                                        <field name="bc_icms_proprio" colspan="2" />
+                                        <field name="bc_icms_proprio" colspan="2" string="Base de cálculo" />
                                         <newline />
-                                        <field name="vr_icms_proprio" colspan="2" />
+                                        <field name="vr_icms_proprio" colspan="2" string="Valor" />
                                     </group>
                                     <group colspan="2" col="2">
                                         <separator string="ICMS ST" colspan="2" />
                                         <newline />
-                                        <field name="bc_icms_st" colspan="2" />
+                                        <field name="bc_icms_st" colspan="2" string="Base de cálculo" />
                                         <newline />
-                                        <field name="vr_icms_st" colspan="2" />
+                                        <field name="vr_icms_st" colspan="2" string="Valor" />
                                     </group>
 <!--                                    <group colspan="2" col="2">
                                         <separator string="DIFAL" colspan="2" />

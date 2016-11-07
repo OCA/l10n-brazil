@@ -51,3 +51,4 @@ from sped_operacao import *
 from sped_operacao_item import *
 from sped_veiculo import *
 from sped_documento import *
+from sped_documento_item import *
