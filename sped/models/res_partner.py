@@ -99,7 +99,7 @@ class Partner(models.Model):
     #
     # Inscrições e registros
     #
-    contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default='2')
+    contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default=INDICADOR_IE_DESTINATARIO_ISENTO)
     ie = fields.Char('Inscrição estadual', size=18)
     im = fields.Char('Inscrição municipal', size=14)
     suframa = fields.Char('SUFRAMA', size=12)
