@@ -443,6 +443,12 @@ class NFe200(FiscalDocument):
                 "%.2f" % invoice_line.ipi_value)
             self.det.imposto.IPI.cEnq.valor = str(
                 invoice_line.ipi_guideline_id.code or '999').zfill(3)
+            # II
+            self.det.imposto.II.vBC.valor = str("%.2f" % invoice_line.ii_base)
+            self.det.imposto.II.vDespAdu.valor = str(
+                "%.2f" % invoice_line.ii_customhouse_charges)
+            self.det.imposto.II.vII.valor = str("%.2f" % invoice_line.ii_value)
+            self.det.imposto.II.vIOF.valor = str("%.2f" % invoice_line.ii_iof)
 
         else:
             # ISSQN
@@ -455,9 +461,11 @@ class NFe200(FiscalDocument):
             self.det.imposto.ISSQN.cMunFG.valor = ('%s%s') % (
                 invoice.partner_id.state_id.ibge_code,
                 invoice.partner_id.l10n_br_city_id.ibge_code)
-            self.det.imposto.ISSQN.cListServ.valor = punctuation_rm(
-                invoice_line.service_type_id.code or '')
+            self.det.imposto.ISSQN.cListServ.valor = \
+                invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cSitTrib.valor = invoice_line.issqn_type
+            self.det.imposto.ISSQN.indISS.valor = '1'
+
 
         # PIS
         self.det.imposto.PIS.CST.valor = invoice_line.pis_cst_id.code
@@ -494,13 +502,6 @@ class NFe200(FiscalDocument):
         self.det.imposto.COFINSST.vAliqProd.valor = ''
         self.det.imposto.COFINSST.vCOFINS.valor = str(
             "%.2f" % invoice_line.cofins_st_value)
-
-        # II
-        self.det.imposto.II.vBC.valor = str("%.2f" % invoice_line.ii_base)
-        self.det.imposto.II.vDespAdu.valor = str(
-            "%.2f" % invoice_line.ii_customhouse_charges)
-        self.det.imposto.II.vII.valor = str("%.2f" % invoice_line.ii_value)
-        self.det.imposto.II.vIOF.valor = str("%.2f" % invoice_line.ii_iof)
 
         self.det.imposto.vTotTrib.valor = str(
             "%.2f" % invoice_line.total_taxes)
@@ -626,6 +627,21 @@ class NFe200(FiscalDocument):
             "%.2f" % invoice.amount_total)
         self.nfe.infNFe.total.ICMSTot.vTotTrib.valor = str(
             "%.2f" % invoice.amount_total_taxes)
+
+        # TODO: Preencher tag ISSQNtot (pag 221 do manual)
+
+        try:
+           self.nfe.infNFe.total.retTrib.vRetPIS.valor    = str("%.2f" % invoice.pis_value_wh)
+           self.nfe.infNFe.total.retTrib.vRetCOFINS.valor = str("%.2f" % invoice.cofins_value_wh)
+           self.nfe.infNFe.total.retTrib.vRetCSLL.valor  = str("%.2f" % invoice.csll_value_wh)
+           self.nfe.infNFe.total.retTrib.vBCIRRF.valor  = str("%.2f" % invoice.irrf_base_wh)
+           self.nfe.infNFe.total.retTrib.vIRRF.valor     = str("%.2f" % invoice.irrf_value_wh)
+           self.nfe.infNFe.total.retTrib.vBCRetPrev.valor  = str("%.2f" % invoice.inss_base_wh)
+           self.nfe.infNFe.total.retTrib.vRetPrev.valor     = str("%.2f" % invoice.inss_value_wh)
+        except AttributeError:
+            pass
+
+
 
     def _export(self, invoice):
         "Informações de exportação"
