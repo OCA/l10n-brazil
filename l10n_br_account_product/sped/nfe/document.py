@@ -458,9 +458,24 @@ class NFe200(FiscalDocument):
                 "%.2f" % invoice_line.issqn_percent)
             self.det.imposto.ISSQN.vISSQN.valor = str(
                 "%.2f" % invoice_line.issqn_value)
-            self.det.imposto.ISSQN.cMunFG.valor = ('%s%s') % (
+            self.det.imposto.ISSQN.cMunFG.valor = (
+                '%s%s' %
+                (invoice.partner_shipping_id.state_id.ibge_code,
+                 invoice.partner_shipping_id.l10n_br_city_id.ibge_code)
+                if invoice.partner_shipping_id
+                else '%s%s' % (invoice.partner_id.state_id.ibge_code,
+                               invoice.partner_id.l10n_br_city_id.ibge_code))
+            self.det.imposto.ISSQN.cMun.valor = (('%s%s') % (
                 invoice.partner_id.state_id.ibge_code,
                 invoice.partner_id.l10n_br_city_id.ibge_code)
+                if invoice.partner_id.country_id.code.upper() == 'BR'
+                else '9999999')
+            self.det.imposto.ISSQN.cPais.valor = (
+                invoice.partner_id.country_id.bc_code
+                if invoice.partner_id.country_id.code.upper() != 'BR'
+                else False)
+            self.det.imposto.ISSQN.cServico.valor = \
+                invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cListServ.valor = \
                 invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cSitTrib.valor = invoice_line.issqn_type
