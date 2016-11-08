@@ -115,6 +115,14 @@ class AccountInvoice(models.Model):
         string='Gera Financeiro'
     )
 
+    @api.multi
+    def name_get(self):
+        lista = []
+        for obj in self:
+            name = obj.internal_number if obj.internal_number else ''
+            lista.append((obj.id, name))
+        return lista
+
     @api.one
     @api.constrains('number')
     def _check_invoice_number(self):

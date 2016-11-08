@@ -22,31 +22,54 @@ PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
 
 class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
-    _description = u'Cartão de Correção no Sefaz'
+    _description = u'Carta de Correção no Sefaz'
 
     # TODO nome de campos devem ser em ingles
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
     motivo = fields.Text('Motivo', readonly=True, required=True)
     sequencia = fields.Char(
-        'Sequencia', help=u"Indica a sequencia da carta de correcão")
+        u'Sequência', help=u"Indica a sequência da carta de correcão")
     cce_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+
+    display_name = fields.Char(
+        string='Name', compute='_compute_display_name',
+    )
+
+    @api.multi
+    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Fatura', self.invoice_id.internal_number,
+                 self.invoice_id.partner_id.name]
+        self.display_name = ' / '.join(filter(None, names))
 
 
 class L10nBrAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
-    _description = u'Cancelar Documento Eletrônico no Sefaz'
+    _description = u'Documento Eletrônico no Sefaz'
 
     invoice_id = fields.Many2one('account.invoice', 'Fatura')
-    justificative = fields.Char(
-        'Justificativa', size=255, readonly=True, required=True,
-        states={'draft': [('readonly', False)]})
+    partner_id = fields.Many2one('res.partner',
+                                 related='invoice_id.partner_id',
+                                 string='Cliente')
+    justificative = fields.Char(string='Justificativa', size=255,
+                                readonly=True, required=True)
     cancel_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'cancel_document_event_id',
         u'Eventos')
-    state = fields.Selection(
-        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-         ('done', u'Concluído')], 'Status', required=True, default='draft')
+
+    display_name = fields.Char(
+        string='Nome', compute='_compute_display_name',
+    )
+
+    @api.multi
+    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Fatura', self.invoice_id.internal_number,
+                 self.invoice_id.partner_id.name]
+        self.display_name = ' / '.join(filter(None, names))
 
     def _check_justificative(self, cr, uid, ids):
         for invalid in self.browse(cr, uid, ids):
@@ -56,12 +79,8 @@ class L10nBrAccountInvoiceCancel(models.Model):
 
     _constraints = [(
         _check_justificative,
-        'Justificativa deve ter tamanho minimo de 15 caracteres.',
+        u'Justificativa deve ter tamanho mínimo de 15 caracteres.',
         ['justificative'])]
-
-    def action_draft_done(self):
-        self.write({'state': 'done'})
-        return True
 
 
 class L10nBrDocumentEvent(models.Model):
@@ -90,10 +109,10 @@ class L10nBrDocumentEvent(models.Model):
     origin = fields.Char(
         'Documento de Origem', size=64,
         readonly=True, states={'draft': [('readonly', False)]},
-        help="Reference of the document that produced event.")
+        help="Referência ao documento que gerou o evento.")
     file_sent = fields.Char('Envio', readonly=True)
     file_returned = fields.Char('Retorno', readonly=True)
-    status = fields.Char('Codigo', readonly=True)
+    status = fields.Char(u'Código', readonly=True)
     message = fields.Char('Mensagem', readonly=True)
     create_date = fields.Datetime(u'Data Criação', readonly=True)
     write_date = fields.Datetime(u'Data Alteração', readonly=True)
@@ -108,8 +127,16 @@ class L10nBrDocumentEvent(models.Model):
         'l10n_br_account.invoice.cancel', 'Cancelamento')
     invalid_number_document_event_id = fields.Many2one(
         'l10n_br_account.invoice.invalid.number', u'Inutilização')
+    display_name = fields.Char(string='Nome', compute='_compute_display_name')
 
     _order = 'write_date desc'
+
+    @api.multi
+    @api.depends('company_id.name', 'origin')
+    def _compute_display_name(self):
+        self.ensure_one()
+        names = ['Evento', self.company_id.name, self.origin]
+        self.display_name = ' / '.join(filter(None, names))
 
     @api.multi
     def set_done(self):
@@ -161,7 +188,7 @@ class L10nBrAccountFiscalCategory(models.Model):
 
     _sql_constraints = [
         ('l10n_br_account_fiscal_category_code_uniq', 'unique (code)',
-         u'Já existe uma categoria fiscal com esse código !')
+         u'Já existe uma categoria fiscal com esse código!')
     ]
 
     @api.multi
@@ -376,7 +403,7 @@ class L10nBrAccountPartnerFiscalType(models.Model):
 
     name = fields.Char(u'Descrição', size=64)
 
-    is_company = fields.Boolean('Pessoa Juridica?')
+    is_company = fields.Boolean(u'Pessoa Jurídica?')
 
     default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
 
@@ -393,7 +420,7 @@ class L10nBrAccountPartnerFiscalType(models.Model):
             ])) > 1:
                 raise UserError(
                     _(u'Mantenha apenas um tipo fiscal padrão'
-                      u' para Pessoa Fisíca ou para Pessoa Jurídica!'))
+                      u' para Pessoa Física ou para Pessoa Jurídica!'))
             return True
 
 
@@ -401,7 +428,7 @@ class L10nBrAccountPartnerSpecialFiscalType(models.Model):
     _name = 'l10n_br_account.partner.special.fiscal.type'
     _description = 'Regime especial do parceiro'
 
-    name = fields.Char(u'Name', size=20)
+    name = fields.Char(u'Nome', size=20)
 
 
 class L10nBrAccountCNAE(models.Model):
