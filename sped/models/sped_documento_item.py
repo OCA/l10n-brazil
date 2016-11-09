@@ -15,10 +15,14 @@ class DocumentoItem(models.Model):
     #_rec_name = 'numero'
 
     documento_id = fields.Many2one('sped.documento', 'Documento', ondelete='cascade', required=True)
-    regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES, related='documento_id.regime_tributario')
+    regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', related='documento_id.regime_tributario')
     modelo = fields.Selection(MODELO_FISCAL, 'Modelo', related='documento_id.modelo')
+    company_id = fields.Many2one('res.company', 'Empresa', related='documento_id.company_id')
     partner_id = fields.Many2one('res.partner', 'Destinatário/Remetente', related='documento_id.partner_id')
-    contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default=INDICADOR_IE_DESTINATARIO_ISENTO, related='partner_id.contribuinte')
+    operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id')
+    contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', related='partner_id.contribuinte')
+    emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao')
+    entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', related='documento_id.entrada_saida')
 
     #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', related='documento_id.company_id')
     #emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao')
@@ -65,7 +69,6 @@ class DocumentoItem(models.Model):
     ##natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
     ##servico_id = fields.Many2one('sped.servico', 'Serviço')
     ##cst_iss = fields.Selection(ST_ISS, 'CST ISS')
-
 
     cfop_id = fields.Many2one('sped.cfop', 'CFOP', ondelete='restrict', index=True)
     compoe_total = fields.Boolean('Compõe o valor total da NF-e?', index=True, default=True)
@@ -290,3 +293,58 @@ class DocumentoItem(models.Model):
     vr_diferencial_aliquota = fields.Dinheiro('Valor do diferencial de alíquota ICMS próprio')
     al_diferencial_aliquota_st = fields.Porcentagem('Alíquota diferencial ICMS ST')
     vr_diferencial_aliquota_st = fields.Dinheiro('Valor do diferencial de alíquota ICMS ST')
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if not self.product_id:
+            return res
+
+        print(self.company_id)
+        print(self.partner_id)
+        print(self.operacao_id)
+
+        #
+        # Validamos alguns dos M2O necessários, vindos do documento
+        #
+        if not self.company_id:
+            raise ValidationError('A empresa ativa não foi definida!')
+
+        if not self.partner_id:
+            raise ValidationError('O destinatário/remetente não foi informado!')
+
+        if not self.operacao_id:
+            raise ValidationError('A operação fiscal não foi informada!')
+
+        #
+        # Determinamos as UFs de origem e destino
+        #
+        if self.entrada_saida == ENTRADA_SAIDA_SAIDA:
+            uf_origem = self.company_id.partner_id.estado
+            uf_destino = self.partner_id.estado
+
+        else:
+            uf_origem = self.partner_id.estado
+            uf_destino = self.company_id.partner_id.estado
+
+        #
+        # Determinamos o protocolo que vai ser aplicado à situação
+        #
+        if self.product_id.protocolo_id:
+            protocolo = self.product_id.protocolo_id
+
+        elif self.product_id.ncm_id and self.product_id.ncm_id.protocolo_ids:
+            if len(self.product_id.ncm_id.protocolo_ids):
+                protocolo = self.product_id.ncm_id.protocolo_ids[0]
+
+            else:
+                protocolo_ids = self.env['sped.protocolo.icms'].search([('id', 'in', self.product_id.ncm_id.protocolo_ids), '|', ('estado_ids', '=', False), ('estado_ids.uf', '=', uf_destino)])
+                print('protocolo_ids', protocolo_ids)
+
+        return res
+
+
+

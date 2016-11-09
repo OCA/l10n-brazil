@@ -33,6 +33,9 @@ from sped_ibptax import *
 
 from sped_aliquota_iss import *
 from sped_protocolo_icms import *
+from sped_ncm_protocolo import *
+
+from sped_certificado import *
 
 #
 # Cadastros básicos
