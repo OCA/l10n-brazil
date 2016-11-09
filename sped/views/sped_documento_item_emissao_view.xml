@@ -8,8 +8,14 @@
         <field name="arch" type="xml">
             <form string="Item do documento">
                 <field name="regime_tributario" invisible="1"/>
-                <field name="contribuinte" invisible="1"/>
                 <field name="modelo" invisible="1"/>
+                <field name="emissao" invisible="1"/>
+                <field name="entrada_saida" invisible="1"/>
+                <field name="contribuinte" invisible="1"/>
+<!--                <field name="company_id" invisible="0"/>
+                <field name="partner_id" invisible="0"/>
+                <field name="operacao_id" invisible="0"/> -->
+
                 <field name="compoe_total" invisible="1"/>
                 <field name="movimentacao_fisica" invisible="1"/>
                 <field name="quantidade_tributacao" invisible="1"/>
@@ -270,6 +276,12 @@
                 <field name="regime_tributario" invisible="1"/>
                 <field name="contribuinte" invisible="1"/>
                 <field name="modelo" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="operacao_id" invisible="1"/>
+                <field name="emissao" invisible="1"/>
+                <field name="entrada_saida" invisible="1"/>
+
                 <field name="compoe_total" invisible="1"/>
                 <field name="movimentacao_fisica" invisible="1"/>
                 <field name="quantidade_tributacao" invisible="1"/>
