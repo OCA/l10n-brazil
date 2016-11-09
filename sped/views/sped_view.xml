@@ -51,7 +51,7 @@
 
     <menuitem
         parent="menu_sped_configuracao"
-        sequence="2"
+        sequence="3"
         id="menu_sped_operacao"
         name="Operações"
         />
@@ -72,7 +72,7 @@
 
     <menuitem
         parent="menu_sped_configuracao"
-        sequence="4"
+        sequence="5"
         id="menu_sped_tabela"
         name="Tabelas"
         />

@@ -33,13 +33,26 @@
                             <td style="width:80%;" colspan="2"><field name="al_ipi_id" required="1" options="{'no_create': True, 'no_open': True}" /></td>
                         </tr>
                     </table>
-                    <separator string="Códigos CEST" />
-                    <field name="cest_ids" nolabel="1" colspan="4">
-                        <tree string="Códigos CEST">
-                            <field name="codigo_formatado" />
-                            <field name="descricao" />
-                        </tree>
-                    </field>
+                    <notebook>
+                        <page string="Códigos CEST">
+                        <separator string="Códigos CEST" />
+                        <field name="cest_ids" nolabel="1" colspan="4">
+                            <tree string="Códigos CEST">
+                                <field name="codigo_formatado" />
+                                <field name="descricao" />
+                            </tree>
+                        </field>
+                        </page>
+                        <page string="Protocolos e MVAs">
+                            <separator string="Protocolos e MVAs" />
+                            <field name="protocolo_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="protocolo_id" />
+                                    <field name="mva" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
