@@ -435,8 +435,8 @@ ST_ICMS_SN = (
     ('101', '101 - Tributada com permissão de crédito'),
     ('102', '102 - Tributada sem permissão de crédito'),
     ('103', '103 - Isento de icms para a faixa de receita bruta'),
-    ('201', '201 - Tributada com permissão de crédio e cobrança de ICMS por ST'),
-    ('202', '202 - Tributada sem permissão de crédio e cobrança de ICMS por ST'),
+    ('201', '201 - Tributada com permissão de crédito e cobrança de ICMS por ST'),
+    ('202', '202 - Tributada sem permissão de crédito e cobrança de ICMS por ST'),
     ('203', '203 - Isento de ICMS para a faixa de receita bruta e cobrança de ICMS por ST'),
     ('300', '300 - Imune'),
     ('400', '400 - Não tributada pelo SIMPLES'),
@@ -1508,3 +1508,11 @@ POSICAO_CFOP_DICT = dict(POSICAO_CFOP)
 POSICAO_CFOP_ESTADUAL = 'E'
 POSICAO_CFOP_INTERESTADUAL = 'I'
 POSICAO_CFOP_ESTRANGEIRO = 'X'
+
+
+TIPO_CERTIFICADO = (
+    ('A1', 'A1 - arquivo'),
+    ('A3', 'A3 - token ou cartão'),
+)
+TIPO_CERTIFICADO_A1 = 'A1'
+TIPO_CERTIFICADO_A3 = 'A3'
