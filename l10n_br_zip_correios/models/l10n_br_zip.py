@@ -16,6 +16,10 @@ class L10nBrZip(models.Model, WebServiceClient):
                          state_id=False, l10n_br_city_id=False,
                          district=False, street=False, zip_code=False):
 
-        self.get_address(zip_code)
+        zip_str = zip_code.replace('-', '')
+
+        if len(zip_str) == 8:
+            self.get_address(zip_str)
+
         return super(L10nBrZip, self).zip_search_multi(
             country_id, state_id, l10n_br_city_id, district, street, zip_code)
