@@ -26,65 +26,62 @@ _logger = logging.getLogger(__name__)
 class WebServiceClient(object):
     """Address from Brazilian Localization ZIP by Correios to Odoo"""
 
-    def get_address(self, zip_code):
+    def get_address(self, zip_str):
 
-        if not zip_code:
-            return
+        if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
 
-        zip_str = zip_code.replace('-', '')
+            # SigepWeb webservice url
+            url_prod = 'https://apps.correios.com.br/SigepMasterJPA' \
+                       '/AtendeClienteService/AtendeCliente?wsdl'
 
-        if len(zip_str) == 8:
-            if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
+            try:
 
-                # SigepWeb webservice url
-                url_prod = 'https://apps.correios.com.br/SigepMasterJPA' \
-                           '/AtendeClienteService/AtendeCliente?wsdl'
+                # Connect Brazil Correios webservice
+                res = Client(url_prod).service.consultaCEP(zip_str)
 
-                try:
+                # Search Brazil id
+                country_ids = self.env['res.country'].search(
+                    [('code', '=', 'BR')])
 
-                    # Connect Brazil Correios webservice
-                    res = Client(url_prod).service.consultaCEP(zip_str)
+                # Search state with state_code and country id
+                state_ids = self.env['res.country.state'].search([
+                    ('code', '=', str(res.uf)),
+                    ('country_id.id', 'in', country_ids.ids)])
 
-                    # Search Brazil id
-                    country_ids = self.env['res.country'].search(
-                        [('code', '=', 'BR')])
+                # city name
+                city_name = str(res.cidade.encode('utf8'))
 
-                    # Search state with state_code and country id
-                    state_ids = self.env['res.country.state'].search([
-                        ('code', '=', str(res.uf)),
-                        ('country_id.id', 'in', country_ids.ids)])
+                # search city with name and state
+                city_ids = self.env['l10n_br_base.city'].search([
+                    ('name', '=', city_name),
+                    ('state_id.id', 'in', state_ids.ids)])
 
-                    # city name
-                    city_name = str(res.cidade.encode('utf8'))
+                values = {
+                    'zip': zip_str,
+                    'street': str(
+                        res.end.encode('utf8')) if res.end else '',
+                    'district': str(
+                        res.bairro.encode('utf8')) if res.bairro
+                    else '',
+                    'street_type': str(
+                        res.complemento.encode('utf8')) if res.complemento
+                    else '',
+                    'l10n_br_city_id': city_ids.ids[
+                        0] if city_ids else False,
+                    'state_id': state_ids.ids[0] if state_ids else False,
+                    'country_id': country_ids.ids[
+                        0] if country_ids else False,
+                }
 
-                    # search city with name and state
-                    city_ids = self.env['l10n_br_base.city'].search([
-                        ('name', '=', city_name),
-                        ('state_id.id', 'in', state_ids.ids)])
+                # Create zip object
+                return self.env['l10n_br.zip'].create(values)
 
-                    values = {
-                        'zip': zip_str,
-                        'street': str(
-                            res.end.encode('utf8')) if res.end else '',
-                        'district': str(
-                            res.bairro.encode('utf8')) if res.bairro
-                        else '',
-                        'street_type': str(
-                            res.complemento.encode('utf8')) if res.complemento
-                        else '',
-                        'l10n_br_city_id': city_ids.ids[
-                            0] if city_ids else False,
-                        'state_id': state_ids.ids[0] if state_ids else False,
-                        'country_id': country_ids.ids[
-                            0] if country_ids else False,
-                    }
+            except TransportError as e:
+                _logger.error(e.message, exc_info=True)
+                raise UserError(_('Error!'), e.message)
+            except WebFault as e:
+                _logger.error(e.message, exc_info=True)
+                raise UserError(_('Error!'), e.message)
 
-                    # Create zip object
-                    self.env['l10n_br.zip'].create(values)
-
-                except TransportError as e:
-                    _logger.error(e.message, exc_info=True)
-                    raise UserError(_('Error!'), e.message)
-                except WebFault as e:
-                    _logger.error(e.message, exc_info=True)
-                    raise UserError(_('Error!'), e.message)
+        else:
+            return None
