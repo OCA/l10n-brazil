@@ -7,7 +7,7 @@ from odoo.addons.l10n_br_zip_correios.models.webservice_client\
     import WebServiceClient
 
 
-class L10nBrZip(models.Model, WebServiceClient):
+class L10nBrZip(models.Model):
 
     _inherit = 'l10n_br.zip'
 
@@ -19,7 +19,7 @@ class L10nBrZip(models.Model, WebServiceClient):
         zip_str = zip_code.replace('-', '')
 
         if len(zip_str) == 8:
-            self.get_address(zip_str)
+            WebServiceClient(self).get_address(zip_str)
 
         return super(L10nBrZip, self).zip_search_multi(
             country_id, state_id, l10n_br_city_id, district, street, zip_code)
