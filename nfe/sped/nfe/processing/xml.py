@@ -26,6 +26,7 @@ import string
 from PIL import Image
 from StringIO import StringIO
 from pyPdf import PdfFileReader, PdfFileWriter
+
 from .certificado import Certificado
 from .processor import ProcessadorNFe
 
@@ -38,6 +39,7 @@ try:
     from pysped.nfe.leiaute import ProcEventoCCe_100
     from pysped.nfe.danfe.danfe_geraldo import DANFE
     from pysped.nfe.danfe.daede import DAEDE
+    from pysped.nfe.danfe import DAEDE
 except ImportError as exc:
     logging.exception(exc.message)
 
