@@ -26,7 +26,6 @@ import string
 from PIL import Image
 from StringIO import StringIO
 from pyPdf import PdfFileReader, PdfFileWriter
-
 from .certificado import Certificado
 from .processor import ProcessadorNFe
 
