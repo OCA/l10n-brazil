@@ -26,25 +26,29 @@ _logger = logging.getLogger(__name__)
 class WebServiceClient(object):
     """Address from Brazilian Localization ZIP by Correios to Odoo"""
 
+    def __init__(self, l10n_br_zip_record):
+        self.obj_zip = l10n_br_zip_record
+        self.url = 'https://apps.correios.com.br/SigepMasterJPA' \
+                   '/AtendeClienteService/AtendeCliente?wsdl'
+
+    def search_zip_code(self, cep):
+        return Client(self.url).service.consultaCEP(cep)
+
     def get_address(self, zip_str):
 
-        if not self.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
-
-            # SigepWeb webservice url
-            url_prod = 'https://apps.correios.com.br/SigepMasterJPA' \
-                       '/AtendeClienteService/AtendeCliente?wsdl'
+        if not self.obj_zip.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
 
             try:
 
                 # Connect Brazil Correios webservice
-                res = Client(url_prod).service.consultaCEP(zip_str)
+                res = self.search_zip_code(zip_str)
 
                 # Search Brazil id
-                country_ids = self.env['res.country'].search(
+                country_ids = self.obj_zip.env['res.country'].search(
                     [('code', '=', 'BR')])
 
                 # Search state with state_code and country id
-                state_ids = self.env['res.country.state'].search([
+                state_ids = self.obj_zip.env['res.country.state'].search([
                     ('code', '=', str(res.uf)),
                     ('country_id.id', 'in', country_ids.ids)])
 
@@ -52,7 +56,7 @@ class WebServiceClient(object):
                 city_name = str(res.cidade.encode('utf8'))
 
                 # search city with name and state
-                city_ids = self.env['l10n_br_base.city'].search([
+                city_ids = self.obj_zip.env['l10n_br_base.city'].search([
                     ('name', '=', city_name),
                     ('state_id.id', 'in', state_ids.ids)])
 
@@ -74,7 +78,7 @@ class WebServiceClient(object):
                 }
 
                 # Create zip object
-                return self.env['l10n_br.zip'].create(values)
+                return self.obj_zip.env['l10n_br.zip'].create(values)
 
             except TransportError as e:
                 _logger.error(e.message, exc_info=True)
