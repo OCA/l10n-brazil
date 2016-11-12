@@ -2,28 +2,46 @@
 <openerp>
     <data>
 
-        <record id="account.action_invoice_tree" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
+        <!-- Customer view -->
+        <record id="l10n_br_account_product_invoice_form" model="ir.ui.view">
+			<field name="name">l10n_br_account_product.invoice.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet[@string='Invoice']/h1" position="before">
+					<div class="oe_right oe_button_box" name="buttons"
+                        attrs="{'invisible': [('fiscal_document_code', '!=', '55')]}">
+						<button class="oe_inline oe_stat_button" type="object"
+							name="open_fiscal_document" icon="fa-file-o">
+							<div>NFe</div>
+						</button>
+					</div>
+				</xpath>
+                <field name="type" position="after">
+                    <field name="fiscal_document_code" invisible="1"/>
+                </field>
+            </field>
         </record>
 
-        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
-        </record>
-
-        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'in_invoice'), ('fiscal_document_code', '=', False)]</field>
-        </record>
-
-        <record id="account.action_invoice_tree3" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'out_refund'), ('fiscal_document_code', '=', False)]</field>
-        </record>
-
-        <record id="account.action_invoice_tree4" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'in_refund'), ('fiscal_document_code', '=', False)]</field>
-        </record>
-
-        <record id="account.action_invoice_tree_pending_invoice" model="ir.actions.act_window">
-            <field name="domain">[('type', '=', 'out_invoice'), ('fiscal_document_code', '=', False)]</field>
+        <!-- Vendor view -->
+		<record id="l10n_br_account_product_invoice_supplier_form" model="ir.ui.view">
+			<field name="name">l10n_br_account.invoice.supplier.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet[@string='Supplier Invoice']/div/h1" position="before">
+					<div class="oe_right oe_button_box" name="buttons"
+                        attrs="{'invisible': [('fiscal_document_code', '!=', '55')]}">
+						<button class="oe_inline oe_stat_button" type="object"
+							name="open_fiscal_document" icon="fa-file-o">
+							<div>NFe</div>
+						</button>
+					</div>
+				</xpath>
+                <field name="type" position="after">
+                    <field name="fiscal_document_code" invisible="1"/>
+                </field>
+            </field>
         </record>
 
     </data>
