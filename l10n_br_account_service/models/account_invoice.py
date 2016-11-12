@@ -4,7 +4,7 @@
 
 from lxml import etree
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE)
@@ -100,6 +100,13 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self).fields_view_get(
             view_id=view_id, view_type=view_type,
             toolbar=toolbar, submenu=submenu)
+
+    @api.multi
+    def open_fiscal_document(self):
+        """return action to open NFS-e form"""
+        result = super(AccountInvoice, self).open_fiscal_document()
+        result['name'] = _('NFS-e')
+        return result
 
 
 class AccountInvoiceLine(models.Model):

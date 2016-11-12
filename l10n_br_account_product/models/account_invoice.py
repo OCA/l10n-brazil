@@ -631,6 +631,13 @@ class AccountInvoice(models.Model):
                     ait.create(vals)
         return result
 
+    @api.multi
+    def open_fiscal_document(self):
+        """return action to open NFe form"""
+        result = super(AccountInvoice, self).open_fiscal_document()
+        result['name'] = _('NF-e')
+        return result
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
