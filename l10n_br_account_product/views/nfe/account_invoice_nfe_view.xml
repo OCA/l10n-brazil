@@ -94,8 +94,7 @@
                             <field name="partner_id"
                                 on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, context)"
                                 context="{'search_default_customer':1, 'show_address': 1, 'fiscal_category_id': fiscal_category_id}"
-                                options='{"always_reload": True}'
-                                domain="[('customer', '=', True)]"/>
+                                options='{"always_reload": True}'/>
                             <field name="partner_shipping_id" domain="[('parent_id', '=', partner_id)]"
                                 context="{'default_type':'delivery', 'show_address': 1}"/>
                         </group>
