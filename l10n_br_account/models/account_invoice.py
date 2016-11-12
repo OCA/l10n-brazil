@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 
 OPERATION_TYPE = {
@@ -134,6 +134,24 @@ class AccountInvoice(models.Model):
                     count += 1
                 result.append(move_line)
         return result
+
+    @api.multi
+    def open_fiscal_document(self):
+        ctx = self.env.context.copy()
+        ctx.update({
+            'fiscal_document_code': self.fiscal_document_code,
+            'type': self.type
+        })
+        return {
+            'name': _('Documento Fiscal'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'account.invoice',
+            'context': ctx,
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'res_id': self.id
+        }
 
 
 class AccountInvoiceLine(models.Model):
