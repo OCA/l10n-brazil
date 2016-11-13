@@ -3,13 +3,29 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import mock
+from suds import WebFault
+from suds.client import TransportError
 
 from openerp.tests.common import TransactionCase
+from openerp.exceptions import Warning as UserError
+
 from openerp.addons.l10n_br_zip_correios.models.webservice_client\
     import WebServiceClient
 
 
 class TestWebServiceClient(TransactionCase):
+
+    @mock.patch('openerp.addons.l10n_br_zip_correios.models.'
+                'webservice_client.WebServiceClient.search_zip_code')
+    def test_search_zip_code(self, mock_api_call):
+
+        web_client = WebServiceClient(self.env['l10n_br.zip'])
+
+        mock_api_call.side_effect = WebFault("", "")
+        self.assertRaises(WebFault, web_client.search_zip_code, 70002900)
+
+        mock_api_call.side_effect = TransportError("", "")
+        self.assertRaises(TransportError, web_client.search_zip_code, 70002900)
 
     @mock.patch('openerp.addons.l10n_br_zip_correios.models.'
                 'webservice_client.WebServiceClient.search_zip_code')
@@ -26,8 +42,9 @@ class TestWebServiceClient(TransactionCase):
                                                     cidade=cidade,
                                                     uf=uf)
 
-        record = \
-            WebServiceClient(self.env['l10n_br.zip']).get_address('70002900')
+        web_client = WebServiceClient(self.env['l10n_br.zip'])
+        record = web_client.get_address('70002900')
+
         self.assertEqual(record.state_id.code, uf,
                          'Get address returns wrong UF')
         self.assertEqual(record.country_id.name, pais,
@@ -38,3 +55,9 @@ class TestWebServiceClient(TransactionCase):
                          'Get address returns wrong address')
         self.assertEqual(record.district, bairro,
                          'Get address returns wrong neighborhood')
+
+        mock_api_call.side_effect = UserError("", "")
+        self.assertRaises(UserError, web_client.get_address, 70002901)
+
+        self.assertEqual(web_client.get_address('70002900'), None,
+                         'Object l10n_br.zip already created')
