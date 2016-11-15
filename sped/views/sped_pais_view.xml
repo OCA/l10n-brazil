@@ -75,7 +75,7 @@
         parent="menu_sped_tabela"
         sequence="9"
         id="menu_sped_pais"
-        name="Países"
+        name="País"
         action="sped_pais_acao" />
 
 </odoo>

@@ -11,6 +11,17 @@ from sped_estado import *
 from sped_municipio import *
 
 #
+# Cadastros básicos
+#
+from sped_participante import *
+
+from sped_unidade import *
+from sped_produto import *
+#from res_company import *
+#from res_users import *
+
+
+#
 # Alíquotas
 #
 from sped_aliquota_icms_proprio import *
@@ -38,20 +49,11 @@ from sped_ncm_protocolo import *
 from sped_certificado import *
 
 #
-# Cadastros básicos
-#
-from cadastro_unidade import *
-from cadastro_produto import *
-from res_partner import *
-from res_company import *
-from res_users import *
-
-#
 # Fiscal e faturamento
 #
 from sped_natureza_operacao import *
 from sped_operacao import *
 from sped_operacao_item import *
 from sped_veiculo import *
-from sped_documento import *
-from sped_documento_item import *
+#from sped_documento import *
+#from sped_documento_item import *
