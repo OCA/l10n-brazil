@@ -1516,3 +1516,10 @@ TIPO_CERTIFICADO = (
 )
 TIPO_CERTIFICADO_A1 = 'A1'
 TIPO_CERTIFICADO_A3 = 'A3'
+
+TIPO_PESSOA = (
+    ('F', 'Física'),
+    ('J', 'Jurídica'),
+    ('E', 'Estrangeiro'),
+    ('I', 'Indeterminado'),
+)

@@ -10,6 +10,9 @@ class Estado(models.Model):
     _description = 'Estado'
     _rec_name = 'uf'
     _order = 'uf'
+    _inherits = {'res.country.state': 'state_id'}
+
+    state_id = fields.Many2one('res.country.state', 'State original', ondelete='restrict', required=True)
 
     #def _descricao(self, cursor, user_id, ids, fields, arg, context=None):
         #retorno = {}

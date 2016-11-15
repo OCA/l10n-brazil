@@ -18,7 +18,7 @@ class DocumentoItem(models.Model):
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', related='documento_id.regime_tributario')
     modelo = fields.Selection(MODELO_FISCAL, 'Modelo', related='documento_id.modelo')
     company_id = fields.Many2one('res.company', 'Empresa', related='documento_id.company_id')
-    partner_id = fields.Many2one('res.partner', 'Destinatário/Remetente', related='documento_id.partner_id')
+    partner_id = fields.Many2one('br.partner', 'Destinatário/Remetente', related='documento_id.partner_id')
     operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id')
     contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', related='partner_id.contribuinte')
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao')
@@ -172,7 +172,7 @@ class DocumentoItem(models.Model):
     #
     # PIS próprio
     #
-    al_pis_cofins_id = fields.Many2one('sped.aliquotapiscofins', 'Alíquota e CST do PIS-COFINS', index=True)
+    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota e CST do PIS-COFINS', index=True)
     cst_pis = fields.Selection(ST_PIS, 'Situação tributária do PIS', index=True, default=ST_PIS_SEM_INCIDENCIA)
     md_pis_proprio = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade de cálculo do PIS próprio', default=MODALIDADE_BASE_PIS_ALIQUOTA)
     bc_pis_proprio = fields.Dinheiro('Base do PIS próprio')

@@ -21,9 +21,12 @@ TIPO_UNIDADE = (
 
 class Unidade(models.Model):
     _description = 'Unidade de medida'
-    _name = 'cadastro.unidade'
+    #_inherits = {'product.uom': 'uom_id'}
+    _name = 'sped.unidade'
     _order = 'codigo_unico'
     _rec_name = 'codigo'
+
+    #uom_id = fields.Many2one('product.uom', 'UOM original', ondelete='restrict', required=True)
 
     TIPO_UNIDADE_UNIDADE = 'U'
     TIPO_UNIDADE_PESO = 'P'
@@ -51,7 +54,7 @@ class Unidade(models.Model):
             select
                 u.id
             from
-                cadastro_unidade u
+                sped_unidade u
             where
                 lower(unaccent(u.codigo_unico)) = lower(unaccent('{codigo}'))
             """
@@ -97,7 +100,7 @@ class Unidade(models.Model):
             select
                 u.id
             from
-                cadastro_unidade u
+                sped_unidade u
             where
                 lower(unaccent(u.nome_unico)) = lower(unaccent('{nome}'))
             """
@@ -135,7 +138,7 @@ class Unidade(models.Model):
     genero_masculino = fields.Boolean(string=u'Nome é masculino?', default=True)
     usa_meio = fields.Boolean(string=u'Usa meio?', default=False)
     usa_virgula = fields.Boolean(string=u'Usa vírgula?', default=True)
-    subunidade_id = fields.Many2one('cadastro.unidade', string=u'Unidade decimal', ondelete='restrict')
+    subunidade_id = fields.Many2one('sped.unidade', string=u'Unidade decimal', ondelete='restrict')
 
     @api.one
     def extenso(self, numero=D(0)):

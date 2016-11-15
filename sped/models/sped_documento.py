@@ -129,7 +129,7 @@ class Documento(models.Model):
     #
     # Destinatário/Remetente
     #
-    partner_id = fields.Many2one('res.partner', 'Destinatário/Remetente', ondelete='restrict', domain=[('cnpj_cpf', '!=', False)])
+    partner_id = fields.Many2one('br.partner', 'Destinatário/Remetente', ondelete='restrict', domain=[('cnpj_cpf', '!=', False)])
     partner_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='partner_id.cnpj_cpf', readonly=True)
     partner_tipo_pessoa = fields.Char('Tipo pessoa', size=1, related='partner_id.tipo_pessoa', readonly=True)
     partner_razao_social = fields.NameChar('Razão Social', size=60, related='partner_id.razao_social', readonly=True)

@@ -8,6 +8,7 @@
         <field name="uf">RO</field>
         <field name="fuso_horario">America/Porto_Velho</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ro" />
     </record>
 
     <record id="ESTADO_AC" model="sped.estado">
@@ -16,6 +17,7 @@
         <field name="uf">AC</field>
         <field name="fuso_horario">America/Rio_Branco</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ac" />
     </record>
 
     <record id="ESTADO_AM" model="sped.estado">
@@ -24,6 +26,7 @@
         <field name="uf">AM</field>
         <field name="fuso_horario">America/Manaus</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_am" />
     </record>
 
     <record id="ESTADO_RR" model="sped.estado">
@@ -32,6 +35,7 @@
         <field name="uf">RR</field>
         <field name="fuso_horario">America/Boa_Vista</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rr" />
     </record>
 
     <record id="ESTADO_PA" model="sped.estado">
@@ -40,6 +44,7 @@
         <field name="uf">PA</field>
         <field name="fuso_horario">America/Belem</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pa" />
     </record>
 
     <record id="ESTADO_AP" model="sped.estado">
@@ -48,6 +53,7 @@
         <field name="uf">AP</field>
         <field name="fuso_horario">America/Belem</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ap" />
     </record>
 
     <record id="ESTADO_TO" model="sped.estado">
@@ -56,6 +62,7 @@
         <field name="uf">TO</field>
         <field name="fuso_horario">America/Araguaina</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_to" />
     </record>
 
     <record id="ESTADO_MA" model="sped.estado">
@@ -64,6 +71,7 @@
         <field name="uf">MA</field>
         <field name="fuso_horario">America/Belem</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ma" />
     </record>
 
     <record id="ESTADO_PI" model="sped.estado">
@@ -72,6 +80,7 @@
         <field name="uf">PI</field>
         <field name="fuso_horario">America/Fortaleza</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pi" />
     </record>
 
     <record id="ESTADO_CE" model="sped.estado">
@@ -80,6 +89,7 @@
         <field name="uf">CE</field>
         <field name="fuso_horario">America/Fortaleza</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ce" />
     </record>
 
     <record id="ESTADO_RN" model="sped.estado">
@@ -88,6 +98,7 @@
         <field name="uf">RN</field>
         <field name="fuso_horario">America/Recife</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rn" />
     </record>
 
     <record id="ESTADO_PB" model="sped.estado">
@@ -96,6 +107,7 @@
         <field name="uf">PB</field>
         <field name="fuso_horario">America/Recife</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pb" />
     </record>
 
     <record id="ESTADO_PE" model="sped.estado">
@@ -104,6 +116,7 @@
         <field name="uf">PE</field>
         <field name="fuso_horario">America/Recife</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pe" />
     </record>
 
     <record id="ESTADO_AL" model="sped.estado">
@@ -112,6 +125,7 @@
         <field name="uf">AL</field>
         <field name="fuso_horario">America/Maceio</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_al" />
     </record>
 
     <record id="ESTADO_SE" model="sped.estado">
@@ -120,6 +134,7 @@
         <field name="uf">SE</field>
         <field name="fuso_horario">America/Maceio</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_se" />
     </record>
 
     <record id="ESTADO_BA" model="sped.estado">
@@ -128,6 +143,7 @@
         <field name="uf">BA</field>
         <field name="fuso_horario">America/Bahia</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ba" />
     </record>
 
     <record id="ESTADO_MG" model="sped.estado">
@@ -136,6 +152,7 @@
         <field name="uf">MG</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_mg" />
     </record>
 
     <record id="ESTADO_ES" model="sped.estado">
@@ -144,6 +161,7 @@
         <field name="uf">ES</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_es" />
     </record>
 
     <record id="ESTADO_RJ" model="sped.estado">
@@ -152,6 +170,7 @@
         <field name="uf">RJ</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rj" />
     </record>
 
     <record id="ESTADO_SP" model="sped.estado">
@@ -160,6 +179,7 @@
         <field name="uf">SP</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_sp" />
     </record>
 
     <record id="ESTADO_PR" model="sped.estado">
@@ -168,6 +188,7 @@
         <field name="uf">PR</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pr" />
     </record>
 
     <record id="ESTADO_SC" model="sped.estado">
@@ -176,6 +197,7 @@
         <field name="uf">SC</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_sc" />
     </record>
 
     <record id="ESTADO_RS" model="sped.estado">
@@ -184,6 +206,7 @@
         <field name="uf">RS</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rs" />
     </record>
 
     <record id="ESTADO_MS" model="sped.estado">
@@ -192,6 +215,7 @@
         <field name="uf">MS</field>
         <field name="fuso_horario">America/Campo_Grande</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ms" />
     </record>
 
     <record id="ESTADO_MT" model="sped.estado">
@@ -200,6 +224,7 @@
         <field name="uf">MT</field>
         <field name="fuso_horario">America/Cuiaba</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_mt" />
     </record>
 
     <record id="ESTADO_GO" model="sped.estado">
@@ -208,6 +233,7 @@
         <field name="uf">GO</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_go" />
     </record>
 
     <record id="ESTADO_DF" model="sped.estado">
@@ -216,6 +242,7 @@
         <field name="uf">DF</field>
         <field name="fuso_horario">America/Sao_Paulo</field>
         <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_df" />
     </record>
 
     <record id="ESTADO_EX" model="sped.estado">
@@ -224,6 +251,7 @@
         <field name="uf">EX</field>
         <field name="fuso_horario">UTC</field>
         <field name="pais_id" eval="False" />
+        <field name="state_id" ref="base.state_br_ex" />
     </record>
 
 </odoo>

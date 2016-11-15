@@ -16,9 +16,13 @@
     'auto_install': True,
     'application': True,
     'data': [
-        #
-        # Valores padrão
-        #
+        ##
+        ## Valores padrão
+        ##
+        #'data/sped_pais_data.xml',
+        #'data/sped_estado_data.xml',
+        #'data/sped_municipio_data.xml',
+        #'data/sped_municipio_exterior_data.xml',
 
         ##
         ## Módulo Tabela
@@ -33,21 +37,16 @@
 
         #'data/sped_cest_data.xml',
         #'data/sped_ncm_data.xml',
-        ##'data/sped_ncm_cest_data.xml',
+        #'data/sped_ncm_cest_data.xml',
         #'data/sped_cnae_data.xml',
         #'data/sped_cfop_data.xml',
         #'data/sped_cfop_equivalente_data.xml',
         #'data/sped_servico_data.xml',
 
-        #'data/sped_pais_data.xml',
-        #'data/sped_estado_data.xml',
-        #'data/sped_municipio_data.xml',
-        #'data/sped_municipio_exterior_data.xml',
-
         ##
         ## Módulo Cadastro: participantes, produtos etc.
         ##
-        #'data/cadastro_unidade_data.xml',
+        #'data/sped_unidade_data.xml',
 
         #
         # Menus principais
@@ -82,25 +81,16 @@
         # Módulo Cadastro: participantes, produtos etc.
         #
 
-        #
-        # Telas e menus
-        #
-        #'views/cadastro_unidade_area_view.xml',
-        #'views/cadastro_unidade_comprimento_view.xml',
-        #'views/cadastro_unidade_peso_view.xml',
-        #'views/cadastro_unidade_tempo_view.xml',
-        #'views/cadastro_unidade_unidade_view.xml',
-        #'views/cadastro_unidade_volume_view.xml',
-        'views/cadastro_unidade_produto_view.xml',
-        'views/cadastro_unidade_servico_view.xml',
+        ##'views/res_partner_empresa_view.xml',
+        ##'views/res_users_usuario_view.xml',
+        'views/sped_participante_cliente_view.xml',
+        'views/sped_participante_fornecedor_view.xml',
 
-        'views/cadastro_produto_produto_view.xml',
-        'views/cadastro_produto_servico_view.xml',
+        'views/sped_produto_produto_view.xml',
+        'views/sped_unidade_produto_view.xml',
 
-        'views/res_partner_empresa_view.xml',
-        'views/res_users_usuario_view.xml',
-        'views/res_partner_cliente_view.xml',
-        'views/res_partner_fornecedor_view.xml',
+        'views/sped_produto_servico_view.xml',
+        'views/sped_unidade_servico_view.xml',
 
         #
         # Grupos e unidades
@@ -130,8 +120,8 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_recebimento_nfe_view.xml',
 
-        'views/sped_documento_item_emissao_view.xml',
-        'views/sped_documento_emissao_nfe_view.xml',
-        'views/sped_documento_recebimento_nfe_view.xml',
+        #'views/sped_documento_item_emissao_view.xml',
+        #'views/sped_documento_emissao_nfe_view.xml',
+        #'views/sped_documento_recebimento_nfe_view.xml',
     ]
 }
