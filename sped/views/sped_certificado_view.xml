@@ -21,23 +21,20 @@
 <!--                 <separator string="Contato" /> -->
                 <group col="4" colspan="4">
                     <field name="tipo" colspan="2" />
+                    <field name="nome_arquivo" attrs="{'invisible': 1}" />
                     <newline />
-                    <group colspan="4" col="4" attrs="{'invisible': [('tipo', '!=', 'A3')]}">
-                        <field name="numero_serie" attrs="{'required': [('tipo', '=', 'A3')]}" />
-                    </group>
-                    <field name="nome_arquivo" invisible="1" />
-                    <group colspan="4" col="4" attrs="{'invisible': [('tipo', '!=', 'A1')]}">
-                        <field name="arquivo" attrs="{'required': [('tipo', '=', 'A1')]}" colspan="4" filename="nome_arquivo" />
-                        <newline />
-                        <field name="senha" attrs="{'required': [('tipo', '=', 'A1')]}" colspan="2" password="1" />
-                        <newline />
-                        <field name="proprietario" colspan="4" />
-                        <newline />
-                        <field name="cnpj_cpf" colspan="2" />
-                        <newline />
-                        <field name="data_inicio_validade" colspan="2" />
-                        <field name="data_fim_validade" colspan="2" />
-                    </group>
+                    <field name="arquivo" attrs="{'required': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" colspan="4" filename="nome_arquivo" />
+                    <newline />
+                    <field name="senha" attrs="{'required': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" colspan="2" password="1" />
+                    <newline />
+                    <field name="numero_serie" attrs="{'readonly': [('tipo', '=', 'A1')], 'required': [('tipo', '=', 'A3')]}" />
+                    <newline />
+                    <field name="proprietario" colspan="4" attrs="{'readonly': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" />
+                    <newline />
+                    <field name="cnpj_cpf" colspan="2" attrs="{'readonly': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" />
+                    <newline />
+                    <field name="data_inicio_validade" colspan="2" attrs="{'readonly': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" />
+                    <field name="data_fim_validade" colspan="2" attrs="{'readonly': [('tipo', '=', 'A1')], 'invisible': [('tipo', '!=', 'A1')]}" />
                 </group>
             </sheet>
 <!--            <div class="oe_chatter">
@@ -53,10 +50,12 @@
         <field name="model">sped.certificado</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Certificados">
+            <tree string="Certificados" colors="red:fora_validade;black:not fora_validade">
+                <field name="fora_validade" invisible="1" />
                 <field name="tipo" />
                 <field name="proprietario" />
                 <field name="cnpj_cpf" />
+                <field name="numero_serie" />
                 <field name="data_inicio_validade" />
                 <field name="data_fim_validade" />
             </tree>
@@ -99,7 +98,7 @@
         id="menu_sped_certificado"
         sequence="2"
         name="Certificados"
-        parent="menu_cadastro_parceiro"
+        parent="menu_sped_configuracao"
         action="sped_certificado_acao"
         />
 

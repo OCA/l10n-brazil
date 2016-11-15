@@ -11,6 +11,9 @@ class Pais(models.Model):
     _name = 'sped.pais'
     _rec_name = 'nome'
     _order = 'nome'
+    _inherits = {'res.country': 'country_id'}
+
+    country_id = fields.Many2one('res.country', 'Country original', ondelete='restrict', required=True)
 
     codigo_bacen = fields.Char('Código BANCO CENTRAL', size=4, index=True)
     codigo_siscomex = fields.Char('Código SISCOMEX', size=3)
