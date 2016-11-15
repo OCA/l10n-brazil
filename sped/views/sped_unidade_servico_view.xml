@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="cadastro_unidade_produto_form" >
-        <field name="name">cadastro.unidade.produto.form</field>
-        <field name="model">cadastro.unidade</field>
+    <record model="ir.ui.view" id="sped_unidade_servico_form" >
+        <field name="name">sped.unidade.servico.form</field>
+        <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Unidade de medida de produto">
+            <form string="Unidade de medida de serviço">
             <sheet>
                 <div class="oe_title">
                     <h1>
@@ -17,7 +17,7 @@
                         <field name="nome" placeholder="Nome" required="1" />
                     </h2>
                 </div>
-                <group colspan="4" col="4">
+<!--                <group colspan="4" col="4">
                     <separator string="Conversão e extenso" colspan="4" />
                     <field name="genero_masculino" />
                     <newline />
@@ -39,65 +39,65 @@
                     <field name="extenso_singular_decimal" colspan="4" />
                     <field name="extenso_plural_inteiro" colspan="4" />
                     <field name="extenso_plural_decimal" colspan="4" />
-                </group>
+                </group>-->
             </sheet>
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="cadastro_unidade_produto_tree">
-        <field name="name">cadastro.unidade.produto.tree</field>
-        <field name="model">cadastro.unidade</field>
+    <record model="ir.ui.view" id="sped_unidade_servico_tree">
+        <field name="name">sped.unidade.servico.tree</field>
+        <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Unidades de medida de produto">
+            <tree string="Unidades de medida de serviço">
                 <field name="codigo" />
                 <field name="nome" />
             </tree>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="cadastro_unidade_produto_search">
-        <field name="name">cadastro.unidade.produto.search</field>
-        <field name="model">cadastro.unidade</field>
+    <record model="ir.ui.view" id="sped_unidade_servico_search">
+        <field name="name">sped.unidade.servico.search</field>
+        <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <search string="Unidades de medida de produto">
+            <search string="Unidades de medida de serviço">
                 <field name="codigo" />
                 <field name="nome" />
             </search>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="cadastro_unidade_produto_acao">
-        <field name="name">Unidade de medida de produto</field>
-        <field name="domain">[('tipo', '!=', 'T')]</field>
-        <field name="context">{'default_tipo': 'U'}</field>
-        <field name="res_model">cadastro.unidade</field>
+    <record model="ir.actions.act_window" id="sped_unidade_servico_acao">
+        <field name="name">Unidade de medida de serviço</field>
+        <field name="domain">[('tipo', '=', 'T')]</field>
+        <field name="context">{'default_tipo': 'T'}</field>
+        <field name="res_model">sped.unidade</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="cadastro_unidade_produto_form_acao">
+    <record model="ir.actions.act_window.view" id="sped_unidade_servico_form_acao">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="cadastro_unidade_produto_form"/>
-        <field name="act_window_id" ref="cadastro_unidade_produto_acao"/>
+        <field name="view_id" ref="sped_unidade_servico_form"/>
+        <field name="act_window_id" ref="sped_unidade_servico_acao"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="cadastro_unidade_produto_tree_acao">
+    <record model="ir.actions.act_window.view" id="sped_unidade_servico_tree_acao">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="cadastro_unidade_produto_tree"/>
-        <field name="act_window_id" ref="cadastro_unidade_produto_acao"/>
+        <field name="view_id" ref="sped_unidade_servico_tree"/>
+        <field name="act_window_id" ref="sped_unidade_servico_acao"/>
     </record>
 
     <menuitem
-        id="menu_cadastro_unidade_produto"
+        id="menu_sped_unidade_servico"
         sequence="4"
         name="Unidades de medida"
-        parent="menu_cadastro_produto"
-        action="cadastro_unidade_produto_acao"
+        parent="menu_cadastro_servico"
+        action="sped_unidade_servico_acao"
         />
 
 </odoo>
