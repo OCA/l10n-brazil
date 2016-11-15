@@ -79,7 +79,7 @@
     </record>
 
     <menuitem
-        parent="menu_sped_tabela"
+        parent="menu_sped_configuracao"
         sequence="10"
         id="menu_sped_veiculo"
         name="Veículo"

@@ -3,7 +3,7 @@
 
     <!-- Unidade; a mais comum -->
 
-    <record id="UNIDADE_UNIDADE" model="cadastro.unidade">
+    <record id="UNIDADE_UNIDADE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">unid</field>
         <field name="nome">Unidade</field>
@@ -20,7 +20,7 @@
 
     <!-- Peso e massa -->
 
-    <record id="UNIDADE_GRAMA" model="cadastro.unidade">
+    <record id="UNIDADE_GRAMA" model="sped.unidade">
         <field name="tipo">P</field>
         <field name="codigo">gramas</field>
         <field name="nome">Grama</field>
@@ -35,7 +35,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_QUILOGRAMA" model="cadastro.unidade">
+    <record id="UNIDADE_QUILOGRAMA" model="sped.unidade">
         <field name="tipo">P</field>
         <field name="codigo">kg</field>
         <field name="nome">Quilograma</field>
@@ -50,7 +50,7 @@
         <field name="subunidade_id" ref="UNIDADE_GRAMA" />
     </record>
 
-    <record id="UNIDADE_TONELADA" model="cadastro.unidade">
+    <record id="UNIDADE_TONELADA" model="sped.unidade">
         <field name="tipo">P</field>
         <field name="codigo">ton</field>
         <field name="nome">Tonelada</field>
@@ -67,7 +67,7 @@
 
     <!-- Comprimento -->
 
-    <record id="UNIDADE_CENTIMETRO" model="cadastro.unidade">
+    <record id="UNIDADE_CENTIMETRO" model="sped.unidade">
         <field name="tipo">C</field>
         <field name="codigo">cm</field>
         <field name="nome">Centímetro</field>
@@ -82,7 +82,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_METRO" model="cadastro.unidade">
+    <record id="UNIDADE_METRO" model="sped.unidade">
         <field name="tipo">C</field>
         <field name="codigo">m</field>
         <field name="nome">Metro</field>
@@ -99,7 +99,7 @@
 
     <!-- Área -->
 
-    <record id="UNIDADE_CENTIMETRO_QUADRADO" model="cadastro.unidade">
+    <record id="UNIDADE_CENTIMETRO_QUADRADO" model="sped.unidade">
         <field name="tipo">A</field>
         <field name="codigo">cm²</field>
         <field name="nome">Centímetro Quadrado</field>
@@ -114,7 +114,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_METRO_QUADRADO" model="cadastro.unidade">
+    <record id="UNIDADE_METRO_QUADRADO" model="sped.unidade">
         <field name="tipo">A</field>
         <field name="codigo">m²</field>
         <field name="nome">Metro Quadrado</field>
@@ -132,7 +132,7 @@
     <!-- Volume -->
 
 
-    <record id="UNIDADE_MILILITRO" model="cadastro.unidade">
+    <record id="UNIDADE_MILILITRO" model="sped.unidade">
         <field name="tipo">V</field>
         <field name="codigo">mL</field>
         <field name="nome">Miliitro</field>
@@ -147,7 +147,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_LITRO" model="cadastro.unidade">
+    <record id="UNIDADE_LITRO" model="sped.unidade">
         <field name="tipo">V</field>
         <field name="codigo">litro</field>
         <field name="nome">Litro</field>
@@ -162,7 +162,7 @@
         <field name="subunidade_id" ref = "UNIDADE_MILILITRO" />
     </record>
 
-    <record id="UNIDADE_METRO_CUBICO" model="cadastro.unidade">
+    <record id="UNIDADE_METRO_CUBICO" model="sped.unidade">
         <field name="tipo">V</field>
         <field name="codigo">m³</field>
         <field name="nome">Metro Cúbico</field>
@@ -179,7 +179,7 @@
 
     <!-- Tempo e serviços -->
 
-    <record id="UNIDADE_SERVICO" model="cadastro.unidade">
+    <record id="UNIDADE_SERVICO" model="sped.unidade">
         <field name="tipo">T</field>
         <field name="codigo">serviço</field>
         <field name="nome">Serviço</field>
@@ -194,7 +194,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_HORA" model="cadastro.unidade">
+    <record id="UNIDADE_HORA" model="sped.unidade">
         <field name="tipo">T</field>
         <field name="codigo">hora</field>
         <field name="nome">Hora</field>
@@ -209,7 +209,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_DIA" model="cadastro.unidade">
+    <record id="UNIDADE_DIA" model="sped.unidade">
         <field name="tipo">T</field>
         <field name="codigo">dia</field>
         <field name="nome">Dia (de trabalho)</field>
@@ -226,7 +226,7 @@
 
     <!-- Embalagens -->
 
-    <record id="UNIDADE_AMPOLA" model="cadastro.unidade">
+    <record id="UNIDADE_AMPOLA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">ampola</field>
         <field name="nome">Ampola</field>
@@ -241,7 +241,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BALDE" model="cadastro.unidade">
+    <record id="UNIDADE_BALDE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">balde</field>
         <field name="nome">Balde</field>
@@ -256,7 +256,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BANDEJA" model="cadastro.unidade">
+    <record id="UNIDADE_BANDEJA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">bandej</field>
         <field name="nome">Bandeja</field>
@@ -271,7 +271,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BARRA" model="cadastro.unidade">
+    <record id="UNIDADE_BARRA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">barra</field>
         <field name="nome">Barra</field>
@@ -286,7 +286,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BISNAGA" model="cadastro.unidade">
+    <record id="UNIDADE_BISNAGA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">bisnag</field>
         <field name="nome">Bisnaga</field>
@@ -301,7 +301,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BLOCO" model="cadastro.unidade">
+    <record id="UNIDADE_BLOCO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">bloco</field>
         <field name="nome">Bloco</field>
@@ -316,7 +316,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BOBINA" model="cadastro.unidade">
+    <record id="UNIDADE_BOBINA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">bobina</field>
         <field name="nome">Bobina</field>
@@ -331,7 +331,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_BOMBONA" model="cadastro.unidade">
+    <record id="UNIDADE_BOMBONA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">bomb</field>
         <field name="nome">Bombona</field>
@@ -346,7 +346,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_CAPSULA" model="cadastro.unidade">
+    <record id="UNIDADE_CAPSULA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">caps</field>
         <field name="nome">Cápsula</field>
@@ -361,7 +361,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_CENTO" model="cadastro.unidade">
+    <record id="UNIDADE_CENTO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cento</field>
         <field name="nome">Cento</field>
@@ -376,7 +376,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_CONJUNTO" model="cadastro.unidade">
+    <record id="UNIDADE_CONJUNTO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cj</field>
         <field name="nome">Conjunto</field>
@@ -391,7 +391,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_CARTELA" model="cadastro.unidade">
+    <record id="UNIDADE_CARTELA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cart</field>
         <field name="nome">Cartela</field>
@@ -408,7 +408,7 @@
 
     <!-- Embalagens - caixas com quantidades definidas -->
 
-    <record id="UNIDADE_CAIXA" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx</field>
         <field name="nome">Caixa</field>
@@ -423,7 +423,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_CAIXA_2" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_2" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx2</field>
         <field name="nome">Caixa com 2 unidades</field>
@@ -438,7 +438,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_CAIXA_3" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_3" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx3</field>
         <field name="nome">Caixa com 3 unidades</field>
@@ -453,7 +453,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-<!--    <record id="UNIDADE_CAIXA_4" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_4" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx4</field>
         <field name="nome">Caixa com 4 unidades</field>
@@ -468,7 +468,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-    <record id="UNIDADE_CAIXA_5" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_5" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx5</field>
         <field name="nome">Caixa com 5 unidades</field>
@@ -483,7 +483,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-<!--    <record id="UNIDADE_CAIXA_6" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_6" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx6</field>
         <field name="nome">Caixa com 6 unidades</field>
@@ -498,7 +498,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-<!--    <record id="UNIDADE_CAIXA_8" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_8" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx8</field>
         <field name="nome">Caixa com 8 unidades</field>
@@ -513,7 +513,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-    <record id="UNIDADE_CAIXA_10" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_10" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx10</field>
         <field name="nome">Caixa com 10 unidades</field>
@@ -528,7 +528,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-<!--    <record id="UNIDADE_CAIXA_12" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_12" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx12</field>
         <field name="nome">Caixa com 12 unidades</field>
@@ -543,7 +543,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-    <record id="UNIDADE_CAIXA_15" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_15" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx15</field>
         <field name="nome">Caixa com 15 unidades</field>
@@ -558,7 +558,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-<!--    <record id="UNIDADE_CAIXA_18" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_18" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx18</field>
         <field name="nome">Caixa com 18 unidades</field>
@@ -573,7 +573,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-    <record id="UNIDADE_CAIXA_20" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_20" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx20</field>
         <field name="nome">Caixa com 20 unidades</field>
@@ -588,7 +588,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-<!--    <record id="UNIDADE_CAIXA_24" model="cadastro.unidade">
+<!--    <record id="UNIDADE_CAIXA_24" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx24</field>
         <field name="nome">Caixa com 24 unidades</field>
@@ -603,7 +603,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>-->
 
-    <record id="UNIDADE_CAIXA_25" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_25" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx25</field>
         <field name="nome">Caixa com 25 unidades</field>
@@ -618,7 +618,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_CAIXA_50" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_50" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx50</field>
         <field name="nome">Caixa com 50 unidades</field>
@@ -633,7 +633,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_CAIXA_100" model="cadastro.unidade">
+    <record id="UNIDADE_CAIXA_100" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx100</field>
         <field name="nome">Caixa com 100 unidades</field>
@@ -648,7 +648,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_DISPLAY" model="cadastro.unidade">
+    <record id="UNIDADE_DISPLAY" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">disp</field>
         <field name="nome">Display</field>
@@ -663,7 +663,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_DUZIA" model="cadastro.unidade">
+    <record id="UNIDADE_DUZIA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">dúzia</field>
         <field name="nome">Dúzia</field>
@@ -678,7 +678,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_EMBALAGEM" model="cadastro.unidade">
+    <record id="UNIDADE_EMBALAGEM" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">embal</field>
         <field name="nome">Embalagem</field>
@@ -693,7 +693,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_FARDO" model="cadastro.unidade">
+    <record id="UNIDADE_FARDO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">fardo</field>
         <field name="nome">Fardo</field>
@@ -708,7 +708,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_FOLHA" model="cadastro.unidade">
+    <record id="UNIDADE_FOLHA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">folha</field>
         <field name="nome">Folha</field>
@@ -723,7 +723,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_FRASCO" model="cadastro.unidade">
+    <record id="UNIDADE_FRASCO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">frasco</field>
         <field name="nome">Frasco</field>
@@ -738,7 +738,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_GALAO" model="cadastro.unidade">
+    <record id="UNIDADE_GALAO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">galão</field>
         <field name="nome">Galão</field>
@@ -753,7 +753,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_GARRAFA" model="cadastro.unidade">
+    <record id="UNIDADE_GARRAFA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">gf</field>
         <field name="nome">Garrafa</field>
@@ -768,7 +768,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_JOGO" model="cadastro.unidade">
+    <record id="UNIDADE_JOGO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">jogo</field>
         <field name="nome">Jogo</field>
@@ -783,7 +783,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_KIT" model="cadastro.unidade">
+    <record id="UNIDADE_KIT" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">kit</field>
         <field name="nome">Kit</field>
@@ -798,7 +798,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_LATA" model="cadastro.unidade">
+    <record id="UNIDADE_LATA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">lata</field>
         <field name="nome">lata</field>
@@ -813,7 +813,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_MILHEIRO" model="cadastro.unidade">
+    <record id="UNIDADE_MILHEIRO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">milhei</field>
         <field name="nome">Milheiro</field>
@@ -828,7 +828,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_PACOTE" model="cadastro.unidade">
+    <record id="UNIDADE_PACOTE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">pacote</field>
         <field name="nome">Pacote</field>
@@ -843,7 +843,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_PALETE" model="cadastro.unidade">
+    <record id="UNIDADE_PALETE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">palete</field>
         <field name="nome">Palete</field>
@@ -858,7 +858,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_PAR" model="cadastro.unidade">
+    <record id="UNIDADE_PAR" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">pares</field>
         <field name="nome">Par</field>
@@ -873,7 +873,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_PECA" model="cadastro.unidade">
+    <record id="UNIDADE_PECA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">pc</field>
         <field name="nome">Peça</field>
@@ -888,7 +888,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_POTE" model="cadastro.unidade">
+    <record id="UNIDADE_POTE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">pote</field>
         <field name="nome">Pote</field>
@@ -903,7 +903,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_RESMA" model="cadastro.unidade">
+    <record id="UNIDADE_RESMA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">resma</field>
         <field name="nome">Resma</field>
@@ -918,7 +918,7 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
-    <record id="UNIDADE_ROLO" model="cadastro.unidade">
+    <record id="UNIDADE_ROLO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">rolo</field>
         <field name="nome">Rolo</field>
@@ -933,7 +933,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_SACO" model="cadastro.unidade">
+    <record id="UNIDADE_SACO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">saco</field>
         <field name="nome">Saco</field>
@@ -948,7 +948,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_SACOLA" model="cadastro.unidade">
+    <record id="UNIDADE_SACOLA" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">sacola</field>
         <field name="nome">Sacola</field>
@@ -963,7 +963,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_TAMBOR" model="cadastro.unidade">
+    <record id="UNIDADE_TAMBOR" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">tambor</field>
         <field name="nome">Tambor</field>
@@ -978,7 +978,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_TANQUE" model="cadastro.unidade">
+    <record id="UNIDADE_TANQUE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">tanque</field>
         <field name="nome">Tanque</field>
@@ -993,7 +993,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_TUBO" model="cadastro.unidade">
+    <record id="UNIDADE_TUBO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">tubo</field>
         <field name="nome">Tubo</field>
@@ -1008,7 +1008,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_VASILHAME" model="cadastro.unidade">
+    <record id="UNIDADE_VASILHAME" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">vasil</field>
         <field name="nome">Vasilhame</field>
@@ -1023,7 +1023,7 @@
         <field name="subunidade_id" />
     </record>
 
-    <record id="UNIDADE_VIDRO" model="cadastro.unidade">
+    <record id="UNIDADE_VIDRO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">vidro</field>
         <field name="nome">Vidro</field>
