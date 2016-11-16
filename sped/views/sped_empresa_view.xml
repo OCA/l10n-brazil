@@ -295,7 +295,7 @@
         id="menu_sped_empresa"
         sequence="1"
         name="Empresas"
-        parent="menu_cadastro_participante"
+        parent="menu_cadastro_configuracao"
         action="sped_empresa_acao"
         />
 
