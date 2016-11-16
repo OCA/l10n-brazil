@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="res_partner_fornecedor_form" >
-        <field name="name">res.partner.fornecedor.form</field>
-        <field name="model">res.partner</field>
+    <record model="ir.ui.view" id="sped_empresa_form" >
+        <field name="name">sped.empresa.form</field>
+        <field name="model">sped.empresa</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Fornecedor">
+            <form string="Empresa">
             <sheet>
-<!--                    <div class="oe_button_box" name="button_box">
-                    <button name="toggle_active" type="object"
-                            class="oe_stat_button" icon="fa-archive">
-                    </button>
-                </div>-->
-<!--                 <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/> -->
+                <div class="oe_button_box" name="button_box">
+<!--                     <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"></button> -->
+                </div>
+                <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                 <div class="oe_title">
                     <h1>
                         <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
@@ -41,7 +39,7 @@
                     <field name="numero" required="1" />
                     <field name="complemento" colspan="4" />
                     <field name="bairro" colspan="6" required="1" />
-                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" required="1" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" domain="[('estado', '!=', 'EX')]" colspan="6" required="1" />
                     <field name="cep" placeholder="99999-999" required="1" />
                 </group>
 
@@ -78,15 +76,8 @@
                             </group>
                         </group>
                     </page>
-<!--                    <page string="Contatos e endereços" autofocus="autofocus">
-                        <field name="address_ids"
-                                context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
-                    </page>-->
-<!--                        <page name='internal_notes' string="Anotações internas">
-                        <field name="comment" placeholder="Anotações internas..."/>
-                    </page>-->
                     <page string="Comercial">
-                        <group col="4">
+                        <group>
                             <group string="Vendas" name="vendas">
                                 <field name="eh_cliente" />
                             </group>
@@ -99,35 +90,99 @@
                         </group>
                     </page>
                     <page string="Fiscal">
-                        <group col="4">
-                            <field name="regime_tributario" />
-                            <newline />
-                            <field name="eh_consumidor_final" />
-                            <field name="eh_orgao_publico" />
-                            <field name="eh_transportadora" />
-                            <field name="eh_funcionario" />
-                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                        </group>
+                        <notebook colspan="4">
+                            <page string="Geral">
+                                <group col="4">
+                                    <group col="4" colspan="4">
+                                        <field name="regime_tributario" colspan="4" />
+                                    </group>
+                                    <newline />
+                                    <group col="4" colspan="4" attrs="{'invisible': ['!', ('regime_tributario', 'in', ('1', '2'))]}">
+                                        <field name="simples_anexo_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
+                                        <field name="simples_teto_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
+                                    </group>
+                                    <newline />
+        <!--                            <field name="eh_consumidor_final" />
+                                    <field name="eh_orgao_publico" />
+                                    <field name="eh_transportadora" />
+                                    <field name="eh_funcionario" />-->
+                                    <group col="4" colspan="4">
+                                        <field name="al_pis_cofins_id" colspan="4" options="{'no_open': True, 'no_create': True}" attrs="{'required': True}" />
+                                        <newline />
+                                        <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                        <newline />
+                                        <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="NF-e/NFC-e - Produtos">
+                                <group col="4">
+                                    <separator string="NF-e" colspan="4" />
+                                    <field name="ambiente_nfe" />
+                                    <field name="tipo_emissao_nfe" />
+                                    <newline />
+                                    <field name="serie_nfe_producao" />
+                                    <field name="serie_nfe_homologacao" />
+                                    <newline />
+                                    <field name="serie_nfe_contingencia_producao" />
+                                    <field name="serie_nfe_contingencia_homologacao" />
+                                    <newline />
+                                    <separator string="NC-e" colspan="4" />
+                                    <field name="ambiente_nfce" />
+                                    <field name="tipo_emissao_nfce" />
+                                    <newline />
+                                    <field name="serie_nfce_producao" />
+                                    <field name="serie_nfce_homologacao" />
+                                    <newline />
+                                    <field name="serie_nfce_contingencia_producao" />
+                                    <field name="serie_nfce_contingencia_homologacao" />
+                                    <newline />
+                                    <separator string="Operações Fiscais padrão" colspan="4" />
+                                    <field name="operacao_produto_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_pessoa_fisica_id" string="Venda pessoa física" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_produto_ids" string="Outras operações permitidas" colspan="4" widget="many2many_tags" />
+<!--                                     <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" /> -->
+
+                                </group>
+                            </page>
+                            <page string="NFS-e - Serviços">
+                                <group col="4">
+                                    <separator string="NS-e" colspan="4" />
+                                    <field name="ambiente_nfse" />
+<!--                                     <field name="provedor_nfse" /> -->
+                                    <newline />
+                                    <field name="serie_rps_producao" />
+                                    <field name="serie_rps_homologacao" />
+                                    <newline />
+                                    <field name="ultimo_rps" />
+                                    <field name="ultimo_lote_rps" />
+                                    <newline />
+                                    <separator string="Operações Fiscais padrão" colspan="4" />
+                                    <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
+                                </group>
+                            </page>
+                        </notebook>
                         <!--                        <field name="eh_cooperativa" />
                         <field name="eh_convenio" />
                         <field name="eh_sindicato" />-->
                     </page>
                 </notebook>
             </sheet>
-            <div class="oe_chatter">
+<!--            <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
                 <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
-            </div>
+            </div>-->
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="res_partner_fornecedor_tree">
-        <field name="name">res.partner.fornecedor.tree</field>
-        <field name="model">res.partner</field>
+    <record model="ir.ui.view" id="sped_empresa_tree">
+        <field name="name">sped.empresa.tree</field>
+        <field name="model">sped.empresa</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Fornecedores">
+            <tree string="Empresas">
                 <field name="nome" />
                 <field name="cnpj_cpf" />
                 <field name="fone" />
@@ -138,22 +193,22 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="res_partner_fornecedor_search">
-        <field name="name">res.partner.fornecedor.search</field>
-        <field name="model">res.partner</field>
+    <record model="ir.ui.view" id="sped_empresa_search">
+        <field name="name">sped.empresa.search</field>
+        <field name="model">sped.empresa</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <search string="Fornecedores">
+            <search string="Empresas">
                 <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('razao_social','ilike',self), ('fantasia','ilike',self), ('cnpj_cpf','ilike',self)]" />
             </search>
         </field>
     </record>
 
-<!--    <record model="ir.ui.view" id="res_partner_fornecedor_kanban">
-        <field name="name">res.partner.fornecedor.kanban</field>
-        <field name="model">res.partner</field>
+<!--    <record model="ir.ui.view" id="sped_empresa_kanban">
+        <field name="name">sped.empresa.kanban</field>
+        <field name="model">sped.empresa</field>
         <field name="arch" type="xml">
-            <kanban class="o_res_partner_kanban">
+            <kanban class="o_sped_empresa_kanban">
                 <field name="color"/>
                 <field name="name"/>
                 <field name="cnpj_cpf"/>
@@ -169,11 +224,11 @@
                 <field name="email"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_res_partner_kanban">
+                        <div class="oe_kanban_global_click o_sped_empresa_kanban">
                             <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
                             <div class="o_kanban_image">
                                 <t t-if="record.image_small.raw_value">
-                                    <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)"/>
+                                    <img t-att-src="kanban_image('sped.empresa', 'image_small', record.id.value)"/>
                                 </t>
                                 <t t-if="!record.image_small.raw_value">
                                     <t t-if="record.tipo_pessoa.raw_value === 'F'">
@@ -206,42 +261,42 @@
         </field>
     </record>-->
 
-    <record model="ir.actions.act_window" id="res_partner_fornecedor_acao">
-        <field name="name">Fornecedores</field>
-        <field name="domain">[('eh_fornecedor', '=', True)]</field>
-        <field name="context">{'default_eh_fornecedor': True, 'eh_fornecedor': True}</field>
-        <field name="res_model">res.partner</field>
+    <record model="ir.actions.act_window" id="sped_empresa_acao">
+        <field name="name">Empresas</field>
+        <field name="domain">[('eh_empresa', '=', True)]</field>
+        <field name="context">{'default_eh_empresa': True}</field>
+        <field name="res_model">sped.empresa</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="res_partner_fornecedor_form_acao">
+    <record model="ir.actions.act_window.view" id="sped_empresa_form_acao">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="res_partner_fornecedor_form"/>
-        <field name="act_window_id" ref="res_partner_fornecedor_acao"/>
+        <field name="view_id" ref="sped_empresa_form"/>
+        <field name="act_window_id" ref="sped_empresa_acao"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="res_partner_fornecedor_tree_acao">
+    <record model="ir.actions.act_window.view" id="sped_empresa_tree_acao">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="res_partner_fornecedor_tree"/>
-        <field name="act_window_id" ref="res_partner_fornecedor_acao"/>
+        <field name="view_id" ref="sped_empresa_tree"/>
+        <field name="act_window_id" ref="sped_empresa_acao"/>
     </record>
 
-<!--    <record model="ir.actions.act_window.view" id="res_partner_fornecedor_kanban_acao">
+<!--    <record model="ir.actions.act_window.view" id="sped_empresa_kanban_acao">
         <field eval="1" name="sequence"/>
         <field name="view_mode">kanban</field>
-        <field name="view_id" ref="res_partner_fornecedor_kanban"/>
-        <field name="act_window_id" ref="res_partner_fornecedor_acao"/>
+        <field name="view_id" ref="sped_empresa_kanban"/>
+        <field name="act_window_id" ref="sped_empresa_acao"/>
     </record>-->
 
     <menuitem
-        id="menu_res_partner_fornecedor"
-        sequence="4"
-        name="Fornecedores"
-        parent="menu_cadastro_parceiro"
-        action="res_partner_fornecedor_acao"
+        id="menu_sped_empresa"
+        sequence="1"
+        name="Empresas"
+        parent="menu_cadastro_participante"
+        action="sped_empresa_acao"
         />
 
 </odoo>
