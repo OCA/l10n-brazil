@@ -15,15 +15,14 @@ from ..constante_tributaria import *
 class Empresa(models.Model):
     _description = 'Empresas e filiais'
     _inherits = {'sped.participante': 'participante_id'}
-    _inherit = 'mail.thread'
+    #_inherit = 'mail.thread'
     #_inherits = 'res.partner'
     _name = 'sped.empresa'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
     participante_id = fields.Many2one('sped.participante', 'Participante original', ondelete='restrict', required=True)
-    partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', related='participante_id.partner_id', store=True)
-    company_id = fields.Many2one('res.partner', 'Company original', ondelete='restrict')
+    #partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', inherited=True)
 
     #
     # Para o faturamento
@@ -397,9 +396,6 @@ class Empresa(models.Model):
     @api.multi
     def sync_to_company(self):
         for empresa in self:
-            if not empresa.partner_id.is_company:
-                empresa.partner_id.write({'is_company': True})
-
             if not empresa.partner_id.sped_empresa_id:
                 empresa.partner_id.write({'sped_empresa_id': self.id})
 
@@ -410,16 +406,46 @@ class Empresa(models.Model):
 
             else:
                 company = self.env['res.company'].create(dados)
-                self.env.cr.execute('update sped_empresa set company_id = {company_id} where id = {id};'.format(id=empresa.id, company_id=company.id))
 
     @api.model
     def create(self, dados):
         empresa = super(Empresa, self).create(dados)
         empresa.sync_to_company()
-        return partner
+        return empresa
 
     @api.multi
     def write(self, dados):
         res = super(Empresa, self).write(dados)
         self.sync_to_company()
         return res
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.partner_id.customer:
+            valores['eh_cliente'] = True
+        else:
+            valores['eh_cliente'] = False
+
+        if self.partner_id.supplier:
+            valores['eh_fornecedor'] = True
+        else:
+            valores['eh_fornecedor'] = False
+
+        if self.partner_id.employee:
+            valores['eh_funcionario'] = True
+        else:
+            valores['eh_funcionario'] = False
+
+        if self.partner_id.original_company_id:
+            valores['eh_empresa'] = True
+        else:
+            valores['eh_empresa'] = False
+
+        if self.partner_id.original_user_id:
+            valores['eh_usuario'] = True
+        else:
+            valores['eh_usuario'] = False
