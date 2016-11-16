@@ -10,3 +10,4 @@ from . import account
 from . import account_invoice
 from . import product
 from . import account_fiscal_position_rule
+from . import account_move_line
