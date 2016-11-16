@@ -19,6 +19,7 @@
         ##
         ## Valores padrão
         ##
+        'data/res_currency_data.xml',
         #'data/sped_pais_data.xml',
         #'data/sped_estado_data.xml',
         #'data/sped_municipio_data.xml',
@@ -81,7 +82,7 @@
         # Módulo Cadastro: participantes, produtos etc.
         #
 
-        ##'views/res_partner_empresa_view.xml',
+        'views/sped_empresa_view.xml',
         ##'views/res_users_usuario_view.xml',
         'views/sped_participante_cliente_view.xml',
         'views/sped_participante_fornecedor_view.xml',
