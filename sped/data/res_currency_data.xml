@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="base.BRL" model="res.currency">
+            <field name="name">BRL</field>
+            <field name="symbol">R$</field>
+            <field name="rounding">0.01</field>
+            <field name="active" eval="True"/>
+            <field name="position">before</field>
+        </record>
+
+    </data>
+</odoo>

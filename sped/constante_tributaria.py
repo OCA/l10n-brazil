@@ -1523,3 +1523,8 @@ TIPO_PESSOA = (
     ('E', 'Estrangeiro'),
     ('I', 'Indeterminado'),
 )
+
+TIPO_PESSOA_FISICA = 'F'
+TIPO_PESSOA_JURIDICA = 'J'
+TIPO_PESSOA_ESTRANGEIRO = 'E'
+TIPO_PESSOA_INDETERMINADO = 'I'

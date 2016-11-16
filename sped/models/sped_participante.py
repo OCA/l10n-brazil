@@ -7,7 +7,6 @@ from odoo.exceptions import UserError, ValidationError
 from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao, formata_inscricao_estadual, valida_cnpj, valida_cpf, valida_inscricao_estadual)
 from pybrasil.telefone import (formata_fone, valida_fone_fixo, valida_fone_celular, valida_fone_internacional, valida_fone, formata_varios_fones)
 from pybrasil.base import mascara, primeira_maiuscula
-#from integra_rh.models.hr_employee import SEXO, ESTADO_CIVIL
 from email_validator import validate_email, EmailNotValidError
 from ..constante_tributaria import *
 
@@ -15,7 +14,7 @@ from ..constante_tributaria import *
 class Participante(models.Model):
     _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
-    _inherit = 'mail.thread'
+    #_inherit = 'mail.thread'
     #_inherits = 'res.partner'
     _name = 'sped.participante'
     _rec_name = 'nome'
@@ -488,6 +487,7 @@ class Participante(models.Model):
             'email': self.email,
             'vat': vat,
             'sped_participante_id': self.id,
+            'is_company': self.tipo_pessoa == TIPO_PESSOA_JURIDICA,
         }
 
         if not self.partner_id.lang:
@@ -531,3 +531,35 @@ class Participante(models.Model):
         self.sync_to_partner()
 
         return res
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.partner_id.customer:
+            valores['eh_cliente'] = True
+        else:
+            valores['eh_cliente'] = False
+
+        if self.partner_id.supplier:
+            valores['eh_fornecedor'] = True
+        else:
+            valores['eh_fornecedor'] = False
+
+        if self.partner_id.employee:
+            valores['eh_funcionario'] = True
+        else:
+            valores['eh_funcionario'] = False
+
+        if self.partner_id.original_company_id:
+            valores['eh_empresa'] = True
+        else:
+            valores['eh_empresa'] = False
+
+        if self.partner_id.original_user_id:
+            valores['eh_usuario'] = True
+        else:
+            valores['eh_usuario'] = False
+

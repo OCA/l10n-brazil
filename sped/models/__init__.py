@@ -19,8 +19,6 @@ from res_partner import *
 
 from sped_unidade import *
 from sped_produto import *
-#from res_company import *
-#from res_users import *
 
 
 #
