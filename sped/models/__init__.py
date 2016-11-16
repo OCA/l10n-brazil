@@ -14,6 +14,8 @@ from sped_municipio import *
 # Cadastros básicos
 #
 from sped_participante import *
+from sped_empresa import *
+from res_partner import *
 
 from sped_unidade import *
 from sped_produto import *

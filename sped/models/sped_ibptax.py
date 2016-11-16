@@ -32,8 +32,8 @@ class IBPTax(models.Model):
         ibptax_nbs = self.env['sped.ibptax.nbs']
         ibptax_servico = self.env['sped.ibptax.servico']
 
-        versao = '16.2.A'
-        arquivo = '/home/ari/projetos/novo/addons/sistema/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(uf=self.estado_id.uf, versao=versao)
+        versao = '16.2.B'
+        arquivo = '/home/ari/projetos/odoo_br/sped/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(uf=self.estado_id.uf, versao=versao)
 
         ncm_ids = ibptax_ncm.search([('ibptax_id', '=', self.id)])
         ncm_ids.unlink()
