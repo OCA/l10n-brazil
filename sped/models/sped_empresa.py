@@ -12,119 +12,56 @@ from email_validator import validate_email, EmailNotValidError
 from ..constante_tributaria import *
 
 
-class Participante(models.Model):
-    _description = 'Participantes'
-    _inherits = {'res.partner': 'partner_id'}
+class Empresa(models.Model):
+    _description = 'Empresas e filiais'
+    _inherits = {'sped.participante': 'participante_id'}
     _inherit = 'mail.thread'
     #_inherits = 'res.partner'
-    _name = 'sped.participante'
+    _name = 'sped.empresa'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
-    partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', required=True)
-
-    codigo = fields.Char(string='Código', size=60, index=True)
-    nome = fields.Char(string='Nome', size=60, index=True)
-
-    eh_orgao_publico = fields.Boolean('É órgão público?')
-    eh_cooperativa = fields.Boolean('É cooperativa?')
-    eh_sindicato = fields.Boolean('É sindicato?')
-    eh_consumidor_final = fields.Boolean('É consumidor final?')
-    #eh_sociedade = fields.Boolean('É sociedade?')
-    eh_convenio = fields.Boolean('É convênio?')
-    eh_cliente = fields.Boolean('É cliente?')
-    eh_fornecedor = fields.Boolean('É fornecedor?')
-    eh_transportadora = fields.Boolean('É transportadora?')
-
-    #empresa_ids = fields.One2many('res.company', 'partner_id', 'Empresa/unidade')
-    #usuario_ids = fields.One2many('res.users', 'partner_id', 'Usuário')
-    eh_grupo = fields.Boolean('É grupo?', index=True)
-    eh_empresa = fields.Boolean('É empresa?', index=True)
-    eh_usuario = fields.Boolean('É usuário?', index=True)
-    eh_funcionario = fields.Boolean('É funcionário?')
-
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18,  help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha', index=True)
-    tipo_pessoa = fields.Char('Tipo pessoa', size=1, compute='_tipo_pessoa', store=True, index=True)
-
-    @api.one
-    @api.depends('cnpj_cpf')
-    def _tipo_pessoa(self):
-        self.tipo_pessoa = 'I'
-
-        if self.cnpj_cpf:
-            if self.cnpj_cpf[:2] == 'EX':
-                self.tipo_pessoa = 'E'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-
-            elif len(self.cnpj_cpf) == 18:
-                self.tipo_pessoa = 'J'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_ISENTO
-
-            else:
-                self.tipo_pessoa = 'F'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-
-    razao_social = fields.Char('Razão Social', size=60, index=True)
-    fantasia = fields.Char('Fantasia', size=60, index=True)
-    endereco = fields.Char('Endereço', size=60)
-    numero = fields.Char('Número', size=60)
-    complemento = fields.Char('Complemento', size=60)
-    bairro = fields.Char('Bairro', size=60)
-    municipio_id = fields.Many2one('sped.municipio', string='Município', ondelete='restrict')
-    cidade = fields.Char('Município', related='municipio_id.nome', store=True, index=True)
-    estado = fields.UpperChar('Estado', related='municipio_id.estado', store=True, index=True)
-    cep = fields.Char('CEP', size=9)
-    #
-    # Telefone e email para a emissão da NF-e
-    #
-    fone = fields.Char('Fone', size=18)
-    fone_comercial = fields.Char('Fone Comercial', size=18)
-    celular = fields.Char('Celular', size=18)
-    email = fields.Email('Email', size=60)
-    site = fields.Site('Site', size=60)
-    email_nfe = fields.Email('Email para envio da NF-e', size=60)
-    #
-    # Inscrições e registros
-    #
-    contribuinte = fields.Selection(INDICADOR_IE_DESTINATARIO, string='Contribuinte', default=INDICADOR_IE_DESTINATARIO_ISENTO)
-    ie = fields.Char('Inscrição estadual', size=18)
-    im = fields.Char('Inscrição municipal', size=14)
-    suframa = fields.Char('SUFRAMA', size=12)
-    rntrc = fields.Char('RNTRC', size=15)
-    cnae_id = fields.Many2one('sped.cnae', 'CNAE principal')
-    cei = fields.Char('CEI', size=15)
-
-    rg_numero = fields.Char('RG', size=14)
-    rg_orgao_emissor = fields.UpperChar('Órgão emisssor do RG', size=20)
-    rg_data_expedicao = fields.Date('Data de expedição do RG')
-    crc = fields.Char('Conselho Regional de Contabilidade', size=14)
-    crc_uf = fields.Many2one('sped.estado', string='UF do CRC', ondelete='restrict')
-    profissao = fields.Char('Cargo', size=40)
-    #'sexo = fields.selection(SEXO, 'Sexo' )
-    #'estado_civil = fields.selection(ESTADO_CIVIL, 'Estado civil')
-    pais_nacionalidade_id = fields.Many2one('sped.pais', string='Nacionalidade', ondelete='restrict')
-
-    #
-    # Campos para o RH
-    #
-    codigo_sindical = fields.Char('Código sindical', size=30)
-    codigo_ans = fields.Char('Código ANS', size=6)
-
-    #
-    # Para a contabilidade
-    #
-    #sociedade_ids = fields.One2many('res.partner.sociedade', 'partner_id', 'Sociedade')
-
-    #
-    # Endereços e contatos
-    #
-    #address_ids = fields.One2many('res.partner.address', 'partner_id', 'Contatos e endereços')
+    participante_id = fields.Many2one('sped.participante', 'Participante original', ondelete='restrict', required=True)
+    partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', related='participante_id.partner_id', store=True)
+    company_id = fields.Many2one('res.partner', 'Company original', ondelete='restrict')
 
     #
     # Para o faturamento
     #
-    transportadora_id = fields.Many2one('res.partner', string='Transportadora', ondelete='restrict')
-    regime_tributario = fields.Selection(REGIME_TRIBUTARIO, string='Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES, index=True)
+    protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
+    simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
+    simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
+    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
+    operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_produto_pessoa_fisica_id = fields.Many2one('sped.operacao', 'Operação padrão para venda pessoa física', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_produto_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_produto', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
+    operacao_servico_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
+    operacao_servico_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_servico', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
+
+    #
+    # Emissão de NF-e, NFC-e e NFS-e
+    #
+    certificado_id = fields.Many2one('sped.certificado', 'Certificado digital')
+    ambiente_nfe = fields.Selection(AMBIENTE_NFE, 'Ambiente NF-e')
+    tipo_emissao_nfe = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão NF-e')
+    serie_nfe_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_nfe_homologacao = fields.Char('Série em produção', size=3, default='100')
+    serie_nfe_contingencia_producao = fields.Char('Série em produção', size=3, default='900')
+    serie_nfe_contingencia_homologacao = fields.Char('Série em produção', size=3, default='999')
+
+    ambiente_nfce = fields.Selection(AMBIENTE_NFE, 'Ambiente NFC-e')
+    tipo_emissao_nfce = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão NFC-e')
+    serie_nfce_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_nfce_homologacao = fields.Char('Série em produção', size=3, default='100')
+    serie_nfce_contingencia_producao = fields.Char('Série em produção', size=3, default='900')
+    serie_nfce_contingencia_homologacao = fields.Char('Série em produção', size=3, default='999')
+
+    ambiente_nfse = fields.Selection(AMBIENTE_NFE, 'Ambiente NFS-e')
+    #provedor_nfse = fields.Selection(PROVEDOR_NFSE, 'Provedor NFS-e')
+    serie_rps_producao = fields.Char('Série em produção', size=3, default='1')
+    serie_rps_homologacao = fields.Char('Série em produção', size=3, default='100')
+    ultimo_rps = fields.Integer('Último RPS')
+    ultimo_lote_rps = fields.Integer('Último lote de RPS')
 
     #@api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
     #def name_get(self, cr, uid, ids, context={}):
@@ -174,7 +111,7 @@ class Participante(models.Model):
                 ('cnpj_cpf', 'ilike', mascara(name, '   .   .   -  ')),
             ]
 
-        return super(Participante, self).name_search(name=name, args=args, operator=operator, limit=limit)
+        return super(Empresa, self).name_search(name=name, args=args, operator=operator, limit=limit)
 
     def _valida_cnpj_cpf(self):
         valores = {}
@@ -368,14 +305,14 @@ class Participante(models.Model):
     def onchange_email(self):
         return self._valida_email()
 
-    @api.model
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-        if (not view_id) and (view_type == 'form') and self._context.get('force_email'):
-            view_id = self.env.ref('sped.cadastro_participante_cliente_form').id
-        res = super(Participante, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
-        #if view_type == 'form':
-        #    res['arch'] = self.fields_view_get_address(res['arch'])
-        return res
+    #@api.model
+    #def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        #if (not view_id) and (view_type == 'form') and self._context.get('force_email'):
+            #view_id = self.env.ref('sped.cadastro_participante_cliente_form').id
+        #res = super(Empresa, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        ##if view_type == 'form':
+        ##    res['arch'] = self.fields_view_get_address(res['arch'])
+        #return res
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
@@ -437,97 +374,52 @@ class Participante(models.Model):
 
         return res
 
-
-    def prepare_sync_to_partner(self):
+    def prepare_sync_to_company(self):
         """
 
         :return:
         """
-        endereco = self.endereco + ', ' + self.numero
-        if self.complemento:
-            endereco += ' - ' + self.complemento
-
-        if self.fone and '+' not in self.fone:
-            fone = '+55 ' + self.fone
-        else:
-            fone = self.fone
-
-        if self.celular and '+' not in self.celular:
-            celular = '+55 ' + self.celular
-        else:
-            celular = self.celular
-
-        if self.fone_comercial and '+' not in self.fone_comercial:
-            fax = '+55 ' + self.fone_comercial
-        else:
-            fax = self.fone_comercial
-
-        if self.municipio_id.pais_id.iso_3166_alfa_2 == 'BR':
-            vat = 'BR-' + self.cnpj_cpf
-            state_id = self.municipio_id.estado_id.state_id.id
-
-        else:
-            vat = self.municipio_id.pais_id.iso_3166_alfa_2 + '-' + self.cnpj_cpf[2:]
-            state_id = False
 
         dados = {
-            'ref': self.codigo,
             'name': self.nome,
-            'street': endereco,
-            'street2': self.bairro,
-            'city': self.cidade,
-            'zip': 'BR-' + self.cep,
-            'country_id': self.municipio_id.pais_id.country_id.id,
-            'state_id': state_id,
-            'phone': fone,
-            'mobile': celular,
-            'fax': fax,
-            'customer': self.eh_cliente,
-            'supplier': self.eh_fornecedor,
-            'website': self.site,
-            'email': self.email,
-            'vat': vat,
-            'sped_participante_id': self.id,
+            'phone': self.partner_id.phone,
+            'email': self.partner_id.email,
         }
 
-        if not self.partner_id.lang:
-            dados['lang'] = 'pt_BR'
-
-        if not self.partner_id.tz:
-            dados['tz'] = 'America/Sao_Paulo'
+        if not self.company_id:
+            dados['partner_id'] = self.partner_id.id
+            dados['rml_paper_format'] = 'a4'
+            dados['paperformat_id'] = self.env.ref('report.paperformat_euro').id
+            dados['currency_id'] = self.env.ref('base.BRL').id
 
         return dados
 
     @api.multi
-    def sync_to_partner(self):
-        for partner in self:
-            dados = partner.prepare_sync_to_partner()
-            partner.partner_id.write(dados)
+    def sync_to_company(self):
+        for empresa in self:
+            if not empresa.partner_id.is_company:
+                empresa.partner_id.write({'is_company': True})
+
+            if not empresa.partner_id.sped_empresa_id:
+                empresa.partner_id.write({'sped_empresa_id': self.id})
+
+            dados = empresa.prepare_sync_to_company()
+
+            if empresa.company_id:
+                empresa.company_id.write(dados)
+
+            else:
+                company = self.env['res.company'].create(dados)
+                self.env.cr.execute('update sped_empresa set company_id = {company_id} where id = {id};'.format(id=empresa.id, company_id=company.id))
 
     @api.model
     def create(self, dados):
-        if 'razao_social' in dados and not dados['razao_social']:
-            dados['razao_social'] = dados['nome']
-
-        dados['name'] = dados['nome']
-
-        if 'lang' not in dados:
-            dados['lang'] = 'pt_BR'
-
-        if 'tz' not in dados:
-            dados['tz'] = 'America/Sao_Paulo'
-
-        partner = super(Participante, self).create(dados)
-        partner.sync_to_partner()
-
+        empresa = super(Empresa, self).create(dados)
+        empresa.sync_to_company()
         return partner
 
     @api.multi
     def write(self, dados):
-        if 'nome' in dados:
-            dados['name'] = dados['nome']
-
-        res = super(Participante, self).write(dados)
-        self.sync_to_partner()
-
+        res = super(Empresa, self).write(dados)
+        self.sync_to_company()
         return res
