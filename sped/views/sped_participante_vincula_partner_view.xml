@@ -1,78 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="res_users_usuario_form" >
-        <field name="name">res.users.usuario.form</field>
-        <field name="model">res.users</field>
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_form" >
+        <field name="name">sped.participante.vincula.partner.form</field>
+        <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Usuário">
-            <header>
-                <button string="Alterar senha" type="action" name="%(base.change_password_wizard_action)d" />
-            </header>
+            <form string="Cliente">
             <sheet>
-                <field name="eh_usuario" invisible="1" />
-                <field name="id" invisible="1"/>
-                <div class="oe_form_box_info oe_text_center" style="margin-bottom: 10px" attrs="{'invisible': [('id', '>', 0)]}">
-                    You are creating a new user. After saving, the user will receive an invite email containing a link to set its password.
-                </div>
-                <div class="oe_button_box" name="button_box">
-                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
-                        <field name="active" widget="boolean_button" options='{"terminology": "active"}'/>
+<!--                    <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive">
                     </button>
-                </div>
-                <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                </div>-->
+<!--                 <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/> -->
+                <field name="id" invisible="1" />
                 <div class="oe_title">
-                    <label for="nome" class="oe_edit_only"/>
+                    <h1>
+                        <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" domain="[('sped_participante_id', '=', False), ('original_company_id', '=', False)]" />
+                    </h1>
                     <h1>
                         <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
                     </h1>
-                    <label for="login" class="oe_edit_only"/>
                     <h2>
-                        <field name="login" required="1" />
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
+                        <field name="tipo_pessoa" invisible="1" />
                     </h2>
                 </div>
+                <group>
+                    <field name="razao_social" required="1" string="Nome completo Razão Social" />
+                    <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
+                </group>
                 <separator string="Contato" />
                 <group col="6">
                     <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
                     <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
                     <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
-                    <field name="site" colspan="6" />
                     <field name="email" colspan="6" />
-                    <separator string="Assinatura de email" colspan="6" />
-                    <field name="signature" nolabel="1" colspan="6" />
+                    <field name="site" colspan="6" />
                 </group>
+                <separator string="Endereço" />
+                <group col="6">
+                    <field name="endereco" colspan="6" required="1" />
+                    <field name="numero" required="1" />
+                    <field name="complemento" colspan="4" />
+                    <field name="bairro" colspan="6" required="1" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" required="1" />
+                    <field name="cep" placeholder="99999-999" required="1" />
+                </group>
+
                 <notebook>
-                    <page string="Permissões de acesso">
-                        <group>
-                            <group colspan="4" col="4">
-                                <separator string="Empresas" colspan="4" />
-                                <field string="Empresa ativa" name="company_id" context="{'user_preference': 0}" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                <field string="Empresas permitidas" name="company_ids" widget="many2many_tags" domain="[('partner_id.cnpj_cpf', '!=', False)]" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                <separator string="Grupos" colspan="4" />
-                                <field name="groups_id" colspan="4" nolabel="1" options="{'no_open': True, 'no_create': True}" />
-                            </group>
-                        </group>
-                    </page>
-                    <page string="Cadastro">
-                        <group>
-                            <field name="cnpj_cpf" />
-                            <field name="tipo_pessoa" invisible="1" />
-                            <field name="razao_social" attrs="{'required': [('cnpj_cpf', '!=', False)]}" string="Nome completo Razão Social" />
-                            <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
-                        </group>
-                        <group col="6" attrs="{'invisible': [('cnpj_cpf', '=', False)]}">
-                            <separator string="Endereço" colspan="6" />
-                            <field name="endereco" colspan="6" attrs="{'required': [('cnpj_cpf', '!=', False)]}" />
-                            <field name="numero" attrs="{'required': [('cnpj_cpf', '!=', False)]}" />
-                            <field name="complemento" colspan="4" />
-                            <field name="bairro" colspan="6" attrs="{'required': [('cnpj_cpf', '!=', False)]}" />
-                            <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" attrs="{'required': [('cnpj_cpf', '!=', False)]}" />
-                            <field name="cep" placeholder="99999-999" attrs="{'required': [('cnpj_cpf', '!=', False)]}" />
-                        </group>
-                    </page>
-                    <page string="Inscrições e registros" attrs="{'invisible': [('cnpj_cpf', '=', False)]}">
-                        <group>
+                    <page string="Inscrições e registros">
+                        <group col="4">
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
                                 <field name="contribuinte" colspan="2" />
@@ -90,20 +69,27 @@
                                 <separator string="Outras inscrições" colspan="6" />
                                 <separator string="Inscrição Municipal" colspan="2" />
                                 <separator string="CEI" colspan="2" />
-                                <field name="im" colspan="2" />
-                                <field name="cei" colspan="2" />
+                                <field name="im" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
                                 <separator string="SUFRAMA" colspan="2" />
                                 <separator string="RNTRC" colspan="2" />
-                                <field name="suframa" colspan="2" />
-                                <field name="rntrc" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
                                 <separator string="CRC" />
+                                <newline />
                                 <field name="crc" colspan="2" />
                                 <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
-                                <field name="cnae_id" colspan="8" options="{'no_open': True, 'no_create': True}" />
                             </group>
                         </group>
                     </page>
-                    <page string="Comercial" attrs="{'invisible': [('cnpj_cpf', '=', False)]}">
+                    <!--                    <page string="Contatos e endereços" autofocus="autofocus">
+                        <field name="address_ids"
+                                context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
+                    </page>-->
+<!--                        <page name='internal_notes' string="Anotações internas">
+                        <field name="comment" placeholder="Anotações internas..."/>
+                    </page>-->
+                    <page string="Comercial">
                         <group>
                             <group string="Vendas" name="vendas">
                                 <field name="eh_cliente" />
@@ -116,32 +102,39 @@
                             </group>
                         </group>
                     </page>
-                    <page string="Fiscal" attrs="{'invisible': [('cnpj_cpf', '=', False)]}">
-                        <field name="regime_tributario" />
-                        <field name="eh_consumidor_final" />
-                        <field name="eh_orgao_publico" />
-                        <field name="eh_transportadora" />
-                        <field name="eh_funcionario" />
+                    <page string="Fiscal">
+                        <group col="4">
+                            <field name="regime_tributario" />
+                            <newline />
+                            <field name="eh_consumidor_final" />
+                            <field name="eh_orgao_publico" />
+                            <field name="eh_transportadora" />
+                            <field name="eh_funcionario" />
+                            <field name="eh_empresa" invisible="1" />
+                            <field name="eh_usuario" invisible="1" />
+                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                        </group>
                         <!--                        <field name="eh_cooperativa" />
                         <field name="eh_convenio" />
                         <field name="eh_sindicato" />-->
                     </page>
                 </notebook>
             </sheet>
-<!--            <div class="oe_chatter">
+            <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
                 <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
-            </div>-->
+            </div>
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="res_users_usuario_tree">
-        <field name="name">res.users.usuario.tree</field>
-        <field name="model">res.users</field>
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_tree">
+        <field name="name">sped.participante.vincula.partner.tree</field>
+        <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Usuários">
+            <tree string="Vínculos Participante - Partner">
+                <field name="partner_id" />
                 <field name="nome" />
                 <field name="cnpj_cpf" />
                 <field name="fone" />
@@ -152,22 +145,22 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="res_users_usuario_search">
-        <field name="name">res.users.usuario.search</field>
-        <field name="model">res.users</field>
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_search">
+        <field name="name">sped.participante.vincula.partner.search</field>
+        <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <search string="Usuários">
+            <search string="Vínculos Participante - Partner">
                 <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('razao_social','ilike',self), ('fantasia','ilike',self), ('cnpj_cpf','ilike',self)]" />
             </search>
         </field>
     </record>
 
-<!--    <record model="ir.ui.view" id="res_users_usuario_kanban">
-        <field name="name">res.users.usuario.kanban</field>
-        <field name="model">res.users</field>
+<!--    <record model="ir.ui.view" id="sped_participante_vincula_partner_kanban">
+        <field name="name">sped.participante.vincula.partner.kanban</field>
+        <field name="model">sped.participante</field>
         <field name="arch" type="xml">
-            <kanban class="o_res_users_kanban">
+            <kanban class="o_sped_participante_kanban">
                 <field name="color"/>
                 <field name="name"/>
                 <field name="cnpj_cpf"/>
@@ -183,11 +176,11 @@
                 <field name="email"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_res_users_kanban">
+                        <div class="oe_kanban_global_click o_sped_participante_kanban">
                             <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
                             <div class="o_kanban_image">
                                 <t t-if="record.image_small.raw_value">
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.id.value)"/>
+                                    <img t-att-src="kanban_image('sped.participante', 'image_small', record.id.value)"/>
                                 </t>
                                 <t t-if="!record.image_small.raw_value">
                                     <t t-if="record.tipo_pessoa.raw_value === 'F'">
@@ -220,42 +213,40 @@
         </field>
     </record>-->
 
-    <record model="ir.actions.act_window" id="res_users_usuario_acao">
-        <field name="name">Usuários</field>
-        <field name="domain">[('eh_usuario', '=', True)]</field>
-        <field name="context">{'default_eh_usuario': True}</field>
-        <field name="res_model">res.users</field>
+    <record model="ir.actions.act_window" id="sped_participante_vincula_partner_acao">
+        <field name="name">Vínculos Participante - Partner</field>
+        <field name="res_model">sped.participante</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="res_users_usuario_form_acao">
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_form_acao">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="res_users_usuario_form"/>
-        <field name="act_window_id" ref="res_users_usuario_acao"/>
+        <field name="view_id" ref="sped_participante_vincula_partner_form"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="res_users_usuario_tree_acao">
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_tree_acao">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="res_users_usuario_tree"/>
-        <field name="act_window_id" ref="res_users_usuario_acao"/>
+        <field name="view_id" ref="sped_participante_vincula_partner_tree"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
     </record>
 
-<!--    <record model="ir.actions.act_window.view" id="res_users_usuario_kanban_acao">
+<!--    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_kanban_acao">
         <field eval="1" name="sequence"/>
         <field name="view_mode">kanban</field>
-        <field name="view_id" ref="res_users_usuario_kanban"/>
-        <field name="act_window_id" ref="res_users_usuario_acao"/>
+        <field name="view_id" ref="sped_participante_vincula_partner_kanban"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
     </record>-->
 
     <menuitem
-        id="menu_res_users_usuario"
+        id="menu_sped_participante_vincula_partner"
         sequence="2"
-        name="Usuários"
-        parent="menu_cadastro_parceiro"
-        action="res_users_usuario_acao"
+        name="Participante - Partner"
+        parent="menu_cadastro_vinculo"
+        action="sped_participante_vincula_partner_acao"
         />
 
 </odoo>
