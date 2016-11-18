@@ -12,13 +12,10 @@ class ProcurementOrder(models.Model):
     def _run_move_create(self, procurement):
         result = super(ProcurementOrder, self)._run_move_create(procurement)
         if (procurement.rule_id and procurement.rule_id.fiscal_category_id and
-                procurement.move_dest_id):
+                result['partner_id']):
             ctx = dict(self.env.context)
             ctx.update({'use_domain': ('use_picking', '=', True)})
-            partner = (
-                procurement.rule_id.partner_address_id or (
-                    procurement.group_id and procurement.group_id.partner_id)
-            )
+            partner = self.env['res.partner'].browse(result['partner_id'])
             company = (procurement.warehouse_id.company_id or
                        procurement.company_id)
             kwargs = {
