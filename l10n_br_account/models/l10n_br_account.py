@@ -19,6 +19,13 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = None
 
+class AccountTaxCode(models.Model):
+    _name = 'account.tax.code'
+
+    name = fields.Char(string=u'Name')
+    code = fields.Char(string=u'Code')
+    domain = fields.Char(string=u'Domain', size=6)
+
 
 class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
@@ -71,8 +78,9 @@ class L10nBrAccountInvoiceCancel(models.Model):
                  self.invoice_id.partner_id.name]
         self.display_name = ' / '.join(filter(None, names))
 
-    def _check_justificative(self, cr, uid, ids):
-        for invalid in self.browse(cr, uid, ids):
+    @api.multi
+    def _check_justificative(self):
+        for invalid in self:
             if len(invalid.justificative) < 15:
                 return False
         return True
@@ -470,8 +478,8 @@ class L10nBrTaxDefinitionTemplate(object):
     tax_domain = fields.Char('Tax Domain', related='tax_template_id.domain',
                              store=True)
 
-    tax_code_template_id = fields.Many2one('account.tax.code.template',
-                                           u'Código de Imposto')
+    # tax_code_template_id = fields.Many2one('account.tax.code.template',
+    #                                        u'Código de Imposto')
 
 
 class L10nBrTaxDefinition(object):
