@@ -24,12 +24,11 @@
                 <button name="invoice_open" position="replace">
                     <button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight"/>
                 </button>
-                <page string="Payments" position="before">
+                <page name="other_info" position="before">
                     <page string="Vencimentos">
                         <field colspan="4" nolabel="1" name="move_line_receivable_id">
                             <tree string="Vencimentos">
                                 <field name="journal_id"/>
-                                <field name="period_id"/>
                                 <field name="date"/>
                                 <field name="date_maturity"/>
                                 <field name="name"/>
@@ -38,7 +37,6 @@
                                 <field name="move_id"/>
                                 <field name="debit"/>
                                 <field name="credit"/>
-                                <field name="reconcile_ref"/>
                             </tree>
                         </field>
                     </page>
@@ -69,12 +67,11 @@
                 <button name="invoice_open" position="replace">
                     <button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight"/>
                 </button>
-                <page string="Payments" position="after">
+                <page name="other_info" position="before">
                     <page string="Vencimentos">
                         <field colspan="4" nolabel="1" name="move_line_receivable_id">
                             <tree string="Vencimentos">
                                 <field name="journal_id"/>
-                                <field name="period_id"/>
                                 <field name="date"/>
                                 <field name="date_maturity"/>
                                 <field name="name"/>
@@ -83,7 +80,6 @@
                                 <field name="move_id"/>
                                 <field name="debit"/>
                                 <field name="credit"/>
-                                <field name="reconcile_ref"/>
                             </tree>
                         </field>
                     </page>
