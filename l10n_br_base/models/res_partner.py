@@ -19,8 +19,7 @@ class ResPartner(models.Model):
         country_code = address.country_id.code or ''
         if address.country_id and country_code.upper() != 'BR':
             # this ensure other localizations could do what they want
-            return super(ResPartner, self)._display_address(
-                address, without_company=False)
+            return super(ResPartner, self)._display_address(without_company=False)
         else:
             address_format = (
                 address.country_id and
