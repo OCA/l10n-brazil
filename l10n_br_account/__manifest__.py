@@ -14,7 +14,7 @@
         'l10n_br_base',
         'account_cancel',
         'account_fiscal_position_rule',
-        'web_context_tunnel',
+        # 'web_context_tunnel',
     ],
     'data': [
         'l10n_br_account_workflow.xml',
@@ -35,17 +35,17 @@
         'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        'demo/account.account.csv',
-        'demo/account_tax_code.xml',
-        'demo/account_financial_demo.xml',
-        'demo/account_fiscal_demo.xml',
-        'demo/base_demo.xml',
+        #'demo/account.account.csv',
+        #'demo/account_tax_code.xml',
+        #'demo/account_financial_demo.xml',
+        #'demo/account_fiscal_demo.xml',
+        #'demo/base_demo.xml',
     ],
     'test': [
         'test/account_customer_invoice.yml',
         'test/account_supplier_invoice.yml',
         'test/generate_fiscal_rules.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
