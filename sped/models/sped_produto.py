@@ -11,6 +11,7 @@ from pybrasil.produto import valida_ean
 class Produto(models.Model):
     _description = 'Produtos e serviços'
     #_inherits = {'product.product': 'product_id'}
+    _inherit = 'mail.thread'
     _name = 'sped.produto'
     _order = 'codigo, nome'
     _rec_name = 'nome'

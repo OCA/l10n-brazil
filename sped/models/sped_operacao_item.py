@@ -18,10 +18,6 @@ class OperacaoFiscalItem(models.Model):
     protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo')
     cfop_id = fields.Many2one('sped.cfop', 'CFOP', required=True, ondelete='restrict')
     cfop_codigo = fields.Char('CFOP', related='cfop_id.codigo', size=4, store=True, index=True)
-    cfop_dentro_estado = fields.Boolean('Dentro do estado?', related='cfop_id.dentro_estado', store=True, index=True)
-    cfop_fora_estado = fields.Boolean('Fora do estado?', related='cfop_id.fora_estado', store=True, index=True)
-    cfop_fora_pais = fields.Boolean('Fora do país?', related='cfop_id.fora_pais', store=True, index=True)
-
     compoe_total = fields.Boolean('Compõe o valor total da nota?', default=True)
     movimentacao_fisica = fields.Boolean('Há movimentação física do produto?', default=True)
     contribuinte = fields.Selection(IE_DESTINATARIO, 'Contribuinte', index=True)
@@ -34,6 +30,19 @@ class OperacaoFiscalItem(models.Model):
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'CST PIS-COFINS')
 
     protocolo_alternativo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo alternativo')
+
+    @api.depends('cfop_id')
+    @api.onchange('cst_icms_sn')
+    def onchange_cst_icms_sn(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
+            if not (self.cfop_id.eh_venda_industrializacao or self.cfop_id.eh_venda_comercializacao):
+                raise ValidationError('Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica uma venda!')
+
+        return res
 
 
 class OperacaoFiscal(models.Model):

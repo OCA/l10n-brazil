@@ -115,6 +115,8 @@
                                             <newline />
                                             <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                             <newline />
+                                            <field name="protocolo_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                            <newline />
                                             <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                         </group>
                                     </group>

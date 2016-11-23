@@ -14,7 +14,8 @@ class OperacaoFiscal(models.Model):
     _order = 'emissao, modelo, nome'
     _rec_name = 'nome'
 
-    company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', default=lambda self: self.env['res.company']._company_default_get('sped.operacao'))
+    empresa_id = fields.Many2one('sped.empresa', 'Empresa', ondelete='restrict')
+    #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict')
     modelo = fields.Selection(MODELO_FISCAL, 'Modelo', required=True, index=True, default=MODELO_FISCAL_NFE)
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', index=True, default=TIPO_EMISSAO_PROPRIA)
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', index=True, default=ENTRADA_SAIDA_SAIDA)
@@ -61,5 +62,7 @@ class OperacaoFiscal(models.Model):
     #'user_ids': fields.many2many('res.users', 'sped_operacao_usuario', 'sped_operacao_id', 'res_user_id', 'Usuários permitidos'),
     #'company_ids': fields.many2many('res.company', 'sped_operacao_company', 'sped_operacao_id', 'company_id', 'Empresas permitidas'),
     #'forca_recalculo_st_compra': fields.boolean('Força recálculo do ST na compra?'),
-    #'calcula_diferencial_aliquota': fields.boolean('Calcula diferencial de alíquota?'),
     #'operacao_entrada_id': fields.many2one('sped.operacao', 'Operação de entrada equivalente'),
+
+    consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor', default=TIPO_CONSUMIDOR_FINAL_NORMAL)
+    presenca_comprador = fields.Selection(INDICADOR_PRESENCA_COMPRADOR, 'Presença do comprador', default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA)

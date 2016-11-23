@@ -14,7 +14,10 @@ class Documento(models.Model):
     _order = 'emissao, modelo, data_emissao desc, serie, numero'
     _rec_name = 'numero'
 
-    company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', default=lambda self: self.env['res.company']._company_default_get('sped.documento'))
+    empresa_id = fields.Many2one('sped.empresa', 'Empresa', ondelete='restrict', default=lambda self: self.env['sped.empresa']._empresa_ativa('sped.documento'))
+    empresa_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='empresa_id.cnpj_cpf', readonly=True)
+    #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', store=True, related='empresa_id.original_company_id')
+    #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', default=lambda self: self.env['res.company']._company_default_get('sped.documento'))
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', index=True)
     modelo = fields.Selection(MODELO_FISCAL, 'Modelo', index=True)
 
@@ -54,6 +57,8 @@ class Documento(models.Model):
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES)
     forma_pagamento = fields.Selection(FORMA_PAGAMENTO, 'Forma de pagamento', default=FORMA_PAGAMENTO_A_VISTA)
     finalidade_nfe = fields.Selection(FINALIDADE_NFE, 'Finalidade da NF-e', default=FINALIDADE_NFE_NORMAL)
+    consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor', default=TIPO_CONSUMIDOR_FINAL_NORMAL)
+    presenca_comprador = fields.Selection(INDICADOR_PRESENCA_COMPRADOR, 'Presença do comprador', default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA)
     modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO)
     natureza_operacao_id = fields.Many2one('sped.natureza.operacao', 'Natureza da operação', ondelete='restrict')
     infadfisco =  fields.Text('Informações adicionais de interesse do fisco')
@@ -74,86 +79,34 @@ class Documento(models.Model):
     servico_id = fields.Many2one('sped.servico', 'Serviço')
     cst_iss = fields.Selection(ST_ISS, 'CST ISS')
 
-
-    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
-    def onchange_operacao_id(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
-
-        if not self.operacao_id:
-            return res
-
-        valores['modelo'] = self.operacao_id.modelo
-        valores['emissao'] = self.operacao_id.emissao
-        valores['entrada_saida'] = self.operacao_id.entrada_saida
-
-        if self.emissao == TIPO_EMISSAO_PROPRIA:
-            if self.operacao_id.natureza_operacao_id:
-                valores['natureza_operacao_id'] = self.operacao_id.natureza_operacao_id.id
-
-            if self.operacao_id.serie:
-                valores['serie'] = self.operacao_id.serie
-
-            valores['regime_tributario'] = self.operacao_id.regime_tributario
-            valores['forma_pagamento'] = self.operacao_id.forma_pagamento
-            valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
-            valores['modalidade_frete'] = self.operacao_id.modalidade_frete
-            valores['infadfisco'] = self.operacao_id.infadfisco
-            valores['infcomplementar'] = self.operacao_id.infcomplementar
-
-        valores['deduz_retencao'] = self.operacao_id.deduz_retencao
-        valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
-        valores['al_pis_retido'] = self.operacao_id.al_pis_retido
-        valores['al_cofins_retido'] = self.operacao_id.al_cofins_retido
-        valores['csll_retido'] = self.operacao_id.csll_retido
-        valores['al_csll'] = self.operacao_id.al_csll
-        valores['limite_retencao_pis_cofins_csll'] = self.operacao_id.limite_retencao_pis_cofins_csll
-        valores['irrf_retido'] = self.operacao_id.irrf_retido
-        valores['irrf_retido_ignora_limite'] = self.operacao_id.irrf_retido_ignora_limite
-        valores['al_irrf'] = self.operacao_id.al_irrf
-        valores['previdencia_retido'] = self.operacao_id.previdencia_retido
-
-        if self.operacao_id.cnae_id:
-            valores['cnae_id'] = self.operacao_id.cnae_id.id
-
-        valores['natureza_tributacao_nfse'] = self.operacao_id.natureza_tributacao_nfse
-
-        if self.operacao_id.servico_id:
-            valores['servico_id'] = self.operacao_id.servico_id.id
-
-        valores['cst_iss'] = self.operacao_id.cst_iss
-
-        return res
-
     #
     # Destinatário/Remetente
     #
-    partner_id = fields.Many2one('br.partner', 'Destinatário/Remetente', ondelete='restrict', domain=[('cnpj_cpf', '!=', False)])
-    partner_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='partner_id.cnpj_cpf', readonly=True)
-    partner_tipo_pessoa = fields.Char('Tipo pessoa', size=1, related='partner_id.tipo_pessoa', readonly=True)
-    partner_razao_social = fields.NameChar('Razão Social', size=60, related='partner_id.razao_social', readonly=True)
-    partner_fantasia = fields.NameChar('Fantasia', size=60, related='partner_id.fantasia', readonly=True)
-    partner_endereco = fields.NameChar('Endereço', size=60, related='partner_id.endereco', readonly=True)
-    partner_numero = fields.Char('Número', size=60, related='partner_id.numero', readonly=True)
-    partner_complemento = fields.Char('Complemento', size=60, related='partner_id.complemento', readonly=True)
-    partner_bairro = fields.NameChar('Bairro', size=60, related='partner_id.bairro', readonly=True)
-    partner_municipio_id = fields.Many2one('sped.municipio', string='Município', related='partner_id.municipio_id', readonly=True)
-    partner_cidade = fields.NameChar('Município', related='partner_id.cidade', readonly=True)
-    partner_estado = fields.UpperChar('Estado', related='partner_id.estado', readonly=True)
-    partner_cep = fields.Char('CEP', size=9, related='partner_id.cep', readonly=True)
+    participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente', ondelete='restrict')
+    participante_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='participante_id.cnpj_cpf', readonly=True)
+    participante_tipo_pessoa = fields.Char('Tipo pessoa', size=1, related='participante_id.tipo_pessoa', readonly=True)
+    participante_razao_social = fields.NameChar('Razão Social', size=60, related='participante_id.razao_social', readonly=True)
+    participante_fantasia = fields.NameChar('Fantasia', size=60, related='participante_id.fantasia', readonly=True)
+    participante_endereco = fields.NameChar('Endereço', size=60, related='participante_id.endereco', readonly=True)
+    participante_numero = fields.Char('Número', size=60, related='participante_id.numero', readonly=True)
+    participante_complemento = fields.Char('Complemento', size=60, related='participante_id.complemento', readonly=True)
+    participante_bairro = fields.NameChar('Bairro', size=60, related='participante_id.bairro', readonly=True)
+    participante_municipio_id = fields.Many2one('sped.municipio', string='Município', related='participante_id.municipio_id', readonly=True)
+    participante_cidade = fields.NameChar('Município', related='participante_id.cidade', readonly=True)
+    participante_estado = fields.UpperChar('Estado', related='participante_id.estado', readonly=True)
+    participante_cep = fields.Char('CEP', size=9, related='participante_id.cep', readonly=True)
     #
     # Telefone e email para a emissão da NF-e
     #
-    partner_fone = fields.Char('Fone', size=18, related='partner_id.fone', readonly=True)
-    partner_fone_comercial = fields.Char('Fone Comercial', size=18, related='partner_id.fone_comercial', readonly=True)
-    partner_celular = fields.Char('Celular', size=18, related='partner_id.celular', readonly=True)
-    partner_email = fields.Email('Email', size=60, related='partner_id.email', readonly=True)
+    participante_fone = fields.Char('Fone', size=18, related='participante_id.fone', readonly=True)
+    participante_fone_comercial = fields.Char('Fone Comercial', size=18, related='participante_id.fone_comercial', readonly=True)
+    participante_celular = fields.Char('Celular', size=18, related='participante_id.celular', readonly=True)
+    participante_email = fields.Email('Email', size=60, related='participante_id.email', readonly=True)
     #
     # Inscrições e registros
     #
-    partner_contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default='2', related='partner_id.contribuinte', readonly=True)
-    partner_ie = fields.Char('Inscrição estadual', size=18, related='partner_id.ie', readonly=True)
+    participante_contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default='2', related='participante_id.contribuinte', readonly=True)
+    participante_ie = fields.Char('Inscrição estadual', size=18, related='participante_id.ie', readonly=True)
 
     #
     # Chave e validação da chave
@@ -284,3 +237,166 @@ class Documento(models.Model):
     ##'vr_ibpt = fields.Dinheiro('Valor IBPT'),
 
     item_ids = fields.One2many('sped.documento.item', 'documento_id', 'Itens')
+
+
+    @api.onchange('empresa_id', 'modelo', 'emissao')
+    def onchange_empresa_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if not self.empresa_id:
+            return res
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFSE):
+            return res
+
+        if self.modelo == MODELO_FISCAL_NFE:
+            valores['ambiente_nfe'] = self.empresa_id.ambiente_nfe
+            valores['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_nfe
+
+            if self.empresa_id.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
+                if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                    valores['serie'] = self.empresa_id.serie_nfe_producao
+                else:
+                    valores['serie'] = self.empresa_id.serie_nfe_homologacao
+
+            else:
+                if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                    valores['serie'] = self.empresa_id.serie_nfe_contingencia_producao
+                else:
+                    valores['serie'] = self.empresa_id.serie_nfe_contingencia_homologacao
+
+        elif self.modelo == MODELO_FISCAL_NFCE:
+            valores['ambiente_nfe'] = self.empresa_id.ambiente_nfce
+            valores['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_nfce
+
+            if self.empresa_id.tipo_emissao_nfce == TIPO_EMISSAO_NFE_NORMAL:
+                if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                    valores['serie'] = self.empresa_id.serie_nfce_producao
+                else:
+                    valores['serie'] = self.empresa_id.serie_nfce_homologacao
+
+            else:
+                if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                    valores['serie'] = self.empresa_id.serie_nfce_contingencia_producao
+                else:
+                    valores['serie'] = self.empresa_id.serie_nfce_contingencia_homologacao
+
+        elif self.modelo == MODELO_FISCAL_NFSE:
+            valores['ambiente_nfe'] = self.empresa_id.ambiente_nfse
+            valores['tipo_emissao_nfe'] = TIPO_EMISSAO_NFE_NORMAL
+
+            if self.empresa_id.ambiente_nfse == AMBIENTE_NFE_PRODUCAO:
+                valores['serie_rps'] = self.empresa_id.serie_rps_producao
+            else:
+                valores['serie_rps'] = self.empresa_id.serie_rps_homologacao
+
+        return res
+
+    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
+    def onchange_operacao_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if not self.operacao_id:
+            return res
+
+        valores['modelo'] = self.operacao_id.modelo
+        valores['emissao'] = self.operacao_id.emissao
+        valores['entrada_saida'] = self.operacao_id.entrada_saida
+
+        if self.emissao == TIPO_EMISSAO_PROPRIA:
+            if self.operacao_id.natureza_operacao_id:
+                valores['natureza_operacao_id'] = self.operacao_id.natureza_operacao_id.id
+
+            if self.operacao_id.serie:
+                valores['serie'] = self.operacao_id.serie
+
+            valores['regime_tributario'] = self.operacao_id.regime_tributario
+            valores['forma_pagamento'] = self.operacao_id.forma_pagamento
+            valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
+            valores['modalidade_frete'] = self.operacao_id.modalidade_frete
+            valores['infadfisco'] = self.operacao_id.infadfisco
+            valores['infcomplementar'] = self.operacao_id.infcomplementar
+
+        valores['deduz_retencao'] = self.operacao_id.deduz_retencao
+        valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
+        valores['al_pis_retido'] = self.operacao_id.al_pis_retido
+        valores['al_cofins_retido'] = self.operacao_id.al_cofins_retido
+        valores['csll_retido'] = self.operacao_id.csll_retido
+        valores['al_csll'] = self.operacao_id.al_csll
+        valores['limite_retencao_pis_cofins_csll'] = self.operacao_id.limite_retencao_pis_cofins_csll
+        valores['irrf_retido'] = self.operacao_id.irrf_retido
+        valores['irrf_retido_ignora_limite'] = self.operacao_id.irrf_retido_ignora_limite
+        valores['al_irrf'] = self.operacao_id.al_irrf
+        valores['previdencia_retido'] = self.operacao_id.previdencia_retido
+        valores['consumidor_final'] = self.operacao_id.consumidor_final
+        valores['presenca_comprador'] = self.operacao_id.presenca_comprador
+
+        if self.operacao_id.cnae_id:
+            valores['cnae_id'] = self.operacao_id.cnae_id.id
+
+        valores['natureza_tributacao_nfse'] = self.operacao_id.natureza_tributacao_nfse
+
+        if self.operacao_id.servico_id:
+            valores['servico_id'] = self.operacao_id.servico_id.id
+
+        valores['cst_iss'] = self.operacao_id.cst_iss
+
+        return res
+
+    @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
+    def onchange_serie(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if not self.empresa_id:
+            return res
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return res
+
+        ultimo_numero = self.search([
+                ('empresa_id.cnpj_cpf', '=', self.empresa_id.cnpj_cpf),
+                ('ambiente_nfe', '=', self.ambiente_nfe),
+                ('emissao', '=', self.emissao),
+                ('modelo', '=', self.modelo),
+                ('serie', '=', self.serie.strip()),
+            ], limit=1, order='numero desc')
+
+        valores['serie'] = self.serie.strip()
+
+        if len(ultimo_numero) == 0:
+            valores['numero'] = 1
+        else:
+            valores['numero'] = ultimo_numero[0].numero + 1
+
+        return res
+
+    @api.depends('consumidor_final')
+    @api.onchange('participante_id')
+    def onchange_participante_id(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        #
+        # Quando o tipo da nota for para consumidor normal, mas o participante não é
+        # contribuinte, define que ele é consumidor final, exceto em caso de operação
+        # com estrangeiros
+        #
+        if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_NORMAL:
+            if self.participante_id.estado != 'EX':
+                if self.participante_id.contribuinte != INDICADOR_IE_DESTINATARIO:
+                    valores['consumidor_final'] = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
+
+        return res
