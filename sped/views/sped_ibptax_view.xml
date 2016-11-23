@@ -13,7 +13,7 @@
                             <field name="estado_id" options="{'no_create': True, 'no_open': True}" />
                         </h1>
                         <h2>
-                            Versão <field name="versao" readonly="1" /> — valida até <field name="data_validade" readonly="1" />
+                            Versão <field name="versao" readonly="1" /> — válida até <field name="data_validade" readonly="1" />
                         </h2>
                     </div>
                     <button type="object" name="atualizar_tabela" string="Atualizar tabela" />

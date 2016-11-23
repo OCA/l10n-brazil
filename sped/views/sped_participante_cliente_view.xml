@@ -7,7 +7,6 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Cliente">
-                <field name="partner_id" invisible="1" />
             <sheet>
 <!--                    <div class="oe_button_box" name="button_box">
                     <button name="toggle_active" type="object"

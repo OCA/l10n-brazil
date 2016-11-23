@@ -58,7 +58,6 @@ class NCM(models.Model):
     def onchange_codigo(self):
         return self._valida_codigo()
 
-
     ###def name_get(self, cr, uid, ids, context={}):
         ###if not len(ids):
             ###return []

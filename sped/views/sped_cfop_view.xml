@@ -15,20 +15,18 @@
                         <h2>
                             <field name="descricao" readonly="1" />
                             <field name="entrada_saida" invisible="1" readonly="1" />
-                            <field name="dentro_estado" invisible="1" readonly="1" />
-                            <field name="fora_estado" invisible="1" readonly="1" />
-                            <field name="fora_pais" invisible="1" readonly="1" />
+                            <field name="posicao" invisible="1" readonly="1" />
                             <div attrs="{'invisible': [('entrada_saida', '!=', '0')]}">
                                 <label string="Entrada de" />
-                                <label string="dentro do estado" attrs="{'invisible': [('dentro_estado', '!=', True)]}" />
-                                <label string="fora do estado" attrs="{'invisible': [('fora_estado', '!=', True)]}" />
-                                <label string="fora do país" attrs="{'invisible': [('fora_pais', '!=', True)]}" />
+                                <label string="dentro do estado" attrs="{'invisible': [('posicao', '!=', 'E')]}" />
+                                <label string="fora do estado" attrs="{'invisible': [('posicao', '!=', 'I')]}" />
+                                <label string="fora do país" attrs="{'invisible': [('posicao', '!=', 'X')]}" />
                             </div>
                             <div attrs="{'invisible': [('entrada_saida', '!=', '1')]}">
                                 <label string="Saída para" />
-                                <label string="dentro do estado" attrs="{'invisible': [('dentro_estado', '!=', True)]}" />
-                                <label string="fora do estado" attrs="{'invisible': [('fora_estado', '!=', True)]}" />
-                                <label string="fora do país" attrs="{'invisible': [('fora_pais', '!=', True)]}" />
+                                <label string="dentro do estado" attrs="{'invisible': [('posicao', '!=', 'E')]}" />
+                                <label string="fora do estado" attrs="{'invisible': [('posicao', '!=', 'I')]}" />
+                                <label string="fora do país" attrs="{'invisible': [('posicao', '!=', 'X')]}" />
                             </div>
                         </h2>
                     </div>
@@ -110,11 +108,12 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <search string="CFOPs">
-                <filter name="entrada" string="Entrada" domain="[('entrada_saida','==','0')]"/>
-                <filter name="saida" string="Saída" domain="[('entrada_saida','==','1')]"/>
-                <filter name="dentro_estado" string="Dentro do estado" domain="[('dentro_estado','==',True)]"/>
-                <filter name="fora_estado" string="Fora do estado" domain="[('fora_estado','==',True)]"/>
-                <filter name="fora_pais" string="Fora do país" domain="[('fora_pais','==',True)]"/>
+                <filter name="entrada" string="Entrada" domain="[('entrada_saida','=','0')]"/>
+                <filter name="saida" string="Saída" domain="[('entrada_saida','=','1')]"/>
+                <separator orientation="vertical" />
+                <filter name="dentro_estado" string="Dentro do estado" domain="[('posicao','=', 'E')]"/>
+                <filter name="fora_estado" string="Fora do estado" domain="[('posicao','=', 'I')]"/>
+                <filter name="fora_pais" string="Fora do país" domain="[('posicao','=', 'X')]"/>
                 <separator orientation="vertical"/>
                 <field name="codigo"/>
                 <field name="descricao"/>

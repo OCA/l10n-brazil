@@ -14,7 +14,7 @@ from ..constante_tributaria import *
 class Participante(models.Model):
     _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
-    #_inherit = 'mail.thread'
+    _inherit = 'mail.thread'
     #_inherits = 'res.partner'
     _name = 'sped.participante'
     _rec_name = 'nome'
@@ -23,7 +23,7 @@ class Participante(models.Model):
     partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', required=True)
 
     codigo = fields.Char(string='Código', size=60, index=True)
-    nome = fields.Char(string='Nome', size=60, index=True)
+    nome = fields.Char(string='Nome', size=60, index=True, required=True)
 
     eh_orgao_publico = fields.Boolean('É órgão público?')
     eh_cooperativa = fields.Boolean('É cooperativa?')
@@ -42,7 +42,7 @@ class Participante(models.Model):
     eh_usuario = fields.Boolean('É usuário?', index=True)
     eh_funcionario = fields.Boolean('É funcionário?')
 
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18,  help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha', index=True)
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18,  help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha', index=True, required=True)
     tipo_pessoa = fields.Char('Tipo pessoa', size=1, compute='_tipo_pessoa', store=True, index=True)
 
     @api.one
@@ -63,16 +63,16 @@ class Participante(models.Model):
                 self.tipo_pessoa = 'F'
                 self.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
-    razao_social = fields.Char('Razão Social', size=60, index=True)
+    razao_social = fields.Char('Razão Social', size=60, index=True, required=True)
     fantasia = fields.Char('Fantasia', size=60, index=True)
-    endereco = fields.Char('Endereço', size=60)
-    numero = fields.Char('Número', size=60)
+    endereco = fields.Char('Endereço', size=60, required=True)
+    numero = fields.Char('Número', size=60, required=True)
     complemento = fields.Char('Complemento', size=60)
-    bairro = fields.Char('Bairro', size=60)
-    municipio_id = fields.Many2one('sped.municipio', string='Município', ondelete='restrict')
+    bairro = fields.Char('Bairro', size=60, required=True)
+    municipio_id = fields.Many2one('sped.municipio', string='Município', ondelete='restrict', required=True)
     cidade = fields.Char('Município', related='municipio_id.nome', store=True, index=True)
     estado = fields.UpperChar('Estado', related='municipio_id.estado', store=True, index=True)
-    cep = fields.Char('CEP', size=9)
+    cep = fields.Char('CEP', size=9, required=True)
     #
     # Telefone e email para a emissão da NF-e
     #
