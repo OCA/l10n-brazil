@@ -18,7 +18,6 @@ from sped_empresa import *
 from res_partner import *
 
 from sped_unidade import *
-from sped_produto import *
 
 
 #
@@ -48,6 +47,7 @@ from sped_ncm_protocolo import *
 
 from sped_certificado import *
 
+from sped_produto import *
 #
 # Fiscal e faturamento
 #
@@ -55,5 +55,5 @@ from sped_natureza_operacao import *
 from sped_operacao import *
 from sped_operacao_item import *
 from sped_veiculo import *
-#from sped_documento import *
-#from sped_documento_item import *
+from sped_documento import *
+from sped_documento_item import *
