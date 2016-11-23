@@ -44,16 +44,11 @@ JOURNAL_TYPE = {
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    @api.one
-    @api.depends(
-        'move_id.line_id.reconcile_id.line_id',
-        'move_id.line_id.reconcile_partial_id.line_partial_ids',
-    )
     def _compute_receivables(self):
         lines = self.env['account.move.line']
-        for line in self.move_id.line_id:
+        for line in self.move_id.line_ids:
             if line.account_id.id == self.account_id.id and \
-                line.account_id.type in ('receivable', 'payable') and \
+                            line.account_id.user_type_id.type in ('receivable', 'payable') and \
                     self.journal_id.revenue_expense:
                 lines |= line
         self.move_line_receivable_id = (lines).sorted()
@@ -102,7 +97,7 @@ class AccountInvoice(models.Model):
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, states={'draft': [('readonly', False)]})
-    fiscal_position = fields.Many2one(
+    fiscal_position_id = fields.Many2one(
         'account.fiscal.position', 'Fiscal Position', readonly=True,
         states={'draft': [('readonly', False)]},
         domain="[('fiscal_category_id','=',fiscal_category_id)]")
@@ -118,8 +113,8 @@ class AccountInvoice(models.Model):
     def _check_invoice_number(self):
         domain = []
         if self.number:
-            fiscal_document = self.fiscal_document_id and\
-                self.fiscal_document_id.id or False
+            fiscal_document = self.fiscal_document_id and \
+                              self.fiscal_document_id.id or False
             domain.extend([('internal_number', '=', self.number),
                            ('fiscal_type', '=', self.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
@@ -146,31 +141,24 @@ class AccountInvoice(models.Model):
          type, partner_id)', 'Invoice Number must be unique per Company!'),
     ]
 
-    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoice, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        if context is None:
-            context = {}
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        result = super(AccountInvoice, self).fields_view_get(view_id=view_id, view_type=view_type,
+                                                             toolbar=toolbar, submenu=submenu)
 
         if not view_type:
-            view_id = self.pool.get('ir.ui.view').search(
-                cr, uid, [('name', '=', 'account.invoice.tree')])
+            view_id = self.pool.get('ir.ui.view').search([('name', '=', 'account.invoice.tree')])
             view_type = 'tree'
-
         if view_type == 'form':
             eview = etree.fromstring(result['arch'])
 
-            if 'type' in context.keys():
+            if 'type' in self._context.keys():
                 fiscal_types = eview.xpath("//field[@name='invoice_line']")
                 for fiscal_type in fiscal_types:
                     fiscal_type.set(
                         'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
-                            context['type'],
-                            context.get('fiscal_type', 'service')))
+                            self._context['type'],
+                            self._context.get('fiscal_type', 'service')))
 
                 fiscal_categories = eview.xpath(
                     "//field[@name='fiscal_category_id']")
@@ -180,9 +168,9 @@ class AccountInvoice(models.Model):
                         """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
                         ('state', '=', 'approved'),
                         ('journal_type', '=', '%s')]"""
-                        % (context.get('fiscal_type', 'service'),
-                            OPERATION_TYPE[context['type']],
-                            JOURNAL_TYPE[context['type']]))
+                        % (self._context.get('fiscal_type', 'service'),
+                           OPERATION_TYPE[self._context['type']],
+                           JOURNAL_TYPE[self._context['type']]))
                     fiscal_category_id.set('required', '1')
 
                 document_series = eview.xpath(
@@ -190,9 +178,9 @@ class AccountInvoice(models.Model):
                 for document_serie_id in document_series:
                     document_serie_id.set(
                         'domain', "[('fiscal_type', '=', '%s')]"
-                        % (context.get('fiscal_type', 'service')))
+                                  % (self._context.get('fiscal_type', 'service')))
 
-            if context.get('fiscal_type', False):
+            if self._context.get('fiscal_type', False):
                 delivery_infos = eview.xpath("//group[@name='delivery_info']")
                 for delivery_info in delivery_infos:
                     delivery_info.set('invisible', '1')
@@ -203,7 +191,7 @@ class AccountInvoice(models.Model):
             doc = etree.XML(result['arch'])
             nodes = doc.xpath("//field[@name='partner_id']")
             partner_string = _('Customer')
-            if context.get('type', 'out_invoice') in \
+            if self._context.get('type', 'out_invoice') in \
                     ('in_invoice', 'in_refund'):
                 partner_string = _('Supplier')
             for node in nodes:
@@ -240,33 +228,26 @@ class AccountInvoice(models.Model):
                     {'internal_number': seq_number, 'number': seq_number})
         return True
 
-    # TODO Talvez este metodo substitui o metodo action_move_create
+
+    # set name of account.move.line
+    # can't use finalize_invoice_move_lines because we don't have move name in the function
+    # it is computed in account_move.post()
     @api.multi
-    def finalize_invoice_move_lines(self, move_lines):
-        """ finalize_invoice_move_lines(move_lines) -> move_lines
+    def action_move_create(self):
+        for inv in self:
+            result = super(AccountInvoice,inv).action_move_create()
+            if inv.move_id:
+                count = 1
+                for move_line in inv.move_id.line_ids:
+                    if move_line.debit or move_line.credit:
+                        if move_line.account_id == inv.account_id:
+                            move_line.name = '%s/%s' % \
+                                                   (inv.move_id.name, count)
+                            count += 1
+            return result
+        return True
 
-            Hook method to be overridden in additional modules to verify and
-            possibly alter the move lines to be created by an invoice, for
-            special cases.
-            :param move_lines: list of dictionaries with the account.move.lines
-            (as for create())
-            :return: the (possibly updated) final move_lines to create for this
-            invoice
-        """
-        move_lines = super(
-            AccountInvoice, self).finalize_invoice_move_lines(move_lines)
-        count = 1
-        result = []
-        for move_line in move_lines:
-            if move_line[2]['debit'] or move_line[2]['credit']:
-                if move_line[2]['account_id'] == self.account_id.id:
-                    move_line[2]['name'] = '%s/%s' % \
-                        (self.internal_number, count)
-                    count += 1
-                result.append(move_line)
-        return result
-
-    def _fiscal_position_map(self, result, **kwargs):
+    def _fiscal_position_id_map(self, result, **kwargs):
         ctx = dict(self._context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
         if ctx.get('fiscal_category_id'):
@@ -292,8 +273,8 @@ class AccountInvoice(models.Model):
     def onchange_fiscal_category_id(self, partner_address_id,
                                     partner_id, company_id,
                                     fiscal_category_id):
-        result = {'value': {'fiscal_position': None}}
-        return self._fiscal_position_map(
+        result = {'value': {'fiscal_position_id': None}}
+        return self._fiscal_position_id_map(
             result, partner_id=partner_id,
             partner_invoice_id=partner_address_id, company_id=company_id,
             fiscal_category_id=fiscal_category_id)
@@ -308,63 +289,59 @@ class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
     @api.one
-    @api.depends('price_unit', 'discount', 'invoice_line_tax_id',
-                 'quantity', 'product_id', 'invoice_id.partner_id',
-                 'invoice_id.currency_id')
+    @api.depends('price_unit', 'discount', 'invoice_line_tax_ids', 'quantity',
+                 'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id', 'invoice_id.company_id')
     def _compute_price(self):
+        currency = self.invoice_id and self.invoice_id.currency_id or None
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-        taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
-            partner=self.invoice_id.partner_id,
-            fiscal_position=self.fiscal_position)
-        self.price_subtotal = taxes['total'] - taxes['total_tax_discount']
-        self.price_total = taxes['total']
-        if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(
-                self.price_subtotal)
-            self.price_total = self.invoice_id.currency_id.round(
-                self.price_total)
+        taxes = False
+        if self.invoice_line_tax_ids:
+            taxes = self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
+                                                          partner=self.invoice_id.partner_id)
+        self.price_subtotal = price_subtotal_signed = taxes['total_excluded'] - taxes[
+            'total_tax_discount'] if taxes else self.quantity * price
+        self.price_total = taxes['total_excluded'] if taxes else self.quantity * price
+        if self.invoice_id.currency_id and self.invoice_id.currency_id != self.invoice_id.company_id.currency_id:
+            price_subtotal_signed = self.invoice_id.currency_id.compute(price_subtotal_signed,
+                                                                        self.invoice_id.company_id.currency_id)
+        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
+        self.price_subtotal_signed = price_subtotal_signed * sign
 
     invoice_line_tax_id = fields.Many2many(
         'account.tax', 'account_invoice_line_tax', 'invoice_line_id',
-        'tax_id', string='Taxes', domain=[('parent_id', '=', False)])
+        'tax_id', string='Taxes', )  # TODO MIG domain=[('parent_id', '=', False)])
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal')
-    fiscal_position = fields.Many2one(
+    fiscal_position_id = fields.Many2one(
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]")
     price_total = fields.Float(
         string='Amount', store=True, digits=dp.get_precision('Account'),
         readonly=True, compute='_compute_price')
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-
-        result = super(AccountInvoiceLine, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        if context is None:
-            context = {}
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        result = super(AccountInvoiceLine, self).fields_view_get(view_id=view_id, view_type=view_type,
+                                                                 toolbar=toolbar, submenu=submenu)
 
         if view_type == 'form':
             eview = etree.fromstring(result['arch'])
 
-            if 'type' in context.keys():
+            if 'type' in self._context.keys():
                 expr = "//field[@name='fiscal_category_id']"
                 fiscal_categories = eview.xpath(expr)
                 for fiscal_category_id in fiscal_categories:
                     fiscal_category_id.set(
                         'domain', """[('type', '=', '%s'),
                         ('journal_type', '=', '%s')]"""
-                        % (OPERATION_TYPE[context['type']],
-                           JOURNAL_TYPE[context['type']]))
+                                  % (OPERATION_TYPE[self._context['type']],
+                                     JOURNAL_TYPE[self._context['type']]))
                     fiscal_category_id.set('required', '1')
 
             product_ids = eview.xpath("//field[@name='product_id']")
             for product_id in product_ids:
                 product_id.set('domain', "[('fiscal_type', '=', '%s')]" % (
-                    context.get('fiscal_type', 'service')))
+                    self._context.get('fiscal_type', 'service')))
 
             result['arch'] = etree.tostring(eview)
 
