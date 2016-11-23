@@ -228,7 +228,7 @@
                                           attrs="{'invisible':[('state','!=','draft')]}"
                                           groups="account.group_account_user"/>
                                     </div>
-                                    <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]"
+                                    <field domain="[('company_id', '=', company_id), ('type','in',{'out_invoice': ['receivable'], 'out_refund': ['receivable'], 'in_refund': ['payable'], 'in_invoice': ['payable']}.get(type, []))]"
                                         name="account_id" groups="account.group_account_user"
                                         context="{'periods_special': False, 'all_fiscalyear': True}"/>
                                     <field name="period_id" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]"
