@@ -30,6 +30,22 @@ class Empresa(models.Model):
     protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
     simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
     simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
+
+    @api.one
+    @api.depends('simples_anexo_id', 'simples_teto_id')
+    def _simples_aliquota_id(self):
+        simples_aliquota_ids = self.env['sped.aliquota.simples.aliquota'].search([
+            ('anexo_id', '=', self.simples_anexo_id.id),
+            ('teto_id', '=', self.simples_teto_id.id),
+            ])
+
+        if len(simples_aliquota_ids) != 0:
+            self.simples_aliquota_id = simples_aliquota_ids[0]
+        else:
+            self.simples_aliquota_id = False
+
+    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES', ondelete='restrict', compute=_simples_aliquota_id)
+
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
     operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
     operacao_produto_pessoa_fisica_id = fields.Many2one('sped.operacao', 'Operação padrão para venda pessoa física', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
@@ -449,3 +465,17 @@ class Empresa(models.Model):
             valores['eh_usuario'] = True
         else:
             valores['eh_usuario'] = False
+
+    @api.model
+    @api.returns('self', lambda value: value.id if value else False)
+    def _empresa_ativa(self, object=False, field=False):
+        """ Returns the default company (usually the user's company).
+        The 'object' and 'field' arguments are ignored but left here for
+        backward compatibility and potential override.
+        """
+        company = self.env['res.users']._get_company()
+
+        if company.partner_id.sped_empresa_id:
+            return company.partner_id.sped_empresa_id
+        else:
+            return False

@@ -16,38 +16,32 @@
     'auto_install': True,
     'application': True,
     'data': [
-        #
-        # Valores padrão
-        #
-        'data/res_currency_data.xml',
-        'data/sped_pais_data.xml',
-        'data/sped_estado_data.xml',
-        'data/sped_municipio_data.xml',
-        'data/sped_municipio_exterior_data.xml',
+        ##
+        ## Valores padrão
+        ##
+        #'data/res_currency_data.xml',
+        #'data/sped_pais_data.xml',
+        #'data/sped_estado_data.xml',
+        #'data/sped_municipio_data.xml',
+        #'data/sped_municipio_exterior_data.xml',
 
-        #
-        # Módulo Tabela
-        #
-        'data/sped_aliquota_icms_proprio_data.xml',
-        'data/sped_aliquota_icms_st_data.xml',
-        'data/sped_aliquota_ipi_data.xml',
-        'data/sped_aliquota_pis_cofins_data.xml',
-        'data/sped_aliquota_simples_anexo_data.xml',
-        'data/sped_aliquota_simples_teto_data.xml',
-        'data/sped_aliquota_simples_aliquota_data.xml',
+        #'data/sped_aliquota_icms_proprio_data.xml',
+        #'data/sped_aliquota_icms_st_data.xml',
+        #'data/sped_aliquota_ipi_data.xml',
+        #'data/sped_aliquota_pis_cofins_data.xml',
+        #'data/sped_aliquota_simples_anexo_data.xml',
+        #'data/sped_aliquota_simples_teto_data.xml',
+        #'data/sped_aliquota_simples_aliquota_data.xml',
 
-        'data/sped_cest_data.xml',
-        'data/sped_ncm_data.xml',
-        'data/sped_ncm_cest_data.xml',
-        'data/sped_cnae_data.xml',
-        'data/sped_cfop_data.xml',
-        'data/sped_cfop_equivalente_data.xml',
-        'data/sped_servico_data.xml',
+        #'data/sped_cest_data.xml',
+        #'data/sped_ncm_data.xml',
+        #'data/sped_ncm_cest_data.xml',
+        #'data/sped_cnae_data.xml',
+        #'data/sped_cfop_data.xml',
+        #'data/sped_cfop_equivalente_data.xml',
+        #'data/sped_servico_data.xml',
 
-        #
-        # Módulo Cadastro: participantes, produtos etc.
-        #
-        'data/sped_unidade_data.xml',
+        #'data/sped_unidade_data.xml',
 
         #
         # Menus principais
@@ -116,8 +110,8 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_recebimento_nfe_view.xml',
 
-        #'views/sped_documento_item_emissao_view.xml',
-        #'views/sped_documento_emissao_nfe_view.xml',
-        #'views/sped_documento_recebimento_nfe_view.xml',
+        'views/sped_documento_item_emissao_view.xml',
+        'views/sped_documento_emissao_nfe_view.xml',
+        'views/sped_documento_recebimento_nfe_view.xml',
     ]
 }
