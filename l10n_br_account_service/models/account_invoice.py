@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2009  Renato Lima - Akretion                                  #
+# Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 
 from openerp.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE)
@@ -42,27 +42,71 @@ class AccountInvoice(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company[default_fo_category[invoice_fiscal_type][invoice_type]]
 
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE,
-                                   'Tipo Fiscal',
-                                   required=True,
-                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
+    fiscal_type = fields.Selection(
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        default=PRODUCT_FISCAL_TYPE_DEFAULT
+    )
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]},
-        default=_default_fiscal_category)
-
+        'l10n_br_account.fiscal.category',
+        'Categoria Fiscal',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_category
+    )
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', 'Documento', readonly=True,
+        'l10n_br_account.fiscal.document',
+        'Documento',
+        readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document)
+        default=_default_fiscal_document
+    )
     fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic')
+        related='fiscal_document_id.electronic'
+    )
     document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', u'Série',
+        'l10n_br_account.document.serie',
+        u'Série',
         domain="[('fiscal_document_id', '=', fiscal_document_id),\
-        ('company_id','=',company_id)]", readonly=True,
+        ('company_id','=',company_id)]",
+        readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document_serie)
+        default=_default_fiscal_document_serie
+    )
+
+    @api.onchange('fiscal_document_id')
+    def onchange_fiscal_document_id(self):
+        self.document_serie_id = self.company_id.document_serie_service_id
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
+                        toolbar=False, submenu=False):
+        context = self.env.context
+        active_id = context.get('active_id')
+        fiscal_document_code = context.get('fiscal_document_code')
+        nfse_form = ('l10n_br_account_service.'
+                     'l10n_br_account_service_nfse_form')
+        nfse_tree = ('l10n_br_account_service.'
+                     'l10n_br_account_service_nfse_tree')
+        nfse_views = {'form': nfse_form, 'tree': nfse_tree}
+
+        if active_id:
+            invoice = self.browse(active_id)
+            fiscal_document_code = invoice.fiscal_document_id.code
+
+        if nfse_views.get(view_type) and fiscal_document_code == u'XX':
+            view_id = self.env.ref(nfse_views.get(view_type)).id
+
+        return super(AccountInvoice, self).fields_view_get(
+            view_id=view_id, view_type=view_type,
+            toolbar=toolbar, submenu=submenu)
+
+    @api.multi
+    def open_fiscal_document(self):
+        """return action to open NFS-e form"""
+        result = super(AccountInvoice, self).open_fiscal_document()
+        result['name'] = _('NFS-e')
+        return result
 
 
 class AccountInvoiceLine(models.Model):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2009  Gabriel C. Stabel                                       #
-# Copyright (C) 2009 - TODAY Renato Lima - Akretion                           #
+# Copyright (C) 2009  Gabriel C. Stabel
+# Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields
@@ -16,8 +16,10 @@ class ProductTemplate(models.Model):
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
     fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+        PRODUCT_FISCAL_TYPE,
+        'Tipo Fiscal',
+        default=PRODUCT_FISCAL_TYPE_DEFAULT
+    )
 
 
 class L10nBrAccountProductFiscalCategory(models.Model):
