@@ -683,9 +683,10 @@ class AccountInvoiceLine(models.Model):
     cfop_id = fields.Many2one('l10n_br_account_product.cfop', 'CFOP')
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', u'Classificação Fiscal')
-    cest = fields.Char(
-        string="CEST",
-        related='fiscal_classification_id.cest')
+    cest_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cest',
+        string=u'CEST'
+    )
     fci = fields.Char('FCI do Produto', size=36)
     import_declaration_ids = fields.One2many(
         'l10n_br_account_product.import.declaration',
