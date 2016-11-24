@@ -46,6 +46,10 @@ class L10nBrTaxDefinitionStateProduct(L10nBrTaxDefinition, models.Model):
         'account.product.fiscal.classification',
         'Classificação Fiscal'
     )
+    cest_id = fields.Many2one(
+        'l10n_br_account_product.cest',
+        'CEST'
+    )
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq',
