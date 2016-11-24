@@ -12,11 +12,12 @@
                     <field name="ind_final"/>
                 </field>
                 <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
-                    <field name="fiscal_classification_id" />
+                    <field name="fiscal_classification_id"/>
+                    <field name="cest_id"/>
                 </xpath>
                 <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="before">
-                    <field name="tax_ipi_guideline_id" />
-                    <field name="tax_icms_relief_id" />
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
                 </xpath>
             </field>
         </record>
@@ -31,11 +32,12 @@
                     <field name="ind_final"/>
                 </field>
                 <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
-                    <field name="fiscal_classification_id" />
+                    <field name="fiscal_classification_id"/>
+                    <field name="cest_id"/>
                 </xpath>
                 <xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_dest_id']" position="after">
-                    <field name="tax_ipi_guideline_id" />
-                    <field name="tax_icms_relief_id" />
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
                 </xpath>
             </field>
         </record>
