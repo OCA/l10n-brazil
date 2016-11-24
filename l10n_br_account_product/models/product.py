@@ -41,6 +41,11 @@ class ProductTemplate(models.Model):
 
     fci = fields.Char('FCI do Produto', size=36)
 
+    cest_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cest',
+        string=u'CEST'
+    )
+
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
 
