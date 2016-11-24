@@ -139,16 +139,17 @@ class AccountFiscalPosition(models.Model):
                                          'product') == 'product'):
                 state_taxes = partner.state_id.product_tax_definition_line
                 for tax_def in state_taxes:
-                    if tax_def.tax_id and \
-                            (not tax_def.fiscal_classification_id or
-                             tax_def.fiscal_classification_id == product_fc) \
-                            or (not tax_def.cest_id or
-                                tax_def.cest_id.id == product.cest_id.id):
-                        taxes |= tax_def.tax_id
-                        result[tax_def.tax_id.domain] = {
-                            'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
-                        }
+                    if tax_def.tax_id:
+                        if (not tax_def.fiscal_classification_id and
+                                not tax_def.cest_id) or \
+                                (tax_def.fiscal_classification_id == product_fc
+                                 or tax_def.cest_id == product.cest_id):
+                            taxes |= tax_def.tax_id
+
+                            result[tax_def.tax_id.domain] = {
+                                'tax': tax_def.tax_id,
+                                'tax_code': tax_def.tax_code_id,
+                            }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
@@ -165,8 +166,9 @@ class AccountFiscalPosition(models.Model):
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
-                        if map.cest_id.id == product.cest_id.id:
-                            map_taxes_cest |= map
+                        if product.cest_id:
+                            if map.cest_id == product.cest_id:
+                                map_taxes_cest |= map
                         if map.origin == product.origin:
                             map_taxes_origin |= map
                         if (map.fiscal_classification_id.id ==
