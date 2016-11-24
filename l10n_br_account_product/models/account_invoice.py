@@ -39,44 +39,44 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.one
-    @api.depends('invoice_line', 'tax_line.amount')
+    @api.depends('invoice_line_ids', 'tax_line_ids.amount')
     def _compute_amount(self):
         self.icms_base = 0.0
         self.icms_base_other = 0.0
         self.icms_value = 0.0
         self.icms_st_base = 0.0
         self.icms_st_value = 0.0
-        self.ipi_base = sum(line.ipi_base for line in self.invoice_line)
+        self.ipi_base = sum(line.ipi_base for line in self.invoice_line_ids)
         self.ipi_base_other = sum(
-            line.ipi_base_other for line in self.invoice_line)
-        self.ipi_value = sum(line.ipi_value for line in self.invoice_line)
-        self.pis_base = sum(line.pis_base for line in self.invoice_line)
-        self.pis_value = sum(line.pis_value for line in self.invoice_line)
-        self.cofins_base = sum(line.cofins_base for line in self.invoice_line)
+            line.ipi_base_other for line in self.invoice_line_ids)
+        self.ipi_value = sum(line.ipi_value for line in self.invoice_line_ids)
+        self.pis_base = sum(line.pis_base for line in self.invoice_line_ids)
+        self.pis_value = sum(line.pis_value for line in self.invoice_line_ids)
+        self.cofins_base = sum(line.cofins_base for line in self.invoice_line_ids)
         self.cofins_value = sum(
-            line.cofins_value for line in self.invoice_line)
-        self.ii_value = sum(line.ii_value for line in self.invoice_line)
+            line.cofins_value for line in self.invoice_line_ids)
+        self.ii_value = sum(line.ii_value for line in self.invoice_line_ids)
         self.amount_discount = sum(
-            line.discount_value for line in self.invoice_line)
+            line.discount_value for line in self.invoice_line_ids)
         self.amount_insurance = sum(
-            line.insurance_value for line in self.invoice_line)
+            line.insurance_value for line in self.invoice_line_ids)
         self.amount_costs = sum(
-            line.other_costs_value for line in self.invoice_line)
+            line.other_costs_value for line in self.invoice_line_ids)
         self.amount_total_taxes = sum(
-            line.total_taxes for line in self.invoice_line)
-        self.amount_gross = sum(line.price_gross for line in self.invoice_line)
+            line.total_taxes for line in self.invoice_line_ids)
+        self.amount_gross = sum(line.price_gross for line in self.invoice_line_ids)
         self.amount_freight = sum(
-            line.freight_value for line in self.invoice_line)
+            line.freight_value for line in self.invoice_line_ids)
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
-            line.price_total for line in self.invoice_line)
+            line.price_total for line in self.invoice_line_ids)
         self.amount_tax = sum(tax.amount
-                              for tax in self.tax_line
+                              for tax in self.tax_line_ids
                               if not tax.tax_code_id.tax_discount)
         self.amount_total = self.amount_tax + self.amount_untaxed + \
             self.amount_costs + self.amount_insurance + self.amount_freight
 
-        for line in self.invoice_line:
+        for line in self.invoice_line_ids:
             if line.icms_cst_id.code not in (
                     '101', '102', '201', '202', '300', '500'):
                 self.icms_base += line.icms_base
@@ -128,10 +128,10 @@ class AccountInvoice(models.Model):
         return result
 
     @api.one
-    @api.depends('invoice_line.cfop_id')
+    @api.depends('invoice_line_ids.cfop_id')
     def _compute_cfops(self):
         lines = self.env['l10n_br_account_product.cfop']
-        for line in self.invoice_line:
+        for line in self.invoice_line_ids:
             if line.cfop_id:
                 lines |= line.cfop_id
         self.cfop_ids = (lines).sorted()
@@ -355,76 +355,77 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
 
+    #
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoice, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        if context is None:
-            context = {}
-
-        if not view_type:
-            view_id = self.pool.get('ir.ui.view').search(
-                cr, uid, [('name', '=', 'account.invoice.tree')])
-            view_type = 'tree'
-
-        if view_type == 'form':
-            eview = etree.fromstring(result['arch'])
-
-            if 'type' in context.keys():
-                fiscal_types = eview.xpath("//field[@name='invoice_line']")
-                for fiscal_type in fiscal_types:
-                    fiscal_type.set(
-                        'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
-                            context['type'],
-                            context.get('fiscal_type', 'product')))
-
-                fiscal_categories = eview.xpath(
-                    "//field[@name='fiscal_category_id']")
-                for fiscal_category_id in fiscal_categories:
-                    fiscal_category_id.set(
-                        'domain',
-                        """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
-                        ('state', '=', 'approved'),
-                        ('journal_type', '=', '%s')]"""
-                        % (context.get('fiscal_type', 'product'),
-                            OPERATION_TYPE[context['type']],
-                            JOURNAL_TYPE[context['type']]))
-                    fiscal_category_id.set('required', '1')
-
-                document_series = eview.xpath(
-                    "//field[@name='document_serie_id']")
-                for document_serie_id in document_series:
-                    document_serie_id.set(
-                        'domain',
-                        "[('fiscal_type', '=', '%s'), "
-                        "('fiscal_document_id', '=', fiscal_document_id), "
-                        "('company_id','=',company_id)]"
-                        % (context.get('fiscal_type', 'product')))
-
-            if context.get('fiscal_type', False):
-                delivery_infos = eview.xpath("//group[@name='delivery_info']")
-                for delivery_info in delivery_infos:
-                    delivery_info.set('invisible', '1')
-
-            result['arch'] = etree.tostring(eview)
-
-        if view_type == 'tree':
-            doc = etree.XML(result['arch'])
-            nodes = doc.xpath("//field[@name='partner_id']")
-            partner_string = _('Customer')
-            if context.get(
-                    'type',
-                    'out_invoice') in (
-                    'in_invoice',
-                    'in_refund'):
-                partner_string = _('Supplier')
-            for node in nodes:
-                node.set('string', partner_string)
-            result['arch'] = etree.tostring(doc)
-        return result
+    # def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+    #                     context=None, toolbar=False, submenu=False):
+    #     result = super(AccountInvoice, self).fields_view_get(
+    #         cr, uid, view_id=view_id, view_type=view_type, context=context,
+    #         toolbar=toolbar, submenu=submenu)
+    #
+    #     if context is None:
+    #         context = {}
+    #
+    #     if not view_type:
+    #         view_id = self.pool.get('ir.ui.view').search(
+    #             cr, uid, [('name', '=', 'account.invoice.tree')])
+    #         view_type = 'tree'
+    #
+    #     if view_type == 'form':
+    #         eview = etree.fromstring(result['arch'])
+    #
+    #         if 'type' in context.keys():
+    #             fiscal_types = eview.xpath("//field[@name='invoice_line_ids']")
+    #             for fiscal_type in fiscal_types:
+    #                 fiscal_type.set(
+    #                     'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
+    #                         context['type'],
+    #                         context.get('fiscal_type', 'product')))
+    #
+    #             fiscal_categories = eview.xpath(
+    #                 "//field[@name='fiscal_category_id']")
+    #             for fiscal_category_id in fiscal_categories:
+    #                 fiscal_category_id.set(
+    #                     'domain',
+    #                     """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
+    #                     ('state', '=', 'approved'),
+    #                     ('journal_type', '=', '%s')]"""
+    #                     % (context.get('fiscal_type', 'product'),
+    #                         OPERATION_TYPE[context['type']],
+    #                         JOURNAL_TYPE[context['type']]))
+    #                 fiscal_category_id.set('required', '1')
+    #
+    #             document_series = eview.xpath(
+    #                 "//field[@name='document_serie_id']")
+    #             for document_serie_id in document_series:
+    #                 document_serie_id.set(
+    #                     'domain',
+    #                     "[('fiscal_type', '=', '%s'), "
+    #                     "('fiscal_document_id', '=', fiscal_document_id), "
+    #                     "('company_id','=',company_id)]"
+    #                     % (context.get('fiscal_type', 'product')))
+    #
+    #         if context.get('fiscal_type', False):
+    #             delivery_infos = eview.xpath("//group[@name='delivery_info']")
+    #             for delivery_info in delivery_infos:
+    #                 delivery_info.set('invisible', '1')
+    #
+    #         result['arch'] = etree.tostring(eview)
+    #
+    #     if view_type == 'tree':
+    #         doc = etree.XML(result['arch'])
+    #         nodes = doc.xpath("//field[@name='partner_id']")
+    #         partner_string = _('Customer')
+    #         if context.get(
+    #                 'type',
+    #                 'out_invoice') in (
+    #                 'in_invoice',
+    #                 'in_refund'):
+    #             partner_string = _('Supplier')
+    #         for node in nodes:
+    #             node.set('string', partner_string)
+    #         result['arch'] = etree.tostring(doc)
+    #     return result
 
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
@@ -1265,7 +1266,7 @@ class AccountInvoiceTax(models.Model):
         currency = invoice.currency_id.with_context(
             date=invoice.date_invoice or fields.Date.context_today(invoice))
         company_currency = invoice.company_id.currency_id
-        for line in invoice.invoice_line:
+        for line in invoice.invoice_line_ids:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
                 line.quantity, line.product_id, invoice.partner_id,

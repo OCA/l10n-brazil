@@ -11,7 +11,7 @@
 					<field name="cfop_id" colspan="4" domain="[('type', '=', type)]"/>
 					<field name="ind_final"/>
 				</field>
-				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
+				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_src_id']" position="before">
 					<field name="fiscal_classification_id" />
 				</xpath>
 			</field>
@@ -26,7 +26,7 @@
 					<field name="cfop_id" colspan="4" domain="[('type', '=', type), ('internal_type', '=', 'normal')]"/>
 					<field name="ind_final"/>
 				</field>
-				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_code_src_id']" position="before">
+				<xpath expr="/form/notebook/page/field[@name='tax_ids']/tree/field[@name='tax_src_id']" position="before">
 					<field name="fiscal_classification_id" />
 				</xpath>
 			</field>

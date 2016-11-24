@@ -21,7 +21,7 @@ from datetime import datetime
 from unicodedata import normalize
 import pytz
 from openerp import SUPERUSER_ID
-from openerp import pooler
+#from openerp import pooler
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
@@ -467,7 +467,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
                 StrFile += StrG0
 
         i = 0
-        for inv_line in inv.invoice_line:
+        for inv_line in inv.invoice_line_ids:
             i += 1
 
             # FIXME
