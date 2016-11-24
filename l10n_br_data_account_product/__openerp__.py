@@ -13,6 +13,7 @@
         'l10n_br_data_account',
     ],
     'data': [
+        'data/l10n_br_account_product.cest.csv',
         'data/account.product.fiscal.classification.template.csv',
         'data/l10n_br_account_product.icms_relief.csv',
         'data/l10n_br_account_product.ipi_guideline.csv',
