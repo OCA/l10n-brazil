@@ -1,10 +1,11 @@
 -
   Create a sale customer invoice
 -
-  !record {model: account.invoice, id: account_invoice_service_customer, view: l10n_br_account.view_l10n_br_account_invoice_form}:
+  !record {model: account.invoice, id: account_invoice_service_customer, view: l10n_br_account_service_nfse_form}:
     payment_term: account.account_payment_term_advance
     partner_id: l10n_br_base.res_partner_cliente1_sp
     fiscal_category_id: fc_00255d8d158663217906abb312aa0759
+    fiscal_position: fp_00255d8d158663217906abb312aa0759_demo
     reference_type: none
     name: 'Invoice Test'
     fiscal_type: 'service'
