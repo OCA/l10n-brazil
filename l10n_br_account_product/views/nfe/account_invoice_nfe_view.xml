@@ -376,7 +376,7 @@
                                     <field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="code" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="fiscal_classification_id" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
-                                    <field name="cest"/>
+                                    <field name="cest_id" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]"/>
                                     <field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
