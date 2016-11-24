@@ -49,6 +49,8 @@
                     <field name="origin"/>
                     <field name="amount_untaxed" sum="Untaxed Amount"/>
                     <field name="amount_total" sum="Total Amount"/>
+                    <field name="amount_wh" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                           <!--attrs="{'invisible': [('fiscal_type', '!=', 'service')]}"-->
                     <field name="state"/>
                     <field name="type" invisible="context.get('type',True)"/>
                 </tree>
@@ -166,6 +168,26 @@
                                 <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group string="Retenção Impostos sobre serviços:" >
+                                <group>
+                                    <field name="issqn_wh" />
+                                    <field name="pis_wh" />
+                                    <field name="cofins_wh" />
+                                    <field name="csll_wh" />
+                                    <field name="irrf_wh" />
+                                    <field name="inss_wh" />
+                                </group>
+                                <group>
+                                    <field name="issqn_value_wh" />
+                                    <field name="pis_value_wh" />
+                                    <field name="cofins_value_wh" />
+                                    <field name="csll_value_wh" />
+                                    <field name="irrf_base_wh" />
+                                    <field name="irrf_value_wh" />
+                                    <field name="inss_base_wh" />
+                                    <field name="inss_value_wh" />
+                                </group>
                             </group>
                         </page>
                         <page string="Financeiro" groups="base.group_user">
@@ -507,6 +529,20 @@
                                         <field name="ii_customhouse_charges"/>
                                         <field name="ii_iof"/>
                                         <field name="ii_value"/>
+                                    </group>
+                                </page>
+                                <page string="CSLL">
+                                    <group>
+                                        <field name="csll_base"/>
+                                        <field name="csll_percent"/>
+                                        <field name="csll_value"/>
+                                    </group>
+                                </page>
+                                <page string="IR">
+                                    <group>
+                                        <field name="ir_base"/>
+                                        <field name="ir_percent"/>
+                                        <field name="ir_value"/>
                                     </group>
                                 </page>
                             </notebook>
