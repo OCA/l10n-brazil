@@ -57,4 +57,5 @@ class report_custom(report_int):
         self.obj.render()
         return (self.obj.pdf, 'pdf')
 
+
 report_custom('report.danfe_account_invoice')

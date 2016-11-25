@@ -31,8 +31,6 @@ try:
 except ImportError as exc:
     logging.exception(exc.message)
 
-from openerp.addons.nfe.tools.misc import mount_path_nfe
-
 
 class DANFE(DanfePySped):
     def __init__(self):
