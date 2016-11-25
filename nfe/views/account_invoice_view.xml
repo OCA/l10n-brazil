@@ -31,7 +31,7 @@
                                 </button>
                                 <xpath expr="//button[@name='invoice_cancel']" position="replace">
                                 </xpath>
-                                <xpath expr="//field[@name='account_id']" position="after">
+                                <xpath expr="//field[@name='ind_pres']" position="after">
                                         <field name="is_danfe_printed"/>
                                 </xpath>
 			</field>
