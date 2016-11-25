@@ -48,11 +48,10 @@
          'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        #'demo/account.account.csv',
-        #'demo/account_tax_code.xml',
-        #'demo/account_financial_demo.xml',
+        'demo/account_tax_code.xml',
+        'demo/account_financial_demo.xml',
         #'demo/account_fiscal_demo.xml',
-        #'demo/base_demo.xml',
+        'demo/base_demo.xml',
     ],
     'test': [
         'test/account_customer_invoice.yml',

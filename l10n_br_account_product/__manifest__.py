@@ -52,9 +52,9 @@
          'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        # 'demo/account_tax_code_demo.xml',
-        # 'demo/account_tax_demo.xml',
-        # 'demo/base_demo.xml',
+         # 'demo/account_tax_code_demo.xml',
+         # 'demo/account_tax_demo.xml',
+         # 'demo/base_demo.xml',
         # 'demo/product_demo.xml',
         # 'demo/l10n_br_account_product_demo.xml',
         # 'demo/account_fiscal_position_rule_demo.xml',
