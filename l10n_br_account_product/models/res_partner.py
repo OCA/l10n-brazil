@@ -140,10 +140,10 @@ class AccountFiscalPosition(models.Model):
                 state_taxes = partner.state_id.product_tax_definition_line
                 for tax_def in state_taxes:
                     if tax_def.tax_id:
-                        if (not tax_def.fiscal_classification_id and
-                                not tax_def.cest_id) or \
-                                (tax_def.fiscal_classification_id == product_fc
-                                 or tax_def.cest_id == product.cest_id):
+                        fc = tax_def.fiscal_classification_id
+                        if (not fc and not tax_def.cest_id) or \
+                                (fc == product_fc or
+                                 tax_def.cest_id == product.cest_id):
                             taxes |= tax_def.tax_id
 
                             result[tax_def.tax_id.domain] = {
