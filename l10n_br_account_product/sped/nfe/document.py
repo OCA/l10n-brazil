@@ -343,6 +343,8 @@ class NFe200(FiscalDocument):
             invoice_line.fiscal_classification_id.code or '')[:8]
         self.det.prod.EXTIPI.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')[8:]
+        self.det.prod.CEST.valor = punctuation_rm(
+            invoice_line.cest_id.code or '')
         self.det.prod.nFCI.valor = invoice_line.fci or ''
         self.det.prod.CFOP.valor = invoice_line.cfop_id.code
         self.det.prod.uCom.valor = invoice_line.uos_id.name or ''
