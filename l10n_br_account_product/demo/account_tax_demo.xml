@@ -8,8 +8,6 @@
 			<field name="name">IPI Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="account.iva" name="account_collected_id" />
-			<field ref="account.ova" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -25,8 +23,6 @@
 			<field name="name">IPI Saída 2%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.02</field>
-			<field ref="account.iva" name="account_collected_id" />
-			<field ref="account.ova" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -42,8 +38,6 @@
 			<field name="name">IPI Saída 5%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.05</field>
-			<field ref="account.iva" name="account_collected_id" />
-			<field ref="account.ova" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -60,8 +54,6 @@
 			<field name="name">IPI Saída 10%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.10</field>
-			<field ref="account.iva" name="account_collected_id" />
-			<field ref="account.ova" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -77,8 +69,6 @@
 			<field name="name">IPI Saída 15%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.15</field>
-			<field ref="account.iva" name="account_collected_id" />
-			<field ref="account.ova" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -94,8 +84,6 @@
 			<field name="name">ICMS Interno Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -111,8 +99,6 @@
 			<field name="name">ICMS Interno Saída 17%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.17</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -128,8 +114,6 @@
 			<field name="name">ICMS Interno Saída 18%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.18</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -145,8 +129,6 @@
 			<field name="name">ICMS Interno Saída 19%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.19</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -162,8 +144,6 @@
 			<field name="name">ICMS Externo Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -179,8 +159,6 @@
 			<field name="name">ICMS Externo Saída 7%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.07</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -196,8 +174,6 @@
 			<field name="name">ICMS Externo Saída 12%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.12</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -213,8 +189,6 @@
 			<field name="name">ICMS Subist Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -231,8 +205,6 @@
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.12</field>
 			<field name="amount_mva">0.4443</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -249,8 +221,6 @@
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.12</field>
 			<field name="amount_mva">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010302" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050505" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -266,8 +236,6 @@
 			<field name="name">PIS Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010500" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050503" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -283,8 +251,6 @@
 			<field name="name">PIS Saída 0,65%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.0065</field>
-			<field ref="l10n_br_account.account_demo_201010500" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050503" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -300,8 +266,6 @@
 			<field name="name">COFINS Saída</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_201010500" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050503" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -317,8 +281,6 @@
 			<field name="name">COFINS Saída 3%</field>
 			<field name="type_tax_use">sale</field>
 			<field name="amount">0.03</field>
-			<field ref="l10n_br_account.account_demo_201010500" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_101050503" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -334,8 +296,6 @@
 			<field name="name">IPI Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="account.ova" name="account_collected_id" />
-			<field ref="account.iva" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -351,8 +311,6 @@
 			<field name="name">IPI Entrada 2%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.02</field>
-			<field ref="account.ova" name="account_collected_id" />
-			<field ref="account.iva" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -368,8 +326,6 @@
 			<field name="name">IPI Entrada 5%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.05</field>
-			<field ref="account.ova" name="account_collected_id" />
-			<field ref="account.iva" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -385,8 +341,6 @@
 			<field name="name">IPI Entrada 10%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.10</field>
-			<field ref="account.ova" name="account_collected_id" />
-			<field ref="account.iva" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -402,8 +356,6 @@
 			<field name="name">IPI Entrada 15%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.15</field>
-			<field ref="account.ova" name="account_collected_id" />
-			<field ref="account.iva" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -419,8 +371,6 @@
 			<field name="name">ICMS Interno Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -436,8 +386,6 @@
 			<field name="name">ICMS Interno Entrada 17%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.17</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -453,8 +401,6 @@
 			<field name="name">ICMS Interno Entrada 18%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.18</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -470,8 +416,6 @@
 			<field name="name">ICMS Interno Entrada 19%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.19</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -487,8 +431,6 @@
 			<field name="name">ICMS Externo Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -504,8 +446,6 @@
 			<field name="name">ICMS Externo Entrada 7%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.07</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -521,8 +461,6 @@
 			<field name="name">ICMS Externo Entrada 12%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.12</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -538,8 +476,6 @@
 			<field name="name">ICMS Subist Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_101050505" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010302" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="0" name="tax_discount" />
@@ -555,8 +491,6 @@
 			<field name="name">PIS Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_101050503" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010500" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -572,8 +506,6 @@
 			<field name="name">PIS Entrada 0,65%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.0065</field>
-			<field ref="l10n_br_account.account_demo_101050503" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010500" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -589,8 +521,6 @@
 			<field name="name">COFINS Entrada</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.00</field>
-			<field ref="l10n_br_account.account_demo_101050503" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010500" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />
@@ -606,8 +536,6 @@
 			<field name="name">COFINS Entrada 3%</field>
 			<field name="type_tax_use">purchase</field>
 			<field name="amount">0.03</field>
-			<field ref="l10n_br_account.account_demo_101050503" name="account_collected_id" />
-			<field ref="l10n_br_account.account_demo_201010500" name="account_paid_id" />
 			<field eval="0" name="price_include" />
 			<field name="company_id" ref="base.main_company" />
 			<field eval="1" name="tax_discount" />

@@ -50,7 +50,7 @@
     'demo': [
         'demo/account_tax_code.xml',
         'demo/account_financial_demo.xml',
-        #'demo/account_fiscal_demo.xml',
+        #'demo/account_fiscal_demo.xml', #check how can update created jouranls
         'demo/base_demo.xml',
     ],
     'test': [
