@@ -20,15 +20,15 @@
         ## Valores padrão
         ##
         #'data/res_currency_data.xml',
-        #'data/sped_pais_data.xml',
-        #'data/sped_estado_data.xml',
-        #'data/sped_municipio_data.xml',
+        'data/sped_pais_data.xml',
+        'data/sped_estado_data.xml',
+        'data/sped_municipio_data.xml',
         #'data/sped_municipio_exterior_data.xml',
 
         #'data/sped_aliquota_icms_proprio_data.xml',
         #'data/sped_aliquota_icms_st_data.xml',
         #'data/sped_aliquota_ipi_data.xml',
-        #'data/sped_aliquota_pis_cofins_data.xml',
+        'data/sped_aliquota_pis_cofins_data.xml',
         #'data/sped_aliquota_simples_anexo_data.xml',
         #'data/sped_aliquota_simples_teto_data.xml',
         #'data/sped_aliquota_simples_aliquota_data.xml',
