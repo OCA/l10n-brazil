@@ -32,6 +32,5 @@
 "l10n_br_account_document_event_user","l10n_br_account.document_event","model_l10n_br_account_document_event","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_event_manager","l10n_br_account.document_event","model_l10n_br_account_document_event","account.group_account_manager",1,1,1,1
 "l10n_br_account_invoice_cce_manager","l10n_br_account_invoice_cce","model_l10n_br_account_invoice_cce","account.group_account_manager",1,1,1,1
-"access_account_config_settings","access_account_config_settings","model_account_config_settings","base.group_system",1,1,1,1
 "access_account_tax_code_user","access_account_tax_code_user","account.model_account_tax_code","base.group_user",1,0,0,0
 "l10n_br_account_partner_fiscal_type_user","l10n_br_account_partner_fiscal_type_user","model_l10n_br_account_partner_fiscal_type","base.group_user",1,0,0,0
