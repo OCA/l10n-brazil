@@ -30,7 +30,7 @@
                             <field name="descricao" required="1"/>
                         </h1>
                     </div>
-                    <button type="object" name="atualizar_tabela" string="Preencher tabela com as alíquotas padrão" />
+                    <button type="object" name="atualizar_tabela" string="Preencher tabela com as alíquotas padrão e MVA ajustado" />
                     <notebook tabpos="left">
                         <page string="Estados para validade">
                             <field name="estado_ids">
