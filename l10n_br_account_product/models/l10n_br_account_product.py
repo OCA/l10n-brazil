@@ -27,7 +27,8 @@ from openerp.addons.l10n_br_base.tools import fiscal
 from openerp.addons.l10n_br_account.models.l10n_br_account import TYPE
 
 PRODUCT_FISCAL_TYPE = [
-    ('product', 'Produto')
+    ('product', 'Produto'),
+    ('service', 'Service')
 ]
 
 PRODUCT_FISCAL_TYPE_DEFAULT = PRODUCT_FISCAL_TYPE[0][0]
@@ -72,17 +73,12 @@ class L10nbrAccountCFOP(models.Model):
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
 
-    # TODO migrate
-    def name_get(self, cr, uid, ids, context=None):
-        if not len(ids):
-            return []
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        reads = self.read(cr, uid, ids, ['name', 'code'], context,
-                          load='_classic_write')
-        return [(x['id'], (x['code'] and x['code'] or '') +
-                 (x['name'] and ' - ' + x['name'] or '')) for x in reads]
-
+    @api.multi
+    def name_get(self):
+        res = []
+        for record in self:
+            res.append((record.id, record.code + ' - ' + record.name))
+        return res
 
 class L10nBrAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'

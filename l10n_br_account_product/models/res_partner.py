@@ -50,34 +50,25 @@ class AccountFiscalPosition(models.Model):
         states={'draft': [('readonly', False)]}, required=False,
         help=u'Indica operação com Consumidor final.', default='0')
 
-    @api.v7
-    def map_tax(self, cr, uid, fposition_id, taxes, context=None):
-        result = []
-        if not context:
-            context = {}
-        if fposition_id and fposition_id.company_id and \
+    def map_tax(self, taxes,  product=None, partner=None):
+        result = self.env['account.tax']
+        context = self._context
+        if self.company_id and \
                 context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
-                company_tax_ids = self.pool.get('res.company').read(
-                    cr, uid, fposition_id.company_id.id, ['product_tax_ids'],
-                    context=context)['product_tax_ids']
-
-            company_taxes = self.pool.get('account.tax').browse(
-                cr, uid, company_tax_ids, context=context)
-            if taxes:
-                all_taxes = taxes + company_taxes
-            else:
-                all_taxes = company_taxes
-            taxes = all_taxes
+                company_taxes = self.env['res.company'].browse(self.company_id.id).product_tax_ids
+                if taxes:
+                    all_taxes = taxes + company_taxes
+                else:
+                    all_taxes = company_taxes
+                taxes = all_taxes
 
         if not taxes:
-            return []
-        if not fposition_id:
-            return map(lambda x: x.id, taxes)
+            return result
         for t in taxes:
             ok = False
             tax_src = False
-            for tax in fposition_id.tax_ids:
+            for tax in self.tax_ids:
                 tax_src = tax.tax_src_id and tax.tax_src_id.id == t.id
                 tax_code_src = tax.tax_code_src_id and \
                     tax.tax_code_src_id.id == t.tax_code_id.id
@@ -87,9 +78,9 @@ class AccountFiscalPosition(models.Model):
                         result.append(tax.tax_dest_id.id)
                     ok = True
             if not ok:
-                result.append(t.id)
-
-        return list(set(result))
+                result + t
+        print "result...................",result
+        return result
 
     def _map_tax_code(self, map_tax):
         result = {}
@@ -160,15 +151,6 @@ class AccountFiscalPosition(models.Model):
         for code in taxes_codes:
             if taxes_codes[code].get('tax_code'):
                 result.update({code: taxes_codes[code].get('tax_code').id})
-        return result
-
-    @api.v8
-    def map_tax(self, taxes):
-        result = self.env['account.tax'].browse()
-        taxes_codes = self._map_tax(self.env.context.get('product_id'), taxes)
-        for tax in taxes_codes:
-            if taxes_codes[tax].get('tax'):
-                result |= taxes_codes[tax].get('tax')
         return result
 
 

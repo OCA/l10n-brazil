@@ -862,8 +862,11 @@ class AccountInvoiceLine(models.Model):
             'other_costs_value', 0.0) or self.other_costs_value
         tax_ids = []
         if values.get('invoice_line_tax_id'):
-            tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-                0][2] or self.invoice_line_tax_id.ids
+            #TODO MIG V10
+            #IndexError: tuple index out of range
+            # tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+            #     0][2] or self.invoice_line_tax_id.ids
+            tax_ids = self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -981,23 +984,22 @@ class AccountInvoiceLine(models.Model):
 
         return result_rule
 
-    @api.multi
-    def product_id_change(self, product, uom_id, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, company_id=None):
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
         ctx = dict(self.env.context)
+        inv = self.invoice_i
         if type in ('out_invoice', 'out_refund'):
             ctx.update({'type_tax_use': 'sale'})
         else:
             ctx.update({'type_tax_use': 'purchase'})
         self = self.with_context(ctx)
-        result = super(AccountInvoiceLine, self).product_id_change(
-            product, uom_id, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, company_id)
-
-        fiscal_category_id = ctx.get('parent_fiscal_category_id')
-
+        result = super(AccountInvoiceLine, self)._onchange_product_id()
+        print "result....................",result
+        product = self.product_id.id
+        fiscal_category_id = inv.fiscal_category_id.id
+        partner_id = inv.partner_id.id
+        company_id = inv.company_id.id
+        account_id = self.account_id.id
         if not fiscal_category_id or not product:
             return result
 
@@ -1005,32 +1007,32 @@ class AccountInvoiceLine(models.Model):
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=fiscal_category_id,
-            account_id=result['value']['account_id'])
-
+            account_id=account_id)
+        print "fianl result...................",result
         return result
 
-    @api.multi
-    def onchange_fiscal_category_id(self, partner_id, company_id, product_id,
-                                    fiscal_category_id, account_id):
+    @api.onchange('fiscal_category_id')
+    def onchange_fiscal_category_id(self):
         result = {'value': {}}
+        invoice = self.invoice_id
+        partner_id = invoice.partner_id.id
+        company_id = invoice.company_id.id
         return self._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, fiscal_category_id=fiscal_category_id,
-            product_id=product_id, account_id=account_id)
+            company_id=company_id, fiscal_category_id=self.fiscal_category_id.id,
+            product_id=self.product_id.id, account_id=self.account_id.id)
 
-    @api.multi
-    def onchange_fiscal_position(self, partner_id, company_id, product_id,
-                                 fiscal_category_id, account_id, quantity,
-                                 price_unit, discount, insurance_value,
-                                 freight_value, other_costs_value):
+    @api.onchange('fiscal_position')
+    def onchange_fiscal_position(self):
         result = {'value': {}}
+        invoice = self.invoice_id
         ctx = dict(self.env.context)
         kwargs = {
-            'company_id': company_id,
-            'partner_id': partner_id,
-            'product_id': product_id,
-            'partner_invoice_id': partner_id,
-            'fiscal_category_id': fiscal_category_id,
+            'company_id': invoice.company_id.id,
+            'partner_id': invoice.partner_id.id,
+            'product_id': self.product_id.id,
+            'partner_invoice_id': invoice.partner_id.id,
+            'fiscal_category_id': self.fiscal_category_id.id,
             'context': ctx
         }
         result.update(self._fiscal_position_map(result, **kwargs))
