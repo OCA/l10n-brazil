@@ -107,6 +107,7 @@
                             <field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user"/>
                             <field name="ind_final" string="Operação com Consumidor final" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
                             <field name="ind_pres" string="Tipo de operação" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                            <field name="check_total" groups="account.group_supplier_inv_check_total" attrs="{'invisible': [('type', 'in', ('out_invoice', 'out_refund'))]}"/>
                         </group>
                     </group>
                     <group col="6">
