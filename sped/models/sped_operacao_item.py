@@ -14,6 +14,7 @@ class OperacaoFiscalItem(models.Model):
     #_rec_name = 'nome'
 
     operacao_id = fields.Many2one('sped.operacao', 'Operação', ondelete='cascade')
+    entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', related='operacao_id.entrada_saida', readonly=True)
     tipo_protocolo = fields.Selection([('P', 'Próprio'), ('S', 'ST')], 'Tipo do protocolo', index=True)
     protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo')
     cfop_id = fields.Many2one('sped.cfop', 'CFOP', required=True, ondelete='restrict')
@@ -25,6 +26,8 @@ class OperacaoFiscalItem(models.Model):
     cst_icms = fields.Selection(ST_ICMS, 'CST ICMS', default=ST_ICMS_INTEGRAL)
     cst_icms_sn = fields.Selection(ST_ICMS_SN, 'CSOSN', default=ST_ICMS_SN_TRIB_SEM_CREDITO)
     cst_ipi = fields.Selection(ST_IPI, 'CST IPI')
+    cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'CST IPI')
+    cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'CST IPI')
     bc_icms_proprio_com_ipi = fields.Boolean('IPI integra a BC do ICMS?')
     bc_icms_st_com_ipi = fields.Boolean('IPI integra a BC do ICMS ST?')
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'CST PIS-COFINS')
@@ -39,10 +42,18 @@ class OperacaoFiscalItem(models.Model):
         res['value'] = valores
 
         if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
-            if not (self.cfop_id.eh_venda_industrializacao or self.cfop_id.eh_venda_comercializacao):
+            if not self.cfop_id.eh_venda:
                 raise ValidationError('Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica uma venda!')
 
         return res
+
+    @api.onchange('cst_ipi_entrada')
+    def onchange_cst_ipi_entrada(self):
+        return {'value': {'cst_ipi': self.cst_ipi_entrada}}
+
+    @api.onchange('cst_ipi_saida')
+    def onchange_cst_ipi_saida(self):
+        return {'value': {'cst_ipi': self.cst_ipi_saida}}
 
 
 class OperacaoFiscal(models.Model):
