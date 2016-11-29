@@ -123,6 +123,8 @@ class AccountTax(models.Model):
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
+        id_dest = (fiscal_position.cfop_id and
+                   fiscal_position.cfop_id.id_dest or False)
 
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
@@ -164,7 +166,7 @@ class AccountTax(models.Model):
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
 
-        if fiscal_position.cfop_id.id_dest == '3':
+        if id_dest == '3':
             base_ipi = total_base + ii_value
         else:
             base_ipi = result['total']
@@ -179,10 +181,10 @@ class AccountTax(models.Model):
         specific_pis = [tx for tx in result['taxes']
                         if tx['domain'] == 'pis']
 
-        specific_cofins = [tx for tx in result['taxes'] 
+        specific_cofins = [tx for tx in result['taxes']
                            if tx['domain'] == 'cofins']
 
-        if fiscal_position.cfop_id.id_dest == '3':
+        if id_dest == '3':
             base_pis_cofins = total_base
         else:
             base_pis_cofins = result['total']
@@ -211,7 +213,7 @@ class AccountTax(models.Model):
         if fiscal_position and fiscal_position.asset_operation:
             total_base += ipi_value
 
-        if fiscal_position.cfop_id.id_dest == '3':
+        if id_dest == '3':
             base_icms = (total_base + ii_value + ipi_value +
                          pis_value + cofins_value)
 
@@ -259,7 +261,7 @@ class AccountTax(models.Model):
 
         if (specific_icms_inter and fiscal_position and
                 partner.partner_fiscal_type_id.ind_ie_dest == '9'):
-            if fiscal_position.cfop_id.id_dest == '2':
+            if id_dest == '2':
 
                 # Calcula o DIFAL total
                 result_icms_inter['taxes'][0]['amount'] = round(
