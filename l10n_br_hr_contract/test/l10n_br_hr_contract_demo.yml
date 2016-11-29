@@ -1,0 +1,64 @@
+-
+    Create a l10n_br contract
+-
+  !record {model: hr.contract, id: l10n_br_contract, view: False}:
+    name: 'Test Contract'
+    employee_id: hr.employee_qdp
+    job_id: hr.job_consultant
+    type_id: hr_contract.hr_contract_type_emp
+    wage: 2000
+    advantages: 'Demo advantages'
+    notes: 'Demo notes'
+    trial_date_start: '2016-01-01'
+    trial_date_end: '2016-03-01'
+    date_start: '2016-03-02'
+    date_end:
+    working_hours: resource.timesheet_group1
+    admission_type_id: l10n_br_hr_contract.admission_type_1
+    labor_bond_type_id: l10n_br_hr_contract.labor_bond_type_10
+    labor_regime_id: l10n_br_hr_contract.labor_regime_clt
+    salary_unit: l10n_br_hr_contract.salary_unit_1
+    welfare_policy: 'rgps'
+    union: 'Demo union'
+    union_cnpj: '00.874.955/0001-78'
+    union_entity_code: 'DU'
+    discount_union_contribution: True
+    month_base_date: '4'
+    monthly_hours: 180
+    weekly_hours: 45
+    resignation_date: '2016-06-20'
+    resignation_cause_id: l10n_br_hr_contract.hr_contract_resignation_60
+    notice_of_termination_id: l10n_br_hr_contract.notice_of_termination_3
+    notice_of_termination_date: '2016-06-20'
+    notice_of_termination_payment_date: '2016-06-20'
+    by_death: '143710 01 55 2011 4 08192 439 3151559-28'
+
+-
+  name_get for HrContractAdmissionType
+-
+  !python {model: hr.contract.admission.type, id: admission_type_1}: |
+    assert self.name_get()[0][1] == u'1 - Admissão  de  empregado  no  primeiro  emprego  ou  nomeação  de  servidor em caráter efetivo ou em comissão, no primeiro emprego', 'The admission type name by name_get is not valid, expected \'code - name\''
+
+-
+  name_get for HrContractLaborRegime
+-
+  !python {model: hr.contract.labor.regime, id: labor_regime_clt}: |
+    assert self.name_get()[0][1] == u'CLT - Consolidação das Leis de Trabalho', 'The labor regime name by name_get is not valid, expected \'code - name\''
+
+-
+  name_get for HrContractLaborBondType
+-
+  !python {model: hr.contract.labor.bond.type, id: labor_bond_type_10}: |
+    assert self.name_get()[0][1] == u'10 - Trabalhador urbano vinculado a empregador pessoa jurídica por contrato de trabalho regido pela CLT, por prazo indeterminado', 'The labor bond type name by name_get is not valid, expected \'code - name\''
+
+-
+  name_get for HrContractSalaryUnit
+-
+  !python {model: hr.contract.salary.unit, id: salary_unit_1}: |
+    assert self.name_get()[0][1] == u'1 - Monthly', 'The salary unit name by name_get is not valid, expected \'code - name\''
+
+-
+  name_get for HrContractResignationCause
+-
+  !python {model: hr.contract.resignation.cause, id: hr_contract_resignation_10}: |
+    assert self.name_get()[0][1] == u'10 - Rescisão de contrato de trabalho por justa causa e iniciativa do empregador ou demissão de servidor', 'The resignation cause name by name_get is not valid, expected \'code - name\''
