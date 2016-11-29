@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <tree editable="top">
                 <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
                 <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', 'P')]" />
                 <field name="contribuinte" />
@@ -15,9 +16,11 @@
                 <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" />
                 <field name="cst_icms" required="1" />
                 <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" />
-                <field name="cst_ipi" />
-                <field name="bc_icms_proprio_com_ipi" />
-                <field name="bc_icms_st_com_ipi" invisible="1" />
+                <field name="cst_ipi" invisible="1" />
+                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+<!--                <field name="bc_icms_proprio_com_ipi" />
+                <field name="bc_icms_st_com_ipi" invisible="1" />-->
                 <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
             </tree>
         </field>
@@ -30,6 +33,7 @@
         <field name="arch" type="xml">
             <tree editable="top">
                 <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
                 <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', 'P')]" />
                 <field name="contribuinte" />
@@ -38,9 +42,12 @@
                 <field name="cst_icms_sn" required="1" />
                 <field name="cst_icms" invisible="1" />
                 <field name="al_pis_cofins_id" attrs="{'invisible': [('cst_icms_sn', '!=', '900')], 'required': [('cst_icms_sn', '=', '900')]}" options="{'no_create': True, 'no_open': True}" />
-                <field name="cst_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
-                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
-                <field name="bc_icms_st_com_ipi" invisible="1" />
+                <field name="cst_ipi" invisible="1" />
+                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0'), ('cst_icms_sn', '!=', '900')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1'), ('cst_icms_sn', '!=', '900')]}" />
+
+<!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                <field name="bc_icms_st_com_ipi" invisible="1" />-->
                 <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
             </tree>
         </field>
@@ -53,6 +60,7 @@
         <field name="arch" type="xml">
             <tree editable="top">
                 <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
                 <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', 'S')]" />
                 <field name="contribuinte" />
@@ -60,9 +68,11 @@
                 <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" />
                 <field name="cst_icms" required="1" />
                 <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" />
-                <field name="cst_ipi" />
-                <field name="bc_icms_proprio_com_ipi" />
-                <field name="bc_icms_st_com_ipi" />
+                <field name="cst_ipi" invisible="1" />
+                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+<!--                <field name="bc_icms_proprio_com_ipi" />
+                <field name="bc_icms_st_com_ipi" />-->
                 <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
             </tree>
         </field>
@@ -75,6 +85,7 @@
         <field name="arch" type="xml">
             <tree editable="top">
                 <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
                 <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', 'S')]" />
                 <field name="contribuinte" />
@@ -83,9 +94,11 @@
                 <field name="cst_icms_sn" required="1" />
                 <field name="cst_icms" invisible="1" />
                 <field name="al_pis_cofins_id" attrs="{'invisible': [('cst_icms_sn', '!=', '900')], 'required': [('cst_icms_sn', '=', '900')]}" options="{'no_create': True, 'no_open': True}" />
-                <field name="cst_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
-                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
-                <field name="bc_icms_st_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                <field name="cst_ipi" invisible="1" />
+                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0'), ('cst_icms_sn', '!=', '900')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1'), ('cst_icms_sn', '!=', '900')]}" />
+<!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                <field name="bc_icms_st_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />-->
                 <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
             </tree>
         </field>
