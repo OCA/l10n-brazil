@@ -91,9 +91,6 @@ class ProtocoloICMS(models.Model):
 
     @api.one
     def atualizar_tabela(self):
-        if self.descricao != 'Padrão':
-            return
-
         sped_estado = self.env['sped.estado']
         sped_aliquota_icms = self.env['sped.aliquota.icms.proprio']
         sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
@@ -101,47 +98,30 @@ class ProtocoloICMS(models.Model):
         self._cr.execute('delete from sped_protocolo_icms_aliquota where protocolo_id = ' + str(self.id) + ';')
 
         for estado_origem in ALIQUOTAS_ICMS:
-            estado_origem_ids = sped_estado.search([('uf', '=', estado_origem)])
+            sped_estado_origem = self.env.ref('sped.ESTADO_' + estado_origem)
 
             for estado_destino in ALIQUOTAS_ICMS[estado_origem]:
-                estado_destino_ids = sped_estado.search([('uf', '=', estado_destino)])
-                al_icms_ids = sped_aliquota_icms.search([('al_icms', '=', ALIQUOTAS_ICMS[estado_origem][estado_destino]), ('md_icms', '=', '3'), ('rd_icms', '=', 0)])
+                sped_estado_destino = self.env.ref('sped.ESTADO_' + estado_destino)
+
+                aliquota = ALIQUOTAS_ICMS[estado_origem][estado_destino]
+                aliquota = str(aliquota).replace('.', '_').replace('_00', '').replace('_0', '')
+
+                al_icms = self.env.ref('sped.ALIQUOTA_ICMS_PROPRIO_' + aliquota)
 
                 dados = {
                     'protocolo_id': self.id,
                     'data_inicio': '2016-01-01',
-                    'estado_origem_id': estado_origem_ids[0].id,
-                    'estado_destino_id': estado_destino_ids[0].id,
-                    'al_icms_proprio_id': al_icms_ids[0].id,
+                    'estado_origem_id': sped_estado_origem.id,
+                    'estado_destino_id': sped_estado_destino.id,
+                    'al_icms_proprio_id': al_icms.id,
                 }
 
-                sped_protocolo_icms_aliquota.create(dados)
+                if self.tipo == 'S':
+                    aliquota_st = ALIQUOTAS_ICMS[estado_destino][estado_destino]
+                    aliquota_st = str(aliquota_st).replace('.', '_').replace('_00', '').replace('_0', '')
 
-    @api.one
-    def atualizar_sped_st(self):
-        sped_estado = self.env['sped.estado']
-        sped_aliquota_icms = self.env['sped.aliquota.icms.proprio']
-        sped_aliquota_st = self.env['sped.aliquota.icms.st']
-        sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
-
-        self._cr.execute('delete from sped_protocolo_icms_aliquota where protocolo_id = ' + str(self.id) + ';')
-
-        for estado_origem in ALIQUOTAS_ICMS:
-            estado_origem_ids = sped_estado.search([('uf', '=', estado_origem)])
-
-            for estado_destino in ALIQUOTAS_ICMS[estado_origem]:
-                estado_destino_ids = sped_estado.search([('uf', '=', estado_destino)])
-                al_icms_ids = sped_aliquota_icms.search([('al_icms', '=', ALIQUOTAS_ICMS[estado_origem][estado_destino]), ('md_icms', '=', '3'), ('rd_icms', '=', 0)])
-                al_icms_st_ids = sped_aliquota_st.search([('al_icms', '=', ALIQUOTAS_ICMS[estado_destino][estado_destino]), ('md_icms', '=', '4'), ('rd_icms', '=', 0),  ('rd_mva', '=', 0)])
-
-                dados = {
-                    'protocolo_id': self.id,
-                    'data_inicio': '2016-01-01',
-                    'estado_origem_id': estado_origem_ids[0].id,
-                    'estado_destino_id': estado_destino_ids[0].id,
-                    'al_icms_proprio_id': al_icms_ids[0].id,
-                    'al_icms_st_id': al_icms_st_ids[0].id,
-                }
+                    al_icms_st = self.env.ref('sped.ALIQUOTA_ICMS_ST_' + aliquota_st)
+                    dados['al_icms_st_id'] = al_icms_st.id
 
                 sped_protocolo_icms_aliquota.create(dados)
 
@@ -162,10 +142,10 @@ class ProtocoloICMS(models.Model):
         protocolo_ncm = self.env['sped.protocolo.icms.ncm']
 
         if self.ex:
-            protocolo_ncm_ids = protocolo_ncm.search([('protocolo_id', '=', self.id), ('ncm_id.codigo', '=ilike', self.ncm), ('ncm_id.ex', '=', self.ex)])
+            protocolo_ncm_ids = protocolo_ncm.search([('protocolo_id', '=', self.id), ('ncm_id.codigo', '=ilike', self.ncm + '%'), ('ncm_id.ex', '=', self.ex)])
 
         else:
-            protocolo_ncm_ids = protocolo_ncm.search([('protocolo_id', '=', self.id), ('ncm_id.codigo', '=ilike', self.ncm)])
+            protocolo_ncm_ids = protocolo_ncm.search([('protocolo_id', '=', self.id), ('ncm_id.codigo', '=ilike', self.ncm + '%')])
 
         protocolo_ncm_ids.unlink()
 
@@ -179,20 +159,23 @@ class ProtocoloICMS(models.Model):
         # Excluímos os anteriores
         #
         self.exclui_ncm()
+        print('excluiu ncms')
 
         sped_ncm = self.env['sped.ncm']
 
         if self.ex:
-            ncm_ids = sped_ncm.search([('codigo', 'ilike', self.ncm), ('ex', '=', self.ex)])
+            ncm_ids = sped_ncm.search([('codigo', '=ilike', self.ncm + '%'), ('ex', '=', self.ex)])
         else:
-            ncm_ids = sped_ncm.search([('codigo', 'ilike', self.ncm)])
+            ncm_ids = sped_ncm.search([('codigo', '=ilike', self.ncm + '%')])
 
+        print('ncm', ncm_ids)
         protocolo_ncm = self.env['sped.protocolo.icms.ncm']
 
-        for ncm_obj in ncm_ids:
+        for ncm in ncm_ids:
+            print('ncm', ncm)
             dados = {
                 'protocolo_id': self.id,
-                'ncm_id': ncm_obj.id,
+                'ncm_id': ncm.id,
                 'mva': self.mva,
             }
             protocolo_ncm.create(dados)
@@ -200,6 +183,39 @@ class ProtocoloICMS(models.Model):
         self.ncm = ''
         self.ex = ''
         self.mva = 0
+
+    def busca_aliquota(self, estado_origem, estado_destino, data, empresa=None):
+        busca = [
+            ('protocolo_id', '=', self.id),
+            ('estado_origem_id.uf', '=', estado_origem),
+            ('estado_destino_id.uf', '=', estado_destino),
+            ('data_inicio', '<=', data),
+        ]
+
+        protocolo_aliquota_ids = self.aliquota_ids.search(busca, limit=1, order='data_inicio desc')
+
+        if len(protocolo_aliquota_ids) != 0:
+            return protocolo_aliquota_ids[0]
+
+        #
+        # Se não encontrar, busca a alíquota do protocolo padrão da empresa
+        #
+        if empresa is None or not empresa or not empresa.protocolo_id:
+            return
+
+        busca = [
+            ('protocolo_id', '=', empresa.protocolo_id.id),
+            ('estado_origem_id.uf', '=', estado_origem),
+            ('estado_destino_id.uf', '=', estado_destino),
+            ('data_inicio', '<=', data),
+        ]
+
+        protocolo_aliquota_ids = self.aliquota_ids.search(busca, limit=1, order='data_inicio desc')
+
+        if len(protocolo_aliquota_ids) != 0:
+            return protocolo_aliquota_ids[0]
+
+        return
 
 
 class ProtocoloICMSAliquota(models.Model):

@@ -50,10 +50,7 @@ class IBPTax(models.Model):
             codigo, ex, tipo, descricao, nacionalfederal, importadosfederal, estadual, municipal, vigenciainicio, vigenciafim, chave, versao, fonte = linha.decode('iso-8859-1').split(';')
 
             if tipo == '0':
-                if ex:
-                    ncm_ids = sped_ncm.search([('codigo', '=', codigo), ('ex', '=', ex)])
-                else:
-                    ncm_ids = sped_ncm.search([('codigo', '=', codigo), ('ex', '=', False)])
+                ncm_ids = sped_ncm.search([('codigo', '=', codigo), ('ex', '=', ex)])
 
                 if len(ncm_ids) == 0:
                     dados = {
