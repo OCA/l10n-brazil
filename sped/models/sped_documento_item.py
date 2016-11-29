@@ -22,6 +22,7 @@ class DocumentoItem(models.Model):
     operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
     contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', related='participante_id.contribuinte', readonly=True)
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao', readonly=True)
+    data_emissao = fields.Date('Data de emissão', related='documento_id.data_emissao', readonly=True)
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', related='documento_id.entrada_saida', readonly=True)
     consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor', related='documento_id.consumidor_final', readonly=True)
 
@@ -162,6 +163,18 @@ class DocumentoItem(models.Model):
     #
     apuracao_ipi = fields.Selection(APURACAO_IPI, 'Período de apuração do IPI', index=True, default=APURACAO_IPI_MENSAL)
     cst_ipi = fields.Selection(ST_IPI, 'CST IPI', index=True)
+
+    cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'CST IPI')
+    cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'CST IPI')
+
+    @api.onchange('cst_ipi_entrada')
+    def onchange_cst_ipi_entrada(self):
+        return {'value': {'cst_ipi': self.cst_ipi_entrada}}
+
+    @api.onchange('cst_ipi_saida')
+    def onchange_cst_ipi_saida(self):
+        return {'value': {'cst_ipi': self.cst_ipi_saida}}
+
     md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade BC do IPI', default=MODALIDADE_BASE_IPI_ALIQUOTA)
     bc_ipi = fields.Dinheiro('Base do IPI')
     al_ipi = fields.Quantidade('Alíquota do IPI')
@@ -181,6 +194,18 @@ class DocumentoItem(models.Model):
     #
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota e CST do PIS-COFINS', index=True)
     cst_pis = fields.Selection(ST_PIS, 'CST PIS', index=True)
+
+    cst_pis_entrada = fields.Selection(ST_PIS_ENTRADA, 'CST PIS')
+    cst_pis_saida = fields.Selection(ST_PIS_SAIDA, 'CST PIS')
+
+    @api.onchange('cst_pis_entrada')
+    def onchange_cst_pis_entrada(self):
+        return {'value': {'cst_pis': self.cst_pis_entrada, 'cst_cofins_entrada': self.cst_pis_entrada}}
+
+    @api.onchange('cst_pis_saida')
+    def onchange_cst_pis_saida(self):
+        return {'value': {'cst_pis': self.cst_pis_saida, 'cst_cofins_saida': self.cst_pis_saida}}
+
     md_pis_proprio = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade BC do PIS próprio', default=MODALIDADE_BASE_PIS_ALIQUOTA)
     bc_pis_proprio = fields.Dinheiro('Base do PIS próprio')
     al_pis_proprio = fields.Quantidade('Alíquota do PIS próprio')
@@ -190,6 +215,18 @@ class DocumentoItem(models.Model):
     # COFINS própria
     #
     cst_cofins = fields.Selection(ST_COFINS, 'CST COFINS', index=True)
+
+    cst_cofins_entrada = fields.Selection(ST_COFINS_ENTRADA, 'CST COFINS')
+    cst_cofins_saida = fields.Selection(ST_COFINS_SAIDA, 'CST COFINS')
+
+    @api.onchange('cst_cofins_entrada')
+    def onchange_cst_cofins_entrada(self):
+        return {'value': {'cst_cofins': self.cst_cofins_entrada, 'cst_pis_entrada': self.cst_cofins_entrada}}
+
+    @api.onchange('cst_cofins_saida')
+    def onchange_cst_cofins_saida(self):
+        return {'value': {'cst_cofins': self.cst_cofins_saida, 'cst_pis_saida': self.cst_cofins_saida}}
+
     md_cofins_proprio = fields.Selection(MODALIDADE_BASE_COFINS, 'Modalidade BC da COFINS própria', default=MODALIDADE_BASE_COFINS_ALIQUOTA)
     bc_cofins_proprio = fields.Dinheiro('Base do COFINS próprio')
     al_cofins_proprio = fields.Quantidade('Alíquota da COFINS própria')
@@ -295,11 +332,12 @@ class DocumentoItem(models.Model):
     #
     # Diferencial de alíquota
     #
-    calcula_diferencial_aliquota = fields.Boolean('Calcula diferencial de alíquota?')
-    al_diferencial_aliquota = fields.Porcentagem('Alíquota diferencial ICMS próprio')
-    vr_diferencial_aliquota = fields.Dinheiro('Valor do diferencial de alíquota ICMS próprio')
-    al_diferencial_aliquota_st = fields.Porcentagem('Alíquota diferencial ICMS ST')
-    vr_diferencial_aliquota_st = fields.Dinheiro('Valor do diferencial de alíquota ICMS ST')
+    calcula_difal = fields.Boolean('Calcula diferencial de alíquota?')
+    al_interna_destino = fields.Porcentagem('Alíquota interna do estado destino')
+    al_difal = fields.Porcentagem('Alíquota diferencial ICMS próprio')
+    vr_difal = fields.Dinheiro('Valor do diferencial de alíquota ICMS próprio')
+    #al_difal_st = fields.Porcentagem('Alíquota diferencial ICMS ST')
+    #vr_difal_st = fields.Dinheiro('Valor do diferencial de alíquota ICMS ST')
 
     ##
     ## Campos readonly
@@ -313,8 +351,6 @@ class DocumentoItem(models.Model):
         #self.md_cofins_proprio_readonly = self.md_cofins_proprio
         #self.al_pis_proprio_readonly = self.al_pis_proprio
         #self.al_cofins_proprio_readonly = self.al_cofins_proprio
-        #print('passou readonly', self.cst_pis, self.cst_cofins, self.al_pis_proprio, self.al_cofins_proprio, self.md_pis_proprio, self.md_cofins_proprio)
-        #print('passou readonly', self.cst_pis_readonly, self.cst_cofins_readonly, self.al_pis_proprio_readonly, self.al_cofins_proprio_readonly, self.md_pis_proprio_readonly, self.md_cofins_proprio_readonly)
 
     #cst_pis_readonly = fields.Selection(ST_PIS, 'CST PIS', compute=_readonly)
     #md_pis_proprio_readonly = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade BC do PIS próprio', compute=_readonly)
@@ -327,6 +363,10 @@ class DocumentoItem(models.Model):
     @api.depends('produto_descricao')
     @api.onchange('produto_id')
     def onchange_produto_id(self):
+        #
+        # Aqui determinados o protocolo e o item da operação a ser seguido para a operação,
+        # o produto e o NCM em questão
+        #
         res = {}
         valores = {}
         res['value'] = valores
@@ -380,21 +420,19 @@ class DocumentoItem(models.Model):
         if self.produto_id.protocolo_id:
             protocolo = self.produto_id.protocolo_id
 
-        elif self.produto_id.ncm_id and self.produto_id.ncm_id.protocolo_ids:
-            if len(self.produto_id.ncm_id.protocolo_ids):
-                protocolo = self.produto_id.ncm_id.protocolo_ids[0]
+        if protocolo is None and self.produto_id.ncm_id and self.produto_id.ncm_id.protocolo_ids:
+            busca_protocolo = [
+                ('ncm_ids.ncm_id', '=', self.produto_id.ncm_id.id),
+                '|',
+                ('estado_ids', '=', False),
+                ('estado_ids.uf', '=', estado_destino)
+            ]
+            protocolo_ids = self.env['sped.protocolo.icms'].search(busca_protocolo)
 
-            else:
-                busca_protocolo = [
-                    ('id', 'in', self.produto_id.ncm_id.protocolo_ids),
-                    '|',
-                    ('estado_ids', '=', False),
-                    ('estado_ids.uf', '=', estado_destino)
-                ]
-                protocolo_ids = self.env['sped.protocolo.icms'].search(busca_protocolo)
-                print('protocolo_ids', protocolo_ids)
+            if len(protocolo_ids) != 0:
+                protocolo = protocolo_ids[0]
 
-        elif self.empresa_id.protocolo_id:
+        if protocolo is None and self.empresa_id.protocolo_id:
             protocolo = self.empresa_id.protocolo_id
 
         if (not protocolo) or (protocolo is None):
@@ -505,41 +543,45 @@ class DocumentoItem(models.Model):
         #
         operacao_item = operacao_item_ids[0]
 
-        valores['protocolo_id'] = protocolo.id
         valores['operacao_item_id'] = operacao_item.id
 
-        return res
-
-    @api.depends('emissao', 'modelo')
-    @api.onchange('regime_tributario')
-    def onchange_regime_tributario(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
-
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            #
-            # Força a CST do PIS, COFINS e IPI para o SIMPLES
-            #
-            valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca
-            al_pis_cofins = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES')
-            valores['al_pis_cofins_id'] = al_pis_cofins.id
+        #
+        # O protocolo alternativo no item da operação força o uso de determinado
+        # protocolo, independente de validade no estado ou outras validações
+        #
+        if operacao_item.protocolo_alternativo_id:
+            valores['protocolo_id'] = operacao_item.protocolo_alternativo_id.id
 
         else:
-            #
-            # A nota não é do SIMPLES, zera o SIMPLES e o crédito de ICMS
-            #
-            valores['al_simples'] = 0
-            valores['al_icms_sn'] = 0
+            valores['protocolo_id'] = protocolo.id
 
         return res
 
-    #@api.depends()
-    @api.onchange('protocolo_id')
-    def onchange_protocolo_id(self):
-        pass
+    #@api.depends('emissao', 'modelo')
+    #@api.onchange('regime_tributario')
+    #def onchange_regime_tributario(self):
+        #res = {}
+        #valores = {}
+        #res['value'] = valores
 
-    @api.depends('produto_id', 'empresa_id', 'regime_tributario')
+        #if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            ##
+            ## Força a CST do PIS, COFINS e IPI para o SIMPLES
+            ##
+            #valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            #al_pis_cofins = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES')
+            #valores['al_pis_cofins_id'] = al_pis_cofins.id
+
+        #else:
+            ##
+            ## A nota não é do SIMPLES, zera o SIMPLES e o crédito de ICMS
+            ##
+            #valores['al_simples'] = 0
+            #valores['al_icms_sn'] = 0
+
+        #return res
+
+    @api.depends('produto_id')
     @api.onchange('operacao_item_id')
     def onchange_operacao_item_id(self):
         res = {}
@@ -552,8 +594,8 @@ class DocumentoItem(models.Model):
         valores['cfop_id'] = self.operacao_item_id.cfop_id.id
         valores['compoe_total'] = self.operacao_item_id.compoe_total
         valores['movimentacao_fisica'] = self.operacao_item_id.movimentacao_fisica
-        valores['bc_icms_proprio_com_ipi'] = self.operacao_item_id.bc_icms_proprio_com_ipi
-        valores['bc_icms_st_com_ipi'] = self.operacao_item_id.bc_icms_st_com_ipi
+        #valores['bc_icms_proprio_com_ipi'] = self.operacao_item_id.bc_icms_proprio_com_ipi
+        #valores['bc_icms_st_com_ipi'] = self.operacao_item_id.bc_icms_st_com_ipi
         valores['cst_icms'] = self.operacao_item_id.cst_icms
         valores['cst_icms_sn'] = self.operacao_item_id.cst_icms_sn
         valores['cst_ipi'] = self.operacao_item_id.cst_ipi
@@ -561,7 +603,17 @@ class DocumentoItem(models.Model):
         #
         # Busca agora as alíquotas do PIS e COFINS
         #
-        if self.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and self.operacao_item_id.cst_icms_sn != '900':
+            #
+            # Força a CST do PIS, COFINS e IPI para o SIMPLES
+            #
+            valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            valores['cst_ipi_entrada'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            valores['cst_ipi_saida'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            al_pis_cofins = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES')
+            valores['al_pis_cofins_id'] = al_pis_cofins.id
+
+        else:
             #
             # Determina a alíquota do PIS-COFINS:
             # 1º - se o produto tem uma específica
@@ -587,9 +639,59 @@ class DocumentoItem(models.Model):
 
             valores['al_pis_cofins_id'] = al_pis_cofins.id
 
+        #
+        # Busca a alíquota do IBPT quando venda
+        #
+        if self.operacao_item_id.cfop_id.eh_venda:
+            print('vai buscar ibpt')
+            if self.produto_id.ncm_id:
+                ibpt = self.env['sped.ibptax.ncm']
+
+                ibpt_ids = ibpt.search([
+                    ('estado_id', '=', self.empresa_id.municipio_id.estado_id.id),
+                    ('ncm_id', '=', self.produto_id.ncm_id.id),
+                ])
+
+                if len(ibpt_ids) > 0:
+                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_estadual
+
+                    if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
+                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+
+            #
+            # NBS por ser mais detalhado tem prioridade sobre o código do serviço
+            #
+            elif self.produto_id.nbs_id:
+                ibpt = self.env['sped.ibptax.nbs']
+
+                ibpt_ids = ibpt.search([
+                    ('estado_id', '=', self.empresa_id.municipio_id.estado_id.id),
+                    ('nbs_id', '=', self.produto_id.nbs_id.id),
+                ])
+
+                if len(ibpt_ids) > 0:
+                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
+
+                    if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
+                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+
+            elif self.produto_id.servico_id:
+                ibpt = self.env['sped.ibptax.servico']
+
+                ibpt_ids = ibpt.search([
+                    ('estado_id', '=', self.empresa_id.municipio_id.estado_id.id),
+                    ('servico_id', '=', self.produto_id.servico_id.id),
+                ])
+
+                if len(ibpt_ids) > 0:
+                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
+
+                    if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
+                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+
         return res
 
-    @api.depends('regime_tributario', 'consumidor_final')
+    #@api.depends('regime_tributario', 'consumidor_final')
     @api.onchange('cfop_id')
     def onchange_cfop_id(self):
         res = {}
@@ -599,25 +701,25 @@ class DocumentoItem(models.Model):
         if not self.cfop_id:
             return res
 
+        valores['al_simples'] = 0
+        valores['al_icms_sn'] = 0
+        valores['calcula_difal'] = False
+        valores['bc_icms_proprio_com_ipi'] = False
+        valores['bc_icms_st_com_ipi'] = False
+
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cfop_id.calcula_simples_csll_irpj:
                 valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
 
-            else:
-                valores['al_simples'] = 0
-
-            valores['calcula_diferencial_aliquota'] = False
-
         else:
-            valores['al_simples'] = 0
-            valores['al_icms_sn'] = 0
-
             if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and self.cfop_id.eh_venda:
-                valores['calcula_diferencial_aliquota'] = True
+                valores['calcula_difal'] = True
+                valores['bc_icms_proprio_com_ipi'] = True
+                valores['bc_icms_st_com_ipi'] = True
 
         return res
 
-    @api.depends('emissao', 'modelo', 'entrada_saida')
+    #@api.depends('emissao', 'modelo', 'entrada_saida')
     @api.onchange('al_pis_cofins_id')
     def onchange_al_pis_cofins_id(self):
         res = {}
@@ -640,43 +742,39 @@ class DocumentoItem(models.Model):
         if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
             valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
             valores['cst_cofins'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
+            valores['cst_pis_entrada'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
+            valores['cst_cofins_entrada'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
+
         else:
             valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_saida
             valores['cst_cofins'] = self.al_pis_cofins_id.cst_pis_cofins_saida
+            valores['cst_pis_saida'] = self.al_pis_cofins_id.cst_pis_cofins_saida
+            valores['cst_cofins_saida'] = self.al_pis_cofins_id.cst_pis_cofins_saida
 
         return res
 
-    @api.depends('emissao', 'modelo', 'entrada_saida', 'operacao_item_id', 'produto_id')
+    @api.depends('cst_icms_sn')
+    @api.depends('operacao_item_id', 'produto_id')
     @api.onchange('cst_ipi')
     def onchange_cst_ipi(self):
         res = {}
         valores = {}
         res['value'] = valores
+        avisos = {}
+        res['warning'] = avisos
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            if self.cst_ipi:
-                raise ValidationError('Para o regime tributário do SIMPLES não há destaque de IPI!')
-
-        else:
-            if not self.cst_ipi:
-                valores['bc_ipi'] = 0
-                valores['al_ipi'] = 0
-                valores['vr_ipi'] = 0
-                valores['bc_icms_proprio_com_ipi'] = False
-                valores['bc_icms_st_com_ipi'] = False
-                return res
-
-            print('self.cst_ipi, entrada_saida')
-            print(self.cst_ipi, self.entrada_saida, self.cst_ipi in ST_IPI_SAIDA_DICT)
-
-            if self.entrada_saida == ENTRADA_SAIDA_ENTRADA and self.cst_ipi not in ST_IPI_ENTRADA_DICT:
-                raise ValidationError('Selecione um código de situação tributária de entrada!')
-
-            elif self.entrada_saida == ENTRADA_SAIDA_SAIDA and self.cst_ipi not in ST_IPI_SAIDA_DICT:
-                raise ValidationError('Selecione um código de situação tributária de saída!')
+        if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and self.cst_icms_sn != '900') or not self.cst_ipi:
+            valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            valores['cst_ipi_entrada'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            valores['cst_ipi_saida'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
+            valores['bc_ipi'] = 0
+            valores['al_ipi'] = 0
+            valores['vr_ipi'] = 0
+            return res
 
         #
         # Determina a alíquota do IPI:
@@ -691,43 +789,150 @@ class DocumentoItem(models.Model):
             al_ipi = None
 
         if (self.cst_ipi not in ST_IPI_CALCULA) or (not al_ipi) or (al_ipi is None):
+            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
             valores['bc_ipi'] = 0
             valores['al_ipi'] = 0
             valores['vr_ipi'] = 0
-            valores['bc_icms_proprio_com_ipi'] = False
-            valores['bc_icms_st_com_ipi'] = False
 
         else:
             valores['md_ipi'] = al_ipi.md_ipi
             valores['al_ipi'] = al_ipi.al_ipi
-            valores['bc_icms_proprio_com_ipi'] = self.operacao_item_id.bc_icms_proprio_com_ipi
-            valores['bc_icms_st_com_ipi'] = self.operacao_item_id.bc_icms_st_com_ipi
 
         return res
 
-    @api.depends('empresa_id', 'emissao', 'cfop_id')
-    @api.onchange('cst_icms_sn')
-    def onchange_cst_icms_sn(self):
+    @api.depends('protocolo_id', 'cfop_id', 'calcula_difal')
+    @api.onchange('org_icms', 'cst_icms', 'cst_icms_sn', 'produto_id')
+    def onchange_cst_icms_cst_icms_sn(self):
         res = {}
         valores = {}
         res['value'] = valores
+        avisos = {}
+        res['warning'] = avisos
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA or not self.cst_icms_sn:
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
-            if not (self.cfop_id.eh_venda_industrializacao or self.cfop_id.eh_venda_comercializacao):
-                raise ValidationError('Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica uma venda!')
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
+                if not self.cfop_id.eh_venda:
+                    avisos['title'] = 'Aviso!'
+                    avisos['message'] = 'Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica uma venda!'
 
-            valores['al_icms_sn'] = self.empresa_id.simples_aliquota_id.al_icms
+                valores['al_icms_sn'] = self.empresa_id.simples_aliquota_id.al_icms
+
+            else:
+                valores['al_icms_sn'] = 0
+                valores['rd_icms_sn'] = 0
+
         else:
             valores['al_icms_sn'] = 0
+            valores['rd_icms_sn'] = 0
+
+        #
+        # Determinamos as UFs de origem e destino
+        #
+        if self.entrada_saida == ENTRADA_SAIDA_SAIDA:
+            estado_origem = self.empresa_id.estado
+            estado_destino = self.participante_id.estado
+
+            if self.emissao == TIPO_EMISSAO_PROPRIA:
+                destinatario = self.participante_id
+            else:
+                destinatario = self.empresa_id
+
+        else:
+            estado_origem = self.participante_id.estado
+            estado_destino = self.empresa_id.estado
+
+            if self.emissao == TIPO_EMISSAO_PROPRIA:
+                destinatario = self.empresa_id
+            else:
+                destinatario = self.participante_id
+
+        #
+        # Agora, buscamos as alíquotas necessárias
+        #
+        aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_origem, estado_destino, self.data_emissao, self.empresa_id)
+
+        #
+        # Alíquota do ICMS próprio
+        #
+        if self.org_icms in ORIGEM_MERCADORIA_ALIQUOTA_4 and self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
+            al_icms = self.env.ref('sped.ALIQUOTA_ICMS_PROPRIO_4')
+
+        else:
+            al_icms = aliquota_origem_destino.al_icms_proprio_id
+
+        valores['md_icms_proprio'] = al_icms.md_icms
+        valores['pr_icms_proprio'] = al_icms.pr_icms
+        valores['rd_icms_proprio'] = al_icms.rd_icms
+        valores['al_icms_proprio'] = al_icms.al_icms
+        valores['al_interna_destino'] = 0
+        valores['al_difal'] = 0
+
+        if self.calcula_difal:
+            aliquota_interna_destino = self.protocolo_id.busca_aliquota(estado_destino, estado_destino, self.data_emissao, self.empresa_id)
+
+            if aliquota_interna_destino.al_icms_proprio_id.al_icms > al_icms.al_icms:
+                al_difal = aliquota_interna_destino.al_icms_proprio_id.al_icms
+                al_difal -= al_icms.al_icms
+
+                valores['al_difal'] = al_difal
+                valores['al_interna_destino'] = aliquota_interna_destino.al_icms_proprio_id.al_icms
+
+        #
+        # Alíquota e MVA do ICMS ST, somente para quando não houver serviço (serviço pode ter ICMS na nota conjugada [DF])
+        #
+        if (self.cst_icms in ST_ICMS_CALCULA_ST or self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST) and self.produto_id.tipo != TIPO_PRODUTO_SERVICO_SERVICOS:
+            al_icms_st = aliquota_origem_destino.al_icms_st_id
+
+            valores['md_icms_st'] = al_icms_st.md_icms
+            valores['pr_icms_st'] = al_icms_st.pr_icms
+            valores['rd_icms_st'] = al_icms_st.rd_icms
+            valores['al_icms_st'] = al_icms_st.al_icms
+
+            #
+            # Verificamos a necessidade de se busca a MVA (ajustada ou não)
+            #
+            if al_icms_st.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO and (not al_icms_st.pr_icms):
+                protocolo_ncm = self.produto_id.ncm_id.busca_mva(self.protocolo_id)
+
+                if (protocolo_ncm is not None) and protocolo_ncm:
+                    pr_icms_st = protocolo_ncm.mva
+
+                    #
+                    # SIMPLES não ajusta a MVA
+                    #
+                    # Atenção aqui, pois SC determina que é o regime tributário do destinatário que determina o ajuste
+                    #
+                    ajusta_mva = False
+                    if (estado_origem == 'SC' or estado_destino == 'SC'):
+                        if destinatario.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
+                            ajusta_mva = True
+
+                    elif self.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
+                        ajusta_mva = True
+
+                    if ajusta_mva:
+                        al_icms_proprio = 100 - al_icms.al_icms
+                        al_icms_proprio /= 100
+
+                        al_icms_st = 100 - al_icms_st.al_icms
+                        al_icms_st /= 100
+
+                        pr_icms_st /= 100
+                        pr_icms_st += 1
+                        pr_icms_st *= al_icms_proprio / al_icms_st
+                        pr_icms_st -= 1
+                        pr_icms_st *= 100
+                        pr_icms_st = pr_icms_st.quantize(D('0.0001'))
+
+                    valores['pr_icms_st'] = pr_icms_st
 
         return res
 
-    @api.depends('protocolo_id', 'emissao', 'cfop_id', 'empresa_id', 'participante_id', 'entrada_saida')
-    @api.onchange('cst_icms')
-    def onchange_cst_icms(self):
+    @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_tributacao', 'quantidade_tributacao', 'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras', 'vr_ii')
+    def calcula_valor_operacao(self):
         res = {}
         valores = {}
         res['value'] = valores
@@ -735,26 +940,356 @@ class DocumentoItem(models.Model):
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        if not self.cst_icms:
+        #
+        # Cupom Fiscal só aceita até 3 casas decimais no valor unitário
+        #
+        if self.modelo == '2D':
+            self.vr_unitario = self.vr_unitario.quantize(D('0.001'))
+            self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(D('0.001'))
+
+            valores['vr_unitario'] = self.vr_unitario
+            valores['vr_unitario_tributacao'] = self.vr_unitario_tributacao
+
+        #
+        # Calcula o valor dos produtos
+        #
+        vr_produtos = self.quantidade * self.vr_unitario
+        vr_produtos = vr_produtos.quantize(D('0.01'))
+
+        #
+        # Até segunda ordem, a quantidade e valor unitário para tributação não mudam
+        #
+        quantidade_tributacao = self.quantidade
+        vr_unitario_tributacao = self.vr_unitario
+        vr_produtos_tributacao = vr_produtos
+
+        vr_operacao = vr_produtos + self.vr_frete + self.vr_seguro + self.vr_outras - self.vr_desconto
+        vr_operacao_tributacao = vr_produtos_tributacao + self.vr_frete + self.vr_seguro + self.vr_outras - self.vr_desconto + self.vr_ii
+
+        valores['vr_produtos'] = vr_produtos
+        valores['vr_produtos_tributacao'] = vr_produtos_tributacao
+        valores['vr_operacao'] = vr_operacao
+        valores['vr_operacao_tributacao'] = vr_operacao_tributacao
+
+        return res
+
+    @api.onchange('vr_operacao_tributacao', 'quantidade_tributacao', 'cst_ipi', 'md_ipi', 'bc_ipi', 'al_ipi', 'vr_ipi')
+    def calcula_ipi(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        if not (self.cst_icms in ST_ICMS_CALCULA_PROPRIO or self.cst_icms in ST_ICMS_CALCULA_ST):
-            valores['md_icms_proprio'] = MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO
-            valores['pr_icms_proprio'] = 0
-            valores['rd_icms_proprio'] = 0
-            valores['bc_icms_proprio'] = 0
-            valores['al_icms_proprio'] = 0
-            valores['vr_icms_proprio'] = 0
-            valores['al_diferencial_aliquota'] = 0
-            valores['vr_diferencial_aliquota'] = 0
+        valores['bc_ipi'] = 0
+        valores['vr_ipi'] = 0
 
-            valores['md_icms_st'] = MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO
-            valores['pr_icms_st'] = 0
-            valores['rd_icms_st'] = 0
-            valores['bc_icms_st'] = 0
-            valores['al_icms_st'] = 0
-            valores['vr_icms_st'] = 0
-            valores['al_diferencial_aliquota_st'] = 0
-            valores['vr_diferencial_aliquota_st'] = 0
+        #
+        # SIMPLES não tem IPI
+        #
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            valores['cst_ipi'] = ''
+            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
+            valores['al_ipi'] = 0
+            return res
+
+        if self.cst_ipi not in ST_IPI_CALCULA:
+            valores['al_ipi'] = 0
+            return res
+
+        if self.md_ipi == MODALIDADE_BASE_IPI_ALIQUOTA:
+            bc_ipi = self.vr_operacao_tributacao
+            vr_ipi = bc_ipi * self.al_ipi / 100
+
+        elif self.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
+            bc_ipi = 0
+            vr_ipi = self.quantidade_tributacao * self.al_ipi
+
+        vr_ipi = vr_ipi.quantize(D('0.01'))
+
+        valores['bc_ipi'] = bc_ipi
+        valores['vr_ipi'] = vr_ipi
+
+        return res
+
+    @api.onchange('vr_operacao_tributacao', 'rd_icms_sn', 'cst_icms_sn', 'al_icms_sn', 'vr_icms_sn')
+    def calcula_icms_sn(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        valores['vr_icms_sn'] = 0
+
+        #
+        # Só SIMPLES tem crédito de ICMS SN
+        #
+        if self.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
+            valores['cst_icms_sn'] = '900'
+            valores['rd_icms_sn'] = 0
+            valores['al_icms_sn'] = 0
+            return res
+
+        if self.cst_icms_sn not in ST_ICMS_SN_CALCULA_CREDITO:
+            valores['rd_icms_sn'] = 0
+            valores['al_icms_sn'] = 0
+            return res
+
+        al_icms_sn = self.al_icms_sn
+
+        #
+        # Aplica a redução da alíquota quando houver
+        #
+        if self.rd_icms_sn:
+            al_icms_sn = al_icms_sn - (al_icms_sn * self.rd_icms_sn / 100)
+            al_icms_sn = al_icms_sn.quantize(D('0.01'))
+
+        vr_icms_sn = self.vr_operacao_tributacao * al_icms_sn / 100
+        vr_icms_sn = vr_icms_sn.quantize(D('0.01'))
+
+        valores['vr_icms_sn'] = vr_icms_sn
+
+        return res
+
+    @api.onchange('vr_operacao_tributacao', 'quantidade_tributacao', 'cst_pis', 'cst_cofins', 'md_pis_proprio', 'md_cofins_proprio', 'bc_pis_proprio', 'al_pis_proprio', 'vr_pis_proprio', 'bc_cofins_proprio', 'al_cofins_proprio', 'vr_cofins_proprio')
+    def calcula_pis_cofins(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        valores['md_pis_proprio'] = MODALIDADE_BASE_PIS_ALIQUOTA
+        valores['bc_pis_proprio'] = 0
+        valores['al_pis_proprio'] = 0
+        valores['vr_pis_proprio'] = 0
+
+        valores['md_cofins_proprio'] = MODALIDADE_BASE_COFINS_ALIQUOTA
+        valores['bc_cofins_proprio'] = 0
+        valores['al_cofins_proprio'] = 0
+        valores['vr_cofins_proprio'] = 0
+
+        if self.cst_pis in ST_PIS_CALCULA or self.cst_pis in ST_PIS_CALCULA_CREDITO:
+            if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
+                md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
+                bc_pis_proprio = self.vr_operacao_tributacao
+                vr_pis_proprio = bc_pis_proprio * (self.al_pis_proprio / 100)
+
+                md_cofins_proprio = MODALIDADE_BASE_COFINS_ALIQUOTA
+                bc_cofins_proprio = self.vr_operacao_tributacao
+                vr_cofins_proprio = bc_cofins_proprio * (self.al_cofins_proprio / 100)
+
+            else:
+                md_pis_proprio = MODALIDADE_BASE_PIS_QUANTIDADE
+                bc_pis_proprio = 0
+                vr_pis_proprio = self.quantidade_tributacao * self.al_pis_proprio
+
+                md_cofins_proprio = MODALIDADE_BASE_COFINS_QUANTIDADE
+                bc_cofins_proprio = 0
+                vr_cofins_proprio = self.quantidade_tributacao * self.al_cofins_proprio
+
+            vr_pis_proprio = vr_pis_proprio.quantize(D('0.01'))
+            vr_cofins_proprio = vr_cofins_proprio.quantize(D('0.01'))
+
+            valores['md_pis_proprio'] = md_pis_proprio
+            valores['bc_pis_proprio'] = bc_pis_proprio
+            valores['al_pis_proprio'] = self.al_pis_proprio
+            valores['vr_pis_proprio'] = vr_pis_proprio
+
+            valores['md_cofins_proprio'] = md_cofins_proprio
+            valores['bc_cofins_proprio'] = bc_cofins_proprio
+            valores['al_cofins_proprio'] = self.al_cofins_proprio
+            valores['vr_cofins_proprio'] = vr_cofins_proprio
+
+        return res
+
+    @api.depends('cfop_id')
+    @api.onchange('vr_operacao_tributacao', 'quantidade_tributacao', 'cst_icms', 'cst_icms_sn', 'md_icms_proprio', 'pr_icms_proprio', 'rd_icms_proprio', 'bc_icms_proprio_com_ipi', 'bc_icms_proprio', 'al_icms_proprio', 'vr_icms_proprio', 'vr_ipi', 'vr_outras')
+    def calcula_icms_proprio(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        valores['bc_icms_proprio'] = 0
+        valores['vr_icms_proprio'] = 0
+
+        #
+        # Baseado no valor da situação tributária, calcular o ICMS próprio
+        #
+        if (self.cst_icms in ST_ICMS_CALCULA_PROPRIO) or (self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST) \
+            or (self.cst_icms_sn in ST_ICMS_SN_CALCULA_PROPRIO) or (self.cst_icms_sn == ST_ICMS_SN_ANTERIOR):
+
+            if self.md_icms_proprio in (MODALIDADE_BASE_ICMS_PROPRIO_PAUTA, MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO):
+                bc_icms_proprio = self.quantidade_tributacao * self.pr_icms_proprio
+
+            else:
+                bc_icms_proprio = self.vr_operacao_tributacao
+
+            #
+            # Nas notas de importação o ICMS é "por fora"
+            #
+            if self.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO and self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
+                bc_icms_proprio = bc_icms_proprio / D(1 - self.al_icms_proprio / D(100))
+
+            #
+            # Nas devoluções de compra de empresa que não destaca IPI, o valor do IPI é
+            # informado em outras depesas acessórias;
+            # nesses casos, inverter a consideração da soma do valor do IPI, pois o valor
+            # de outras despesas já entrou no valor tributável
+            #
+            if self.cfop_id.eh_devolucao_compra:
+                if not self.bc_icms_proprio_com_ipi:
+                    bc_icms_proprio -= self.vr_outras
+
+            elif self.bc_icms_proprio_com_ipi:
+                bc_icms_proprio += self.vr_ipi
+
+            #
+            # Agora que temos a base final, aplicamos a margem caso necessário
+            #
+            if self.md_icms_proprio == MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO:
+                bc_icms_proprio = bc_icms_proprio * (1 + (self.pr_icms_proprio / 100))
+
+            #
+            # Vai haver redução da base de cálculo?
+            # Aqui também, no caso da situação 30 e 60, calculamos a redução, quando houver
+            #
+            if self.cst_icms in ST_ICMS_COM_REDUCAO or self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST:
+                bc_icms_proprio = bc_icms_proprio.quantize(D('0.01'))
+                bc_icms_proprio = bc_icms_proprio * (1 - (self.rd_icms_proprio / 100))
+
+            bc_icms_proprio = bc_icms_proprio.quantize(D('0.01'))
+
+            vr_icms_proprio = bc_icms_proprio * (self.al_icms_proprio / 100)
+            vr_icms_proprio = vr_icms_proprio.quantize(D('0.01'))
+
+            valores['bc_icms_proprio'] = bc_icms_proprio
+            valores['vr_icms_proprio'] = vr_icms_proprio
+
+        return res
+
+    @api.depends('cfop_id')
+    @api.onchange('vr_operacao_tributacao', 'quantidade_tributacao', 'vc_icms_proprio', 'cst_icms', 'cst_icms_sn', 'md_icms_st', 'pr_icms_st', 'rd_icms_st', 'bc_icms_st_com_ipi', 'bc_icms_st', 'al_icms_st', 'vr_icms_st', 'vr_ipi', 'vr_outras')
+    def calcula_icms_st(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        valores['bc_icms_st'] = 0
+        valores['vr_icms_st'] = 0
+
+        #
+        # Baseado no valor da situação tributária, calcular o ICMS ST
+        #
+        if self.cst_icms in ST_ICMS_CALCULA_ST or self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST:
+            if self.md_icms_st == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                bc_icms_st = self.vr_operacao_tributacao
+
+            else:
+                bc_icms_st = self.vr_operacao_tributacao
+
+            #
+            # Nas devoluções de compra de empresa que não destaca IPI, o valor do IPI é
+            # informado em outras depesas acessórias;
+            # nesses casos, inverter a consideração da soma do valor do IPI, pois o valor
+            # de outras despesas já entrou no valor tributável
+            #
+            if self.cfop_id.eh_devolucao_compra:
+                if not self.bc_icms_st_com_ipi:
+                    bc_icms_st -= self.vr_outras
+
+            elif self.bc_icms_st_com_ipi:
+                bc_icms_st += self.vr_ipi
+
+            #
+            # Agora que temos a base final, aplicamos a margem caso necessário
+            #
+            if self.md_icms_st == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                bc_icms_st = bc_icms_st * (1 + (self.pr_icms_st / 100))
+
+            #
+            # Vai haver redução da base de cálculo?
+            #
+            if self.rd_icms_st:
+                bc_icms_st = bc_icms_st.quantize(D('0.01'))
+                bc_icms_st = bc_icms_st * (1 - (self.rd_icms_st / 100))
+
+            bc_icms_st = bc_icms_st.quantize(D('0.01'))
+
+            vr_icms_st = bc_icms_st * (self.al_icms_st / 100)
+            vr_icms_st = vr_icms_st.quantize(D('0.01'))
+            vr_icms_st -= self.vr_icms_proprio
+
+            valores['bc_icms_st'] = bc_icms_st
+            valores['vr_icms_st'] = vr_icms_st
+
+            if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and self.cst_icms_sn not in ST_ICMS_SN_CALCULA_PROPRIO) or \
+                self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO:
+                valores['bc_icms_proprio'] = 0
+                valores['al_icms_proprio'] = 0
+                valores['vr_icms_proprio'] = 0
+
+        return res
+
+    @api.onchange('vr_operacao_tributacao', 'calcula_difal', 'al_icms_proprio', 'al_interna_destino')
+    def calcula_deferencial_aliquota(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        valores['al_difal'] = 0
+        valores['vr_difal'] = 0
+
+        if self.calcula_difal:
+            al_difal = self.al_interna_destino - self.al_icms_proprio
+            vr_difal = self.vr_operacao_tributacao * al_difal / 100
+            vr_difal = vr_difal.quantize(D('0.01'))
+            valores['al_difal'] = al_difal
+            valores['vr_difal'] = vr_difal
+
+        return res
+
+    @api.onchange('vr_fatura', 'al_simples')
+    def calcula_simples(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        if self.al_simples:
+            vr_simples = self.vr_fatura * self.al_simples / 100
+            vr_simples = vr_simples.quantize(D('0.01'))
+            valores['vr_simples'] = vr_simples
+
+        return res
+
+    @api.onchange('vr_operacao_tributacao', 'al_ibpt')
+    def calcula_ibpt(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return res
+
+        if self.al_ibpt:
+            vr_ibpt = self.vr_operacao_tributacao * self.al_ibpt / 100
+            vr_ibpt = vr_ibpt.quantize(D('0.01'))
+            valores['vr_ibpt'] = vr_ibpt
 
         return res

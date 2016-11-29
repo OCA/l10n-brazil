@@ -39,6 +39,8 @@ class Empresa(models.Model):
             ('teto_id', '=', self.simples_teto_id.id),
             ])
 
+        print('aliquota simples', simples_aliquota_ids)
+
         if len(simples_aliquota_ids) != 0:
             self.simples_aliquota_id = simples_aliquota_ids[0]
         else:
