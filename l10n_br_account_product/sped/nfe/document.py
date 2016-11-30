@@ -466,9 +466,9 @@ class NFe200(FiscalDocument):
                 else '%s%s' % (invoice.partner_id.state_id.ibge_code,
                                invoice.partner_id.l10n_br_city_id.ibge_code))
             self.det.imposto.ISSQN.cMun.valor = (('%s%s') % (
-                invoice.partner_id.state_id.ibge_code,
-                invoice.partner_id.l10n_br_city_id.ibge_code)
-                if invoice.partner_id.country_id.code.upper() == 'BR'
+                invoice.partner_shipping_id.state_id.ibge_code,
+                invoice.partner_shipping_id.l10n_br_city_id.ibge_code)
+                if invoice.partner_shipping_id.country_id.code.upper() == 'BR'
                 else '9999999')
             self.det.imposto.ISSQN.cPais.valor = (
                 invoice.partner_id.country_id.bc_code
@@ -479,8 +479,7 @@ class NFe200(FiscalDocument):
             self.det.imposto.ISSQN.cListServ.valor = \
                 invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cSitTrib.valor = invoice_line.issqn_type
-            self.det.imposto.ISSQN.indISS.valor = '1'
-
+            self.det.imposto.ISSQN.indISS.valor = invoice_line.issqn_exigibilidade
 
         # PIS
         self.det.imposto.PIS.CST.valor = invoice_line.pis_cst_id.code
@@ -606,57 +605,85 @@ class NFe200(FiscalDocument):
     def _total(self, invoice):
         """Totais"""
 
-        self.nfe.infNFe.total.ICMSTot.vBC.valor = str(
-            "%.2f" % invoice.icms_base)
-        self.nfe.infNFe.total.ICMSTot.vICMS.valor = str(
-            "%.2f" % invoice.icms_value)
-        self.nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(
-            "%.2f" % invoice.icms_fcp_value)
-        self.nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(
-            "%.2f" % invoice.icms_dest_value)
-        self.nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
-            "%.2f" % invoice.icms_origin_value)
-        self.nfe.infNFe.total.ICMSTot.vBCST.valor = str(
-            "%.2f" % invoice.icms_st_base)
-        self.nfe.infNFe.total.ICMSTot.vST.valor = str(
-            "%.2f" % invoice.icms_st_value)
-        self.nfe.infNFe.total.ICMSTot.vProd.valor = str(
-            "%.2f" % invoice.amount_gross)
-        self.nfe.infNFe.total.ICMSTot.vFrete.valor = str(
-            "%.2f" % invoice.amount_freight)
-        self.nfe.infNFe.total.ICMSTot.vSeg.valor = str(
-            "%.2f" % invoice.amount_insurance)
-        self.nfe.infNFe.total.ICMSTot.vDesc.valor = str(
-            "%.2f" % invoice.amount_discount)
-        self.nfe.infNFe.total.ICMSTot.vII.valor = str(
-            "%.2f" % invoice.ii_value)
-        self.nfe.infNFe.total.ICMSTot.vIPI.valor = str(
-            "%.2f" % invoice.ipi_value)
-        self.nfe.infNFe.total.ICMSTot.vPIS.valor = str(
-            "%.2f" % invoice.pis_value)
-        self.nfe.infNFe.total.ICMSTot.vCOFINS.valor = str(
-            "%.2f" % invoice.cofins_value)
-        self.nfe.infNFe.total.ICMSTot.vOutro.valor = str(
-            "%.2f" % invoice.amount_costs)
         self.nfe.infNFe.total.ICMSTot.vNF.valor = str(
-            "%.2f" % invoice.amount_total)
-        self.nfe.infNFe.total.ICMSTot.vTotTrib.valor = str(
-            "%.2f" % invoice.amount_total_taxes)
+                "%.2f" % invoice.amount_total)
 
-        # TODO: Preencher tag ISSQNtot (pag 221 do manual)
+        prod = False
+        for line in invoice.invoice_line:
+            if line.product_type == 'product':
+                prod = True
 
-        try:
-           self.nfe.infNFe.total.retTrib.vRetPIS.valor    = str("%.2f" % invoice.pis_value_wh)
-           self.nfe.infNFe.total.retTrib.vRetCOFINS.valor = str("%.2f" % invoice.cofins_value_wh)
-           self.nfe.infNFe.total.retTrib.vRetCSLL.valor  = str("%.2f" % invoice.csll_value_wh)
-           self.nfe.infNFe.total.retTrib.vBCIRRF.valor  = str("%.2f" % invoice.irrf_base_wh)
-           self.nfe.infNFe.total.retTrib.vIRRF.valor     = str("%.2f" % invoice.irrf_value_wh)
-           self.nfe.infNFe.total.retTrib.vBCRetPrev.valor  = str("%.2f" % invoice.inss_base_wh)
-           self.nfe.infNFe.total.retTrib.vRetPrev.valor     = str("%.2f" % invoice.inss_value_wh)
-        except AttributeError:
-            pass
+        if prod == True:
+            self.nfe.infNFe.total.ICMSTot.vBC.valor = str(
+                "%.2f" % invoice.icms_base)
+            self.nfe.infNFe.total.ICMSTot.vICMS.valor = str(
+                "%.2f" % invoice.icms_value)
+            self.nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(
+                "%.2f" % invoice.icms_fcp_value)
+            self.nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(
+                "%.2f" % invoice.icms_dest_value)
+            self.nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
+                "%.2f" % invoice.icms_origin_value)
+            self.nfe.infNFe.total.ICMSTot.vBCST.valor = str(
+                "%.2f" % invoice.icms_st_base)
+            self.nfe.infNFe.total.ICMSTot.vST.valor = str(
+                "%.2f" % invoice.icms_st_value)
+            self.nfe.infNFe.total.ICMSTot.vProd.valor = str(
+                "%.2f" % invoice.amount_gross)
+            self.nfe.infNFe.total.ICMSTot.vFrete.valor = str(
+                "%.2f" % invoice.amount_freight)
+            self.nfe.infNFe.total.ICMSTot.vSeg.valor = str(
+                "%.2f" % invoice.amount_insurance)
+            self.nfe.infNFe.total.ICMSTot.vDesc.valor = str(
+                "%.2f" % invoice.amount_discount)
+            self.nfe.infNFe.total.ICMSTot.vII.valor = str(
+                "%.2f" % invoice.ii_value)
+            self.nfe.infNFe.total.ICMSTot.vIPI.valor = str(
+                "%.2f" % invoice.ipi_value)
+            self.nfe.infNFe.total.ICMSTot.vPIS.valor = str(
+                "%.2f" % invoice.pis_value)
+            self.nfe.infNFe.total.ICMSTot.vCOFINS.valor = str(
+                "%.2f" % invoice.cofins_value)
+            self.nfe.infNFe.total.ICMSTot.vOutro.valor = str(
+                "%.2f" % invoice.amount_costs)
+            self.nfe.infNFe.total.ICMSTot.vTotTrib.valor = str(
+                "%.2f" % invoice.amount_total_taxes)
 
+        if invoice.issqn_value > 0:
+            v_serv = sum([line.price_gross for line in invoice.invoice_line
+                 if line.product_type == 'service'])
+            v_pis = sum([line.pis_value for line in invoice.invoice_line
+                 if line.product_type == 'service'])
+            v_cofins = sum([line.cofins_value for line in invoice.invoice_line
+                 if line.product_type == 'service'])
 
+            self.nfe.infNFe.total.ISSQNTot.vServ.valor = str(
+                "%.2f" % v_serv)
+            self.nfe.infNFe.total.ISSQNTot.vBC.valor = str(
+                "%.2f" % invoice.issqn_base)
+            self.nfe.infNFe.total.ISSQNTot.vISS.valor = str(
+                "%.2f" % invoice.issqn_value)
+            self.nfe.infNFe.total.ISSQNTot.vPIS.valor = str(
+                "%.2f" % v_pis)
+            self.nfe.infNFe.total.ISSQNTot.vCOFINS.valor = str(
+                "%.2f" % v_cofins)
+            self.nfe.infNFe.total.ISSQNTot.dCompet.valor = str(
+                    invoice.date_invoice)
+            self.nfe.infNFe.total.ISSQNTot.vDeducao.valor = ''
+            self.nfe.infNFe.total.ISSQNTot.vOutro.valor = ''
+            self.nfe.infNFe.total.ISSQNTot.vDescIncond.valor = ''
+            self.nfe.infNFe.total.ISSQNTot.vDescCond.valor = ''
+            self.nfe.infNFe.total.ISSQNTot.vISSRet.valor = invoice.issqn_value_wh
+            self.nfe.infNFe.total.ISSQNTot.cRegTrib.valor = invoice.company_id.ret
+
+        #RETENÇÃO
+        self.nfe.infNFe.total.retTrib.vRetPIS.valor    = str("%.2f" % invoice.pis_value_wh) or ''
+        self.nfe.infNFe.total.retTrib.vRetCOFINS.valor = str("%.2f" % invoice.cofins_value_wh) or ''
+        self.nfe.infNFe.total.retTrib.vRetCSLL.valor  = str("%.2f" % invoice.csll_value_wh) or ''
+        self.nfe.infNFe.total.retTrib.vBCIRRF.valor  = str("%.2f" % invoice.irrf_base_wh) or ''
+        self.nfe.infNFe.total.retTrib.vIRRF.valor     = str("%.2f" % invoice.irrf_value_wh) or ''
+        self.nfe.infNFe.total.retTrib.vBCRetPrev.valor  = str("%.2f" % invoice.inss_base_wh) or ''
+        self.nfe.infNFe.total.retTrib.vRetPrev.valor     = str("%.2f" % invoice.inss_value_wh) or ''
 
     def _export(self, invoice):
         "Informações de exportação"
