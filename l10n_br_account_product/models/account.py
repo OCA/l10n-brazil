@@ -123,8 +123,10 @@ class AccountTax(models.Model):
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
-        id_dest = (fiscal_position.cfop_id and
-                   fiscal_position.cfop_id.id_dest or False)
+        id_dest = u''
+        if fiscal_position:
+            id_dest = (fiscal_position.cfop_id and
+                       fiscal_position.cfop_id.id_dest or False)
 
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
