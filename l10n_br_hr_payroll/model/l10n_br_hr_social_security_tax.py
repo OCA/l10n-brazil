@@ -20,8 +20,8 @@ class L10nBrHrSocialTax(models.Model):
 
         for record in self:
             name = str(self.year).zfill(4)
-            #name += ' - ' + str(self.max_wage).replace('.', ',')
-            #name += ' - ' + str(self.amount).replace('.', ',')
+            # name += ' - ' + str(self.max_wage).replace('.', ',')
+            # name += ' - ' + str(self.amount).replace('.', ',')
 
             result.append((record['id'], name))
 

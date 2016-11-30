@@ -17,7 +17,7 @@
             <field name="model">l10n_br_hr.cbo</field>
             <field name="arch" type="xml">
                 <search string="Ocupação">
-                	<field name="code" string="Código"/>    
+                    <field name="code" string="Código"/>    
                     <field name="name" string="Ocupação"/>
                 
                 </search>

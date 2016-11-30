@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
@@ -21,13 +21,13 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp import models, fields
 
 
-class ResCompany(osv.osv):
+class ResCompany(models.Models):
+
     _inherit = 'res.company'
 
-    _columns = {
-        'check_benefits': fields.boolean(
-            'Valley Food and Meal Valley simultaneous', required=False),
-    }
+    check_benefits = fields.Boolean(
+        'Valley Food and Meal Valley simultaneous',
+        required=False)

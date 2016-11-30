@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
@@ -22,18 +22,21 @@
 
 {
     'name': 'Brazilian Localization HR Payroll',
-    'description': """
-        Brazilian Localization HT Payroll""",
     'category': 'Localization',
-    'author': 'KMEE',
+    'license': 'AGPL-3',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'maintainer': 'KMEE',
     'website': 'http://www.kmee.com.br',
-    'version': '0.1',
-    'depends': ['hr_payroll', 'l10n_br', 'l10n_br_base'],
+    'version': '8.0.0.0.1',
+    'depends': [
+        'hr_payroll',
+        'l10n_br',
+        'l10n_br_base'
+    ],
     'init_xml': [
-            'data/l10n_br_hr.cbo.csv',
-            'data/l10n_br_hr_payroll_data.xml',
-            'data/l10n_br_hr_payroll_data_IR_rule.xml'
+        'data/l10n_br_hr.cbo.csv',
+        'data/l10n_br_hr_payroll_data.xml',
+        'data/l10n_br_hr_payroll_data_IR_rule.xml'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -49,11 +52,6 @@
         'view/l10n_br_hr_rat_fap_view.xml',
         'view/l10n_br_hr_social_security_tax_view.xml',
     ],
-    'update_xml': [
-    ],
-    'test': [],
     'installable': True,
-    'images': [],
     'auto_install': False,
-    'license': 'AGPL-3',
 }

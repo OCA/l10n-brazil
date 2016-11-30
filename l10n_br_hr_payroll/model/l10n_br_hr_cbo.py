@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
@@ -20,14 +20,11 @@
 #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class L10nBrHrCbo(orm.Model):
-
+class L10nBrHrCbo(models.Model):
     _name = "l10n_br_hr.cbo"
     _description = "Brazilian Classification of Occupation"
-    _columns = {
-        'code': fields.integer('Code', required=True),
-        'name': fields.char('Name', size=255, required=True, translate=True),
-    }
+    code = fields.Integer('Code', required=True)
+    name = fields.Char('Name', size=255, required=True, translate=True)

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
@@ -20,13 +20,10 @@
 #
 ###############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class HrJob(orm.Model):
-
+class HrJob(models.Model):
     _inherit = 'hr.job'
 
-    _columns = {
-        'cbo_id': fields.many2one('l10n_br_hr.cbo', 'CBO'),
-    }
+    cbo_id = fields.Many2one('l10n_br_hr.cbo', 'CBO')

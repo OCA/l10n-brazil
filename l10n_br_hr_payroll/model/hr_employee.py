@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #
 #    Brazillian Human Resources Payroll module for OpenERP
@@ -28,7 +28,6 @@ import openerp.addons.decimal_precision as dp
 
 
 class HrEmployee(osv.osv):
-
     def _get_dependents(self, cr, uid, ids, fields, arg, context=None):
         res = {}
         dependent = self.pool.get('hr.employee.dependent')

@@ -1,184 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
-        <!-- Registros de Contribuição -->
-        
-        <record id="hr_csd_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto da Contribuição Sindical</field>
-        </record>
+        <!---->
+        <!--&lt;!&ndash; Registros de Contribuição &ndash;&gt;-->
+        <!---->
+        <!--<record id="hr_csd_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto da Contribuição Sindical</field>-->
+        <!--</record>-->
 
-        <record id="hr_vt_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do Vale Transporte</field>
-        </record>
- 
-        <record id="hr_inss_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do INSS</field>
-        </record>
-        
-        <record id="hr_fgts_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do FGTS</field>
-        </record>
-        
-        <record id="hr_ir_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do IR</field>
-        </record>
-        
-        <record id="hr_ps_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do Plano de Saúde</field>
-        </record>
+        <!--<record id="hr_vt_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do Vale Transporte</field>-->
+        <!--</record>-->
+ <!---->
+        <!--<record id="hr_inss_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do INSS</field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="hr_fgts_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do FGTS</field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="hr_ir_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do IR</field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="hr_ps_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do Plano de Saúde</field>-->
+        <!--</record>-->
 
-        <record id="hr_psd_contribution_register" model="hr.contribution.register">
-            <field name="name">Desconto do Plano de Saúde de Dependente</field>
-        </record>
+        <!--<record id="hr_psd_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Desconto do Plano de Saúde de Dependente</field>-->
+        <!--</record>-->
 
-        <record id="hr_vr_contribution_register" model="hr.contribution.register">
-            <field name="name">Adicional do Vale Refeição</field>
-        </record>
-        
-        <record id="hr_va_contribution_register" model="hr.contribution.register">
-            <field name="name">Adicional do Vale Alimentação</field>
-        </record>    
- 
-        <record id="hr_psal_contribution_register" model="hr.contribution.register">
-            <field name="name">Valor da Pensão Alimentícia</field>
-        </record>                            
-        
-        <!-- Regras de Salário -->
+        <!--<record id="hr_vr_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Adicional do Vale Refeição</field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="hr_va_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Adicional do Vale Alimentação</field>-->
+        <!--</record>    -->
+ <!---->
+        <!--<record id="hr_psal_contribution_register" model="hr.contribution.register">-->
+            <!--<field name="name">Valor da Pensão Alimentícia</field>-->
+        <!--</record>                            -->
+        <!---->
+        <!--&lt;!&ndash; Regras de Salário &ndash;&gt;-->
 
-        <record id="hr_salary_rule_inss" model="hr.salary.rule">
-            <field name="code">INSS</field>
-            <field name="name">INSS</field>
-            <field name="category_id" ref="hr_payroll.DED"/>           
-            <field name="amount_select">code</field>
-			<field name="amount_python_compute">result =(-513.01 if
-                ((contract.wage) &gt;= 4663.76) else -((contract.wage) * 0.11) if ((contract.wage) &gt;= 2331.89) and ((contract.wage) &lt;=4663.75) else -((contract.wage) * 0.09) if ((contract.wage) &gt;= 1399.13) and ((contract.wage) &lt;= 2331.88) else -((contract.wage) * 0.08))</field>
-            <field name="sequence" eval="101"/>
-            <field name="register_id" ref="hr_inss_contribution_register"/>
-            <field name="note">INSS</field>
-        </record>  
-	
-        <record id="hr_salary_rule_imp_renda" model="hr.salary.rule">
-            <field name="code">IR</field>
-            <field name="name">Imposto de Renda</field>
-            <field name="category_id" ref="hr_payroll.DED"/>                
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.ir_value</field>           
-            <field name="sequence" eval="102" />
-            <field name="register_id" ref="hr_ir_contribution_register"/>            
-            <field name="note">Imposto de Renda Salarial</field>
-        </record> 
+        <!--<record id="hr_salary_rule_inss" model="hr.salary.rule">-->
+            <!--<field name="code">INSS</field>-->
+            <!--<field name="name">INSS</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>           -->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result =(-513.01 if-->
+                <!--((contract.wage) &gt;= 4663.76) else -((contract.wage) * 0.11) if ((contract.wage) &gt;= 2331.89) and ((contract.wage) &lt;=4663.75) else -((contract.wage) * 0.09) if ((contract.wage) &gt;= 1399.13) and ((contract.wage) &lt;= 2331.88) else -((contract.wage) * 0.08))</field>-->
+            <!--<field name="sequence" eval="101"/>-->
+            <!--<field name="register_id" ref="hr_inss_contribution_register"/>-->
+            <!--<field name="note">INSS</field>-->
+        <!--</record>  -->
+    <!---->
+        <!--<record id="hr_salary_rule_imp_renda" model="hr.salary.rule">-->
+            <!--<field name="code">IR</field>-->
+            <!--<field name="name">Imposto de Renda</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>                -->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = contract.ir_value</field>           -->
+            <!--<field name="sequence" eval="102" />-->
+            <!--<field name="register_id" ref="hr_ir_contribution_register"/>            -->
+            <!--<field name="note">Imposto de Renda Salarial</field>-->
+        <!--</record> -->
 
-        <record id="hr_salary_rule_fgts" model="hr.salary.rule">
-            <field name="code">FGTS</field>
-            <field name="name">FGTS</field>
-            <field name="category_id" ref="hr_payroll.DED"/>           
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = (-((contract.wage) * 0.08))</field>
-            <field name="sequence" eval="103"/>
-            <field name="register_id" ref="hr_fgts_contribution_register"/>
-            <field name="note">Empregado terá desconto de 8% de FGTS</field>
-        </record>
+        <!--<record id="hr_salary_rule_fgts" model="hr.salary.rule">-->
+            <!--<field name="code">FGTS</field>-->
+            <!--<field name="name">FGTS</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>           -->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = (-((contract.wage) * 0.08))</field>-->
+            <!--<field name="sequence" eval="103"/>-->
+            <!--<field name="register_id" ref="hr_fgts_contribution_register"/>-->
+            <!--<field name="note">Empregado terá desconto de 8% de FGTS</field>-->
+        <!--</record>-->
 
-        <record id="hr_salary_rule_plano_saude" model="hr.salary.rule">
-            <field name="code">PS</field>
-            <field name="name">Plano Saúde</field>
-            <field name="category_id" ref="hr_payroll.DED"/>   
-            <field name="condition_select">none</field>             
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
-health = contract.health_insurance_father
+        <!--<record id="hr_salary_rule_plano_saude" model="hr.salary.rule">-->
+            <!--<field name="code">PS</field>-->
+            <!--<field name="name">Plano Saúde</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>   -->
+            <!--<field name="condition_select">none</field>             -->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = 0-->
+<!--health = contract.health_insurance_father-->
 
-if contract.wage &gt; 2384.01:
-    result = health*0.6
-elif (contract.wage &gt; 1430.01) and (contract.wage &lt; 2384.00):
-    result = health*0.5
-elif (contract.wage &gt; 0.01) and (contract.wage &lt; 1430.00):
-    result = health *0.4
-else:
-    result = 0</field>
-            <field name="sequence" eval="107"/>
-            <field name="register_id" ref="hr_ps_contribution_register"/>            
-            <field name="note">Valor do Plano de Saúde</field>
-        </record>
+<!--if contract.wage &gt; 2384.01:-->
+    <!--result = health*0.6-->
+<!--elif (contract.wage &gt; 1430.01) and (contract.wage &lt; 2384.00):-->
+    <!--result = health*0.5-->
+<!--elif (contract.wage &gt; 0.01) and (contract.wage &lt; 1430.00):-->
+    <!--result = health *0.4-->
+<!--else:-->
+    <!--result = 0</field>-->
+            <!--<field name="sequence" eval="107"/>-->
+            <!--<field name="register_id" ref="hr_ps_contribution_register"/>            -->
+            <!--<field name="note">Valor do Plano de Saúde</field>-->
+        <!--</record>-->
 
-        <record id="hr_salary_rule_plano_saude_dependente" model="hr.salary.rule">
-            <field name="code">PSD</field>
-            <field name="name">Plano Saúde Dependente</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="condition_select">none</field>            
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
-for dependent in employee.dependent_ids: result -= contract.health_insurance_dependent if (dependent.health_verification) else 0
-            </field>       
-            <field name="sequence" eval="110"/>
-            <field name="register_id" ref="hr_psd_contribution_register"/>            
-            <field name="note">Empregado terá desconto sobre seu Plano de Saúde mediante a Dependente</field>
-        </record> 
-        
-        <record id="hr_salary_rule_pensao_alimenticia" model="hr.salary.rule">
-            <field name="code">PA</field>
-            <field name="name">Pensão Alimentícia</field>
-            <field name="category_id" ref="hr_payroll.DED"/> 
-          	<field name="condition_select">none</field>          
-            <field name="amount_select">code</field>    
-            <field name="amount_python_compute">result = 0
-for dependent in employee.dependent_ids: result -= dependent.pension_benefits if (dependent.dependent_verification) else 0
-			</field>        
-            <field name="sequence" eval="133"/>    
-            <field name="register_id" ref="hr_psal_contribution_register"/>
-            <field name="note">Empregado terá desconto sobre Pensão Alimenticia</field>
-        </record> 
-                                  
-        <record id="hr_salary_rule_csd" model="hr.salary.rule">
-            <field name="code">CSD</field>
-            <field name="name">Contribuição Sindical</field>
-            <field name="category_id" ref="hr_payroll.DED"/>           
-            <field name="condition_select">python</field>
-            <field name="condition_python">result = contract.calc_date == True</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = -0.035*contract.wage if contract.calc_date else 0</field>
-            <field name="sequence" eval="104"/>
-            <field name="register_id" ref="hr_csd_contribution_register"/>
-            <field name="note">Empregado terá um desconto de 3.5% em um dia do ano.</field>
-        </record> 
-                  
-        <record id="hr_salary_rule_vt" model="hr.salary.rule">
-            <field name="code">VT</field>
-            <field name="name">Vale Transporte</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="condition_select">python</field>
-            <field name="condition_python">result = contract.wage</field>             
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">contract.wage</field>
-            <field name="amount_percentage" eval="-6.00"/>
-            <field name="sequence" eval="105"/>
-            <field name="register_id" ref="hr_vt_contribution_register"/>            
-            <field name="note"> Empregado terá um desconto de 6% do seu salário mediante ao Vale Transporte.</field>
-        </record>
-               
-    	<record id="hr_payroll_rules_vr" model="hr.salary.rule">
-	        <field name="name">Vale Refeição</field>
-	        <field name="sequence">70</field>
-	        <field name="code">VR</field>
-	        <field name="category_id" ref="hr_payroll.COMP"/>
-	        <field name="condition_select">none</field>
-	        <field name="amount_select">code</field>
-	        <field name="amount_python_compute">result = (contract.value_vr * contract.workeddays) if contract.value_vr else 0</field>
-            <field name="register_id" ref="hr_vr_contribution_register"/> 
-	        <field name="note">Vale Refeição</field>
-    	</record>
-        
-        <record id="hr_salary_rule_va" model="hr.salary.rule">
-            <field name="name">Vale Alimentação</field>
-            <field name="sequence" eval="80"/>
-            <field name="code">VA</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = (contract.value_va * contract.workeddays) if contract.value_va else 0</field>
-            <field name="register_id" ref="hr_va_contribution_register"/>           
-            <field name="note">Vale Alimentação</field>
-        </record>  
+        <!--<record id="hr_salary_rule_plano_saude_dependente" model="hr.salary.rule">-->
+            <!--<field name="code">PSD</field>-->
+            <!--<field name="name">Plano Saúde Dependente</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>-->
+            <!--<field name="condition_select">none</field>            -->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = 0-->
+<!--for dependent in employee.dependent_ids: result -= contract.health_insurance_dependent if (dependent.health_verification) else 0-->
+            <!--</field>       -->
+            <!--<field name="sequence" eval="110"/>-->
+            <!--<field name="register_id" ref="hr_psd_contribution_register"/>            -->
+            <!--<field name="note">Empregado terá desconto sobre seu Plano de Saúde mediante a Dependente</field>-->
+        <!--</record> -->
+        <!---->
+        <!--<record id="hr_salary_rule_pensao_alimenticia" model="hr.salary.rule">-->
+            <!--<field name="code">PA</field>-->
+            <!--<field name="name">Pensão Alimentícia</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/> -->
+            <!--<field name="condition_select">none</field>          -->
+            <!--<field name="amount_select">code</field>    -->
+            <!--<field name="amount_python_compute">result = 0-->
+<!--for dependent in employee.dependent_ids: result -= dependent.pension_benefits if (dependent.dependent_verification) else 0-->
+            <!--</field>        -->
+            <!--<field name="sequence" eval="133"/>    -->
+            <!--<field name="register_id" ref="hr_psal_contribution_register"/>-->
+            <!--<field name="note">Empregado terá desconto sobre Pensão Alimenticia</field>-->
+        <!--</record> -->
+                                  <!---->
+        <!--<record id="hr_salary_rule_csd" model="hr.salary.rule">-->
+            <!--<field name="code">CSD</field>-->
+            <!--<field name="name">Contribuição Sindical</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>           -->
+            <!--<field name="condition_select">python</field>-->
+            <!--<field name="condition_python">result = contract.calc_date == True</field>-->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = -0.035*contract.wage if contract.calc_date else 0</field>-->
+            <!--<field name="sequence" eval="104"/>-->
+            <!--<field name="register_id" ref="hr_csd_contribution_register"/>-->
+            <!--<field name="note">Empregado terá um desconto de 3.5% em um dia do ano.</field>-->
+        <!--</record> -->
+                  <!---->
+        <!--<record id="hr_salary_rule_vt" model="hr.salary.rule">-->
+            <!--<field name="code">VT</field>-->
+            <!--<field name="name">Vale Transporte</field>-->
+            <!--<field name="category_id" ref="hr_payroll.DED"/>-->
+            <!--<field name="condition_select">python</field>-->
+            <!--<field name="condition_python">result = contract.wage</field>             -->
+            <!--<field name="amount_select">percentage</field>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!--<field name="amount_percentage" eval="-6.00"/>-->
+            <!--<field name="sequence" eval="105"/>-->
+            <!--<field name="register_id" ref="hr_vt_contribution_register"/>            -->
+            <!--<field name="note"> Empregado terá um desconto de 6% do seu salário mediante ao Vale Transporte.</field>-->
+        <!--</record>-->
+               <!---->
+        <!--<record id="hr_payroll_rules_vr" model="hr.salary.rule">-->
+            <!--<field name="name">Vale Refeição</field>-->
+            <!--<field name="sequence">70</field>-->
+            <!--<field name="code">VR</field>-->
+            <!--<field name="category_id" ref="hr_payroll.COMP"/>-->
+            <!--<field name="condition_select">none</field>-->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = (contract.value_vr * contract.workeddays) if contract.value_vr else 0</field>-->
+            <!--<field name="register_id" ref="hr_vr_contribution_register"/> -->
+            <!--<field name="note">Vale Refeição</field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="hr_salary_rule_va" model="hr.salary.rule">-->
+            <!--<field name="name">Vale Alimentação</field>-->
+            <!--<field name="sequence" eval="80"/>-->
+            <!--<field name="code">VA</field>-->
+            <!--<field name="category_id" ref="hr_payroll.COMP"/>-->
+            <!--<field name="condition_select">none</field>-->
+            <!--<field name="amount_select">code</field>-->
+            <!--<field name="amount_python_compute">result = (contract.value_va * contract.workeddays) if contract.value_va else 0</field>-->
+            <!--<field name="register_id" ref="hr_va_contribution_register"/>           -->
+            <!--<field name="note">Vale Alimentação</field>-->
+        <!--</record>  -->
     </data>
 </openerp>
