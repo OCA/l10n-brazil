@@ -7,6 +7,9 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
             <field name="arch" type="xml">
+                <field name="fiscal_type" position="after">
+                    <field name="ret"/>
+                </field>
                 <page string="Certificados" position="inside">
                     <group col="2" string="NFe">
                         <field name="nfe_a1_file"/>

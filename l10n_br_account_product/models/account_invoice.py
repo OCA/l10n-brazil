@@ -17,6 +17,15 @@ from .product import PRODUCT_ORIGIN
 from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 FIELD_STATE = {'draft': [('readonly', False)]}
+EXIGIBILIDADE = [
+    ('1','Exigivel'),
+    ('2',u'Não incidência'),
+    ('3',u'Isenção'),
+    ('4',u'Exportação'),
+    ('5','Imunidade'),
+    ('6',u'Suspensa por decisão judicial'),
+    ('7','Suspensa por processo administrativo'),
+]
 
 
 class AccountInvoice(models.Model):
@@ -1052,6 +1061,12 @@ class AccountInvoiceLine(models.Model):
     issqn_value = fields.Float(
         'Valor ISSQN', required=True, digits=dp.get_precision('Account'),
         default=0.00)
+    issqn_judicial_suspension = fields.Boolean(u"Suspensão judicial")
+    issqn_administrative_suspension = fields.Boolean(u"Suspensão "
+                                                     u"administrativa")
+    issqn_suspension_process = fields.Char(u"Número do processo de suspensão")
+    issqn_exigibilidade = fields.Selection(string="Exigibilidade",
+                                           selection=EXIGIBILIDADE)
     ipi_manual = fields.Boolean('IPI Manual?', default=False)
     ipi_type = fields.Selection(
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],

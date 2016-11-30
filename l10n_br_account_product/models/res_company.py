@@ -9,6 +9,15 @@ from openerp.addons.l10n_br_account.models.l10n_br_account import (
     L10nBrTaxDefinition
 )
 
+RET = [
+    ('1','Microempresa Municipal'),
+    ('2','Estimativa'),
+    ('3','Sociedade de Profissionais'),
+    ('4','Cooperativa'),
+    ('5',u'Microempresário Individual (MEI)'),
+    ('6',u'Microempresário e Empresa de Pequeno Porte (ME/EPP)'),
+]
+
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -99,6 +108,8 @@ class ResCompany(models.Model):
     pis_wh = fields.Boolean(u'Retém PIS')
     cofins_wh = fields.Boolean(u'Retém COFINS')
     csll_wh = fields.Boolean(u'Retém CSLL')
+    ret = fields.Selection(string=u"Regime especial de tributação",
+                           selection=RET)
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
