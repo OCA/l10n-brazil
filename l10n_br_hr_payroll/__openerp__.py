@@ -42,6 +42,12 @@
         'view/hr_job_view.xml',
         'view/hr_contract_view.xml',
         'view/hr_payroll_view.xml',
+        'view/l10n_br_hr_child_benefit_view.xml',
+        'view/l10n_br_hr_income_tax_view.xml',
+        'view/l10n_br_hr_income_tax_deductable_amount_family_view.xml',
+        'view/l10n_br_hr_minimum_wage_view.xml',
+        'view/l10n_br_hr_rat_fap_view.xml',
+        'view/l10n_br_hr_social_security_tax_view.xml',
     ],
     'update_xml': [
     ],

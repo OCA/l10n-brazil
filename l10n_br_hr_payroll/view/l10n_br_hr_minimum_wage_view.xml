@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_minimum_wage_tree">
+            <field name="name">l10n_br.hr.minimum.wage.tree</field>
+            <field name="model">l10n_br.hr.minimum.wage</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Minimum Wage Table">
+                    <field name="year" />
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_minimum_wage_form">
+            <field name="name">l10n_br.hr.minimum.wage.form</field>
+            <field name="model">l10n_br.hr.minimum.wage</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4" colspan="4">
+                        <field name="year" required="1" />
+                        <newline/>
+                        <field name="amount" required="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_minimum_wage_search">
+            <field name="name">l10n_br.hr.minimum.wage.search</field>
+            <field name="model">l10n_br.hr.minimum.wage</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Minimum Wage Table">
+                    <field name="year"/>
+                    <field name="amount" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="l10n_br_hr_minimum_wage_action">
+            <field name="name">Minimum Wage</field>
+            <field name="res_model">l10n_br.hr.minimum.wage</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="l10n_br_hr_minimum_wage_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            action="l10n_br_hr_minimum_wage_action"
+            id="menu_l10n_br_hr_minimum_wage"
+            name="Minimum Wage"
+            parent="hr.menu_hr_configuration"
+            sequence="43"
+            />
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_minimum_wage_action_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="l10n_br_hr_minimum_wage_action"/>
+            <field name="view_id" ref="l10n_br_hr_minimum_wage_tree"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_minimum_wage_action_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="l10n_br_hr_minimum_wage_action"/>
+            <field name="view_id" ref="l10n_br_hr_minimum_wage_form"/>
+        </record>
+
+    </data>
+</openerp>

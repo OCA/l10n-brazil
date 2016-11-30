@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_income_tax_tree">
+            <field name="name">l10n_br.hr.income.tax.tree</field>
+            <field name="model">l10n_br.hr.income.tax</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Income Tax Table">
+                    <field name="year" />
+                    <field name="max_wage"/>
+                    <field name="rate"/>
+                    <field name="deductable"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_income_tax_form">
+            <field name="name">l10n_br.hr.income.tax.form</field>
+            <field name="model">l10n_br.hr.income.tax</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4" colspan="4">
+                        <field name="year" required="1" />
+                        <newline/>
+                        <field name="max_wage" required="1"/>
+                        <newline/>
+                        <field name="rate" required="1"/>
+                        <newline/>
+                        <field name="deductable" required="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_income_tax_search">
+            <field name="name">l10n_br.hr.income.tax.search</field>
+            <field name="model">l10n_br.hr.income.tax</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Income Tax Table">
+                    <field name="year"/>
+                    <field name="max_wage" />
+                    <field name="rate" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="l10n_br_hr_income_tax_action">
+            <field name="name">Income Tax</field>
+            <field name="res_model">l10n_br.hr.income.tax</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="l10n_br_hr_income_tax_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            action="l10n_br_hr_income_tax_action"
+            id="menu_l10n_br_hr_income_tax"
+            name="Income Tax"
+            parent="hr.menu_hr_configuration"
+            sequence="41"
+            />
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_income_tax_action_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="l10n_br_hr_income_tax_action"/>
+            <field name="view_id" ref="l10n_br_hr_income_tax_tree"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_income_tax_action_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="l10n_br_hr_income_tax_action"/>
+            <field name="view_id" ref="l10n_br_hr_income_tax_form"/>
+        </record>
+
+    </data>
+</openerp>
