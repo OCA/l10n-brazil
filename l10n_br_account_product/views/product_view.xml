@@ -23,6 +23,7 @@
                         </group>
                         <group>
                             <field name="fiscal_classification_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" domain="[('type', '=', 'normal')]"/>
+                            <field name="cest_id"/>
                             <field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
                         </group>
                     </group>
@@ -34,7 +35,7 @@
                             <field name="supplier_taxes_id" colspan="2" widget="many2many_tags"/>
                         </group>
                     </group>
-                                <group string="Dados Fiscais de Importação">
+                    <group string="Dados Fiscais de Importação">
                         <field name="fci"/>
                     </group>
                 </field>
