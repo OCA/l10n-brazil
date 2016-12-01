@@ -465,11 +465,13 @@ class NFe200(FiscalDocument):
                 if invoice.partner_shipping_id
                 else '%s%s' % (invoice.partner_id.state_id.ibge_code,
                                invoice.partner_id.l10n_br_city_id.ibge_code))
-            self.det.imposto.ISSQN.cMun.valor = (('%s%s') % (
-                invoice.partner_shipping_id.state_id.ibge_code,
-                invoice.partner_shipping_id.l10n_br_city_id.ibge_code)
-                if invoice.partner_shipping_id.country_id.code.upper() == 'BR'
-                else '9999999')
+            self.det.imposto.ISSQN.cMun.valor = (
+                '%s%s' %
+                (invoice.partner_shipping_id.state_id.ibge_code,
+                 invoice.partner_shipping_id.l10n_br_city_id.ibge_code)
+                if invoice.partner_shipping_id
+                else '%s%s' % (invoice.partner_id.state_id.ibge_code,
+                               invoice.partner_id.l10n_br_city_id.ibge_code))
             self.det.imposto.ISSQN.cPais.valor = (
                 invoice.partner_id.country_id.bc_code
                 if invoice.partner_id.country_id.code.upper() != 'BR'
@@ -480,6 +482,7 @@ class NFe200(FiscalDocument):
                 invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cSitTrib.valor = invoice_line.issqn_type
             self.det.imposto.ISSQN.indISS.valor = invoice_line.issqn_exigibilidade
+            self.det.imposto.ISSQN.nProcesso.valor = invoice_line.issqn_suspension_process or ''
 
         # PIS
         self.det.imposto.PIS.CST.valor = invoice_line.pis_cst_id.code

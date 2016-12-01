@@ -8,6 +8,7 @@ from openerp.addons import decimal_precision as dp
 from openerp.addons.l10n_br_account.models.l10n_br_account import (
     L10nBrTaxDefinition
 )
+from .account_invoice import EXIGIBILIDADE
 
 RET = [
     ('1','Microempresa Municipal'),
@@ -110,6 +111,10 @@ class ResCompany(models.Model):
     csll_wh = fields.Boolean(u'Retém CSLL')
     ret = fields.Selection(string=u"Regime especial de tributação",
                            selection=RET)
+    issqn_exigibilidade = fields.Selection(string="Exigibilidade do ISSQN",
+                                           selection=EXIGIBILIDADE)
+    issqn_suspension_process = fields.Char(
+        string=u"Número do processo de suspensão")
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):

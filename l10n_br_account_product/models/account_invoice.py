@@ -1061,12 +1061,10 @@ class AccountInvoiceLine(models.Model):
     issqn_value = fields.Float(
         'Valor ISSQN', required=True, digits=dp.get_precision('Account'),
         default=0.00)
-    issqn_judicial_suspension = fields.Boolean(u"Suspensão judicial")
-    issqn_administrative_suspension = fields.Boolean(u"Suspensão "
-                                                     u"administrativa")
     issqn_suspension_process = fields.Char(u"Número do processo de suspensão")
     issqn_exigibilidade = fields.Selection(string="Exigibilidade",
-                                           selection=EXIGIBILIDADE)
+                                           selection=EXIGIBILIDADE,
+                                           default='1')
     ipi_manual = fields.Boolean('IPI Manual?', default=False)
     ipi_type = fields.Selection(
         [('percent', 'Percentual'), ('quantity', 'Em Valor')],
@@ -1790,6 +1788,15 @@ class AccountInvoiceLine(models.Model):
             freight_value,
             other_costs_value):
         return {'value': {}}
+
+    @api.onchange('service_type_id')
+    def onchange_service_type(self):
+        exigibilidade = self.invoice_id.company_id.issqn_exigibilidade \
+            or self.service_type_id.issqn_exigibilidade
+        processo = self.invoice_id.company_id.issqn_suspension_process \
+           or self.service_type_id.issqn_suspension_process
+        self.issqn_exigibilidade = exigibilidade
+        self.issqn_suspension_process = processo
 
     @api.model
     def create(self, vals):

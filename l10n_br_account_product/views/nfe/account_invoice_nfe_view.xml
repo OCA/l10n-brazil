@@ -457,11 +457,10 @@
                                         <field name="issqn_percent"/>
                                         <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
                                         <field name="issqn_exigibilidade"/>
-                                        <field name="issqn_value"/>
-                                        <field name="issqn_judicial_suspension" />
-                                        <field name="issqn_administrative_suspension" />
                                         <field name="issqn_suspension_process"
-                                               attrs="{'invisible': [('issqn_judicial_suspension','=', False),('issqn_administrative_suspension','=', False)]}"/>
+                                               attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
+                                        <field name="issqn_value"/>
+
                                     </group>
                                 </page>
                                 <page string="IPI" attrs="{'invisible': [('product_type','=', 'service')]}">

@@ -9,6 +9,8 @@
             <field name="arch" type="xml">
                 <field name="fiscal_type" position="after">
                     <field name="ret"/>
+                    <field name="issqn_exigibilidade"/>
+                    <field name="issqn_suspension_process" attrs="{'invisible':[('issqn_exigibilidade','not in',['6','7'])]}"/>
                 </field>
                 <page string="Certificados" position="inside">
                     <group col="2" string="NFe">
