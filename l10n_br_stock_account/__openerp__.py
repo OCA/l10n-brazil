@@ -28,6 +28,6 @@
         'test/stock_internal_picking.yml',
         'test/stock_return_internal_picking.yml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }
