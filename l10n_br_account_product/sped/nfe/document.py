@@ -19,7 +19,7 @@
 
 from datetime import datetime
 
-from openerp import pooler
+#from openerp import pooler
 from openerp.exceptions import Warning as UserError
 from openerp.tools.translate import _
 
@@ -64,7 +64,7 @@ class NFe200(FiscalDocument):
             self._receiver(invoice, company, nfe_environment)
 
             i = 0
-            for inv_line in invoice.invoice_line:
+            for inv_line in invoice.invoice_line_ids:
                 i += 1
                 self.det = self._get_Det()
                 self._details(invoice, inv_line, i)

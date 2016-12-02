@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
+        <!-- Sequences for nfe.export
+        TODO ParseError: "ir.sequence.type" while parsing /home/yoges/odoo100/addons/l10n-brazil/l10n_br_account_product/l10n_br_account_product_sequence.xml:6, near
 
-        <!-- Sequences for nfe.export -->
         <record id="seq_type_nfe_export" model="ir.sequence.type">
             <field name="name">NFE Export</field>
             <field name="code">nfe.export</field>
         </record>
-
+-->
         <record id="seq_nfe_export" model="ir.sequence">
             <field name="name">NFE Export</field>
             <field name="code">nfe.export</field>
@@ -15,4 +16,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

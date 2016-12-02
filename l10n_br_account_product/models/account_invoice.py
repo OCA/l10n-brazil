@@ -20,11 +20,11 @@
 import datetime
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.addons import decimal_precision as dp
-from openerp.exceptions import RedirectWarning
+from odoo import api, fields, models, _
+from odoo.addons import decimal_precision as dp
+from odoo.exceptions import RedirectWarning
 
-from openerp.addons.l10n_br_account.models.account_invoice import (
+from odoo.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
     JOURNAL_TYPE)
 
@@ -32,51 +32,50 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
-from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
+from odoo.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.one
-    @api.depends('invoice_line', 'tax_line.amount')
+    @api.depends('invoice_line_ids', 'tax_line_ids.amount')
     def _compute_amount(self):
         self.icms_base = 0.0
         self.icms_base_other = 0.0
         self.icms_value = 0.0
         self.icms_st_base = 0.0
         self.icms_st_value = 0.0
-        self.ipi_base = sum(line.ipi_base for line in self.invoice_line)
+        self.ipi_base = sum(line.ipi_base for line in self.invoice_line_ids)
         self.ipi_base_other = sum(
-            line.ipi_base_other for line in self.invoice_line)
-        self.ipi_value = sum(line.ipi_value for line in self.invoice_line)
-        self.pis_base = sum(line.pis_base for line in self.invoice_line)
-        self.pis_value = sum(line.pis_value for line in self.invoice_line)
-        self.cofins_base = sum(line.cofins_base for line in self.invoice_line)
+            line.ipi_base_other for line in self.invoice_line_ids)
+        self.ipi_value = sum(line.ipi_value for line in self.invoice_line_ids)
+        self.pis_base = sum(line.pis_base for line in self.invoice_line_ids)
+        self.pis_value = sum(line.pis_value for line in self.invoice_line_ids)
+        self.cofins_base = sum(line.cofins_base for line in self.invoice_line_ids)
         self.cofins_value = sum(
-            line.cofins_value for line in self.invoice_line)
-        self.ii_value = sum(line.ii_value for line in self.invoice_line)
+            line.cofins_value for line in self.invoice_line_ids)
+        self.ii_value = sum(line.ii_value for line in self.invoice_line_ids)
         self.amount_discount = sum(
-            line.discount_value for line in self.invoice_line)
+            line.discount_value for line in self.invoice_line_ids)
         self.amount_insurance = sum(
-            line.insurance_value for line in self.invoice_line)
+            line.insurance_value for line in self.invoice_line_ids)
         self.amount_costs = sum(
-            line.other_costs_value for line in self.invoice_line)
+            line.other_costs_value for line in self.invoice_line_ids)
         self.amount_total_taxes = sum(
-            line.total_taxes for line in self.invoice_line)
-        self.amount_gross = sum(line.price_gross for line in self.invoice_line)
+            line.total_taxes for line in self.invoice_line_ids)
+        self.amount_gross = sum(line.price_gross for line in self.invoice_line_ids)
         self.amount_freight = sum(
-            line.freight_value for line in self.invoice_line)
+            line.freight_value for line in self.invoice_line_ids)
         self.amount_tax_discount = 0.0
         self.amount_untaxed = sum(
-            line.price_total for line in self.invoice_line)
+            line.price_total for line in self.invoice_line_ids)
         self.amount_tax = sum(tax.amount
-                              for tax in self.tax_line
-                              if not tax.tax_code_id.tax_discount)
+                              for tax in self.tax_line_ids)
         self.amount_total = self.amount_tax + self.amount_untaxed + \
-            self.amount_costs + self.amount_insurance + self.amount_freight
+                            self.amount_costs + self.amount_insurance + self.amount_freight
 
-        for line in self.invoice_line:
+        for line in self.invoice_line_ids:
             if line.icms_cst_id.code not in (
                     '101', '102', '201', '202', '300', '500'):
                 self.icms_base += line.icms_base
@@ -128,10 +127,10 @@ class AccountInvoice(models.Model):
         return result
 
     @api.one
-    @api.depends('invoice_line.cfop_id')
+    @api.depends('invoice_line_ids.cfop_id')
     def _compute_cfops(self):
         lines = self.env['l10n_br_account_product.cfop']
-        for line in self.invoice_line:
+        for line in self.invoice_line_ids:
             if line.cfop_id:
                 lines |= line.cfop_id
         self.cfop_ids = (lines).sorted()
@@ -355,76 +354,77 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
 
+    #
     # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoice, self).fields_view_get(
-            cr, uid, view_id=view_id, view_type=view_type, context=context,
-            toolbar=toolbar, submenu=submenu)
-
-        if context is None:
-            context = {}
-
-        if not view_type:
-            view_id = self.pool.get('ir.ui.view').search(
-                cr, uid, [('name', '=', 'account.invoice.tree')])
-            view_type = 'tree'
-
-        if view_type == 'form':
-            eview = etree.fromstring(result['arch'])
-
-            if 'type' in context.keys():
-                fiscal_types = eview.xpath("//field[@name='invoice_line']")
-                for fiscal_type in fiscal_types:
-                    fiscal_type.set(
-                        'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
-                            context['type'],
-                            context.get('fiscal_type', 'product')))
-
-                fiscal_categories = eview.xpath(
-                    "//field[@name='fiscal_category_id']")
-                for fiscal_category_id in fiscal_categories:
-                    fiscal_category_id.set(
-                        'domain',
-                        """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
-                        ('state', '=', 'approved'),
-                        ('journal_type', '=', '%s')]"""
-                        % (context.get('fiscal_type', 'product'),
-                            OPERATION_TYPE[context['type']],
-                            JOURNAL_TYPE[context['type']]))
-                    fiscal_category_id.set('required', '1')
-
-                document_series = eview.xpath(
-                    "//field[@name='document_serie_id']")
-                for document_serie_id in document_series:
-                    document_serie_id.set(
-                        'domain',
-                        "[('fiscal_type', '=', '%s'), "
-                        "('fiscal_document_id', '=', fiscal_document_id), "
-                        "('company_id','=',company_id)]"
-                        % (context.get('fiscal_type', 'product')))
-
-            if context.get('fiscal_type', False):
-                delivery_infos = eview.xpath("//group[@name='delivery_info']")
-                for delivery_info in delivery_infos:
-                    delivery_info.set('invisible', '1')
-
-            result['arch'] = etree.tostring(eview)
-
-        if view_type == 'tree':
-            doc = etree.XML(result['arch'])
-            nodes = doc.xpath("//field[@name='partner_id']")
-            partner_string = _('Customer')
-            if context.get(
-                    'type',
-                    'out_invoice') in (
-                    'in_invoice',
-                    'in_refund'):
-                partner_string = _('Supplier')
-            for node in nodes:
-                node.set('string', partner_string)
-            result['arch'] = etree.tostring(doc)
-        return result
+    # def fields_view_get(self, cr, uid, view_id=None, view_type=False,
+    #                     context=None, toolbar=False, submenu=False):
+    #     result = super(AccountInvoice, self).fields_view_get(
+    #         cr, uid, view_id=view_id, view_type=view_type, context=context,
+    #         toolbar=toolbar, submenu=submenu)
+    #
+    #     if context is None:
+    #         context = {}
+    #
+    #     if not view_type:
+    #         view_id = self.pool.get('ir.ui.view').search(
+    #             cr, uid, [('name', '=', 'account.invoice.tree')])
+    #         view_type = 'tree'
+    #
+    #     if view_type == 'form':
+    #         eview = etree.fromstring(result['arch'])
+    #
+    #         if 'type' in context.keys():
+    #             fiscal_types = eview.xpath("//field[@name='invoice_line_ids']")
+    #             for fiscal_type in fiscal_types:
+    #                 fiscal_type.set(
+    #                     'context', "{'type': '%s', 'fiscal_type': '%s'}" % (
+    #                         context['type'],
+    #                         context.get('fiscal_type', 'product')))
+    #
+    #             fiscal_categories = eview.xpath(
+    #                 "//field[@name='fiscal_category_id']")
+    #             for fiscal_category_id in fiscal_categories:
+    #                 fiscal_category_id.set(
+    #                     'domain',
+    #                     """[('fiscal_type', '=', '%s'), ('type', '=', '%s'),
+    #                     ('state', '=', 'approved'),
+    #                     ('journal_type', '=', '%s')]"""
+    #                     % (context.get('fiscal_type', 'product'),
+    #                         OPERATION_TYPE[context['type']],
+    #                         JOURNAL_TYPE[context['type']]))
+    #                 fiscal_category_id.set('required', '1')
+    #
+    #             document_series = eview.xpath(
+    #                 "//field[@name='document_serie_id']")
+    #             for document_serie_id in document_series:
+    #                 document_serie_id.set(
+    #                     'domain',
+    #                     "[('fiscal_type', '=', '%s'), "
+    #                     "('fiscal_document_id', '=', fiscal_document_id), "
+    #                     "('company_id','=',company_id)]"
+    #                     % (context.get('fiscal_type', 'product')))
+    #
+    #         if context.get('fiscal_type', False):
+    #             delivery_infos = eview.xpath("//group[@name='delivery_info']")
+    #             for delivery_info in delivery_infos:
+    #                 delivery_info.set('invisible', '1')
+    #
+    #         result['arch'] = etree.tostring(eview)
+    #
+    #     if view_type == 'tree':
+    #         doc = etree.XML(result['arch'])
+    #         nodes = doc.xpath("//field[@name='partner_id']")
+    #         partner_string = _('Customer')
+    #         if context.get(
+    #                 'type',
+    #                 'out_invoice') in (
+    #                 'in_invoice',
+    #                 'in_refund'):
+    #             partner_string = _('Supplier')
+    #         for node in nodes:
+    #             node.set('string', partner_string)
+    #         result['arch'] = etree.tostring(doc)
+    #     return result
 
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
@@ -482,10 +482,7 @@ class AccountInvoice(models.Model):
                 aux = datetime.datetime.strptime(
                     invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
                 invoice.date_invoice = str(aux)
-            result = invoice.onchange_payment_term_date_invoice(
-                invoice.payment_term.id, invoice.date_invoice)
-            if result and result.get('value'):
-                invoice.write(result['value'])
+            invoice._onchange_payment_term_date_invoice()
         return True
 
 
@@ -498,9 +495,12 @@ class AccountInvoiceLine(models.Model):
                  'insurance_value', 'freight_value', 'other_costs_value',
                  'invoice_id.currency_id')
     def _compute_price(self):
+        currency = self.invoice_id and self.invoice_id.currency_id or None
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+        self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
+                                              partner=self.invoice_id.partner_id)
         taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
+            price, currency, self.quantity, product=self.product_id,
             partner=self.invoice_id.partner_id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
@@ -850,8 +850,8 @@ class AccountInvoiceLine(models.Model):
     def _validate_taxes(self, values):
         """Verifica se o valor dos campos dos impostos estão sincronizados
         com os impostos do Odoo"""
-        context = self.env.context
-
+        #TODO V10 Get currency in values
+        currency = values.get('currency',False)
         price_unit = values.get('price_unit', 0.0) or self.price_unit
         discount = values.get('discount', 0.0)
         insurance_value = values.get(
@@ -861,8 +861,11 @@ class AccountInvoiceLine(models.Model):
             'other_costs_value', 0.0) or self.other_costs_value
         tax_ids = []
         if values.get('invoice_line_tax_id'):
-            tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
-                0][2] or self.invoice_line_tax_id.ids
+            # TODO MIG V10
+            # IndexError: tuple index out of range
+            # tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
+            #     0][2] or self.invoice_line_tax_id.ids
+            tax_ids = self.invoice_line_tax_id.ids
         partner_id = values.get('partner_id') or self.partner_id.id
         product_id = values.get('product_id') or self.product_id.id
         quantity = values.get('quantity') or self.quantity
@@ -891,8 +894,7 @@ class AccountInvoiceLine(models.Model):
         price = price_unit * (1 - discount / 100.0)
 
         if product_id:
-            product = self.pool.get('product.product').browse(
-                self._cr, self._uid, product_id, context=context)
+            product = self.env['product.product'].browse(product_id)
             if product.type == 'service':
                 result['product_type'] = 'service'
                 result['service_type_id'] = product.service_type_id.id
@@ -908,7 +910,7 @@ class AccountInvoiceLine(models.Model):
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
-            price, quantity, product, partner,
+            price, currency, quantity, product, partner,
             fiscal_position=fiscal_position,
             insurance_value=insurance_value,
             freight_value=freight_value,
@@ -980,56 +982,59 @@ class AccountInvoiceLine(models.Model):
 
         return result_rule
 
-    @api.multi
-    def product_id_change(self, product, uom_id, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, company_id=None):
-        ctx = dict(self.env.context)
-        if type in ('out_invoice', 'out_refund'):
-            ctx.update({'type_tax_use': 'sale'})
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        inv = self.invoice_id
+        context = {}
+        if inv.type in ('out_invoice', 'out_refund'):
+            context.update({'type_tax_use': 'sale'})
         else:
-            ctx.update({'type_tax_use': 'purchase'})
-        self = self.with_context(ctx)
-        result = super(AccountInvoiceLine, self).product_id_change(
-            product, uom_id, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, company_id)
-
-        fiscal_category_id = ctx.get('parent_fiscal_category_id')
-
+            context.update({'type_tax_use': 'purchase'})
+        #TODO V10
+        # issue:
+        # calling super with context changes self.invoice_id : None
+        # and super method returns None
+        #self = self.with_context(type_tax_use='purchase')
+        result = super(AccountInvoiceLine, self)._onchange_product_id()
+        if 'value' not in result.keys():
+            result['value'] = {}
+        product = self.product_id.id
+        fiscal_category_id = inv.fiscal_category_id.id
+        partner_id = inv.partner_id.id
+        company_id = inv.company_id.id
+        account_id = self.account_id.id
         if not fiscal_category_id or not product:
             return result
 
-        result = self._fiscal_position_map(
+        result = self.with_context(context)._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=fiscal_category_id,
-            account_id=result['value']['account_id'])
-
+            account_id=account_id)
         return result
 
-    @api.multi
-    def onchange_fiscal_category_id(self, partner_id, company_id, product_id,
-                                    fiscal_category_id, account_id):
+    @api.onchange('fiscal_category_id')
+    def onchange_fiscal_category_id(self):
         result = {'value': {}}
+        invoice = self.invoice_id
+        partner_id = invoice.partner_id.id
+        company_id = invoice.company_id.id
         return self._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, fiscal_category_id=fiscal_category_id,
-            product_id=product_id, account_id=account_id)
+            company_id=company_id, fiscal_category_id=self.fiscal_category_id.id,
+            product_id=self.product_id.id, account_id=self.account_id.id)
 
-    @api.multi
-    def onchange_fiscal_position(self, partner_id, company_id, product_id,
-                                 fiscal_category_id, account_id, quantity,
-                                 price_unit, discount, insurance_value,
-                                 freight_value, other_costs_value):
+    @api.onchange('fiscal_position')
+    def onchange_fiscal_position(self):
         result = {'value': {}}
+        invoice = self.invoice_id
         ctx = dict(self.env.context)
         kwargs = {
-            'company_id': company_id,
-            'partner_id': partner_id,
-            'product_id': product_id,
-            'partner_invoice_id': partner_id,
-            'fiscal_category_id': fiscal_category_id,
+            'company_id': invoice.company_id.id,
+            'partner_id': invoice.partner_id.id,
+            'product_id': self.product_id.id,
+            'partner_invoice_id': invoice.partner_id.id,
+            'fiscal_category_id': self.fiscal_category_id.id,
             'context': ctx
         }
         result.update(self._fiscal_position_map(result, **kwargs))
@@ -1248,12 +1253,12 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    # TODO comentado por causa deste bug
-    # https://github.com/odoo/odoo/issues/2197
-    # @api.multi
-    # def write(self, vals):
-    #    vals.update(self._validate_taxes(vals))
-    #    return super(AccountInvoiceLine, self).write(vals)
+        # TODO comentado por causa deste bug
+        # https://github.com/odoo/odoo/issues/2197
+        # @api.multi
+        # def write(self, vals):
+        #    vals.update(self._validate_taxes(vals))
+        #    return super(AccountInvoiceLine, self).write(vals)
 
 
 class AccountInvoiceTax(models.Model):
@@ -1265,7 +1270,7 @@ class AccountInvoiceTax(models.Model):
         currency = invoice.currency_id.with_context(
             date=invoice.date_invoice or fields.Date.context_today(invoice))
         company_currency = invoice.company_id.currency_id
-        for line in invoice.invoice_line:
+        for line in invoice.invoice_line_ids:
             taxes = line.invoice_line_tax_id.compute_all(
                 (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
                 line.quantity, line.product_id, invoice.partner_id,
@@ -1294,7 +1299,7 @@ class AccountInvoiceTax(models.Model):
                         val['amount'] * tax['tax_sign'],
                         company_currency, round=False)
                     val['account_id'] = tax[
-                        'account_collected_id'] or line.account_id.id
+                                            'account_collected_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
                         'account_analytic_collected_id']
                 else:
@@ -1307,7 +1312,7 @@ class AccountInvoiceTax(models.Model):
                         val['amount'] * tax['ref_tax_sign'],
                         company_currency, round=False)
                     val['account_id'] = tax[
-                        'account_paid_id'] or line.account_id.id
+                                            'account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
                         'account_analytic_paid_id']
 
@@ -1318,13 +1323,13 @@ class AccountInvoiceTax(models.Model):
                 # in situations were (part of) the taxes cannot be reclaimed,
                 # to ensure the tax move is allocated to the proper analytic
                 # account.
-                if not val.get('account_analytic_id') and\
-                        line.account_analytic_id and\
-                        val['account_id'] == line.account_id.id:
+                if not val.get('account_analytic_id') and \
+                        line.account_analytic_id and \
+                                val['account_id'] == line.account_id.id:
                     val['account_analytic_id'] = line.account_analytic_id.id
 
                 key = (val['tax_code_id'], val[
-                       'base_code_id'], val['account_id'])
+                    'base_code_id'], val['account_id'])
                 if key not in tax_grouped:
                     tax_grouped[key] = val
                 else:

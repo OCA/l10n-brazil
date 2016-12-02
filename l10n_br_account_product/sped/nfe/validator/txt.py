@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp import pooler
+#from openerp import pooler
 from openerp.exceptions import Warning as UserError
 from openerp.tools.translate import _
 
@@ -193,7 +193,7 @@ def validate(cr, uid, ids, context=None):
                                     u'Código do BC do país\n')
 
         # produtos
-        for inv_line in inv.invoice_line:
+        for inv_line in inv.invoice_line_ids:
             if inv_line.product_id:
                 if not inv_line.product_id.default_code:
                     strErro += (u'Produtos e Serviços: %s, '

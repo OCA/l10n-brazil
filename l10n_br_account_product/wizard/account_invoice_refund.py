@@ -64,7 +64,7 @@ class AccountInvoiceRefund(models.TransientModel):
                 onchange['value']['fiscal_category_id'] = \
                     fiscal_category_id
 
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
 
                     if not self.force_fiscal_category_id and not \
                             line.fiscal_category_id.refund_fiscal_category_id:
@@ -87,21 +87,22 @@ class AccountInvoiceRefund(models.TransientModel):
                 invoice.write(onchange['value'])
             return result
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type='form',
-                        context=None, toolbar=False, submenu=False):
-        result = super(AccountInvoiceRefund, self).fields_view_get(
-            cr, uid, view_id, view_type, context, toolbar, submenu)
-        if not context:
-            context = {}
-        type = context.get('type', 'out_invoice')
-        journal_type = JOURNAL_TYPE[type]
-        type = OPERATION_TYPE[type]
-        eview = etree.fromstring(result['arch'])
-        fiscal_categ = eview.xpath("//field[@name='fiscal_category_id']")
-        for field in fiscal_categ:
-            field.set('domain', "[('journal_type', '=', '%s'),\
-                                 ('fiscal_type', '=', 'product'),\
-                                 ('type', '=', '%s')]" % (journal_type,
-                                                          type))
-        result['arch'] = etree.tostring(eview)
-        return result
+    #TODO MIG V10
+    # def fields_view_get(self, cr, uid, view_id=None, view_type='form',
+    #                     context=None, toolbar=False, submenu=False):
+    #     result = super(AccountInvoiceRefund, self).fields_view_get(
+    #         cr, uid, view_id, view_type, context, toolbar, submenu)
+    #     if not context:
+    #         context = {}
+    #     type = context.get('type', 'out_invoice')
+    #     journal_type = JOURNAL_TYPE[type]
+    #     type = OPERATION_TYPE[type]
+    #     eview = etree.fromstring(result['arch'])
+    #     fiscal_categ = eview.xpath("//field[@name='fiscal_category_id']")
+    #     for field in fiscal_categ:
+    #         field.set('domain', "[('journal_type', '=', '%s'),\
+    #                              ('fiscal_type', '=', 'product'),\
+    #                              ('type', '=', '%s')]" % (journal_type,
+    #                                                       type))
+    #     result['arch'] = etree.tostring(eview)
+    #     return result

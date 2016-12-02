@@ -31,7 +31,6 @@
     ],
     'data': [
         'l10n_br_account_product_sequence.xml',
-        'account_invoice_workflow.xml',
         'data/l10n_br_account_product.cfop.csv',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_product_data.xml',
@@ -54,19 +53,19 @@
     ],
     'demo': [
         'demo/account_tax_code_demo.xml',
-        'demo/account_tax_demo.xml',
-        'demo/base_demo.xml',
-        'demo/product_demo.xml',
-        'demo/l10n_br_account_product_demo.xml',
-        'demo/account_fiscal_position_rule_demo.xml',
-        'demo/product_taxes.yml',
+        # 'demo/account_tax_demo.xml', #created in l10n_br
+         'demo/base_demo.xml',
+         #'demo/product_demo.xml',
+        # 'demo/l10n_br_account_product_demo.xml',
+        # 'demo/account_fiscal_position_rule_demo.xml',
+        # 'demo/product_taxes.yml',
     ],
     'test': [
-        'test/account_customer_invoice.yml',
-        'test/account_supplier_invoice.yml',
-        'test/account_invoice_refund.yml',
-        'test/nfe_export.yml',
+        # 'test/account_customer_invoice.yml',
+        # 'test/account_supplier_invoice.yml',
+        # 'test/account_invoice_refund.yml',
+        # 'test/nfe_export.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
