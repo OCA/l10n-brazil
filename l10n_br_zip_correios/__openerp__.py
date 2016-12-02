@@ -18,7 +18,7 @@
         'test/partner_zip.yml',
     ],
     'category': 'Localization',
-    'installable': True,
+    'installable': False,
     'external_dependencies': {
         'python': ['suds'],
     }

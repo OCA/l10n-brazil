@@ -31,6 +31,6 @@
         'test/account_customer_invoice.yml',
         # 'test/account_invoice_refund.yml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

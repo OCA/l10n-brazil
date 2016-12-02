@@ -15,6 +15,6 @@
     ],
     'demo': [],
     'category': 'Localisation',
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }

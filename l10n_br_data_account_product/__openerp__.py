@@ -22,6 +22,6 @@
         'demo/l10n_br_data_account_product_demo.xml',
     ],
     'category': 'Localisation',
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }
