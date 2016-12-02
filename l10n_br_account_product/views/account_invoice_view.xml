@@ -314,7 +314,7 @@
 										<field name="fiscal_position" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" />
 										<field name="cfop_id"/>
 										<field domain="[('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" groups="account.group_account_user"/>
-										<field name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value)" widget="many2many_tags"/>
+										<field name="invoice_line_tax_id" context="{'type':parent.type}" domain="[('company_id', '=', parent.company_id)]" on_change="onchange_invoice_line_tax_id(product_id, parent.partner_id, invoice_line_tax_id, quantity, price_unit, discount, fiscal_position, insurance_value, freight_value, other_costs_value)" widget="many2many_tags"/>
 										<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]" name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
 										<field name="company_id" groups="base.group_multi_company" readonly="1"/>
 									</group>

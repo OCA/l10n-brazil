@@ -114,7 +114,7 @@ class AccountTax(models.Model):
             if tax_list:
                 tax_brw = tax_list[0]
             tax['domain'] = tax_brw.domain
-            tax['type'] = tax_brw.type_tax_use
+            tax['type'] = tax_brw.amount_type
             tax['percent'] = tax_brw.amount
             tax['base_reduction'] = tax_brw.base_reduction
             tax['amount_mva'] = tax_brw.amount_mva

@@ -30,24 +30,24 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
     _description = 'Export eletronic invoice for Emissor de NFe SEFAZ SP'
 
     def _default_file_type(self):
-        company_id = self.env['res.company']._company_default_get(
+        company = self.env['res.company']._company_default_get(
             'l10n_br_account_product.nfe_export_invoice')
-        return self.env['res.company'].browse(company_id).file_type
+        return company.file_type
 
     def _default_nfe_environment(self):
-        company_id = self.env['res.company']._company_default_get(
+        company = self.env['res.company']._company_default_get(
             'l10n_br_account_product.nfe_export_invoice')
-        return self.env['res.company'].browse(company_id).nfe_environment
+        return company.nfe_environment
 
     def _default_export_folder(self):
-        company_id = self.env['res.company']._company_default_get(
+        company = self.env['res.company']._company_default_get(
             'l10n_br_account_product.nfe_export_invoice')
-        return self.env['res.company'].browse(company_id).export_folder
+        return company.export_folder
 
     def _default_sign_xml(self):
-        company_id = self.env['res.company']._company_default_get(
+        company = self.env['res.company']._company_default_get(
             'l10n_br_account_product.nfe_export_invoice')
-        return self.env['res.company'].browse(company_id).sign_xml
+        return company.sign_xml
 
     name = fields.Char('Nome', size=255)
     file = fields.Binary('Arquivo', readonly=True)
@@ -160,7 +160,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
                 })
 
             if err_msg:
-                raise UserError(_('Error!'), _("'%s'") % _(err_msg, ))
+                raise UserError(_("'%s'") % _(err_msg, ))
 
             view_rec = self.env['ir.model.data'].get_object_reference(
                 'l10n_br_account_product',

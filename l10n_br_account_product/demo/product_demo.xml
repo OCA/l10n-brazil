@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-
-		<record id="demo_tax_out_icms_interno18" model="account.tax">
+		<record id="1_tax_template_out_icms_interno18" model="account.tax">
 			<field name="description">ICMS Interno Saída 18%</field>
 			<field name="name">ICMS Interno Saída 18%</field>
 			<field name="type_tax_use">sale</field>

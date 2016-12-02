@@ -79,7 +79,6 @@ class AccountFiscalPosition(models.Model):
                     ok = True
             if not ok:
                 result + t
-        print "result...................",result
         return result
 
     def _map_tax_code(self, map_tax):

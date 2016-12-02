@@ -20,11 +20,11 @@
 import datetime
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.addons import decimal_precision as dp
-from openerp.exceptions import RedirectWarning
+from odoo import api, fields, models, _
+from odoo.addons import decimal_precision as dp
+from odoo.exceptions import RedirectWarning
 
-from openerp.addons.l10n_br_account.models.account_invoice import (
+from odoo.addons.l10n_br_account.models.account_invoice import (
     OPERATION_TYPE,
     JOURNAL_TYPE)
 
@@ -32,7 +32,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
-from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
+from odoo.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
 class AccountInvoice(models.Model):
@@ -71,10 +71,9 @@ class AccountInvoice(models.Model):
         self.amount_untaxed = sum(
             line.price_total for line in self.invoice_line_ids)
         self.amount_tax = sum(tax.amount
-                              for tax in self.tax_line_ids
-                              if not tax.tax_code_id.tax_discount)
+                              for tax in self.tax_line_ids)
         self.amount_total = self.amount_tax + self.amount_untaxed + \
-            self.amount_costs + self.amount_insurance + self.amount_freight
+                            self.amount_costs + self.amount_insurance + self.amount_freight
 
         for line in self.invoice_line_ids:
             if line.icms_cst_id.code not in (
@@ -483,10 +482,7 @@ class AccountInvoice(models.Model):
                 aux = datetime.datetime.strptime(
                     invoice.date_hour_invoice, '%Y-%m-%d %H:%M:%S').date()
                 invoice.date_invoice = str(aux)
-            result = invoice.onchange_payment_term_date_invoice(
-                invoice.payment_term.id, invoice.date_invoice)
-            if result and result.get('value'):
-                invoice.write(result['value'])
+            invoice._onchange_payment_term_date_invoice()
         return True
 
 
@@ -499,9 +495,12 @@ class AccountInvoiceLine(models.Model):
                  'insurance_value', 'freight_value', 'other_costs_value',
                  'invoice_id.currency_id')
     def _compute_price(self):
+        currency = self.invoice_id and self.invoice_id.currency_id or None
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
+        self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
+                                              partner=self.invoice_id.partner_id)
         taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
+            price, currency, self.quantity, product=self.product_id,
             partner=self.invoice_id.partner_id,
             fiscal_position=self.fiscal_position,
             insurance_value=self.insurance_value,
@@ -851,8 +850,8 @@ class AccountInvoiceLine(models.Model):
     def _validate_taxes(self, values):
         """Verifica se o valor dos campos dos impostos estão sincronizados
         com os impostos do Odoo"""
-        context = self.env.context
-
+        #TODO V10 Get currency in values
+        currency = values.get('currency',False)
         price_unit = values.get('price_unit', 0.0) or self.price_unit
         discount = values.get('discount', 0.0)
         insurance_value = values.get(
@@ -862,8 +861,8 @@ class AccountInvoiceLine(models.Model):
             'other_costs_value', 0.0) or self.other_costs_value
         tax_ids = []
         if values.get('invoice_line_tax_id'):
-            #TODO MIG V10
-            #IndexError: tuple index out of range
+            # TODO MIG V10
+            # IndexError: tuple index out of range
             # tax_ids = values.get('invoice_line_tax_id', [[6, 0, []]])[
             #     0][2] or self.invoice_line_tax_id.ids
             tax_ids = self.invoice_line_tax_id.ids
@@ -895,8 +894,7 @@ class AccountInvoiceLine(models.Model):
         price = price_unit * (1 - discount / 100.0)
 
         if product_id:
-            product = self.pool.get('product.product').browse(
-                self._cr, self._uid, product_id, context=context)
+            product = self.env['product.product'].browse(product_id)
             if product.type == 'service':
                 result['product_type'] = 'service'
                 result['service_type_id'] = product.service_type_id.id
@@ -912,7 +910,7 @@ class AccountInvoiceLine(models.Model):
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
-            price, quantity, product, partner,
+            price, currency, quantity, product, partner,
             fiscal_position=fiscal_position,
             insurance_value=insurance_value,
             freight_value=freight_value,
@@ -986,15 +984,20 @@ class AccountInvoiceLine(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        ctx = dict(self.env.context)
-        inv = self.invoice_i
-        if type in ('out_invoice', 'out_refund'):
-            ctx.update({'type_tax_use': 'sale'})
+        inv = self.invoice_id
+        context = {}
+        if inv.type in ('out_invoice', 'out_refund'):
+            context.update({'type_tax_use': 'sale'})
         else:
-            ctx.update({'type_tax_use': 'purchase'})
-        self = self.with_context(ctx)
+            context.update({'type_tax_use': 'purchase'})
+        #TODO V10
+        # issue:
+        # calling super with context changes self.invoice_id : None
+        # and super method returns None
+        #self = self.with_context(type_tax_use='purchase')
         result = super(AccountInvoiceLine, self)._onchange_product_id()
-        print "result....................",result
+        if 'value' not in result.keys():
+            result['value'] = {}
         product = self.product_id.id
         fiscal_category_id = inv.fiscal_category_id.id
         partner_id = inv.partner_id.id
@@ -1003,12 +1006,11 @@ class AccountInvoiceLine(models.Model):
         if not fiscal_category_id or not product:
             return result
 
-        result = self._fiscal_position_map(
+        result = self.with_context(context)._fiscal_position_map(
             result, partner_id=partner_id, partner_invoice_id=partner_id,
             company_id=company_id, product_id=product,
             fiscal_category_id=fiscal_category_id,
             account_id=account_id)
-        print "fianl result...................",result
         return result
 
     @api.onchange('fiscal_category_id')
@@ -1251,12 +1253,12 @@ class AccountInvoiceLine(models.Model):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
 
-    # TODO comentado por causa deste bug
-    # https://github.com/odoo/odoo/issues/2197
-    # @api.multi
-    # def write(self, vals):
-    #    vals.update(self._validate_taxes(vals))
-    #    return super(AccountInvoiceLine, self).write(vals)
+        # TODO comentado por causa deste bug
+        # https://github.com/odoo/odoo/issues/2197
+        # @api.multi
+        # def write(self, vals):
+        #    vals.update(self._validate_taxes(vals))
+        #    return super(AccountInvoiceLine, self).write(vals)
 
 
 class AccountInvoiceTax(models.Model):
@@ -1297,7 +1299,7 @@ class AccountInvoiceTax(models.Model):
                         val['amount'] * tax['tax_sign'],
                         company_currency, round=False)
                     val['account_id'] = tax[
-                        'account_collected_id'] or line.account_id.id
+                                            'account_collected_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
                         'account_analytic_collected_id']
                 else:
@@ -1310,7 +1312,7 @@ class AccountInvoiceTax(models.Model):
                         val['amount'] * tax['ref_tax_sign'],
                         company_currency, round=False)
                     val['account_id'] = tax[
-                        'account_paid_id'] or line.account_id.id
+                                            'account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax[
                         'account_analytic_paid_id']
 
@@ -1321,13 +1323,13 @@ class AccountInvoiceTax(models.Model):
                 # in situations were (part of) the taxes cannot be reclaimed,
                 # to ensure the tax move is allocated to the proper analytic
                 # account.
-                if not val.get('account_analytic_id') and\
-                        line.account_analytic_id and\
-                        val['account_id'] == line.account_id.id:
+                if not val.get('account_analytic_id') and \
+                        line.account_analytic_id and \
+                                val['account_id'] == line.account_id.id:
                     val['account_analytic_id'] = line.account_analytic_id.id
 
                 key = (val['tax_code_id'], val[
-                       'base_code_id'], val['account_id'])
+                    'base_code_id'], val['account_id'])
                 if key not in tax_grouped:
                     tax_grouped[key] = val
                 else:
