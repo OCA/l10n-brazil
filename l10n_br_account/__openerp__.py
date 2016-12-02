@@ -46,6 +46,6 @@
         'test/account_supplier_invoice.yml',
         'test/generate_fiscal_rules.yml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
