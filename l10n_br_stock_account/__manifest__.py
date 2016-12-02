@@ -38,6 +38,6 @@
         'demo/company_demo.xml',
         'demo/l10n_br_stock_account_demo.xml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }
