@@ -25,7 +25,6 @@
         'security/ir.model.access.csv',
     ],
     'demo': [
-        'demo/base_demo.xml',
         'demo/l10n_br_base_demo.xml',
         'demo/res_partner_demo.xml',
     ],
