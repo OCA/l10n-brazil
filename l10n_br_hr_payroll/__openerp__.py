@@ -29,22 +29,14 @@
     'website': 'http://www.kmee.com.br',
     'version': '8.0.0.0.1',
     'depends': [
-        'hr_payroll',
-        'l10n_br',
-        'l10n_br_base'
+        'l10n_br_hr_contract'
     ],
     'init_xml': [
-        'data/l10n_br_hr.cbo.csv',
         'data/l10n_br_hr_payroll_data.xml',
         'data/l10n_br_hr_payroll_data_IR_rule.xml'
     ],
     'data': [
         'security/ir.model.access.csv',
-        'view/l10n_br_hr_cbo_view.xml',
-        'view/hr_employee_view.xml',
-        'view/hr_job_view.xml',
-        'view/hr_contract_view.xml',
-        'view/hr_payroll_view.xml',
         'view/l10n_br_hr_child_benefit_view.xml',
         'view/l10n_br_hr_income_tax_view.xml',
         'view/l10n_br_hr_income_tax_deductable_amount_family_view.xml',
