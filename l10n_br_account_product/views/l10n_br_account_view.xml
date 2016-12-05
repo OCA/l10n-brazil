@@ -33,17 +33,5 @@
                 </field>
             </field>
         </record>
-
-        <record id="l10n_br_account_product_service_type_form" model="ir.ui.view">
-            <field name="name">10n_br_account_product.service.type</field>
-            <field name="model">l10n_br_account.service.type</field>
-            <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_service_type_form"/>
-            <field name="arch" type="xml">
-                <field name="parent_id" position="after">
-                    <field name="issqn_exigibilidade"/>
-                    <field name="issqn_suspension_process" attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
-                </field>
-            </field>
-        </record>
     </data>
 </openerp>
