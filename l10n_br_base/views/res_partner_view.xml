@@ -105,8 +105,7 @@
                 <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div/div/field[@name='city']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                
-                
+
                 <xpath expr="//div[@name='div_address']" position="replace">
                     <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
                         <field name="zip" placeholder="CEP" style="width: 20%"/>
