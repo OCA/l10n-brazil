@@ -1,0 +1,220 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-Reg.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-RegIta.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-Bol.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-BolIta.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: FontAwesome;
+    src: url(fontawesome-webfont.ttf);
+}
+
+/* basic article setup */
+.slides > article h1,
+.slides > article h2 {
+    font-family: Lato;
+}
+/* code display */
+.slides > article table.highlighttable td {
+    padding: 0;
+}
+.slides > article .highlight pre,
+.slides > article .highlighttable pre,
+.slides > article .highlighttable .highlight {
+    margin: 0 !important;
+}
+.slides > article .highlight,
+.slides > article .highlighttable {
+    margin: 0.5em 0;
+}
+.slides > article td.linenos {
+    width: 1px;
+}
+.slides > article td.linenos pre {
+    padding: 5px;
+}
+
+/* logo in slides top-left */
+.slides > article:before {
+    content: "";
+    background: url('oca.png') top left no-repeat;
+    background-size: contain;
+    width: 4em;
+    height: 1.3em;
+    position: absolute;
+    left: 1em;
+    top: 1.4em;
+}
+/* white logo on purple slides */
+.slides > article.level-1:before {
+    background-image: url('oca-white.png');
+}
+
+.slides > article.level-3:before {
+    background-image: none;
+}
+/* LEVEL-1 */
+.slides > article.level-1:first-of-type,
+.slides > article.level-1:last-of-type {
+    line-height: normal;
+    background: linear-gradient(to bottom, #a24689, #a24689 60%, white 60%, white);
+}
+
+
+.slides > .big_title {
+	text-align: center;
+  font-size: 2em;
+}
+
+
+.slides > article.level-1 {
+    background-color: #a24689;
+}
+
+.slides > article.level-1 h1 {
+    color: white;
+    position: absolute;
+    top: calc(60% - 1.2em);
+    left: 0;
+    padding: 0;
+    margin: 0;
+
+    width: 100%;
+    text-align: center;
+
+    letter-spacing: normal;
+}
+.slides > article.level-1 p {
+    color: white;
+    font-size: 1.3em;
+
+    position: absolute;
+    top: 60%;
+    left: 0;
+    padding: 0.2em 0;
+    margin: 0;
+
+    width: 100%;
+    text-align: center;
+}
+.slides > article.level-1:first-of-type p,
+.slides > article.level-1:last-of-type p {
+    color: inherit;
+}
+
+/* REGULAR */
+.slides > article h2 {
+    width: 75%;
+    color: #8f8f8f;
+    border-bottom: 1px solid #a24689;
+    margin-right: -60px;
+    margin-left: 28%;
+    letter-spacing: normal;
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+}
+
+/* FULLSCREEN */
+.slides > article.fullscreen * {
+    color: #444;
+}
+.slides > article.fullscreen:before {
+    background-image: url('oca.png');
+}
+.slides > article.fullscreen h2 {
+    background: rgba(255, 255, 255, 0.7);
+    padding-bottom: 0.1em;
+    border-radius: 5px 0 0 5px;
+    border: none;
+}
+.slides > article.fullscreen p {
+    background: rgba(255, 255, 255, 0.7);
+
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.slides > article.slide p.caption {
+    background: rgba(255, 255, 255, 0.7);
+
+    padding: 0 0.2em;
+    border-radius: 0 5px 0 0;
+}
+
+/* html5slides handles quotes but uses <q>, Sphinx handles quotes but uses
+  <blockquote> (and a slightly different structure). This is a
+  tweaked-for-sphinx version of html5slides's stuff */
+blockquote {
+    font-size: 2em;
+    line-height: 72px;
+
+    margin-left: 20px;
+
+    margin-top: 100px;
+    margin-right: 50px;
+}
+blockquote div {
+    position: relative;
+}
+blockquote div::before {
+    content: '“';
+    display: block;
+    position: absolute;
+
+    width: 2em;
+
+    font-size: 2em;
+    color: rgb(192, 192, 192);
+
+}
+blockquote div::after {
+    content: '”';
+    display: block;
+    position: absolute;
+    right: 0;
+
+    font-size: 2em;
+    color: rgb(192, 192, 192);
+}
+blockquote div p {
+    padding: 0 1em;
+}
+blockquote p.attribution {
+    text-align: right;
+    font-size: 0.665em;
+
+    position: absolute;
+    top: 100%;
+    right: 0;
+    opacity: 0.7;
+}
+
+pre {
+	  font-size: .5em !important;
+}
+
+@media print {
+    .slides > article {
+        position: relative !important;
+        left: 0;
+        top: 0;
+    }
+}

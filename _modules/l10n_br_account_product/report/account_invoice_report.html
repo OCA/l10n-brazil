@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account_product.report.account_invoice_report &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account_product.report.account_invoice_report</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2016  Magno Costa - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span>
+
+<span class="kn">from</span> <span class="nn">openerp.addons</span> <span class="k">import</span> <span class="n">decimal_precision</span> <span class="k">as</span> <span class="n">dp</span>
+<span class="kn">from</span> <span class="nn">..models.l10n_br_account_product</span> <span class="k">import</span> <span class="n">PRODUCT_FISCAL_TYPE</span>
+
+
+<div class="viewcode-block" id="AccountInvoiceReport"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.report.html#l10n_br_account_product.report.account_invoice_report.AccountInvoiceReport">[documentos]</a><span class="k">class</span> <span class="nc">AccountInvoiceReport</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s2">&quot;account.invoice.report&quot;</span>
+
+    <span class="n">issuer</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">u&#39;Emissão própria&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Terceiros&#39;</span><span class="p">)],</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Emitente&#39;</span><span class="p">,</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">fiscal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">PRODUCT_FISCAL_TYPE</span><span class="p">,</span>
+        <span class="s1">&#39;Tipo Fiscal&#39;</span>
+    <span class="p">)</span>
+    <span class="n">cfop_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.cfop&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;CFOP&#39;</span><span class="p">,</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">icms_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor ICMS&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">icms_st_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor ICMS ST&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ipi_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor IPI&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">pis_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor PIS&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">cofins_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor COFINS&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ii_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor II&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">total_with_taxes</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Total com Impostos&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AccountInvoiceReport</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_select</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span>
+            <span class="s2">&quot;, sub.issuer as issuer&quot;</span>
+            <span class="s2">&quot;, sub.fiscal_type as fiscal_type&quot;</span>
+            <span class="s2">&quot;, sub.cfop_id as cfop_id&quot;</span>
+            <span class="s2">&quot;, sub.icms_value as icms_value&quot;</span>
+            <span class="s2">&quot;, sub.icms_st_value as icms_st_value&quot;</span>
+            <span class="s2">&quot;, sub.ipi_value as ipi_value&quot;</span>
+            <span class="s2">&quot;, sub.pis_value as pis_value&quot;</span>
+            <span class="s2">&quot;, sub.cofins_value as cofins_value&quot;</span>
+            <span class="s2">&quot;, sub.ii_value as ii_value&quot;</span>
+            <span class="s2">&quot;, sub.total_with_taxes as total_with_taxes&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sub_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span>
+            <span class="n">AccountInvoiceReport</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_sub_select</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="s2">&quot;, ai.issuer &quot;</span>
+                <span class="s2">&quot;, ai.fiscal_type &quot;</span>
+                <span class="s2">&quot;, ail.cfop_id as cfop_id&quot;</span>
+                <span class="s2">&quot;, SUM(ail.icms_value) as icms_value&quot;</span>
+                <span class="s2">&quot;, SUM(ail.icms_st_value) as icms_st_value&quot;</span>
+                <span class="s2">&quot;, SUM(ail.ipi_value) as ipi_value&quot;</span>
+                <span class="s2">&quot;, SUM(ail.pis_value) as pis_value&quot;</span>
+                <span class="s2">&quot;, SUM(ail.cofins_value) as cofins_value&quot;</span>
+                <span class="s2">&quot;, SUM(ail.ii_value) as ii_value&quot;</span>
+                <span class="s2">&quot;, SUM(&quot;</span>
+                <span class="s2">&quot;ail.price_subtotal + ail.ipi_value + &quot;</span>
+                <span class="s2">&quot;ail.icms_st_value + ail.freight_value + &quot;</span>
+                <span class="s2">&quot;ail.insurance_value + ail.other_costs_value) &quot;</span>
+                <span class="s2">&quot;as total_with_taxes&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_group_by</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AccountInvoiceReport</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_group_by</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span>
+            <span class="s2">&quot;, ai.issuer&quot;</span>
+            <span class="s2">&quot;, ai.fiscal_type&quot;</span>
+            <span class="s2">&quot;, ail.cfop_id&quot;</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

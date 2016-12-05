@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_hr.model.hr_employee &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_hr.model.hr_employee</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># (c) 2014 Kmee - Rafael da Silva Lima &lt;rafael.lima@kmee.com.br&gt;</span>
+<span class="c1"># (c) 2014 Kmee - Matheus Felix &lt;matheus.felix@kmee.com.br&gt;</span>
+<span class="c1"># (c) 2016 KMEE Informática - Daniel Sadamo &lt;daniel.sadamo@kmee.com.br&gt;</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">openerp.tools</span> <span class="k">import</span> <span class="n">DEFAULT_SERVER_DATE_FORMAT</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_base.tools</span> <span class="k">import</span> <span class="n">fiscal</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="n">ValidationError</span>
+
+
+<div class="viewcode-block" id="HrEmployee"><a class="viewcode-back" href="../../../addons/l10n_br_hr/l10n_br_hr.model.html#l10n_br_hr.model.hr_employee.HrEmployee">[documentos]</a><span class="k">class</span> <span class="nc">HrEmployee</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;hr.employee&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_default_country</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.country&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;BR&#39;</span><span class="p">)])</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;dependent_ids&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_dependents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_dob</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_dependent_type</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_check_dob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dependent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent_ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                    <span class="n">dependent</span><span class="o">.</span><span class="n">dependent_dob</span><span class="p">,</span> <span class="n">DEFAULT_SERVER_DATE_FORMAT</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Invalid birth date for dependent </span><span class="si">%s</span><span class="s1">&#39;</span>
+                                        <span class="o">%</span> <span class="n">dependent</span><span class="o">.</span><span class="n">dependent_name</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_check_dependent_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">restrictions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="s1">&#39;l10n_br_hr.l10n_br_dependent_1&#39;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="s1">&#39;l10n_br_hr.l10n_br_dependent_9_1&#39;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="s1">&#39;l10n_br_hr.l10n_br_dependent_9_2&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">dependent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent_ids</span><span class="p">:</span>
+            <span class="n">dep_type</span> <span class="o">=</span> <span class="n">dependent</span><span class="o">.</span><span class="n">dependent_type_id</span>
+            <span class="k">if</span> <span class="n">dep_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">and</span> <span class="n">dep_type</span> <span class="ow">in</span> <span class="n">restrictions</span><span class="p">:</span>
+                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep_type</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dep_type</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">and</span> <span class="n">dep_type</span> <span class="ow">in</span> <span class="n">restrictions</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;A dependent with the same level of relatedness&#39;</span>
+                      <span class="s1">&#39; already exists for dependent </span><span class="si">%s</span><span class="s1">&#39;</span>
+                      <span class="o">%</span> <span class="n">dependent</span><span class="o">.</span><span class="n">dependent_name</span><span class="p">))</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;pis_pasep&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_validate_pis_pasep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">employee</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">employee</span><span class="o">.</span><span class="n">pis_pasep</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_pis_pasep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pis_pasep</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Invalid PIS/PASEP&#39;</span><span class="p">))</span>
+
+    <span class="n">check_cpf</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Check CPF&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pis_pasep</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;PIS/PASEP&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">ctps</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CTPS&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CTPS number&#39;</span><span class="p">)</span>
+    <span class="n">ctps_series</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CTPS series&#39;</span><span class="p">)</span>
+    <span class="n">ctps_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="s1">&#39;CTPS emission date&#39;</span><span class="p">)</span>
+    <span class="n">ctps_uf_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;CTPS district&#39;</span><span class="p">,</span>
+                                 <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;res.country.state&#39;</span><span class="p">)</span>
+    <span class="n">creservist</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Military service status certificate&#39;</span><span class="p">)</span>
+    <span class="n">cresv_categ</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Military service status category&#39;</span><span class="p">,</span>
+                                   <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+                                       <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;First Category&#39;</span><span class="p">),</span>
+                                       <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Second Category&#39;</span><span class="p">),</span>
+                                       <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Third Category&#39;</span><span class="p">)],</span>
+                                   <span class="n">default</span><span class="o">=</span><span class="s1">&#39;3&#39;</span><span class="p">)</span>
+    <span class="n">educational_attainment</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Educational attainment&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.educational.attainment&#39;</span>
+        <span class="p">)</span>
+    <span class="n">have_dependent</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Has dependents&#39;</span><span class="p">)</span>
+    <span class="n">dependent_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span><span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.employee.dependent&#39;</span><span class="p">,</span>
+                                    <span class="n">inverse_name</span><span class="o">=</span><span class="s1">&#39;employee_id&#39;</span><span class="p">,</span>
+                                    <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Dependents&#39;</span><span class="p">)</span>
+    <span class="n">rg</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;RG&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;National ID number&#39;</span><span class="p">)</span>
+    <span class="n">cpf</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;CPF&#39;</span><span class="p">,</span> <span class="n">related</span><span class="o">=</span><span class="s1">&#39;address_home_id.cnpj_cpf&#39;</span><span class="p">,</span>
+                      <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">organ_exp</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Dispatcher organ&#39;</span><span class="p">)</span>
+    <span class="n">rg_emission</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Emission date&#39;</span><span class="p">)</span>
+    <span class="n">voter_title</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Voter title&#39;</span><span class="p">)</span>
+    <span class="n">voter_zone</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Voter zone&#39;</span><span class="p">)</span>
+    <span class="n">voter_section</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Voter section&#39;</span><span class="p">)</span>
+    <span class="n">driver_license</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Driver license number&#39;</span><span class="p">)</span>
+    <span class="n">driver_categ</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Driver license category&#39;</span><span class="p">)</span>
+    <span class="n">father_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Father name&#39;</span><span class="p">)</span>
+    <span class="n">mother_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Mother name&#39;</span><span class="p">)</span>
+    <span class="n">expiration_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Expiration date&#39;</span><span class="p">)</span>
+    <span class="n">ethnicity</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Ethnicity&#39;</span><span class="p">,</span>
+                                <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.ethnicity&#39;</span><span class="p">)</span>
+    <span class="n">blood_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Blood type&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;a+&#39;</span><span class="p">,</span> <span class="s1">&#39;A+&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;a-&#39;</span><span class="p">,</span> <span class="s1">&#39;A-&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;b+&#39;</span><span class="p">,</span> <span class="s1">&#39;B+&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="s1">&#39;B-&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;o+&#39;</span><span class="p">,</span> <span class="s1">&#39;O+&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="s1">&#39;O-&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;ab+&#39;</span><span class="p">,</span> <span class="s1">&#39;AB+&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;ab-&#39;</span><span class="p">,</span> <span class="s1">&#39;AB-&#39;</span><span class="p">),</span>
+    <span class="p">])</span>
+    <span class="n">deficiency_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Deficiency&#39;</span><span class="p">,</span>
+                                    <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.deficiency&#39;</span><span class="p">)</span>
+    <span class="n">deficiency_description</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Deficiency description&#39;</span><span class="p">)</span>
+    <span class="n">identity_type_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;ID type&#39;</span><span class="p">,</span>
+                                       <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.identity.type&#39;</span><span class="p">)</span>
+    <span class="n">identity_validity</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;ID expiration date&#39;</span><span class="p">)</span>
+    <span class="n">identity_uf_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;ID expedition district&#39;</span><span class="p">,</span>
+                                     <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;res.country.state&#39;</span><span class="p">)</span>
+    <span class="n">identity_city_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;ID expedition city&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_base.city&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;state_id&#39;,&#39;=&#39;,identity_uf_id)]&quot;</span><span class="p">)</span>
+    <span class="n">civil_certificate_type_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Civil certificate type&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.civil.certificate.type&#39;</span><span class="p">)</span>
+    <span class="n">alternate_phone</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Alternate phone&#39;</span><span class="p">)</span>
+    <span class="n">emergency_phone</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Emergency phone&#39;</span><span class="p">)</span>
+    <span class="n">talk_to</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Emergency contact name&#39;</span><span class="p">)</span>
+    <span class="n">alternate_email</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Alternate email&#39;</span><span class="p">)</span>
+    <span class="n">chronic_disease_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Chronic Diseases&#39;</span><span class="p">,</span>
+                                           <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.chronic.disease&#39;</span><span class="p">)</span>
+    <span class="n">marital</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">selection_add</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;common_law_marriage&#39;</span><span class="p">,</span> <span class="s1">&#39;Common law marriage&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;separated&#39;</span><span class="p">,</span> <span class="s1">&#39;Separated&#39;</span><span class="p">)])</span>
+    <span class="n">registration</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Registration number&#39;</span><span class="p">)</span>
+    <span class="n">nationality_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Nationality code&#39;</span><span class="p">,</span>
+                                       <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.nationality.code&#39;</span><span class="p">)</span>
+    <span class="n">nat_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">related</span><span class="o">=</span><span class="s1">&#39;nationality_code.code&#39;</span><span class="p">)</span>
+    <span class="n">arrival_year</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s2">&quot;Arrival year in Brazil&quot;</span><span class="p">)</span>
+    <span class="n">country_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;res.country&#39;</span><span class="p">,</span>
+                                 <span class="n">default</span><span class="o">=</span><span class="n">_default_country</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">onchange</span><span class="p">(</span><span class="s1">&#39;address_home_id&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="HrEmployee.onchange_address_home_id"><a class="viewcode-back" href="../../../addons/l10n_br_hr/l10n_br_hr.model.html#l10n_br_hr.model.hr_employee.HrEmployee.onchange_address_home_id">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_address_home_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address_home_id</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address_home_id</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">check_cpf</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cpf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">address_home_id</span><span class="o">.</span><span class="n">cnpj_cpf</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">check_cpf</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cpf</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrEmployee.onchange_user"><a class="viewcode-back" href="../../../addons/l10n_br_hr/l10n_br_hr.model.html#l10n_br_hr.model.hr_employee.HrEmployee.onchange_user">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">HrEmployee</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">onchange_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="n">partner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.partner&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="p">[(</span><span class="s1">&#39;user_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;address_home_id&#39;</span><span class="p">:</span> <span class="n">partner</span><span class="o">.</span><span class="n">id</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">res</span></div></div>
+
+
+<div class="viewcode-block" id="HrEmployeeDependent"><a class="viewcode-back" href="../../../addons/l10n_br_hr/l10n_br_hr.model.html#l10n_br_hr.model.hr_employee.HrEmployeeDependent">[documentos]</a><span class="k">class</span> <span class="nc">HrEmployeeDependent</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.employee.dependent&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Employee</span><span class="se">\&#39;</span><span class="s1">s Dependents&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;dependent_cpf&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_validate_cpf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent_cpf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_cpf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent_cpf</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Invalid CPF for dependent </span><span class="si">%s</span><span class="s1">&#39;</span>
+                                        <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent_name</span><span class="p">))</span>
+
+    <span class="n">employee_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.employee&#39;</span><span class="p">,</span>
+                                  <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Employee&#39;</span><span class="p">)</span>
+    <span class="n">dependent_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dependent_dob</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Date of birth&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dependent_type_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Relatedness&#39;</span><span class="p">,</span>
+                                        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.dependent.type&#39;</span><span class="p">)</span>
+    <span class="n">pension_benefits</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Allowance value&#39;</span><span class="p">)</span>
+    <span class="n">dependent_verification</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Is dependent&#39;</span><span class="p">)</span>
+    <span class="n">health_verification</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Healthcare plan&#39;</span><span class="p">)</span>
+    <span class="n">dependent_gender</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;Male&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;Female&#39;</span><span class="p">)])</span>
+    <span class="n">dependent_rg</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;RG&#39;</span><span class="p">)</span>
+    <span class="n">dependent_cpf</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;CPF&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

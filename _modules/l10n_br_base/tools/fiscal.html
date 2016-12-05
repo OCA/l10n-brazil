@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_base.tools.fiscal &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_base.tools.fiscal</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2013  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ac&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;val_tam&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;01&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;al&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;24&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;am&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;ce&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;df&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;val_tam&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;07&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;es&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;ma&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;12&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;mt&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="s1">&#39;ms&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;28&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;pa&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;15&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;pb&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;val_tam&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="s1">&#39;pi&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;rj&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="s1">&#39;rn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;val_tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">&#39;rr&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;starts_with&#39;</span><span class="p">:</span> <span class="s1">&#39;24&#39;</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+           <span class="s1">&#39;div&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;sc&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;se&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tam&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;prod&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]}</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="validate_ie"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie</span><span class="p">(</span><span class="n">uf</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span>
+            <span class="s1">&#39;openerp.addons.l10n_br_base.tools.fiscal&#39;</span><span class="p">,</span>
+            <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="s1">&#39;fiscal&#39;</span><span class="p">)</span>
+
+        <span class="n">validate</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s1">&#39;validate_ie_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">uf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validate_ie_param</span><span class="p">(</span><span class="n">uf</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_param"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_param">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_param</span><span class="p">(</span><span class="n">uf</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">uf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PARAMETERS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">tam</span> <span class="o">=</span> <span class="n">PARAMETERS</span><span class="p">[</span><span class="n">uf</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tam&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">unicode</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tam</span><span class="p">),</span> <span class="s1">u&#39;0&#39;</span><span class="p">)</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">val_tam</span> <span class="o">=</span> <span class="n">PARAMETERS</span><span class="p">[</span><span class="n">uf</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val_tam&#39;</span><span class="p">,</span> <span class="n">tam</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tam</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">tam</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val_tam</span> <span class="o">=</span> <span class="n">val_tam</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="n">tam</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">sw</span> <span class="o">=</span> <span class="n">PARAMETERS</span><span class="p">[</span><span class="n">uf</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;starts_with&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inscr_est</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">sw</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">inscr_est_ints</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">inscr_est</span><span class="p">]</span>
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est_ints</span><span class="p">[:</span><span class="n">val_tam</span><span class="p">]</span>
+    <span class="n">prod</span> <span class="o">=</span> <span class="n">PARAMETERS</span><span class="p">[</span><span class="n">uf</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prod&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">prod</span> <span class="o">=</span> <span class="n">prod</span><span class="p">[</span><span class="o">-</span><span class="n">val_tam</span><span class="p">:]</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tam</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span>\
+            <span class="o">%</span> <span class="n">PARAMETERS</span><span class="p">[</span><span class="n">uf</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">uf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">&#39;rr&#39;</span><span class="p">:</span>
+            <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">prod</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">prod</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Se o número gerado coincidir com o número original, é válido</span>
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est_ints</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_ap"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_ap">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_ap</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># verificando os dois primeiros dígitos</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inscr_est</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;03&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+    <span class="c1"># define os valores de &#39;p&#39; e &#39;d&#39;</span>
+    <span class="n">inscr_est_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">inscr_est_int</span> <span class="o">&lt;=</span> <span class="mi">3017000</span><span class="p">:</span>
+        <span class="n">inscr_est_p</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">inscr_est_d</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">inscr_est_int</span> <span class="o">&lt;=</span> <span class="mi">3019022</span><span class="p">:</span>
+        <span class="n">inscr_est_p</span> <span class="o">=</span> <span class="mi">9</span>
+        <span class="n">inscr_est_d</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inscr_est_p</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">inscr_est_d</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+    <span class="c1"># gera o dígito verificador</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">inscr_est_p</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)]))</span> <span class="o">%</span> <span class="mi">11</span>
+    <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">inscr_est_d</span>
+    <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_ba"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_ba">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_ba</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">tam</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">val_tam</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="n">test_digit</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">tam</span> <span class="o">=</span> <span class="mi">9</span>
+        <span class="n">val_tam</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">test_digit</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="n">val_tam</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">][</span><span class="o">-</span><span class="n">val_tam</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">inscr_est</span><span class="p">[</span><span class="n">test_digit</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">]:</span>
+        <span class="n">modulo</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">modulo</span> <span class="o">=</span> <span class="mi">11</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tam</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="n">modulo</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">modulo</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">f</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">modulo</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">)</span> <span class="o">==</span> <span class="n">val_tam</span><span class="p">:</span>
+            <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nova_ie</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">val_tam</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="n">prod</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">prod</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_go"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_go">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_go</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># verificando os dois primeiros dígitos</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+    <span class="c1"># define os valores de &#39;p&#39; e &#39;d&#39;</span>
+    <span class="n">inscr_est_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">inscr_est_int</span> <span class="o">&gt;=</span> <span class="mi">10103105</span> <span class="ow">and</span> <span class="n">inscr_est_int</span> <span class="o">&lt;=</span> <span class="mi">10119997</span><span class="p">:</span>
+        <span class="n">inscr_est_d</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inscr_est_d</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+    <span class="c1"># gera o dígito verificador</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+    <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">inscr_est_d</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_mg"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_mg">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_mg</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os 11 primeiros dígitos da inscrição estadual e</span>
+    <span class="c1"># gera os dígitos verificadores</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">11</span><span class="p">]</span>
+
+    <span class="n">nova_ie_aux</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">)</span>
+    <span class="n">nova_ie_aux</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">str</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie_aux</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r2</span> <span class="o">-</span> <span class="n">r</span>
+
+    <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+    <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_pe"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_pe">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_pe</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">14</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+
+        <span class="c1"># Pega apenas os 7 primeiros dígitos da inscrição estadual e</span>
+        <span class="c1"># gera os dígitos verificadores</span>
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">prod</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+
+        <span class="c1"># Pega apenas os 13 primeiros dígitos da inscrição estadual e</span>
+        <span class="c1"># gera o dígito verificador</span>
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">13</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">10</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_ro"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_ro">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_ro</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">gera_digito_ro</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">10</span>
+        <span class="k">return</span> <span class="n">f</span>
+
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="c1"># Despreza-se os 3 primeiros dígitos, pega apenas os 8 primeiros</span>
+        <span class="c1"># dígitos da inscrição estadual e gera o dígito verificador</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">gera_digito_ro</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">nova_ie</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+        <span class="c1"># Pega apenas os 13 primeiros dígitos da inscrição estadual e</span>
+        <span class="c1"># gera o dígito verificador</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">13</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">gera_digito_ro</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_sp"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_sp">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_sp</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">gera_digito_sp</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r</span>
+        <span class="k">elif</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="c1"># Industriais e comerciais</span>
+    <span class="k">if</span> <span class="n">inscr_est</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
+
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+        <span class="c1"># verificando o tamanho da inscrição estadual</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+        <span class="c1"># gera o primeiro dígito verificador</span>
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">gera_digito_sp</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># gera o segundo dígito verificador</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">11</span><span class="p">])</span>
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">gera_digito_sp</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Produtor rural</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+        <span class="c1"># verificando o tamanho da inscrição estadual</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># verificando o primeiro dígito depois do &#39;P&#39;</span>
+        <span class="k">if</span> <span class="n">inscr_est</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># Pega apenas os 8 primeiros dígitos da inscrição estadual e</span>
+        <span class="c1"># gera o dígito verificador</span>
+        <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+        <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+        <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">gera_digito_sp</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)</span>
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">nova_ie</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">[</span><span class="mi">9</span><span class="p">:])</span>
+
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_ie_to"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_ie_to">[documentos]</a><span class="k">def</span> <span class="nf">validate_ie_to</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculo a partir de junho de 2002</span>
+<span class="sd">    http://www2.sefaz.to.gov.br/Servicos/Sintegra/calinse.htm</span>
+<span class="sd">    http://dtri.sefaz.to.gov.br/legislacao/ntributaria/portarias/sefaz/Portaria676-02.htm</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamanho da inscrição estadual</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inscr_est</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os dígitos que entram no cálculo</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">inscr_est</span><span class="p">)</span>
+    <span class="n">nova_ie</span> <span class="o">=</span> <span class="n">inscr_est</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nova_ie</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+    <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nova_ie</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nova_ie</span> <span class="o">==</span> <span class="n">inscr_est</span></div>
+
+
+<div class="viewcode-block" id="validate_cnpj"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_cnpj">[documentos]</a><span class="k">def</span> <span class="nf">validate_cnpj</span><span class="p">(</span><span class="n">cnpj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Rotina para validação do CNPJ - Cadastro Nacional</span>
+<span class="sd">    de Pessoa Juridica.</span>
+
+<span class="sd">    :param string cnpj: CNPJ para ser validado</span>
+
+<span class="sd">    :return bool: True or False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Limpando o cnpj</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cnpj</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">cnpj</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cnpj</span><span class="p">)</span>
+
+    <span class="c1"># verificando o tamano do  cnpj</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cnpj</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">14</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos</span>
+    <span class="n">cnpj</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">cnpj</span><span class="p">)</span>
+    <span class="n">novo</span> <span class="o">=</span> <span class="n">cnpj</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">novo</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">14</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">novo</span><span class="p">,</span> <span class="n">prod</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">novo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">prod</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+    <span class="c1"># Se o número gerado coincidir com o número original, é válido</span>
+    <span class="k">if</span> <span class="n">novo</span> <span class="o">==</span> <span class="n">cnpj</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="validate_cpf"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_cpf">[documentos]</a><span class="k">def</span> <span class="nf">validate_cpf</span><span class="p">(</span><span class="n">cpf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rotina para validação do CPF - Cadastro Nacional</span>
+<span class="sd">    de Pessoa Física.</span>
+
+<span class="sd">    :Return: True or False</span>
+
+<span class="sd">    :Parameters:</span>
+<span class="sd">      - &#39;cpf&#39;: CPF to be validate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cpf</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">cpf</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cpf</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cpf</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos</span>
+    <span class="n">cpf</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">cpf</span><span class="p">)</span>
+    <span class="n">novo</span> <span class="o">=</span> <span class="n">cpf</span><span class="p">[:</span><span class="mi">9</span><span class="p">]</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">novo</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([(</span><span class="nb">len</span><span class="p">(</span><span class="n">novo</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">novo</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">11</span>
+
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">novo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Se o número gerado coincidir com o número original, é válido</span>
+    <span class="k">if</span> <span class="n">novo</span> <span class="o">==</span> <span class="n">cpf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="validate_pis_pasep"><a class="viewcode-back" href="../../../addons/l10n_br_base/l10n_br_base.tools.html#l10n_br_base.tools.fiscal.validate_pis_pasep">[documentos]</a><span class="k">def</span> <span class="nf">validate_pis_pasep</span><span class="p">(</span><span class="n">pis_pasep</span><span class="p">):</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pis_pasep</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s2">&quot;3298765432&quot;</span><span class="p">]</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">height</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">rest</span> <span class="o">=</span> <span class="n">total</span> <span class="o">%</span> <span class="mi">11</span>
+    <span class="k">if</span> <span class="n">rest</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="n">rest</span>
+    <span class="k">if</span> <span class="n">rest</span> <span class="o">==</span> <span class="n">digits</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

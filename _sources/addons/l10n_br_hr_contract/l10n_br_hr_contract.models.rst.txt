@@ -1,0 +1,22 @@
+l10n_br_hr_contract.models package
+==================================
+
+Submodules
+----------
+
+l10n_br_hr_contract.models.hr_contract module
+---------------------------------------------
+
+.. automodule:: l10n_br_hr_contract.models.hr_contract
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_hr_contract.models
+    :members:
+    :undoc-members:
+    :show-inheritance:

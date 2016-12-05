@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_hr_contract.models.hr_contract &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_hr_contract.models.hr_contract</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2016  Daniel Sadamo - KMEE Informática</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_base.tools</span> <span class="k">import</span> <span class="n">fiscal</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="n">ValidationError</span>
+
+
+<span class="n">MONTHS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;January&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;February&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;March&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;April&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;May&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;June&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;July&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;August&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">&#39;September&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;October&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;November&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;December&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="HrContractAdmissionType"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractAdmissionType">[documentos]</a><span class="k">class</span> <span class="nc">HrContractAdmissionType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.admission.type&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Admission type&#39;</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Code&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrContractAdmissionType.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractAdmissionType.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="HrContractLaborBondType"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractLaborBondType">[documentos]</a><span class="k">class</span> <span class="nc">HrContractLaborBondType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.labor.bond.type&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Labor bond&#39;</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Code&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrContractLaborBondType.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractLaborBondType.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="HrContractLaborRegime"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractLaborRegime">[documentos]</a><span class="k">class</span> <span class="nc">HrContractLaborRegime</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.labor.regime&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Labor regime&#39;</span><span class="p">)</span>
+    <span class="n">short_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Short name&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrContractLaborRegime.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractLaborRegime.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;short_name&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;short_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="HrContractSalaryUnit"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractSalaryUnit">[documentos]</a><span class="k">class</span> <span class="nc">HrContractSalaryUnit</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.salary.unit&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Salary unit&#39;</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Code&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrContractSalaryUnit.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractSalaryUnit.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="HrContractResignationCause"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractResignationCause">[documentos]</a><span class="k">class</span> <span class="nc">HrContractResignationCause</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.resignation.cause&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Resignation cause&#39;</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Resignation cause code&#39;</span><span class="p">)</span>
+    <span class="n">fgts_withdraw_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;FGTS withdrawal code&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="HrContractResignationCause.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractResignationCause.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="HrContractNoticeTermination"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContractNoticeTermination">[documentos]</a><span class="k">class</span> <span class="nc">HrContractNoticeTermination</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;hr.contract.notice.termination&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Notice of termination type&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HrContract"><a class="viewcode-back" href="../../../addons/l10n_br_hr_contract/l10n_br_hr_contract.models.html#l10n_br_hr_contract.models.hr_contract.HrContract">[documentos]</a><span class="k">class</span> <span class="nc">HrContract</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;hr.contract&#39;</span>
+
+    <span class="n">admission_type_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Admission type&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.admission.type&#39;</span><span class="p">)</span>
+    <span class="n">labor_bond_type_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Labor bond type&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.labor.bond.type&#39;</span><span class="p">)</span>
+    <span class="n">labor_regime_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Labor regime&#39;</span><span class="p">,</span> <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.labor.regime&#39;</span><span class="p">)</span>
+    <span class="n">welfare_policy</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Welfare policy&#39;</span><span class="p">,</span>
+        <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;rgps&#39;</span><span class="p">,</span> <span class="s1">u&#39;Regime Geral da Previdência Social&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;rpps&#39;</span><span class="p">,</span> <span class="s1">u&#39;Regime Próprio da Previdência Social&#39;</span><span class="p">)])</span>
+    <span class="n">salary_unit</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Salary Unity&#39;</span><span class="p">,</span>
+                                  <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.salary.unit&#39;</span><span class="p">)</span>
+    <span class="n">weekly_hours</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Weekly hours&#39;</span><span class="p">)</span>
+    <span class="n">monthly_hours</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Monthly hours&#39;</span><span class="p">)</span>
+    <span class="n">union</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Union&#39;</span><span class="p">)</span>
+    <span class="n">union_cnpj</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Union CNPJ&#39;</span><span class="p">)</span>
+    <span class="n">union_entity_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Union entity code&#39;</span><span class="p">)</span>
+    <span class="n">month_base_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Base date month&#39;</span><span class="p">,</span>
+                                       <span class="n">selection</span><span class="o">=</span><span class="n">MONTHS</span><span class="p">)</span>
+    <span class="n">discount_union_contribution</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Discount union contribution in admission&#39;</span><span class="p">)</span>
+    <span class="n">resignation_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Resignation date&#39;</span><span class="p">)</span>
+    <span class="n">resignation_cause_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.resignation.cause&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Resignation cause&#39;</span><span class="p">)</span>
+    <span class="n">notice_of_termination_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Notice of termination type&#39;</span><span class="p">,</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;hr.contract.notice.termination&#39;</span>
+    <span class="p">)</span>
+    <span class="n">notice_of_termination_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Notice of termination date&#39;</span><span class="p">)</span>
+    <span class="n">notice_of_termination_payment_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Notice of termination payment date&#39;</span>
+    <span class="p">)</span>
+    <span class="n">by_death</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;By death&#39;</span><span class="p">,</span>
+                           <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Death certificate/Process/Beneficiary&#39;</span><span class="p">)</span>
+    <span class="n">resignation_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">related</span><span class="o">=</span><span class="s1">&#39;resignation_cause_id.code&#39;</span><span class="p">,</span>
+                                   <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;union_cnpj&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_validate_union_cnpj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">union_cnpj</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_cnpj</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">union_cnpj</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Invalid union CNPJ!&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account_service.models.res_company &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account_service.models.res_company</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_account.models.l10n_br_account</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">L10nBrTaxDefinition</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ResCompany"><a class="viewcode-back" href="../../../addons/l10n_br_account_service/l10n_br_account_service.models.html#l10n_br_account_service.models.res_company.ResCompany">[documentos]</a><span class="k">class</span> <span class="nc">ResCompany</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;res.company&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;service_tax_definition_line.tax_id&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_service_taxes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">service_taxes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_tax_definition_line</span><span class="p">:</span>
+            <span class="n">service_taxes</span> <span class="o">+=</span> <span class="n">tax</span><span class="o">.</span><span class="n">tax_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">product_tax_ids</span> <span class="o">=</span> <span class="n">service_taxes</span>
+
+    <span class="n">service_invoice_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.document&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Documento Fiscal&#39;</span><span class="p">)</span>
+    <span class="n">document_serie_service_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.document.serie&#39;</span><span class="p">,</span> <span class="s1">u&#39;Série Fiscais para Serviço&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;company_id&#39;, &#39;=&#39;, active_id),(&#39;active&#39;,&#39;=&#39;,True),&quot;</span>
+        <span class="s2">&quot;(&#39;fiscal_type&#39;,&#39;=&#39;,&#39;service&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">nfse_version</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="s1">&#39;1.00&#39;</span><span class="p">)],</span> <span class="s1">&#39;Versão NFse&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;100&quot;</span><span class="p">)</span>
+    <span class="n">nfse_import_folder</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Pasta de Origem&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">254</span><span class="p">)</span>
+    <span class="n">nfse_export_folder</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Pasta de Destino&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">254</span><span class="p">)</span>
+    <span class="n">nfse_backup_folder</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Pasta de Backup&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">254</span><span class="p">)</span>
+    <span class="n">service_tax_definition_line</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_tax.definition.company.service&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;company_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Taxes Definitions&#39;</span><span class="p">)</span>
+    <span class="n">service_tax_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span><span class="s1">&#39;account.tax&#39;</span><span class="p">,</span>
+                                       <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Service Taxes&#39;</span><span class="p">,</span>
+                                       <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_service_taxes&#39;</span><span class="p">,</span>
+                                       <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">in_invoice_service_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Categoria Fiscal Padrão de Aquisição de Serviço&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;journal_type&#39;,&#39;=&#39;,&#39;purchase&#39;), &quot;</span>
+        <span class="s2">&quot; (&#39;fiscal_type&#39;,&#39;=&#39;,&#39;service&#39;), (&#39;type&#39;,&#39;=&#39;,&#39;input&#39;),&quot;</span>
+        <span class="s2">&quot; (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">out_invoice_service_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Categoria Fiscal Padrão de Prestação de Serviço&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;[(&#39;journal_type&#39;,&#39;=&#39;,&#39;sale&#39;),</span>
+<span class="s2">        (&#39;fiscal_type&#39;,&#39;=&#39;,&#39;service&#39;), (&#39;type&#39;,&#39;=&#39;,&#39;output&#39;),</span>
+<span class="s2">        (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;)]&quot;&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nbrTaxDefinitionCompanyService"><a class="viewcode-back" href="../../../addons/l10n_br_account_service/l10n_br_account_service.models.html#l10n_br_account_service.models.res_company.L10nbrTaxDefinitionCompanyService">[documentos]</a><span class="k">class</span> <span class="nc">L10nbrTaxDefinitionCompanyService</span><span class="p">(</span><span class="n">L10nBrTaxDefinition</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.company.service&#39;</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_zip.wizard.l10n_br_zip_search &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_zip.wizard.l10n_br_zip_search</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2011  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+
+
+<div class="viewcode-block" id="L10nBrZipSearch"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipSearch">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrZipSearch</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br.zip.search&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Zipcode Search&#39;</span>
+
+    <span class="nb">zip</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CEP&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">street</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Logradouro&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+    <span class="n">district</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Bairro&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+    <span class="n">country_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.country&#39;</span><span class="p">,</span> <span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+    <span class="n">state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s2">&quot;res.country.state&quot;</span><span class="p">,</span> <span class="s1">&#39;Estado&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;country_id&#39;,&#39;=&#39;,country_id)]&quot;</span><span class="p">)</span>
+    <span class="n">l10n_br_city_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_base.city&#39;</span><span class="p">,</span> <span class="s1">&#39;Cidade&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;state_id&#39;,&#39;=&#39;,state_id)]&quot;</span><span class="p">)</span>
+    <span class="n">zip_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br.zip.result&#39;</span><span class="p">,</span> <span class="s1">&#39;zip_search&#39;</span><span class="p">,</span> <span class="s1">&#39;zip_search_id&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;zip_id&#39;</span><span class="p">,</span> <span class="s1">&#39;CEP&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;init&#39;</span><span class="p">,</span> <span class="s1">&#39;init&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;init&#39;</span><span class="p">)</span>
+    <span class="n">address_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="s1">&#39;Id do objeto&#39;</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">object_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome do bjeto&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="L10nBrZipSearch.create"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipSearch.create">[documentos]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">L10nBrZipSearch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;search_id&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="L10nBrZipSearch.default_get"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipSearch.default_get">[documentos]</a>    <span class="k">def</span> <span class="nf">default_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">L10nBrZipSearch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">default_get</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;zip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zip&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;street&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;district&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;district&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;country_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;country_id&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;state_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state_id&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l10n_br_city_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;l10n_br_city_id&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;address_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address_id&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;object_name&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;zip_ids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zip_ids&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;done&#39;</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+<div class="viewcode-block" id="L10nBrZipSearch.zip_search"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipSearch.zip_search">[documentos]</a>    <span class="k">def</span> <span class="nf">zip_search</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">obj_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">]</span>
+        <span class="n">obj_zip_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip.result&#39;</span><span class="p">]</span>
+        <span class="n">domain</span> <span class="o">=</span> <span class="n">obj_zip</span><span class="o">.</span><span class="n">set_domain</span><span class="p">(</span>
+            <span class="n">country_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;country_id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">state_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;state_id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">l10n_br_city_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l10n_br_city_id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">district</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;district&#39;</span><span class="p">],</span>
+            <span class="n">street</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">],</span>
+            <span class="nb">zip</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;zip&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Search zips</span>
+        <span class="n">zips</span> <span class="o">=</span> <span class="n">obj_zip</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="c1"># MAP zip to zip.search.result</span>
+        <span class="n">zip_result_ids</span> <span class="o">=</span> <span class="n">obj_zip_result</span><span class="o">.</span><span class="n">map_to_zip_result</span><span class="p">(</span>
+            <span class="n">zips</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;address_id&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39;zip_ids&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">zip_result_ids</span><span class="p">]]})</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ir.actions.act_window&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;res_model&#39;</span><span class="p">:</span> <span class="s1">&#39;l10n_br.zip.search&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;view_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;view_type&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;res_id&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;views&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">)],</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;nodestroy&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="L10nBrZipSearch.zip_new_search"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipSearch.zip_new_search">[documentos]</a>    <span class="k">def</span> <span class="nf">zip_new_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="p">[],</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span>
+                   <span class="p">{</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;init&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;zip_ids&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]]]},</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ir.actions.act_window&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;res_model&#39;</span><span class="p">:</span> <span class="s1">&#39;l10n_br.zip.search&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;view_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;view_type&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;res_id&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;views&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">)],</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;nodestroy&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrZipResult"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipResult">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrZipResult</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br.zip.result&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Zipcode result&#39;</span>
+
+    <span class="n">zip_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;Zipcode&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">search_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br.zip.search&#39;</span><span class="p">,</span> <span class="s1">&#39;Search&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">address_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="s1">&#39;Id do objeto&#39;</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">object_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome do bjeto&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">invisible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># ZIPCODE data to be shown</span>
+    <span class="nb">zip</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CEP&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">street</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Logradouro&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">street_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Tipo&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">district</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Bairro&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">country_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.country&#39;</span><span class="p">,</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.country.state&#39;</span><span class="p">,</span> <span class="s1">&#39;Estado&#39;</span><span class="p">,</span>
+                               <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;country_id&#39;, &#39;=&#39;, country_id)]&quot;</span><span class="p">,</span>
+                               <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">l10n_br_city_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_base.city&#39;</span><span class="p">,</span> <span class="s1">&#39;Cidade&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;state_id&#39;, &#39;=&#39;, state_id)]&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="L10nBrZipResult.map_to_zip_result"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipResult.map_to_zip_result">[documentos]</a>    <span class="k">def</span> <span class="nf">map_to_zip_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zip_data</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">address_id</span><span class="p">):</span>
+        <span class="n">obj_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">zip_read</span> <span class="ow">in</span> <span class="n">zip_data</span><span class="p">:</span>
+            <span class="n">zip_data</span> <span class="o">=</span> <span class="n">obj_zip</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">zip_read</span><span class="p">)</span>
+            <span class="n">zip_result_data</span> <span class="o">=</span> <span class="n">zip_data</span>
+            <span class="n">zip_result_data</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">object_name</span>
+            <span class="n">zip_result_data</span><span class="p">[</span><span class="s1">&#39;address_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_id</span>
+
+            <span class="n">zip_result_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">zip_result_data</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zip_result_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+<div class="viewcode-block" id="L10nBrZipResult.zip_select"><a class="viewcode-back" href="../../../addons/l10n_br_zip/l10n_br_zip.wizard.html#l10n_br_zip.wizard.l10n_br_zip_search.L10nBrZipResult.zip_select">[documentos]</a>    <span class="k">def</span> <span class="nf">zip_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">address_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;address_id&#39;</span><span class="p">]</span>
+        <span class="n">object_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">address_id</span> <span class="ow">and</span> <span class="n">object_name</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">object_name</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">address_id</span><span class="p">)</span>
+            <span class="n">obj_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">obj_zip</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

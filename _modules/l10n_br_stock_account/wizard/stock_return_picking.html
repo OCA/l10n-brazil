@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_stock_account.wizard.stock_return_picking &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_stock_account.wizard.stock_return_picking</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="ne">Warning</span> <span class="k">as</span> <span class="n">UserError</span>
+<span class="kn">from</span> <span class="nn">openerp.tools.safe_eval</span> <span class="k">import</span> <span class="n">safe_eval</span>
+
+
+<div class="viewcode-block" id="StockReturnPicking"><a class="viewcode-back" href="../../../addons/l10n_br_stock_account/l10n_br_stock_account.wizard.html#l10n_br_stock_account.wizard.stock_return_picking.StockReturnPicking">[documentos]</a><span class="k">class</span> <span class="nc">StockReturnPicking</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;stock.return.picking&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_fiscal_position_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;use_domain&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;use_picking&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.fiscal.position.rule&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span>
+            <span class="n">ctx</span><span class="p">)</span><span class="o">.</span><span class="n">apply_fiscal_mapping</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="StockReturnPicking.create_returns"><a class="viewcode-back" href="../../../addons/l10n_br_stock_account/l10n_br_stock_account.wizard.html#l10n_br_stock_account.wizard.stock_return_picking.StockReturnPicking.create_returns">[documentos]</a>    <span class="k">def</span> <span class="nf">create_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Creates return picking.</span>
+<span class="sd">         @param self: The object pointer.</span>
+<span class="sd">         @return: A dictionary which of fields with values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">picking_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;stock.picking&#39;</span><span class="p">]</span>
+        <span class="n">move_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;stock.move&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">send_picking</span> <span class="ow">in</span> <span class="n">picking_obj</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;active_id&#39;</span><span class="p">)):</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StockReturnPicking</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">create_returns</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_state</span> <span class="o">==</span> <span class="s1">&#39;2binvoiced&#39;</span><span class="p">:</span>
+
+                <span class="n">result_domain</span> <span class="o">=</span> <span class="n">safe_eval</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">])</span>
+                <span class="n">picking_ids</span> <span class="o">=</span> <span class="n">result_domain</span> <span class="ow">and</span> <span class="n">result_domain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> \
+                    <span class="n">result_domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">picking</span> <span class="ow">in</span> <span class="n">picking_obj</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">picking_ids</span><span class="p">):</span>
+
+                    <span class="n">fiscal_category_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">send_picking</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span>
+                                          <span class="n">refund_fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">fiscal_category_id</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Error!&#39;</span><span class="p">),</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s1">&#39;This Fiscal Operation does not has Fiscal&#39;</span>
+                              <span class="s1">&#39; Operation for Returns!&#39;</span><span class="p">))</span>
+
+                    <span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">fiscal_category_id</span><span class="p">,</span>
+                        <span class="s1">&#39;fiscal_position&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+
+                    <span class="n">partner_invoice_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s1">&#39;res.partner&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">address_get</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uid</span><span class="p">,</span> <span class="p">[</span><span class="n">picking</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">],</span>
+                            <span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">])[</span><span class="s1">&#39;invoice&#39;</span><span class="p">]</span>
+
+                    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="n">picking</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;partner_invoice_id&#39;</span><span class="p">:</span> <span class="n">partner_invoice_id</span><span class="p">,</span>
+                        <span class="s1">&#39;partner_shipping_id&#39;</span><span class="p">:</span> <span class="n">picking</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">picking</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
+                        <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">fiscal_category_id</span>
+                    <span class="p">}</span>
+
+                    <span class="n">values</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+
+                    <span class="n">picking</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">picking</span><span class="o">.</span><span class="n">move_lines</span><span class="p">:</span>
+
+                        <span class="n">line_fiscal_category_id</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">move</span><span class="o">.</span><span class="n">origin_returned_move_id</span><span class="o">.</span>
+                            <span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">refund_fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">line_fiscal_category_id</span><span class="p">})</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+
+                        <span class="n">line_values</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s1">&#39;invoice_state&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_state</span><span class="p">,</span>
+                            <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">line_fiscal_category_id</span><span class="p">,</span>
+                        <span class="p">}</span>
+                        <span class="n">line_values</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+                        <span class="n">write_move</span> <span class="o">=</span> <span class="n">move_obj</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">move</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="n">write_move</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line_values</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

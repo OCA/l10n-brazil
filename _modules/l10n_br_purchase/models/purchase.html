@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_purchase.models.purchase &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_purchase.models.purchase</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009  Renato Lima - Akretion, Gabriel C. Stabel</span>
+<span class="c1"># Copyright (C) 2012  Raphaël Valyi - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="n">except_orm</span>
+<span class="kn">from</span> <span class="nn">openerp.addons</span> <span class="k">import</span> <span class="n">decimal_precision</span> <span class="k">as</span> <span class="n">dp</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_base.tools.misc</span> <span class="k">import</span> <span class="n">calc_price_ratio</span>
+
+
+<div class="viewcode-block" id="PurchaseOrder"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrder">[documentos]</a><span class="k">class</span> <span class="nc">PurchaseOrder</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;purchase.order&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;order_line.price_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;order_line.product_qty&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;order_line.taxes_id&#39;</span><span class="p">,</span> <span class="s1">&#39;order_line.freight_value&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;order_line.other_costs_value&#39;</span><span class="p">,</span> <span class="s1">&#39;order_line.insurance_value&#39;</span><span class="p">,</span>
+                 <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">amount_untaxed</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">amount_tax</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">amount_freight</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">amount_costs</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">amount_insurance</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_line</span><span class="p">:</span>
+            <span class="n">price</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">_calc_line_base_price</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">qty</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">_calc_line_quantity</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">taxes</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">taxes_id</span><span class="o">.</span><span class="n">compute_all</span><span class="p">(</span>
+                <span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span>
+                <span class="n">product</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">product_id</span><span class="p">,</span>
+                <span class="n">partner</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="p">,</span>
+                <span class="n">fiscal_position</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fiscal_position</span><span class="p">,</span>
+                <span class="n">insurance_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">amount_insurance</span><span class="p">,</span>
+                <span class="n">freight_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">amount_freight</span><span class="p">,</span>
+                <span class="n">other_costs_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">amount_costs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">amount_untaxed</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">price_subtotal</span>
+            <span class="n">amount_freight</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">freight_value</span>
+            <span class="n">amount_costs</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">other_costs_value</span>
+            <span class="n">amount_insurance</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">insurance_value</span>
+
+            <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxes</span><span class="p">[</span><span class="s1">&#39;taxes&#39;</span><span class="p">]:</span>
+                <span class="n">tax_brw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">tax</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">tax_code_id</span><span class="o">.</span><span class="n">tax_discount</span><span class="p">:</span>
+                    <span class="n">amount_tax</span> <span class="o">+=</span> <span class="n">tax</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_untaxed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pricelist_id</span><span class="o">.</span><span class="n">currency_id</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+            <span class="n">amount_untaxed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_tax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pricelist_id</span><span class="o">.</span><span class="n">currency_id</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">amount_tax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pricelist_id</span><span class="o">.</span><span class="n">currency_id</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+            <span class="n">amount_untaxed</span> <span class="o">+</span> <span class="n">amount_tax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">amount_freight</span> <span class="o">+</span> <span class="n">amount_costs</span> <span class="o">+</span> <span class="n">amount_insurance</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">returns</span><span class="p">(</span><span class="s1">&#39;l10n_br_account.fiscal_category&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_default_fiscal_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">company</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">company</span><span class="o">.</span><span class="n">purchase_fiscal_category_id</span>
+
+    <span class="n">fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span> <span class="s1">&#39;Categoria Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_fiscal_category</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;[(&#39;type&#39;, &#39;=&#39;, &#39;input&#39;), (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;),</span>
+<span class="s2">            (&#39;journal_type&#39;, &#39;=&#39;, &#39;purchase&#39;)]&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">amount_untaxed</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_amount&#39;</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Purchase Price&#39;</span><span class="p">),</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Untaxed Amount&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The amount without tax&quot;</span><span class="p">)</span>
+    <span class="n">amount_tax</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_amount&#39;</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Purchase Price&#39;</span><span class="p">),</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Taxes&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The tax amount&quot;</span><span class="p">)</span>
+    <span class="n">amount_total</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_amount&#39;</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Purchase Price&#39;</span><span class="p">),</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Total&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The total amount&quot;</span><span class="p">)</span>
+    <span class="n">cnpj_cpf</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;CNPJ/CPF&#39;</span><span class="p">,</span>
+        <span class="n">related</span><span class="o">=</span><span class="s1">&#39;partner_id.cnpj_cpf&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">legal_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Razão Social&#39;</span><span class="p">,</span>
+        <span class="n">related</span><span class="o">=</span><span class="s1">&#39;partner_id.legal_name&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ie</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Inscrição Estadual&#39;</span><span class="p">,</span>
+        <span class="n">related</span><span class="o">=</span><span class="s1">&#39;partner_id.inscr_est&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="k">def</span> <span class="nf">_set_amount_freight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_line</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+                <span class="s1">&#39;freight_value&#39;</span><span class="p">:</span> <span class="n">calc_price_ratio</span><span class="p">(</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">price_subtotal</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_freight</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_untaxed</span><span class="p">),</span>
+                <span class="p">})</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="k">def</span> <span class="nf">_set_amount_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_line</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+                <span class="s1">&#39;other_costs_value&#39;</span><span class="p">:</span> <span class="n">calc_price_ratio</span><span class="p">(</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">price_subtotal</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_costs</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_untaxed</span><span class="p">),</span>
+                <span class="p">})</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="k">def</span> <span class="nf">_set_amount_insurance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_line</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+                <span class="s1">&#39;insurance_value&#39;</span><span class="p">:</span> <span class="n">calc_price_ratio</span><span class="p">(</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">price_subtotal</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_insurance</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">amount_untaxed</span><span class="p">),</span>
+                <span class="p">})</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="k">def</span> <span class="nf">_get_costs_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">freight</span> <span class="o">=</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">insurance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_line</span><span class="p">:</span>
+            <span class="n">freight</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">freight_value</span>
+            <span class="n">costs</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">other_costs_value</span>
+            <span class="n">insurance</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">insurance_value</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_freight</span> <span class="o">=</span> <span class="n">freight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_costs</span> <span class="o">=</span> <span class="n">costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_insurance</span> <span class="o">=</span> <span class="n">insurance</span>
+
+    <span class="n">amount_freight</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="n">_get_costs_value</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="n">_set_amount_freight</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Frete&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]})</span>
+    <span class="n">amount_costs</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="n">_get_costs_value</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="n">_set_amount_costs</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Outros Custos&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]})</span>
+    <span class="n">amount_insurance</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">compute</span><span class="o">=</span><span class="n">_get_costs_value</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="n">_set_amount_insurance</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Seguro&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]})</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_fiscal_position_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Método para chamar a definição de regras fiscais&quot;&quot;&quot;</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;use_domain&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;use_purchase&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span>
+            <span class="s1">&#39;account.fiscal.position.rule&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span>
+                <span class="n">ctx</span><span class="p">)</span><span class="o">.</span><span class="n">apply_fiscal_mapping</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">onchange</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">,</span> <span class="s1">&#39;fiscal_position&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="PurchaseOrder.onchange_fiscal"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrder.onchange_fiscal">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_fiscal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_invoice_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_shipping_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest_address_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_position</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">)</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="PurchaseOrder.action_invoice_create"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrder.action_invoice_create">[documentos]</a>    <span class="k">def</span> <span class="nf">action_invoice_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;fiscal_document_code&#39;</span><span class="p">:</span> <span class="mi">55</span><span class="p">})</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrder</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span><span class="n">context</span><span class="p">))</span><span class="o">.</span><span class="n">action_invoice_create</span><span class="p">()</span></div>
+
+    <span class="c1"># TODO migrate to new API</span>
+    <span class="k">def</span> <span class="nf">_prepare_inv_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">order_line</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_prepare_inv_line</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">order_line</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="n">order</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">order_id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_category_id</span> <span class="ow">and</span> \
+            <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_position</span> <span class="ow">and</span> \
+            <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;cfop_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">cfop_id</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">cfop_id</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">cfop_id</span> <span class="ow">and</span> \
+            <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">cfop_id</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;partner_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;company_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;insurance_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">insurance_value</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;other_costs_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">other_costs_value</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;freight_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">freight_value</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_prepare_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">line_ids</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_prepare_invoice</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">line_ids</span><span class="p">)</span>
+
+        <span class="n">company_id</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">company_id</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">company_id</span><span class="o">.</span><span class="n">document_serie_product_ids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">except_orm</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">&#39;No fiscal document serie found!&#39;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;No fiscal document serie found for selected </span><span class="se">\</span>
+<span class="s2">                company </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="n">journal_id</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">property_journal</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">journal_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">except_orm</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">u&#39;Nenhuma Diário!&#39;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">u&quot;Categoria de operação fisca: &#39;</span><span class="si">%s</span><span class="s2">&#39;, não tem um </span><span class="se">\</span>
+<span class="s2">                diário contábil para a empresa </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">order</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="n">comment</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">inv_copy_note</span> <span class="ow">and</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">note</span><span class="p">:</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">note</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">notes</span><span class="p">)</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;issuer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+        <span class="c1"># COPIAR OBS FISCAIS TBM???</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; - &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;journal_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">journal_id</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="c1"># TODO migrate to new API</span>
+    <span class="k">def</span> <span class="nf">_prepare_order_line_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">order_line</span><span class="p">,</span> <span class="n">picking_id</span><span class="p">,</span>
+                                 <span class="n">group_id</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_prepare_order_line_move</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">order_line</span><span class="p">,</span> <span class="n">picking_id</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">move</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">move</span><span class="p">[</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_line</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_create_stock_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">order_lines</span><span class="p">,</span> <span class="n">picking_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_create_stock_moves</span><span class="p">(</span>
+            <span class="n">order</span><span class="p">,</span> <span class="n">order_lines</span><span class="p">,</span> <span class="n">picking_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">picking_id</span><span class="p">:</span>
+            <span class="n">picking_values</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;fiscal_position&#39;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">picking</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;stock.picking&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">picking_id</span><span class="p">)</span>
+            <span class="n">picking</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">picking_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="PurchaseOrderLine"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrderLine">[documentos]</a><span class="k">class</span> <span class="nc">PurchaseOrderLine</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;purchase.order.line&#39;</span>
+
+    <span class="n">fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span> <span class="s1">&#39;Categoria Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;type&#39;, &#39;=&#39;, &#39;input&#39;), (&#39;journal_type&#39;, &#39;=&#39;, &#39;purchase&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">fiscal_position</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.fiscal.position&#39;</span><span class="p">,</span> <span class="s1">u&#39;Posição Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;fiscal_category_id&#39;, &#39;=&#39;, fiscal_category_id)]&quot;</span><span class="p">)</span>
+    <span class="n">freight_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Freight&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+    <span class="n">other_costs_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Other costs&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+    <span class="n">insurance_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Insurance&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_fiscal_position_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;use_domain&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;use_purchase&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)})</span>
+        <span class="n">fp_rule_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.fiscal.position.rule&#39;</span><span class="p">]</span>
+
+        <span class="n">partner_invoice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.partner&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;partner_invoice_id&#39;</span><span class="p">))</span>
+
+        <span class="n">product_fc_id</span> <span class="o">=</span> <span class="n">fp_rule_obj</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">product_fiscal_category_map</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">),</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">),</span>
+            <span class="n">partner_invoice</span><span class="o">.</span><span class="n">state_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">product_fc_id</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_fc_id</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">)</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fp_rule_obj</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">apply_fiscal_mapping</span><span class="p">(</span>
+            <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">fiscal_position</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fiscal_position&#39;</span><span class="p">)</span>
+        <span class="n">product_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">product_id</span> <span class="ow">and</span> <span class="n">fiscal_position</span><span class="p">:</span>
+            <span class="n">obj_fposition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.fiscal.position&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span>
+                <span class="n">fiscal_position</span><span class="p">)</span>
+            <span class="n">obj_product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;product.product&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="s1">&#39;fiscal_type&#39;</span><span class="p">:</span> <span class="n">obj_product</span><span class="o">.</span><span class="n">fiscal_type</span><span class="p">,</span>
+                <span class="s1">&#39;type_tax_use&#39;</span><span class="p">:</span> <span class="s1">&#39;purchase&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="n">product_id</span><span class="p">})</span>
+            <span class="n">taxes</span> <span class="o">=</span> <span class="n">obj_product</span><span class="o">.</span><span class="n">supplier_taxes_id</span>
+            <span class="n">tax_ids</span> <span class="o">=</span> <span class="n">obj_fposition</span><span class="o">.</span><span class="n">with_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">map_tax</span><span class="p">(</span><span class="n">taxes</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;taxes_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_ids</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="PurchaseOrderLine.onchange_product_id"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrderLine.onchange_product_id">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_product_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pricelist_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">uom_id</span><span class="p">,</span>
+                            <span class="n">partner_id</span><span class="p">,</span> <span class="n">date_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">fiscal_position_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">date_planned</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">price_unit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Método para implementar a inclusão dos campos categoria fiscal</span>
+<span class="sd">        e posição fiscal de acordo com valores padrões e regras de posicões</span>
+<span class="sd">        fiscais</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;company_id&#39;</span><span class="p">)</span>
+        <span class="n">parent_fiscal_category_id</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parent_fiscal_category_id&#39;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="k">if</span> <span class="n">product_id</span> <span class="ow">and</span> <span class="n">parent_fiscal_category_id</span> <span class="ow">and</span> <span class="n">partner_id</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company_id</span><span class="p">,</span>
+                <span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="n">product_id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="n">partner_id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_invoice_id&#39;</span><span class="p">:</span> <span class="n">partner_id</span><span class="p">,</span>
+                <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="n">parent_fiscal_category_id</span><span class="p">,</span>
+                <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="n">ctx</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+            <span class="n">obj_product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;product.product&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;fiscal_type&#39;</span><span class="p">:</span> <span class="n">obj_product</span><span class="o">.</span><span class="n">fiscal_type</span><span class="p">,</span>
+                        <span class="s1">&#39;type_tax_use&#39;</span><span class="p">:</span> <span class="s1">&#39;purchase&#39;</span><span class="p">})</span>
+
+        <span class="n">result_super</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrderLine</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">onchange_product_id</span><span class="p">(</span>
+            <span class="n">pricelist_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">uom_id</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">,</span>
+            <span class="n">date_order</span><span class="p">,</span> <span class="n">fiscal_position_id</span><span class="p">,</span> <span class="n">date_planned</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span>
+            <span class="n">state</span><span class="p">)</span>
+        <span class="n">result_super</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">result_super</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="PurchaseOrderLine.onchange_product_uom"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrderLine.onchange_product_uom">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_product_uom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pricelist_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">uom_id</span><span class="p">,</span>
+                             <span class="n">partner_id</span><span class="p">,</span> <span class="n">date_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">fiscal_position_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">date_planned</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">price_unit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Método adaptado para a nova API já que este mesmo chama o método</span>
+<span class="sd">        onchange_product_id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PurchaseOrderLine</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">onchange_product_uom</span><span class="p">(</span>
+            <span class="n">pricelist_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">uom_id</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">,</span> <span class="n">date_order</span><span class="p">,</span>
+            <span class="n">fiscal_position_id</span><span class="p">,</span> <span class="n">date_planned</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">onchange</span><span class="p">(</span><span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">,</span> <span class="s1">&#39;fiscal_position&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="PurchaseOrderLine.onchange_fiscal"><a class="viewcode-back" href="../../../addons/l10n_br_purchase/l10n_br_purchase.models.html#l10n_br_purchase.models.purchase.PurchaseOrderLine.onchange_fiscal">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_fiscal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">product_id</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="o">.</span><span class="n">company_id</span> <span class="ow">or</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="o">.</span><span class="n">partner_id</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="p">):</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;taxes_id&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxes_id</span><span class="o">.</span><span class="n">ids</span><span class="p">)],</span>
+            <span class="p">}</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fiscal_position_map</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_category_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;fiscal_position&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fiscal_position</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;taxes_id&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxes_id</span><span class="o">.</span><span class="n">ids</span><span class="p">)],</span>
+            <span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

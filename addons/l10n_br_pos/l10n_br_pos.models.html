@@ -1,0 +1,1021 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_pos.models package &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">l10n_br_pos.models package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.account_journal">l10n_br_pos.models.account_journal module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.l10n_br_account_product">l10n_br_pos.models.l10n_br_account_product module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.pos_config">l10n_br_pos.models.pos_config module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.pos_order">l10n_br_pos.models.pos_order module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.product_template">l10n_br_pos.models.product_template module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.res_company">l10n_br_pos.models.res_company module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models.stock">l10n_br_pos.models.stock module</a></li>
+<li><a class="reference internal" href="#module-l10n_br_pos.models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="l10n-br-pos-models-package">
+<h1>l10n_br_pos.models package<a class="headerlink" href="#l10n-br-pos-models-package" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link permanente para este título">¶</a></h2>
+</div>
+<div class="section" id="module-l10n_br_pos.models.account_journal">
+<span id="l10n-br-pos-models-account-journal-module"></span><h2>l10n_br_pos.models.account_journal module<a class="headerlink" href="#module-l10n_br_pos.models.account_journal" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.account_journal.AccountJournal">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.account_journal.</code><code class="descname">AccountJournal</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/account_journal.html#AccountJournal"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.account_journal.AccountJournal" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.account_journal.AccountJournal.sat_card_accrediting">
+<code class="descname">sat_card_accrediting</code><a class="headerlink" href="#l10n_br_pos.models.account_journal.AccountJournal.sat_card_accrediting" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.account_journal.AccountJournal.sat_payment_mode">
+<code class="descname">sat_payment_mode</code><a class="headerlink" href="#l10n_br_pos.models.account_journal.AccountJournal.sat_payment_mode" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.l10n_br_account_product">
+<span id="l10n-br-pos-models-l10n-br-account-product-module"></span><h2>l10n_br_pos.models.l10n_br_account_product module<a class="headerlink" href="#module-l10n_br_pos.models.l10n_br_account_product" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountCFOP">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.l10n_br_account_product.</code><code class="descname">L10nbrAccountCFOP</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/l10n_br_account_product.html#L10nbrAccountCFOP"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountCFOP" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<p>CFOP - Código Fiscal de Operações e Prestações</p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountCFOP.is_pos">
+<code class="descname">is_pos</code><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountCFOP.is_pos" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.l10n_br_account_product.</code><code class="descname">L10nbrAccountDocumentRelated</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/l10n_br_account_product.html#L10nbrAccountDocumentRelated"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.document_type">
+<code class="descname">document_type</code><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.document_type" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_document_type">
+<code class="descname">onchange_document_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/l10n_br_account_product.html#L10nbrAccountDocumentRelated.onchange_document_type"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_document_type" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_pos_order_related_id">
+<code class="descname">onchange_pos_order_related_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/l10n_br_account_product.html#L10nbrAccountDocumentRelated.onchange_pos_order_related_id"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_pos_order_related_id" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.pos_order_related_id">
+<code class="descname">pos_order_related_id</code><a class="headerlink" href="#l10n_br_pos.models.l10n_br_account_product.L10nbrAccountDocumentRelated.pos_order_related_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.pos_config">
+<span id="l10n-br-pos-models-pos-config-module"></span><h2>l10n_br_pos.models.pos_config module<a class="headerlink" href="#module-l10n_br_pos.models.pos_config" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.pos_config.PosConfig">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.pos_config.</code><code class="descname">PosConfig</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_config.html#PosConfig"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.assinatura_sat">
+<code class="descname">assinatura_sat</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.assinatura_sat" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.cnpj_homologacao">
+<code class="descname">cnpj_homologacao</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.cnpj_homologacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.cnpj_software_house">
+<code class="descname">cnpj_software_house</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.cnpj_software_house" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.cod_ativacao">
+<code class="descname">cod_ativacao</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.cod_ativacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.fiscal_category_id">
+<code class="descname">fiscal_category_id</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.fiscal_category_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.ie_homologacao">
+<code class="descname">ie_homologacao</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.ie_homologacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.iface_sat_via_proxy">
+<code class="descname">iface_sat_via_proxy</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.iface_sat_via_proxy" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.impressora">
+<code class="descname">impressora</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.impressora" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.numero_caixa">
+<code class="descname">numero_caixa</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.numero_caixa" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.out_pos_fiscal_category_id">
+<code class="descname">out_pos_fiscal_category_id</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.out_pos_fiscal_category_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.printer_params">
+<code class="descname">printer_params</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.printer_params" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.refund_pos_fiscal_category_id">
+<code class="descname">refund_pos_fiscal_category_id</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.refund_pos_fiscal_category_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.retornar_dados">
+<code class="descname">retornar_dados</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_config.html#PosConfig.retornar_dados"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.retornar_dados" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.sat_ambiente">
+<code class="descname">sat_ambiente</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.sat_ambiente" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.sat_path">
+<code class="descname">sat_path</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.sat_path" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.save_identity_automatic">
+<code class="descname">save_identity_automatic</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.save_identity_automatic" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.simplified_invoice_limit">
+<code class="descname">simplified_invoice_limit</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.simplified_invoice_limit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The precision digits are given by the attribute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><strong>digits</strong> &#8211; a pair (total, decimal), or a function taking a database
+cursor and returning a pair (total, decimal)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_config.PosConfig.simplified_invoice_type">
+<code class="descname">simplified_invoice_type</code><a class="headerlink" href="#l10n_br_pos.models.pos_config.PosConfig.simplified_invoice_type" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.pos_order">
+<span id="l10n-br-pos-models-pos-order-module"></span><h2>l10n_br_pos.models.pos_order module<a class="headerlink" href="#module-l10n_br_pos.models.pos_order" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.pos_order.PosOrder">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.pos_order.</code><code class="descname">PosOrder</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.action_invoice">
+<code class="descname">action_invoice</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.action_invoice"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.action_invoice" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.canceled_order">
+<code class="descname">canceled_order</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.canceled_order" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.cfe_cancelamento_return">
+<code class="descname">cfe_cancelamento_return</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.cfe_cancelamento_return" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.cfe_return">
+<code class="descname">cfe_return</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.cfe_return" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.chave_cfe">
+<code class="descname">chave_cfe</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.chave_cfe" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.chave_cfe_cancelamento">
+<code class="descname">chave_cfe_cancelamento</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.chave_cfe_cancelamento" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.cnpj_cpf">
+<code class="descname">cnpj_cpf</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.cnpj_cpf" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.create"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.create" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.fiscal_document_type">
+<code class="descname">fiscal_document_type</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.fiscal_document_type" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.num_sessao_sat">
+<code class="descname">num_sessao_sat</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.num_sessao_sat" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.num_sessao_sat_cancelamento">
+<code class="descname">num_sessao_sat_cancelamento</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.num_sessao_sat_cancelamento" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.pos_order_associated">
+<code class="descname">pos_order_associated</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.pos_order_associated" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.refund">
+<code class="descname">refund</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.refund"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.refund" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Create a copy of order  for refund order</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.retornar_order_by_id">
+<code class="descname">retornar_order_by_id</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.retornar_order_by_id"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.retornar_order_by_id" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.return_orders_from_session">
+<code class="descname">return_orders_from_session</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.return_orders_from_session"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.return_orders_from_session" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.simplified">
+<code class="descname">simplified</code><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.simplified" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.simplified_limit_check">
+<code class="descname">simplified_limit_check</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.simplified_limit_check"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.simplified_limit_check" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="l10n_br_pos.models.pos_order.PosOrder.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/pos_order.html#PosOrder.write"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.pos_order.PosOrder.write" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.product_template">
+<span id="l10n-br-pos-models-product-template-module"></span><h2>l10n_br_pos.models.product_template module<a class="headerlink" href="#module-l10n_br_pos.models.product_template" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.product_template.ProductTemplate">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.product_template.</code><code class="descname">ProductTemplate</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/product_template.html#ProductTemplate"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.product_template.ProductTemplate" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.product_template.ProductTemplate.estimated_taxes">
+<code class="descname">estimated_taxes</code><a class="headerlink" href="#l10n_br_pos.models.product_template.ProductTemplate.estimated_taxes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The precision digits are given by the attribute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><strong>digits</strong> &#8211; a pair (total, decimal), or a function taking a database
+cursor and returning a pair (total, decimal)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.res_company">
+<span id="l10n-br-pos-models-res-company-module"></span><h2>l10n_br_pos.models.res_company module<a class="headerlink" href="#module-l10n_br_pos.models.res_company" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.res_company.ResCompany">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.res_company.</code><code class="descname">ResCompany</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/res_company.html#ResCompany"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.res_company.ResCompany.ambiente_sat">
+<code class="descname">ambiente_sat</code><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany.ambiente_sat" title="Link permanente para esta definição">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selection</strong> &#8211; specifies the possible values for this field.
+It is given as either a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>), or a
+model method, or a method name.</li>
+<li><strong>selection_add</strong> &#8211; provides an extension of the selection in the case
+of an overridden field. It is a list of pairs (<code class="docutils literal"><span class="pre">value</span></code>, <code class="docutils literal"><span class="pre">string</span></code>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">selection</span></code> is mandatory except in the case of
+<span class="xref std std-ref">related fields</span> or <span class="xref std std-ref">field extensions</span>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.res_company.ResCompany.cnpj_software_house">
+<code class="descname">cnpj_software_house</code><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany.cnpj_software_house" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.res_company.ResCompany.out_pos_fiscal_category_id">
+<code class="descname">out_pos_fiscal_category_id</code><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany.out_pos_fiscal_category_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.res_company.ResCompany.refund_pos_fiscal_category_id">
+<code class="descname">refund_pos_fiscal_category_id</code><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany.refund_pos_fiscal_category_id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>The value of such a field is a recordset of size 0 (no
+record) or 1 (a single record).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comodel_name</strong> &#8211; name of the target model (string)</li>
+<li><strong>domain</strong> &#8211; an optional domain to set on candidate values on the
+client side (domain or string)</li>
+<li><strong>context</strong> &#8211; an optional context to use on the client side when
+handling that field (dictionary)</li>
+<li><strong>ondelete</strong> &#8211; what to do when the referred record is deleted;
+possible values are: <code class="docutils literal"><span class="pre">'set</span> <span class="pre">null'</span></code>, <code class="docutils literal"><span class="pre">'restrict'</span></code>, <code class="docutils literal"><span class="pre">'cascade'</span></code></li>
+<li><strong>auto_join</strong> &#8211; whether JOINs are generated upon search through that
+field (boolean, by default <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li><strong>delegate</strong> &#8211; set it to <code class="docutils literal"><span class="pre">True</span></code> to make fields of the target model
+accessible from the current model (corresponds to <code class="docutils literal"><span class="pre">_inherits</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The attribute <code class="docutils literal"><span class="pre">comodel_name</span></code> is mandatory except in the case of related
+fields or field extensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="l10n_br_pos.models.res_company.ResCompany.sign_software_house">
+<code class="descname">sign_software_house</code><a class="headerlink" href="#l10n_br_pos.models.res_company.ResCompany.sign_software_house" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Very similar to <code class="xref py py-class docutils literal"><span class="pre">Char</span></code> but used for longer contents, does not
+have a size and usually displayed as a multiline text box.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><strong>translate</strong> &#8211; whether the value of this field can be translated</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models.stock">
+<span id="l10n-br-pos-models-stock-module"></span><h2>l10n_br_pos.models.stock module<a class="headerlink" href="#module-l10n_br_pos.models.stock" title="Link permanente para este título">¶</a></h2>
+<dl class="class">
+<dt id="l10n_br_pos.models.stock.StockPicking">
+<em class="property">class </em><code class="descclassname">l10n_br_pos.models.stock.</code><code class="descname">StockPicking</code><span class="sig-paren">(</span><em>pool</em>, <em>cr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/l10n_br_pos/models/stock.html#StockPicking"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#l10n_br_pos.models.stock.StockPicking" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Base: <code class="xref py py-class docutils literal"><span class="pre">openerp.models.Model</span></code></p>
+<dl class="attribute">
+<dt id="l10n_br_pos.models.stock.StockPicking.fiscal_document_access_key">
+<code class="descname">fiscal_document_access_key</code><a class="headerlink" href="#l10n_br_pos.models.stock.StockPicking.fiscal_document_access_key" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Basic string field, can be length-limited, usually displayed as a
+single-line string in clients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parâmetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; the maximum size of values stored for that field</li>
+<li><strong>translate</strong> (<em>bool</em>) &#8211; whether the values of this field can be translated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-l10n_br_pos.models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-l10n_br_pos.models" title="Link permanente para este título">¶</a></h2>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/addons/l10n_br_pos/l10n_br_pos.models.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

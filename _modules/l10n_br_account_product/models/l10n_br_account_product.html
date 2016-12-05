@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account_product.models.l10n_br_account_product &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account_product.models.l10n_br_account_product</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2013  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="ne">Warning</span> <span class="k">as</span> <span class="n">UserError</span>
+<span class="kn">from</span> <span class="nn">openerp.addons</span> <span class="k">import</span> <span class="n">decimal_precision</span> <span class="k">as</span> <span class="n">dp</span>
+
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_base.tools</span> <span class="k">import</span> <span class="n">fiscal</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_account.models.l10n_br_account</span> <span class="k">import</span> <span class="n">TYPE</span>
+
+<span class="n">PRODUCT_FISCAL_TYPE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;Produto&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">PRODUCT_FISCAL_TYPE_DEFAULT</span> <span class="o">=</span> <span class="n">PRODUCT_FISCAL_TYPE</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">NFE_IND_IE_DEST</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1 - Contribuinte do ICMS&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;2 - Contribuinte Isento do ICMS&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">&#39;9 - Não Contribuinte&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">NFE_IND_IE_DEST_DEFAULT</span> <span class="o">=</span> <span class="n">NFE_IND_IE_DEST</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="L10nbrAccountCFOP"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountCFOP">[documentos]</a><span class="k">class</span> <span class="nc">L10nbrAccountCFOP</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CFOP - Código Fiscal de Operações e Prestações&quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.cfop&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;CFOP&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">small_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome Reduzido&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">TYPE</span><span class="p">,</span> <span class="s1">&#39;Tipo&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.cfop&#39;</span><span class="p">,</span> <span class="s1">&#39;CFOP Pai&#39;</span><span class="p">)</span>
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.cfop&#39;</span><span class="p">,</span> <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span> <span class="s1">&#39;CFOP Filhos&#39;</span><span class="p">)</span>
+    <span class="n">internal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visualização&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;Tipo Interno&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+    <span class="n">id_dest</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">u&#39;Operação interna&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">u&#39;Operação interestadual&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">u&#39;Operação com exterior&#39;</span><span class="p">)],</span>
+        <span class="s1">u&#39;Local de destino da operação&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">u&#39;Identificador de local de destino da operação.&#39;</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;l10n_br_account_cfop_code_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique (code)&#39;</span><span class="p">,</span>
+            <span class="s1">u&#39;Já existe um CFOP com esse código !&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+<div class="viewcode-block" id="L10nbrAccountCFOP.name_search"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountCFOP.name_search">[documentos]</a>    <span class="k">def</span> <span class="nf">name_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;ilike&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">recs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browse</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">recs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">name</span><span class="p">)]</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recs</span><span class="p">:</span>
+            <span class="n">recs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">name</span><span class="p">)]</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">recs</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span></div>
+
+    <span class="c1"># TODO migrate</span>
+<div class="viewcode-block" id="L10nbrAccountCFOP.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountCFOP.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">)):</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+        <span class="n">reads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">],</span> <span class="n">context</span><span class="p">,</span>
+                          <span class="n">load</span><span class="o">=</span><span class="s1">&#39;_classic_write&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reads</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountServiceType"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nBrAccountServiceType">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountServiceType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.service.type&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">u&#39;Cadastro de Operações Fiscais de Serviço&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.service.type&#39;</span><span class="p">,</span> <span class="s1">&#39;Tipo de Serviço Pai&#39;</span><span class="p">)</span>
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.service.type&#39;</span><span class="p">,</span> <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span>
+        <span class="s1">u&#39;Tipo de Serviço Filhos&#39;</span><span class="p">)</span>
+    <span class="n">internal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visualização&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">)],</span> <span class="s1">&#39;Tipo Interno&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountServiceType.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nBrAccountServiceType.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="L10nbrAccountDocumentRelated"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountDocumentRelated">[documentos]</a><span class="k">class</span> <span class="nc">L10nbrAccountDocumentRelated</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.document.related&#39;</span>
+
+    <span class="n">invoice_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">,</span> <span class="s1">&#39;Documento Fiscal&#39;</span><span class="p">,</span>
+                                 <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">invoice_related_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">,</span>
+                                         <span class="s1">&#39;Documento Fiscal&#39;</span><span class="p">,</span>
+                                         <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">,</span>
+                                         <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">document_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;nf&#39;</span><span class="p">,</span> <span class="s1">&#39;NF&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nfe&#39;</span><span class="p">,</span> <span class="s1">&#39;NF-e&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;cte&#39;</span><span class="p">,</span> <span class="s1">&#39;CT-e&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;nfrural&#39;</span><span class="p">,</span> <span class="s1">&#39;NF Produtor&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="s1">&#39;Cupom Fiscal&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;Tipo Documento&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">access_key</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Chave de Acesso&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">44</span><span class="p">)</span>
+    <span class="n">serie</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Série&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">internal_number</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Número&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.country.state&#39;</span><span class="p">,</span> <span class="s1">&#39;Estado&#39;</span><span class="p">,</span>
+                               <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;country_id.code&#39;, &#39;=&#39;, &#39;BR&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">cnpj_cpf</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CNPJ/CPF&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">cpfcnpj_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;cpf&#39;</span><span class="p">,</span> <span class="s1">&#39;CPF&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;cnpj&#39;</span><span class="p">,</span> <span class="s1">&#39;CNPJ&#39;</span><span class="p">)],</span> <span class="s1">&#39;Tipo Doc.&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;cnpj&#39;</span><span class="p">)</span>
+    <span class="n">inscr_est</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Inscr. Estadual/RG&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+    <span class="n">fiscal_document_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.document&#39;</span><span class="p">,</span> <span class="s1">&#39;Documento&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;cnpj_cpf&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_cnpj_cpf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">check_cnpj_cpf</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpfcnpj_type</span> <span class="o">==</span> <span class="s1">&#39;cnpj&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_cnpj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">):</span>
+                    <span class="n">check_cnpj_cpf</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_cpf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">):</span>
+                <span class="n">check_cnpj_cpf</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_cnpj_cpf</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">u&#39;CNPJ/CPF do documento relacionado é invalido!&#39;</span><span class="p">))</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;inscr_est&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_ie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if company register number in field insc_est is valid,</span>
+<span class="sd">        this method call others methods because this validation is State wise</span>
+
+<span class="sd">        :Return: True or False.</span>
+
+<span class="sd">        :Parameters:</span>
+<span class="sd">            - &#39;cr&#39;: Database cursor.</span>
+<span class="sd">            - &#39;uid&#39;: Current user’s ID for security checks.</span>
+<span class="sd">            - &#39;ids&#39;: List of partner objects IDs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_ie</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inscr_est</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">inscr_est</span> <span class="o">!=</span> <span class="s1">&#39;ISENTO&#39;</span><span class="p">:</span>
+            <span class="n">uf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">mod</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;openerp.addons.l10n_br_base.tools.fiscal&#39;</span><span class="p">,</span>
+                                 <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="s1">&#39;fiscal&#39;</span><span class="p">)</span>
+
+                <span class="n">validate</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s1">&#39;validate_ie_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">uf</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inscr_est</span><span class="p">):</span>
+                    <span class="n">check_ie</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fiscal</span><span class="o">.</span><span class="n">validate_ie_param</span><span class="p">(</span><span class="n">uf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inscr_est</span><span class="p">):</span>
+                    <span class="n">check_ie</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_ie</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">u&#39;Inscrição Estadual do documento fiscal inválida!&#39;</span><span class="p">))</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nbrAccountDocumentRelated.onchange_invoice_related_id"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_invoice_related_id">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_invoice_related_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_related_id</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">invoice_related_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">inv_related</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">invoice_related_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nf&#39;</span>
+        <span class="k">elif</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;04&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nfrural&#39;</span>
+        <span class="k">elif</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;55&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nfe&#39;</span>
+        <span class="k">elif</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;57&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cte&#39;</span>
+        <span class="k">elif</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;2B&#39;</span><span class="p">,</span> <span class="s1">&#39;2C&#39;</span><span class="p">,</span> <span class="s1">&#39;2D&#39;</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cf&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;document_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;55&#39;</span><span class="p">,</span> <span class="s1">&#39;57&#39;</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;access_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">nfe_access_key</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;serie&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;serie&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;internal_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;state_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;cnpj_cpf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;cpfcnpj_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;fiscal_document_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;inscr_est&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;04&#39;</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;access_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">issuer</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;serie&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">document_serie_id</span> <span class="ow">and</span> \
+                    <span class="n">inv_related</span><span class="o">.</span><span class="n">document_serie_id</span><span class="o">.</span><span class="n">code</span> <span class="ow">or</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;serie&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">vendor_serie</span>
+
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;internal_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">internal_number</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;state_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span> <span class="ow">and</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">state_id</span> <span class="ow">and</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">state_id</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> <span class="kc">False</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;cnpj_cpf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span> <span class="ow">and</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">cnpj_cpf</span> <span class="ow">or</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">is_company</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;cpfcnpj_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cnpj&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;cpfcnpj_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cpf&#39;</span>
+
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">date_invoice</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;fiscal_document_id&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span> <span class="ow">and</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;04&#39;</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;inscr_est&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span> <span class="ow">and</span> \
+                <span class="n">inv_related</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">inscr_est</span> <span class="ow">or</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nbrAccountDocumentRelated.onchange_mask_cnpj_cpf"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nbrAccountDocumentRelated.onchange_mask_cnpj_cpf">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_mask_cnpj_cpf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpfcnpj_type</span><span class="p">,</span> <span class="n">cnpj_cpf</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="n">cnpj_cpf</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cnpj_cpf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cpfcnpj_type</span> <span class="o">==</span> <span class="s1">&#39;cnpj&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+                <span class="n">cnpj_cpf</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="s2">&quot;</span>\
+                    <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">cpfcnpj_type</span> <span class="o">==</span> <span class="s1">&#39;cpf&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                <span class="n">cnpj_cpf</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="s2">&quot;</span>\
+                    <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">11</span><span class="p">])</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;cnpj_cpf&#39;</span><span class="p">:</span> <span class="n">cnpj_cpf</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="ImportDeclaration"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.ImportDeclaration">[documentos]</a><span class="k">class</span> <span class="nc">ImportDeclaration</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.import.declaration&#39;</span>
+
+    <span class="n">invoice_line_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.invoice.line&#39;</span><span class="p">,</span> <span class="s1">u&#39;Linha de Documento Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Número da DI&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">date_registration</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="s1">u&#39;Data de Registro&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exporting_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">u&#39;Código do Exportador&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;res.country.state&#39;</span><span class="p">,</span> <span class="s1">u&#39;Estado&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;country_id.code&#39;, &#39;=&#39;, &#39;BR&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Local&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">date_release</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="s1">u&#39;Data de Liberação&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">type_transportation</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">u&#39;1 - Marítima&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">u&#39;2 - Fluvial&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">u&#39;3 - Lacustre&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">u&#39;4 - Aérea&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">u&#39;5 - Postal&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">u&#39;6 - Ferroviária&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">u&#39;7 - Rodoviária&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">u&#39;8 - Conduto / Rede Transmissão&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">u&#39;9 - Meios Próprios&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">u&#39;10 - Entrada / Saída ficta&#39;</span><span class="p">),</span>
+    <span class="p">],</span> <span class="s1">u&#39;Transporte Internacional&#39;</span><span class="p">)</span>
+    <span class="n">afrmm_value</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Valor da AFRMM&#39;</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">)</span>
+    <span class="n">type_import</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">u&#39;1 - Importação por conta própria&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">u&#39;2 - Importação por conta e ordem&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">u&#39;3 - Importação por encomenda&#39;</span><span class="p">),</span>
+    <span class="p">],</span> <span class="s1">u&#39;Tipo de Importação&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+    <span class="n">thirdparty_cnpj</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;CNPJ&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">thirdparty_state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;res.country.state&#39;</span><span class="p">,</span> <span class="s1">u&#39;Estado&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;country_id.code&#39;, &#39;=&#39;, &#39;BR&#39;)]&quot;</span><span class="p">)</span>
+    <span class="n">line_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.import.declaration.line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;import_declaration_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Linhas da DI&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="ImportDeclaration.onchange_mask_cnpj_cpf"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.ImportDeclaration.onchange_mask_cnpj_cpf">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_mask_cnpj_cpf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thirdparty_cnpj</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="n">thirdparty_cnpj</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">thirdparty_cnpj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+                <span class="n">thirdparty_cnpj</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="s2">&quot;</span>\
+                    <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;thirdparty_cnpj&#39;</span><span class="p">:</span> <span class="n">thirdparty_cnpj</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="ImportDeclarationLine"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.ImportDeclarationLine">[documentos]</a><span class="k">class</span> <span class="nc">ImportDeclarationLine</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.import.declaration.line&#39;</span>
+
+    <span class="n">import_declaration_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.import.declaration&#39;</span><span class="p">,</span> <span class="s1">u&#39;DI&#39;</span><span class="p">,</span>
+        <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sequence</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="s1">u&#39;Sequência&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Adição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">manufacturer_code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">u&#39;Código do Fabricante&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">amount_discount</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="s1">u&#39;Valor&#39;</span><span class="p">,</span>
+                                   <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+                                   <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrIcmsRelief"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nBrIcmsRelief">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrIcmsRelief</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.icms_relief&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Icms Relief&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Ativo&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrIPIGuideline"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nBrIPIGuideline">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrIPIGuideline</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.ipi_guideline&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;IPI Guidelines&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">u&#39;Descrição Enquadramento Legal do IPI&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cst_group</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">([(</span><span class="s1">&#39;imunidade&#39;</span><span class="p">,</span> <span class="s1">u&#39;Imunidade&#39;</span><span class="p">),</span>
+                                  <span class="p">(</span><span class="s1">&#39;suspensao&#39;</span><span class="p">,</span> <span class="s1">u&#39;Suspensão&#39;</span><span class="p">),</span>
+                                  <span class="p">(</span><span class="s1">&#39;isencao&#39;</span><span class="p">,</span> <span class="s1">u&#39;Isenção&#39;</span><span class="p">),</span>
+                                  <span class="p">(</span><span class="s1">&#39;reducao&#39;</span><span class="p">,</span> <span class="s1">u&#39;Redução&#39;</span><span class="p">),</span>
+                                  <span class="p">(</span><span class="s1">&#39;outros&#39;</span><span class="p">,</span> <span class="s1">u&#39;Outros&#39;</span><span class="p">),</span>
+                                  <span class="p">],</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Grupo CST&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tax_code_in_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax.code.template&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;CST Entrada&#39;</span><span class="p">)</span>
+    <span class="n">tax_code_out_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax.code.template&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;CST Saída&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxIcmsPartition"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.l10n_br_account_product.L10nBrTaxIcmsPartition">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxIcmsPartition</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.icms_partition&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Icms Partition&#39;</span>
+
+    <span class="n">date_start</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+        <span class="s1">u&#39;Data Inicial&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">date_end</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+        <span class="s1">u&#39;Data Final&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">u&#39;Percentual Interestadual de Rateio&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

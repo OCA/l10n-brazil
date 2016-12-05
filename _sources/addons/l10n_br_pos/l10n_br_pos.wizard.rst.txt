@@ -1,0 +1,38 @@
+l10n_br_pos.wizard package
+==========================
+
+Submodules
+----------
+
+l10n_br_pos.wizard.l10n_br_pos_order_return module
+--------------------------------------------------
+
+.. automodule:: l10n_br_pos.wizard.l10n_br_pos_order_return
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.wizard.sat_xml_periodic_export module
+-------------------------------------------------
+
+.. automodule:: l10n_br_pos.wizard.sat_xml_periodic_export
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.wizard.stock_invoice_onshipping module
+--------------------------------------------------
+
+.. automodule:: l10n_br_pos.wizard.stock_invoice_onshipping
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_pos.wizard
+    :members:
+    :undoc-members:
+    :show-inheritance:

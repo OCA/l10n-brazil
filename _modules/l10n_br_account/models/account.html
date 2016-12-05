@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account.models.account &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account.models.account</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009 - TODAY Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+
+
+<div class="viewcode-block" id="AccountJournal"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.AccountJournal">[documentos]</a><span class="k">class</span> <span class="nc">AccountJournal</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.journal&#39;</span>
+
+    <span class="n">revenue_expense</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Gera Financeiro&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AccountTaxComputation"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.AccountTaxComputation">[documentos]</a><span class="k">class</span> <span class="nc">AccountTaxComputation</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;account.tax.computation&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AccountTax"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.AccountTax">[documentos]</a><span class="k">class</span> <span class="nc">AccountTax</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.tax&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_compute_tax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">taxes</span><span class="p">,</span> <span class="n">total_line</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">product_qty</span><span class="p">,</span>
+                     <span class="n">precision</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tax_discount&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;taxes&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+        <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tax</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;weight&#39;</span> <span class="ow">and</span> <span class="n">product</span><span class="p">:</span>
+                <span class="n">product_read</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product.product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+                    <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;weight_net&#39;</span><span class="p">])</span>
+                <span class="n">weight_net</span> <span class="o">=</span> <span class="n">product_read</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;weight_net&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                <span class="n">float_val</span> <span class="o">=</span> <span class="n">product_qty</span> <span class="o">*</span> <span class="n">weight_net</span> <span class="o">*</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">]</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">float_val</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">tax</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">product_qty</span> <span class="o">*</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">)</span>
+
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_line</span> <span class="o">*</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">)</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;base_reduction&#39;</span><span class="p">]),</span> <span class="n">precision</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">tax</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tax_discount&#39;</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;tax_discount&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">]:</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;total_base&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span>
+                    <span class="n">total_line</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;base_reduction&#39;</span><span class="p">]),</span> <span class="n">precision</span><span class="p">)</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;total_base_other&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span>
+                    <span class="n">total_line</span> <span class="o">-</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;total_base&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;total_base&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.00</span>
+                <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;total_base_other&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.00</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;taxes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">taxes</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">v7</span>
+    <span class="k">def</span> <span class="nf">compute_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">taxes</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_excluded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">fiscal_position</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">insurance_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">freight_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">other_costs_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute taxes</span>
+
+<span class="sd">        Returns a dict of the form::</span>
+
+<span class="sd">        {</span>
+<span class="sd">            &#39;total&#39;: Total without taxes,</span>
+<span class="sd">            &#39;total_included&#39;: Total with taxes,</span>
+<span class="sd">            &#39;total_tax_discount&#39;: Total Tax Discounts,</span>
+<span class="sd">            &#39;taxes&#39;: &lt;list of taxes, objects&gt;,</span>
+<span class="sd">            &#39;total_base&#39;: Total Base by tax,</span>
+<span class="sd">        }</span>
+
+<span class="sd">        :Parameters:</span>
+<span class="sd">            - &#39;cr&#39;: Database cursor.</span>
+<span class="sd">            - &#39;uid&#39;: Current user.</span>
+<span class="sd">            - &#39;taxes&#39;: List with all taxes id.</span>
+<span class="sd">            - &#39;price_unit&#39;: Product price unit.</span>
+<span class="sd">            - &#39;quantity&#39;: Product quantity.</span>
+<span class="sd">            - &#39;force_excluded&#39;: Used to say that we don&#39;t want to consider</span>
+<span class="sd">                                the value of field price_include of tax.</span>
+<span class="sd">                                It&#39;s used in encoding by line where you don&#39;t</span>
+<span class="sd">                                matter if you encoded a tax with that boolean</span>
+<span class="sd">                                to True or False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj_precision</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;decimal.precision&#39;</span><span class="p">)</span>
+        <span class="n">precision</span> <span class="o">=</span> <span class="n">obj_precision</span><span class="o">.</span><span class="n">precision_get</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="s1">&#39;Account&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span>
+            <span class="n">AccountTax</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compute_all</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">taxes</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+            <span class="n">partner</span><span class="o">=</span><span class="n">partner</span><span class="p">,</span> <span class="n">force_excluded</span><span class="o">=</span><span class="n">force_excluded</span><span class="p">)</span>
+        <span class="n">totaldc</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">calculed_taxes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;taxes&#39;</span><span class="p">]:</span>
+            <span class="n">tax_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">tx</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">taxes</span> <span class="k">if</span> <span class="n">tx</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">tax_list</span><span class="p">:</span>
+                <span class="n">tax_brw</span> <span class="o">=</span> <span class="n">tax_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">domain</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">type</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">amount</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;base_reduction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">base_reduction</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;amount_mva&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">amount_mva</span>
+            <span class="n">tax</span><span class="p">[</span><span class="s1">&#39;tax_discount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax_brw</span><span class="o">.</span><span class="n">base_code_id</span><span class="o">.</span><span class="n">tax_discount</span>
+
+        <span class="n">common_taxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tx</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;taxes&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">tx</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]]</span>
+        <span class="n">result_tax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_tax</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">common_taxes</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">],</span>
+            <span class="n">product</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+        <span class="n">totaldc</span> <span class="o">+=</span> <span class="n">result_tax</span><span class="p">[</span><span class="s1">&#39;tax_discount&#39;</span><span class="p">]</span>
+        <span class="n">calculed_taxes</span> <span class="o">+=</span> <span class="n">result_tax</span><span class="p">[</span><span class="s1">&#39;taxes&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;total&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;total_included&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;total_included&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;total_tax_discount&#39;</span><span class="p">:</span> <span class="n">totaldc</span><span class="p">,</span>
+            <span class="s1">&#39;taxes&#39;</span><span class="p">:</span> <span class="n">calculed_taxes</span>
+        <span class="p">}</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">v8</span>
+<div class="viewcode-block" id="AccountTax.compute_all"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.AccountTax.compute_all">[documentos]</a>    <span class="k">def</span> <span class="nf">compute_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">force_excluded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fiscal_position</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">insurance_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">freight_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">other_costs_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">compute_all</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uid</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">price_unit</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span>
+            <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span> <span class="n">partner</span><span class="o">=</span><span class="n">partner</span><span class="p">,</span> <span class="n">force_excluded</span><span class="o">=</span><span class="n">force_excluded</span><span class="p">,</span>
+            <span class="n">fiscal_position</span><span class="o">=</span><span class="n">fiscal_position</span><span class="p">,</span> <span class="n">insurance_value</span><span class="o">=</span><span class="n">insurance_value</span><span class="p">,</span>
+            <span class="n">freight_value</span><span class="o">=</span><span class="n">freight_value</span><span class="p">,</span> <span class="n">other_costs_value</span><span class="o">=</span><span class="n">other_costs_value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="WizardMultiChartsAccounts"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.WizardMultiChartsAccounts">[documentos]</a><span class="k">class</span> <span class="nc">WizardMultiChartsAccounts</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;wizard.multi.charts.accounts&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">v7</span>
+<div class="viewcode-block" id="WizardMultiChartsAccounts.execute"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.WizardMultiChartsAccounts.execute">[documentos]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function is called at the confirmation of the wizard to</span>
+<span class="sd">        generate the COA from the templates. It will read all the provided</span>
+<span class="sd">        information to create the accounts, the banks, the journals, the</span>
+<span class="sd">        taxes, the tax codes, the accounting properties... accordingly for</span>
+<span class="sd">        the chosen company.</span>
+
+<span class="sd">        This is override in Brazilian Localization to copy CFOP</span>
+<span class="sd">        from fiscal positions template to fiscal positions.</span>
+
+<span class="sd">        :Parameters:</span>
+<span class="sd">            - &#39;cr&#39;: Database cursor.</span>
+<span class="sd">            - &#39;uid&#39;: Current user.</span>
+<span class="sd">            - &#39;ids&#39;: orm_memory id used to read all data.</span>
+<span class="sd">            - &#39;context&#39;: Context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">WizardMultiChartsAccounts</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="n">obj_multi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">obj_fp_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;account.fiscal.position.template&#39;</span><span class="p">)</span>
+        <span class="n">obj_fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;account.fiscal.position&#39;</span><span class="p">)</span>
+
+        <span class="n">chart_template_id</span> <span class="o">=</span> <span class="n">obj_multi</span><span class="o">.</span><span class="n">chart_template_id</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="n">obj_multi</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="n">fp_template_ids</span> <span class="o">=</span> <span class="n">obj_fp_template</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;chart_template_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">chart_template_id</span><span class="p">)])</span>
+
+        <span class="k">for</span> <span class="n">fp_template</span> <span class="ow">in</span> <span class="n">obj_fp_template</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">fp_template_ids</span><span class="p">,</span>
+                                                  <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fp_template</span><span class="o">.</span><span class="n">cfop_id</span><span class="p">:</span>
+                <span class="n">fp_id</span> <span class="o">=</span> <span class="n">obj_fp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                    <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span>
+                    <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">fp_template</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;company_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">company_id</span><span class="p">)])</span>
+
+                <span class="k">if</span> <span class="n">fp_id</span><span class="p">:</span>
+                    <span class="n">obj_fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">fp_id</span><span class="p">,</span>
+                        <span class="p">{</span><span class="s1">&#39;cfop_id&#39;</span><span class="p">:</span> <span class="n">fp_template</span><span class="o">.</span><span class="n">cfop_id</span><span class="o">.</span><span class="n">id</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="AccountAccount"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.account.AccountAccount">[documentos]</a><span class="k">class</span> <span class="nc">AccountAccount</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.account&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">v7</span>
+    <span class="k">def</span> <span class="nf">_check_allow_type_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">new_type</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hack to allow re-shaping demo chart of account in demo mode&quot;&quot;&quot;</span>
+        <span class="n">cr</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT demo</span>
+<span class="s2">            FROM ir_module_module WHERE name = &#39;l10n_br_account&#39;;&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cr</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AccountAccount</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_check_allow_type_change</span><span class="p">(</span>
+                <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">v7</span>
+    <span class="k">def</span> <span class="nf">_check_allow_code_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hack to allow re-shaping demo chart of account in demo mode&quot;&quot;&quot;</span>
+        <span class="n">cr</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT demo</span>
+<span class="s2">            FROM ir_module_module WHERE name = &#39;l10n_br_account&#39;;&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cr</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AccountAccount</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_check_allow_code_change</span><span class="p">(</span>
+                <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

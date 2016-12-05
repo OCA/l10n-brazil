@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_zip_correios.models.webservice_client &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_zip_correios.models.webservice_client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#    Address from Brazilian Localization ZIP by Correios to Odoo</span>
+<span class="c1">#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)</span>
+<span class="c1">#    @author Michell Stuttgart &lt;michell.stuttgart@kmee.com.br&gt;</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="ne">Warning</span> <span class="k">as</span> <span class="n">UserError</span>
+<span class="kn">from</span> <span class="nn">openerp.tools.translate</span> <span class="k">import</span> <span class="n">_</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">suds</span> <span class="k">import</span> <span class="n">WebFault</span>
+    <span class="kn">from</span> <span class="nn">suds.client</span> <span class="k">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">TransportError</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">u&#39;Erro!&#39;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">u&quot;Biblioteca Suds não instalada!&quot;</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># to pip install suds (version: 0.4)</span>
+    <span class="kn">from</span> <span class="nn">suds.client</span> <span class="k">import</span> <span class="n">TransportError</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+    <span class="c1"># to apt-get install python-suds (version: 0.7~git20150727.94664dd-3)</span>
+    <span class="kn">from</span> <span class="nn">suds.transport</span> <span class="k">import</span> <span class="n">TransportError</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="WebServiceClient"><a class="viewcode-back" href="../../../addons/l10n_br_zip_correios/l10n_br_zip_correios.models.html#l10n_br_zip_correios.models.webservice_client.WebServiceClient">[documentos]</a><span class="k">class</span> <span class="nc">WebServiceClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="WebServiceClient.get_address"><a class="viewcode-back" href="../../../addons/l10n_br_zip_correios/l10n_br_zip_correios.models.html#l10n_br_zip_correios.models.webservice_client.WebServiceClient.get_address">[documentos]</a>    <span class="k">def</span> <span class="nf">get_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zip_code</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">zip_code</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">zip_str</span> <span class="o">=</span> <span class="n">zip_code</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zip_str</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;zip&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">zip_str</span><span class="p">)]):</span>
+
+                <span class="c1"># SigepWeb webservice url</span>
+                <span class="n">url_prod</span> <span class="o">=</span> <span class="s1">&#39;https://apps.correios.com.br/SigepMasterJPA&#39;</span> \
+                           <span class="s1">&#39;/AtendeClienteService/AtendeCliente?wsdl&#39;</span>
+
+                <span class="k">try</span><span class="p">:</span>
+
+                    <span class="c1"># Connect Brazil Correios webservice</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url_prod</span><span class="p">)</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">consultaCEP</span><span class="p">(</span><span class="n">zip_str</span><span class="p">)</span>
+
+                    <span class="c1"># Search Brazil id</span>
+                    <span class="n">country_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.country&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                        <span class="p">[(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;BR&#39;</span><span class="p">)])</span>
+
+                    <span class="c1"># Search state with state_code and country id</span>
+                    <span class="n">state_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.country.state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([</span>
+                        <span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">uf</span><span class="p">)),</span>
+                        <span class="p">(</span><span class="s1">&#39;country_id.id&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">country_ids</span><span class="o">.</span><span class="n">ids</span><span class="p">)])</span>
+
+                    <span class="c1"># city name</span>
+                    <span class="n">city_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">cidade</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span>
+
+                    <span class="c1"># search city with name and state</span>
+                    <span class="n">city_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br_base.city&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([</span>
+                        <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">city_name</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;state_id.id&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">state_ids</span><span class="o">.</span><span class="n">ids</span><span class="p">)])</span>
+
+                    <span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;zip&#39;</span><span class="p">:</span> <span class="n">zip_str</span><span class="p">,</span>
+                        <span class="s1">&#39;street&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span>
+                            <span class="n">res</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">end</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;district&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span>
+                            <span class="n">res</span><span class="o">.</span><span class="n">bairro</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">bairro</span>
+                        <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;street_type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span>
+                            <span class="n">res</span><span class="o">.</span><span class="n">complemento</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">complemento</span>
+                        <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;l10n_br_city_id&#39;</span><span class="p">:</span> <span class="n">city_ids</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span>
+                            <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">city_ids</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s1">&#39;state_id&#39;</span><span class="p">:</span> <span class="n">state_ids</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">state_ids</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s1">&#39;country_id&#39;</span><span class="p">:</span> <span class="n">country_ids</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span>
+                            <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">country_ids</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="p">}</span>
+
+                    <span class="c1"># Create zip object</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br.zip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+                <span class="k">except</span> <span class="n">TransportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Error!&#39;</span><span class="p">),</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">WebFault</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Error!&#39;</span><span class="p">),</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

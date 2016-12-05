@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_pos.models.account_journal &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_pos.models.account_journal</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br) - Fernando Marcato</span>
+<span class="c1"># License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+
+<span class="n">WA03_CMP_MP</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">u&#39;Dinheiro&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;02&#39;</span><span class="p">,</span> <span class="s1">u&#39;Cheque&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;03&#39;</span><span class="p">,</span> <span class="s1">u&#39;Cartão Crédito&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;04&#39;</span><span class="p">,</span> <span class="s1">u&#39;Cartão Débito&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;05&#39;</span><span class="p">,</span> <span class="s1">u&#39;Crédito Loja&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">u&#39;Vale Alimentação&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">u&#39;Vale Refeição&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">u&#39;Vale Presente&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;13&#39;</span><span class="p">,</span> <span class="s1">u&#39;Vale Combustível&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;99&#39;</span><span class="p">,</span> <span class="s1">u&#39;Outros&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">CREDENCIADORAS_CARTAO</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Código da credenciadora, CNPJ e Nome</span>
+    <span class="p">(</span><span class="s1">&#39;001&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.106.213/0001-90 Administradora de Cartões Sicredi Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;002&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.106.213/0002-71 Administradora de Cartões Sicredi Ltda.(filial RS)&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;003&#39;</span><span class="p">,</span> <span class="s1">u&#39;60.419.645/0001-95 Banco American Express S/A - AMEX&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;004&#39;</span><span class="p">,</span> <span class="s1">u&#39;62.421.979/0001-29 BANCO GE - CAPITAL&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;005&#39;</span><span class="p">,</span> <span class="s1">u&#39;58.160.789/0001-28 BANCO SAFRA S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;006&#39;</span><span class="p">,</span> <span class="s1">u&#39;07.679.404/0001-00 BANCO TOPÁZIO S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;007&#39;</span><span class="p">,</span> <span class="s1">u&#39;17.351.180/0001-59 BANCO TRIANGULO S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;008&#39;</span><span class="p">,</span> <span class="s1">u&#39;04.627.085/0001-93 BIGCARD Adm. de Convenios e Serv.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;009&#39;</span><span class="p">,</span> <span class="s1">u&#39;01.418.852/0001-66 BOURBON Adm. de Cartões de Crédito&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;010&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.766.873/0001-06 CABAL Brasil Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;011&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.722.919/0001-87 CETELEM Brasil S/A - CFI&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;012&#39;</span><span class="p">,</span> <span class="s1">u&#39;01.027.058/0001-91 CIELO S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;013&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.529.067/0001-06 CREDI 21 Participações Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;014&#39;</span><span class="p">,</span> <span class="s1">u&#39;71.225.700/0001-22 ECX CARD Adm. e Processadora de Cartões S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;015&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.506.307/0001-57 Empresa Bras. Tec. Adm. Conv. Hom. Ltda. - EMBRATEC&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;016&#39;</span><span class="p">,</span> <span class="s1">u&#39;04.432.048/0001-20 EMPÓRIO CARD LTDA&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;017&#39;</span><span class="p">,</span> <span class="s1">u&#39;07.953.674/0001-50 FREEDDOM e Tecnologia e Serviços S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;018&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.322.366/0001-75 FUNCIONAL CARD LTDA.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;019&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.012.230/0001-69 HIPERCARD Banco Multiplo S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;020&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.966.317/0001-75 MAPA Admin. Conv. e Cartões Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;021&#39;</span><span class="p">,</span> <span class="s1">u&#39;00.163.051/0001-34 Novo Pag Adm. e Proc. de Meios Eletrônicos de Pagto. Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;022&#39;</span><span class="p">,</span> <span class="s1">u&#39;43.180.355/0001-12 PERNAMBUCANAS Financiadora S/A Crédito, Fin. e Invest.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;023&#39;</span><span class="p">,</span> <span class="s1">u&#39;00.904.951/0001-95 POLICARD Systems e Serviços Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;024&#39;</span><span class="p">,</span> <span class="s1">u&#39;33.098.658/0001-37 PROVAR Negócios de Varejo Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;025&#39;</span><span class="p">,</span> <span class="s1">u&#39;01.425.787/0001-04 REDECARD S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;026&#39;</span><span class="p">,</span> <span class="s1">u&#39;90.055.609/0001-50 RENNER Adm. Cartões de Crédito Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;027&#39;</span><span class="p">,</span> <span class="s1">u&#39;03.007.699/0001-00 RP Administração de Convênios Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;028&#39;</span><span class="p">,</span> <span class="s1">u&#39;00.122.327/0001-36 SANTINVEST S/A Crédito, Financiamento e Investimentos&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;029&#39;</span><span class="p">,</span> <span class="s1">u&#39;69.034.668/0001-56 SODEXHO Pass do Brasil Serviços e Comércio S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;030&#39;</span><span class="p">,</span> <span class="s1">u&#39;60.114.865/0001-00 SOROCRED Meios de Pagamentos Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;031&#39;</span><span class="p">,</span> <span class="s1">u&#39;51.427.102/0004-71 Tecnologia Bancária S/A - TECBAN&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;032&#39;</span><span class="p">,</span> <span class="s1">u&#39;47.866.934/0001-74 TICKET Serviços S/A&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;033&#39;</span><span class="p">,</span> <span class="s1">u&#39;00.604.122/0001-97 TRIVALE Administração Ltda.&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;034&#39;</span><span class="p">,</span> <span class="s1">u&#39;61.071.387/0001-61 Unicard Banco Múltiplo S/A - TRICARD&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;999&#39;</span><span class="p">,</span> <span class="s1">u&#39;0 Outros&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="AccountJournal"><a class="viewcode-back" href="../../../addons/l10n_br_pos/l10n_br_pos.models.html#l10n_br_pos.models.account_journal.AccountJournal">[documentos]</a><span class="k">class</span> <span class="nc">AccountJournal</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.journal&#39;</span>
+
+    <span class="n">sat_payment_mode</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">WA03_CMP_MP</span><span class="p">,</span> <span class="s1">&#39;Modo de Pagamento SAT&#39;</span>
+    <span class="p">)</span>
+    <span class="n">sat_card_accrediting</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">CREDENCIADORAS_CARTAO</span><span class="p">,</span> <span class="s1">&#39;Credenciadora do Cartão&#39;</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

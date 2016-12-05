@@ -1,0 +1,18 @@
+l10n_br_pos package
+===================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    l10n_br_pos.models
+    l10n_br_pos.wizard
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_pos
+    :members:
+    :undoc-members:
+    :show-inheritance:

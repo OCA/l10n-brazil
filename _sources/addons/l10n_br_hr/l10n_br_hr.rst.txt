@@ -1,0 +1,17 @@
+l10n_br_hr package
+==================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    l10n_br_hr.model
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_hr
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account_product.models.account_product_fiscal_classification &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account_product.models.account_product_fiscal_classification</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2012  Renato Lima - Akretion</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">date</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">openerp.addons</span> <span class="k">import</span> <span class="n">decimal_precision</span> <span class="k">as</span> <span class="n">dp</span>
+
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_account.models.l10n_br_account</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">L10nBrTaxDefinition</span><span class="p">,</span>
+    <span class="n">L10nBrTaxDefinitionTemplate</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_account.sped.ibpt.deolhonoimposto</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">DeOlhoNoImposto</span><span class="p">,</span>
+    <span class="n">get_ibpt_product</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">openerp.addons.l10n_br_base.tools.misc</span> <span class="k">import</span> <span class="n">punctuation_rm</span>
+
+
+<div class="viewcode-block" id="AccountProductFiscalClassificationTemplate"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.AccountProductFiscalClassificationTemplate">[documentos]</a><span class="k">class</span> <span class="nc">AccountProductFiscalClassificationTemplate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span>
+    <span class="n">_rec_name</span> <span class="o">=</span> <span class="s1">&#39;code&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;purchase_tax_definition_line&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;sale_tax_definition_line&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_taxes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">fc</span><span class="o">.</span><span class="n">sale_tax_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">tax_template_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                               <span class="n">fc</span><span class="o">.</span><span class="n">sale_tax_definition_line</span><span class="p">]</span>
+            <span class="n">fc</span><span class="o">.</span><span class="n">purchase_tax_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">tax_template_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                                   <span class="n">fc</span><span class="o">.</span><span class="n">purchase_tax_definition_line</span><span class="p">]</span>
+
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">([(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visão&#39;</span><span class="p">),</span>
+                             <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">),</span>
+                             <span class="p">(</span><span class="s1">&#39;extension&#39;</span><span class="p">,</span> <span class="s1">u&#39;Extensão&#39;</span><span class="p">)],</span>
+                            <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Tipo&#39;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="n">note</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">u&#39;Observações&#39;</span><span class="p">)</span>
+
+    <span class="n">inv_copy_note</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="s1">u&#39;Copiar Observação&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Copia a observação no documento fiscal&quot;</span><span class="p">)</span>
+
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Parent Fiscal Classification&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;type&#39;, &#39;in&#39;, (&#39;view&#39;, &#39;normal&#39;))]&quot;</span><span class="p">,</span>
+        <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">)</span>
+
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Child Fiscal Classifications&#39;</span><span class="p">)</span>
+
+    <span class="n">sale_tax_definition_line</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_tax.definition.sale.template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Taxes Definitions&#39;</span><span class="p">)</span>
+
+    <span class="n">sale_tax_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax.template&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Sale Taxes&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_taxes&#39;</span><span class="p">)</span>
+
+    <span class="n">purchase_tax_definition_line</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_tax.definition.purchase.template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Taxes Definitions&#39;</span><span class="p">)</span>
+
+    <span class="n">purchase_tax_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax.template&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Purchase Taxes&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_taxes&#39;</span><span class="p">)</span>
+
+    <span class="n">tax_estimate_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_tax.estimate.template&#39;</span><span class="p">,</span>
+        <span class="n">inverse_name</span><span class="o">=</span><span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Impostos Estimados&#39;</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;account_fiscal_classfication_code_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique (code)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Já existe um classificação fiscal com esse código!&#39;</span><span class="p">)]</span>
+
+    <span class="n">cest</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;CEST&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Código Especificador da Substituição Tributária &quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionTemplateModel"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionTemplateModel">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionTemplateModel</span><span class="p">(</span><span class="n">L10nBrTaxDefinitionTemplate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Model for tax definition template&quot;&quot;&quot;</span>
+
+    <span class="n">fiscal_classification_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fiscal Classification&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tax_ipi_guideline_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.ipi_guideline&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Enquadramento IPI&#39;</span><span class="p">)</span>
+    <span class="n">tax_icms_relief_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.icms_relief&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Desoneração ICMS&#39;</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;l10n_br_tax_definition_template_tax_template_id_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique </span><span class="se">\</span>
+<span class="s1">         (tax_template_id, fiscal_classification_id)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Imposto já existente nesta classificação fiscal!&#39;</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionSaleTemplate"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionSaleTemplate">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionSaleTemplate</span><span class="p">(</span><span class="n">L10nBrTaxDefinitionTemplateModel</span><span class="p">,</span>
+                                      <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Definition a class model for sales tax and tax code template&quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.sale.template&#39;</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionPurchaseTemplate"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionPurchaseTemplate">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionPurchaseTemplate</span><span class="p">(</span><span class="n">L10nBrTaxDefinitionTemplateModel</span><span class="p">,</span>
+                                          <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Definition a class model for purchase tax and tax code template&quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.purchase.template&#39;</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxEstimateModel"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxEstimateModel">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxEstimateModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.estimate.model&#39;</span>
+    <span class="n">_auto</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">active</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Ativo&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">state_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;res.country.state&#39;</span><span class="p">,</span> <span class="s1">&#39;Estado&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">federal_taxes_national</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Impostos Federais Nacional&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+
+    <span class="n">federal_taxes_import</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Impostos Federais Importado&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+
+    <span class="n">state_taxes</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Impostos Estaduais Nacional&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+
+    <span class="n">municipal_taxes</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="s1">&#39;Impostos Municipais Nacional&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="n">digits_compute</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">))</span>
+
+    <span class="n">create_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span>
+        <span class="s1">u&#39;Data de Criação&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Chave&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">version</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Versão&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Fonte&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">company_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;res.company&#39;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxEstimateTemplate"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxEstimateTemplate">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxEstimateTemplate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.estimate.template&#39;</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.estimate.model&#39;</span>
+
+    <span class="n">fiscal_classification_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fiscal Classification&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AccountProductFiscalClassification"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.AccountProductFiscalClassification">[documentos]</a><span class="k">class</span> <span class="nc">AccountProductFiscalClassification</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;account.product.fiscal.classification&#39;</span>
+    <span class="n">_rec_name</span> <span class="o">=</span> <span class="s1">&#39;code&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;purchase_tax_definition_line&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;sale_tax_definition_line&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_taxes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">fc</span><span class="o">.</span><span class="n">sale_tax_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">tax_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                               <span class="n">fc</span><span class="o">.</span><span class="n">sale_tax_definition_line</span><span class="p">]</span>
+            <span class="n">fc</span><span class="o">.</span><span class="n">purchase_tax_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">tax_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                                   <span class="n">fc</span><span class="o">.</span><span class="n">purchase_tax_definition_line</span><span class="p">]</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;tax_estimate_ids&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_product_estimated_taxes_percent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">t_ids</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">tax_estimate_ids</span><span class="o">.</span><span class="n">ids</span>
+            <span class="n">last_estimated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br_tax.estimate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                <span class="p">[(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">t_ids</span><span class="p">)],</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;create_date DESC&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">record</span><span class="o">.</span><span class="n">estd_import_taxes_perct</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">last_estimated</span><span class="o">.</span><span class="n">federal_taxes_import</span> <span class="o">+</span>
+                <span class="n">last_estimated</span><span class="o">.</span><span class="n">state_taxes</span> <span class="o">+</span> <span class="n">last_estimated</span><span class="o">.</span><span class="n">municipal_taxes</span><span class="p">)</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">estd_national_taxes_perct</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">last_estimated</span><span class="o">.</span><span class="n">federal_taxes_national</span> <span class="o">+</span>
+                <span class="n">last_estimated</span><span class="o">.</span><span class="n">state_taxes</span> <span class="o">+</span> <span class="n">last_estimated</span><span class="o">.</span><span class="n">municipal_taxes</span><span class="p">)</span>
+
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">([(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visão&#39;</span><span class="p">),</span>
+                             <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">),</span>
+                             <span class="p">(</span><span class="s1">&#39;extension&#39;</span><span class="p">,</span> <span class="s1">u&#39;Extensão&#39;</span><span class="p">)],</span> <span class="s1">&#39;Tipo&#39;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="n">note</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">u&#39;Observações&#39;</span><span class="p">)</span>
+
+    <span class="n">inv_copy_note</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="s1">u&#39;Copiar Observação&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Copia a observação no documento fiscal&quot;</span><span class="p">)</span>
+
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Parent Fiscal Classification&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;type&#39;, &#39;in&#39;, (&#39;view&#39;, &#39;normal&#39;))]&quot;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">,</span> <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Child Fiscal Classifications&#39;</span><span class="p">)</span>
+
+    <span class="n">sale_tax_definition_line</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_tax.definition.sale&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Taxes Definitions&#39;</span><span class="p">)</span>
+
+    <span class="n">sale_tax_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Sale Taxes&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_taxes&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">purchase_tax_definition_line</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_tax.definition.purchase&#39;</span><span class="p">,</span> <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Taxes Definitions&#39;</span><span class="p">)</span>
+
+    <span class="n">purchase_tax_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.tax&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Purchase Taxes&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_taxes&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">tax_estimate_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_tax.estimate&#39;</span><span class="p">,</span>
+        <span class="n">inverse_name</span><span class="o">=</span><span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Impostos Estimados&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">cest</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;CEST&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Código Especificador da Substituição Tributária &quot;</span><span class="p">)</span>
+
+    <span class="n">estd_import_taxes_perct</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Impostos de Importação Estimados(%)&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_product_estimated_taxes_percent&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">estd_national_taxes_perct</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Impostos Nacionais Estimados(%)&#39;</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_product_estimated_taxes_percent&#39;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;account_fiscal_classfication_code_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique (code)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Já existe um classificação fiscal com esse código!&#39;</span><span class="p">)]</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="AccountProductFiscalClassification.get_ibpt"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.AccountProductFiscalClassification.get_ibpt">[documentos]</a>    <span class="k">def</span> <span class="nf">get_ibpt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">fiscal_classification</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+
+            <span class="n">company</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">fiscal_classification</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">company_id</span> <span class="ow">or</span>
+                <span class="n">fiscal_classification</span><span class="o">.</span><span class="n">company_id</span><span class="p">)</span>
+
+            <span class="n">config</span> <span class="o">=</span> <span class="n">DeOlhoNoImposto</span><span class="p">(</span>
+                <span class="n">company</span><span class="o">.</span><span class="n">ipbt_token</span><span class="p">,</span> <span class="n">punctuation_rm</span><span class="p">(</span><span class="n">company</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">),</span>
+                <span class="n">company</span><span class="o">.</span><span class="n">state_id</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">get_ibpt_product</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">,</span>
+                <span class="n">punctuation_rm</span><span class="p">(</span><span class="n">fiscal_classification</span><span class="o">.</span><span class="n">code</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="n">vals</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">:</span> <span class="n">fiscal_classification</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;origin&#39;</span><span class="p">:</span> <span class="s1">&#39;IBPT-WS&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;state_id&#39;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">state_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;state_taxes&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">estadual</span><span class="p">,</span>
+                <span class="s1">&#39;federal_taxes_national&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">nacional</span><span class="p">,</span>
+                <span class="s1">&#39;federal_taxes_import&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importado</span><span class="p">,</span>
+                <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="p">}</span>
+
+            <span class="n">tax_estimate</span> <span class="o">=</span> <span class="n">fiscal_classification</span><span class="o">.</span><span class="n">env</span><span class="p">[</span>
+                <span class="s1">&#39;l10n_br_tax.estimate&#39;</span><span class="p">]</span>
+
+            <span class="n">tax_estimate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+<div class="viewcode-block" id="AccountProductFiscalClassification.update_due_ncm"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.AccountProductFiscalClassification.update_due_ncm">[documentos]</a>    <span class="k">def</span> <span class="nf">update_due_ncm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">config_date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.config.settings&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">ibpt_update_days</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="n">data_max</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">config_date</span><span class="p">)</span>
+
+        <span class="n">all_ncm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span>
+            <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([])</span>
+
+        <span class="n">not_estimated</span> <span class="o">=</span> <span class="n">all_ncm</span><span class="o">.</span><span class="n">filtered</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">product_tmpl_qty</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">tax_estimate_ids</span>
+        <span class="p">)</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;WITH ncm_max_date AS (&quot;</span>
+            <span class="s2">&quot;   SELECT &quot;</span>
+            <span class="s2">&quot;       fiscal_classification_id, &quot;</span>
+            <span class="s2">&quot;       max(create_date) &quot;</span>
+            <span class="s2">&quot;   FROM  &quot;</span>
+            <span class="s2">&quot;       l10n_br_tax_estimate &quot;</span>
+            <span class="s2">&quot;   GROUP BY &quot;</span>
+            <span class="s2">&quot;       fiscal_classification_id&quot;</span>
+            <span class="s2">&quot;) SELECT fiscal_classification_id &quot;</span>
+            <span class="s2">&quot;FROM &quot;</span>
+            <span class="s2">&quot;   ncm_max_date &quot;</span>
+            <span class="s2">&quot;WHERE &quot;</span>
+            <span class="s2">&quot;   max &lt; </span><span class="si">%(create_date)s</span><span class="s2">  &quot;</span>
+        <span class="p">)</span>
+        <span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;create_date&#39;</span><span class="p">:</span> <span class="n">data_max</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="o">.</span><span class="n">mogrify</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">query_params</span><span class="p">))</span>
+        <span class="n">past_estimated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">estimate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">estimate</span> <span class="ow">in</span> <span class="n">past_estimated</span><span class="p">]</span>
+
+        <span class="n">ncm_past_estimated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span>
+            <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ncm</span> <span class="ow">in</span> <span class="n">not_estimated</span> <span class="o">+</span> <span class="n">ncm_past_estimated</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ncm</span><span class="o">.</span><span class="n">get_ibpt</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionModel"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionModel">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionModel</span><span class="p">(</span><span class="n">L10nBrTaxDefinition</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.model&#39;</span>
+
+    <span class="n">fiscal_classification_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Parent Fiscal Classification&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tax_ipi_guideline_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.ipi_guideline&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Enquadramento IPI&#39;</span><span class="p">)</span>
+    <span class="n">tax_icms_relief_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account_product.icms_relief&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Desoneração ICMS&#39;</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;l10n_br_tax_definition_tax_id_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique (tax_id,</span><span class="se">\</span>
+<span class="s1">        fiscal_classification_id)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Imposto já existente nesta classificação fiscal!&#39;</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionSale"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionSale">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionSale</span><span class="p">(</span><span class="n">L10nBrTaxDefinitionModel</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.sale&#39;</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionPurchase"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxDefinitionPurchase">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionPurchase</span><span class="p">(</span><span class="n">L10nBrTaxDefinitionModel</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.purchase&#39;</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxEstimate"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.L10nBrTaxEstimate">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxEstimate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.estimate&#39;</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.estimate.model&#39;</span>
+
+    <span class="n">fiscal_classification_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fiscal Classification&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WizardAccountProductFiscalClassification"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.WizardAccountProductFiscalClassification">[documentos]</a><span class="k">class</span> <span class="nc">WizardAccountProductFiscalClassification</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;wizard.account.product.fiscal.classification&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="WizardAccountProductFiscalClassification.action_create"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.models.html#l10n_br_account_product.models.account_product_fiscal_classification.WizardAccountProductFiscalClassification.action_create">[documentos]</a>    <span class="k">def</span> <span class="nf">action_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">obj_tax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax&#39;</span><span class="p">]</span>
+        <span class="n">obj_tax_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax.code&#39;</span><span class="p">]</span>
+        <span class="n">obj_tax_code_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax.code.template&#39;</span><span class="p">]</span>
+        <span class="n">obj_tax_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.tax.template&#39;</span><span class="p">]</span>
+        <span class="n">obj_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.product.fiscal.classification&#39;</span><span class="p">]</span>
+        <span class="n">obj_tax_purchase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br_tax.definition.purchase&#39;</span><span class="p">]</span>
+        <span class="n">obj_tax_sale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;l10n_br_tax.definition.sale&#39;</span><span class="p">]</span>
+
+        <span class="n">obj_fc_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span>
+            <span class="s1">&#39;account.product.fiscal.classification.template&#39;</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">map_taxes_codes</span><span class="p">(</span><span class="n">tax_definition</span><span class="p">,</span> <span class="n">tax_type</span><span class="o">=</span><span class="s1">&#39;sale&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">tax_definition</span><span class="p">:</span>
+
+                <span class="k">for</span> <span class="n">company</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="n">company_taxes</span><span class="p">[</span><span class="n">company</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">tax_template_id</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+
+                        <span class="n">tax_def_domain</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="p">(</span><span class="s1">&#39;tax_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">company_taxes</span><span class="p">[</span>
+                                <span class="n">company</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">tax_template_id</span><span class="o">.</span><span class="n">id</span><span class="p">)),</span>
+                            <span class="p">(</span><span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">fc_id</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s1">&#39;company_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">company</span><span class="p">)]</span>
+
+                        <span class="k">if</span> <span class="n">tax_type</span> <span class="o">==</span> <span class="s1">&#39;sale&#39;</span><span class="p">:</span>
+                            <span class="n">obj_tax_def</span> <span class="o">=</span> <span class="n">obj_tax_sale</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">obj_tax_def</span> <span class="o">=</span> <span class="n">obj_tax_purchase</span>
+
+                        <span class="n">tax_def_result</span> <span class="o">=</span> <span class="n">obj_tax_def</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">tax_def_domain</span><span class="p">)</span>
+
+                        <span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s1">&#39;tax_id&#39;</span><span class="p">:</span> <span class="n">company_taxes</span><span class="p">[</span><span class="n">company</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="n">line</span><span class="o">.</span><span class="n">tax_template_id</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                            <span class="s1">&#39;tax_code_id&#39;</span><span class="p">:</span> <span class="n">company_codes</span><span class="p">[</span><span class="n">company</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="n">line</span><span class="o">.</span><span class="n">tax_code_template_id</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                            <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company</span><span class="p">,</span>
+                            <span class="s1">&#39;fiscal_classification_id&#39;</span><span class="p">:</span> <span class="n">fc_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="p">}</span>
+
+                        <span class="k">if</span> <span class="n">tax_def_result</span><span class="p">:</span>
+                            <span class="n">tax_def_result</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">obj_tax_def</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">company_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">companies</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">company_id</span><span class="p">:</span>
+            <span class="n">companies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">companies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sudo</span><span class="p">()</span><span class="o">.</span><span class="n">search</span><span class="p">([])</span><span class="o">.</span><span class="n">ids</span>
+
+        <span class="n">company_taxes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">company_codes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">company</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">:</span>
+            <span class="n">company_taxes</span><span class="p">[</span><span class="n">company</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">company_codes</span><span class="p">[</span><span class="n">company</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">obj_tax</span><span class="o">.</span><span class="n">sudo</span><span class="p">()</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;company_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">company</span><span class="p">)]):</span>
+                <span class="n">tax_template</span> <span class="o">=</span> <span class="n">obj_tax_template</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                    <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">tax</span><span class="o">.</span><span class="n">name</span><span class="p">)])</span>
+
+                <span class="k">if</span> <span class="n">tax_template</span><span class="p">:</span>
+                    <span class="n">company_taxes</span><span class="p">[</span><span class="n">company</span><span class="p">][</span><span class="n">tax_template</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">tax</span><span class="o">.</span><span class="n">id</span>
+
+            <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">obj_tax_code</span><span class="o">.</span><span class="n">sudo</span><span class="p">()</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                    <span class="p">[(</span><span class="s1">&#39;company_id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">company</span><span class="p">)]):</span>
+
+                <span class="n">code_template</span> <span class="o">=</span> <span class="n">obj_tax_code_template</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                    <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">code</span><span class="o">.</span><span class="n">name</span><span class="p">)])</span>
+
+                <span class="k">if</span> <span class="n">code_template</span><span class="p">:</span>
+                    <span class="n">company_codes</span><span class="p">[</span><span class="n">company</span><span class="p">][</span><span class="n">code_template</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">for</span> <span class="n">fc_template</span> <span class="ow">in</span> <span class="n">obj_fc_template</span><span class="o">.</span><span class="n">search</span><span class="p">([]):</span>
+
+            <span class="n">fc_id</span> <span class="o">=</span> <span class="n">obj_fc</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">name</span><span class="p">)])</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fc_id</span><span class="p">:</span>
+
+                <span class="n">vals</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+                    <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company_id</span><span class="p">,</span>
+                    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                    <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">note</span><span class="p">,</span>
+                    <span class="s1">&#39;inv_copy_note&#39;</span><span class="p">:</span> <span class="n">fc_template</span><span class="o">.</span><span class="n">inv_copy_note</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="n">fc_id</span> <span class="o">=</span> <span class="n">obj_fc</span><span class="o">.</span><span class="n">sudo</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+
+            <span class="n">map_taxes_codes</span><span class="p">(</span><span class="n">fc_template</span><span class="o">.</span><span class="n">sale_tax_definition_line</span><span class="p">,</span>
+                            <span class="s1">&#39;sale&#39;</span><span class="p">)</span>
+
+            <span class="n">map_taxes_codes</span><span class="p">(</span><span class="n">fc_template</span><span class="o">.</span><span class="n">purchase_tax_definition_line</span><span class="p">,</span>
+                            <span class="s1">&#39;purchase&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

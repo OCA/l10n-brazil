@@ -1,0 +1,7 @@
+l10n_br_hr_contract
+===================
+
+.. toctree::
+   :maxdepth: 4
+
+   l10n_br_hr_contract

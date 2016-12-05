@@ -1,0 +1,17 @@
+l10n_br_hr_contract package
+===========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    l10n_br_hr_contract.models
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_hr_contract
+    :members:
+    :undoc-members:
+    :show-inheritance:

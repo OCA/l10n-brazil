@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account_product.wizard.l10n_br_account_nfe_export_invoice &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account_product.wizard.l10n_br_account_nfe_export_invoice</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009  Renato Lima - Akretion</span>
+<span class="c1"># Copyright (C) 2011  Vinicius Dittgen - PROGE, Leonardo Santagada - PROGE</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="ne">Warning</span> <span class="k">as</span> <span class="n">UserError</span>
+
+
+<div class="viewcode-block" id="L10nBrAccountNfeExportInvoice"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.wizard.html#l10n_br_account_product.wizard.l10n_br_account_nfe_export_invoice.L10nBrAccountNfeExportInvoice">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountNfeExportInvoice</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Export fiscal eletronic file from invoice&quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Export eletronic invoice for Emissor de NFe SEFAZ SP&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_default_file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_company_default_get</span><span class="p">(</span>
+            <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span><span class="o">.</span><span class="n">file_type</span>
+
+    <span class="k">def</span> <span class="nf">_default_nfe_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_company_default_get</span><span class="p">(</span>
+            <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span><span class="o">.</span><span class="n">nfe_environment</span>
+
+    <span class="k">def</span> <span class="nf">_default_export_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_company_default_get</span><span class="p">(</span>
+            <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span><span class="o">.</span><span class="n">export_folder</span>
+
+    <span class="k">def</span> <span class="nf">_default_sign_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">company_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_company_default_get</span><span class="p">(</span>
+            <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span><span class="o">.</span><span class="n">sign_xml</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Nome&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Binary</span><span class="p">(</span><span class="s1">&#39;Arquivo&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">file_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">u&#39;xml&#39;</span><span class="p">,</span> <span class="s1">&#39;XML&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">u&#39;txt&#39;</span><span class="p">,</span> <span class="s1">&#39; TXT&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Tipo do Arquivo&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_file_type</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">,</span> <span class="s1">&#39;init&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;init&#39;</span><span class="p">)</span>
+    <span class="n">nfe_environment</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">u&#39;Produção&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">u&#39;Homologação&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Ambiente&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_nfe_environment</span><span class="p">)</span>
+    <span class="n">sign_xml</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Assinar XML&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_sign_xml</span><span class="p">)</span>
+    <span class="n">nfe_export_result</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_account_product.nfe_export_invoice_result&#39;</span><span class="p">,</span>
+        <span class="n">inverse_name</span><span class="o">=</span><span class="s1">&#39;wizard_id&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;NFe Export Result&#39;</span><span class="p">)</span>
+    <span class="n">export_folder</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Salvar na Pasta de Exportação&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_export_folder</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountNfeExportInvoice.nfe_export"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.wizard.html#l10n_br_account_product.wizard.l10n_br_account_nfe_export_invoice.L10nBrAccountNfeExportInvoice.nfe_export">[documentos]</a>    <span class="k">def</span> <span class="nf">nfe_export</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">active_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;active_ids&#39;</span><span class="p">,</span> <span class="p">[])</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">active_ids</span><span class="p">:</span>
+                <span class="n">err_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">u&#39;Não existe nenhum documento fiscal para ser&#39;</span>
+                           <span class="s1">u&#39; exportado!&#39;</span><span class="p">)</span>
+            <span class="n">export_inv_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">export_inv_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">company_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">active_ids</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">inv</span><span class="o">.</span><span class="n">state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;sefaz_export&#39;</span><span class="p">):</span>
+                    <span class="n">err_msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">u&quot;O Documento Fiscal </span><span class="si">%s</span><span class="s2"> não esta definida para&quot;</span>
+                                <span class="s2">u&quot; ser exportação &quot;</span>
+                                <span class="s2">u&quot;para a SEFAZ.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">inv</span><span class="o">.</span><span class="n">internal_number</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">inv</span><span class="o">.</span><span class="n">issuer</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                    <span class="n">err_msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">u&quot;O Documento Fiscal </span><span class="si">%s</span><span class="s2"> é do tipo externa e &quot;</span>
+                                <span class="s2">u&quot;não pode ser exportada para a &quot;</span>
+                                <span class="s2">u&quot;receita.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">inv</span><span class="o">.</span><span class="n">internal_number</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">inv</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+                        <span class="s1">&#39;nfe_export_date&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s1">&#39;nfe_access_key&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s1">&#39;nfe_status&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s1">&#39;nfe_date&#39;</span><span class="p">:</span> <span class="kc">False</span>
+                    <span class="p">})</span>
+
+                    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;O Documento Fiscal </span><span class="si">%s</span><span class="s2"> foi </span><span class="se">\</span>
+<span class="s2">                        exportado.&quot;</span> <span class="o">%</span> <span class="n">inv</span><span class="o">.</span><span class="n">internal_number</span>
+                    <span class="n">inv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                    <span class="n">export_inv_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="n">company_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+                <span class="n">export_inv_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">internal_number</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">company_ids</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">err_msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">u&#39;Não é permitido exportar Documentos Fiscais de &#39;</span>
+                            <span class="s1">u&#39;mais de uma empresa, por favor selecione &#39;</span>
+                            <span class="s1">u&#39;Documentos Fiscais da mesma empresa.&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">export_inv_ids</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">export_inv_numbers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;nfes</span><span class="si">%s</span><span class="s1">-</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">-%m-%Y&#39;</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;ir.sequence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nfe.export&#39;</span><span class="p">),</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">file_type</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;nfe</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">export_inv_numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                         <span class="n">data</span><span class="o">.</span><span class="n">file_type</span><span class="p">)</span>
+
+                <span class="n">mod_serializer</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span>
+                    <span class="p">(</span><span class="s1">&#39;openerp.addons.l10n_br_account_product&#39;</span>
+                     <span class="s1">&#39;.sped.nfe.serializer.&#39;</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">file_type</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">file_type</span><span class="p">)</span>
+
+                <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod_serializer</span><span class="p">,</span> <span class="s1">&#39;nfe_export&#39;</span><span class="p">)</span>
+
+                <span class="n">str_nfe_version</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="n">nfe_version</span>
+
+                <span class="n">nfes</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uid</span><span class="p">,</span> <span class="n">export_inv_ids</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">.</span><span class="n">nfe_environment</span><span class="p">,</span> <span class="n">str_nfe_version</span><span class="p">,</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_context</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">nfe</span> <span class="ow">in</span> <span class="n">nfes</span><span class="p">:</span>
+                    <span class="n">nfe_file</span> <span class="o">=</span> <span class="n">nfe</span><span class="p">[</span><span class="s1">&#39;nfe&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+
+                <span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+                    <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">nfe_file</span><span class="p">),</span>
+                    <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;done&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">err_msg</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Error!&#39;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">_</span><span class="p">(</span><span class="n">err_msg</span><span class="p">,</span> <span class="p">))</span>
+
+            <span class="n">view_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;ir.model.data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_object_reference</span><span class="p">(</span>
+                <span class="s1">&#39;l10n_br_account_product&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;l10n_br_account_product_nfe_export_invoice_form&#39;</span><span class="p">)</span>
+            <span class="n">view_id</span> <span class="o">=</span> <span class="n">view_rec</span> <span class="ow">and</span> <span class="n">view_rec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">False</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;view_type&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;view_id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">view_id</span><span class="p">],</span>
+                <span class="s1">&#39;view_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;res_model&#39;</span><span class="p">:</span> <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;res_id&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ir.actions.act_window&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
+            <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountNfeExportInvoiceResult"><a class="viewcode-back" href="../../../addons/l10n_br_account_product_service/l10n_br_account_product.wizard.html#l10n_br_account_product.wizard.l10n_br_account_nfe_export_invoice.L10nBrAccountNfeExportInvoiceResult">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountNfeExportInvoiceResult</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TransientModel</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account_product.nfe_export_invoice_result&#39;</span>
+
+    <span class="n">wizard_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_account_product.nfe_export_invoice&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Wizard ID&#39;</span><span class="p">,</span>
+        <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;cascade&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Documento&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">selection</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;Sucesso&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;Erro&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Status&#39;</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Mensagem&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

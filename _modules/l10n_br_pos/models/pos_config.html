@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_pos.models.pos_config &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_pos.models.pos_config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)</span>
+<span class="c1"># License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">openerp.addons</span> <span class="k">import</span> <span class="n">decimal_precision</span> <span class="k">as</span> <span class="n">dp</span>
+
+<span class="n">SIMPLIFIED_INVOICE_TYPE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;nfce&#39;</span><span class="p">,</span> <span class="s1">u&#39;NFC-E&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;sat&#39;</span><span class="p">,</span> <span class="s1">u&#39;SAT&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;paf&#39;</span><span class="p">,</span> <span class="s1">u&#39;PAF-ECF&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">PRINTER</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;epson-tm-t20&#39;</span><span class="p">,</span> <span class="s1">u&#39;Epson TM-T20&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;bematech-mp4200th&#39;</span><span class="p">,</span> <span class="s1">u&#39;Bematech MP4200TH&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;daruma-dr700&#39;</span><span class="p">,</span> <span class="s1">u&#39;Daruma DR700&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;elgin-i9&#39;</span><span class="p">,</span> <span class="s1">u&#39;Elgin I9&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="PosConfig"><a class="viewcode-back" href="../../../addons/l10n_br_pos/l10n_br_pos.models.html#l10n_br_pos.models.pos_config.PosConfig">[documentos]</a><span class="k">class</span> <span class="nc">PosConfig</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_inherit</span> <span class="o">=</span> <span class="s1">&#39;pos.config&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_default_out_pos_fiscal_category_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">out_pos_fiscal_category_id</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_default_refund_pos_fiscal_category_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">refund_pos_fiscal_category_id</span>
+
+    <span class="n">simplified_invoice_limit</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Simplified invoice limit&#39;</span><span class="p">,</span>
+        <span class="n">digits</span><span class="o">=</span><span class="n">dp</span><span class="o">.</span><span class="n">get_precision</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">u&#39;Over this amount is not legally posible to create a &#39;</span>
+             <span class="s1">u&#39;simplified invoice&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">simplified_invoice_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Simplified Invoice Type&#39;</span><span class="p">,</span>
+        <span class="n">selection</span><span class="o">=</span><span class="n">SIMPLIFIED_INVOICE_TYPE</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">u&#39;Tipo de documento emitido pelo PDV&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">save_identity_automatic</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Save new client identity automatic&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">iface_sat_via_proxy</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;SAT&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Ao utilizar o SAT é necessário ativar esta opção&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">cnpj_homologacao</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;CNPJ homologação&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">18</span>
+    <span class="p">)</span>
+
+    <span class="n">ie_homologacao</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;IE homologação&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">16</span>
+    <span class="p">)</span>
+
+    <span class="n">cnpj_software_house</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;CNPJ software house&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">18</span>
+    <span class="p">)</span>
+
+    <span class="n">sat_ambiente</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Ambiente SAT&#39;</span><span class="p">,</span>
+        <span class="n">related</span><span class="o">=</span><span class="s1">&#39;company_id.ambiente_sat&#39;</span><span class="p">,</span>
+        <span class="n">store</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">sat_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;SAT path&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">numero_caixa</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Número do Caixa&#39;</span><span class="p">,</span>
+        <span class="n">copy</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="n">cod_ativacao</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Código de ativação&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">impressora</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">selection</span><span class="o">=</span><span class="n">PRINTER</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Impressora&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">printer_params</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Printer parameters&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="n">comodel_name</span><span class="o">=</span><span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Fiscal Category&#39;</span>
+    <span class="p">)</span>
+    <span class="n">out_pos_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Categoria Fiscal de Padrão de Saida do PDV&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;journal_type&#39;,&#39;=&#39;,&#39;sale&#39;), (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;),&quot;</span>
+        <span class="s2">&quot; (&#39;fiscal_type&#39;,&#39;=&#39;,&#39;product&#39;), (&#39;type&#39;,&#39;=&#39;,&#39;output&#39;)]&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_out_pos_fiscal_category_id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">refund_pos_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Categoria Fiscal de Devolução do PDV&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;journal_type&#39;,&#39;=&#39;,&#39;sale_refund&#39;),&quot;</span>
+        <span class="s2">&quot;(&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;), (&#39;fiscal_type&#39;,&#39;=&#39;,&#39;product&#39;),&quot;</span>
+        <span class="s2">&quot; (&#39;type&#39;,&#39;=&#39;,&#39;input&#39;)]&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">_default_refund_pos_fiscal_category_id</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">assinatura_sat</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">&#39;Assinatura no CFe&#39;</span>
+    <span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="PosConfig.retornar_dados"><a class="viewcode-back" href="../../../addons/l10n_br_pos/l10n_br_pos.models.html#l10n_br_pos.models.pos_config.PosConfig.retornar_dados">[documentos]</a>    <span class="k">def</span> <span class="nf">retornar_dados</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambiente_sat</span> <span class="o">==</span> <span class="s1">&#39;homologacao&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cnpj_fabricante</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ie_fabricante</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cnpj_software_house</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">cnpj_cpf</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">inscr_est</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cnpj_software_house</span> <span class="ow">or</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">cnpj_software_house</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

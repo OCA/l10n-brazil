@@ -1,0 +1,70 @@
+l10n_br_pos.models package
+==========================
+
+Submodules
+----------
+
+l10n_br_pos.models.account_journal module
+-----------------------------------------
+
+.. automodule:: l10n_br_pos.models.account_journal
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.l10n_br_account_product module
+-------------------------------------------------
+
+.. automodule:: l10n_br_pos.models.l10n_br_account_product
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.pos_config module
+------------------------------------
+
+.. automodule:: l10n_br_pos.models.pos_config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.pos_order module
+-----------------------------------
+
+.. automodule:: l10n_br_pos.models.pos_order
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.product_template module
+------------------------------------------
+
+.. automodule:: l10n_br_pos.models.product_template
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.res_company module
+-------------------------------------
+
+.. automodule:: l10n_br_pos.models.res_company
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_pos.models.stock module
+-------------------------------
+
+.. automodule:: l10n_br_pos.models.stock
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_pos.models
+    :members:
+    :undoc-members:
+    :show-inheritance:

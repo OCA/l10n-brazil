@@ -1,0 +1,46 @@
+l10n_br_hr.model package
+========================
+
+Submodules
+----------
+
+l10n_br_hr.model.hr_employee module
+-----------------------------------
+
+.. automodule:: l10n_br_hr.model.hr_employee
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_hr.model.hr_job module
+------------------------------
+
+.. automodule:: l10n_br_hr.model.hr_job
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_hr.model.l10n_br_hr module
+----------------------------------
+
+.. automodule:: l10n_br_hr.model.l10n_br_hr
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+l10n_br_hr.model.res_company module
+-----------------------------------
+
+.. automodule:: l10n_br_hr.model.res_company
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: l10n_br_hr.model
+    :members:
+    :undoc-members:
+    :show-inheritance:

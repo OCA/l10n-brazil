@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>l10n_br_account.models.l10n_br_account &#8212; documentação Odoo Brazil 8.0.0.0</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/oca.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '8.0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/brazil.png"></span>
+          Odoo Brazil</a>
+        <span class="navbar-text navbar-version pull-left"><b>8.0.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Código fonte para l10n_br_account.models.l10n_br_account</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (C) 2009 - TODAY Renato Lima - Akretion</span>
+<span class="c1"># Copyright (C) 2014  KMEE - www.kmee.com.br</span>
+<span class="c1"># License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">openerp</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">openerp.exceptions</span> <span class="k">import</span> <span class="ne">Warning</span> <span class="k">as</span> <span class="n">UserError</span>
+
+<span class="n">TYPE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">u&#39;Entrada&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">u&#39;Saída&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">PRODUCT_FISCAL_TYPE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;service&#39;</span><span class="p">,</span> <span class="s1">u&#39;Serviço&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">PRODUCT_FISCAL_TYPE_DEFAULT</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="L10nBrAccountCce"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountCce">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountCce</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.invoice.cce&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">u&#39;Carta de Correção no Sefaz&#39;</span>
+
+    <span class="c1"># TODO nome de campos devem ser em ingles</span>
+    <span class="n">invoice_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">,</span> <span class="s1">&#39;Fatura&#39;</span><span class="p">)</span>
+    <span class="n">motivo</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;Motivo&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sequencia</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">u&#39;Sequência&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Indica a sequência da carta de correcão&quot;</span><span class="p">)</span>
+    <span class="n">cce_document_event_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.document_event&#39;</span><span class="p">,</span> <span class="s1">&#39;document_event_ids&#39;</span><span class="p">,</span> <span class="s1">u&#39;Eventos&#39;</span><span class="p">)</span>
+
+    <span class="n">display_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_display_name&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;invoice_id.internal_number&#39;</span><span class="p">,</span> <span class="s1">&#39;invoice_id.partner_id.name&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_one</span><span class="p">()</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Fatura&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_id</span><span class="o">.</span><span class="n">internal_number</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">invoice_id</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span> <span class="o">=</span> <span class="s1">&#39; / &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountInvoiceCancel"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountInvoiceCancel">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountInvoiceCancel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.invoice.cancel&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">u&#39;Documento Eletrônico no Sefaz&#39;</span>
+
+    <span class="n">invoice_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.invoice&#39;</span><span class="p">,</span> <span class="s1">&#39;Fatura&#39;</span><span class="p">)</span>
+    <span class="n">partner_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.partner&#39;</span><span class="p">,</span>
+                                 <span class="n">related</span><span class="o">=</span><span class="s1">&#39;invoice_id.partner_id&#39;</span><span class="p">,</span>
+                                 <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Cliente&#39;</span><span class="p">)</span>
+    <span class="n">justificative</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Justificativa&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span>
+                                <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cancel_document_event_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.document_event&#39;</span><span class="p">,</span> <span class="s1">&#39;cancel_document_event_id&#39;</span><span class="p">,</span>
+        <span class="s1">u&#39;Eventos&#39;</span><span class="p">)</span>
+
+    <span class="n">display_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Nome&#39;</span><span class="p">,</span> <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_display_name&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;invoice_id.internal_number&#39;</span><span class="p">,</span> <span class="s1">&#39;invoice_id.partner_id.name&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_one</span><span class="p">()</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Fatura&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_id</span><span class="o">.</span><span class="n">internal_number</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">invoice_id</span><span class="o">.</span><span class="n">partner_id</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span> <span class="o">=</span> <span class="s1">&#39; / &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_check_justificative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">invalid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">browse</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">invalid</span><span class="o">.</span><span class="n">justificative</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">_constraints</span> <span class="o">=</span> <span class="p">[(</span>
+        <span class="n">_check_justificative</span><span class="p">,</span>
+        <span class="s1">u&#39;Justificativa deve ter tamanho mínimo de 15 caracteres.&#39;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s1">&#39;justificative&#39;</span><span class="p">])]</span></div>
+
+
+<div class="viewcode-block" id="L10nBrDocumentEvent"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrDocumentEvent">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrDocumentEvent</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.document_event&#39;</span>
+
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;Exception&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">u&#39;Envio Lote&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">u&#39;Consulta Recibo&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">u&#39;Cancelamento&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">u&#39;Inutilização&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">u&#39;Consulta NFE&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">u&#39;Consulta Situação&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">u&#39;Consulta Cadastro&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">u&#39;DPEC Recepção&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">u&#39;DPEC Consulta&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">u&#39;Recepção Evento&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">u&#39;Download&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">u&#39;Consulta Destinadas&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">u&#39;Distribuição DFe&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;13&#39;</span><span class="p">,</span> <span class="s1">u&#39;Manifestação&#39;</span><span class="p">),</span> <span class="p">],</span> <span class="s1">&#39;Serviço&#39;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">company_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;res.company&#39;</span><span class="p">,</span> <span class="s1">&#39;Empresa&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]})</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">&#39;Documento de Origem&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Referência ao documento que gerou o evento.&quot;</span><span class="p">)</span>
+    <span class="n">file_sent</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Envio&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">file_returned</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Retorno&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Mensagem&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">create_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span><span class="s1">u&#39;Data Criação&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">write_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span><span class="s1">u&#39;Data Alteração&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span><span class="s1">u&#39;Data Finalização&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span> <span class="s1">&#39;Rascunho&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="s1">&#39;Enviado&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="s1">&#39;Aguardando Retorno&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39;Recebido Retorno&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;Status&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">)</span>
+    <span class="n">document_event_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.invoice&#39;</span><span class="p">,</span> <span class="s1">&#39;Documentos&#39;</span><span class="p">)</span>
+    <span class="n">cancel_document_event_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.invoice.cancel&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelamento&#39;</span><span class="p">)</span>
+    <span class="n">invalid_number_document_event_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.invoice.invalid.number&#39;</span><span class="p">,</span> <span class="s1">u&#39;Inutilização&#39;</span><span class="p">)</span>
+    <span class="n">display_name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;Nome&#39;</span><span class="p">,</span> <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;_compute_display_name&#39;</span><span class="p">)</span>
+
+    <span class="n">_order</span> <span class="o">=</span> <span class="s1">&#39;write_date desc&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s1">&#39;company_id.name&#39;</span><span class="p">,</span> <span class="s1">&#39;origin&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_compute_display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_one</span><span class="p">()</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Evento&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">company_id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span> <span class="o">=</span> <span class="s1">&#39; / &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="p">))</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrDocumentEvent.set_done"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrDocumentEvent.set_done">[documentos]</a>    <span class="k">def</span> <span class="nf">set_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">({</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39;end_date&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()})</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountFiscalCategory"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountFiscalCategory">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountFiscalCategory</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fiscal Category to apply fiscal and account parameters in documents.&quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Categoria Fiscal&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">254</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">254</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Natureza da operação informada no XML&quot;</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">TYPE</span><span class="p">,</span> <span class="s1">&#39;Tipo&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>
+    <span class="n">fiscal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="n">PRODUCT_FISCAL_TYPE</span><span class="p">,</span> <span class="s1">&#39;Tipo Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">PRODUCT_FISCAL_TYPE_DEFAULT</span><span class="p">)</span>
+    <span class="n">property_journal</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;account.journal&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s2">u&quot;Diário Contábil&quot;</span><span class="p">,</span> <span class="n">company_dependent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">u&quot;Diário utilizado para esta categoria de operação fiscal&quot;</span><span class="p">)</span>
+    <span class="n">journal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;sale&#39;</span><span class="p">,</span> <span class="s1">u&#39;Saída&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;sale_refund&#39;</span><span class="p">,</span> <span class="s1">u&#39;Devolução de Saída&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;purchase&#39;</span><span class="p">,</span> <span class="s1">u&#39;Entrada&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;purchase_refund&#39;</span><span class="p">,</span> <span class="s1">u&#39;Devolução de Entrada&#39;</span><span class="p">)],</span> <span class="s1">u&#39;Tipo do Diário&#39;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;sale&#39;</span><span class="p">)</span>
+    <span class="n">refund_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span> <span class="s1">u&#39;Categoria Fiscal de Devolução&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;[(&#39;type&#39;, &#39;!=&#39;, type), (&#39;fiscal_type&#39;, &#39;=&#39;, fiscal_type),</span>
+<span class="s2">            (&#39;journal_type&#39;, &#39;like&#39;, journal_type),</span>
+<span class="s2">            (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;)]&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">reverse_fiscal_category_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.category&#39;</span><span class="p">,</span> <span class="s1">u&#39;Categoria Fiscal Inversa&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;[(&#39;type&#39;, &#39;!=&#39;, type), (&#39;fiscal_type&#39;, &#39;=&#39;, fiscal_type),</span>
+<span class="s2">            (&#39;state&#39;, &#39;=&#39;, &#39;approved&#39;)]&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">fiscal_position_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;account.fiscal.position&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fiscal_category_id&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">u&#39;Posições Fiscais&#39;</span><span class="p">)</span>
+    <span class="n">note</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">u&#39;Observações&#39;</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span> <span class="s1">u&#39;Rascunho&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;review&#39;</span><span class="p">,</span> <span class="s1">u&#39;Revisão&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;approved&#39;</span><span class="p">,</span> <span class="s1">u&#39;Aprovada&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;unapproved&#39;</span><span class="p">,</span> <span class="s1">u&#39;Não Aprovada&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;Status&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">track_visibility</span><span class="o">=</span><span class="s1">&#39;onchange&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">)</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;l10n_br_account_fiscal_category_code_uniq&#39;</span><span class="p">,</span> <span class="s1">&#39;unique (code)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Já existe uma categoria fiscal com esse código!&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountFiscalCategory.action_unapproved_draft"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountFiscalCategory.action_unapproved_draft">[documentos]</a>    <span class="k">def</span> <span class="nf">action_unapproved_draft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set state to draft and create a new workflow instance&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">({</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;draft&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delete_workflow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_workflow</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountFiscalCategory.onchange_journal_type"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountFiscalCategory.onchange_journal_type">[documentos]</a>    <span class="k">def</span> <span class="nf">onchange_journal_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">journal_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Clear property_journal&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;property_journal&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}}</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountServiceType"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountServiceType">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountServiceType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.service.type&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">u&#39;Cadastro de Operações Fiscais de Serviço&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.service.type&#39;</span><span class="p">,</span> <span class="s1">&#39;Tipo de Serviço Pai&#39;</span><span class="p">)</span>
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.service.type&#39;</span><span class="p">,</span> <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span>
+        <span class="s1">u&#39;Tipo de Serviço Filhos&#39;</span><span class="p">)</span>
+    <span class="n">internal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visualização&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">)],</span> <span class="s1">&#39;Tipo Interno&#39;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountServiceType.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountServiceType.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountFiscalDocument"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountFiscalDocument">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountFiscalDocument</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.fiscal.document&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Tipo de Documento Fiscal&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Codigo&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+    <span class="n">electronic</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">u&#39;Eletrônico&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountDocumentSerie"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountDocumentSerie">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountDocumentSerie</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.document.serie&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Serie de documentos fiscais&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">active</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Ativo&#39;</span><span class="p">)</span>
+
+    <span class="n">fiscal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span><span class="n">PRODUCT_FISCAL_TYPE</span><span class="p">,</span> <span class="s1">&#39;Tipo Fiscal&#39;</span><span class="p">,</span>
+                                   <span class="n">default</span><span class="o">=</span><span class="n">PRODUCT_FISCAL_TYPE_DEFAULT</span><span class="p">)</span>
+
+    <span class="n">fiscal_document_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;l10n_br_account.fiscal.document&#39;</span><span class="p">,</span>
+                                         <span class="s1">&#39;Documento Fiscal&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">company_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.company&#39;</span><span class="p">,</span> <span class="s1">&#39;Empresa&#39;</span><span class="p">,</span>
+                                 <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">internal_sequence_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;ir.sequence&#39;</span><span class="p">,</span>
+                                           <span class="s1">u&#39;Sequência Interna&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+    <span class="k">def</span> <span class="nf">_create_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create new no_gap entry sequence for every</span>
+<span class="sd">         new document serie &quot;&quot;&quot;</span>
+        <span class="n">seq</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">vals</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;implementation&#39;</span><span class="p">:</span> <span class="s1">&#39;no_gap&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;number_increment&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;company_id&#39;</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">:</span>
+            <span class="n">seq</span><span class="p">[</span><span class="s1">&#39;company_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="s1">&#39;company_id&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;ir.sequence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">model</span>
+<div class="viewcode-block" id="L10nBrAccountDocumentSerie.create"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountDocumentSerie.create">[documentos]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Overwrite method to create a new ir.sequence if</span>
+<span class="sd">         this field is null &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;internal_sequence_id&#39;</span><span class="p">):</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;internal_sequence_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_sequence</span><span class="p">(</span><span class="n">vals</span><span class="p">)})</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">L10nBrAccountDocumentSerie</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountInvoiceInvalidNumber"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountInvoiceInvalidNumber">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountInvoiceInvalidNumber</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.invoice.invalid.number&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">u&#39;Inutilização de Faixa de Numeração&#39;</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountInvoiceInvalidNumber.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountInvoiceInvalidNumber.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">rec</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                 <span class="s2">u&quot;</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">): </span><span class="si">{2}</span><span class="s2"> - </span><span class="si">{3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                     <span class="n">rec</span><span class="o">.</span><span class="n">fiscal_document_id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                     <span class="n">rec</span><span class="o">.</span><span class="n">document_serie_id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                     <span class="n">rec</span><span class="o">.</span><span class="n">number_start</span><span class="p">,</span> <span class="n">rec</span><span class="o">.</span><span class="n">number_end</span><span class="p">)</span>
+                 <span class="p">)</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+    <span class="n">company_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;res.company&#39;</span><span class="p">,</span> <span class="s1">&#39;Empresa&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;res.company&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_company_default_get</span><span class="p">(</span>
+            <span class="s1">&#39;l10n_br_account.invoice.invalid.number&#39;</span><span class="p">))</span>
+
+    <span class="n">fiscal_document_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.fiscal.document&#39;</span><span class="p">,</span> <span class="s1">&#39;Documento Fiscal&#39;</span><span class="p">,</span>
+        <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">document_serie_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.document.serie&#39;</span><span class="p">,</span> <span class="s1">u&#39;Série&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;[(&#39;fiscal_document_id&#39;, &#39;=&#39;, fiscal_document_id), &quot;</span>
+        <span class="s2">&quot;(&#39;company_id&#39;, &#39;=&#39;, company_id)]&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">number_start</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span>
+        <span class="s1">u&#39;Número Inicial&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">number_end</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span>
+        <span class="s1">u&#39;Número Final&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span> <span class="s1">&#39;Rascunho&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;cancel&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">),</span>
+         <span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">u&#39;Concluído&#39;</span><span class="p">)],</span> <span class="s1">&#39;Status&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">)</span>
+
+    <span class="n">justificative</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span>
+        <span class="s1">&#39;Justificativa&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;draft&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]},</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">invalid_number_document_event_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.document_event&#39;</span><span class="p">,</span> <span class="s1">&#39;invalid_number_document_event_id&#39;</span><span class="p">,</span>
+        <span class="s1">u&#39;Eventos&#39;</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;done&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]})</span>
+
+    <span class="n">_sql_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;number_uniq&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;unique(document_serie_id, number_start, number_end, state)&#39;</span><span class="p">,</span>
+         <span class="s1">u&#39;Sequência existente!&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;justificative&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_justificative</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">justificative</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Justificativa deve ter tamanho minimo de 15 caracteres.&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">one</span>
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;number_start&#39;</span><span class="p">,</span> <span class="s1">&#39;number_end&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_start</span><span class="p">:</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;((number_end&gt;=&#39;</span><span class="si">%s</span><span class="s2">&#39;) or (number_end is null))&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">number_start</span><span class="p">,))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_end</span><span class="p">:</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;((number_start&lt;=&#39;</span><span class="si">%s</span><span class="s2">&#39;) or (number_start is null))&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">number_end</span><span class="p">,))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="s1">&#39;SELECT id </span><span class="se">\</span>
+<span class="s1">            FROM l10n_br_account_invoice_invalid_number </span><span class="se">\</span>
+<span class="s1">            WHERE &#39;</span> <span class="o">+</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">where</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">where</span> <span class="ow">and</span> <span class="s1">&#39; and &#39;</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s2">&quot;document_serie_id = </span><span class="si">%s</span><span class="s2"> </span><span class="se">\</span>
+<span class="s2">            AND state = &#39;done&#39; </span><span class="se">\</span>
+<span class="s2">            AND id &lt;&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">document_serie_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_start</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_end</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">u&#39;Não é permitido faixas sobrepostas!&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">_constraints</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">_check_range</span><span class="p">,</span> <span class="s1">u&#39;Não é permitido faixas sobrepostas!&#39;</span><span class="p">,</span>
+            <span class="p">[</span><span class="s1">&#39;number_start&#39;</span><span class="p">,</span> <span class="s1">&#39;number_end&#39;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="n">_check_justificative</span><span class="p">,</span>
+            <span class="s1">&#39;Justificativa deve ter tamanho minimo de 15 caracteres.&#39;</span><span class="p">,</span>
+            <span class="p">[</span><span class="s1">&#39;justificative&#39;</span><span class="p">])</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="L10nBrAccountInvoiceInvalidNumber.action_draft_done"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountInvoiceInvalidNumber.action_draft_done">[documentos]</a>    <span class="k">def</span> <span class="nf">action_draft_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">({</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;done&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountInvoiceInvalidNumber.unlink"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountInvoiceInvalidNumber.unlink">[documentos]</a>    <span class="k">def</span> <span class="nf">unlink</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">unlink_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">invalid_number</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">invalid_number</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;draft&#39;</span><span class="p">):</span>
+                <span class="n">unlink_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">invalid_number</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span>
+                    <span class="s1">u&#39;Você não pode excluir uma sequência concluída.&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">L10nBrAccountInvoiceInvalidNumber</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountPartnerFiscalType"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountPartnerFiscalType">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountPartnerFiscalType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.partner.fiscal.type&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Tipo Fiscal de Parceiros&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+    <span class="n">is_company</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">u&#39;Pessoa Jurídica?&#39;</span><span class="p">)</span>
+
+    <span class="n">default</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">u&#39;Tipo Fiscal Padrão&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">icms</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Recupera ICMS&#39;</span><span class="p">)</span>
+
+    <span class="n">ipi</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span><span class="s1">&#39;Recupera IPI&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">constrains</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="s1">&#39;is_company&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_check_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">fiscal_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fiscal_type</span><span class="o">.</span><span class="n">search</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;is_company&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">fiscal_type</span><span class="o">.</span><span class="n">is_company</span><span class="p">)</span>
+            <span class="p">]))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s1">u&#39;Mantenha apenas um tipo fiscal padrão&#39;</span>
+                      <span class="s1">u&#39; para Pessoa Física ou para Pessoa Jurídica!&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountPartnerSpecialFiscalType"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountPartnerSpecialFiscalType">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountPartnerSpecialFiscalType</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.partner.special.fiscal.type&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Regime especial do parceiro&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Nome&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrAccountCNAE"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountCNAE">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrAccountCNAE</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_account.cnae&#39;</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;Cadastro de CNAE&#39;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Código&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Descrição&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">version</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">u&#39;Versão&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;l10n_br_account.cnae&#39;</span><span class="p">,</span> <span class="s1">&#39;CNAE Pai&#39;</span><span class="p">)</span>
+
+    <span class="n">child_ids</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">One2many</span><span class="p">(</span>
+        <span class="s1">&#39;l10n_br_account.cnae&#39;</span><span class="p">,</span> <span class="s1">&#39;parent_id&#39;</span><span class="p">,</span> <span class="s1">&#39;CNAEs Filhos&#39;</span><span class="p">)</span>
+
+    <span class="n">internal_type</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Selection</span><span class="p">(</span>
+        <span class="p">[(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">u&#39;Visualização&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Normal&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;Tipo Interno&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="nd">@api</span><span class="o">.</span><span class="n">multi</span>
+<div class="viewcode-block" id="L10nBrAccountCNAE.name_get"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrAccountCNAE.name_get">[documentos]</a>    <span class="k">def</span> <span class="nf">name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinitionTemplate"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrTaxDefinitionTemplate">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinitionTemplate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition.template&#39;</span>
+
+    <span class="n">tax_template_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.tax.template&#39;</span><span class="p">,</span> <span class="s1">u&#39;Imposto&#39;</span><span class="p">,</span>
+                                      <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">tax_domain</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Tax Domain&#39;</span><span class="p">,</span> <span class="n">related</span><span class="o">=</span><span class="s1">&#39;tax_template_id.domain&#39;</span><span class="p">,</span>
+                             <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">tax_code_template_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.tax.code.template&#39;</span><span class="p">,</span>
+                                           <span class="s1">u&#39;Código de Imposto&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L10nBrTaxDefinition"><a class="viewcode-back" href="../../../addons/l10n_br_account/l10n_br_account.models.html#l10n_br_account.models.l10n_br_account.L10nBrTaxDefinition">[documentos]</a><span class="k">class</span> <span class="nc">L10nBrTaxDefinition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;l10n_br_tax.definition&#39;</span>
+
+    <span class="n">tax_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.tax&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Imposto&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">tax_domain</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="s1">&#39;Tax Domain&#39;</span><span class="p">,</span> <span class="n">related</span><span class="o">=</span><span class="s1">&#39;tax_id.domain&#39;</span><span class="p">,</span>
+                             <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">tax_code_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;account.tax.code&#39;</span><span class="p">,</span> <span class="s1">u&#39;Código de Imposto&#39;</span><span class="p">)</span>
+
+    <span class="n">company_id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Many2one</span><span class="p">(</span><span class="s1">&#39;res.company&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Company&#39;</span><span class="p">,</span>
+                                 <span class="n">related</span><span class="o">=</span><span class="s1">&#39;tax_id.company_id&#39;</span><span class="p">,</span>
+                                 <span class="n">store</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Odoo Community Association (OCA).<br/>
+      Criado usando <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
