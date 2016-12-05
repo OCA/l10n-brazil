@@ -11,7 +11,6 @@ from .l10n_br_account_product import (
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT,
 )
-from .account_invoice import EXIGIBILIDADE
 
 
 FISCAL_CATEGORY_PURPOSE = [
@@ -55,12 +54,3 @@ class L10nBrAccountPartnerFiscalType(models.Model):
     irrf_wh = fields.Boolean(u'Retém IRRF')
     irrf_wh_percent = fields.Float(u'Retenção de IRRF (%)',
                                    digits_compute=dp.get_precision('Discount'))
-
-
-class L10nBrAccountServiceType(models.Model):
-    _inherit = 'l10n_br_account.service.type'
-
-    issqn_exigibilidade = fields.Selection(string="Exigibilidade do ISSQN",
-                                           selection=EXIGIBILIDADE)
-    issqn_suspension_process = fields.Char(
-        string=u"Número do processo de suspensão")

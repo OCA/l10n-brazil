@@ -15,17 +15,9 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
 from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
+from .l10n_br_account_product import EXIGIBILIDADE
 
 FIELD_STATE = {'draft': [('readonly', False)]}
-EXIGIBILIDADE = [
-    ('1','Exigivel'),
-    ('2',u'Não incidência'),
-    ('3',u'Isenção'),
-    ('4',u'Exportação'),
-    ('5','Imunidade'),
-    ('6',u'Suspensa por decisão judicial'),
-    ('7','Suspensa por processo administrativo'),
-]
 
 
 class AccountInvoice(models.Model):
@@ -826,7 +818,7 @@ class AccountInvoice(models.Model):
                 value_to_debit += move[2]['credit'] or move[2]['debit']
                 move_lines_new.append(copy_move(move))
 
-            if tax_code.domain == 'irpj' and self.irrf_wh:
+            if tax_code.domain == 'ir' and self.irrf_wh:
                 value_to_debit += move[2]['credit'] or move[2]['debit']
                 move_lines_new.append(copy_move(move))
 
@@ -1288,6 +1280,21 @@ class AccountInvoiceLine(models.Model):
         result = {
             'ii_base': 0.0,
             'ii_value': 0.0,
+        }
+        return result
+
+    def _amount_tax_ir(self, tax=None):
+        result = {
+            'ir_base': tax.get('total_base', 0.0),
+            'ir_value': tax.get('amount', 0.0),
+            'ir_percent': tax.get('percent', 0.0)*100
+        }
+        return result
+
+    def _amount_tax_inss(self, tax=None):
+        result = {
+            'inss_base': 0.0,
+            'inss_value': 0.0,
         }
         return result
 
@@ -1757,7 +1764,7 @@ class AccountInvoiceLine(models.Model):
             or self.service_type_id.issqn_exigibilidade
         processo = self.invoice_id.company_id.issqn_suspension_process \
            or self.service_type_id.issqn_suspension_process
-        self.issqn_exigibilidade = exigibilidade
+        self.issqn_exigibilidade = exigibilidade or '1'
         self.issqn_suspension_process = processo
 
     @api.model

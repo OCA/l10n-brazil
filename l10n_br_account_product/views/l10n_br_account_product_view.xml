@@ -101,6 +101,14 @@
                             <field name="name"/>
                             <field name="internal_type"/>
                             <field name="parent_id"/>
+                            <field name="issqn_exigibilidade"/>
+                            <field name="issqn_suspension_process" attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
+                            <field name="service_tax_definition_line" >
+                                <tree>
+                                    <field name="tax_id"/>
+                                    <field name="tax_code_id"/>
+                                </tree>
+                            </field>
                         </group>
                                 </sheet>
                 </form>
