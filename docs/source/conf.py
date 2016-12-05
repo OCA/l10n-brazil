@@ -18,12 +18,28 @@ import sphinx_bootstrap_theme
 
 sys.path.append(os.path.abspath('_themes'))
 
+
+def get_server_path(odoo_full, odoo_version, travis_home):
+    """
+    Calculate server path
+    :param odoo_full: Odoo repository path
+    :param odoo_version: Odoo version
+    :param travis_home: Travis home directory
+    :return: Server path
+    """
+    odoo_org, odoo_repo = odoo_full.split('/')
+    server_dirname = "%s-%s" % (odoo_repo, odoo_version)
+    server_path = os.path.join(travis_home, server_dirname)
+    return server_path
+
 if os.environ.get('TRAVIS_BUILD_DIR') and os.environ.get('VERSION'):
     # build from travis
-    repos_home = os.environ['HOME']
-    odoo_folder = 'odoo-8.0'
-    odoo_root = os.path.join(repos_home, odoo_folder)
-    build_path = os.environ['TRAVIS_BUILD_DIR']
+    travis_home = os.environ.get("HOME", "~/")
+    repos_home = os.path.join(travis_home, 'dependencies')
+    odoo_full = os.environ.get("ODOO_REPO", "odoo/odoo")
+    odoo_version = os.environ.get("VERSION")
+    odoo_root = get_server_path(odoo_full, odoo_version, travis_home)
+    build_path = os.environ.get("TRAVIS_BUILD_DIR", "../..")
 else:
     # build from a buildout
     odoo_root = os.path.abspath('../../../odoo')
@@ -59,7 +75,6 @@ addons = [x for x in os.listdir(build_path)
           os.path.isdir(os.path.join(build_path, x))]
 
 # sphinxodoo.ext.autodoc variables
-
 sphinxodoo_root_path = odoo_root
 sphinxodoo_addons = addons
 sphinxodoo_addons_path = addons_paths
