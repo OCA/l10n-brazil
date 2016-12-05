@@ -236,6 +236,14 @@ class AccountProductFiscalClassification(models.Model):
         string=u'Impostos Nacionais Estimados(%)',
         compute='_compute_product_estimated_taxes_percent', store=True)
 
+    estd_import_taxes_perct = fields.Float(
+        string=u'Impostos de Importação Estimados(%)',
+        compute='_compute_product_estimated_taxes_percent', store=True)
+
+    estd_national_taxes_perct = fields.Float(
+        string=u'Impostos Nacionais Estimados(%)',
+        compute='_compute_product_estimated_taxes_percent', store=True)
+
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
          u'Já existe um classificação fiscal com esse código!')]
