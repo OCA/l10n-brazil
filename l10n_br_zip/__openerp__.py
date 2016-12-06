@@ -22,5 +22,5 @@
         'test/zip_demo.yml'
     ],
     'category': 'Localization',
-    'installable': True,
+    'installable': False,
 }
