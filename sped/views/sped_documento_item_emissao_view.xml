@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
 <odoo>
 
     <record model="ir.ui.view" id="sped_documento_item_emissao_form" >
@@ -385,7 +389,6 @@
                 <field name="bc_previdencia" invisible="1"/>
                 <field name="al_previdencia" invisible="1"/>
                 <field name="vr_previdencia" invisible="1"/>
-                <field name="contribuinte" invisible="1"/>
 
                 <field name="forca_recalculo_st_compra" invisible="1"/>
                 <field name="md_icms_st_compra" invisible="1"/>

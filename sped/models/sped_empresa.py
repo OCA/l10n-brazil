@@ -1,14 +1,27 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao, formata_inscricao_estadual, valida_cnpj, valida_cpf, valida_inscricao_estadual)
-from pybrasil.telefone import (formata_fone, valida_fone_fixo, valida_fone_celular, valida_fone_internacional, valida_fone, formata_varios_fones)
-from pybrasil.base import mascara, primeira_maiuscula
-#from integra_rh.models.hr_employee import SEXO, ESTADO_CIVIL
-from email_validator import validate_email, EmailNotValidError
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from email_validator import validate_email
+
+    from pybrasil.base import mascara, primeira_maiuscula
+    from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao, formata_inscricao_estadual, valida_cnpj, valida_cpf, valida_inscricao_estadual)
+    from pybrasil.telefone import (formata_fone, valida_fone_fixo, valida_fone_celular, valida_fone_internacional)
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
 
@@ -30,23 +43,7 @@ class Empresa(models.Model):
     protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
     simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
     simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
-
-    @api.one
-    @api.depends('simples_anexo_id', 'simples_teto_id')
-    def _simples_aliquota_id(self):
-        simples_aliquota_ids = self.env['sped.aliquota.simples.aliquota'].search([
-            ('anexo_id', '=', self.simples_anexo_id.id),
-            ('teto_id', '=', self.simples_teto_id.id),
-            ])
-
-        print('aliquota simples', simples_aliquota_ids)
-
-        if len(simples_aliquota_ids) != 0:
-            self.simples_aliquota_id = simples_aliquota_ids[0]
-        else:
-            self.simples_aliquota_id = False
-
-    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES', ondelete='restrict', compute=_simples_aliquota_id)
+    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES', ondelete='restrict', compute='_compute_simples_aliquota_id')
 
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
     operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
@@ -110,6 +107,19 @@ class Empresa(models.Model):
 
         #return res
 
+    @api.depends('simples_anexo_id', 'simples_teto_id')
+    def _compute_simples_aliquota_id(self):
+        for empresa in self:
+            simples_aliquota_ids = self.env['sped.aliquota.simples.aliquota'].search([
+                ('anexo_id', '=', empresa.simples_anexo_id.id),
+                ('teto_id', '=', empresa.simples_teto_id.id),
+                ])
+
+            if len(simples_aliquota_ids) != 0:
+                empresa.simples_aliquota_id = simples_aliquota_ids[0]
+            else:
+                empresa.simples_aliquota_id = False
+
     @api.model
     def name_search(self, name='', args=[], operator='ilike', limit=100):
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
@@ -131,6 +141,8 @@ class Empresa(models.Model):
         return super(Empresa, self).name_search(name=name, args=args, operator=operator, limit=limit)
 
     def _valida_cnpj_cpf(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -144,17 +156,17 @@ class Empresa(models.Model):
                 raise ValidationError('CNPJ/CPF inválido')
 
         if len(cnpj_cpf) == 14:
-            valores['cnpj_cpf'] = formata_cnpj(cnpj_cpf)
-            valores['tipo_pessoa'] = 'J'
-            valores['regime_tributario'] = '1'
+            valores.update(cnpj_cpf=formata_cnpj(cnpj_cpf))
+            valores.update(tipo_pessoa='J')
+            valores.update(regime_tributario='1')
         else:
-            valores['cnpj_cpf'] = formata_cpf(cnpj_cpf)
-            valores['tipo_pessoa'] = 'F'
-            valores['regime_tributario'] = '3'
+            valores.update(cnpj_cpf=formata_cpf(cnpj_cpf))
+            valores.update(tipo_pessoa='F')
+            valores.update(regime_tributario='3')
 
         if cnpj_cpf[:2] == 'EX':
-            valores['tipo_pessoa'] = 'E'
-            valores['regime_tributario'] = '3'
+            valores.update(tipo_pessoa='E')
+            valores.update(regime_tributario='3')
 
         if self.id:
             cnpj_ids = self.search([('cnpj_cpf', '=', cnpj_cpf), ('id', '!=', self.id), ('eh_empresa', '=', False), ('eh_grupo', '=', False)])
@@ -166,16 +178,18 @@ class Empresa(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('cnpj_cpf')
     def constrains_cnpj_cpf(self):
-        self._valida_cnpj_cpf()
+        for empresa in self:
+            empresa._valida_cnpj_cpf()
 
     @api.onchange('cnpj_cpf')
     def onchange_cnpj_cpf(self):
         return self._valida_cnpj_cpf()
 
     def _valida_fone(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -183,32 +197,34 @@ class Empresa(models.Model):
             if (not valida_fone_internacional(self.fone)) and (not valida_fone_fixo(self.fone)):
                 raise ValidationError('Telefone fixo inválido!')
 
-            valores['fone'] = formata_fone(self.fone)
+            valores.update(fone=formata_fone(self.fone))
 
         if self.fone_comercial:
             if (not valida_fone_internacional(self.fone_comercial)) and (not valida_fone_fixo(self.fone_comercial)) and (not valida_fone_celular(self.fone_comercial)):
                 raise ValidationError('Telefone comercial inválido!')
 
-            valores['fone_comercial'] = formata_fone(self.fone_comercial)
+            valores.update(fone_comercial=formata_fone(self.fone_comercial))
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (not valida_fone_celular(self.celular)):
                 raise ValidationError('Celular inválido!')
 
-            valores['celular'] = formata_fone(self.celular)
+            valores.update(celular=formata_fone(self.celular))
 
         return res
 
-    @api.one
     @api.constrains('fone', 'celular', 'fone_comercial')
     def constrains_fone(self):
-        self._valida_fone()
+        for empresa in self:
+            empresa._valida_fone()
 
     @api.onchange('fone', 'celular', 'fone_comercial')
     def onchange_fone(self):
         return self._valida_fone()
 
     def _valida_cep(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -219,20 +235,22 @@ class Empresa(models.Model):
         if (not cep.isdigit()) or len(cep) != 8:
             raise ValidationError('CEP inválido!')
 
-        valores['cep'] = cep[:5] + '-' + cep[5:]
+        valores.update(cep=cep[:5] + '-' + cep[5:])
 
         return res
 
-    @api.one
     @api.constrains('cep')
     def constrains_cep(self):
-        self._valida_cep()
+        for empresa in self:
+            empresa._valida_cep()
 
     @api.onchange('cep')
     def onchange_cep(self):
         return self._valida_cep()
 
     def _valida_ie(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -240,11 +258,11 @@ class Empresa(models.Model):
             if not valida_inscricao_estadual(suframa, 'SUFRAMA'):
                 raise ValidationError('Inscrição na SUFRAMA inválida!')
 
-            valores['suframa'] = formata_inscricao_estadual(self.suframa, 'SUFRAMA')
+            valores.update(suframa=formata_inscricao_estadual(self.suframa, 'SUFRAMA'))
 
         if self.ie:
             if self.contribuinte == '2' or self.contribuinte == '3':
-                valores['ie'] = ''
+                valores.update(ie='')
 
             else:
                 if not self.municipio_id:
@@ -256,20 +274,22 @@ class Empresa(models.Model):
                 if not valida_inscricao_estadual(self.ie, self.municipio_id.estado_id.uf):
                     raise ValidationError('Inscrição estadual inválida!')
 
-                valores['ie'] = formata_inscricao_estadual(self.ie, self.municipio_id.estado_id.uf)
+                valores.update(ie=formata_inscricao_estadual(self.ie, self.municipio_id.estado_id.uf))
 
         return res
 
-    @api.one
     @api.constrains('suframa', 'ie', 'municipio_id', 'contribuinte')
     def constrains_ie(self):
-        self._valida_ie()
+        for empresa in self:
+            empresa._valida_ie()
 
     @api.onchange('suframa', 'ie', 'municipio_id', 'contribuinte')
     def onchange_ie(self):
         return self._valida_ie()
 
     def _valida_email(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -290,7 +310,7 @@ class Empresa(models.Model):
                 except:
                     raise ValidationError('Email %s inválido!' % e.strip())
 
-            valores['email'] = ','.join(emails_validos)
+            valores.update(email=','.join(emails_validos))
 
         if self.email_nfe:
             email = self.email_nfe
@@ -309,14 +329,14 @@ class Empresa(models.Model):
                 except:
                     raise ValidationError('Email %s inválido!' % e.strip())
 
-            valores['email_nfe'] = ','.join(emails_validos)
+            valores.update(email_nfe=','.join(emails_validos))
 
         return res
 
-    @api.one
     @api.constrains('email', 'email_nfe')
     def constrains_email(self):
-        self._valida_email()
+        for empresa in self:
+            empresa._valida_email()
 
     @api.onchange('email', 'email_nfe')
     def onchange_email(self):
@@ -328,66 +348,63 @@ class Empresa(models.Model):
             #view_id = self.env.ref('sped.cadastro_participante_cliente_form').id
         #res = super(Empresa, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
         ##if view_type == 'form':
-        ##    res['arch'] = self.fields_view_get_address(res['arch'])
+        ##    res['arch=self.fields_view_get_address(res['arch'])
         #return res
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
-        res = {}
         valores = {}
-        res['value'] = valores
+        res = {'value': valores}
 
         if self.municipio_id and self.municipio_id.cep_unico:
-            valores['cep'] = self.municipio_id.cep_unico
+            valores.update(cep=self.municipio_id.cep_unico)
 
         return res
 
     @api.onchange('nome', 'razao_social', 'fantasia', 'endereco', 'bairro', 'cidade', 'profissao')
     def onchange_nome(self):
-        res = {}
         valores = {}
-        res['value'] = valores
+        res = {'value': valores}
 
         if self.nome:
-            valores['nome'] = primeira_maiuscula(self.nome)
+            valores.update(nome=primeira_maiuscula(self.nome))
 
         if self.razao_social:
-            valores['razao_social'] = primeira_maiuscula(self.razao_social)
+            valores.update(razao_social=primeira_maiuscula(self.razao_social))
 
         if self.fantasia:
-            valores['fantasia'] = primeira_maiuscula(self.fantasia)
+            valores.update(fantasia=primeira_maiuscula(self.fantasia))
 
         if self.endereco:
-            valores['endereco'] = primeira_maiuscula(self.endereco)
+            valores.update(endereco=primeira_maiuscula(self.endereco))
 
         if self.bairro:
-            valores['bairro'] = primeira_maiuscula(self.bairro)
+            valores.update(bairro=primeira_maiuscula(self.bairro))
 
         if self.cidade:
-            valores['cidade'] = primeira_maiuscula(self.cidade)
+            valores.update(cidade=primeira_maiuscula(self.cidade))
 
         if self.profissao:
-            valores['profissao'] = primeira_maiuscula(self.profissao)
+            valores.update(profissao=primeira_maiuscula(self.profissao))
 
         return res
 
     @api.onchange('regime_tributario')
     def onchange_regime_tributario(self):
-        res = {}
         valores = {}
-        res['value'] = valores
+        res = {'value': valores}
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES').id
+            valores.update(al_pis_cofins_id=self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES_EXCESSO:
-            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id
+            valores.update(al_pis_cofins_id=self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_PRESUMIDO:
-            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id
+            valores.update(al_pis_cofins_id=self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_REAL:
-            valores['al_pis_cofins_id'] = self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_REAL').id
+            valores.update(al_pis_cofins_id=self.env.ref('sped.ALIQUOTA_PIS_COFINS_LUCRO_REAL').id)
 
         return res
 
@@ -396,6 +413,7 @@ class Empresa(models.Model):
 
         :return:
         """
+        self.ensure_one()
 
         dados = {
             'name': self.nome,
@@ -404,10 +422,10 @@ class Empresa(models.Model):
         }
 
         if not self.company_id:
-            dados['partner_id'] = self.partner_id.id
-            dados['rml_paper_format'] = 'a4'
-            dados['paperformat_id'] = self.env.ref('report.paperformat_euro').id
-            dados['currency_id'] = self.env.ref('base.BRL').id
+            dados.update(partner_id=self.partner_id.id)
+            dados.update(rml_paper_format='a4')
+            dados.update(paperformat_id=self.env.ref('report.paperformat_euro').id)
+            dados.update(currency_id=self.env.ref('base.BRL').id)
 
         return dados
 
@@ -439,34 +457,33 @@ class Empresa(models.Model):
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
-        res = {}
         valores = {}
-        res['value'] = valores
+        res = {'value': valores}
 
         if self.partner_id.customer:
-            valores['eh_cliente'] = True
+            valores.update(eh_cliente=True)
         else:
-            valores['eh_cliente'] = False
+            valores.update(eh_cliente=False)
 
         if self.partner_id.supplier:
-            valores['eh_fornecedor'] = True
+            valores.update(eh_fornecedor=True)
         else:
-            valores['eh_fornecedor'] = False
+            valores.update(eh_fornecedor=False)
 
         if self.partner_id.employee:
-            valores['eh_funcionario'] = True
+            valores.update(eh_funcionario=True)
         else:
-            valores['eh_funcionario'] = False
+            valores.update(eh_funcionario=False)
 
         if self.partner_id.original_company_id:
-            valores['eh_empresa'] = True
+            valores.update(eh_empresa=True)
         else:
-            valores['eh_empresa'] = False
+            valores.update(eh_empresa=False)
 
         if self.partner_id.original_user_id:
-            valores['eh_usuario'] = True
+            valores.update(eh_usuario=True)
         else:
-            valores['eh_usuario'] = False
+            valores.update(eh_usuario=False)
 
     @api.model
     @api.returns('self', lambda value: value.id if value else False)

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="True">
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
 
     <record id="ALIQUOTA_IPI_NAO_TRIBUTADO" model="sped.aliquota.ipi">
         <field name="al_ipi">-1.0</field>

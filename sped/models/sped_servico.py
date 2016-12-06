@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
@@ -15,42 +19,25 @@ class Servico(models.Model):
     codigo = fields.Char('Código', size=4, required=True, index=True)
     descricao = fields.NameChar('Descrição', size=400, required=True, index=True)
     codigo_municipio = fields.Char('Código no município', size=9)
-    #cest_ids = fields.Many2many('sped.cest', 'tabela_servico_cest', 'servico_id', 'cest_id', 'Códigos CEST')
     al_iss_ids = fields.One2many('sped.aliquota.iss', 'servico_id', 'Alíquotas de ISS')
+    codigo_formatado = fields.Char(string='Servico', compute='_compute_servico', store=True)
+    servico = fields.Char(string='Servico', compute='_compute_servico', store=True)
 
-    @api.one
     @api.depends('codigo', 'descricao')
-    def _servico(self):
-        self.codigo_formatado = self.codigo[:2] + '.' + self.codigo[2:]
-        self.servico = self.codigo_formatado
+    def _compute_servico(self):
+        for servico in self:
+            servico.codigo_formatado = servico.codigo[:2] + '.' + servico.codigo[2:]
+            servico.servico = servico.codigo_formatado
 
-        self.servico += ' - ' + self.descricao[:60]
+            servico.servico += ' - ' + servico.descricao[:60]
 
-    codigo_formatado = fields.Char(string='Servico', compute=_servico, store=True)
-    servico = fields.Char(string='Servico', compute=_servico, store=True)
+    @api.depends('codigo')
+    def _check_codigo(self):
+        for servico in self:
+            if servico.id:
+                servico_ids = self.search([('codigo', '=', servico.codigo), ('id', '!=', servico.id)])
+            else:
+                servico_ids = self.search([('codigo', '=', servico.codigo)])
 
-    def _valida_codigo(self):
-        valores = {}
-        res = {'value': valores}
-
-        if (not self.codigo):
-            return res
-
-        if self.id:
-            servico_ids = self.search([('codigo', '=', self.codigo), ('id', '!=', self.id)])
-        else:
-            servico_ids = self.search([('codigo', '=', self.codigo)])
-
-        if len(servico_ids) > 0:
-            raise ValidationError('Código já existe na tabela!')
-
-        return res
-
-    @api.one
-    @api.constrains('codigo')
-    def constrains_codigo(self):
-        self._valida_codigo()
-
-    @api.onchange('codigo')
-    def onchange_codigo(self):
-        return self._valida_codigo()
+            if len(servico_ids) > 0:
+                raise ValidationError('Código de Serviço já existe na tabela!')

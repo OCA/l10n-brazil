@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
 <odoo>
 
     <record model="ir.ui.view" id="sped_servico_form" >
@@ -34,6 +38,7 @@
                         <tree string="Alíquotas de ISS" editable="bottom">
                             <field name="municipio_id" required="True" options="{'no_create': True, 'no_open': True}" />
                             <field name="al_iss" required="True" />
+                            <field name="codigo" />
                         </tree>
                     </field>
                 </sheet>

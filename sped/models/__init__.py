@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
@@ -15,7 +19,7 @@ from sped_municipio import *
 #
 from sped_participante import *
 from sped_empresa import *
-from res_partner import *
+from inherited_res_partner import *
 
 from sped_unidade import *
 
@@ -48,6 +52,7 @@ from sped_ncm_protocolo import *
 from sped_certificado import *
 
 from sped_produto import *
+
 #
 # Fiscal e faturamento
 #
