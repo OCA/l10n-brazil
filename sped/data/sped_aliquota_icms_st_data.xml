@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="True">
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
 
     <record id="ALIQUOTA_ICMS_ST_7" model="sped.aliquota.icms.st">
         <field name="al_icms">7.0</field>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
 <odoo noupdate="True">
 
     <!--
@@ -264,16 +268,6 @@
         <field name="nome">Bolívia</field>
         <field name="estado_id" ref="ESTADO_EX" />
         <field name="pais_id" ref="PAIS_BO" />
-        <field name="cep_unico">99999-999</field>
-    </record>
-
-    <record id="MUNICIPIO_99999990477"  model="sped.municipio">
-        <field name="codigo_ibge">99999990477</field>
-        <field name="codigo_siafi" eval="False" />
-        <field name="codigo_anp" eval="False" />
-        <field name="nome">Bonaire, Santo Eustáquio e Saba</field>
-        <field name="estado_id" ref="ESTADO_EX" />
-        <field name="pais_id" ref="PAIS_BQ" />
         <field name="cep_unico">99999-999</field>
     </record>
 
@@ -607,6 +601,26 @@
         <field name="cep_unico">99999-999</field>
     </record>
 
+    <record id="MUNICIPIO_99999990477_1"  model="sped.municipio">
+        <field name="codigo_ibge">99999990477</field>
+        <field name="codigo_siafi" eval="False" />
+        <field name="codigo_anp" eval="False" />
+        <field name="nome">Bonaire, Santo Eustáquio e Saba</field>
+        <field name="estado_id" ref="ESTADO_EX" />
+        <field name="pais_id" ref="PAIS_BQ" />
+        <field name="cep_unico">99999-999</field>
+    </record>
+
+    <record id="MUNICIPIO_99999990477_2"  model="sped.municipio">
+        <field name="codigo_ibge">99999990477</field>
+        <field name="codigo_siafi" eval="False" />
+        <field name="codigo_anp" eval="False" />
+        <field name="nome">São Martinho (parte neerlandesa)</field>
+        <field name="estado_id" ref="ESTADO_EX" />
+        <field name="pais_id" ref="PAIS_SX" />
+        <field name="cep_unico">99999-999</field>
+    </record>
+
     <record id="MUNICIPIO_99999992321"  model="sped.municipio">
         <field name="codigo_ibge">99999992321</field>
         <field name="codigo_siafi" eval="False" />
@@ -794,6 +808,36 @@
         <field name="nome">França</field>
         <field name="estado_id" ref="ESTADO_EX" />
         <field name="pais_id" ref="PAIS_FR" />
+        <field name="cep_unico">99999-999</field>
+    </record>
+
+    <record id="MUNICIPIO_99999992755_1"  model="sped.municipio">
+        <field name="codigo_ibge">99999992755</field>
+        <field name="codigo_siafi" eval="False" />
+        <field name="codigo_anp" eval="False" />
+        <field name="nome">São Bartolomeu</field>
+        <field name="estado_id" ref="ESTADO_EX" />
+        <field name="pais_id" ref="PAIS_BL" />
+        <field name="cep_unico">99999-999</field>
+    </record>
+
+    <record id="MUNICIPIO_99999992755_2"  model="sped.municipio">
+        <field name="codigo_ibge">99999992755</field>
+        <field name="codigo_siafi" eval="False" />
+        <field name="codigo_anp" eval="False" />
+        <field name="nome">São Martinho (parte francesa)</field>
+        <field name="estado_id" ref="ESTADO_EX" />
+        <field name="pais_id" ref="PAIS_MF" />
+        <field name="cep_unico">99999-999</field>
+    </record>
+
+    <record id="MUNICIPIO_99999992755_3"  model="sped.municipio">
+        <field name="codigo_ibge">99999992755</field>
+        <field name="codigo_siafi" eval="False" />
+        <field name="codigo_anp" eval="False" />
+        <field name="nome">Wallis e Futuna</field>
+        <field name="estado_id" ref="ESTADO_EX" />
+        <field name="pais_id" ref="PAIS_WF" />
         <field name="cep_unico">99999-999</field>
     </record>
 
@@ -1937,16 +1981,6 @@
         <field name="cep_unico">99999-999</field>
     </record>
 
-    <record id="MUNICIPIO_99999992755"  model="sped.municipio">
-        <field name="codigo_ibge">99999992755</field>
-        <field name="codigo_siafi" eval="False" />
-        <field name="codigo_anp" eval="False" />
-        <field name="nome">São Bartolomeu</field>
-        <field name="estado_id" ref="ESTADO_EX" />
-        <field name="pais_id" ref="PAIS_BL" />
-        <field name="cep_unico">99999-999</field>
-    </record>
-
     <record id="MUNICIPIO_99999996955"  model="sped.municipio">
         <field name="codigo_ibge">99999996955</field>
         <field name="codigo_siafi" eval="False" />
@@ -1954,26 +1988,6 @@
         <field name="nome">São Cristóvão e Neves, Ilhas</field>
         <field name="estado_id" ref="ESTADO_EX" />
         <field name="pais_id" ref="PAIS_KN" />
-        <field name="cep_unico">99999-999</field>
-    </record>
-
-    <record id="MUNICIPIO_99999992755"  model="sped.municipio">
-        <field name="codigo_ibge">99999992755</field>
-        <field name="codigo_siafi" eval="False" />
-        <field name="codigo_anp" eval="False" />
-        <field name="nome">São Martinho (parte francesa)</field>
-        <field name="estado_id" ref="ESTADO_EX" />
-        <field name="pais_id" ref="PAIS_MF" />
-        <field name="cep_unico">99999-999</field>
-    </record>
-
-    <record id="MUNICIPIO_99999990477"  model="sped.municipio">
-        <field name="codigo_ibge">99999990477</field>
-        <field name="codigo_siafi" eval="False" />
-        <field name="codigo_anp" eval="False" />
-        <field name="nome">São Martinho (parte neerlandesa)</field>
-        <field name="estado_id" ref="ESTADO_EX" />
-        <field name="pais_id" ref="PAIS_SX" />
         <field name="cep_unico">99999-999</field>
     </record>
 
@@ -2384,16 +2398,6 @@
         <field name="nome">Virgens, Ilhas (EUA)</field>
         <field name="estado_id" ref="ESTADO_EX" />
         <field name="pais_id" ref="PAIS_VI" />
-        <field name="cep_unico">99999-999</field>
-    </record>
-
-    <record id="MUNICIPIO_99999992755"  model="sped.municipio">
-        <field name="codigo_ibge">99999992755</field>
-        <field name="codigo_siafi" eval="False" />
-        <field name="codigo_anp" eval="False" />
-        <field name="nome">Wallis e Futuna</field>
-        <field name="estado_id" ref="ESTADO_EX" />
-        <field name="pais_id" ref="PAIS_WF" />
         <field name="cep_unico">99999-999</field>
     </record>
 

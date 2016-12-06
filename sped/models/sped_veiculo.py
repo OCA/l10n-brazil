@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
@@ -15,41 +19,26 @@ class Veiculo(models.Model):
     placa = fields.UpperChar('Placa', size=8, required=True, index=True)
     estado_id = fields.Many2one('sped.estado', 'Estado', required=True)
     rntrc = fields.Char('RNTRC', size=20)
-    transportadora_id = fields.Many2one('res.partner', 'Transportadora', domain=[['eh_transportadora', '=', True]])
-    motorista_id = fields.Many2one('res.partner', 'Motorista', domain=[['tipo_pessoa', '=', 'F']])
+    transportadora_id = fields.Many2one('sped.participante', 'Transportadora', domain=[['eh_transportadora', '=', True]])
+    motorista_id = fields.Many2one('sped.participante', 'Motorista', domain=[['tipo_pessoa', '=', 'F']])
 
-    def _valida_veiculo(self):
-        valores = {}
-        res = {'value': valores}
+    @api.depends('placa')
+    def _check_placa(self):
+        for veiculo in self:
+            placa = veiculo.placa.strip().replace('-', '').replace(' ', '').replace(' ', '').upper()
 
-        if (not self.placa):
-            return res
+            if len(placa) != 7:
+                raise ValidationError('Placa inválida! Informe a placa no formato AAA-9999')
 
-        placa = self.placa.strip().replace('-', '').upper()
+            if not (placa[0:3].isalpha() and placa[3:7].isdigit()):
+                raise ValidationError('Placa inválida! Informe a placa no formato AAA-9999')
 
-        if len(placa) != 7:
-            raise ValidationError('Placa inválida! Informe a placa no formato AAA-9999')
+            valores['placa'] = placa[0:3] + '-' + placa[3:7]
 
-        if not (placa[0:3].isalpha() and placa[3:7].isdigit()):
-            raise ValidationError('Placa inválida! Informe a placa no formato AAA-9999')
+            if veiculo.id:
+                veiculo_ids = veiculo.search([('placa', '=', veiculo.placa), ('id', '!=', veiculo.id)])
+            else:
+                veiculo_ids = veiculo.search([('placa', '=', veiculo.placa)])
 
-        valores['placa'] = placa[0:3] + '-' + placa[3:7]
-
-        if self.id:
-            veiculo_ids = self.search([('placa', '=', self.placa), ('id', '!=', self.id)])
-        else:
-            veiculo_ids = self.search([('placa', '=', self.placa)])
-
-        if len(veiculo_ids) > 0:
-            raise ValidationError('Veículo já cadastrado!')
-
-        return res
-
-    @api.one
-    @api.constrains('placa')
-    def constrains_veiculo(self):
-        self._valida_veiculo()
-
-    @api.onchange('placa')
-    def onchange_veiculo(self):
-        return self._valida_veiculo()
+            if len(veiculo_ids) > 0:
+                raise ValidationError('Veículo já cadastrado!')

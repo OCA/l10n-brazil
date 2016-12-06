@@ -1,11 +1,23 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.data import parse_datetime, data_hora_horario_brasilia
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
 from ..constante_tributaria import *
-from pybrasil.data import parse_datetime, data_hora_horario_brasilia
 
 
 class Documento(models.Model):
@@ -14,38 +26,25 @@ class Documento(models.Model):
     _order = 'emissao, modelo, data_emissao desc, serie, numero'
     _rec_name = 'numero'
 
-    empresa_id = fields.Many2one('sped.empresa', 'Empresa', ondelete='restrict', default=lambda self: self.env['sped.empresa']._empresa_ativa('sped.documento'))
+    empresa_id = fields.Many2one('sped.empresa', 'Empresa', ondelete='restrict',
+                                 default=lambda self: self.env['sped.empresa']._empresa_ativa('sped.documento'))
     empresa_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='empresa_id.cnpj_cpf', readonly=True)
-    #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', store=True, related='empresa_id.original_company_id')
-    #company_id = fields.Many2one('res.company', 'Empresa', ondelete='restrict', default=lambda self: self.env['res.company']._company_default_get('sped.documento'))
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', index=True)
     modelo = fields.Selection(MODELO_FISCAL, 'Modelo', index=True)
 
     data_hora_emissao = fields.Datetime('Data de emissão', index=True, default=fields.Datetime.now)
     data_hora_entrada_saida = fields.Datetime('Data de entrada/saída', index=True, default=fields.Datetime.now)
-
-    @api.one
-    @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
-    def _data_hora_separadas(self):
-        data_hora_emissao = data_hora_horario_brasilia(parse_datetime(self.data_hora_emissao))
-        self.data_emissao = str(data_hora_emissao)[:10]
-        self.hora_emissao = str(data_hora_emissao)[11:19]
-
-        data_hora_entrada_saida = data_hora_horario_brasilia(parse_datetime(self.data_hora_entrada_saida))
-        self.data_entrada_saida = str(data_hora_entrada_saida)[:10]
-        self.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
-
-    data_emissao = fields.Date('Data de emissão', compute=_data_hora_separadas, store=True, index=True)
-    hora_emissao = fields.Char('Hora de emissão', size=8, compute=_data_hora_separadas, store=True)
-    data_entrada_saida = fields.Date('Data de entrada/saída', compute=_data_hora_separadas, store=True, index=True)
-    hora_entrada_saida = fields.Char('Hora de entrada/saída', size=8, compute=_data_hora_separadas, store=True)
+    data_emissao = fields.Date('Data de emissão', compute='_compute_data_hora_separadas', store=True, index=True)
+    hora_emissao = fields.Char('Hora de emissão', size=8, compute='_compute_data_hora_separadas', store=True)
+    data_entrada_saida = fields.Date('Data de entrada/saída', compute='_compute_data_hora_separadas', store=True, index=True)
+    hora_entrada_saida = fields.Char('Hora de entrada/saída', size=8, compute='_compute_data_hora_separadas', store=True)
 
     serie = fields.Char('Série', index=True)
     numero = fields.Numero('Número', index=True)
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/Saída', index=True, default=ENTRADA_SAIDA_SAIDA)
     situacao_fiscal = fields.Selection(SITUACAO_FISCAL, 'Situação fiscal', index=True, default=SITUACAO_FISCAL_REGULAR)
 
-    ambiente_nfe =  fields.Selection(AMBIENTE_NFE, 'Ambiente da NF-e', index=True, default=AMBIENTE_NFE_HOMOLOGACAO)
+    ambiente_nfe = fields.Selection(AMBIENTE_NFE, 'Ambiente da NF-e', index=True, default=AMBIENTE_NFE_HOMOLOGACAO)
     tipo_emissao_nfe = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão da NF-e', default=TIPO_EMISSAO_NFE_NORMAL)
     ie_st = fields.Char('IE do substituto tributário', size=14)
     municipio_fato_gerador_id = fields.Many2one('sped.municipio', 'Município do fato gerador')
@@ -57,22 +56,24 @@ class Documento(models.Model):
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES)
     forma_pagamento = fields.Selection(FORMA_PAGAMENTO, 'Forma de pagamento', default=FORMA_PAGAMENTO_A_VISTA)
     finalidade_nfe = fields.Selection(FINALIDADE_NFE, 'Finalidade da NF-e', default=FINALIDADE_NFE_NORMAL)
-    consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor', default=TIPO_CONSUMIDOR_FINAL_NORMAL)
-    presenca_comprador = fields.Selection(INDICADOR_PRESENCA_COMPRADOR, 'Presença do comprador', default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA)
+    consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor',
+                                        default=TIPO_CONSUMIDOR_FINAL_NORMAL)
+    presenca_comprador = fields.Selection(INDICADOR_PRESENCA_COMPRADOR, 'Presença do comprador',
+                                          default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA)
     modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO)
     natureza_operacao_id = fields.Many2one('sped.natureza.operacao', 'Natureza da operação', ondelete='restrict')
-    infadfisco =  fields.Text('Informações adicionais de interesse do fisco')
+    infadfisco = fields.Text('Informações adicionais de interesse do fisco')
     infcomplementar = fields.Text('Informações complementares')
     deduz_retencao = fields.Boolean('Deduz retenção do total da NF?', default=True)
     pis_cofins_retido = fields.Boolean('PIS-COFINS retidos?')
     al_pis_retido = fields.Porcentagem('Alíquota do PIS', default=0.65)
     al_cofins_retido = fields.Porcentagem('Alíquota da COFINS', default=3)
     csll_retido = fields.Boolean('CSLL retido?')
-    al_csll =  fields.Porcentagem('Alíquota da CSLL', default=1)
+    al_csll = fields.Porcentagem('Alíquota da CSLL', default=1)
     limite_retencao_pis_cofins_csll = fields.Dinheiro('Obedecer limite de faturamento para retenção de', default=5000)
     irrf_retido = fields.Boolean('IR retido?')
     irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
-    al_irrf =  fields.Porcentagem('Alíquota do IR', default=1)
+    al_irrf = fields.Porcentagem('Alíquota do IR', default=1)
     previdencia_retido = fields.Boolean('INSS retido?')
     cnae_id = fields.Many2one('sped.cnae', 'CNAE')
     natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
@@ -85,13 +86,15 @@ class Documento(models.Model):
     participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente', ondelete='restrict')
     participante_cnpj_cpf = fields.Char('CNPJ/CPF', size=18, related='participante_id.cnpj_cpf', readonly=True)
     participante_tipo_pessoa = fields.Char('Tipo pessoa', size=1, related='participante_id.tipo_pessoa', readonly=True)
-    participante_razao_social = fields.NameChar('Razão Social', size=60, related='participante_id.razao_social', readonly=True)
+    participante_razao_social = fields.NameChar('Razão Social', size=60, related='participante_id.razao_social',
+                                                readonly=True)
     participante_fantasia = fields.NameChar('Fantasia', size=60, related='participante_id.fantasia', readonly=True)
     participante_endereco = fields.NameChar('Endereço', size=60, related='participante_id.endereco', readonly=True)
     participante_numero = fields.Char('Número', size=60, related='participante_id.numero', readonly=True)
     participante_complemento = fields.Char('Complemento', size=60, related='participante_id.complemento', readonly=True)
     participante_bairro = fields.NameChar('Bairro', size=60, related='participante_id.bairro', readonly=True)
-    participante_municipio_id = fields.Many2one('sped.municipio', string='Município', related='participante_id.municipio_id', readonly=True)
+    participante_municipio_id = fields.Many2one('sped.municipio', string='Município',
+                                                related='participante_id.municipio_id', readonly=True)
     participante_cidade = fields.NameChar('Município', related='participante_id.cidade', readonly=True)
     participante_estado = fields.UpperChar('Estado', related='participante_id.estado', readonly=True)
     participante_cep = fields.Char('CEP', size=9, related='participante_id.cep', readonly=True)
@@ -99,13 +102,15 @@ class Documento(models.Model):
     # Telefone e email para a emissão da NF-e
     #
     participante_fone = fields.Char('Fone', size=18, related='participante_id.fone', readonly=True)
-    participante_fone_comercial = fields.Char('Fone Comercial', size=18, related='participante_id.fone_comercial', readonly=True)
+    participante_fone_comercial = fields.Char('Fone Comercial', size=18, related='participante_id.fone_comercial',
+                                              readonly=True)
     participante_celular = fields.Char('Celular', size=18, related='participante_id.celular', readonly=True)
     participante_email = fields.Email('Email', size=60, related='participante_id.email', readonly=True)
     #
     # Inscrições e registros
     #
-    participante_contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default='2', related='participante_id.contribuinte', readonly=True)
+    participante_contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', default='2',
+                                                 related='participante_id.contribuinte', readonly=True)
     participante_ie = fields.Char('Inscrição estadual', size=18, related='participante_id.ie', readonly=True)
 
     #
@@ -116,7 +121,8 @@ class Documento(models.Model):
     #
     # Transporte
     #
-    transportadora_id = fields.Many2one('res.partner', 'Transportadora', ondelete='restrict', domain=[('cnpj_cpf', '!=', False)])
+    transportadora_id = fields.Many2one('res.partner', 'Transportadora', ondelete='restrict',
+                                        domain=[('cnpj_cpf', '!=', False)])
     veiculo_id = fields.Many2one('sped.veiculo', 'Veículo', ondelete='restrict')
     reboque_1_id = fields.Many2one('sped.veiculo', 'Reboque 1', ondelete='restrict')
     reboque_2_id = fields.Many2one('sped.veiculo', 'Reboque 2', ondelete='restrict')
@@ -238,6 +244,16 @@ class Documento(models.Model):
 
     item_ids = fields.One2many('sped.documento.item', 'documento_id', 'Itens')
 
+    @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
+    def _compute_data_hora_separadas(self):
+        for documento in self:
+            data_hora_emissao = data_hora_horario_brasilia(parse_datetime(documento.data_hora_emissao))
+            documento.data_emissao = str(data_hora_emissao)[:10]
+            documento.hora_emissao = str(data_hora_emissao)[11:19]
+
+            data_hora_entrada_saida = data_hora_horario_brasilia(parse_datetime(documento.data_hora_entrada_saida))
+            documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
+            documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
 
     @api.onchange('empresa_id', 'modelo', 'emissao')
     def onchange_empresa_id(self):
@@ -366,12 +382,12 @@ class Documento(models.Model):
             return res
 
         ultimo_numero = self.search([
-                ('empresa_id.cnpj_cpf', '=', self.empresa_id.cnpj_cpf),
-                ('ambiente_nfe', '=', self.ambiente_nfe),
-                ('emissao', '=', self.emissao),
-                ('modelo', '=', self.modelo),
-                ('serie', '=', self.serie.strip()),
-            ], limit=1, order='numero desc')
+            ('empresa_id.cnpj_cpf', '=', self.empresa_id.cnpj_cpf),
+            ('ambiente_nfe', '=', self.ambiente_nfe),
+            ('emissao', '=', self.emissao),
+            ('modelo', '=', self.modelo),
+            ('serie', '=', self.serie.strip()),
+        ], limit=1, order='numero desc')
 
         valores['serie'] = self.serie.strip()
 

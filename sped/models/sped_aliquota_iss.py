@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from ..constante_tributaria import *
-from pybrasil.valor import formata_valor
+
+from odoo import fields, models
 
 
 class AliquotaISS(models.Model):
@@ -17,3 +19,4 @@ class AliquotaISS(models.Model):
     servico_id = fields.Many2one('sped.servico', 'Serviço', ondelete='cascade', required=True)
     municipio_id = fields.Many2one('sped.municipio', 'Município', ondelete='restrict', required=True)
     al_iss = fields.Porcentagem('Alíquota', required=True)
+    codigo = fields.Char('Código específico', size=10)
