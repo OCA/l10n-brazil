@@ -11,9 +11,16 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
     'depends': [
+        'l10n_br_base',
+        'resource',
     ],
+    'external_dependencies': {
+        'python': ['pybrasil'],
+    },
     'data': [
+        'views/resource_calendar.xml',
     ],
     'demo': [
+        'demo/resource_calendar.xml',
     ],
 }
