@@ -1,41 +1,28 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
-    "name": "Brazilian Localization Sale",
-    "category": "Localisation",
-    "license": "AGPL-3",
-    "author":
-        'Akretion, '
-        'Odoo Community Association (OCA)',
-    "website": "http://github.com/OCA/l10n-brazil",
-    "version": "12.0.1.0.0",
-    "depends": ["sale_management", "l10n_br_account"],
-    "data": [
-        # Data
-        "data/company_data.xml",
-
-        # Security
-        "security/ir.model.access.csv",
-        "security/l10n_br_sale_security.xml",
-
-        # View
-        "views/res_config_settings_view.xml",
-        "views/res_company_view.xml",
-        "views/sale_view.xml",
-
-        # Report
-        "report/sale_report_view.xml",
+    'name': 'Brazilian Localization Sale',
+    'category': 'Localisation',
+    'license': 'AGPL-3',
+    'author': 'Akretion, Odoo Community Association (OCA)',
+    'website': 'http://odoo-brasil.org',
+    'version': '8.0.1.0.0',
+    'depends': [
+        'l10n_br_account',
+        'account_fiscal_position_rule_sale',
     ],
-    "demo": [
-        # Demo
-        "demo/company_demo.xml",
-        "demo/l10n_br_sale_demo.xml",
-        "demo/l10n_br_sale_product_demo.xml",
+    'data': [
+        'data/l10n_br_sale_data.xml',
+        'views/sale_view.xml',
+        'views/res_config_view.xml',
+        'security/ir.model.access.csv',
+        'security/l10n_br_sale_security.xml',
+        'report/sale_report_view.xml',
     ],
-    "installable": True,
-    "auto_install": True,
-    "development_status": "Production/Stable",
-    "maintainers": ["renatonlima"],
-    "external_dependencies": {"python": ["erpbrasil.base"]},
+    'test': [],
+    'demo': [],
+    'installable': False,
+    'auto_install': True,
 }
