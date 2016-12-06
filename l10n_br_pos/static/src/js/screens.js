@@ -270,24 +270,24 @@ function l10n_br_pos_screens(instance, module) {
 
                     invoiced.fail(function(error){
                         if(error === 'error-no-client'){
-                            self.pos_widget.screen_selector.show_popup('error',{
+                            this.pos_widget.screen_selector.show_popup('error',{
                                 message: _t('An anonymous order cannot be invoiced'),
                                 comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
                             });
                         }else{
-                            self.pos_widget.screen_selector.show_popup('error',{
+                            this.pos_widget.screen_selector.show_popup('error',{
                                 message: _t('The order could not be sent'),
                                 comment: _t('Check your internet connection and try again.'),
                             });
                         }
-                        self.pos_widget.action_bar.set_button_disabled('validation',false);
-                        self.pos_widget.action_bar.set_button_disabled('invoice',false);
+                        this.pos_widget.action_bar.set_button_disabled('validation',false);
+                        this.pos_widget.action_bar.set_button_disabled('invoice',false);
                     });
 
                     invoiced.done(function(){
-                        self.pos_widget.action_bar.set_button_disabled('validation',false);
-                        self.pos_widget.action_bar.set_button_disabled('invoice',false);
-                        self.pos.get('selectedOrder').destroy();
+                        this.pos_widget.action_bar.set_button_disabled('validation',false);
+                        this.pos_widget.action_bar.set_button_disabled('invoice',false);
+                        this.pos.get('selectedOrder').destroy();
                     });
 
                 }else{
@@ -317,7 +317,7 @@ function l10n_br_pos_screens(instance, module) {
                     }
                 }
             }else{
-                self.pos_widget.screen_selector.show_popup('error',{
+                this.pos_widget.screen_selector.show_popup('error',{
                     message: _t('SAT n\u00e3o est\u00e1 conectado'),
                     comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
                 });
@@ -421,12 +421,61 @@ function l10n_br_pos_screens(instance, module) {
         },
     });
 
-    module.ReceiptScreenWidget = module.ReceiptScreenWidget.extend({
+    module.ReceiptScreenWidget = module.ScreenWidget.extend({
         template: 'ReceiptScreenWidget',
 
+        show_numpad:     false,
+        show_leftpane:   false,
+
+        show: function(){
+            this._super();
+            var self = this;
+
+            var finish_button = this.add_action_button({
+                    label: _t('Next Order'),
+                    icon: '/point_of_sale/static/src/img/icons/png48/go-next.png',
+                    click: function() { self.finishOrder(); },
+                });
+
+            this.refresh();
+
+            //
+            // The problem is that in chrome the print() is asynchronous and doesn't
+            // execute until all rpc are finished. So it conflicts with the rpc used
+            // to send the orders to the backend, and the user is able to go to the next
+            // screen before the printing dialog is opened. The problem is that what's
+            // printed is whatever is in the page when the dialog is opened and not when it's called,
+            // and so you end up printing the product list instead of the receipt...
+            //
+            // Fixing this would need a re-architecturing
+            // of the code to postpone sending of orders after printing.
+            //
+            // But since the print dialog also blocks the other asynchronous calls, the
+            // button enabling in the setTimeout() is blocked until the printing dialog is
+            // closed. But the timeout has to be big enough or else it doesn't work
+            // 2 seconds is the same as the default timeout for sending orders and so the dialog
+            // should have appeared before the timeout... so yeah that's not ultra reliable.
+
+            finish_button.set_disabled(true);
+            setTimeout(function(){
+                finish_button.set_disabled(false);
+            }, 2000);
+        },
         finishOrder: function() {
             this.pos_widget.posorderlist_screen.get_last_orders();
             this.pos.get('selectedOrder').destroy();
+        },
+        refresh: function() {
+            var order = this.pos.get('selectedOrder');
+            $('.pos-receipt-container', this.$el).html(QWeb.render('PosTicket',{
+                    widget:this,
+                    order: order,
+                    orderlines: order.get('orderLines').models,
+                    paymentlines: order.get('paymentLines').models,
+                }));
+        },
+        close: function(){
+            this._super();
         }
     });
 }
