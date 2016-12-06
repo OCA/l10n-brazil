@@ -1,0 +1,23 @@
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_account_product_base_city_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.city</field>
+            <field name="model">l10n_br_base.city</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_city_form"/>
+            <field name="arch" type="xml">
+                <group position="after">
+                    <group>
+                        <field name="city_tax_definition_line">
+                            <tree>
+                                <field name="tax_id"/>
+                                <field name="tax_code_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>
