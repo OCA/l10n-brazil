@@ -116,8 +116,18 @@ class AccountFiscalPosition(models.Model):
                         }
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
-            product_ncm_tax_def = product_fc.sale_tax_definition_line
-
+                product_ncm_tax_def = product_fc.sale_tax_definition_line
+            elif self.env.context.get('fiscal_type', 'product') == 'service':
+                service_taxes = \
+                    product.service_type_id.service_tax_definition_line
+                for tax_def in service_taxes:
+                    if tax_def.tax_id:
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                        }
+                product_ncm_tax_def = False
         else:
             if self.env.context.get('fiscal_type', 'product') == 'product':
                 company_taxes = \
@@ -163,9 +173,9 @@ class AccountFiscalPosition(models.Model):
                                 'tax': tax_def.tax_id,
                                 'tax_code': tax_def.tax_code_id,
                             }
-                service_taxes = \
-                    product.service_type_id.service_tax_definition_line
-                for tax_def in service_taxes:
+                city_taxes = \
+                    partner.l10n_br_city_id.city_tax_definition_line
+                for tax_def in city_taxes:
                     if tax_def.tax_id:
                         taxes |= tax_def.tax_id
                         result[tax_def.tax_id.domain] = {
