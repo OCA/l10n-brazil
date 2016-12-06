@@ -21,8 +21,17 @@ class ResourceCalendar(models.Model):
     parent_left = fields.Integer(index=True)
     parent_right = fields.Integer(index=True)
 
+    country_id = fields.Many2one('res.country', u'País')
+    state_id = fields.Many2one(
+        'res.country.state', u'Estado',
+        domain="[('country_id','=',country_id)]")
+    l10n_br_city_id = fields.Many2one(
+        'l10n_br_base.city', u'Municipio',
+        domain="[('state_id','=',state_id)]")
+
     @api.constrains('parent_id')
     def _check_hierarchy(self):
         if not self._check_recursion():
             raise models.ValidationError(
                 'Error! You cannot create recursive calendars.')
+
