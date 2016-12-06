@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from openerp import models, fields, api
+
+from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -13,68 +18,44 @@ class NaturezaOperacao(models.Model):
     _order = 'nome'
 
     codigo = fields.UpperChar('Código', size=10, required=True, index=True)
+    codigo_unico = fields.LowerChar(string='Código', size=10, index=True, compute='_compute_codigo_unico', store=True)
     nome = fields.NameChar('Nome', size=60, required=True, index=True)
+    nome_unico = fields.LowerChar(string='Nome', size=60, index=True, compute='_compute_nome_unico', store=True)
 
-    _sql_constraints = [
-        ('codigo_unique', 'unique(codigo)', 'O código da natureza de operação fiscal não pode se repetir!'),
-        ('nome_unique', 'unique(nome)', 'O nome da natureza de operação fiscal não pode se repetir!'),
-    ]
+    @api.depends('codigo')
+    def _compute_codigo_unico(self):
+        for natureza_operacao in self:
+            codigo_unico = natureza_operacao.codigo or ''
+            codigo_unico = codigo_unico.lower().strip()
+            codigo_unico = codigo_unico.replace(' ', ' ')
+            natureza_operacao.codigo_unico = codigo_unico
 
-    def _valida_codigo(self):
-        valores = {}
-        res = {'value': valores}
+    @api.depends('nome')
+    def _compute_nome_unico(self):
+        for natureza_operacao in self:
+            nome_unico = natureza_operacao.nome or ''
+            nome_unico = nome_unico.lower().strip()
+            nome_unico = nome_unico.replace(' ', ' ')
+            natureza_operacao.nome_unico = nome_unico
 
-        if not (self.codigo or self.nome):
-            return res
+    @api.depends('codigo')
+    def _check_codigo(self):
+        for natureza_operacao in self:
+            if natureza_operacao.id:
+                natureza_operacao_ids = self.search([('codigo_unico', '=', natureza_operacao.codigo_unico), ('id', '!=', natureza_operacao.id)])
+            else:
+                natureza_operacao_ids = natureza_operacao.search([('codigo_unico', '=', natureza_operacao.codigo_unico)])
 
-        if self.id:
-            if self.codigo:
-                cest_ids = self.search([('codigo', '=', self.codigo), ('id', '!=', self.id)])
-            elif self.nome:
-                cest_ids = self.search([('nome', '=', self.codigo), ('id', '!=', self.id)])
-        else:
-            cest_ids = self.search([('codigo', '=', self.codigo)])
+            if len(natureza_operacao_ids) > 0:
+                raise ValidationError(u'Código de natureza de operação fiscal já existe!')
 
+    @api.depends('nome')
+    def _check_nome(self):
+        for natureza_operacao in self:
+            if natureza_operacao.id:
+                natureza_operacao_ids = self.search([('nome_unico', '=', natureza_operacao.nome_unico), ('id', '!=', natureza_operacao.id)])
+            else:
+                natureza_operacao_ids = natureza_operacao.search([('nome_unico', '=', natureza_operacao.nome_unico)])
 
-        sql = u"""
-        select
-            a.id
-        from
-            sped_natureza_operacao a
-        where
-        """
-
-        if self.codigo:
-            sql += """
-                trim(upper(unaccent(a.codigo))) = trim(upper(unaccent('{codigo}')))
-            """
-            sql = sql.format(codigo=self.codigo.strip())
-
-        elif self.nome:
-            sql += """
-                trim(upper(unaccent(a.nome))) = trim(upper(unaccent('{nome}')))
-            """
-            sql = sql.format(nome=self.nome.strip())
-
-        if self.id or self._origin.id:
-            sql += u"""
-                and a.id != {id}
-            """
-            sql = sql.format(id=self.id or self._origin.id)
-
-        self.env.cr.execute(sql)
-        jah_existe = self.env.cr.fetchall()
-
-        if jah_existe:
-            raise ValidationError(u'Natureza de operação fiscal já existe!')
-
-        return res
-
-    @api.one
-    @api.constrains('codigo', 'nome')
-    def constrains_codigo(self):
-        self._valida_codigo()
-
-    @api.onchange('codigo', 'nome')
-    def onchange_codigo(self):
-        return self._valida_codigo()
+            if len(natureza_operacao_ids) > 0:
+                raise ValidationError(u'Natureza de operação fiscal já existe!')

@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+
+from odoo import api, fields, models
 from ..constante_tributaria import *
 
 
@@ -17,9 +21,6 @@ class CFOP(models.Model):
     descricao = fields.Char('Descrição', size=512, index=True, required=True)
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', index=True, default=ENTRADA_SAIDA_SAIDA)
     posicao = fields.Selection(POSICAO_CFOP, 'Posição', index=True)
-    #dentro_estado = fields.Boolean('Dentro do estado?', index=True)
-    #fora_estado = fields.Boolean('Fora do estado?', index=True)
-    #fora_pais = fields.Boolean('Fora do país?', index=True)
     gera_pis_cofins = fields.Boolean('Gera crédito de PIS-COFINS (entrada)/paga PIS-COFINS (saída)?')
     natureza_bc_credito_pis_cofins = fields.Char('Natureza da BC do crédito de PIS-COFINS', size=2)
     gera_ipi = fields.Boolean('Gera crédito de IPI (entrada)/paga IPI (saída)?')
@@ -31,47 +32,43 @@ class CFOP(models.Model):
     cfop_fora_pais_id = fields.Many2one('sped.cfop', 'CFOP equivalente para fora do país')
     cfop_entrada_id = fields.Many2one('sped.cfop', 'CFOP padrão para entrada')
     movimentacao_fisica = fields.Boolean('Há movimentação física do produto?')
-    #nome': fields.function(_get_nome_funcao, type='char', string='Nome', fnct_search=_procura_nome),
 
-    #_sql_constraints = [
-        #('codigo_unique', 'unique (codigo)', 'O código não pode se repetir!'),
-    #]
+    eh_compra = fields.Boolean('É compra?', compute='_compute_eh_compra_venda')
+    eh_compra_industrializacao = fields.Boolean('É compra para industrialização?', compute='_compute_eh_compra_venda')
+    eh_compra_comercializacao = fields.Boolean('É compra para comercialização?', compute='_compute_eh_compra_venda')
+    eh_compra_ativo = fields.Boolean('É compra de ativo?', compute='_compute_eh_compra_venda')
+    eh_compra_uso_consumo = fields.Boolean('É compra para uso e consumo?', compute='_compute_eh_compra_venda')
+    eh_compra_servico = fields.Boolean('É compra de serviço?', compute='_compute_eh_compra_venda')
+    custo_venda = fields.Boolean('Compõe custo para venda?', compute='_compute_eh_compra_venda')
 
-    @api.one
+    eh_venda = fields.Boolean('É venda?', compute='_compute_eh_compra_venda')
+    eh_venda_mercadoria = fields.Boolean('É venda de mercadoria?', compute='_compute_eh_compra_venda')
+    eh_venda_ativo = fields.Boolean('É venda de ativo?', compute='_compute_eh_compra_venda')
+    eh_venda_servico = fields.Boolean('É venda de serviço?', compute='_compute_eh_compra_venda')
+
+    eh_devolucao_compra = fields.Boolean('É devolução de compra?', compute='_compute_eh_compra_venda')
+    eh_devolucao_venda = fields.Boolean('É devolução de venda?', compute='_compute_eh_compra_venda')
+
+    calcula_simples_csll_irpj = fields.Boolean('Calcula SIMPLES, CSLL e IRPJ?', compute='_compute_eh_compra_venda')
+
     @api.depends('codigo')
-    def _eh_compra_venda(self):
-        self.eh_compra = self.codigo in CFOPS_COMPRA
-        self.eh_compra_industrializacao = self.codigo in CFOPS_COMPRA_INDUSTRIALIZACAO
-        self.eh_compra_comercializacao = self.codigo in CFOPS_COMPRA_COMERCIALIZACAO
-        self.eh_compra_ativo = self.codigo in CFOPS_COMPRA_ATIVO
-        self.eh_compra_uso_consumo = self.codigo in CFOPS_USO_CONSUMO
-        self.eh_compra_servico = self.codigo in CFOPS_COMPRA_SERVICO
-        self.custo_venda = self.codigo in CFOPS_COMPRA_CUSTO_VENDA
+    def _compute_eh_compra_venda(self):
+        for cfop in self:
+            cfop.eh_compra = cfop.codigo in CFOPS_COMPRA
+            cfop.eh_compra_industrializacao = cfop.codigo in CFOPS_COMPRA_INDUSTRIALIZACAO
+            cfop.eh_compra_comercializacao = cfop.codigo in CFOPS_COMPRA_COMERCIALIZACAO
+            cfop.eh_compra_ativo = cfop.codigo in CFOPS_COMPRA_ATIVO
+            cfop.eh_compra_uso_consumo = cfop.codigo in CFOPS_USO_CONSUMO
+            cfop.eh_compra_servico = cfop.codigo in CFOPS_COMPRA_SERVICO
+            cfop.custo_venda = cfop.codigo in CFOPS_COMPRA_CUSTO_VENDA
 
-        self.eh_venda = self.codigo in CFOPS_VENDA_MERCADORIA or self.codigo in CFOPS_VENDA_ATIVO or self.codigo in CFOPS_VENDA_SERVICO
-        self.eh_venda_mercadoria = self.codigo in CFOPS_VENDA_MERCADORIA
-        self.eh_venda_ativo = self.codigo in CFOPS_VENDA_ATIVO
-        self.eh_venda_servico = self.codigo in CFOPS_VENDA_SERVICO
+            cfop.eh_venda = (cfop.codigo in CFOPS_VENDA_MERCADORIA) or (cfop.codigo in CFOPS_VENDA_ATIVO) or \
+                            (cfop.codigo in CFOPS_VENDA_SERVICO)
+            cfop.eh_venda_mercadoria = cfop.codigo in CFOPS_VENDA_MERCADORIA
+            cfop.eh_venda_ativo = cfop.codigo in CFOPS_VENDA_ATIVO
+            cfop.eh_venda_servico = cfop.codigo in CFOPS_VENDA_SERVICO
 
-        self.eh_devolucao_compra = self.codigo in CFOPS_DEVOLUCAO_COMPRA
-        self.eh_devolucao_venda = self.codigo in CFOPS_DEVOLUCAO_VENDA
+            cfop.eh_devolucao_compra = cfop.codigo in CFOPS_DEVOLUCAO_COMPRA
+            cfop.eh_devolucao_venda = cfop.codigo in CFOPS_DEVOLUCAO_VENDA
 
-        self.calcula_simples_csll_irpj = self.codigo in CFOPS_CALCULA_SIMPLES_CSLL_IRPJ
-
-    eh_compra = fields.Boolean('É compra?', compute=_eh_compra_venda)
-    eh_compra_industrializacao = fields.Boolean('É compra para industrialização?', compute=_eh_compra_venda)
-    eh_compra_comercializacao = fields.Boolean('É compra para comercialização?', compute=_eh_compra_venda)
-    eh_compra_ativo = fields.Boolean('É compra de ativo?', compute=_eh_compra_venda)
-    eh_compra_uso_consumo = fields.Boolean('É compra para uso e consumo?', compute=_eh_compra_venda)
-    eh_compra_servico = fields.Boolean('É compra de serviço?', compute=_eh_compra_venda)
-    custo_venda = fields.Boolean('Compõe custo para venda?', compute=_eh_compra_venda)
-
-    eh_venda = fields.Boolean('É venda?', compute=_eh_compra_venda)
-    eh_venda_mercadoria = fields.Boolean('É venda de mercadoria?', compute=_eh_compra_venda)
-    eh_venda_ativo = fields.Boolean('É venda de ativo?', compute=_eh_compra_venda)
-    eh_venda_servico = fields.Boolean('É venda de serviço?', compute=_eh_compra_venda)
-
-    eh_devolucao_compra = fields.Boolean('É devolução de compra?', compute=_eh_compra_venda)
-    eh_devolucao_venda = fields.Boolean('É devolução de venda?', compute=_eh_compra_venda)
-
-    calcula_simples_csll_irpj = fields.Boolean('Calcula SIMPLES, CSLL e IRPJ?', compute=_eh_compra_venda)
+            cfop.calcula_simples_csll_irpj = cfop.codigo in CFOPS_CALCULA_SIMPLES_CSLL_IRPJ

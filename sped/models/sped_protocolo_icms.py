@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
-from pybrasil.valor import formata_valor
 
 
 class ProtocoloICMS(models.Model):
@@ -52,6 +56,8 @@ class ProtocoloICMS(models.Model):
     aliquota_TO_ids = fields.One2many('sped.protocolo.icms.aliquota', 'protocolo_id', 'Alíquotas do Tocantins', domain=[('estado_origem_id.uf', '=', 'TO')])
 
     def _valida_descricao(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -80,17 +86,19 @@ class ProtocoloICMS(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('descricao')
-    def constrains_descricao(self):
-        self._valida_descricao()
+    def _constrains_descricao(self):
+        for protocolo in self:
+            protocolo._valida_descricao()
 
     @api.onchange('descricao')
-    def onchange_descricao(self):
+    def _onchange_descricao(self):
         return self._valida_descricao()
 
-    @api.one
+    @api.multi
     def atualizar_tabela(self):
+        self.ensure_one()
+
         sped_estado = self.env['sped.estado']
         sped_aliquota_icms = self.env['sped.aliquota.icms.proprio']
         sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
@@ -130,9 +138,8 @@ class ProtocoloICMS(models.Model):
     mva = fields.Porcentagem('MVA original')
     ncm_ids = fields.One2many('sped.protocolo.icms.ncm', 'protocolo_id', 'NCMs')
 
-    @api.one
-    @api.depends('tipo', 'ncm', 'ex', 'mva')
     def exclui_ncm(self):
+        self.ensure_one()
         #
         # Excluímos os anteriores
         #
@@ -149,9 +156,9 @@ class ProtocoloICMS(models.Model):
 
         protocolo_ncm_ids.unlink()
 
-    @api.one
-    @api.depends('tipo', 'ncm', 'ex', 'mva')
     def insere_ncm(self):
+        self.ensure_one()
+
         if (self.tipo == 'P' and (not self.ncm)) or (self.tipo == 'S' and (not (self.ncm and self.mva))):
             return
 
@@ -159,7 +166,6 @@ class ProtocoloICMS(models.Model):
         # Excluímos os anteriores
         #
         self.exclui_ncm()
-        print('excluiu ncms')
 
         sped_ncm = self.env['sped.ncm']
 
@@ -168,11 +174,9 @@ class ProtocoloICMS(models.Model):
         else:
             ncm_ids = sped_ncm.search([('codigo', '=ilike', self.ncm + '%')])
 
-        print('ncm', ncm_ids)
         protocolo_ncm = self.env['sped.protocolo.icms.ncm']
 
         for ncm in ncm_ids:
-            print('ncm', ncm)
             dados = {
                 'protocolo_id': self.id,
                 'ncm_id': ncm.id,
@@ -185,6 +189,8 @@ class ProtocoloICMS(models.Model):
         self.mva = 0
 
     def busca_aliquota(self, estado_origem, estado_destino, data, empresa=None):
+        self.ensure_one()
+
         busca = [
             ('protocolo_id', '=', self.id),
             ('estado_origem_id.uf', '=', estado_origem),
@@ -231,13 +237,6 @@ class ProtocoloICMSAliquota(models.Model):
     al_icms_proprio_id = fields.Many2one('sped.aliquota.icms.proprio', 'ICMS próprio', required=True)
     al_icms_st_id = fields.Many2one('sped.aliquota.icms.st', 'ICMS ST')
     infadic = fields.Text('Informações adicionais')
-
-    @api.one
-    @api.depends('estado_origem_id', 'estado_destino_id')
-    def _interna(self):
-        self.interna = self.estado_origem_id.uf == self.estado_destino_id.uf
-
-    interna = fields.Boolean(string='Interna', compute=_interna, store=True)
 
 
 class ProtocoloICMSNCM(models.Model):
