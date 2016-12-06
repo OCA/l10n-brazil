@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+
+from odoo import fields, models
 from ..constante_tributaria import *
-from pybrasil.valor.decimal import Decimal as D
 
 
 class OperacaoFiscal(models.Model):

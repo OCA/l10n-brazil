@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 
 
-class nbs(models.Model):
+class NBS(models.Model):
     _description = 'nbs'
     _name = 'sped.nbs'
     _order = 'codigo'
@@ -14,39 +19,22 @@ class nbs(models.Model):
 
     codigo = fields.Char('Código', size=9, required=True, index=True)
     descricao = fields.NameChar('Descrição', size=255, required=True, index=True)
+    codigo_formatado = fields.Char(string='nbs', compute='_compute_nbs', store=True)
+    nbs = fields.Char(string='nbs', compute='_compute_nbs', store=True)
 
-    @api.one
     @api.depends('codigo', 'descricao')
     def _nbs(self):
-        self.codigo_formatado = self.codigo[0] + '.' + self.codigo[1:5] + '.' + self.codigo[5:7] + '.' + self.codigo[7:]
+        for nbs in self:
+            nbs.codigo_formatado = nbs.codigo[0] + '.' + nbs.codigo[1:5] + '.' + nbs.codigo[5:7] + '.' + nbs.codigo[7:]
+            nbs.nbs = nbs.codigo_formatado + ' - ' + nbs.descricao[:60]
 
-        self.nbs = self.codigo_formatado + ' - ' + self.descricao[:60]
+    @api.depends('codigo')
+    def _check_codigo(self):
+        for nbs in self:
+            if nbs.id:
+                nbs_ids = self.search([('codigo', '=', nbs.codigo), ('id', '!=', nbs.id)])
+            else:
+                nbs_ids = self.search([('codigo', '=', nbs.codigo)])
 
-    codigo_formatado = fields.Char(string='nbs', compute=_nbs, store=True)
-    nbs = fields.Char(string='nbs', compute=_nbs, store=True)
-
-    def _valida_codigo(self):
-        valores = {}
-        res = {'value': valores}
-
-        if (not self.codigo):
-            return res
-
-        if self.id:
-            nbs_ids = self.search([('codigo', '=', self.codigo), ('id', '!=', self.id)])
-        else:
-            nbs_ids = self.search([('codigo', '=', self.codigo)])
-
-        if len(nbs_ids) > 0:
-            raise ValidationError('Código já existe na tabela!')
-
-        return res
-
-    @api.one
-    @api.constrains('codigo')
-    def constrains_codigo(self):
-        self._valida_codigo()
-
-    @api.onchange('codigo')
-    def onchange_codigo(self):
-        return self._valida_codigo()
+            if len(nbs_ids) > 0:
+                raise ValidationError('Código NBS já existe na tabela!')

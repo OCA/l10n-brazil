@@ -1,11 +1,23 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from pybrasil.data import parse_datetime
-from pybrasil.valor.decimal import Decimal as D
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.data import parse_datetime
+    from pybrasil.valor.decimal import Decimal as D
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
 
 
 class IBPTax(models.Model):
@@ -21,8 +33,10 @@ class IBPTax(models.Model):
     nbs_ids = fields.One2many('sped.ibptax.nbs', 'ibptax_id', 'NBSs')
     servico_ids = fields.One2many('sped.ibptax.servico', 'ibptax_id', 'Serviços')
 
-    @api.one
+    @api.multi
     def atualizar_tabela(self):
+        self.ensure_one()
+
         sped_ncm = self.env['sped.ncm']
         sped_nbs = self.env['sped.nbs']
         sped_servico = self.env['sped.servico']
@@ -33,7 +47,7 @@ class IBPTax(models.Model):
         ibptax_servico = self.env['sped.ibptax.servico']
 
         versao = '16.2.B'
-        arquivo = '/home/ari/projetos/odoo_br/sped/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(uf=self.estado_id.uf, versao=versao)
+        arquivo = '/home/ari/tauga/odoo_br/sped/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(uf=self.estado_id.uf, versao=versao)
 
         ncm_ids = ibptax_ncm.search([('ibptax_id', '=', self.id)])
         ncm_ids.unlink()
