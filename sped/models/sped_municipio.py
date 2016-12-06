@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from openerp import models, fields, api
+
+from odoo import models, fields, api
 
 
 class Municipio(models.Model):
@@ -68,11 +73,10 @@ class Municipio(models.Model):
     cep_unico = fields.Char('CEP único', size=9)
 
     _sql_constraints = [
-        ('codigo_ibge_unique', 'unique (codigo_ibge)', 'O código IBGE não pode se repetir!'),
+        #('codigo_ibge_unique', 'unique (codigo_ibge)', 'O código IBGE não pode se repetir!'),
         ('nome_estado_pais_unique', 'unique (nome, estado_id, pais_id)', 'O nome, estado e país não podem se repetir!'),
     ]
 
-    @api.multi
     def name_get(self):
         res = []
         for municipio in self:

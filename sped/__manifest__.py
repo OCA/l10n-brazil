@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 {
     'name': u'SPED',
-    'version': '1.0',
+    'version': '10.0.0.0.0',
     'author': u'Ari Caldeira',
     'maintainer': u'Taŭga Tecnologia',
     'category': u'Base',
-    'description': u'Módulo Fiscal Brasil - Odoo',
     'depends': [
         'base',
         'document',
@@ -19,7 +22,7 @@
         #
         # Valores padrão
         #
-        'data/res_currency_data.xml',
+        'data/inherited_res_currency_data.xml',
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
@@ -33,9 +36,8 @@
         'data/sped_aliquota_simples_teto_data.xml',
         'data/sped_aliquota_simples_aliquota_data.xml',
 
-        'data/sped_cest_data.xml',
         'data/sped_ncm_data.xml',
-        'data/sped_ncm_cest_data.xml',
+        'data/sped_cest_data.xml',
         'data/sped_cnae_data.xml',
         'data/sped_cfop_data.xml',
         'data/sped_cfop_equivalente_data.xml',

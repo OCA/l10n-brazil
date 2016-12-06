@@ -1,13 +1,27 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao, formata_inscricao_estadual, valida_cnpj, valida_cpf, valida_inscricao_estadual)
-from pybrasil.telefone import (formata_fone, valida_fone_fixo, valida_fone_celular, valida_fone_internacional, valida_fone, formata_varios_fones)
-from pybrasil.base import mascara, primeira_maiuscula
-from email_validator import validate_email, EmailNotValidError
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from email_validator import validate_email
+
+    from pybrasil.base import mascara, primeira_maiuscula
+    from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao, formata_inscricao_estadual, valida_cnpj, valida_cpf, valida_inscricao_estadual)
+    from pybrasil.telefone import (formata_fone, valida_fone_fixo, valida_fone_celular, valida_fone_internacional)
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
 
@@ -15,7 +29,6 @@ class Participante(models.Model):
     _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
     _inherit = 'mail.thread'
-    #_inherits = 'res.partner'
     _name = 'sped.participante'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
@@ -42,27 +55,9 @@ class Participante(models.Model):
     eh_usuario = fields.Boolean('É usuário?', index=True)
     eh_funcionario = fields.Boolean('É funcionário?')
 
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18,  help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha', index=True, required=True)
-    tipo_pessoa = fields.Char('Tipo pessoa', size=1, compute='_tipo_pessoa', store=True, index=True)
-
-    @api.one
-    @api.depends('cnpj_cpf')
-    def _tipo_pessoa(self):
-        self.tipo_pessoa = 'I'
-
-        if self.cnpj_cpf:
-            if self.cnpj_cpf[:2] == 'EX':
-                self.tipo_pessoa = 'E'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-
-            elif len(self.cnpj_cpf) == 18:
-                self.tipo_pessoa = 'J'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_ISENTO
-
-            else:
-                self.tipo_pessoa = 'F'
-                self.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18, index=True, required=True,
+                           help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha')
+    tipo_pessoa = fields.Char('Tipo pessoa', size=1, compute='_compute_tipo_pessoa', store=True, index=True)
     razao_social = fields.Char('Razão Social', size=60, index=True, required=True)
     fantasia = fields.Char('Fantasia', size=60, index=True)
     endereco = fields.Char('Endereço', size=60, required=True)
@@ -125,6 +120,24 @@ class Participante(models.Model):
     transportadora_id = fields.Many2one('res.partner', string='Transportadora', ondelete='restrict')
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, string='Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES, index=True)
 
+    @api.depends('cnpj_cpf')
+    def _compute_tipo_pessoa(self):
+        for participante in self:
+            participante.tipo_pessoa = 'I'
+
+            if participante.cnpj_cpf:
+                if participante.cnpj_cpf[:2] == 'EX':
+                    participante.tipo_pessoa = 'E'
+                    participante.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+
+                elif len(participante.cnpj_cpf) == 18:
+                    participante.tipo_pessoa = 'J'
+                    participante.contribuinte = INDICADOR_IE_DESTINATARIO_ISENTO
+
+                else:
+                    participante.tipo_pessoa = 'F'
+                    participante.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+
     #@api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
     #def name_get(self, cr, uid, ids, context={}):
         #if not len(ids):
@@ -176,6 +189,8 @@ class Participante(models.Model):
         return super(Participante, self).name_search(name=name, args=args, operator=operator, limit=limit)
 
     def _valida_cnpj_cpf(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -211,16 +226,18 @@ class Participante(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('cnpj_cpf')
     def constrains_cnpj_cpf(self):
-        self._valida_cnpj_cpf()
+        for participante in self:
+            participante._valida_cnpj_cpf()
 
     @api.onchange('cnpj_cpf')
     def onchange_cnpj_cpf(self):
         return self._valida_cnpj_cpf()
 
     def _valida_fone(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -244,16 +261,18 @@ class Participante(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('fone', 'celular', 'fone_comercial')
     def constrains_fone(self):
-        self._valida_fone()
+        for participante in self:
+            participante._valida_fone()
 
     @api.onchange('fone', 'celular', 'fone_comercial')
     def onchange_fone(self):
         return self._valida_fone()
 
     def _valida_cep(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -268,16 +287,18 @@ class Participante(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('cep')
     def constrains_cep(self):
         self._valida_cep()
 
     @api.onchange('cep')
     def onchange_cep(self):
-        return self._valida_cep()
+        for participante in self:
+            participante._valida_cep()
 
     def _valida_ie(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -305,16 +326,18 @@ class Participante(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('suframa', 'ie', 'municipio_id', 'contribuinte')
-    def constrains_ie(self):
-        self._valida_ie()
+    def _constrains_ie(self):
+        for participante in self:
+            participante._valida_ie()
 
     @api.onchange('suframa', 'ie', 'municipio_id', 'contribuinte')
-    def onchange_ie(self):
+    def _onchange_ie(self):
         return self._valida_ie()
 
     def _valida_email(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -358,10 +381,10 @@ class Participante(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('email', 'email_nfe')
     def constrains_email(self):
-        self._valida_email()
+        for participante in self:
+            participante._valida_email()
 
     @api.onchange('email', 'email_nfe')
     def onchange_email(self):
@@ -442,6 +465,8 @@ class Participante(models.Model):
 
         :return:
         """
+        self.ensure_one()
+
         endereco = self.endereco + ', ' + self.numero
         if self.complemento:
             endereco += ' - ' + self.complemento
@@ -562,4 +587,3 @@ class Participante(models.Model):
             valores['eh_usuario'] = True
         else:
             valores['eh_usuario'] = False
-

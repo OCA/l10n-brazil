@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="True">
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
 
     <!-- Unidade; a mais comum -->
 
@@ -130,7 +134,6 @@
     </record>
 
     <!-- Volume -->
-
 
     <record id="UNIDADE_MILILITRO" model="sped.unidade">
         <field name="tipo">V</field>
@@ -361,6 +364,21 @@
         <field name="subunidade_id" />
     </record>
 
+    <record id="UNIDADE_CARTELA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cart</field>
+        <field name="nome">Cartela</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">cartela</field>
+        <field name="nome_plural">cartelas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
     <record id="UNIDADE_CENTO" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cento</field>
@@ -383,21 +401,6 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">conjunto</field>
         <field name="nome_plural">conjuntos</field>
-        <field name="usa_virgula" eval="True" />
-        <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">10.000000</field>
-        <field name="precisao_decimal">2.000000</field>
-        <field name="arredondamento">0</field>
-        <field name="subunidade_id" />
-    </record>
-
-    <record id="UNIDADE_CARTELA" model="sped.unidade">
-        <field name="tipo">U</field>
-        <field name="codigo">cart</field>
-        <field name="nome">Cartela</field>
-        <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">cartela</field>
-        <field name="nome_plural">cartelas</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">10.000000</field>
@@ -828,6 +831,21 @@
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
     </record>
 
+    <record id="UNIDADE_MEGAWATT_HORA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">MW/h</field>
+        <field name="nome">Megawatts por Hora</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">megawatt por hora</field>
+        <field name="nome_plural">megawatts por hora</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
     <record id="UNIDADE_PACOTE" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">pacote</field>
@@ -897,8 +915,23 @@
         <field name="nome_plural">potes</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_QUILATE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">K</field>
+        <field name="nome">Quilate</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">quilate</field>
+        <field name="nome_plural">quilates</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -927,8 +960,8 @@
         <field name="nome_plural">rolos</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -942,8 +975,8 @@
         <field name="nome_plural">sacos</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -972,8 +1005,8 @@
         <field name="nome_plural">tambores</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -987,8 +1020,8 @@
         <field name="nome_plural">tanques</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -1002,8 +1035,8 @@
         <field name="nome_plural">tubos</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -1017,8 +1050,8 @@
         <field name="nome_plural">vasilhames</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>
@@ -1032,8 +1065,8 @@
         <field name="nome_plural">vidros</field>
         <field name="usa_virgula" eval="True" />
         <field name="usa_meio" eval="True" />
-        <field name="fator_relacao_decimal">2.000000</field>
-        <field name="precisao_decimal">1.000000</field>
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
     </record>

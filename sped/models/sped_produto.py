@@ -1,11 +1,24 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.produto import valida_ean
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
-from pybrasil.produto import valida_ean
 
 
 class Produto(models.Model):
@@ -17,7 +30,6 @@ class Produto(models.Model):
     _rec_name = 'nome'
 
     #product_id = fields.Many2one('product.product', 'Product original', ondelete='restrict', required=True)
-
 
     #company_id = fields.Many2one('res.company', string='Empresa', ondelete='restrict')
     nome = fields.NameChar(string='Nome', size=120, index=True)
@@ -49,6 +61,8 @@ class Produto(models.Model):
     unidade_id = fields.Many2one('sped.unidade', 'Unidade')
 
     def _valida_codigo_barras(self):
+        self.ensure_one()
+
         valores = {}
         res = {'value': valores}
 
@@ -60,10 +74,10 @@ class Produto(models.Model):
 
         return res
 
-    @api.one
     @api.constrains('codigo_barras')
-    def constrains_codigo_barras(self):
-        self._valida_codigo_barras()
+    def _constrains_codigo_barras(self):
+        for produto in self:
+            produto._valida_codigo_barras()
 
     @api.onchange('codigo_barras')
     def onchange_codigo_barras(self):

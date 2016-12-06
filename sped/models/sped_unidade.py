@@ -1,21 +1,34 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
 
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from pybrasil.valor import valor_por_extenso_unidade
-from pybrasil.valor.decimal import Decimal as D
+
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.valor import valor_por_extenso_unidade
+    from pybrasil.valor.decimal import Decimal as D
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 TIPO_UNIDADE = (
-    ('U', u'Unidade'),
-    ('P', u'Peso'),
-    ('V', u'Volume'),
-    ('C', u'Comprimento'),
-    ('A', u'Área'),
-    ('T', u'Tempo'),
-    ('E', u'Embalagem'),
+    ('U', 'Unidade'),
+    ('P', 'Peso'),
+    ('V', 'Volume'),
+    ('C', 'Comprimento'),
+    ('A', 'Área'),
+    ('T', 'Tempo'),
+    ('E', 'Embalagem'),
 )
 
 
@@ -36,112 +49,84 @@ class Unidade(models.Model):
     TIPO_UNIDADE_TEMPO = 'T'
     TIPO_UNIDADE_EMBALAGEM = 'E'
 
-    tipo = fields.Selection(TIPO_UNIDADE, string=u'Tipo', required=True, index=True)
-    codigo = fields.Char(string=u'Código', size=10, index=True)
-    codigo_unico = fields.LowerChar(string=u'Código', size=10, index=True, compute='_codigo_unico', store=True)
+    tipo = fields.Selection(TIPO_UNIDADE, string='Tipo', required=True, index=True)
+    codigo = fields.Char(string='Código', size=10, index=True)
+    codigo_unico = fields.LowerChar(string='Código', size=10, index=True, compute='_compute_codigo_unico', store=True)
+    nome = fields.NameChar(string='Nome', size=60, index=True)
+    nome_unico = fields.LowerChar(string='Nome', size=60, index=True, compute='_compute_nome_unico', store=True)
 
-    @api.one
+    #
+    # Valores nas unidades por extenso
+    #
+    fator_relacao_decimal = fields.Float('Multiplica por', default=10, digits=(18, 6))
+    precisao_decimal = fields.Float('Elevado a', default=2, digits=(18, 6))
+    arredondamento = fields.Integer('Casas decimais para arredondamento', default=0)
+
+    nome_singular = fields.LowerChar(string='Singular', size=60)
+    nome_plural = fields.LowerChar(string='Plural', size=60)
+    genero_masculino = fields.Boolean(string='Nome é masculino?', default=True)
+    usa_meio = fields.Boolean(string='Usa meio?', default=False)
+    usa_virgula = fields.Boolean(string='Usa vírgula?', default=True)
+    subunidade_id = fields.Many2one('sped.unidade', string='Unidade decimal', ondelete='restrict')
+
+    #
+    # Exemplos do texto por extenso
+    #
+    extenso_zero = fields.Char(string='Ex. 0', compute='_compute_extenso')
+    extenso_singular_inteiro = fields.Char(string='Ex. 1', compute='_compute_extenso')
+    extenso_plural_inteiro = fields.Char(string='Ex. 1.234.567', compute='_compute_extenso')
+
+    extenso_singular_um_decimo = fields.Char(string='Ex. 1,01', compute='_compute_extenso')
+    extenso_singular_meio = fields.Char(string='Ex. 1,50', compute='_compute_extenso')
+    extenso_singular_decimal = fields.Char(string='Ex. 1,67', compute='_compute_extenso')
+    extenso_plural_decimal = fields.Char(string='Ex. 1.234.567,89', compute='_compute_extenso')
+
     @api.depends('codigo')
-    def _codigo_unico(self):
-        self.codigo_unico = self.codigo.lower().strip().replace(' ', ' ').replace('²', '2').replace('³', '3') if self.codigo else False
+    def _compute_codigo_unico(self):
+        for unidade in self:
+            codigo_unico = unidade.codigo or ''
+            codigo_unico = codigo_unico.lower().strip()
+            codigo_unico = codigo_unico.replace(' ', ' ')
+            codigo_unico = codigo_unico.replace('²', '2')
+            codigo_unico = codigo_unico.replace('³', '3')
+            unidade.codigo_unico = codigo_unico
 
-    def _valida_codigo(self):
-        valores = {}
-        res = {'value': valores}
-
-        if self.codigo:
-            sql = u"""
-            select
-                u.id
-            from
-                sped_unidade u
-            where
-                lower(unaccent(u.codigo_unico)) = lower(unaccent('{codigo}'))
-            """
-            sql = sql.format(codigo=self.codigo.lower().strip().replace(' ', ' '))
-
-            if self.id or self._origin.id:
-                sql += u"""
-                    and u.id != {id}
-                """
-                sql = sql.format(id=self.id or self._origin.id)
-
-            self.env.cr.execute(sql)
-            jah_existe = self.env.cr.fetchall()
-
-            if jah_existe:
-                raise ValidationError(u'Unidade de medida já existe!')
-
-        return res
-
-    @api.one
-    @api.constrains('codigo')
-    def constrains_codigo(self):
-        self._valida_codigo()
-
-    @api.onchange('codigo')
-    def onchange_codigo(self):
-        return self._valida_codigo()
-
-    nome = fields.NameChar(string=u'Nome', size=60, index=True)
-    nome_unico = fields.LowerChar(string=u'Nome', size=60, index=True, compute='_nome_unico', store=True)
-
-    @api.one
     @api.depends('nome')
-    def _nome_unico(self):
-        self.nome_unico = self.nome.lower().strip().replace(' ', ' ') if self.nome else False
+    def _compute_nome_unico(self):
+        for unidade in self:
+            nome_unico = unidade.nome or ''
+            nome_unico = nome_unico.lower().strip()
+            nome_unico = nome_unico.replace(' ', ' ')
+            nome_unico = nome_unico.replace('²', '2')
+            nome_unico = nome_unico.replace('³', '3')
+            unidade.nome_unico = nome_unico
 
-    def _valida_nome(self):
-        valores = {}
-        res = {'value': valores}
+    @api.depends('codigo')
+    def _check_codigo(self):
+        for unidade in self:
+            if unidade.id:
+                unidade_ids = self.search([('codigo_unico', '=', unidade.codigo_unico), ('id', '!=', unidade.id)])
+            else:
+                unidade_ids = self.search([('codigo_unico', '=', unidade.codigo_unico)])
 
-        if self.nome:
-            sql = u"""
-            select
-                u.id
-            from
-                sped_unidade u
-            where
-                lower(unaccent(u.nome_unico)) = lower(unaccent('{nome}'))
-            """
-            sql = sql.format(nome=self.nome.lower().strip().replace(' ', ' '))
+            if len(unidade_ids) > 0:
+                raise ValidationError('Código de unidade já existe!')
 
-            if self.id or self._origin.id:
-                sql += u"""
-                    and u.id != {id}
-                """
-                sql = sql.format(id=self.id or self._origin.id)
+    @api.depends('nome')
+    def _check_nome(self):
+        for unidade in self:
+            if unidade.id:
+                unidade_ids = self.search([('nome_unico', '=', unidade.nome_unico), ('id', '!=', unidade.id)])
+            else:
+                unidade_ids = self.search([('nome_unico', '=', unidade.nome_unico)])
 
-            self.env.cr.execute(sql)
-            jah_existe = self.env.cr.fetchall()
+            if len(unidade_ids) > 0:
+                raise ValidationError('Nome de unidade já existe!')
 
-            if jah_existe:
-                raise ValidationError(u'Nome da unidade de medida já existe!')
-
-        return res
-
-    @api.one
-    @api.constrains('nome')
-    def constrains_nome(self):
-        self._valida_nome()
-
-    @api.onchange('nome')
-    def onchange_nome(self):
-        return self._valida_nome()
-
-    fator_relacao_decimal = fields.Float(u'Multiplica por', default=10, digits=(18, 6))
-    precisao_decimal = fields.Float(u'Elevado a', default=2, digits=(18, 6))
-    arredondamento = fields.Integer(u'Casas decimais para arredondamento', default=0)
-
-    nome_singular = fields.LowerChar(string=u'Singular', size=60)
-    nome_plural = fields.LowerChar(string=u'Plural', size=60)
-    genero_masculino = fields.Boolean(string=u'Nome é masculino?', default=True)
-    usa_meio = fields.Boolean(string=u'Usa meio?', default=False)
-    usa_virgula = fields.Boolean(string=u'Usa vírgula?', default=True)
-    subunidade_id = fields.Many2one('sped.unidade', string=u'Unidade decimal', ondelete='restrict')
-
-    @api.one
+    @api.multi
     def extenso(self, numero=D(0)):
+        self.ensure_one()
+
         parametros = {
             'numero': numero,
             'unidade': ('unidade', 'unidades'),
@@ -170,86 +155,67 @@ class Unidade(models.Model):
 
         return valor_por_extenso_unidade(**parametros)
 
-    @api.one
     @api.depends('nome_singular', 'nome_plural', 'genero_masculino', 'usa_meio', 'subunidade_id', 'usa_virgula', 'fator_relacao_decimal', 'precisao_decimal')
-    def _extenso(self):
-        parametros = {
-            'numero': 0,
-            'unidade': ('unidade', 'unidades'),
-            'genero_unidade_masculino': False,
-            'precisao_decimal': 0,
-            'unidade_decimal': ('subunidade', 'subunidades'),
-            'genero_unidade_decimal_masculino': False,
-            'mascara_negativo': ('menos %s', 'menos %s'),
-            'fator_relacao_decimal': self.fator_relacao_decimal or 10,
-            'usa_meio': self.usa_meio,
-            'usa_fracao': False,
-            'usa_virgula': self.usa_virgula,
-        }
+    def _compute_extenso(self):
+        for unidade in self:
+            parametros = {
+                'numero': 0,
+                'unidade': ('unidade', 'unidades'),
+                'genero_unidade_masculino': False,
+                'precisao_decimal': 0,
+                'unidade_decimal': ('subunidade', 'subunidades'),
+                'genero_unidade_decimal_masculino': False,
+                'mascara_negativo': ('menos %s', 'menos %s'),
+                'fator_relacao_decimal': unidade.fator_relacao_decimal or 10,
+                'usa_meio': unidade.usa_meio,
+                'usa_fracao': False,
+                'usa_virgula': unidade.usa_virgula,
+            }
 
-        if self.nome_singular and self.nome_plural:
-            parametros['unidade'] = (self.nome_singular, self.nome_plural)
-            parametros['genero_unidade_masculino'] = self.genero_masculino
+            if unidade.nome_singular and unidade.nome_plural:
+                parametros['unidade'] = (unidade.nome_singular, unidade.nome_plural)
+                parametros['genero_unidade_masculino'] = unidade.genero_masculino
 
-        if self.subunidade_id and self.subunidade_id.nome_singular and self.subunidade_id.nome_plural:
-            parametros['unidade_decimal'] = (self.subunidade_id.nome_singular, self.subunidade_id.nome_plural)
-            parametros['genero_unidade_decimal_masculino'] = self.subunidade_id.genero_masculino
+            if unidade.subunidade_id and unidade.subunidade_id.nome_singular and unidade.subunidade_id.nome_plural:
+                parametros['unidade_decimal'] = (unidade.subunidade_id.nome_singular, unidade.subunidade_id.nome_plural)
+                parametros['genero_unidade_decimal_masculino'] = unidade.subunidade_id.genero_masculino
 
-        self.extenso_zero = valor_por_extenso_unidade(**parametros)
-        parametros['numero'] = D('1')
-        self.extenso_singular_inteiro = valor_por_extenso_unidade(**parametros)
-        parametros['numero'] = D('1234567')
-        self.extenso_plural_inteiro = valor_por_extenso_unidade(**parametros)
+            unidade.extenso_zero = valor_por_extenso_unidade(**parametros)
+            parametros['numero'] = D('1')
+            unidade.extenso_singular_inteiro = valor_por_extenso_unidade(**parametros)
+            parametros['numero'] = D('1234567')
+            unidade.extenso_plural_inteiro = valor_por_extenso_unidade(**parametros)
 
-        parametros['precisao_decimal'] = self.precisao_decimal or 0
+            parametros['precisao_decimal'] = unidade.precisao_decimal or 0
 
-        if self.usa_virgula:
-            parametros['fator_relacao_decimal'] = 10
-            parametros['precisao_decimal'] = 2
+            if unidade.usa_virgula:
+                parametros['fator_relacao_decimal'] = 10
+                parametros['precisao_decimal'] = 2
 
-        if self.usa_meio or self.subunidade_id or self.usa_virgula:
-            parametros['numero'] = D('1.5')
-            self.extenso_singular_meio = valor_por_extenso_unidade(**parametros)
-        else:
-            self.extenso_singular_meio = self.extenso_singular_inteiro
+            if unidade.usa_meio or unidade.subunidade_id or unidade.usa_virgula:
+                parametros['numero'] = D('1.5')
+                unidade.extenso_singular_meio = valor_por_extenso_unidade(**parametros)
+            else:
+                unidade.extenso_singular_meio = unidade.extenso_singular_inteiro
 
-        if self.subunidade_id or self.usa_virgula:
-            parametros['numero'] = D('1.01')
-            self.extenso_singular_um_decimo = valor_por_extenso_unidade(**parametros)
-            parametros['numero'] = D('1.67')
-            self.extenso_singular_decimal = valor_por_extenso_unidade(**parametros)
-            parametros['numero'] = D('1234567.89')
-            self.extenso_plural_decimal = valor_por_extenso_unidade(**parametros)
-        else:
-            self.extenso_singular_um_decimo = self.extenso_singular_inteiro
-            self.extenso_singular_decimal = self.extenso_singular_inteiro
-            self.extenso_plural_decimal = self.extenso_plural_inteiro
-
-    extenso_zero = fields.Char(string=u'Ex. 0', compute=_extenso)
-    extenso_singular_inteiro = fields.Char(string=u'Ex. 1', compute=_extenso)
-    extenso_plural_inteiro = fields.Char(string=u'Ex. 1.234.567', compute=_extenso)
-
-    extenso_singular_um_decimo = fields.Char(string=u'Ex. 1,01', compute=_extenso)
-    extenso_singular_meio = fields.Char(string=u'Ex. 1,50', compute=_extenso)
-    extenso_singular_decimal = fields.Char(string=u'Ex. 1,67', compute=_extenso)
-    extenso_plural_decimal = fields.Char(string=u'Ex. 1.234.567,89', compute=_extenso)
-
-    _sql_constraints = [
-        ('codigo_unique', 'unique(codigo_unico)', u'Código da unidade de medida não pode se repetir'),
-        ('nome_unique', 'unique(nome_unico)', u'Nome da unidade de medida não pode se repetir'),
-    ]
+            if unidade.subunidade_id or unidade.usa_virgula:
+                parametros['numero'] = D('1.01')
+                unidade.extenso_singular_um_decimo = valor_por_extenso_unidade(**parametros)
+                parametros['numero'] = D('1.67')
+                unidade.extenso_singular_decimal = valor_por_extenso_unidade(**parametros)
+                parametros['numero'] = D('1234567.89')
+                unidade.extenso_plural_decimal = valor_por_extenso_unidade(**parametros)
+            else:
+                unidade.extenso_singular_um_decimo = unidade.extenso_singular_inteiro
+                unidade.extenso_singular_decimal = unidade.extenso_singular_inteiro
+                unidade.extenso_plural_decimal = unidade.extenso_plural_inteiro
 
     @api.model
     def name_search(self, name='', args=[], operator='ilike', limit=100):
-        if name and operator in ('=', 'ilike', '=ilike', 'like'):
-            #if operator != '=':
-                #name = name.strip().replace(' ', '%')
-
+        if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
+            name = name.replace(' ', ' ')
             name = name.replace('²', '2')
             name = name.replace('³', '3')
-
-            args += [['codigo_unico', 'ilike', name]]
-
-        print(name, args)
+            args += ['|', ['codigo_unico', operator, name], ['nome_unico', operator, name]]
 
         return super(Unidade, self).name_search(name=name, args=args, operator=operator, limit=limit)
