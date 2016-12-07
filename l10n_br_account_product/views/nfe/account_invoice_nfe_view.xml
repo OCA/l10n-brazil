@@ -355,6 +355,7 @@
                                     <field name="inss_wh" />
                                 </group>
                                 <group>
+                                    <field name="amount_pis_cofins_csll" invisible="1"/>
                                     <field name="issqn_value_wh" />
                                     <field name="pis_value_wh" />
                                     <field name="cofins_value_wh" />

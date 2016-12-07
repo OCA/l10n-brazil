@@ -175,6 +175,8 @@ class AccountInvoice(models.Model):
             inv.inss_value = sum(line.inss_value for line in inv.invoice_line
                                  if line.product_type == 'service')
 
+            inv.amount_pis_cofins_csll = inv.service_cofins_value + \
+                                         inv.service_pis_value + inv.csll_value
             inv.amount_total = inv.amount_tax + inv.amount_untaxed
             inv.amount_wh = (inv.issqn_value_wh + inv.pis_value_wh + inv.
                              cofins_value_wh + inv.csll_value_wh + inv.
@@ -503,6 +505,11 @@ class AccountInvoice(models.Model):
         store=True, digits_compute=dp.get_precision('Account'))
     amount_services = fields.Float(
         string=u'Total dos serviços',
+        compute='_amount_all_service',
+        store=True,
+        digits_compute=dp.get_precision('Account'))
+    amount_pis_cofins_csll = fields.Float(
+        string=u'PIS/CONFINS/CSLL',
         compute='_amount_all_service',
         store=True,
         digits_compute=dp.get_precision('Account'))
@@ -875,22 +882,22 @@ class AccountInvoice(models.Model):
     @api.multi
     def compute_withholding(self):
         for inv in self:
-            if inv.pis_value > inv.company_id.cofins_csll_pis_wh_base and \
-                    inv.pis_wh:
+            if (inv.amount_pis_cofins_csll
+                    > inv.company_id.cofins_csll_pis_wh_base) and inv.pis_wh:
                 inv.pis_value_wh = inv.pis_value
             else:
                 inv.pis_wh = False
                 inv.pis_value_wh = 0.0
 
-            if inv.cofins_value > inv.company_id.cofins_csll_pis_wh_base and \
-                    inv.cofins_wh:
+            if (inv.amount_pis_cofins_csll
+                    > inv.company_id.cofins_csll_pis_wh_base) and inv.cofins_wh:
                 inv.cofins_value_wh = inv.cofins_value
             else:
                 inv.cofins_wh = False
                 inv.cofins_value_wh = 0.0
 
-            if inv.csll_value > inv.company_id.cofins_csll_pis_wh_base and \
-                    inv.csll_wh:
+            if (inv.amount_pis_cofins_csll
+                    > inv.company_id.cofins_csll_pis_wh_base) and inv.csll_wh:
                 inv.csll_value_wh = inv.csll_value
             else:
                 inv.csll_wh = False
