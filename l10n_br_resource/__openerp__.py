@@ -19,6 +19,7 @@
     },
     'data': [
         'views/resource_calendar.xml',
+        'views/resource_calendar_leaves.xml',
     ],
     'demo': [
         'demo/resource_calendar.xml',
