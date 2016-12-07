@@ -3,18 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 from datetime import datetime, timedelta
 from openerp import tools
 
-_logger = logging.getLogger(__name__)
-
-try:
-    from pybrasil.feriado.constantes import (
-        TIPO_FERIADO, ABRANGENCIA_FERIADO,
-    )
-except ImportError:
-    _logger.info('Cannot import pybrasil')
+from pybrasil.feriado.constantes import (
+    TIPO_FERIADO, ABRANGENCIA_FERIADO, QUANDO_FERIADO, AJUSTE_FERIADO
+)
 
 
 class ResourceCalendar(models.Model):
