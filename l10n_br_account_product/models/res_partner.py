@@ -115,8 +115,6 @@ class AccountFiscalPosition(models.Model):
                             'ipi_guideline':  tax_def.tax_ipi_guideline_id,
                         }
 
-            # FIXME se tiver com o admin pegar impostos de outras empresas
-                product_ncm_tax_def = product_fc.sale_tax_definition_line
             elif self.env.context.get('fiscal_type', 'product') == 'service':
                 service_taxes = \
                     product.service_type_id.service_tax_definition_line
@@ -127,7 +125,8 @@ class AccountFiscalPosition(models.Model):
                             'tax': tax_def.tax_id,
                             'tax_code': tax_def.tax_code_id,
                         }
-                product_ncm_tax_def = False
+                # FIXME se tiver com o admin pegar impostos de outras empresas
+            product_ncm_tax_def = product_fc.sale_tax_definition_line
         else:
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.purchase_tax_definition_line
@@ -160,15 +159,21 @@ class AccountFiscalPosition(models.Model):
                                 'tax': tax_def.tax_id,
                                 'tax_code': tax_def.tax_code_id,
                             }
+            elif (self.env.context.get('type_tax_use') in ('sale', 'all') and
+                    self.env.context.get('fiscal_type',
+                                         'product') == 'service'):
                 city_taxes = \
                     partner.l10n_br_city_id.city_tax_definition_line
                 for tax_def in city_taxes:
                     if tax_def.tax_id:
-                        taxes |= tax_def.tax_id
-                        result[tax_def.tax_id.domain] = {
-                            'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
-                        }
+                        for utilized_tax in taxes:
+                            if tax_def.tax_id.domain == utilized_tax.domain:
+                                taxes -= utilized_tax
+                            taxes |= tax_def.tax_id
+                            result[tax_def.tax_id.domain] = {
+                                'tax': tax_def.tax_id,
+                                'tax_code': tax_def.tax_code_id,
+                            }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
