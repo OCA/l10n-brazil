@@ -1347,6 +1347,14 @@ class AccountInvoiceLine(models.Model):
         }
         return result
 
+    def _amount_tax_csll(self, tax=None):
+        result = {
+            'csll_base': tax.get('total_base', 0.0),
+            'csll_percent': tax.get('percent', 0.0) * 100,
+            'csll_value': tax.get('amount', 0.0),
+        }
+        return result
+
     @api.multi
     def _get_tax_codes(self, product_id, fiscal_position, taxes):
 
