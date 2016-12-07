@@ -515,7 +515,6 @@ class AccountInvoice(models.Model):
         string=u'Total Líquido', compute='_amount_net',
         digits_compute=dp.get_precision('Account'))
 
-
     @api.one
     @api.constrains('number')
     def _check_invoice_number(self):
@@ -1038,10 +1037,6 @@ class AccountInvoiceLine(models.Model):
         'l10n_br_account_product.icms_relief',
         string=u'Desoneração ICMS')
     issqn_manual = fields.Boolean('ISSQN Manual?', default=False)
-    issqn_type = fields.Selection(
-        [('N', 'Normal'), ('R', 'Retida'),
-         ('S', 'Substituta'), ('I', 'Isenta')], 'Tipo do ISSQN',
-        required=True, default='N')
     service_type_id = fields.Many2one(
         'l10n_br_account.service.type', u'Tipo de Serviço')
     issqn_base = fields.Float(
@@ -1338,22 +1333,12 @@ class AccountInvoiceLine(models.Model):
         return result
 
     def _amount_tax_issqn(self, tax=None):
-
-        # TODO deixar dinamico a definição do tipo do ISSQN
-        # assim como todos os impostos
-        issqn_type = 'N'
-        if not tax.get('amount'):
-            issqn_type = 'I'
-
         result = {
-            'issqn_type': issqn_type,
             'issqn_base': tax.get('total_base', 0.0),
             'issqn_percent': tax.get('percent', 0.0) * 100,
             'issqn_value': tax.get('amount', 0.0),
         }
         return result
-
-
 
     @api.multi
     def _get_tax_codes(self, product_id, fiscal_position, taxes):

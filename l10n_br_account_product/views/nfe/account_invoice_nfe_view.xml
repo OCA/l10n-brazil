@@ -456,7 +456,6 @@
                                 <page string="ISSQN" attrs="{'invisible': [('product_type','!=', 'service')]}">
                                     <group>
                                         <field name="issqn_manual" invisible="True"/>
-                                        <field name="issqn_type"/>
                                         <field name="issqn_base"/>
                                         <field name="issqn_percent"/>
                                         <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
