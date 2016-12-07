@@ -480,7 +480,6 @@ class NFe200(FiscalDocument):
                 invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cListServ.valor = \
                 invoice_line.service_type_id.code.zfill(5)
-            self.det.imposto.ISSQN.cSitTrib.valor = invoice_line.issqn_type
             self.det.imposto.ISSQN.indISS.valor = invoice_line.issqn_exigibilidade
             self.det.imposto.ISSQN.nProcesso.valor = invoice_line.issqn_suspension_process if invoice_line.issqn_exigibilidade in ['6', '7'] else ''
 
