@@ -2,11 +2,17 @@
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+import logging
+from openerp import api, fields, models, _
 
-from pybrasil.feriado.constantes import (
-    TIPO_FERIADO, ABRANGENCIA_FERIADO,
-)
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.feriado.constantes import (
+        TIPO_FERIADO, ABRANGENCIA_FERIADO,
+    )
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class ResourceCalendar(models.Model):
@@ -56,8 +62,8 @@ class ResourceCalendar(models.Model):
     @api.constrains('parent_id')
     def _check_hierarchy(self):
         if not self._check_recursion():
-            raise models.ValidationError(
-                'Error! You cannot create recursive calendars.')
+            raise models.ValidationError(_(
+                'Error! You cannot create recursive calendars.'))
 
 
 class ResourceCalendarLeave(models.Model):
