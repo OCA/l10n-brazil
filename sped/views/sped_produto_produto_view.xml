@@ -47,6 +47,25 @@
                         </td>
                         <td style="width:1%;"></td>
                     </tr>
+                    <tr>
+                        <td style="width:32%;"><label for="unidade_tributacao_id" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"><label for="fator_conversao_unidade_tributacao" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"></td>
+                        <td style="width:1%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:32%;"><field name="unidade_tributacao_ncm_id" options="{'no_create': True, 'no_open': True}" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;">
+                            <field name="exige_fator_conversao_unidade_tributacao_ncm" invisible="1" />
+                            <field name="fator_conversao_unidade_tributacao_ncm" attrs="{'required': [('exige_fator_conversao_unidade_tributacao_ncm', '!=', False)]}" />
+                        </td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"></td>
+                        <td style="width:1%;"></td>
+                    </tr>
                 </table>
                 <notebook>
                     <page string="Comercial">

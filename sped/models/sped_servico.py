@@ -18,7 +18,7 @@ class Servico(models.Model):
 
     codigo = fields.Char('Código', size=4, required=True, index=True)
     descricao = fields.NameChar('Descrição', size=400, required=True, index=True)
-    codigo_municipio = fields.Char('Código no município', size=9)
+    #codigo_municipio = fields.Char('Código no município', size=9)
     al_iss_ids = fields.One2many('sped.aliquota.iss', 'servico_id', 'Alíquotas de ISS')
     codigo_formatado = fields.Char(string='Servico', compute='_compute_servico', store=True)
     servico = fields.Char(string='Servico', compute='_compute_servico', store=True)

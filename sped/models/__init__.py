@@ -21,6 +21,9 @@ from sped_participante import *
 from sped_empresa import *
 from inherited_res_partner import *
 
+#
+# Unidade é requisito para NCM e produtos
+#
 from sped_unidade import *
 
 

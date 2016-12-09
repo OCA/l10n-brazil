@@ -23,7 +23,7 @@ class NBS(models.Model):
     nbs = fields.Char(string='nbs', compute='_compute_nbs', store=True)
 
     @api.depends('codigo', 'descricao')
-    def _nbs(self):
+    def _compute_nbs(self):
         for nbs in self:
             nbs.codigo_formatado = nbs.codigo[0] + '.' + nbs.codigo[1:5] + '.' + nbs.codigo[5:7] + '.' + nbs.codigo[7:]
             nbs.nbs = nbs.codigo_formatado + ' - ' + nbs.descricao[:60]
