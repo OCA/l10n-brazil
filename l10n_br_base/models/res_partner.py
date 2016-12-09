@@ -27,18 +27,13 @@ class ResPartner(models.Model):
                 "%(street)s\n%(street2)s\n%(city)s"
                 " %(state_code)s%(zip)s\n%(country_name)s")
             args = {
-                'state_code': self.state_id and
-                              self.state_id.code or '',
-                'state_name': self.state_id and
-                              self.state_id.name or '',
-                'country_code': self.country_id and
-                                self.country_id.code or '',
-                'country_name': self.country_id and
-                                self.country_id.name or '',
-                'company_name': self.parent_id and
-                                self.parent_id.name or '',
+                'state_code': self.state_id and self.state_id.code or '',
+                'state_name': self.state_id and self.state_id.name or '',
+                'country_code': self.country_id and self.country_id.code or '',
+                'country_name': self.country_id and self.country_id.name or '',
+                'company_name': self.parent_id and self.parent_id.name or '',
                 'l10n_br_city_name': self.l10n_br_city_id and
-                                     self.l10n_br_city_id.name or '',
+                self.l10n_br_city_id.name or '',
             }
             address_field = ['title', 'street', 'street2', 'zip',
                              'city', 'number', 'district']
