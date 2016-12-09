@@ -49,6 +49,7 @@ class Produto(models.Model):
 
     ncm_id = fields.Many2one('sped.ncm', 'NCM')
     cest_ids = fields.Many2many('sped.cest', related='ncm_id.cest_ids', string='Códigos CEST')
+
     exige_cest = fields.Boolean('Exige código CEST?')
     cest_id = fields.Many2one('sped.cest', 'CEST')
     protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo/Convênio')
@@ -59,6 +60,18 @@ class Produto(models.Model):
     nbs_id = fields.Many2one('sped.nbs', 'NBS')
 
     unidade_id = fields.Many2one('sped.unidade', 'Unidade')
+    unidade_tributacao_ncm_id = fields.Many2one('sped.unidade', related='ncm_id.unidade_id', string='Unidade de tributação do NCM', readonly=True)
+    fator_conversao_unidade_tributacao_ncm = fields.Quantidade('Fator de conversão entre as unidades', default=1)
+    exige_fator_conversao_unidade_tributacao_ncm = fields.Boolean('Exige fator de conversão entre as unidades?', compute='_compute_exige_fator_conversao_ncm')
+
+    @api.depends('ncm_id', 'unidade_id')
+    def _compute_exige_fator_conversao_ncm(self):
+        for produto in self:
+            if produto.unidade_id and produto.unidade_tributacao_ncm_id:
+                produto.exige_fator_conversao_unidade_tributacao_ncm = produto.unidade_id.id != produto.unidade_tributacao_ncm_id.id
+            else:
+                produto.exige_fator_conversao_unidade_tributacao_ncm = False
+                produto.fator_conversao_unidade_tributacao_ncm = 1
 
     def _valida_codigo_barras(self):
         self.ensure_one()
@@ -86,7 +99,7 @@ class Produto(models.Model):
     @api.onchange('ncm_id')
     def onchange_ncm(self):
         if len(self.ncm_id.cest_ids) == 1:
-            return {'value': {'cest_id': self.ncm_ids.cest_ids[0].id, 'exige_cest': True}}
+            return {'value': {'cest_id': self.ncm_id.cest_ids[0].id, 'exige_cest': True}}
 
         elif len(self.ncm_id.cest_ids) > 1:
             return {'value': {'cest_id': False, 'exige_cest': True}}

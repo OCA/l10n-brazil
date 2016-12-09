@@ -27,11 +27,11 @@
                             <td style="width:20%;"><label for="descricao" /></td>
                             <td style="width:80%;" colspan="2"><field name="descricao" required="1" readonly="1" /></td>
                         </tr>
-                        <tr>
+<!--                        <tr>
                             <td style="width:20%;"><label for="codigo_municipio" /></td>
                             <td style="width:20%;"><field name="codigo_municipio" required="0" readonly="0" /></td>
                             <td style="width:60%;"></td>
-                        </tr>
+                        </tr>-->
                     </table>
                     <separator string="Alíquotas de ISS" />
                     <field name="al_iss_ids" nolabel="1" colspan="4">

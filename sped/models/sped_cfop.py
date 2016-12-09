@@ -49,6 +49,9 @@ class CFOP(models.Model):
     eh_devolucao_compra = fields.Boolean('É devolução de compra?', compute='_compute_eh_compra_venda')
     eh_devolucao_venda = fields.Boolean('É devolução de venda?', compute='_compute_eh_compra_venda')
 
+    eh_retorno_entrada = fields.Boolean('É retorno entrada?', compute='_compute_eh_compra_venda')
+    eh_retorno_saida = fields.Boolean('É retorno saída?', compute='_compute_eh_compra_venda')
+
     calcula_simples_csll_irpj = fields.Boolean('Calcula SIMPLES, CSLL e IRPJ?', compute='_compute_eh_compra_venda')
 
     @api.depends('codigo')
@@ -70,5 +73,8 @@ class CFOP(models.Model):
 
             cfop.eh_devolucao_compra = cfop.codigo in CFOPS_DEVOLUCAO_COMPRA
             cfop.eh_devolucao_venda = cfop.codigo in CFOPS_DEVOLUCAO_VENDA
+
+            cfop.eh_retorno_entrada = cfop.codigo in CFOPS_RETORNO_ENTRADA
+            cfop.eh_retorno_saida = cfop.codigo in CFOPS_RETORNO_SAIDA
 
             cfop.calcula_simples_csll_irpj = cfop.codigo in CFOPS_CALCULA_SIMPLES_CSLL_IRPJ
