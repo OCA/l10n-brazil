@@ -1183,7 +1183,7 @@ class DocumentoItem(models.Model):
             # nesses casos, inverter a consideração da soma do valor do IPI, pois o valor
             # de outras despesas já entrou no valor tributável
             #
-            if self.cfop_id.eh_devolucao_compra:
+            if self.cfop_id.eh_devolucao_compra or self.cfop_id.eh_retorno_saida:
                 if not self.bc_icms_proprio_com_ipi:
                     bc_icms_proprio -= self.vr_outras
 
