@@ -4,7 +4,7 @@
   !python {model: res.company}: |
     from openerp.exceptions import ValidationError
     try:
-        id = self.create(cr, uid, {
+        id = self.create({
             'name': 'Company Test 1',
             'legal_name': 'Company Testc 1 Ltda',
             'cnpj_cpf': '02.960.895/0001-31',
@@ -13,7 +13,7 @@
             'number': '955',
             'street2': 'Portão 1',
             'district': 'Jardim da Saudade',
-            'state_id': ref('l10n_br_base.br_es'),
+            'state_id': ref('base.state_br_es'),
             'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
             'country_id': ref('base.br'),
             'city': 'Serra',
@@ -29,7 +29,7 @@
   !python {model: res.company}: |
     from openerp.exceptions import ValidationError
     try:
-        id = self.create(cr, uid, {
+        id = self.create({
             'name': 'Company Test 2',
             'legal_name': 'Company Testc 2 Ltda',
             'cnpj_cpf': '14.018.406/0001-93',
@@ -38,7 +38,7 @@
             'number': '955',
             'street2': 'Portão 1',
             'district': 'Jardim da Saudade',
-            'state_id': ref('l10n_br_base.br_es'),
+            'state_id': ref('base.state_br_es'),
             'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
             'country_id': ref('base.br'),
             'city': 'Serra',
@@ -54,7 +54,7 @@
   !python {model: res.company}: |
     from openerp.exceptions import ValidationError
     try:
-        id = self.create(cr, uid, {
+        id = self.create({
             'name': 'Company Test 3',
             'legal_name': 'Company Testc 3 Ltda',
             'cnpj_cpf': '31.295.101/0001-60',
@@ -63,7 +63,7 @@
             'number': '955',
             'street2': 'Portão 1',
             'district': 'Jardim da Saudade',
-            'state_id': ref('l10n_br_base.br_es'),
+            'state_id': ref('base.state_br_es'),
             'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
             'country_id': ref('base.br'),
             'city': 'Serra',
