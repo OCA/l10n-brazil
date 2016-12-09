@@ -237,6 +237,12 @@ class ProtocoloICMSAliquota(models.Model):
     al_icms_proprio_id = fields.Many2one('sped.aliquota.icms.proprio', 'ICMS próprio', required=True)
     al_icms_st_id = fields.Many2one('sped.aliquota.icms.st', 'ICMS ST')
     infadic = fields.Text('Informações adicionais')
+    interna = fields.Boolean(string='Interna', compute='_compute_interna', store=True)
+
+    @api.depends('estado_origem_id', 'estado_destino_id')
+    def _interna(self):
+        for aliquota in self:
+            aliquota.interna = aliquota.estado_origem_id.uf == aliquota.estado_destino_id.uf
 
 
 class ProtocoloICMSNCM(models.Model):

@@ -39,35 +39,36 @@ class AliquotaICMSST(models.Model):
 
     @api.depends('al_icms', 'md_icms', 'pr_icms', 'rd_icms')
     def _compute_descricao(self):
-        if self.al_icms == -1:
-            self.descricao = 'Não tributado'
-        else:
-            self.descricao = formata_valor(self.al_icms or 0) + '%'
+        for al_icms in self:
+            if al_icms.al_icms == -1:
+                al_icms.descricao = 'Não tributado'
+            else:
+                al_icms.descricao = formata_valor(al_icms.al_icms or 0) + '%'
 
-            if self.md_icms == MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO:
-                self.descricao += ', por preço máximo'
-            elif self.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEGATIVA:
-                self.descricao += ', por lista negativa'
-            elif self.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_POSITIVA:
-                self.descricao += ', por lista positiva'
-            elif self.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEUTRA:
-                self.descricao += ', por lista neutra'
-            elif self.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
-                self.descricao += ', por MVA'
-            elif self.md_icms == MODALIDADE_BASE_ICMS_ST_PAUTA:
-                self.descricao += ', por pauta'
+                if al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO:
+                    al_icms.descricao += ', por preço máximo'
+                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEGATIVA:
+                    al_icms.descricao += ', por lista negativa'
+                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_POSITIVA:
+                    al_icms.descricao += ', por lista positiva'
+                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEUTRA:
+                    al_icms.descricao += ', por lista neutra'
+                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                    al_icms.descricao += ', por MVA'
+                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_PAUTA:
+                    al_icms.descricao += ', por pauta'
 
-            if self.pr_icms:
-                if self.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
-                    self.descricao += ' de ' + formata_valor(self.pr_icms, casas_decimais=4) + '%'
-                else:
-                    self.descricao += ' de R$ ' + formata_valor(self.pr_icms, casas_decimais=4)
+                if al_icms.pr_icms:
+                    if al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                        al_icms.descricao += ' de ' + formata_valor(al_icms.pr_icms, casas_decimais=4) + '%'
+                    else:
+                        al_icms.descricao += ' de R$ ' + formata_valor(al_icms.pr_icms, casas_decimais=4)
 
-            if self.rd_icms != 0:
-                self.descricao += ', com redução de ' + formata_valor(self.rd_icms) + '%'
+                if al_icms.rd_icms != 0:
+                    al_icms.descricao += ', com redução de ' + formata_valor(al_icms.rd_icms) + '%'
 
-            if self.rd_mva != 0:
-                self.descricao += ', com MVA reduzido em ' + formata_valor(self.rd_mva) + '% para o SIMPLES'
+                if al_icms.rd_mva != 0:
+                    al_icms.descricao += ', com MVA reduzido em ' + formata_valor(al_icms.rd_mva) + '% para o SIMPLES'
 
     @api.depends('al_icms', 'md_icms', 'pr_icms', 'rd_icms', 'rd_mva')
     def _check_al_icms(self):
