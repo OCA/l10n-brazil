@@ -25,7 +25,8 @@ class StockInvoiceOnShipping(models.TransientModel):
             if move.origin_returned_move_id:
                 ref_id = self.env['account.invoice'].search([
                     ('nfe_access_key', '=',
-                     move.origin_returned_move_id.picking_id.fiscal_document_access_key)
+                     move.origin_returned_move_id.
+                     picking_id.fiscal_document_access_key)
                 ], limit=1).id
             res = 'account.invoice,%d' % ref_id
             return res

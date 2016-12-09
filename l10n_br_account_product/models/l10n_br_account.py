@@ -18,6 +18,7 @@ FISCAL_CATEGORY_PURPOSE = [
     ('3', 'Ajuste'),
     ('4', u'Devolução de Mercadoria')]
 
+
 class L10nBrAccountFiscalCategory(models.Model):
     _inherit = 'l10n_br_account.fiscal.category'
 
