@@ -28,17 +28,18 @@ class L10nBrZipSearch(models.TransientModel):
     address_id = fields.Integer('Id do objeto', invisible=True)
     object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
 
-    def create(self, cr, uid, vals, context):
-        result = super(L10nBrZipSearch, self).create(cr, uid, vals, context)
-        context.update({'search_id': result})
+    @api.model
+    def create(self, vals):
+        result = super(L10nBrZipSearch, self).create(vals)
+        # TO DO : FIX IT
+        #  context.update({'search_id': result})
         return result
 
-    def default_get(self, cr, uid, fields_list, context=None):
-        if context is None:
-            context = {}
-        data = super(L10nBrZipSearch, self).default_get(
-            cr, uid, fields_list, context)
+    @api.multi
+    def default_get(self, fields_list):
+        data = super(L10nBrZipSearch, self).default_get(fields_list)
 
+        context = dict(self._context or {})
         data['zip'] = context.get('zip', False)
         data['street'] = context.get('street', False)
         data['district'] = context.get('district', False)
@@ -86,11 +87,12 @@ class L10nBrZipSearch(models.TransientModel):
             'nodestroy': True,
         }
 
-    def zip_new_search(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
-        self.write(cr, uid, ids,
-                   {'state': 'init',
-                    'zip_ids': [[6, 0, []]]}, context=context)
+    @api.multi
+    def zip_new_search(self):
+        data = self.read()[0]
+        self.ensure_one()
+        self.write({'state': 'init',
+                    'zip_ids': [[6, 0, []]]})
 
         return {
             'type': 'ir.actions.act_window',
@@ -113,7 +115,7 @@ class L10nBrZipResult(models.TransientModel):
     search_id = fields.Many2one(
         'l10n_br.zip.search', 'Search', readonly=True, invisible=True)
     address_id = fields.Integer('Id do objeto', invisible=True)
-    object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
+    object_name = fields.Char('Nome do objeto', size=100, invisible=True)
     # ZIPCODE data to be shown
     zip = fields.Char('CEP', size=9, readonly=True)
     street = fields.Char('Logradouro', size=72, readonly=True)
