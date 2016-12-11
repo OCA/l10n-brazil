@@ -43,7 +43,7 @@
             <field name="view_id" ref="view_l10n_br_zip_tree"/>
         </record>
         
-        <menuitem name="CEPs" id="menu_action_l10n_br_base_zip_form" parent="base.menu_localisation" action="action_l10n_br_zip"/>
+        <menuitem name="CEPs" id="menu_action_l10n_br_base_zip_form" parent="sales_team.menu_localisation" action="action_l10n_br_zip"/>
 
     </data>
 </openerp>
