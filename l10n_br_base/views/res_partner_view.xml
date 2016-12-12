@@ -129,52 +129,5 @@
             </field>
         </record>
 
-        <!-- res.bank -->
-        <record id="view_l10n_br_base_res_bank_form" model="ir.ui.view">
-            <field name="name">view_l10n_br_base.bank.form</field>
-            <field name="model">res.bank</field>
-            <field name="inherit_id" ref="base.view_res_bank_form"/>
-            <field name="arch" type="xml">
-                <field name="street" position="replace">
-                    <field name="zip" placeholder="CEP" style="width:50%"/>
-                    <field name="street" placeholder="Logradouro"/>
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
-                </field>
-            </field>
-        </record>
-
-        <!-- res.partner.bank -->
-        <record id="view_l10n_br_base_partner_bank_form" model="ir.ui.view">
-            <field name="name">view_l10n_br_base.partner.bank.form</field>
-            <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base.view_partner_bank_form"/>
-            <field name="arch" type="xml">
-                <field name="acc_number" position="replace">
-                    <newline/>
-                    <field name="acc_number" select="1"/>
-                    <field name="acc_number_dig" select="1"/>
-                    <newline/>
-                    <field name="bra_number" select="1"/>
-                    <field name="bra_number_dig" select="1"/>
-                </field>
-            </field>
-        </record>
-
-        <record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
-            <field name="name">view_l10n_br_base.partner.bank.tree</field>
-            <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
-            <field name="arch" type="xml">
-                <field name="acc_number" position="replace">
-                    <field name="acc_number"/>
-                    <field name="acc_number_dig"/>
-                    <field name="bra_number"/>
-                    <field name="bra_number_dig"/>
-                </field>
-            </field>
-        </record>
-
     </data>
 </openerp>
