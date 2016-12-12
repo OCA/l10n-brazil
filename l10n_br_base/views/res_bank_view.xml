@@ -23,14 +23,39 @@
                     <attribute name="domain">[('country_id','=',country_id)]</attribute>
                     <attribute name="style">width:100%</attribute>
                 </field>
-                <field name="country" position="replace">
-                    <field name="country" invisible="1"/>
+                <field name="country" position="replace"/>
+                <field name="state" position="replace"/>
+                <field name="city" position="replace"/>
+            </field>
+        </record>
+
+        <!-- res.partner.bank-->
+        <record id="view_l10n_br_base_partner_bank_form" model="ir.ui.view">
+            <field name="name">view_l10n_br_base.partner.bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">
+                <field name="acc_number" position="replace">
+                    <newline/>
+                    <field name="acc_number" select="1"/>
+                    <field name="acc_number_dig" select="1"/>
+                    <newline/>
+                    <field name="bra_number" select="1"/>
+                    <field name="bra_number_dig" select="1"/>
                 </field>
-                <field name="state" position="replace">
-                    <field name="state" invisible="1"/>
-                </field>
-                <field name="city" position="replace">
-                    <field name="city" invisible="1"/>
+            </field>
+        </record>
+
+        <record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
+            <field name="name">view_l10n_br_base.partner.bank.tree</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+            <field name="arch" type="xml">
+                <field name="acc_number" position="replace">
+                    <field name="acc_number"/>
+                    <field name="acc_number_dig"/>
+                    <field name="bra_number"/>
+                    <field name="bra_number_dig"/>
                 </field>
             </field>
         </record>
