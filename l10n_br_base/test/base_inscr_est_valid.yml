@@ -2,7 +2,7 @@
   Testing insc_est validate by state
 -
  !python {model: res.partner}: |
-    from openerp.addons.l10n_br_base.tools.fiscal import validate_ie
+    from odoo.addons.l10n_br_base.tools.fiscal import validate_ie
     insc_est_ac_valids = ['0102190200165', '0101296300289', '0100258700145', '0101296300106', '0101613200122', '0100662000133']
     for insc_est in insc_est_ac_valids:
         assert validate_ie('ac', insc_est), 'Error on validate AC insc_est'
