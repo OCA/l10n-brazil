@@ -21,3 +21,8 @@
 -
    !python {model: crm.lead, id: crm_lead_company}:
      self.write({'stage_id':ref("crm.stage_lead1"), 'active':True})
+-
+  I check if the lead stage is "Open".
+-
+  !assert {model: crm.lead, id: crm_lead_company, string: Lead stage is Open}:
+     - stage_id.sequence == 1
