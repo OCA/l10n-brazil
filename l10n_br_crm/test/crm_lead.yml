@@ -36,8 +36,8 @@
 -
   !python {model: crm.lead, id: crm_lead_company}:
     assert self.type == 'opportunity', 'Lead is not converted to opportunity!'
-    assert self.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
-    assert self.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
+    assert self.partner_id.id == self.env.ref('base.res_partner_2').id, 'Partner mismatch!'
+    assert self.stage_id.id == self.env.ref('crm.stage_lead1').id, 'Stage of opportunity is incorrect!'
 -
   I create a Partner and check the if the fields were filled
 -
@@ -90,8 +90,8 @@
 -
   !python {model: crm.lead, id: crm_lead_contact}:
     assert self.type == 'opportunity', 'Lead is not converted to opportunity!'
-    assert self.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
-    assert self.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
+    assert self.partner_id.id == self.env.ref('base.res_partner_2').id, 'Partner mismatch!'
+    assert self.stage_id.id == self.env.ref('crm.stage_lead1').id, 'Stage of opportunity is incorrect!'
 -
   I create a Contact and check the if the fields were filled
 -
