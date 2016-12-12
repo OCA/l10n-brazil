@@ -6,49 +6,42 @@
 
 import re
 
-from openerp import models, fields, api
-from openerp.addons.l10n_br_base.tools import fiscal
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api
+from odoo.addons.l10n_br_base.tools import fiscal
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    @api.model
-    def _display_address(self, address, without_company=False):
-        country_code = address.country_id.code or ''
-        if address.country_id and country_code.upper() != 'BR':
+    @api.multi
+    def _display_address(self, without_company=False):
+        country_code = self.country_id.code or ''
+        if self.country_id and country_code.upper() != 'BR':
             # this ensure other localizations could do what they want
             return super(ResPartner, self)._display_address(
-                address, without_company=False)
+                self, without_company=False)
         else:
             address_format = (
-                address.country_id and
-                address.country_id.address_format or
-                ("%(street)s\n%(street2)s\n%(city)s"
-                 " %(state_code)s%(zip)s\n%(country_name)s")
-            )
+                self.country_id and self.country_id.address_format or
+                "%(street)s\n%(street2)s\n%(city)s"
+                " %(state_code)s%(zip)s\n%(country_name)s")
             args = {
-                'state_code': address.state_id and
-                address.state_id.code or '',
-                'state_name': address.state_id and
-                address.state_id.name or '',
-                'country_code': address.country_id and
-                address.country_id.code or '',
-                'country_name': address.country_id and
-                address.country_id.name or '',
-                'company_name': address.parent_id and
-                address.parent_id.name or '',
-                'l10n_br_city_name': address.l10n_br_city_id and
-                address.l10n_br_city_id.name or '',
+                'state_code': self.state_id and self.state_id.code or '',
+                'state_name': self.state_id and self.state_id.name or '',
+                'country_code': self.country_id and self.country_id.code or '',
+                'country_name': self.country_id and self.country_id.name or '',
+                'company_name': self.parent_id and self.parent_id.name or '',
+                'l10n_br_city_name': self.l10n_br_city_id and
+                self.l10n_br_city_id.name or '',
             }
             address_field = ['title', 'street', 'street2', 'zip',
                              'city', 'number', 'district']
             for field in address_field:
-                args[field] = getattr(address, field) or ''
+                args[field] = getattr(self, field) or ''
             if without_company:
                 args['company_name'] = ''
-            elif address.parent_id:
+            elif self.parent_id:
                 address_format = '%(company_name)s\n' + address_format
             return address_format % args
 
@@ -158,7 +151,8 @@ class ResPartner(models.Model):
             elif not self.is_company and len(val) == 11:
                 cnpj_cpf = "%s.%s.%s-%s" % (
                     val[0:3], val[3:6], val[6:9], val[9:11])
-            self.cnpj_cpf = cnpj_cpf
+            if cnpj_cpf:
+                self.cnpj_cpf = cnpj_cpf
 
     @api.onchange('l10n_br_city_id')
     def _onchange_l10n_br_city_id(self):
@@ -182,13 +176,11 @@ class ResPartner(models.Model):
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
 
-    @api.cr_uid_context
-    def _address_fields(self, cr, uid, context=None):
+    def _address_fields(self):
         """ Returns the list of address fields that are synced from the parent
         when the `use_parent_address` flag is set.
         Extenção para os novos campos do endereço """
-        address_fields = super(ResPartner, self)._address_fields(
-            cr, uid, context=context)
+        address_fields = super(ResPartner, self)._address_fields()
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
