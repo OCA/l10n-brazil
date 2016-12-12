@@ -184,31 +184,6 @@ class ResPartner(models.Model):
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
 
-class Bank(models.Model):
-    _inherit = 'res.bank'
-
-    number = fields.Char(u'Número', size=10)
-    district = fields.Char('Bairro', size=32)
-    l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', 'Municipio',
-        domain="[('state_id','=',state_id)]")
-
-    @api.onchange('l10n_br_city_id')
-    def _onchange_l10n_br_city_id(self):
-        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
-        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
-        do município para o campo city que é o campo nativo do módulo base
-        para manter a compatibilidade entre os demais módulos que usam o
-        campo city.
-
-        param int l10n_br_city_id: id do l10n_br_city_id digitado.
-
-        return: dicionário com o nome e id do município.
-        """
-        if self.l10n_br_city_id:
-            self.city = self.l10n_br_city_id.name
-
-
 class ResPartnerBank(models.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
     bancárias no Brasil."""
