@@ -33,7 +33,7 @@ def validate_ie(uf, inscr_est):
     result = True
     try:
         mod = __import__(
-            'openerp.addons.l10n_br_base.tools.fiscal',
+            'odoo.addons.l10n_br_base.tools.fiscal',
             globals(), locals(), 'fiscal')
 
         validate = getattr(mod, 'validate_ie_%s' % uf)

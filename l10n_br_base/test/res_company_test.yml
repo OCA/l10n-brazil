@@ -27,7 +27,7 @@
     Company with invalid CNPJ
 -
   !python {model: res.company}: |
-    from openerp.exceptions import ValidationError
+    from odoo.exceptions import ValidationError
     try:
         id = self.create({
             'name': 'Company Test 2',
@@ -52,7 +52,7 @@
     Company with invalid Iscrição Estadual
 -
   !python {model: res.company}: |
-    from openerp.exceptions import ValidationError
+    from odoo.exceptions import ValidationError
     try:
         id = self.create({
             'name': 'Company Test 3',
