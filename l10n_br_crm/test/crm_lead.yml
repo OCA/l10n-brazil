@@ -13,7 +13,7 @@
   I mark the lead as lost
 -
   !python {model: crm.lead}: |
-    crm_lead = self.browse(cr, uid, ref('crm_lead_company'), context=context)
+    crm_lead = self.browse(ref('crm_lead_company'))
     crm_lead.case_mark_lost()
 -
   In order to test the conversion of a lead into a opportunity,
@@ -21,7 +21,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write(cr, uid, [ref("crm_lead_company")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.write([ref("crm_lead_company")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -31,12 +31,12 @@
   I convert lead into opportunity for exiting customer.
 -
   !python {model: crm.lead}: |
-    self.convert_opportunity(cr, uid ,[ref("crm_lead_company")], ref("base.res_partner_2"))
+    self.convert_opportunity([ref("crm_lead_company")], ref("base.res_partner_2"))
 -
   I check details of converted opportunity.
 -
   !python {model: crm.lead}: |
-    lead = self.browse(cr, uid, ref('crm_lead_company'))
+    lead = self.browse(ref('crm_lead_company'))
     assert lead.type == 'opportunity', 'Lead is not converted to opportunity!'
     assert lead.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
     assert lead.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
@@ -44,9 +44,9 @@
   I create a Partner and check the if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.browse(cr, uid, ref("crm_lead_company"))
-    partner_id = self._create_lead_partner(cr, uid , obj_crm_lead)
-    obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+    obj_crm_lead = self.browse(ref("crm_lead_company"))
+    partner_id = self._create_lead_partner(obj_crm_lead)
+    obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The field Name not was filled.'
     assert obj_partner.legal_name, 'The field Razão Social not was filled.'
     assert obj_partner.cnpj_cpf, 'The field CNPJ not was filled.'
@@ -56,7 +56,7 @@
   I mark the lead as won
 -
   !python {model: crm.lead}: |
-    crm_lead = self.browse(cr, uid, ref('crm_lead_company'), context=context)
+    crm_lead = self.browse(ref('crm_lead_company'))
     crm_lead.case_mark_won()
 -
   Create a Lead for a Person/Contact
@@ -71,7 +71,7 @@
   I mark the lead as lost
 -
   !python {model: crm.lead}: |
-    crm_lead = self.browse(cr, uid, ref('crm_lead_contact'), context=context)
+    crm_lead = self.browse(ref('crm_lead_contact'))
     crm_lead.case_mark_lost()
 -
   In order to test the conversion of a lead into a opportunity,
@@ -79,7 +79,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write(cr, uid, [ref("crm_lead_contact")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.write([ref("crm_lead_contact")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -89,12 +89,12 @@
   I convert lead into opportunity for exiting customer.
 -
   !python {model: crm.lead}: |
-    self.convert_opportunity(cr, uid ,[ref("crm_lead_contact")], ref("base.res_partner_2"))
+    self.convert_opportunity([ref("crm_lead_contact")], ref("base.res_partner_2"))
 -
   I check details of converted opportunity.
 -
   !python {model: crm.lead}: |
-    lead = self.browse(cr, uid, ref('crm_lead_contact'))
+    lead = self.browse(ref('crm_lead_contact'))
     assert lead.type == 'opportunity', 'Lead is not converted to opportunity!'
     assert lead.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
     assert lead.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
@@ -102,9 +102,9 @@
   I create a Contact and check the if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.browse(cr, uid, ref("crm_lead_contact"))
-    partner_id = self._create_lead_partner(cr, uid , obj_crm_lead)
-    obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+    obj_crm_lead = self.browse(ref("crm_lead_contact"))
+    partner_id = self._create_lead_partner(obj_crm_lead)
+    obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The field Name not was filled.'
     assert obj_partner.cnpj_cpf, 'The field CNPJ not was filled.'
     assert obj_partner.inscr_est, 'The field RG not was filled'
@@ -112,7 +112,7 @@
   I mark the lead as won
 -
   !python {model: crm.lead}: |
-    crm_lead = self.browse(cr, uid, ref('crm_lead_contact'), context=context)
+    crm_lead = self.browse(ref('crm_lead_contact'))
     crm_lead.case_mark_won()
 -
   Create a Lead for a Company to test IE Validation
@@ -131,9 +131,9 @@
   I create a Partner and check if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.browse(cr, uid, ref("crm_lead_company_1"))
-    partner_id = self._create_lead_partner(cr, uid , obj_crm_lead)
-    obj_partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+    obj_crm_lead = self.browse(ref("crm_lead_company_1"))
+    partner_id = self._create_lead_partner(obj_crm_lead)
+    obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The creation of the partner have problems.'
     assert obj_partner.legal_name, 'The field Razão Social not was filled.'
     assert obj_partner.cnpj_cpf, 'The field CNPJ not was filled.'
