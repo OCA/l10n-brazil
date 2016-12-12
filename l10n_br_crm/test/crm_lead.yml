@@ -20,7 +20,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead, id: crm_lead_company}:
-     self.write({'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.write({'stage_id':self.env.ref('crm.stage_lead1').id, 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -30,7 +30,7 @@
   I convert lead into opportunity for existing customer.
 -
   !python {model: crm.lead, id: crm_lead_company}:
-    self.convert_opportunity(ref("base.res_partner_2"))
+    self.convert_opportunity(self.env.ref('base.res_partner_2').id)
 -
   I check details of converted opportunity.
 -
@@ -74,7 +74,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead, id: crm_lead_contact}:
-     self.write({'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.write({'stage_id':self.env.ref('crm.stage_lead1').id, 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -84,7 +84,7 @@
   I convert lead into opportunity for exiting customer.
 -
   !python {model: crm.lead, id: crm_lead_contact}:
-    self.convert_opportunity(ref("base.res_partner_2"))
+    self.convert_opportunity(self.env.ref('base.res_partner_2').id)
 -
   I check details of converted opportunity.
 -
