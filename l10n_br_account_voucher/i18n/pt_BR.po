@@ -1,9 +1,0 @@
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_account_voucher
-msgid "Brazilian Localization Account Voucher"
-msgstr "Localização Brasileira - Módulo de Recibo de Pagamentos"
-
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_br_account_voucher
-msgid "Brazilian Localization Account Voucher"
-msgstr "Localização Brasileira - Recibo de pagamentos"
