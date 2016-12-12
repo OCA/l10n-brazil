@@ -4,10 +4,10 @@
 
 import re
 
-from openerp import models, fields, api
-from openerp.addons.l10n_br_base.tools import fiscal
-from openerp.exceptions import ValidationError
-from openerp.tools.translate import _
+from odoo import models, fields, api
+from odoo.addons.l10n_br_base.tools import fiscal
+from odoo.exceptions import ValidationError
+from odoo.tools.translate import _
 
 
 class CrmLead(models.Model):
