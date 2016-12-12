@@ -27,7 +27,7 @@
     Partner with invalid CNPJ
 -
   !python {model: res.partner}: |
-    from openerp.exceptions import ValidationError
+    from odoo.exceptions import ValidationError
     try:
         id = self.create({
             'name': 'Partner Test 2',
@@ -52,7 +52,7 @@
     Partner with invalid Iscrição Estadual
 -
   !python {model: res.partner}: |
-    from openerp.exceptions import ValidationError
+    from odoo.exceptions import ValidationError
     try:
         id = self.create({
             'name': 'Partner Test 3',
