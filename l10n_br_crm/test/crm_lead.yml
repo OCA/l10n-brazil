@@ -13,7 +13,7 @@
   I mark the lead as lost
 -
   !python {model: crm.lead}: |
-    crm_lead = self.env.ref('crm_lead_company')
+    crm_lead = self.env.ref('l10n_br_crm.crm_lead_company')
     crm_lead.case_mark_lost()
 -
   In order to test the conversion of a lead into a opportunity,
@@ -21,7 +21,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write([ref("crm_lead_company")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.env.ref('l10n_br_crm.crm_lead_company').write({'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -36,7 +36,7 @@
   I check details of converted opportunity.
 -
   !python {model: crm.lead}: |
-    lead = self.env.ref('crm_lead_company')
+    lead = self.env.ref('l10n_br_crm.crm_lead_company')
     assert lead.type == 'opportunity', 'Lead is not converted to opportunity!'
     assert lead.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
     assert lead.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
@@ -44,7 +44,7 @@
   I create a Partner and check the if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.env.ref('crm_lead_company')
+    obj_crm_lead = self.env.ref('l10n_br_crm.crm_lead_company')
     partner_id = self._create_lead_partner(obj_crm_lead)
     obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The field Name not was filled.'
@@ -56,7 +56,7 @@
   I mark the lead as won
 -
   !python {model: crm.lead}: |
-    crm_lead = self.env.ref('crm_lead_company')
+    crm_lead = self.env.ref('l10n_br_crm.crm_lead_company')
     crm_lead.case_mark_won()
 -
   Create a Lead for a Person/Contact
@@ -71,7 +71,7 @@
   I mark the lead as lost
 -
   !python {model: crm.lead}: |
-    crm_lead = self.env.ref('crm_lead_contact')
+    crm_lead = self.env.ref('l10n_br_crm.crm_lead_contact')
     crm_lead.case_mark_lost()
 -
   In order to test the conversion of a lead into a opportunity,
@@ -79,7 +79,7 @@
   I set lead to open stage.
 -
    !python {model: crm.lead}: |
-     self.write([ref("crm_lead_contact")],{'stage_id':ref("crm.stage_lead1"), 'active':True})
+     self.env.ref('l10n_br_crm.crm_lead_contact').write({'stage_id':ref("crm.stage_lead1"), 'active':True})
 -
   I check if the lead stage is "Open".
 -
@@ -94,7 +94,7 @@
   I check details of converted opportunity.
 -
   !python {model: crm.lead}: |
-    lead = self.env.ref('crm_lead_contact')
+    lead = self.env.ref('l10n_br_crm.crm_lead_contact')
     assert lead.type == 'opportunity', 'Lead is not converted to opportunity!'
     assert lead.partner_id.id == ref("base.res_partner_2"), 'Partner mismatch!'
     assert lead.stage_id.id == ref("crm.stage_lead1"), 'Stage of opportunity is incorrect!'
@@ -102,7 +102,7 @@
   I create a Contact and check the if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.env.ref('crm_lead_contact')
+    obj_crm_lead = self.env.ref('l10n_br_crm.crm_lead_contact')
     partner_id = self._create_lead_partner(obj_crm_lead)
     obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The field Name not was filled.'
@@ -112,7 +112,7 @@
   I mark the lead as won
 -
   !python {model: crm.lead}: |
-    crm_lead = self.env.ref('crm_lead_contact')
+    crm_lead = self.env.ref('l10n_br_crm.crm_lead_contact')
     crm_lead.case_mark_won()
 -
   Create a Lead for a Company to test IE Validation
@@ -131,7 +131,7 @@
   I create a Partner and check if the fields were filled
 -
   !python {model: crm.lead}: |
-    obj_crm_lead = self.env.ref('crm_lead_company_1')
+    obj_crm_lead = self.env.ref('l10n_br_crm.crm_lead_company_1')
     partner_id = self._create_lead_partner(obj_crm_lead)
     obj_partner = self.env['res.partner'].browse(partner_id)
     assert obj_partner.name, 'The creation of the partner have problems.'
