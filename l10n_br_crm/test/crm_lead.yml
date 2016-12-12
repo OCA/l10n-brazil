@@ -13,4 +13,11 @@
   I mark the lead as lost
 -
   !python {model: crm.lead, id: crm_lead_company}:
-    self.case_mark_lost()
+    self.action_set_lost()
+-
+  In order to test the conversion of a lead into a opportunity,
+-
+  I set lead to open stage.
+-
+   !python {model: crm.lead, id: crm_lead_company}:
+     self.write({'stage_id':ref("crm.stage_lead1"), 'active':True})
