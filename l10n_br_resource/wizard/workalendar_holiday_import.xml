@@ -39,17 +39,5 @@
             </field>
         </record>
 
-        <act_window
-            id="action_workalendar_holiday_import"
-            name="Import Holidays"
-            res_model="wizard.workalendar.holiday.import"
-            src_model="resource.calendar"
-            key2="client_action_multi"
-            view_type="form"
-            view_mode="form"
-            target="new"
-            context="{'default_calendar_id': active_id}"
-        />
-
     </data>
 </openerp>
