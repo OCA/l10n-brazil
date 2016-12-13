@@ -4,13 +4,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from datetime import datetime, timedelta
 from openerp import tools
 
-from pybrasil.feriado.constantes import (
-    TIPO_FERIADO, ABRANGENCIA_FERIADO, QUANDO_FERIADO, AJUSTE_FERIADO
-)
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.feriado.constantes import (
+        TIPO_FERIADO, ABRANGENCIA_FERIADO,
+    )
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class ResourceCalendar(models.Model):
@@ -63,6 +68,7 @@ class ResourceCalendar(models.Model):
             raise models.ValidationError(_(
                 'Error! You cannot create recursive calendars.'))
 
+
     @api.multi
     def get_leave_intervals(self, resource_id=None, start_datetime=None,
                             end_datetime=None):
@@ -107,44 +113,21 @@ class ResourceCalendar(models.Model):
     def data_eh_feriado(self, data_referencia=datetime.now()):
         """Verificar se uma data é feriado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
-                                    verifique se hoje eh feriado no calendario
-                                    corrente.
+                                    verifique se hoje eh feriado.
                                     Se a data referencia for passada, verifique
-                                    se a data esta dentro de algum leave do
-                                    calendario corrente
+                                    se a data esta dentro de algum leave
                                     date_start <= data_referencia <= data_end
-        :return boolean True se a data referencia for feriado
-                        False se a data referencia nao for feriado
-        """
-        for leave in self.leave_ids:
-            if leave.date_from <= data_referencia.strftime(
-                    "%Y-%m-%d %H:%M:%S"):
-                if leave.date_to >= data_referencia.\
-                        strftime("%Y-%m-%d %H:%M:%S"):
-                    if leave.leave_type == 'F':
-                        return True
-        return False
 
-    @api.multi
-    def data_eh_feriado_bancario(self, data_referencia=datetime.now()):
-        """Verificar se uma data é feriado bancário.
-        :param datetime data_referencia: Se nenhuma data referencia for
-                                    passada verifique se hoje é feriado
-                                    bancário. Se a data referencia for
-                                    passada, verifique se a data esta
-                                    dentro de algum leave
-                                    date_start <= data_referencia <= data_end
-        :return int leaves_count: +1 se for feriado bancário
-                                   0 se a data nao for feriado bancário
+        :return int leaves_count: +1 se for feriado
+                                   0 se a data nao for feriado
         """
-        for leave in self.leave_ids:
-            if leave.date_from <= data_referencia.strftime(
-                    "%Y-%m-%d %H:%M:%S"):
-                if leave.date_to >= data_referencia.\
-                        strftime("%Y-%m-%d %H:%M:%S"):
-                    if leave.leave_type in ['F', 'B']:
-                        return True
-        return False
+        domain = [
+            ('date_from', '<=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ('leave_type', '<=', 'F'),
+        ]
+        leaves_count = self.env['resource.calendar.leaves'].search_count(domain)
+        return leaves_count
 
     @api.multi
     def data_eh_feriado_emendado(self, data_referencia=datetime.now()):
@@ -244,25 +227,6 @@ class ResourceCalendar(models.Model):
         ]
         leaves_count = self.env['resource.calendar.leaves'].search_count(domain)
         return leaves_count
-
-    @api.multi
-    def data_eh_feriado_emendado(self, data_referencia=datetime.now()):
-        """Verificar se uma data é feriado emendado.
-        :param datetime data_referencia: Se nenhuma data referencia for passada
-                                   verifique se hoje é feriado emendado.
-                                   Se a data referencia for passada, verifique
-                                   se a data esta dentro de algum leave
-                                   date_start <= data_referencia <= data_end
-
-        :return retorna True ou False
-        """
-        dia_antes = data_referencia - timedelta(days=2)
-        dia_depois = data_referencia + timedelta(days=2)
-
-        dia_antes_eh_util = True if dia_antes.weekday() > 5 or self.data_eh_feriado(dia_antes) else False
-        dia_depois_eh_util = True if dia_depois.weekday() > 4 or self.data_eh_feriado(dia_depois) else False
-
-        return dia_antes_eh_util or dia_depois_eh_util
 
 
 class ResourceCalendarLeave(models.Model):
