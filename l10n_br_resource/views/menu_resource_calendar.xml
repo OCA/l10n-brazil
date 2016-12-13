@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+        <act_window
+            id="action_workalendar_holiday_import"
+            name="Import Holidays"
+            res_model="wizard.workalendar.holiday.import"
+            src_model="resource.calendar"
+            view_type="form"
+            view_mode="form"
+            target="new"
+        />
+
+        <menuitem
+                action="action_workalendar_holiday_import"
+                id="sub_menu_impotigrt_holidays"
+                name="Import Holidays"
+                parent="resource.menu_resource_config"
+                sequence="11"/>
+
+</data>
+</openerp>
