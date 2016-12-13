@@ -39,7 +39,8 @@ To use this module, you need to:
 Known issues / Roadmap
 ======================
 
-.....
+Issues are tracked on Known issues
+
 
 Bug Tracker
 ===========
