@@ -480,8 +480,13 @@ class NFe200(FiscalDocument):
                 invoice_line.service_type_id.code.zfill(5)
             self.det.imposto.ISSQN.cListServ.valor = \
                 invoice_line.service_type_id.code.zfill(5)
-            self.det.imposto.ISSQN.indISS.valor = invoice_line.issqn_exigibilidade
-            self.det.imposto.ISSQN.nProcesso.valor = invoice_line.issqn_suspension_process if invoice_line.issqn_exigibilidade in ['6', '7'] else ''
+            self.det.imposto.ISSQN.indISS.valor = \
+                invoice_line.issqn_exigibilidade
+            self.det.imposto.ISSQN.nProcesso.valor = (
+                invoice_line.issqn_suspension_process
+                if invoice_line.issqn_exigibilidade in ['6', '7']
+                else '')
+            self.det.imposto.ISSQN.vISSRet.valor = str(invoice.issqn_value_wh)
 
         # PIS
         self.det.imposto.PIS.CST.valor = invoice_line.pis_cst_id.code
@@ -675,8 +680,10 @@ class NFe200(FiscalDocument):
             self.nfe.infNFe.total.ISSQNTot.vOutro.valor = ''
             self.nfe.infNFe.total.ISSQNTot.vDescIncond.valor = ''
             self.nfe.infNFe.total.ISSQNTot.vDescCond.valor = ''
-            self.nfe.infNFe.total.ISSQNTot.vISSRet.valor = invoice.issqn_value_wh
-            self.nfe.infNFe.total.ISSQNTot.cRegTrib.valor = invoice.company_id.ret
+            self.nfe.infNFe.total.ISSQNTot.vISSRet.valor = str(
+                invoice.issqn_value_wh)
+            self.nfe.infNFe.total.ISSQNTot.cRegTrib.valor = \
+                invoice.company_id.ret
 
         #RETENÇÃO
         self.nfe.infNFe.total.retTrib.vRetPIS.valor    = str("%.2f" % invoice.pis_value_wh) or ''
