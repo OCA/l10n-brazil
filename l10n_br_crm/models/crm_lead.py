@@ -104,7 +104,6 @@ class CrmLead(models.Model):
         """
         if self.l10n_br_city_id:
             self.city = self.l10n_br_city_id.name
-            self.l10n_br_city_id = self.l10n_br_city_id
 
     @api.onchange('zip')
     def _onchange_zip(self):
