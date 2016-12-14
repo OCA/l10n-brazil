@@ -126,9 +126,8 @@ class ResourceCalendar(models.Model):
         for leave in self.leave_ids:
             if leave.date_from <= data_referencia.strftime(
                     "%Y-%m-%d %H:%M:%S") and \
-                leave.date_to >= data_referencia.strftime(
-                        "%Y-%m-%d %H:%M:%S") and \
-                    leave.leave_type == 'F':
+                leave.date_to >= data_referencia.strftime("%Y-%m-%d %H:%M:%S") \
+                    and leave.leave_type == 'F':
                 return True
         return False
 
@@ -206,6 +205,19 @@ class ResourceCalendar(models.Model):
             data_inicio += timedelta(days=1)
 
         return dias_uteis
+
+    @api.multi
+    def retorna_proximo_dia_util(self, data_referencia=datetime.now()):
+        """Retornar o próximo dia util.
+        :param datetime data_referencia: Se nenhuma data referencia for passada
+                                   verifique se amanha é dia útil.
+        :return datetime Proximo dia util apartir da data referencia
+        """
+        data_referencia += timedelta(days=1)
+        while data_referencia:
+            if self.data_eh_dia_util(data_referencia):
+                return data_referencia
+            data_referencia += timedelta(days=1)
 
 
 class ResourceCalendarLeave(models.Model):
