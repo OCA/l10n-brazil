@@ -91,8 +91,8 @@ class ResourceCalendar(models.Model):
         leaves = []
         for leave in self.leave_ids:
             if leave.resource_id and resource_id:
-                if leave.resource_id and not \
-                                resource_id == leave.resource_id.id:
+                if leave.resource_id and not resource_id == leave.\
+                        resource_id.id:
                     continue
             elif leave.resource_id and not resource_id:
                 continue

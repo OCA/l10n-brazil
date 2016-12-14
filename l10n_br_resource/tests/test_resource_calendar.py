@@ -101,11 +101,19 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(4, len(self.municipal_calendar_id.leave_ids))
 
     def test_03_obter_feriados_no_periodo(self):
-        self.holidays = self.resource_calendar.get_holidays_by_period(
-            start_datetime=fields.Datetime.from_string('2016-03-01 00:00:00'),
-            end_datetime=fields.Datetime.from_string('2016-03-31 00:00:00'),
-            l10n_br_city_id=None,
-            state_id=None,
-            country_id=self.env.ref("base.br").id,
+        self.holidays = self.municipal_calendar_id.get_leave_intervals(
+            start_datetime=fields.Datetime.from_string('2016-08-01 00:00:00'),
+            end_datetime=fields.Datetime.from_string('2016-08-31 00:00:00'),
         )
         self.assertEqual(1, len(self.holidays))
+
+    def test_04_data_eh_feriado(self):
+        data = fields.Datetime.from_string('2016-08-25 00:00:01')
+        data_eh_feriado = self.municipal_calendar_id.data_eh_feriado(data)
+        self.assertTrue(data_eh_feriado)
+
+    def test_05_data_eh_feriado_emendado(self):
+        data = fields.Datetime.from_string('2016-08-25 00:00:01')
+        data_eh_feriado_emendado = \
+            self.municipal_calendar_id.data_eh_feriado_emendado(data)
+        self.assertTrue(data_eh_feriado_emendado)
