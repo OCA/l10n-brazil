@@ -130,9 +130,22 @@ class CrmLead(models.Model):
         return result
 
     @api.model
-    def _lead_create_contact(self, lead, name, is_company, parent_id=False):
-        result = super(CrmLead, self)._lead_create_contact(
-            lead, name, is_company, parent_id)
+    def _lead_create_contact(self, name, is_company,
+                             parent_id=False, lead=False):
+        """ extract data from lead to create a partner.
+            Se passar um lead como parametro, extrair dados do parametro, senao
+            extrais dados do self
+            :param name : furtur name of the partner
+            :param is_company : True if the partner is a company
+            :param lead : lead para extrair os dados
+            :param parent_id : id of the parent partner (False if no parent)
+            :returns res.partner record
+        """
+        partner_id = super(CrmLead, self)._lead_create_contact(
+            name, is_company, parent_id)
+
+        if not lead:
+            lead = self[0]
 
         value = {
             'number': lead.number,
@@ -154,7 +167,7 @@ class CrmLead(models.Model):
                 'cnpj_cpf': lead.cpf,
                 'inscr_est': lead.rg,
             })
-        if result:
-            partner = self.env['res.partner'].browse(result)
-            partner.write(value)
-        return result
+
+        if partner_id:
+            partner_id.write(value)
+        return partner_id
