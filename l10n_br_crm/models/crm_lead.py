@@ -113,21 +113,21 @@ class CrmLead(models.Model):
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
 
-    @api.multi
-    def on_change_partner(self, partner_id):
-        result = super(CrmLead, self).on_change_partner(partner_id)
-
-        if partner_id:
-            partner = self.pool.get('res.partner').browse(partner_id)
-            result['value']['legal_name'] = partner.legal_name
-            result['value']['cnpj_cpf'] = partner.cnpj_cpf
-            result['value']['inscr_est'] = partner.inscr_est
-            result['value']['suframa'] = partner.suframa
-            result['value']['number'] = partner.number
-            result['value']['district'] = partner.district
-            result['value']['l10n_br_city_id'] = partner.l10n_br_city_id.id
-
-        return result
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        result = super(CrmLead, self)._onchange_partner_id_values(
+            self.partner_id.id if self.partner_id else False
+        )
+        if self.partner_id:
+            result['legal_name'] = self.partner_id.legal_name
+            result['cpf'] = self.partner_id.cnpj_cpf
+            result['inscr_est'] = self.partner_id.inscr_est
+            result['suframa'] = self.partner_id.suframa
+            result['number'] = self.partner_id.number
+            result['district'] = self.partner_id.district
+            result['l10n_br_city_id'] = \
+                self.partner_id.l10n_br_city_id.id
+        self.update(result)
 
     @api.model
     def _lead_create_contact(self, name, is_company,
