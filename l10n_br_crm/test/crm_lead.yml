@@ -147,7 +147,7 @@
     district: centro
     l10n_br_city_id: l10n_br_base.city_4205407
 -
-  I Change a Partner
+  I Change a Partner of the Lead
 -
   !python {model: crm.lead, id: crm_lead_company_1}: |
     self.partner_id = ref('l10n_br_crm.partner_id_01')
@@ -160,3 +160,11 @@
     assert self.number  == '1225' , 'In the change of the partner the field number was not automatically filled.'
     assert self.district  == 'centro' , 'In the change of the partner the field district was not automatically filled.'
     assert self.l10n_br_city_id.id  == ref('l10n_br_base.city_4205407') , 'In the change of the partner the field l10n_br_city_id was not automatically filled.'
+-
+  I Change a City of the Lead
+-
+  !python {model: crm.lead, id: crm_lead_company_1}: |
+    self.l10n_br_city_id = ref('l10n_br_base.city_3149101')
+    self.onchange_l10n_br_city_id()
+    assert self.city  == 'Pedralva' , 'In the change of the l10n_br_city_id of the lead the field city was not automatically filled.'
+    assert self.l10n_br_city_id.name  == 'Pedralva' , 'In the l10n_br_city_id of the lead the field l10n_br_city_id.name was not automatically filled.'
