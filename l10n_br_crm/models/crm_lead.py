@@ -133,8 +133,8 @@ class CrmLead(models.Model):
     def _lead_create_contact(self, name, is_company,
                              parent_id=False, lead=False):
         """ extract data from lead to create a partner.
-            Se passar um lead como parametro, extrair dados do parametro, senao
-            extrais dados do self
+            Se passar um lead como parâmetro, extrair dados do parâmetro, senão
+            extrair dados do self.
             :param name : furtur name of the partner
             :param is_company : True if the partner is a company
             :param lead : lead para extrair os dados
