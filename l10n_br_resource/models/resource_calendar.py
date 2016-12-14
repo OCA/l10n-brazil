@@ -113,27 +113,24 @@ class ResourceCalendar(models.Model):
     def data_eh_feriado(self, data_referencia=datetime.now()):
         """Verificar se uma data é feriado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
-                                    verifique se hoje eh feriado.
+                                    verifique se hoje eh feriado no calendario
+                                    corrente.
                                     Se a data referencia for passada, verifique
-                                    se a data esta dentro de algum leave
+                                    se a data esta dentro de algum leave do
+                                    calendario corrente
                                     date_start <= data_referencia <= data_end
 
-        :return int leaves_count: +1 se for feriado
-                                   0 se a data nao for feriado
+        :return boolean True se a data referencia for feriado
+                        False se a data referencia nao for feriado
         """
-        domain = [
-            ('date_from', '<=', data_referencia.strftime(
-                "%Y-%m-%d %H:%M:%S"
-            )),
-            ('date_to', '>=', data_referencia.strftime(
-                "%Y-%m-%d %H:%M:%S"
-            )),
-            ('leave_type', '<=', 'F'),
-        ]
-        leaves_count = self.env['resource.calendar.leaves'].search_count(
-            domain
-        )
-        return leaves_count
+        for leave in self.leave_ids:
+            if leave.date_from <= data_referencia.strftime(
+                    "%Y-%m-%d %H:%M:%S") and \
+                leave.date_to >= data_referencia.strftime(
+                        "%Y-%m-%d %H:%M:%S") and \
+                    leave.leave_type == 'F':
+                return True
+        return False
 
     @api.multi
     def data_eh_feriado_bancario(self, data_referencia=datetime.now()):
