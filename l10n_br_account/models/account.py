@@ -159,25 +159,3 @@ class WizardMultiChartsAccounts(models.TransientModel):
                     fp_id.write(
                         {'cfop_id': fp_template.cfop_id.id})
         return result
-
-
-class AccountAccount(models.Model):
-    _inherit = 'account.account'
-
-    def _check_allow_type_change(self, new_type, context=None):
-        """Hack to allow re-shaping demo chart of account in demo mode"""
-        self._cr.execute("""SELECT demo
-            FROM ir_module_module WHERE name = 'l10n_br_account';""")
-        if self._cr.fetchone()[0]:
-            return True
-        else:
-            return super(AccountAccount, self)._check_allow_type_change()
-
-    def _check_allow_code_change(self, context=None):
-        """Hack to allow re-shaping demo chart of account in demo mode"""
-        self._cr.execute("""SELECT demo
-            FROM ir_module_module WHERE name = 'l10n_br_account';""")
-        if self._cr.fetchone()[0]:
-            return True
-        else:
-            return super(AccountAccount, self)._check_allow_code_change()
