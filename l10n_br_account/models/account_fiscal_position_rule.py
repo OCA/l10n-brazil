@@ -9,7 +9,23 @@ from odoo.addons import decimal_precision as dp
 from .res_company import COMPANY_FISCAL_TYPE, COMPANY_FISCAL_TYPE_DEFAULT
 
 
-class AccountFiscalPositionRuleTemplate(models.Model):
+class AccountFiscalPositionRuleAbstract(object):
+
+    fiscal_category_id = fields.Many2one(
+        'l10n_br_account.fiscal.category', 'Categoria')
+    fiscal_type = fields.Selection(
+        COMPANY_FISCAL_TYPE, u'Regime Tributário', required=True,
+        default=COMPANY_FISCAL_TYPE_DEFAULT)
+    revenue_start = fields.Float(
+        'Faturamento Inicial', digits=dp.get_precision('Account'),
+        default=0.00, help="Faixa inicial de faturamento bruto")
+    revenue_end = fields.Float(
+        'Faturamento Final', digits=dp.get_precision('Account'),
+        default=0.00, help="Faixa inicial de faturamento bruto")
+
+
+class AccountFiscalPositionRuleTemplate(AccountFiscalPositionRuleAbstract,
+                                        models.Model):
     _inherit = 'account.fiscal.position.rule.template'
 
     partner_fiscal_type_id = fields.Many2many(
@@ -28,24 +44,13 @@ class AccountFiscalPositionRuleTemplate(models.Model):
         column2='partner_special_fiscal_type_id',
         string='Regime especial'
     )
-    fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria')
-    fiscal_type = fields.Selection(
-        COMPANY_FISCAL_TYPE, u'Regime Tributário', required=True,
-        default=COMPANY_FISCAL_TYPE_DEFAULT)
-    revenue_start = fields.Float(
-        'Faturamento Inicial', digits_compute=dp.get_precision('Account'),
-        default=0.00, help="Faixa inicial de faturamento bruto")
-    revenue_end = fields.Float(
-        'Faturamento Final', digits_compute=dp.get_precision('Account'),
-        default=0.00, help="Faixa inicial de faturamento bruto")
-    parent_id = fields.Many2one(
-        'account.fiscal.position.rule.template', 'Regra Pai')
-    child_ids = fields.One2many(
-        'account.fiscal.position.rule.template', 'parent_id', 'Regras Filhas')
+
+    
 
 
-class AccountFiscalPositionRule(models.Model):
+class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
+                                models.Model):
+
     _inherit = 'account.fiscal.position.rule'
 
     partner_fiscal_type_id = fields.Many2many(
@@ -62,25 +67,10 @@ class AccountFiscalPositionRule(models.Model):
         column2='partner_special_fiscal_type_id',
         string='Regime especial'
     )
-    fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria')
-    fiscal_type = fields.Selection(
-        COMPANY_FISCAL_TYPE, u'Regime Tributário', required=True,
-        default=COMPANY_FISCAL_TYPE_DEFAULT)
-    revenue_start = fields.Float(
-        'Faturamento Inicial', digits_compute=dp.get_precision('Account'),
-        default=0.00, help="Faixa inicial de faturamento bruto")
-    revenue_end = fields.Float(
-        'Faturamento Final', digits_compute=dp.get_precision('Account'),
-        default=0.00, help="Faixa inicial de faturamento bruto")
-    parent_id = fields.Many2one('account.fiscal.position.rule', 'Regra Pai')
-    child_ids = fields.One2many(
-        'account.fiscal.position.rule', 'parent_id', 'Regras Filhas')
 
     def _map_domain(self, partner, addrs, company, **kwargs):
         from_country = company.partner_id.country_id.id
         from_state = company.partner_id.state_id.id
-        fiscal_rule_parent_id = company.fiscal_rule_parent_id.id
         partner_fiscal_type_id = partner.partner_fiscal_type_id.id
 
         document_date = self.env.context.get('date', time.strftime('%Y-%m-%d'))
@@ -111,8 +101,6 @@ class AccountFiscalPositionRule(models.Model):
             ('from_country', '=', False),
             '|', ('from_state', '=', from_state),
             ('from_state', '=', False),
-            '|', ('parent_id', '=', fiscal_rule_parent_id),
-            ('parent_id', '=', False),
             '|', ('date_start', '=', False),
             ('date_start', '<=', document_date),
             '|', ('date_end', '=', False),
