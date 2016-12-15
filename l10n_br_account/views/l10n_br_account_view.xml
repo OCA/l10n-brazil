@@ -1,598 +1,595 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <menuitem id="menu_l10n_br_account" icon="terp-crm" name="Fiscal" sequence="45"/>
-	<menuitem id="menu_fiscal_document" name="Documentos Fiscais" parent="menu_l10n_br_account" sequence="10"/>
-        <menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="20" groups="account.group_account_invoice"/>
+    <menuitem id="menu_l10n_br_account" icon="terp-crm" name="Fiscal" sequence="45"/>
+    <menuitem id="menu_fiscal_document" name="Documentos Fiscais" parent="menu_l10n_br_account" sequence="10"/>
+    <menuitem id="menu_l10n_br_account_fiscal" name="Fiscal" parent="menu_l10n_br_account" sequence="20" groups="account.group_account_invoice"/>
 	<menuitem id="menu_l10n_br_account_configuration" name="Configuração" parent="menu_l10n_br_account" sequence="99" groups="account.group_account_user"/>
-        <menuitem id="menu_l10n_br_account_configuration_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
+    <menuitem id="menu_l10n_br_account_configuration_fiscal" name="Fiscal" parent="menu_l10n_br_account_configuration" sequence="0"/>
 
-        <record id="l10n_br_account_invoice_cancel_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.cancel.form</field>
-            <field name="model">l10n_br_account.invoice.cancel</field>
-            <field name="arch" type="xml">
-                <form string="NFs Canceladas" edit="false" create="false">
-                    <group>
-                        <field name="invoice_id"/>
-                        <field name="partner_id"/>
-                    </group>
-                    <group>
-                        <field name="justificative"/>
-                    </group>
-                    <notebook>
-                        <page string="Eventos">
-                            <field name="cancel_document_event_ids"/>
-                        </page>
-                    </notebook>
-                </form>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_cce_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.cce.form</field>
-            <field name="model">l10n_br_account.invoice.cce</field>
-            <field name="arch" type="xml">
-                <form string="Carta de Correção" version="7.0" edit="false" create="false">
-                    <group>
-                        <field name="invoice_id"/>
-                        <field name="sequencia"/>
-                    </group>
-                    <group>
-                         <field name="motivo"/>
-                    </group>
-                    <notebook>
-                        <page string="Eventos">
-                            <field name="cce_document_event_ids"/>
-                        </page>
-                    </notebook>
-                </form>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_invoice_cancel_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.cancel.tree</field>
-            <field name="model">l10n_br_account.invoice.cancel</field>
-            <field name="arch" type="xml">
-                <tree string="NFs Canceladas" edit="false" create="false">
-                    <field name="invoice_id" style="width: 100%" />
-                    <field name="partner_id" style="width: 100%" />
-                    <field name="justificative"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_cce_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.cce.tree</field>
-            <field name="model">l10n_br_account.invoice.cce</field>
-            <field name="arch" type="xml">
-                <tree string="Carta de Correção" edit="false" create="false">
+    <record id="l10n_br_account_invoice_cancel_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.cancel.form</field>
+        <field name="model">l10n_br_account.invoice.cancel</field>
+        <field name="arch" type="xml">
+            <form string="NFs Canceladas" edit="false" create="false">
+                <group>
                     <field name="invoice_id"/>
-                    <field name="motivo"/>
+                    <field name="partner_id"/>
+                </group>
+                <group>
+                    <field name="justificative"/>
+                </group>
+                <notebook>
+                    <page string="Eventos">
+                        <field name="cancel_document_event_ids"/>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_cce_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.cce.form</field>
+        <field name="model">l10n_br_account.invoice.cce</field>
+        <field name="arch" type="xml">
+            <form string="Carta de Correção" version="7.0" edit="false" create="false">
+                <group>
+                    <field name="invoice_id"/>
                     <field name="sequencia"/>
-                </tree>
-            </field>
-        </record>
+                </group>
+                <group>
+                     <field name="motivo"/>
+                </group>
+                <notebook>
+                    <page string="Eventos">
+                        <field name="cce_document_event_ids"/>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_fiscal_document_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.fiscal.document</field>
-            <field name="model">l10n_br_account.fiscal.document</field>
-            <field name="arch" type="xml">
-                <form string="Documento Fiscal">
-                    <sheet>
-                        <group>
-                            <field name="code" select="1"/>
-                            <field name="name" select="1"/>
-                            <field name="electronic" select="2"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+    <record id="l10n_br_account_invoice_cancel_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.cancel.tree</field>
+        <field name="model">l10n_br_account.invoice.cancel</field>
+        <field name="arch" type="xml">
+            <tree string="NFs Canceladas" edit="false" create="false">
+                <field name="invoice_id" style="width: 100%" />
+                <field name="partner_id" style="width: 100%" />
+                <field name="justificative"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_fiscal_document_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.fiscal.document</field>
-            <field name="model">l10n_br_account.fiscal.document</field>
-            <field name="arch" type="xml">
-                <tree string="Documento Fiscal">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="electronic" select="2"/>
-                </tree>
-            </field>
-        </record>
+    <record id="l10n_br_account_cce_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.cce.tree</field>
+        <field name="model">l10n_br_account.invoice.cce</field>
+        <field name="arch" type="xml">
+            <tree string="Carta de Correção" edit="false" create="false">
+                <field name="invoice_id"/>
+                <field name="motivo"/>
+                <field name="sequencia"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_fiscal_category_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.fiscal.category.form</field>
-            <field name="model">l10n_br_account.fiscal.category</field>
-            <field name="arch" type="xml">
-                <form string="Categoria Fiscal">
-                    <header>
-                        <button name="fiscal_category_review" states="draft" string="Revisar" groups="account.group_account_invoice"/>
-                        <button name="fiscal_category_approved" states="draft,review" string="Aprovar" groups="account.group_account_manager"/>
-                        <button name="fiscal_category_unapproved" states="review,approved" string="Reprovar" groups="account.group_account_manager"/>
-                        <button name="action_unapproved_draft" type="object" states="unapproved" string="Voltar para Rascunho" groups="account.group_account_manager"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approved,unapproved" statusbar_colors='{"unapproved": "red","draft": "blue", "review": "yellow", "approved": "green"}'/>
-                    </header>
-                    <sheet>
-                        <group>
-                            <field name="code" select="1"/>
-                            <field name="name" select="1"/>
-                        </group>
-                        <group>
-                            <group>
-                                <field name="type" select="1"/>
-                                <field name="fiscal_type" invisible="1"/>
-                            </group>
-                            <group>
-                                <field name="reverse_fiscal_category_id"/>
-                                <field name="refund_fiscal_category_id" select="1"/>
-                            </group>
-                            <newline/>
-                            <group colspan="4" string="Diário Contábil">
-                                <field name="journal_type" select="1" on_change="onchange_journal_type(journal_type)"/>
-                                <field required="1" name="property_journal" domain="[('type', '=', journal_type)]"/>
-                            </group>
-                            <group colspan="4" string="Posições Fiscais">
-                                <field name="fiscal_position_ids" nolabel="1">
-                                    <tree string="Posições Fiscais">
-                                        <field name="name"/>
-                                        <field name="company_id"/>
-                                        <field name="state"/>
-                                    </tree>
-                                </field>
-                            </group>
-                        </group>
-                        <group string="Observações">
-                            <field name="note" nolabel="1"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_fiscal_category_search" model="ir.ui.view">
-            <field name="name">l10n_br_account.fiscal.category.search</field>
-            <field name="model">l10n_br_account.fiscal.category</field>
-            <field name="arch" type="xml">
-                <search string="Pesquisar Categorias Fiscais">
-                    <field name="name" string="Categoria Fiscal" filter_domain="[('name','ilike',self)]"/>
-                    <separator/>
-                    <filter icon="terp-document-new" string="Rascunho" name="draft" domain="[('state', '=', 'draft')]"/>
-                    <filter icon="terp-document-new" string="Revisão" name="review" domain="[('state', '=', 'review')]"/>
-                    <filter icon="terp-document-new" string="Aprovada" name="approved" domain="[('state', '=', 'approved')]"/>
-                    <filter icon="terp-document-new" string="Não Aprovada" name="unapproved" domain="[('state', '=', 'unapproved')]"/>
-                    <group expand="0" string="Agrupar Por...">
-                        <filter string="Status" icon="terp-personal" domain="[]" context="{'group_by': 'state'}"/>
-                        <filter string="Tipo do Diário" icon="terp-personal" domain="[]" context="{'group_by': 'journal_type'}"/>
+    <record id="view_l10n_br_account_fiscal_document_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.document</field>
+        <field name="model">l10n_br_account.fiscal.document</field>
+        <field name="arch" type="xml">
+            <form string="Documento Fiscal">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                        <field name="electronic" select="2"/>
                     </group>
-                </search>
-            </field>
-        </record>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_fiscal_category_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.fiscal.category.tree</field>
-            <field name="model">l10n_br_account.fiscal.category</field>
-            <field name="arch" type="xml">
-                <tree string="Categoria Fiscal" colors="grey:state=='unapproved';blue:state in ('draft','review');red:state=='unapproved'">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="type" select="1"/>
-                    <field name="reverse_fiscal_category_id"/>
-                    <field name="refund_fiscal_category_id"/>
+    <record id="view_l10n_br_account_fiscal_document_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.document</field>
+        <field name="model">l10n_br_account.fiscal.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documento Fiscal">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="electronic" select="2"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_fiscal_category_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.category.form</field>
+        <field name="model">l10n_br_account.fiscal.category</field>
+        <field name="arch" type="xml">
+            <form string="Categoria Fiscal">
+                <header>
+                    <button name="fiscal_category_review" states="draft" string="Revisar" groups="account.group_account_invoice"/>
+                    <button name="fiscal_category_approved" states="draft,review" string="Aprovar" groups="account.group_account_manager"/>
+                    <button name="fiscal_category_unapproved" states="review,approved" string="Reprovar" groups="account.group_account_manager"/>
+                    <button name="action_unapproved_draft" type="object" states="unapproved" string="Voltar para Rascunho" groups="account.group_account_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved,unapproved" statusbar_colors='{"unapproved": "red","draft": "blue", "review": "yellow", "approved": "green"}'/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="type" select="1"/>
+                            <field name="fiscal_type" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="reverse_fiscal_category_id"/>
+                            <field name="refund_fiscal_category_id" select="1"/>
+                        </group>
+                        <newline/>
+                        <group colspan="4" string="Diário Contábil">
+                            <field name="journal_type" select="1" on_change="onchange_journal_type(journal_type)"/>
+                            <field required="1" name="property_journal" domain="[('type', '=', journal_type)]"/>
+                        </group>
+                        <group colspan="4" string="Posições Fiscais">
+                            <field name="fiscal_position_ids" nolabel="1">
+                                <tree string="Posições Fiscais">
+                                    <field name="name"/>
+                                    <field name="company_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <group string="Observações">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_fiscal_category_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.category.search</field>
+        <field name="model">l10n_br_account.fiscal.category</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Categorias Fiscais">
+                <field name="name" string="Categoria Fiscal" filter_domain="[('name','ilike',self)]"/>
+                <separator/>
+                <filter icon="terp-document-new" string="Rascunho" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter icon="terp-document-new" string="Revisão" name="review" domain="[('state', '=', 'review')]"/>
+                <filter icon="terp-document-new" string="Aprovada" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter icon="terp-document-new" string="Não Aprovada" name="unapproved" domain="[('state', '=', 'unapproved')]"/>
+                <group expand="0" string="Agrupar Por...">
+                    <filter string="Status" icon="terp-personal" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Tipo do Diário" icon="terp-personal" domain="[]" context="{'group_by': 'journal_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_fiscal_category_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.category.tree</field>
+        <field name="model">l10n_br_account.fiscal.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categoria Fiscal" colors="grey:state=='unapproved';blue:state in ('draft','review');red:state=='unapproved'">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="type" select="1"/>
+                <field name="reverse_fiscal_category_id"/>
+                <field name="refund_fiscal_category_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_partner_fiscal_type_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.partner.fiscal.type</field>
+        <field name="model">l10n_br_account.partner.fiscal.type</field>
+        <field name="arch" type="xml">
+            <form string="Tipo Fiscal de Parceiro">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                        <field name="is_company" select="1"/>
+                        <field name="default"/>
+                        <group string="Recupera Impostos" colspan="4">
+                            <field name="icms"/>
+                            <field name="ipi"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_partner_fiscal_type_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.partner.fiscal.type</field>
+        <field name="model">l10n_br_account.partner.fiscal.type</field>
+        <field name="arch" type="xml">
+            <tree string="Tipo Fiscal de Parceiro">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="is_company" select="1"/>
+            </tree>
+        </field>
+    </record>
+
+<record id="view_l10n_br_account_partner_special_fiscal_type_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.partner.special.fiscal.type</field>
+        <field name="model">l10n_br_account.partner.special.fiscal.type</field>
+        <field name="arch" type="xml">
+            <form string="Regime Especial do Parceiro">
+                <sheet>
+                    <group>
+                        <field name="name" select="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_partner_special_fiscal_type_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.partner.special.fiscal.type</field>
+        <field name="model">l10n_br_account.partner.special.fiscal.type</field>
+        <field name="arch" type="xml">
+            <tree string="Regime especial do Parceiro">
+                <field name="name" select="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_l10n_br_account_document_serie_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.document.serie</field>
+        <field name="model">l10n_br_account.document.serie</field>
+        <field name="arch" type="xml">
+            <form string="Serie de Documentos Fiscais">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="active"/>
+                        <field name="name" select="1"/>
+                        <field name="fiscal_document_id" select="1"/>
+                        <field name="fiscal_type"/>
+                        <field name="internal_sequence_id" select="1"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_account_document_serie_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.document.serie</field>
+        <field name="model">l10n_br_account.document.serie</field>
+        <field name="arch" type="xml">
+            <tree string="Serie de Documentos Fiscais">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="fiscal_document_id" select="1"/>
+                <field name="company_id" select="1"/>
+                <field name="active" select="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_document_event_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.document_event.form</field>
+        <field name="model">l10n_br_account.document_event</field>
+        <field name="arch" type="xml">
+            <form string="Eventos Eletronicos" version="7.0" edit="false" create="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,send,wait,done"/>
+                </header>
+                <group>
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <field name="response"/>
+                    <field name="origin"/>
+                    <field name="write_date"/>
+                    <field name="file_sent"/>
+                    <field name="end_date"/>
+                    <field name="file_returned"/>
+                    <field name="status"/>
+                    <field name="message"/>
                     <field name="state"/>
-                </tree>
-            </field>
-        </record>
+                </group>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_partner_fiscal_type_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.partner.fiscal.type</field>
-            <field name="model">l10n_br_account.partner.fiscal.type</field>
-            <field name="arch" type="xml">
-                <form string="Tipo Fiscal de Parceiro">
-                    <sheet>
-                        <group>
-                            <field name="code" select="1"/>
-                            <field name="name" select="1"/>
-                            <field name="is_company" select="1"/>
-                            <field name="default"/>
-                            <group string="Recupera Impostos" colspan="4">
-                                <field name="icms"/>
-                                <field name="ipi"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+    <record id="l10n_br_account_document_event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.document_event.tree</field>
+        <field name="model">l10n_br_account.document_event</field>
+        <field name="arch" type="xml">
+            <tree string="Eventos Eletronicos" edit="false" create="false">
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <field name="response"/>
+                    <field name="origin"/>
+                    <field name="write_date"/>
+                    <field name="end_date"/>
+                    <field name="status"/>
+                    <field name="message"/>
+                    <field name="state"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_partner_fiscal_type_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.partner.fiscal.type</field>
-            <field name="model">l10n_br_account.partner.fiscal.type</field>
-            <field name="arch" type="xml">
-                <tree string="Tipo Fiscal de Parceiro">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="is_company" select="1"/>
-                </tree>
-            </field>
-        </record>
-
-    <record id="view_l10n_br_account_partner_special_fiscal_type_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.partner.special.fiscal.type</field>
-            <field name="model">l10n_br_account.partner.special.fiscal.type</field>
-            <field name="arch" type="xml">
-                <form string="Regime Especial do Parceiro">
-                    <sheet>
-                        <group>
-                            <field name="name" select="1"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_l10n_br_account_partner_special_fiscal_type_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.partner.special.fiscal.type</field>
-            <field name="model">l10n_br_account.partner.special.fiscal.type</field>
-            <field name="arch" type="xml">
-                <tree string="Regime especial do Parceiro">
-                    <field name="name" select="1"/>
-                </tree>
-            </field>
-        </record>
-
-
-        <record id="view_l10n_br_account_document_serie_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.document.serie</field>
-            <field name="model">l10n_br_account.document.serie</field>
-            <field name="arch" type="xml">
-                <form string="Serie de Documentos Fiscais">
-                    <sheet>
-                        <group>
-                            <field name="code" select="1"/>
-                            <field name="active"/>
-                            <field name="name" select="1"/>
-                            <field name="fiscal_document_id" select="1"/>
-                            <field name="fiscal_type"/>
-                            <field name="internal_sequence_id" select="1"/>
-                            <field name="company_id"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_l10n_br_account_document_serie_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.document.serie</field>
-            <field name="model">l10n_br_account.document.serie</field>
-            <field name="arch" type="xml">
-                <tree string="Serie de Documentos Fiscais">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="fiscal_document_id" select="1"/>
-                    <field name="company_id" select="1"/>
-                    <field name="active" select="1"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_document_event_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.document_event.form</field>
-            <field name="model">l10n_br_account.document_event</field>
-            <field name="arch" type="xml">
-                <form string="Eventos Eletronicos" version="7.0" edit="false" create="false">
-                    <header>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,send,wait,done"/>
-                    </header>
-                    <group>
-                        <field name="type"/>
-                        <field name="company_id"/>
-                        <field name="response"/>
-                        <field name="origin"/>
-                        <field name="write_date"/>
-                        <field name="file_sent"/>
-                        <field name="end_date"/>
-                        <field name="file_returned"/>
-                        <field name="status"/>
-                        <field name="message"/>
-                        <field name="state"/>
-                    </group>
-                </form>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_document_event_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.document_event.tree</field>
-            <field name="model">l10n_br_account.document_event</field>
-            <field name="arch" type="xml">
-                <tree string="Eventos Eletronicos" edit="false" create="false">
-                        <field name="type"/>
-                        <field name="company_id"/>
-                        <field name="response"/>
-                        <field name="origin"/>
-                        <field name="write_date"/>
-                        <field name="end_date"/>
-                        <field name="status"/>
-                        <field name="message"/>
-                        <field name="state"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_invoice_invalid_number_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.invalid.number.form</field>
-            <field name="model">l10n_br_account.invoice.invalid.number</field>
-            <field name="arch" type="xml">
-                <form string="Inutilizar Faixa de Numeração" version="7.0">
-                    <header>
-                        <button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
-                    </header>
-                    <group>
-                        <field name="company_id"/>
-                        <field name="fiscal_document_id"/>
-                        <field name="document_serie_id"/>
-                        <field name="number_start"/>
-                        <field name="number_end"/>
-                        <field name="justificative"/>
-                    </group>
-                    <field name="invalid_number_document_event_ids"/>
-                </form>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_invoice_invalid_number_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.invalid.number.tree</field>
-            <field name="model">l10n_br_account.invoice.invalid.number</field>
-            <field name="arch" type="xml">
-                <tree string="Inutilizar Faixa de Numeração">
+    <record id="l10n_br_account_invoice_invalid_number_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.invalid.number.form</field>
+        <field name="model">l10n_br_account.invoice.invalid.number</field>
+        <field name="arch" type="xml">
+            <form string="Inutilizar Faixa de Numeração" version="7.0">
+                <header>
+                    <button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <group>
+                    <field name="company_id"/>
                     <field name="fiscal_document_id"/>
                     <field name="document_serie_id"/>
                     <field name="number_start"/>
                     <field name="number_end"/>
-                    <field name="state"/>
-                    <field name="company_id"/>
-                </tree>
-            </field>
-        </record>
+                    <field name="justificative"/>
+                </group>
+                <field name="invalid_number_document_event_ids"/>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_cnae_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.cnae.form</field>
-            <field name="model">l10n_br_account.cnae</field>
-            <field name="arch" type="xml">
-                <form string="CNAE">
-                    <sheet>
-                        <group>
-                            <field name="code" select="1"/>
-                            <field name="name" select="1"/>
-                            <field name="version" select="1"/>
-                            <field name="internal_type" select="1"/>
-                            <field name="parent_id"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+    <record id="l10n_br_account_invoice_invalid_number_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.invalid.number.tree</field>
+        <field name="model">l10n_br_account.invoice.invalid.number</field>
+        <field name="arch" type="xml">
+            <tree string="Inutilizar Faixa de Numeração">
+                <field name="fiscal_document_id"/>
+                <field name="document_serie_id"/>
+                <field name="number_start"/>
+                <field name="number_end"/>
+                <field name="state"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_cnae_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.cnae.tree</field>
-            <field name="model">l10n_br_account.cnae</field>
-            <field name="arch" type="xml">
-                <tree string="CNAE">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="version" select="1"/>
-                    <field name="parent_id" select="1"/>
-                </tree>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_cnae_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.cnae.form</field>
+        <field name="model">l10n_br_account.cnae</field>
+        <field name="arch" type="xml">
+            <form string="CNAE">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                        <field name="version" select="1"/>
+                        <field name="internal_type" select="1"/>
+                        <field name="parent_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_cnae_structure" model="ir.ui.view">
-            <field name="name">l10n_br_account.cnae.structure</field>
-            <field name="model">l10n_br_account.cnae</field>
-            <field name="field_parent">child_ids</field>
-            <field name="arch" type="xml">
-                <tree string="Estrutura do CNAE">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="version"/>
-                    <field name="internal_type"/>
-                </tree>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_cnae_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.cnae.tree</field>
+        <field name="model">l10n_br_account.cnae</field>
+        <field name="arch" type="xml">
+            <tree string="CNAE">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="version" select="1"/>
+                <field name="parent_id" select="1"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_service_type_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.service.type.form</field>
-            <field name="model">l10n_br_account.service.type</field>
-            <field name="arch" type="xml">
-                <form string="Tipo de Serviço">
-                    <sheet>
-                        <group>
-                            <field name="code"/>
-                            <field name="name"/>
-                            <field name="internal_type"/>
-                            <field name="parent_id"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_cnae_structure" model="ir.ui.view">
+        <field name="name">l10n_br_account.cnae.structure</field>
+        <field name="model">l10n_br_account.cnae</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Estrutura do CNAE">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="version"/>
+                <field name="internal_type"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_service_type_tree" model="ir.ui.view">
-            <field name="name">l10n_br_account.service.type.tree</field>
-            <field name="model">l10n_br_account.service.type</field>
-            <field name="arch" type="xml">
-                <tree string="Tipo de Serviço">
-                    <field name="code" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="parent_id" select="1"/>
-                </tree>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_service_type_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.service.type.form</field>
+        <field name="model">l10n_br_account.service.type</field>
+        <field name="arch" type="xml">
+            <form string="Tipo de Serviço">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="internal_type"/>
+                        <field name="parent_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_service_type_structure" model="ir.ui.view">
-            <field name="name">l10n_br_account.service.type.structure</field>
-            <field name="model">l10n_br_account.service.type</field>
-            <field name="field_parent">child_ids</field>
-            <field name="arch" type="xml">
-                <tree string="Estrutura de Tipo de Serviço">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="internal_type"/>
-                </tree>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_service_type_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.service.type.tree</field>
+        <field name="model">l10n_br_account.service.type</field>
+        <field name="arch" type="xml">
+            <tree string="Tipo de Serviço">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="parent_id" select="1"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="action_l10n_br_account_fiscal_document_form" model="ir.actions.act_window">
-            <field name="name">Documento Fiscal</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.fiscal.document</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
-        </record>
+    <record id="view_l10n_br_account_service_type_structure" model="ir.ui.view">
+        <field name="name">l10n_br_account.service.type.structure</field>
+        <field name="model">l10n_br_account.service.type</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Estrutura de Tipo de Serviço">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="internal_type"/>
+            </tree>
+        </field>
+    </record>
 
-        <record id="action_l10n_br_account_fiscal_category_form" model="ir.actions.act_window">
-            <field name="name">Categoria Fiscal</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.fiscal.category</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="context">{"search_default_approved":1}</field>
-            <field name="search_view_id" ref="l10n_br_account_fiscal_category_search"/>
-            <field name="view_id" ref="view_l10n_br_account_fiscal_category_tree"/>
-        </record>
+    <record id="action_l10n_br_account_fiscal_document_form" model="ir.actions.act_window">
+        <field name="name">Documento Fiscal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_document_serie_form" model="ir.actions.act_window">
-            <field name="name">Document Serie</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.document.serie</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
-        </record>
+    <record id="action_l10n_br_account_fiscal_category_form" model="ir.actions.act_window">
+        <field name="name">Categoria Fiscal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.fiscal.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="context">{"search_default_approved":1}</field>
+        <field name="search_view_id" ref="l10n_br_account_fiscal_category_search"/>
+        <field name="view_id" ref="view_l10n_br_account_fiscal_category_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
-            <field name="name">Eventos Eletronicos</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.document_event</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="l10n_br_account_document_event_tree"/>
-        </record>
+    <record id="action_l10n_br_account_document_serie_form" model="ir.actions.act_window">
+        <field name="name">Document Serie</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.document.serie</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
+    </record>
+
+    <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
+        <field name="name">Eventos Eletronicos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.document_event</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_document_event_tree"/>
+    </record>
 
 
-        <record id="action_l10n_br_account_invoice_invalid_number" model="ir.actions.act_window">
-            <field name="name">Inutilizar Faixa de Numeração</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.invoice.invalid.number</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
-        </record>
+    <record id="action_l10n_br_account_invoice_invalid_number" model="ir.actions.act_window">
+        <field name="name">Inutilizar Faixa de Numeração</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.invoice.invalid.number</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_invoice_invalid_number_tree"/>
+    </record>
 
 
-        <record id="action_l10n_br_account_partner_fiscal_type_form" model="ir.actions.act_window">
-            <field name="name">Tipo Fiscal de Parceiro</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.partner.fiscal.type</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_partner_fiscal_type_tree"/>
-        </record>
+    <record id="action_l10n_br_account_partner_fiscal_type_form" model="ir.actions.act_window">
+        <field name="name">Tipo Fiscal de Parceiro</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.partner.fiscal.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_partner_fiscal_type_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_partner_special_fiscal_type_form" model="ir.actions.act_window">
-            <field name="name">Regime especial do Parceiro</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.partner.special.fiscal.type</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_partner_special_fiscal_type_tree"/>
-        </record>
+    <record id="action_l10n_br_account_partner_special_fiscal_type_form" model="ir.actions.act_window">
+        <field name="name">Regime especial do Parceiro</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.partner.special.fiscal.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_partner_special_fiscal_type_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_cnae_form" model="ir.actions.act_window">
-            <field name="name">CNAE</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.cnae</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_cnae_tree"/>
-        </record>
+    <record id="action_l10n_br_account_cnae_form" model="ir.actions.act_window">
+        <field name="name">CNAE</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.cnae</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_cnae_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_cnae_structure" model="ir.actions.act_window">
-            <field name="name">Estrutura do CNAE</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.cnae</field>
-            <field name="view_type">tree</field>
-            <field name="domain">[('parent_id','=',False)]</field>
-            <field name="view_id" ref="view_l10n_br_account_cnae_structure"/>
-        </record>
+    <record id="action_l10n_br_account_cnae_structure" model="ir.actions.act_window">
+        <field name="name">Estrutura do CNAE</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.cnae</field>
+        <field name="view_type">tree</field>
+        <field name="domain">[('parent_id','=',False)]</field>
+        <field name="view_id" ref="view_l10n_br_account_cnae_structure"/>
+    </record>
 
-        <record id="action_l10n_br_account_service_type_form" model="ir.actions.act_window">
-            <field name="name">Tipo de Serviço</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.service.type</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_l10n_br_account_service_type_tree"/>
-        </record>
+    <record id="action_l10n_br_account_service_type_form" model="ir.actions.act_window">
+        <field name="name">Tipo de Serviço</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.service.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_l10n_br_account_service_type_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_service_type_structure" model="ir.actions.act_window">
-            <field name="name">Estrutura de Tipo de Serviço</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.service.type</field>
-            <field name="view_type">tree</field>
-            <field name="domain">[('parent_id','=',False)]</field>
-            <field name="view_id" ref="view_l10n_br_account_service_type_structure"/>
-        </record>
+    <record id="action_l10n_br_account_service_type_structure" model="ir.actions.act_window">
+        <field name="name">Estrutura de Tipo de Serviço</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.service.type</field>
+        <field name="view_type">tree</field>
+        <field name="domain">[('parent_id','=',False)]</field>
+        <field name="view_id" ref="view_l10n_br_account_service_type_structure"/>
+    </record>
 
-        <record id="action_l10n_br_account_invoice_cancel" model="ir.actions.act_window">
-            <field name="name">Documentos Eletrônicos Cancelados</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.invoice.cancel</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
-        </record>
+    <record id="action_l10n_br_account_invoice_cancel" model="ir.actions.act_window">
+        <field name="name">Documentos Eletrônicos Cancelados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.invoice.cancel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
+    </record>
 
-        <record id="action_l10n_br_account_cce" model="ir.actions.act_window">
-            <field name="name">Carta de Correção</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_br_account.invoice.cce</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="l10n_br_account_cce_tree"/>
-        </record>
+    <record id="action_l10n_br_account_cce" model="ir.actions.act_window">
+        <field name="name">Carta de Correção</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account.invoice.cce</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_cce_tree"/>
+    </record>
 
-        <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
+    <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
 
-        <menuitem id="menu_action_cnae_form" name="CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_form" sequence="30" />
+    <menuitem id="menu_action_cnae_form" name="CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_form" sequence="30" />
 
-        <menuitem id="menu_action_cnae_structure" name="Estrutura do CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_structure" sequence="40" />
+    <menuitem id="menu_action_cnae_structure" name="Estrutura do CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_structure" sequence="40" />
 
-        <menuitem id="menu_action_service_type_form" name="Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_form" sequence="50" />
+    <menuitem id="menu_action_service_type_form" name="Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_form" sequence="50" />
 
-        <menuitem id="menu_action_service_type_structure" name="Estrutura de Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_structure" sequence="60" />
+    <menuitem id="menu_action_service_type_structure" name="Estrutura de Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_structure" sequence="60" />
 
-        <menuitem id="menu_action_l10n_br_account_partner_fiscal_type_form" name="Tipo Fiscal de Parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
+    <menuitem id="menu_action_l10n_br_account_partner_fiscal_type_form" name="Tipo Fiscal de Parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
 
-        <menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
+    <menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
 
-        <menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
+    <menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
 
-        <menuitem id="menu_action_l10n_br_account_fiscal_document_form" name="Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
+    <menuitem id="menu_action_l10n_br_account_fiscal_document_form" name="Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
 
-        <menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
+    <menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
 
-        <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
+    <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
 
-        <menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
+    <menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_invalid_number"/>
 
-        <menuitem id="menu_l10n_br_account_invoice_cancel" name="NFs Canceladas" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_cancel"/>
+    <menuitem id="menu_l10n_br_account_invoice_cancel" name="NFs Canceladas" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_invoice_cancel"/>
 
-        <menuitem id="menu_l10n_br_account_cce" name="Carta de Correção" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_cce"/>
+    <menuitem id="menu_l10n_br_account_cce" name="Carta de Correção" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_cce"/>
 
-    </data>
-
-</openerp>
+</odoo>
