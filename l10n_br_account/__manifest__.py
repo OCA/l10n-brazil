@@ -16,9 +16,6 @@
         'account_fiscal_position_rule',
     ],
     'data': [
-        'l10n_br_account_workflow.xml',
-        'account_fiscal_position_workflow.xml',
-        'account_invoice_workflow.xml',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
         'views/account_view.xml',
