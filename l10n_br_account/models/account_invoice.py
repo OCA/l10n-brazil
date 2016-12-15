@@ -2,8 +2,8 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api, _
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.addons import decimal_precision as dp
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
