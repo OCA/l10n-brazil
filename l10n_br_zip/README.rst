@@ -60,7 +60,7 @@ Credits
 Contributors
 ------------
 
-* Contributors list...
+* Hendrix Costa <hendrix.costa@kmee.com.br>
 
 Maintainer
 ----------

@@ -4,10 +4,10 @@
 
 import re
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
-from openerp.exceptions import except_orm
-from openerp.exceptions import Warning as UserError
+from odoo import models, fields, api
+from odoo.tools.translate import _
+from odoo.exceptions import except_orm
+from odoo.exceptions import Warning as UserError
 
 
 class L10nBrZip(models.Model):
