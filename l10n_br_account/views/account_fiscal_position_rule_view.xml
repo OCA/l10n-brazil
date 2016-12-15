@@ -1,131 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_template_tree">
-            <field name="name">l10n_br_account.fiscal.position.rule.template.tree
+    <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_template_tree">
+        <field name="name">l10n_br_account.fiscal.position.rule.template.tree
+        </field>
+        <field name="model">account.fiscal.position.rule.template</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="partner_fiscal_type_id"/>
+                <field name="fiscal_category_id"/>
             </field>
-            <field name="model">account.fiscal.position.rule.template</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_tree" />
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="partner_fiscal_type_id"/>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_tree">
+        <field name="name">l10n_br_account.fiscal.position.rule.tree</field>
+        <field name="model">account.fiscal.position.rule</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="partner_fiscal_type_id"/>
+                <field name="fiscal_category_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_template_form">
+        <field name="name">l10n_br_account.fiscal.position.rule.template.form</field>
+        <field name="model">account.fiscal.position.rule.template</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_form"/>
+        <field name="arch" type="xml">
+            <field name="to_invoice_state" position="after">
+                <separator string="l10n br" colspan="4"/>
+                <field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
+                <separator colspan="4"/>
+                <field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
+                <separator colspan="4"/>
+                <field name="fiscal_type"/>
+                <field name="fiscal_category_id" required="True"/>
+                <newline/>
+                <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
+                    <separator string="Faixa de Faturamento" colspan="4"/>
+                    <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start"/>
+                    <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end"/>
+                </group>
+            </field>
+            <field name="fiscal_position_id" position="replace">
+                <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_form">
+        <field name="name">l10n_br_account.fiscal.position.rule.form</field>
+        <field name="model">account.fiscal.position.rule</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_form"/>
+        <field name="arch" type="xml">
+            <field name="to_invoice_state" position="after">
+                <separator string="l10n br" colspan="4"/>
+                <field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
+                <separator colspan="4"/>
+                <field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
+                <separator colspan="4"/>
+                <field name="fiscal_type"/>
+                <field name="fiscal_category_id" required="True"/>
+                <newline/>
+                <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
+                    <separator string="Faixa de Faturamento" colspan="4"/>
+                    <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start"/>
+                    <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end"/>
+                </group>
+            </field>
+            <field name="fiscal_position_id" position="replace">
+                <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_sale_fiscal_position_rule_template_search">
+        <field name="name">l10n_br_sale.fiscal.position.rule.template.search</field>
+        <field name="model">account.fiscal.position.rule.template</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search/group" position="after">
+                <newline/>
+                <group expand="0" string="Extended Filters..." colspan="4" col="8">
                     <field name="fiscal_category_id"/>
-                </field>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_tree">
-            <field name="name">l10n_br_account.fiscal.position.rule.tree</field>
-            <field name="model">account.fiscal.position.rule</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_tree" />
-            <field name="arch" type="xml">
-                <field name="name" position="after">
                     <field name="partner_fiscal_type_id"/>
+                    <field name="fiscal_type"/>
+                </group>
+                <newline/>
+                <group expand="0" string="Group By..." colspan="4" col="8">
+                    <filter icon="terp-stock_effects-object-colorize" string="Fiscal Category" domain="[]" context="{'group_by':'fiscal_category_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Regra Pai" domain="[]" context="{'group_by':'parent_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Company Fiscal Type" domain="[]" context="{'group_by':'fiscal_type'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Fiscal Type" domain="[]" context="{'group_by':'partner_fiscal_type_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_sale_fiscal_position_rule_search">
+        <field name="name">l10n_br_sale.fiscal.position.rule.search</field>
+        <field name="model">account.fiscal.position.rule</field>
+        <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search/group" position="after">
+                <newline/>
+                <group expand="0" string="Extended Filters..." colspan="4" col="8">
                     <field name="fiscal_category_id"/>
-                </field>
-            </field>
-        </record>
+                    <field name="partner_fiscal_type_id"/>
+                </group>
+                <newline/>
+                <group expand="0" string="Group By..." colspan="4" col="8">
+                    <filter icon="terp-stock_effects-object-colorize" string="Fiscal Category" domain="[]" context="{'group_by':'fiscal_category_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Regra Pai" domain="[]" context="{'group_by':'parent_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Fiscal Type" domain="[]" context="{'group_by':'partner_fiscal_type_id'}"/>
+                    <filter icon="terp-stock_effects-object-colorize" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_template_form">
-            <field name="name">l10n_br_account.fiscal.position.rule.template.form</field>
-            <field name="model">account.fiscal.position.rule.template</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_form" />
-            <field name="arch" type="xml">
-                <field name="to_invoice_state" position="after">
-                    <separator string="l10n br" colspan="4" />
-                    <field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
-                    <separator colspan="4" />
-                    <field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
-                    <separator colspan="4" />
-                    <field name="parent_id" />
-                    <field name="fiscal_type" />
-                    <field name="fiscal_category_id" required="True"/>
-                    <newline />
-                    <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
-                        <separator string="Faixa de Faturamento" colspan="4" />
-                        <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start" />
-                        <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
-                    </group>
-                </field>
-                <field name="fiscal_position_id" position="replace">
-                    <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
-                </field>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_l10n_br_account_fiscal_position_rule_form">
-            <field name="name">l10n_br_account.fiscal.position.rule.form</field>
-            <field name="model">account.fiscal.position.rule</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_form" />
-            <field name="arch" type="xml">
-                <field name="to_invoice_state" position="after">
-                    <separator string="l10n br" colspan="4" />
-                    <field name="partner_fiscal_type_id" widget="many2many_checkboxes"/>
-                    <separator colspan="4" />
-                    <field name="partner_special_fiscal_type_id" widget="many2many_checkboxes"/>
-                    <separator colspan="4" />
-                    <field name="parent_id" />
-                    <field name="fiscal_type" />
-                    <field name="fiscal_category_id" required="True"/>
-                    <newline />
-                    <group colspan="4" attrs="{'invisible': [('fiscal_type', '=', '3')]}">
-                        <separator string="Faixa de Faturamento" colspan="4" />
-                        <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_start" />
-                        <field attrs="{'required': [('fiscal_type', '=', '3')]}" name="revenue_end" />
-                    </group>
-                </field>
-                <field name="fiscal_position_id" position="replace">
-                    <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
-                </field>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_l10n_br_sale_fiscal_position_rule_template_search">
-            <field name="name">l10n_br_sale.fiscal.position.rule.template.search</field>
-            <field name="model">account.fiscal.position.rule.template</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_template_search" />
-            <field name="arch" type="xml">
-                <xpath expr="/search/group" position="after">
-                    <newline />
-                    <group expand="0" string="Extended Filters..." colspan="4" col="8">
-                        <field name="fiscal_category_id" />
-                        <field name="partner_fiscal_type_id" />
-                        <field name="fiscal_type" />
-                    </group>
-                    <newline />
-                    <group expand="0" string="Group By..." colspan="4" col="8">
-                        <filter icon="terp-stock_effects-object-colorize" string="Fiscal Category" domain="[]" context="{'group_by':'fiscal_category_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Regra Pai" domain="[]" context="{'group_by':'parent_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Company Fiscal Type" domain="[]" context="{'group_by':'fiscal_type'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Fiscal Type" domain="[]" context="{'group_by':'partner_fiscal_type_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Company" domain="[]" context="{'group_by':'company_id'}" />
-                    </group>
-                </xpath>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_l10n_br_sale_fiscal_position_rule_search">
-            <field name="name">l10n_br_sale.fiscal.position.rule.search</field>
-            <field name="model">account.fiscal.position.rule</field>
-            <field name="inherit_id" ref="account_fiscal_position_rule.view_account_fiscal_position_rule_search" />
-            <field name="arch" type="xml">
-                <xpath expr="/search/group" position="after">
-                    <newline />
-                    <group expand="0" string="Extended Filters..." colspan="4" col="8">
-                        <field name="fiscal_category_id" />
-                        <field name="partner_fiscal_type_id" />
-                    </group>
-                    <newline />
-                    <group expand="0" string="Group By..." colspan="4" col="8">
-                        <filter icon="terp-stock_effects-object-colorize" string="Fiscal Category" domain="[]" context="{'group_by':'fiscal_category_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Regra Pai" domain="[]" context="{'group_by':'parent_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Fiscal Type" domain="[]" context="{'group_by':'partner_fiscal_type_id'}" />
-                        <filter icon="terp-stock_effects-object-colorize" string="Company" domain="[]" context="{'group_by':'company_id'}" />
-                    </group>
-                </xpath>
-            </field>
-        </record>
-
-    </data>
-</openerp>
+</odoo>
