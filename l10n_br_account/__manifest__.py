@@ -8,13 +8,12 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoobrasil.org',
-    'version': '8.0.2.0.0',
+    'version': '10.0.1.0.0',
     'depends': [
         'l10n_br',
         'l10n_br_base',
         'account_cancel',
         'account_fiscal_position_rule',
-        # 'web_context_tunnel',
     ],
     'data': [
         'l10n_br_account_workflow.xml',
