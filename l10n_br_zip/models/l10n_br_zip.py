@@ -66,7 +66,7 @@ class L10nBrZip(models.Model):
                 'country_id': zip_obj.country_id.id,
                 'state_id': zip_obj.state_id.id,
                 'l10n_br_city_id': zip_obj.l10n_br_city_id.id,
-                # 'city': zip_obj.l10n_br_city_id.name,
+                'city': zip_obj.l10n_br_city_id.name,
                 'district': zip_obj.district,
                 'street': ((zip_obj.street_type or '') +
                            ' ' + (zip_obj.street or '')) if
