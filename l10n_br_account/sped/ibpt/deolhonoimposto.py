@@ -36,8 +36,8 @@ def _request(req):
         return _convert(data)
 
     except urllib2.HTTPError, e:
-        from openerp import _
-        from openerp.exceptions import Warning as UserError
+        from odoo import _
+        from odoo.exceptions import Warning as UserError
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
