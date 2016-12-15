@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 from .l10n_br_account import PRODUCT_FISCAL_TYPE, TYPE
 
