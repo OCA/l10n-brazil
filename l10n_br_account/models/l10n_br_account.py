@@ -19,13 +19,6 @@ PRODUCT_FISCAL_TYPE = [
 
 PRODUCT_FISCAL_TYPE_DEFAULT = None
 
-class AccountTaxCode(models.Model):
-    _name = 'account.tax.code'
-
-    name = fields.Char(string=u'Name')
-    code = fields.Char(string=u'Code')
-    domain = fields.Char(string=u'Domain', size=6)
-
 
 class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
@@ -44,10 +37,10 @@ class L10nBrAccountCce(models.Model):
     )
 
     @api.multi
-    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    @api.depends('invoice_id.number', 'invoice_id.partner_id.name')
     def _compute_display_name(self):
         self.ensure_one()
-        names = ['Fatura', self.invoice_id.internal_number,
+        names = ['Fatura', self.invoice_id.number,
                  self.invoice_id.partner_id.name]
         self.display_name = ' / '.join(filter(None, names))
 
@@ -71,10 +64,10 @@ class L10nBrAccountInvoiceCancel(models.Model):
     )
 
     @api.multi
-    @api.depends('invoice_id.internal_number', 'invoice_id.partner_id.name')
+    @api.depends('invoice_id.number', 'invoice_id.partner_id.name')
     def _compute_display_name(self):
         self.ensure_one()
-        names = ['Fatura', self.invoice_id.internal_number,
+        names = ['Fatura', self.invoice_id.number,
                  self.invoice_id.partner_id.name]
         self.display_name = ' / '.join(filter(None, names))
 
@@ -128,7 +121,7 @@ class L10nBrDocumentEvent(models.Model):
     state = fields.Selection(
         [('draft', 'Rascunho'), ('send', 'Enviado'),
          ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
-        'Status', select=True, readonly=True, default='draft')
+        'Status', index=True, readonly=True, default='draft')
     document_event_ids = fields.Many2one(
         'account.invoice', 'Documentos')
     cancel_document_event_id = fields.Many2one(
@@ -192,7 +185,7 @@ class L10nBrAccountFiscalCategory(models.Model):
          ('review', u'Revisão'), ('approved', u'Aprovada'),
          ('unapproved', u'Não Aprovada')],
         'Status', readonly=True,
-        track_visibility='onchange', select=True, default='draft')
+        track_visibility='onchange', index=True, default='draft')
 
     _sql_constraints = [
         ('l10n_br_account_fiscal_category_code_uniq', 'unique (code)',
@@ -404,6 +397,7 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
 
 
 class L10nBrAccountPartnerFiscalType(models.Model):
+
     _name = 'l10n_br_account.partner.fiscal.type'
     _description = 'Tipo Fiscal de Parceiros'
 
@@ -440,23 +434,51 @@ class L10nBrAccountPartnerSpecialFiscalType(models.Model):
 
 
 class L10nBrAccountCNAE(models.Model):
+    """Classe para cadastro de Código Nacional de Atividade Econômica.
+
+        Os CNAEs são utilizados no cadastro de empresa para definir o
+    ramo de atividade primário e secundários das empresas cadastradas no Odoo.
+    """
+
     _name = 'l10n_br_account.cnae'
     _description = 'Cadastro de CNAE'
 
-    code = fields.Char(u'Código', size=16, required=True)
+    code = fields.Char(
+        u'Código',
+        size=16,
+        required=True
+    )
 
-    name = fields.Char(u'Descrição', size=64, required=True)
+    name = fields.Char(
+        u'Descrição',
+        size=64,
+        required=True
+    )
 
-    version = fields.Char(u'Versão', size=16, required=True)
+    version = fields.Char(
+        u'Versão',
+        size=16,
+        required=True
+    )
 
-    parent_id = fields.Many2one('l10n_br_account.cnae', 'CNAE Pai')
+    parent_id = fields.Many2one(
+        'l10n_br_account.cnae',
+        u'CNAE Pai'
+    )
 
     child_ids = fields.One2many(
-        'l10n_br_account.cnae', 'parent_id', 'CNAEs Filhos')
+        'l10n_br_account.cnae',
+        'parent_id',
+        u'CNAEs Filhos'
+    )
 
     internal_type = fields.Selection(
-        [('view', u'Visualização'), ('normal', 'Normal')],
-        'Tipo Interno', required=True, default='normal')
+        [('view', u'Visualização'),
+         ('normal', 'Normal')],
+        u'Tipo Interno',
+        required=True,
+        default='normal'
+    )
 
     @api.multi
     def name_get(self):
@@ -475,9 +497,7 @@ class L10nBrTaxDefinitionTemplate(object):
     tax_template_id = fields.Many2one('account.tax.template', u'Imposto',
                                       required=True)
 
-    tax_domain = fields.Char('Tax Domain', related='tax_template_id.domain',
-                             store=True)
-
+    # TODO
     # tax_code_template_id = fields.Many2one('account.tax.code.template',
     #                                        u'Código de Imposto')
 
@@ -487,11 +507,13 @@ class L10nBrTaxDefinition(object):
 
     tax_id = fields.Many2one('account.tax', string='Imposto', required=True)
 
-    tax_domain = fields.Char('Tax Domain', related='tax_id.domain',
-                             store=True)
+    # TODO
+    # tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
 
-    tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
-
-    company_id = fields.Many2one('res.company', string='Company',
-                                 related='tax_id.company_id',
-                                 store=True, readonly=True)
+    company_id = fields.Many2one(
+        'res.company',
+        string=u'Company',
+        related='tax_id.company_id',
+        store=True,
+        readonly=True
+    )
