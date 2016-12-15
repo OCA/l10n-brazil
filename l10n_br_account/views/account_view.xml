@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <record id="view_l10n_br_account_journal_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.journal.form</field>
-            <field name="model">account.journal</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
-                <notebook>
-                    <page string="Financeiro">
-                        <group>
-                            <field name="revenue_expense"/>
-                        </group>
-                    </page>
-                </notebook>
-            </field>
-        </record>
+    <record id="view_l10n_br_account_journal_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <notebook>
+                <page string="Financeiro">
+                    <group>
+                        <field name="revenue_expense"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_account_position_template_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.move.line.form</field>
-            <field name="model">account.move.line</field>
-            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
-            <field name="arch" type="xml">
-                <field name="journal_id" position="after">
-                    <field name="date_maturity"/>
-                </field>
+    <record id="view_l10n_br_account_position_template_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="date_maturity"/>
             </field>
-        </record>
+        </field>
+    </record>
 
-        <record id="view_tax_form" model="ir.ui.view">
-            <field name="name">account.tax</field>
-            <field name="model">account.tax</field>
-            <field name="inherit_id" ref="account.view_tax_form"/>
-            <field name="arch" type="xml">
-                <field name="description" position="after">
-                    <field name="domain"/>
-                </field>
-            </field>
-        </record>
-    </data>
-</openerp>
+</odoo>
