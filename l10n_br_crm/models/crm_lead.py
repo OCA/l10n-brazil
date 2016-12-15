@@ -4,10 +4,10 @@
 
 import re
 
-from openerp import models, fields, api
-from openerp.addons.l10n_br_base.tools import fiscal
-from openerp.exceptions import ValidationError
-from openerp.tools.translate import _
+from odoo import models, fields, api
+from odoo.addons.l10n_br_base.tools import fiscal
+from odoo.exceptions import ValidationError
+from odoo.tools.translate import _
 
 
 class CrmLead(models.Model):
@@ -104,7 +104,6 @@ class CrmLead(models.Model):
         """
         if self.l10n_br_city_id:
             self.city = self.l10n_br_city_id.name
-            self.l10n_br_city_id = self.l10n_br_city_id
 
     @api.onchange('zip')
     def _onchange_zip(self):
@@ -113,26 +112,39 @@ class CrmLead(models.Model):
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
 
-    @api.multi
-    def on_change_partner(self, partner_id):
-        result = super(CrmLead, self).on_change_partner(partner_id)
-
-        if partner_id:
-            partner = self.pool.get('res.partner').browse(partner_id)
-            result['value']['legal_name'] = partner.legal_name
-            result['value']['cnpj_cpf'] = partner.cnpj_cpf
-            result['value']['inscr_est'] = partner.inscr_est
-            result['value']['suframa'] = partner.suframa
-            result['value']['number'] = partner.number
-            result['value']['district'] = partner.district
-            result['value']['l10n_br_city_id'] = partner.l10n_br_city_id.id
-
-        return result
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        result = super(CrmLead, self)._onchange_partner_id_values(
+            self.partner_id.id if self.partner_id else False
+        )
+        if self.partner_id:
+            result['legal_name'] = self.partner_id.legal_name
+            result['cpf'] = self.partner_id.cnpj_cpf
+            result['inscr_est'] = self.partner_id.inscr_est
+            result['suframa'] = self.partner_id.suframa
+            result['number'] = self.partner_id.number
+            result['district'] = self.partner_id.district
+            result['l10n_br_city_id'] = \
+                self.partner_id.l10n_br_city_id.id
+        self.update(result)
 
     @api.model
-    def _lead_create_contact(self, lead, name, is_company, parent_id=False):
-        result = super(CrmLead, self)._lead_create_contact(
-            lead, name, is_company, parent_id)
+    def _lead_create_contact(self, name, is_company,
+                             parent_id=False, lead=False):
+        """ extract data from lead to create a partner.
+            Se passar um lead como parâmetro, extrair dados do parâmetro, senão
+            extrair dados do self.
+            :param name : furtur name of the partner
+            :param is_company : True if the partner is a company
+            :param lead : lead para extrair os dados
+            :param parent_id : id of the parent partner (False if no parent)
+            :returns res.partner record
+        """
+        partner_id = super(CrmLead, self)._lead_create_contact(
+            name, is_company, parent_id)
+
+        if not lead:
+            lead = self[0]
 
         value = {
             'number': lead.number,
@@ -154,7 +166,7 @@ class CrmLead(models.Model):
                 'cnpj_cpf': lead.cpf,
                 'inscr_est': lead.rg,
             })
-        if result:
-            partner = self.env['res.partner'].browse(result)
-            partner.write(value)
-        return result
+
+        if partner_id:
+            partner_id.write(value)
+        return partner_id

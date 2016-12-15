@@ -72,12 +72,18 @@ lista de discussão: [https://groups.google.com/forum/#!forum/openerp-brasil](ht
 
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
 [l10n_br_base](l10n_br_base/) | 10.0.1.0.0 | Brazilian Localization Base
+[l10n_br_crm](l10n_br_crm/) | 10.0.1.0.0 | Brazilian Localization CRM
+[l10n_br_crm_zip](l10n_br_crm_zip/) | 10.0.1.0.0 | Brazilian Localization CRM Zip
 [l10n_br_data_base](l10n_br_data_base/) | 10.0.1.0.0 | Brazilian Localisation Data Extension for Base
+[l10n_br_zip](l10n_br_zip/) | 10.0.1.0.0 | Brazilian Localisation ZIP Codes
+[l10n_br_zip_correios](l10n_br_zip_correios/) | 10.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
+
 
 Unported addons
 ---------------
@@ -88,8 +94,6 @@ addon | version | summary
 [l10n_br_account_product](l10n_br_account_product/) | 8.0.3.0.0 (unported) | Brazilian Localization Account Product
 [l10n_br_account_product_service](l10n_br_account_product_service/) | 8.0.2.0.0 (unported) | Brazilian Localization Account Product and Service
 [l10n_br_account_service](l10n_br_account_service/) | 8.0.2.0.0 (unported) | Brazilian Localization Account Service
-[l10n_br_crm](l10n_br_crm/) | 9.0.1.0.0 (unported) | Brazilian Localization CRM
-[l10n_br_crm_zip](l10n_br_crm_zip/) | 8.0.1.0.1 (unported) | Brazilian Localization CRM Zip
 [l10n_br_data_account](l10n_br_data_account/) | 8.0.1.0.1 (unported) | Brazilian Localisation Data Extension for Account
 [l10n_br_data_account_product](l10n_br_data_account_product/) | 8.0.1.0.0 (unported) | Brazilian Localisation Data Extension for Product
 [l10n_br_data_account_service](l10n_br_data_account_service/) | 8.0.1.0.0 (unported) | Brazilian Localization Data Account for Service
@@ -103,7 +107,5 @@ addon | version | summary
 [l10n_br_stock](l10n_br_stock/) | 8.0.1.0.0 (unported) | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.1 (unported) | Brazilian Localization WMS Accounting
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 8.0.1.0.0 (unported) | Brazilian Localization WMS Accounting Report
-[l10n_br_zip](l10n_br_zip/) | 9.0.1.0.0 (unported) | Brazilian Localisation ZIP Codes
-[l10n_br_zip_correios](l10n_br_zip_correios/) | 8.0.1.0.0 (unported) | Address from Brazilian Localization ZIP by Correios
 
 [//]: # (end addons)
