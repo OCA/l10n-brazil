@@ -1,91 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        <record id="view_l10n_br_account_partner_filter" model="ir.ui.view">
-            <field name="name">l10n_br_account.partner.filter</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-            <field name="arch" type="xml">
-                <field name="partner_id" position="before">
-                    <field name="internal_number" string="Número Exato de Fatura" filter_domain="[('internal_number','=ilike', self)]"/>
-                    <field name="legal_name" string="Razão Social"/>
-                    <field name="cnpj_cpf" string="CNPJ/CPF"/>
-                    <field name="ie" string="Inscr. Estadual"/>
-                </field>
-            </field>
-        </record>
+<odoo>
 
-        <!-- Customer Invoice views -->
-        <record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.form</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
-            <field name="arch" type="xml">
-                <button name="invoice_open" position="replace">
-                    <button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight"/>
-                </button>
-                <page name="other_info" position="before">
-                    <page string="Vencimentos">
-                        <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                            <tree string="Vencimentos">
-                                <field name="journal_id"/>
-                                <field name="date"/>
-                                <field name="date_maturity"/>
-                                <field name="name"/>
-                                <field name="ref"/>
-                                <field name="partner_id"/>
-                                <field name="move_id"/>
-                                <field name="debit"/>
-                                <field name="credit"/>
-                            </tree>
-                        </field>
-                    </page>
+    <record id="view_l10n_br_account_partner_filter" model="ir.ui.view">
+        <field name="name">l10n_br_account.partner.filter</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="legal_name" string="Razão Social"/>
+                <field name="cnpj_cpf" string="CNPJ/CPF"/>
+                <field name="ie" string="Inscr. Estadual"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Customer Invoice views -->
+    <record id="view_l10n_br_account_invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <page name="other_info" position="before">
+                <page string="Vencimentos">
+                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
+                        <tree string="Vencimentos">
+                            <field name="journal_id"/>
+                            <field name="date"/>
+                            <field name="date_maturity"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="partner_id"/>
+                            <field name="move_id"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                        </tree>
+                    </field>
                 </page>
-            </field>
-        </record>
+            </page>
+        </field>
+    </record>
 
-        <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
-			<field name="name">l10n_br_account.invoice.tree</field>
-			<field name="model">account.invoice</field>
-			<field name="inherit_id" ref="account.invoice_tree"/>
-			<field name="arch" type="xml">
-                <field name="type" position="after">
-                    <field name="fiscal_document_code" invisible="1"/>
-                    <button class="oe_inline" type="object"
-                        attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
-					    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
-                </field>
+    <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
+		<field name="name">l10n_br_account.invoice.tree</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_tree"/>
+		<field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="fiscal_document_code" invisible="1"/>
+                <button class="oe_inline" type="object"
+                    attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
+				    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
             </field>
-        </record>
+        </field>
+    </record>
 
-        <!-- Vendor Invoice views -->
-        <record id="l10n_br_account_invoice_supplier_form" model="ir.ui.view">
-            <field name="name">l10n_br_account.invoice.supplier.form</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form" />
-            <field name="arch" type="xml">
-                <button name="invoice_open" position="replace">
-                    <button name="invoice_validate" states="draft" string="Confirmar" class="oe_highlight"/>
-                </button>
-                <page name="other_info" position="before">
-                    <page string="Vencimentos">
-                        <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                            <tree string="Vencimentos">
-                                <field name="journal_id"/>
-                                <field name="date"/>
-                                <field name="date_maturity"/>
-                                <field name="name"/>
-                                <field name="ref"/>
-                                <field name="partner_id"/>
-                                <field name="move_id"/>
-                                <field name="debit"/>
-                                <field name="credit"/>
-                            </tree>
-                        </field>
-                    </page>
+    <!-- Vendor Invoice views 
+    <record id="l10n_br_account_invoice_supplier_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <page name="other_info" position="before">
+                <page string="Vencimentos">
+                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
+                        <tree string="Vencimentos">
+                            <field name="journal_id"/>
+                            <field name="date"/>
+                            <field name="date_maturity"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="partner_id"/>
+                            <field name="move_id"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                        </tree>
+                    </field>
                 </page>
-            </field>
-        </record>
+            </page>
+        </field>
+    </record> -->
 
-    </data>
-</openerp>
+</odoo>
