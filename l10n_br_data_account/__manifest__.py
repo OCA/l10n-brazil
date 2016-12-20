@@ -7,7 +7,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.1',
+    'version': '10.0.1.0.1',
     'depends': [
         'l10n_br_account',
     ],
@@ -19,6 +19,6 @@
         'demo/base_demo.xml',
     ],
     'category': 'Localisation',
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }
