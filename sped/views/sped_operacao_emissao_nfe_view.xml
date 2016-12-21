@@ -35,12 +35,12 @@
                     </group>
                     <notebook>
                         <page string="Configuração para produtos sem ST">
-                            <field name="item_sem_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'tree_view_ref': 'sped.sped_operacao_item_sem_st_tree'}" />
-                            <field name="item_simples_sem_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_sem_st_tree'}" />
+                            <field name="item_sem_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'tree_view_ref': 'sped.sped_operacao_item_tree', 'form_view_ref': 'sped.sped_operacao_item_form'}" />
+                            <field name="item_simples_sem_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_tree', 'form_view_ref': 'sped.sped_operacao_item_simples_form'}" />
                         </page>
                         <page string="Configuração para produtos com ST">
-                            <field name="item_com_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'tree_view_ref': 'sped.sped_operacao_item_com_st_tree'}" />
-                            <field name="item_simples_com_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_com_st_tree'}" />
+                            <field name="item_com_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'tree_view_ref': 'sped.sped_operacao_item_tree', 'form_view_ref': 'sped.sped_operacao_item_form'}" />
+                            <field name="item_simples_com_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_tree', 'form_view_ref': 'sped.sped_operacao_item_simples_form'}" />
                         </page>
                         <page string="Retenção de tributos">
                             <group>
