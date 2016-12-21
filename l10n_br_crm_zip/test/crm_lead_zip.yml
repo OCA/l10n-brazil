@@ -1,0 +1,36 @@
+-
+  I create a new zip code
+-
+  !record {model: l10n_br.zip, id: company_zip_test }:
+    zip: 88032050
+    l10n_br_city_id: l10n_br_base.city_4205407
+    state_id: base.state_br_sc
+    country_id: base.br
+    street: Donicia
+    street_type: Rua
+    district: centro
+-
+  Create a Lead for a Company
+-
+  !record {model: crm.lead, id: crm_lead_company}:
+    name: Test Company Lead
+    legal_name: Teste Empresa
+    cnpj: 56.647.352/0001-98
+    stage_id: crm.stage_lead1
+    partner_name: Test Partner
+    inscr_est: 079.798.013.363
+    inscr_mun: 99999999
+    zip: 88032050
+-
+  I Search the zip
+-
+  !python {model: crm.lead, id: crm_lead_company}:
+    self.zip_search()
+-
+  I check zip details
+-
+  !python {model: crm.lead, id: crm_lead_company}: |
+    assert self.zip == '88032-050', 'Lead is not set zip'
+    assert self.street == 'Rua Donicia', 'Lead is not set street'
+    assert self.district == 'centro', 'Lead is not set district'
+    assert self.l10n_br_city_id.id == ref('l10n_br_base.city_4205407'), 'Lead is not set City'
