@@ -47,7 +47,8 @@ class OperacaoFiscalItem(models.Model):
 
         if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
             if not self.cfop_id.eh_venda:
-                raise ValidationError('Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica uma venda!')
+                raise ValidationError('Você selecionou uma CSOSN que dá direito a crédito, porém a CFOP não indica '
+                                      'uma venda!')
 
         return res
 
@@ -64,11 +65,15 @@ class OperacaoFiscal(models.Model):
     _name = 'sped.operacao'
     _inherit = 'sped.operacao'
 
-    item_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens')
-    item_simples_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens')
+    item_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal')
+    item_simples_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal')
 
-    item_sem_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens', domain=[('tipo_protocolo', '=', 'P')])
-    item_simples_sem_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens', domain=[('tipo_protocolo', '=', 'P')])
+    item_sem_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal',
+                                      domain=[('tipo_protocolo', '=', 'P')])
+    item_simples_sem_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal',
+                                              domain=[('tipo_protocolo', '=', 'P')])
 
-    item_com_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens', domain=[('tipo_protocolo', '=', 'S')])
-    item_simples_com_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Itens', domain=[('tipo_protocolo', '=', 'S')])
+    item_com_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal',
+                                      domain=[('tipo_protocolo', '=', 'S')])
+    item_simples_com_st_ids = fields.One2many('sped.operacao.item', 'operacao_id', string='Item da operação fiscal',
+                                              domain=[('tipo_protocolo', '=', 'S')])
