@@ -32,4 +32,13 @@
         <field name="codigo_justificativa"></field>
     </record>
 
+    <record id="ALIQUOTA_PIS_COFINS_IMPORTACAO" model="sped.aliquota.pis.cofins">
+        <field name="al_pis">2.1</field>
+        <field name="al_cofins">9.65</field>
+        <field name="md_pis_cofins">0</field>
+        <field name="cst_pis_cofins_entrada">50</field>
+        <field name="cst_pis_cofins_saida">01</field>
+        <field name="codigo_justificativa"></field>
+    </record>
+
 </odoo>
