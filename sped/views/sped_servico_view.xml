@@ -27,20 +27,31 @@
                             <td style="width:20%;"><label for="descricao" /></td>
                             <td style="width:80%;" colspan="2"><field name="descricao" required="1" readonly="1" /></td>
                         </tr>
-<!--                        <tr>
-                            <td style="width:20%;"><label for="codigo_municipio" /></td>
-                            <td style="width:20%;"><field name="codigo_municipio" required="0" readonly="0" /></td>
-                            <td style="width:60%;"></td>
-                        </tr>-->
                     </table>
-                    <separator string="Alíquotas de ISS" />
-                    <field name="al_iss_ids" nolabel="1" colspan="4">
-                        <tree string="Alíquotas de ISS" editable="bottom">
-                            <field name="municipio_id" required="True" options="{'no_create': True, 'no_open': True}" />
-                            <field name="al_iss" required="True" />
-                            <field name="codigo" />
-                        </tree>
-                    </field>
+                    <notebook>
+                        <page string="ISS">
+                            <separator string="Alíquotas de ISS" />
+                            <field name="al_iss_ids" nolabel="1" colspan="4">
+                                <tree string="Alíquotas de ISS" editable="bottom">
+                                    <field name="municipio_id" required="True" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_iss" required="True" />
+                                    <field name="codigo" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="IBPT">
+                            <separator string="Alíquotas IBPT" />
+                            <field name="ibptax_ids" nolabel="1" readonly="1">
+                                <tree string="Alíquotas IBPT">
+                                    <field name="ibptax_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="estado_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_ibpt_nacional" />
+                                    <field name="al_ibpt_internacional" />
+                                    <field name="al_ibpt_municipal" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
