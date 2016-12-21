@@ -26,7 +26,6 @@ from inherited_res_partner import *
 #
 from sped_unidade import *
 
-
 #
 # Alíquotas
 #
@@ -43,10 +42,11 @@ from sped_cest import *
 from sped_cfop import *
 from sped_cnae import *
 from sped_ncm import *
-from sped_ncm_cest import *
 from sped_servico import *
 from sped_nbs import *
 from sped_ibptax import *
+from sped_ncm_cest import *
+from sped_ncm_ibptax import *
 
 from sped_aliquota_iss import *
 from sped_protocolo_icms import *
