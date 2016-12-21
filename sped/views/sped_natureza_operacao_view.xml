@@ -76,7 +76,7 @@
 
     <menuitem
         id="menu_sped_natureza_operacao"
-        sequence="4"
+        sequence="5"
         name="Naturezas de operação"
         parent="menu_sped_configuracao"
         action="sped_natureza_operacao_acao" />

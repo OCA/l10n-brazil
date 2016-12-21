@@ -56,27 +56,20 @@
     <menuitem
         parent="menu_sped_configuracao"
         sequence="3"
-        id="menu_sped_operacao"
-        name="Operações"
-        />
-
-    <menuitem
-        parent="menu_sped_operacao"
-        sequence="1"
         id="menu_sped_operacao_emissao"
-        name="Emissão"
-        />
-
-    <menuitem
-        parent="menu_sped_operacao"
-        sequence="2"
-        id="menu_sped_operacao_recebimento"
-        name="Recebimento"
+        name="Operações de emissão"
         />
 
     <menuitem
         parent="menu_sped_configuracao"
-        sequence="5"
+        sequence="4"
+        id="menu_sped_operacao_recebimento"
+        name="Operações de recebimento"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="6"
         id="menu_sped_tabela"
         name="Tabelas"
         />
