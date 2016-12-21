@@ -60,6 +60,18 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="IBPT">
+                            <separator string="Alíquotas IBPT" />
+                            <field name="ibptax_ids" nolabel="1" readonly="1">
+                                <tree string="Alíquotas IBPT">
+                                    <field name="ibptax_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="estado_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_ibpt_nacional" />
+                                    <field name="al_ibpt_internacional" />
+                                    <field name="al_icms_id" />
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
