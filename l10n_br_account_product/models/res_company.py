@@ -43,6 +43,9 @@ class ResCompany(models.Model):
     product_tax_definition_line = fields.One2many(
         'l10n_br_tax.definition.company.product',
         'company_id', 'Taxes Definitions')
+    purchase_product_tax_definition_line = fields.One2many(
+        'l10n_br_tax.definition.company.purchase_product',
+        'company_id', 'Taxes Definitions')
     product_tax_ids = fields.Many2many(
         'account.tax', string='Product Taxes', compute='_compute_taxes',
         store=True)
@@ -83,6 +86,23 @@ class ResCompany(models.Model):
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
     _name = 'l10n_br_tax.definition.company.product'
+
+    company_id = fields.Many2one('res.company', 'Empresa')
+    tax_ipi_guideline_id = fields.Many2one(
+        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+    tax_icms_relief_id = fields.Many2one(
+        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+
+    _sql_constraints = [
+        ('l10n_br_tax_definition_tax_id_uniq',
+         'unique (tax_id, company_id)',
+         u'Imposto já existente nesta empresa!')
+    ]
+
+
+class L10nBrTaxDefinitionCompanyPurchaseProduct(L10nBrTaxDefinition,
+                                                models.Model):
+    _name = 'l10n_br_tax.definition.company.purchase_product'
 
     company_id = fields.Many2one('res.company', 'Empresa')
     tax_ipi_guideline_id = fields.Many2one(
