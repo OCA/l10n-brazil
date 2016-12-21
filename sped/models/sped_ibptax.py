@@ -46,7 +46,7 @@ class IBPTax(models.Model):
         ibptax_nbs = self.env['sped.ibptax.nbs']
         ibptax_servico = self.env['sped.ibptax.servico']
 
-        versao = '16.2.B'
+        versao = '17.1.A'
         arquivo = '/home/ari/tauga/odoo_br/sped/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(uf=self.estado_id.uf, versao=versao)
 
         ncm_ids = ibptax_ncm.search([('ibptax_id', '=', self.id)])
@@ -94,7 +94,6 @@ class IBPTax(models.Model):
                         'codigo': codigo,
                         'descricao': descricao,
                     }
-                    print('faltou nbs', dados)
                     nbs_ids = sped_nbs.create(dados)
 
                 dados = {
@@ -104,7 +103,6 @@ class IBPTax(models.Model):
                     'al_ibpt_internacional': D(importadosfederal),
                     'al_ibpt_municipal': D(municipal),
                 }
-                print('vai criar', dados)
                 ibptax_nbs.create(dados)
 
             elif tipo == '2' and descricao != 'Vetado':
@@ -115,7 +113,6 @@ class IBPTax(models.Model):
                         'codigo': codigo,
                         'descricao': descricao,
                     }
-                    print('faltou servico', dados)
                     servico_ids = sped_servico.create(dados)
 
                 dados = {
@@ -125,7 +122,6 @@ class IBPTax(models.Model):
                     'al_ibpt_internacional': D(importadosfederal),
                     'al_ibpt_municipal': D(municipal),
                 }
-                print('vai criar', dados)
                 ibptax_servico.create(dados)
 
         arq.close()
