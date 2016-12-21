@@ -24,6 +24,7 @@ class AccountFiscalPositionTaxTemplate(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification.template', 'NCM')
+    cest_id = fields.Many2one('l10n_br_account_product.cest', 'CEST')
     tax_ipi_guideline_id = fields.Many2one(
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
@@ -118,6 +119,19 @@ class AccountFiscalPosition(models.Model):
             product_ncm_tax_def = product_fc.sale_tax_definition_line
 
         else:
+            if self.env.context.get('fiscal_type', 'product') == 'product':
+                company_taxes = \
+                    self.company_id.purchase_product_tax_definition_line
+                for tax_def in company_taxes:
+                    if tax_def.tax_id:
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                            'icms_relief': tax_def.tax_icms_relief_id,
+                            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
+                        }
+
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.purchase_tax_definition_line
 
@@ -138,17 +152,21 @@ class AccountFiscalPosition(models.Model):
                                          'product') == 'product'):
                 state_taxes = partner.state_id.product_tax_definition_line
                 for tax_def in state_taxes:
-                    if tax_def.tax_id and \
-                            (not tax_def.fiscal_classification_id or
-                             tax_def.fiscal_classification_id == product_fc):
-                        taxes |= tax_def.tax_id
-                        result[tax_def.tax_id.domain] = {
-                            'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
-                        }
+                    if tax_def.tax_id:
+                        fc = tax_def.fiscal_classification_id
+                        if (not fc and not tax_def.cest_id) or \
+                                (fc == product_fc or
+                                 tax_def.cest_id == product.cest_id):
+                            taxes |= tax_def.tax_id
+
+                            result[tax_def.tax_id.domain] = {
+                                'tax': tax_def.tax_id,
+                                'tax_code': tax_def.tax_code_id,
+                            }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
+        map_taxes_cest = self.env['account.fiscal.position.tax'].browse()
         map_taxes_origin = self.env['account.fiscal.position.tax'].browse()
         map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
         for tax in taxes:
@@ -161,6 +179,9 @@ class AccountFiscalPosition(models.Model):
                         if map.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
+                        if product.cest_id:
+                            if map.cest_id == product.cest_id:
+                                map_taxes_cest |= map
                         if map.origin == product.origin:
                             map_taxes_origin |= map
                         if (map.fiscal_classification_id.id ==
@@ -179,6 +200,8 @@ class AccountFiscalPosition(models.Model):
         result.update(self._map_tax_code(map_taxes_origin))
         result.update(self._map_tax_code(map_taxes_ncm))
         result.update(self._map_tax_code(map_taxes_origin_ncm))
+        result.update(self._map_tax_code(map_taxes_cest))
+
         return result
 
     @api.v8
@@ -213,6 +236,7 @@ class AccountFiscalPositionTax(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         'account.product.fiscal.classification', 'NCM')
+    cest_id = fields.Many2one('l10n_br_account_product.cest', 'CEST')
     tax_ipi_guideline_id = fields.Many2one(
         'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
     tax_icms_relief_id = fields.Many2one(
