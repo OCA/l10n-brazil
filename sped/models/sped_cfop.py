@@ -54,6 +54,32 @@ class CFOP(models.Model):
 
     calcula_simples_csll_irpj = fields.Boolean('Calcula SIMPLES, CSLL e IRPJ?', compute='_compute_eh_compra_venda')
 
+    @api.multi
+    def name_get(self):
+        res = []
+
+        for cfop in self:
+            res.append((cfop.id, cfop.codigo + ' - ' + cfop.descricao))
+
+        return res
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
+            args = list(args or [])
+            args = [
+                '|',
+                ('codigo', operator, name),
+                ('descricao', operator, name),
+            ] + args
+
+            cfop_ids = self.search(args, limit=limit)
+
+            if cfop_ids:
+                return cfop_ids.name_get()
+
+        return super(CFOP, self).name_search(name=name, args=args, operator=operator, limit=limit)
+
     @api.depends('codigo')
     def _compute_eh_compra_venda(self):
         for cfop in self:
