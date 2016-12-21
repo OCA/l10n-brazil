@@ -30,7 +30,7 @@ class OperacaoFiscal(models.Model):
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES)
     forma_pagamento = fields.Selection(FORMA_PAGAMENTO, 'Forma de pagamento', default=FORMA_PAGAMENTO_A_VISTA)
     finalidade_nfe = fields.Selection(FINALIDADE_NFE, 'Finalidade da NF-e', default=FINALIDADE_NFE_NORMAL)
-    modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO)
+    modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO)
     natureza_operacao_id = fields.Many2one('sped.natureza.operacao', 'Natureza da operação', ondelete='restrict')
     infadfisco =  fields.Text('Informações adicionais de interesse do fisco')
     infcomplementar = fields.Text('Informações complementares')
@@ -44,7 +44,8 @@ class OperacaoFiscal(models.Model):
     al_cofins_retido = fields.Porcentagem('Alíquota da COFINS', default=3)
     csll_retido = fields.Boolean('CSLL retido?')
     al_csll =  fields.Porcentagem('Alíquota da CSLL', default=1)
-    limite_retencao_pis_cofins_csll = fields.Dinheiro('Obedecer limite de faturamento para retenção de', default=5000)
+    limite_retencao_pis_cofins_csll = fields.Dinheiro('Obedecer limite de faturamento para retenção de',
+                                                      default=LIMITE_RETENCAO_PIS_COFINS_CSLL)
 
     irrf_retido = fields.Boolean('IR retido?')
     irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
