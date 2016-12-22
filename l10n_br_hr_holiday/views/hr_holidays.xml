@@ -5,19 +5,14 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="hr_holidays_status_form_view">
-        <field name="name">hr.holidays.status.form (in l10n_br_hr_holiday)</field>
-        <field name="model">hr.holidays.status</field>
-        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+    <record model="ir.ui.view" id="hr_holidays_form_view">
+        <field name="name">hr.holidays.form (in l10n_br_hr_holiday)</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='second']/.." position="before">
-                <group>
-                    <field name="message" />
-                    <field name="days_limit" />
-                    <field name="hours_limit" />
-                    <field name="type_day" />
-                </group>
-            </xpath>
+            <field name="notes" position="before">
+                <field name="message" readonly="1" />
+            </field>
         </field>
     </record>
 
