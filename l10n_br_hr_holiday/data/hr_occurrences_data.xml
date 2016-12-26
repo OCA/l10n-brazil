@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="hr.holidays.status" id="holiday_status_medical_certificate">
+            <field name="name">Medical Certificate</field>
+            <field name="limit">False</field>
+            <field name="color_name">blue</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_dental_treatment">
+            <field name="name">Dental Treatment</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_yearly_leave_days">
+            <field name="name">Yearly Leave Days</field>
+            <field name="limit">True</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_end_of_year_recess">
+            <field name="name">End of year recess</field>
+            <field name="limit">True</field>
+            <field name="color_name">lightyellow</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_compensation_1hour">
+            <field name="name">Compensation 1 hour</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightyellow</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_compensation_2hour">
+            <field name="name">Compensation 2 hours</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightyellow</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_justified_absence_without_receipt">
+            <field name="name">Absence justified without receipt</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_justified_absence">
+            <field name="name">Absence justified</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightyellow</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_unjustified_absence">
+            <field name="name">Absence unjustified</field>
+            <field name="limit">False</field>
+            <field name="color_name">red</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_death_of_relatives">
+            <field name="name">Death of relatives</field>
+            <field name="limit">False</field>
+            <field name="color_name">black</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_marriage">
+            <field name="name">Marriage</field>
+            <field name="limit">False</field>
+            <field name="color_name">black</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_maternity_leave">
+            <field name="name">Maternity leave</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_paternity_leave">
+            <field name="name">Paternity leave</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_Legal_adoption">
+            <field name="name">Legal Adoption</field>
+            <field name="limit">True</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_breastfeeding_period">
+            <field name="name">Breastfeeding period</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_blood_donation">
+            <field name="name">Blood donation</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_blood_donation">
+            <field name="name">Blood donation</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_alistamento_eleitoral">
+            <field name="name">Alistamento Eleitoral</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_alistamento_militar">
+            <field name="name">Alistamento Militar</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_disposicao_TRE">
+            <field name="name">Disposicao TRE</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_acompanhamento_de_filho_gravidez">
+            <field name="name">Acompanhamento de Filho quando em gravidez</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_acompanhamento_de_filho_anual">
+            <field name="name">Acompanhamento de Filho anual</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        <record model="hr.holidays.status" id="holiday_status_abono_estudante">
+            <field name="name">Abono de Falta Estudante</field>
+            <field name="limit">False</field>
+            <field name="color_name">lightgreen</field>
+        </record>
+        
+    </data>
+</openerp>
