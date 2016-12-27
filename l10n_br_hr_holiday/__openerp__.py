@@ -15,7 +15,7 @@
         'l10n_br_resource',
     ],
     'data': [
-        # 'security/hr_holidays_status.xml',
+        'views/hr_holidays.xml',
         'views/hr_holidays_status.xml',
         'data/hr_occurrences_data.xml',
     ],
