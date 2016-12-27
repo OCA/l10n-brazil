@@ -6,16 +6,22 @@
             <field name="name">Medical Certificate</field>
             <field name="limit">False</field>
             <field name="color_name">blue</field>
+            <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
+            <field name="type_day">corridos</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_dental_treatment">
             <field name="name">Dental Treatment</field>
             <field name="limit">False</field>
             <field name="color_name">lightgreen</field>
+            <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
+            <field name="type_day">corridos</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_yearly_leave_days">
             <field name="name">Yearly Leave Days</field>
             <field name="limit">True</field>
             <field name="color_name">lightgreen</field>
+            <field name="message"></field>
+            <field name="type_day">corridos</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_end_of_year_recess">
             <field name="name">End of year recess</field>
