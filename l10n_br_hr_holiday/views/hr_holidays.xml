@@ -11,7 +11,8 @@
         <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
             <field name="notes" position="before">
-                <h1><field name="message" readonly="1" /></h1>
+                <h2><field name="message" readonly="1" /></h2>
+                <field name="attachment_ids" widget="many2many_binary"/>
             </field>
         </field>
     </record>
