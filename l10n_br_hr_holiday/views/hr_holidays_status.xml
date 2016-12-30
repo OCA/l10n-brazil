@@ -16,6 +16,7 @@
                     <field name="days_limit" />
                     <field name="hours_limit" />
                     <field name="type_day" />
+                    <field name="need_attachment" />
                 </group>
             </xpath>
         </field>

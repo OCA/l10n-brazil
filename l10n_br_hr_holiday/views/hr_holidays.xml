@@ -12,7 +12,9 @@
         <field name="arch" type="xml">
             <field name="notes" position="before">
                 <h2><field name="message" readonly="1" /></h2>
-                <field name="attachment_ids" widget="many2many_binary"/>
+                <field name="need_attachment" invisible="1" />
+                <field name="attachment_ids" widget="many2many_binary"
+                       attrs="{'invisible': [('need_attachment', '=', False)]}" />
             </field>
         </field>
     </record>

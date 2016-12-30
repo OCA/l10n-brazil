@@ -8,6 +8,7 @@
             <field name="color_name">red</field>
             <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
             <field name="type_day">corridos</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_dental_treatment">
             <field name="name">Dental Treatment</field>
@@ -15,17 +16,20 @@
             <field name="color_name">red</field>
             <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
             <field name="type_day">corridos</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_yearly_leave_days">
             <field name="name">Yearly Leave Days</field>
             <field name="limit" eval="False"></field>
             <field name="color_name">brown</field>
             <field name="type_day">corridos</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_end_of_year_recess">
             <field name="name">End of year recess</field>
             <field name="limit" eval="False"></field>
             <field name="color_name">black</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_compensation_1hour">
             <field name="name">Compensation 1 hour</field>
@@ -33,28 +37,33 @@
             <field name="color_name">lavender</field>
             <field name="hours_limit">1</field>
             <field name="message"></field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_compensation_2hour">
             <field name="name">Compensation 2 hours</field>
             <field name="limit">True</field>
             <field name="color_name">lavender</field>
             <field name="hours_limit">2</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_justified_absence_without_receipt">
             <field name="name">Absence justified without receipt</field>
             <field name="limit">True</field>
             <field name="color_name">brown</field>
             <field name="message">Ausência justificada e autorizada sem recebimento de salário</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_justified_absence">
             <field name="name">Absence justified</field>
             <field name="limit">True</field>
             <field name="color_name">lavender</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_unjustified_absence">
             <field name="name">Absence unjustified</field>
             <field name="limit">True</field>
             <field name="color_name">brown</field>
+            <field name="need_attachment" eval="False"></field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_death_of_relatives">
             <field name="name">Death of relatives</field>
@@ -63,6 +72,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">5</field>
             <field name="message">(pai, mãe, avós, bisavós, filhos, netos, irmãos e pessoas que comprovadamente viva sob dependência econômica)</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_marriage">
             <field name="name">Marriage</field>
@@ -70,6 +80,7 @@
             <field name="color_name">lavender</field>
             <field name="type_day">corridos</field>
             <field name="days_limit">5</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_maternity_leave">
             <field name="name">Maternity leave</field>
@@ -77,6 +88,7 @@
             <field name="color_name">red</field>
             <field name="type_day">corridos</field>
             <field name="days_limit">120</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_paternity_leave">
             <field name="name">Paternity leave</field>
@@ -84,6 +96,7 @@
             <field name="color_name">red</field>
             <field name="type_day">corridos</field>
             <field name="days_limit">5</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_Legal_adoption">
             <field name="name">Legal Adoption</field>
@@ -91,17 +104,20 @@
             <field name="color_name">red</field>
             <field name="type_day">uteis</field>
             <field name="days_limit">5</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_breastfeeding_period">
             <field name="name">Breastfeeding period</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_blood_donation">
             <field name="name">Blood donation</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
             <field name="message">1 dia de trabalho a cada 12 meses de trabalho</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_alistamento_eleitoral">
             <field name="name">Alistamento Eleitoral</field>
@@ -109,6 +125,7 @@
             <field name="color_name">lavender</field>
             <field name="type_day">uteis</field>
             <field name="days_limit">2</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_alistamento_militar">
             <field name="name">Alistamento Militar</field>
@@ -116,6 +133,7 @@
             <field name="color_name">lavender</field>
             <field name="type_day">corridos</field>
             <field name="message">no período de tempo em que tiver de cumprir as exigências do serviço militar</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_disposicao_TRE">
             <field name="name">Disposicao TRE</field>
@@ -124,6 +142,7 @@
             <field name="message">2 dias úteis de trabalho para cada dia de trabalho à disposição do Tribunal Regional Eleitoral</field>
             <field name="type_day">uteis</field>
             <field name="days_limit">2</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_acompanhamento_de_filho_gravidez">
             <field name="name">Acompanhamento de Filho quando em gravidez</field>
@@ -132,6 +151,7 @@
             <field name="days_limit">2</field>
             <field name="type_day">uteis</field>
             <field name="message">2 dias para acompanhar consultas médicas e exames complementares durante a gravidez de esposa ou companheira</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_acompanhamento_de_filho_anual">
             <field name="name">Acompanhamento de Filho anual</field>
@@ -141,6 +161,7 @@
             <field name="days_limit">2</field>
             <field name="type_day">uteis</field>
             <field name="message">No caso de internação de filho menor de 18 anos e portadores de deficiência física (sem limite de idade)</field>
+            <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_abono_estudante">
             <field name="name">Abono de Falta Estudante</field>
@@ -151,6 +172,7 @@
             <field name="message">Mediante aviso prévio de 48 horas com comprovação por escrito.
                 Em dia de prova escolar obrigatória por lei.
                 Em dias de exame vestibular ou ENEM.</field>
+            <field name="need_attachment">True</field>
         </record>
         
     </data>

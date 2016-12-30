@@ -30,3 +30,6 @@ class HrHolidaysStatus(models.Model):
         string=u'Tipo de Dia',
         selection=TYPE_DAY,
     )
+    need_attachment = fields.Boolean(
+        string=u'Need attachment',
+    )
