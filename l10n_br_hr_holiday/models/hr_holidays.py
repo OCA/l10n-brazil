@@ -15,12 +15,20 @@ class HrHolidays(models.Model):
         string=u"Mensagem",
         related='holiday_status_id.message',
     )
+    need_attachment = fields.Boolean(
+        string=u'Need attachment',
+        related='holiday_status_id.need_attachment',
+    )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
         string=u'Justification'
     )
 
     def validate_days_status_id(self):
+        # Validar anexo
+        if self.need_attachment:
+            if not self.attachment_ids:
+                raise UserError(_("Atestado Obrigatório!"))
         resource_calendar_obj = self.env['resource.calendar']
         for record in self:
             if record.holiday_status_id.days_limit:
