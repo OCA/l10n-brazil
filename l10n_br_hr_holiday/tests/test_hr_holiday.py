@@ -41,8 +41,8 @@ class TestHrHoliday(common.TransactionCase):
     def test_01_holiday_status_message(self):
         """ teste cenario 1: Atestado Medico
             Dias: -
-            Mensagem: "Above 3 days, the certificate must be approved by
-            the company of Occupational Medicine!"
+            Mensagem: "Acima de 3 dias o atestado devera ser homologado na
+            empresa de Medicina do Trabalho!"
         """
         holiday_status_id = self.env.ref(
             'l10n_br_hr_holiday.holiday_status_medical_certificate')
@@ -58,15 +58,15 @@ class TestHrHoliday(common.TransactionCase):
         })
         self.assertEqual(
             holiday_id.message,
-            'Above 3 days, the certificate must be approved by the company of '
-            'Occupational Medicine!',
+            'Acima de 3 dias o atestado devera ser homologado na empresa de '
+            'Medicina do Trabalho!',
             'hr_holidays: Mensagem invalida para holiday do Atestado Medico!')
 
     def test_02_holiday_status_message(self):
         """ teste cenário 2: Tratamento Dentario
             Dias: -
-            Mensagem: "Above 3 days, the certificate must be approved by
-            the company of Occupational Medicine!"
+            Mensagem: "Acima de 3 dias o atestado devera ser homologado na
+            empresa de Medicina do Trabalho!"
         """
         holiday_status_id = self.env.ref(
             'l10n_br_hr_holiday.holiday_status_dental_treatment')
@@ -82,8 +82,8 @@ class TestHrHoliday(common.TransactionCase):
         })
         self.assertEqual(
             holiday_id.message,
-            'Above 3 days, the certificate must be approved by the company of'
-            ' Occupational Medicine!',
+            'Acima de 3 dias o atestado devera ser homologado na empresa de '
+            'Medicina do Trabalho!',
             'hr_holidays:Mensagem invalida no holiday do tratamento dentario!')
 
     def test_03_holiday_limit_days(self):
