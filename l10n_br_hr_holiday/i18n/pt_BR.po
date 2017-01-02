@@ -1,0 +1,197 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_hr_holiday
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-02 17:30+0000\n"
+"PO-Revision-Date: 2017-01-02 17:30+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_abono_estudante
+msgid "Abono de Falta Estudante"
+msgstr "Abono de Falta Estudante"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_justified_absence
+msgid "Absence justified"
+msgstr "Falta Justificada"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_justified_absence_without_receipt
+msgid "Absence justified without receipt"
+msgstr "Falta justificada e autorizada sem recebimento de salário"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_unjustified_absence
+msgid "Absence unjustified"
+msgstr "Falta injustificada"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_acompanhamento_de_filho_anual
+msgid "Acompanhamento de Filho anual"
+msgstr "Acompanhamento de Filho anual"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_acompanhamento_de_filho_gravidez
+msgid "Acompanhamento de Filho quando em gravidez"
+msgstr "Acompanhamento de Filho quando em gravidez"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_alistamento_eleitoral
+msgid "Alistamento Eleitoral"
+msgstr "Alistamento Eleitoral"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_alistamento_militar
+msgid "Alistamento Militar"
+msgstr "Alistamento Militar"
+
+#. module: l10n_br_hr_holiday
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:33
+#, python-format
+msgid "Atestado Obrigatório!"
+msgstr "Atestado Obrigatório!"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_blood_donation
+msgid "Blood donation"
+msgstr "Doação voluntária de Sangue"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_breastfeeding_period
+msgid "Breastfeeding period"
+msgstr "Período de amamentação"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_compensation_1hour
+msgid "Compensation 1 hour"
+msgstr "Compensação - 1 hora"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_compensation_2hour
+msgid "Compensation 2 hours"
+msgstr "Compensação - 2 horas"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_death_of_relatives
+msgid "Death of relatives"
+msgstr "Falecimento de parentes"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_dental_treatment
+msgid "Dental Treatment"
+msgstr "Tratamento dentário"
+
+#. module: l10n_br_hr_holiday
+#: selection:hr.holidays.status,type_day:0
+msgid "Dias corridos"
+msgstr "Dias corridos"
+
+#. module: l10n_br_hr_holiday
+#: selection:hr.holidays.status,type_day:0
+msgid "Dias úteis Consecutivos"
+msgstr "Dias úteis Consecutivos"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_disposicao_TRE
+msgid "Disposicao TRE"
+msgstr "Disposicao TRE"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_end_of_year_recess
+msgid "End of year recess"
+msgstr "Recesso de final de ano"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays,attachment_ids:0
+msgid "Justification"
+msgstr "Comprovante"
+
+#. module: l10n_br_hr_holiday
+#: model:ir.model,name:l10n_br_hr_holiday.model_hr_holidays
+msgid "Leave"
+msgstr "Folga"
+
+#. module: l10n_br_hr_holiday
+#: model:ir.model,name:l10n_br_hr_holiday.model_hr_holidays_status
+msgid "Leave Type"
+msgstr "Tipo de falta"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_Legal_adoption
+msgid "Legal Adoption"
+msgstr "Adoção legal de filho"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays.status,days_limit:0
+msgid "Limite de Dias"
+msgstr "Limite de Dias"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays.status,hours_limit:0
+msgid "Limite de Horas"
+msgstr "Limite de Horas"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_marriage
+msgid "Marriage"
+msgstr "Casamento"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_maternity_leave
+msgid "Maternity leave"
+msgstr "Licença maternidade"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_medical_certificate
+msgid "Medical Certificate"
+msgstr "Atestado médico"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays,message:0
+#: field:hr.holidays.status,message:0
+msgid "Mensagem"
+msgstr "Mensagem"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays,need_attachment:0
+#: field:hr.holidays.status,need_attachment:0
+msgid "Need attachment"
+msgstr "Comprovante obrigatório"
+
+#. module: l10n_br_hr_holiday
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:42
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:46
+#, python-format
+msgid "Number of days exceeded!"
+msgstr "Quantidade de dias excedido!"
+
+#. module: l10n_br_hr_holiday
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:52
+#, python-format
+msgid "Number of hours exceeded!"
+msgstr "Quantidade de horas excedidas!"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_paternity_leave
+msgid "Paternity leave"
+msgstr "Licença paternidade"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays.status,type_day:0
+msgid "Tipo de Dia"
+msgstr "Tipo de Dia"
+
+#. module: l10n_br_hr_holiday
+#: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_yearly_leave_days
+msgid "Yearly Leave Days"
+msgstr "Abono Pecuniário"
