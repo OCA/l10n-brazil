@@ -149,7 +149,8 @@ class AccountInvoice(models.Model):
         self.cfop_ids = (lines).sorted()
 
     @api.multi
-    @api.depends('invoice_line', 'tax_line.amount')
+    @api.depends('invoice_line', 'tax_line.amount', 'issqn_wh', 'irrf_wh',
+                 'inss_wh', 'csll_wh', 'pis_wh', 'cofins_wh')
     def _amount_all_service(self):
         for inv in self:
             inv.amount_services = sum(
@@ -178,6 +179,26 @@ class AccountInvoice(models.Model):
                                 if line.product_type == 'service')
             inv.inss_value = sum(line.inss_value for line in inv.invoice_line
                                  if line.product_type == 'service')
+            inv.issqn_value_wh = sum(line.issqn_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.issqn_wh else 0.0
+            inv.inss_value_wh = sum(line.inss_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.inss_wh else 0.0
+            inv.csll_value_wh = sum(line.csll_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.csll_wh else 0.0
+            inv.irrf_base_wh = sum(line.ir_base for line in inv.invoice_line
+                              if line.product_type == 'service')
+            inv.irrf_value_wh = sum(line.ir_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.irrf_wh else 0.0
+            inv.pis_value_wh = sum(line.pis_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.pis_wh else 0.0
+            inv.cofins_value_wh = sum(line.cofins_wh_value for line
+                                     in inv.invoice_line) \
+                if inv.cofins_wh else 0.0
 
             inv.amount_pis_cofins_csll = inv.service_cofins_value + \
                                          inv.service_pis_value + inv.csll_value
@@ -444,38 +465,46 @@ class AccountInvoice(models.Model):
         u'Retém ISSQN', readonly=True, states=FIELD_STATE)
     issqn_value_wh = fields.Float(
         u'Valor da retenção do ISSQN', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     pis_wh = fields.Boolean(
         u'Retém PIS', readonly=True, states=FIELD_STATE)
     pis_value_wh = fields.Float(
         u'Valor da retenção do PIS', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     cofins_wh = fields.Boolean(
         u'Retém COFINS', readonly=True, states=FIELD_STATE)
     cofins_value_wh = fields.Float(
         u'Valor da retenção do Cofins', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     csll_wh = fields.Boolean(
         u'Retém CSLL', readonly=True, states=FIELD_STATE)
     csll_value_wh = fields.Float(
         u'Valor da retenção de CSLL', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     irrf_wh = fields.Boolean(
         u'Retém IRRF', readonly=True, states=FIELD_STATE)
     irrf_base_wh = fields.Float(
         u'Base de calculo retenção do IRRF', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     irrf_value_wh = fields.Float(
         u'Valor da retenção de IRRF', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        compute='_amount_all_service', states=FIELD_STATE,
+        digits_compute=dp.get_precision('Account'))
     inss_wh = fields.Boolean(
         u'Retém INSS', readonly=True, states=FIELD_STATE)
     inss_base_wh = fields.Float(
         u'Base de Cálculo da Retenção da Previdência Social', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'),
+        compute='_amount_all_service')
     inss_value_wh = fields.Float(
         u'Valor da Retenção da Previdência Social ', readonly=True,
-        states=FIELD_STATE, digits_compute=dp.get_precision('Account'))
+        states=FIELD_STATE, digits_compute=dp.get_precision('Account'),
+        compute='_amount_all_service')
     csll_base = fields.Float(
         string=u'Base CSLL', compute='_amount_all_service',
         digits_compute=dp.get_precision('Account'), store=True)
@@ -772,8 +801,6 @@ class AccountInvoice(models.Model):
         move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
             move_lines)
 
-        self.compute_withholding()
-
         # What we do here? IMPORTANT
         # We make a copy of the retention tax and calculate the new total
         # in the payment lines
@@ -789,14 +816,13 @@ class AccountInvoice(models.Model):
                                if move[2]['product_id'] and
                                not move[2]['date_maturity']]
 
-        move_lines_new.extend(move_lines_products)
-
-        def copy_move(move):
-            copy = (0, 0, move[2].copy())
-            copy[2]['debit'] = move[2]['credit']
-            copy[2]['credit'] = move[2]['debit']
-            copy[2]['name'] += u'- Retenção'
-            return copy
+        def invert_credit_debit(move, value_to_debit):
+            credit = move[2]['credit']
+            debit = move[2]['debit']
+            value_to_debit += move[2]['credit'] or move[2]['debit']
+            move[2]['credit'] = debit
+            move[2]['debit'] = credit
+            return value_to_debit
 
         for move in move_lines_tax:
             move_lines_new.append(move)
@@ -804,88 +830,41 @@ class AccountInvoice(models.Model):
             tax_code = self.env['account.tax.code'].browse(
                 move[2]['tax_code_id'])
 
-            if tax_code.domain == 'issqn' and self.issqn_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retissqn' and self.issqn_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
-            if tax_code.domain == 'pis' and self.pis_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retpis' and self.pis_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
-            if tax_code.domain == 'cofins' and self.cofins_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retcofins' and self.cofins_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
-            if tax_code.domain == 'inss' and self.inss_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retinss' and self.inss_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
-            if tax_code.domain == 'csll' and self.csll_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retcsll' and self.csll_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
-            if tax_code.domain == 'ir' and self.irrf_wh:
-                value_to_debit += move[2]['credit'] or move[2]['debit']
-                move_lines_new.append(copy_move(move))
+            if tax_code.domain == 'retir' and self.irrf_wh:
+                value_to_debit = invert_credit_debit(move, value_to_debit)
 
         move_lines_new.extend(move_lines_payment)
+        move_lines_new.extend(move_lines_products)
 
         if value_to_debit > 0.0:
             value_item = value_to_debit / float(len(move_lines_payment))
             for move in move_lines_payment:
                 if move[2]['debit']:
-                    move[2]['debit'] = move[2]['debit'] - value_item
+                    move[2]['debit'] -= value_item
                 elif move[2]['credit']:
-                    move[2]['credit'] = move[2]['credit'] - value_item
+                    move[2]['credit'] -= value_item
+            for move in move_lines_products:
+                if move[2]['debit']:
+                    move[2]['debit'] += value_item
+                elif move[2]['credit']:
+                    move[2]['credit'] += value_item
 
         return move_lines_new
-
-    @api.multi
-    def compute_withholding(self):
-        for inv in self:
-            if (inv.amount_pis_cofins_csll
-                    > inv.company_id.cofins_csll_pis_wh_base) and inv.pis_wh:
-                inv.pis_value_wh = inv.pis_value
-            else:
-                inv.pis_wh = False
-                inv.pis_value_wh = 0.0
-
-            if (inv.amount_pis_cofins_csll
-                    > inv.company_id.cofins_csll_pis_wh_base) and inv.cofins_wh:
-                inv.cofins_value_wh = inv.cofins_value
-            else:
-                inv.cofins_wh = False
-                inv.cofins_value_wh = 0.0
-
-            if (inv.amount_pis_cofins_csll
-                    > inv.company_id.cofins_csll_pis_wh_base) and inv.csll_wh:
-                inv.csll_value_wh = inv.csll_value
-            else:
-                inv.csll_wh = False
-                inv.csll_value_wh = 0.0
-
-            if inv.issqn_wh:
-                inv.issqn_value_wh = inv.issqn_value
-            else:
-                inv.issqn_value_wh = 0.0
-
-            if inv.ir_value > inv.company_id.irrf_wh_base and inv.irrf_wh:
-                inv.irrf_value_wh = inv.ir_value
-                inv.irrf_base_wh = inv.ir_base
-            else:
-                inv.irrf_wh = False
-                inv.irrf_value_wh = 0.0
-
-            if inv.inss_value > inv.company_id.inss_wh_base and inv.inss_wh:
-                inv.inss_base_wh = inv.inss_base
-                inv.inss_value_wh = inv.inss_value
-            else:
-                inv.inss_wh = False
-                inv.inss_value_wh = 0.0
-
-            inv.amount_wh = inv.issqn_value_wh + inv.pis_value_wh + inv.\
-                cofins_value_wh + inv.csll_value_wh + inv.irrf_value_wh + inv.\
-                inss_value_wh
 
 
 class AccountInvoiceLine(models.Model):
@@ -1180,6 +1159,18 @@ class AccountInvoiceLine(models.Model):
                               digits_compute=dp.get_precision('Account'))
     inss_percent = fields.Float('Perc. INSS', required=True, default=0.0,
                                 digits_compute=dp.get_precision('Discount'))
+    csll_wh_value = fields.Float('Valor CSLL retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
+    ir_wh_value = fields.Float('Valor IRRF retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
+    issqn_wh_value = fields.Float('Valor ISSQN retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
+    pis_wh_value = fields.Float('Valor PIS retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
+    cofins_wh_value = fields.Float('Valor COFINS retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
+    inss_wh_value = fields.Float('Valor INSS retido', default=0.0,
+                                 digits_compute=dp.get_precision('Discount'))
 
     @api.onchange("partner_order_line")
     def _check_partner_order_line(self):
@@ -1313,6 +1304,42 @@ class AccountInvoiceLine(models.Model):
             'csll_base': tax.get('total_base', 0.0),
             'csll_percent': tax.get('percent', 0.0) * 100,
             'csll_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retcsll(self, tax=None):
+        result = {
+            'csll_wh_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retissqn(self, tax=None):
+        result = {
+            'issqn_wh_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retpis(self, tax=None):
+        result = {
+            'pis_wh_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retcofins(self, tax=None):
+        result = {
+            'cofins_wh_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retir(self, tax=None):
+        result = {
+            'ir_wh_value': tax.get('amount', 0.0),
+        }
+        return result
+
+    def _amount_tax_retinss(self, tax=None):
+        result = {
+            'inss_wh_value': tax.get('amount', 0.0),
         }
         return result
 

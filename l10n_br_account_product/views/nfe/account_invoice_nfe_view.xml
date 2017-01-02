@@ -419,6 +419,7 @@
                                 <field name="name"/>
                         </page>
                         <page position="inside" string="Impostos">
+                            <field name="inss_wh_value" invisible="1"/>
                             <group>
                                 <field name="total_taxes"/>
                             </group>
@@ -464,6 +465,7 @@
                                         <field name="issqn_suspension_process"
                                                attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
                                         <field name="issqn_value"/>
+                                        <field name="issqn_wh_value" invisible="1"/>
 
                                     </group>
                                 </page>
@@ -494,6 +496,7 @@
                                         <group>
                                             <field name="pis_percent"/>
                                             <field name="pis_value"/>
+                                            <field name="pis_wh_value" invisible="1"/>
                                         </group>
                                     </group>
                                     <group string="Detalhes do PIS ST">
@@ -514,6 +517,7 @@
                                             <field name="cofins_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
                                             <field name="cofins_type"/>
                                             <field name="cofins_base"/>
+                                            <field name="cofins_wh_value" invisible="1"/>
                                         </group>
                                         <group>
                                             <field name="cofins_percent"/>
@@ -544,6 +548,7 @@
                                         <field name="csll_base"/>
                                         <field name="csll_percent"/>
                                         <field name="csll_value"/>
+                                        <field name="csll_wh_value" invisible="1"/>
                                     </group>
                                 </page>
                                 <page string="IR">
@@ -551,6 +556,7 @@
                                         <field name="ir_base"/>
                                         <field name="ir_percent"/>
                                         <field name="ir_value"/>
+                                        <field name="ir_wh_value" invisible="1"/>
                                     </group>
                                 </page>
                             </notebook>
