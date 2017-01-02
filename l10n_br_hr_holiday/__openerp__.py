@@ -17,7 +17,7 @@
     'data': [
         'views/hr_holidays.xml',
         'views/hr_holidays_status.xml',
-        'data/hr_occurrences_data.xml',
+        'data/hr_holidays_status_data.xml',
     ],
     'demo': [
     ],

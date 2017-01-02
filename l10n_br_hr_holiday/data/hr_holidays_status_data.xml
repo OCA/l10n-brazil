@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-
         <record model="hr.holidays.status" id="holiday_status_medical_certificate">
             <field name="name">Medical Certificate</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
-            <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
+            <field name="message">Acima de 3 dias o atestado devera ser homologado na empresa de Medicina do Trabalho!</field>
             <field name="type_day">corridos</field>
             <field name="need_attachment">True</field>
         </record>
@@ -14,7 +13,7 @@
             <field name="name">Dental Treatment</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
-            <field name="message">Above 3 days, the certificate must be approved by the company of Occupational Medicine!</field>
+            <field name="message">Acima de 3 dias o atestado devera ser homologado na empresa de Medicina do Trabalho!</field>
             <field name="type_day">corridos</field>
             <field name="need_attachment">True</field>
         </record>
@@ -132,7 +131,7 @@
             <field name="limit">True</field>
             <field name="color_name">lavender</field>
             <field name="type_day">corridos</field>
-            <field name="message">no período de tempo em que tiver de cumprir as exigências do serviço militar</field>
+            <field name="message">No período de tempo em que tiver de cumprir as exigências do serviço militar</field>
             <field name="need_attachment">True</field>
         </record>
         <record model="hr.holidays.status" id="holiday_status_disposicao_TRE">
@@ -174,6 +173,5 @@
                 Em dias de exame vestibular ou ENEM.</field>
             <field name="need_attachment">True</field>
         </record>
-        
     </data>
 </openerp>
