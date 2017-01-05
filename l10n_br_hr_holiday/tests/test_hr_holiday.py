@@ -13,10 +13,11 @@ class TestHrHoliday(common.TransactionCase):
 
     def setUp(self):
         super(TestHrHoliday, self).setUp()
-
         # Usefull models
         self.res_users = self.env['res.users']
         self.hr_employee = self.env['hr.employee']
+
+        group_employee_id = self.ref('base.group_user')
         self.hr_holidays = self.env['hr.holidays']
 
         # Test users to use through the various tests
@@ -25,6 +26,7 @@ class TestHrHoliday(common.TransactionCase):
             'login': 'hruser',
             'alias_name': 'User Mileo',
             'email': 'hruser@email.com',
+            'groups_id': [(6, 0, [group_employee_id])],
         })
 
         self.employee_hruser_id = self.hr_employee.create({
@@ -37,6 +39,26 @@ class TestHrHoliday(common.TransactionCase):
             'datas_fname': 'attach1.txt',
             'datas': base64.b64encode('world'),
         })
+
+    def test_00_holiday_create_by_userRH(self):
+        """ teste cenario 00: Permissao de usuário para criação de holiday
+        """
+        holiday_status_id = self.env.ref(
+            'l10n_br_hr_holiday.holiday_status_medical_certificate')
+        holiday_id = self.hr_holidays.sudo(self.user_hruser_id).create({
+            'name': 'Atestado medico',
+            'holiday_type': 'employee',
+            'holiday_status_id': holiday_status_id.id,
+            'employee_id': self.employee_hruser_id.id,
+            'date_from': (datetime.today() - relativedelta(days=1)),
+            'date_to': datetime.today(),
+            'number_of_days_temp': 1,
+            'attachment_ids': [(6, 0, [self.attach1.id])],
+        })
+        self.assertEqual(
+            holiday_id.create_uid.id,
+            self.user_hruser_id.id,
+            'hr_holidays: Nao foi possivel o Funcionario criar o Holiday!')
 
     def test_01_holiday_status_message(self):
         """ teste cenario 1: Atestado Medico

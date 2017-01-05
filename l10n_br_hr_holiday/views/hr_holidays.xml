@@ -10,6 +10,9 @@
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
+            <field name="holiday_status_id" position="replace">
+               <field name="holiday_status_id" context="{'employee_id':employee_id}"  options="{'no_open': True, 'no_create': True}" />
+            </field>
             <field name="notes" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
