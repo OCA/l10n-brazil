@@ -5,14 +5,13 @@
 <openerp>
 <data>
 
-    <record model="ir.model.access" id="hr_holidays_status_access_name"> <!-- TODO acl id -->
-        <field name="name">hr.holidays.status access name</field> <!-- TODO acl name -->
+    <record model="ir.model.access" id="hr_holidays_status_write_employee">
+        <field name="name">hr.holidays.status write employee</field>
         <field name="model_id" ref="model_hr_holidays_status"/>
-        <!-- TODO review and adapt -->
         <field name="group_id" ref="base.group_user"/>
         <field name="perm_read" eval="1"/>
         <field name="perm_create" eval="0"/>
-        <field name="perm_write" eval="0"/>
+        <field name="perm_write" eval="1"/>
         <field name="perm_unlink" eval="0"/>
     </record>
 

@@ -18,6 +18,7 @@
         'views/hr_holidays.xml',
         'views/hr_holidays_status.xml',
         'data/hr_holidays_status_data.xml',
+        'security/hr_holidays_status.xml',
     ],
     'demo': [
     ],
