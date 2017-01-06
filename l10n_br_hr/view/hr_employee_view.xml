@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_l10n_br_hr_employee_form">
+            <field name="name">l10n_br_hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority">60</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='identification_id']" position="replace">
+                    <field name="check_cpf" invisible="1"/>
+                    <field name="cpf"/>
+                    <field name="educational_attainment"/>
+                </xpath>
+                <xpath expr="//group[@string='Birth']" position="after">
+                    <group string="Characteristics">
+                        <field name="ethnicity"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='coach_id']" position="after">
+                    <field name="registration"/>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="after">
+                    <field name="nationality_code"/>
+                    <field name="nat_code" invisible="1"/>
+                    <field name="arrival_year" attrs="{'invisible': [('nat_code','in',('10', False))]}"
+                           placeholder=""/>
+                </xpath>
+                <xpath expr="//field[@name='address_home_id']" position="after">
+                    <field name="alternate_phone"/>
+                    <field name="emergency_phone"/>
+                    <field name="talk_to"/>
+                    <field name="alternate_email"/>
+                </xpath>
+                <xpath expr="//page[@string='Public Information']" position="after">
+                    <page string="Documents">
+                        <form string="Documents" version="7.0">
+                            <group>
+                                <group string="CTPS">
+                                    <field name="ctps" string="Number"/>
+                                    <field name="ctps_series"/>
+                                    <field name="ctps_date"/>
+                                    <field name="ctps_uf_id" domain="[('country_id','=',country_id)]"/>
+                                </group>
+                                <group string="Civil certificate">
+                                    <field name="civil_certificate_type_id"/>
+                                </group>
+                                <group string="ID">
+                                    <field name="identity_type_id"/>
+                                    <field name="rg" string="Number"/>
+                                    <field name="organ_exp"/>
+                                    <field name="rg_emission"/>
+                                    <field name="identity_validity"/>
+                                    <field name="identity_uf_id" domain="[('country_id','=',country_id)]"/>
+                                    <field name="identity_city_id"/>
+                                </group>
+                                <group string="Reservist">
+                                    <field name="creservist" string="Number"/>
+                                    <field name="cresv_categ"/>
+                                </group>
+                                <group string="Voter Registration">
+                                    <field name="voter_title" string="Number"/>
+                                    <field name="voter_zone"/>
+                                    <field name="voter_section"/>
+                                </group>
+                                <group string="Driver License">
+                                    <field name="driver_license" string="Number"/>
+                                    <field name="driver_categ"/>
+                                    <field name="expiration_date"/>
+                                </group>
+                                <group string="PIS/PASEP">
+                                    <field name="pis_pasep" placeholder="XXX.XXXXX.XX-X"/>
+                                </group>
+                                <group string="Parents names">
+                                    <field name="father_name"/>
+                                    <field name="mother_name"/>
+                                </group>
+                            </group>
+                        </form>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@string='Personal Information']" position="after">
+                    <page string="Spouse and Dependents">
+                        <form string="Spouse and Dependents" version="7.0">
+                            <group colspan="4" col="4">
+                                <field name="have_dependent"/>
+                            </group>
+                            <field name="dependent_ids" widget="one2many_list"
+                                   attrs="{'invisible':[('have_dependent', '!=', True)]}">
+                                <tree>
+                                    <field name="dependent_name"/>
+                                    <field name="dependent_dob"/>
+                                    <field name="dependent_type_id"/>
+                                    <field name="pension_benefits"/>
+                                    <field name="health_verification"/>
+                                    <field name="dependent_verification"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="dependent_name"/>
+                                            <field name="dependent_dob"/>
+                                            <field name="dependent_type_id"/>
+                                            <field name="dependent_rg"/>
+                                            <field name="dependent_cpf"/>
+                                        </group>
+                                        <group>
+                                            <field name="dependent_gender"/>
+                                            <field name="pension_benefits"/>
+                                            <field name="health_verification"/>
+                                            <field name="dependent_verification"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </form>
+                    </page>
+                    <page string="Health">
+                        <group>
+                            <field name="blood_type"/>
+                            <field name="deficiency_id"/>
+                            <field name="deficiency_description"/>
+                            <field name="chronic_disease_ids"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="replace">
+                    <field name="country_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_deficiency_tree">
+            <field name="name">hr.deficiency.tree.view</field>
+            <field name="model">hr.deficiency</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_identity_type_tree">
+            <field name="name">hr.identity.type.tree.view</field>
+            <field name="model">hr.identity.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="initials"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_dependent_type_tree">
+            <field name="name">hr.dependent.type.tree.view</field>
+            <field name="model">hr.dependent.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_ethnicity_tree">
+            <field name="name">hr.ethnicity.tree.view</field>
+            <field name="model">hr.ethnicity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_educational_attainment_tree">
+            <field name="name">hr.educational.attainment.tree.view</field>
+            <field name="model">hr.educational.attainment</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_nationality_code_tree">
+            <field name="name">hr.nationality.code.tree.view</field>
+            <field name="model">hr.nationality.code</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_deficiency">
+            <field name="name">Deficiency</field>
+            <field name="res_model">hr.deficiency</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_identity_type">
+            <field name="name">Identity type</field>
+            <field name="res_model">hr.identity.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_civil_certificate_type">
+            <field name="name">Civil certificate type</field>
+            <field name="res_model">hr.civil.certificate.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_chronic_disease">
+            <field name="name">Chronic disease</field>
+            <field name="res_model">hr.chronic.disease</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_dependent_type">
+            <field name="name">Relatedness</field>
+            <field name="res_model">hr.dependent.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_ethnicity">
+            <field name="name">Ethnicity</field>
+            <field name="res_model">hr.ethnicity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_educational_attainment">
+            <field name="name">Educational Attainment</field>
+            <field name="res_model">hr.educational.attainment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_nationality_code">
+            <field name="name">Nationality Code</field>
+            <field name="res_model">hr.nationality.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="" id="menu_hr_contract_configuration_rais" parent="hr.menu_hr_configuration" name="RAIS" sequence="30" groups="base.group_hr_manager"/>
+        <menuitem id="menu_hr_employee_register" parent="menu_hr_contract_configuration_rais" name="Employee register"
+                  sequence="20" groups="base.group_hr_manager"/>
+        <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register"
+                  sequence="1"/>
+        <menuitem action="action_hr_identity_type" id="menu_hr_identity_type" parent="menu_hr_employee_register"
+                  sequence="2"/>
+        <menuitem action="action_hr_civil_certificate_type" id="menu_hr_civil_certificate_type" parent="menu_hr_employee_register"
+                  sequence="3"/>
+        <menuitem action="action_hr_chronic_disease" id="menu_hr_chronic_disease" parent="menu_hr_employee_register"
+                  sequence="4"/>
+        <menuitem action="action_hr_dependent_type" id="menu_hr_dependent_type" parent="menu_hr_employee_register"
+                  sequence="5"/>
+        <menuitem action="action_hr_ethnicity" id="menu_hr_ethnicity" parent="menu_hr_employee_register"
+                  sequence="6"/>
+        <menuitem action="action_hr_educational_attainment" id="menu_hr_educational_attainment" parent="menu_hr_employee_register"
+                  sequence="7"/>
+        <menuitem action="action_hr_nationality_code" id="menu_hr_nationality_code" parent="menu_hr_employee_register"
+                  sequence="8"/>
+    </data>
+</openerp>

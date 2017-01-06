@@ -1,0 +1,60 @@
+-
+    Create a l10n_br employee
+-
+  !record {model: hr.civil.certificate.type, id: l10n_br_hr_civil_certificate_type, view: False}:
+    name: 'Certidão de nascimento'
+-
+  !record {model: hr.identity.type, id: l10n_br_hr_identity_type, view: False}:
+    name: 'RG'
+-
+  !record {model: hr.identity.type, id: l10n_br_hr_identity_type, view: False}:
+    name: 'RG'
+-
+  !record {model: hr.chronic.disease, id: l10n_br_hr_chronic_disease_01, view: False}:
+    name: 'Cronic'
+-
+  !record {model: hr.employee, id: l10n_br_employee, view: False}:
+    address_id: base.main_partner
+    company_id: base.main_company
+    department_id: hr.dep_management
+    user_id: base.user_demo
+    civil_certificate_type_id: l10n_br_hr_civil_certificate_type
+    identity_type_id:  l10n_br_hr_identity_type
+    deficiency_id: deficiency_1
+    deficiency_description: 'Deficiency in index finger'
+    chronic_disease_ids:
+      - l10n_br_hr_chronic_disease_01
+    name: 'l10n brazil demo employee'
+    pis_pasep: '496.85994.95-6'
+    cpf: '853.334.271-35'
+
+-
+  name_get for L10nBrHrCbo
+-
+  !python {model: l10n_br_hr.cbo, id: 1}: |
+    assert self.name_get()[0][1] == u'010105 - Oficial general da aeronáutica', 'The CBO name by name_get is not valid, expected \'code - name\''
+-
+  name_get for HrDeficiency
+-
+  !python {model: hr.deficiency, id: deficiency_1}: |
+    assert self.name_get()[0][1] == u'1 - Física', 'The deficiency name by name_get is not valid, expected \'code - name\''
+-
+  name_get for HrDependentType
+-
+  !python {model: hr.dependent.type, id: l10n_br_dependent_1}: |
+    assert self.name_get()[0][1] == u'1 - Cônjuge', 'The dependent type name by name_get is not valid, expected \'code - name\''
+-
+  name_get for HrEthnicity
+-
+  !python {model: hr.ethnicity, id: ethnicity_1}: |
+    assert self.name_get()[0][1] == u'1 - Indigene', 'The ethnicity name by name_get is not valid, expected \'code - name\''
+-
+  name_get for HrEducationalAttainment
+-
+  !python {model: hr.educational.attainment, id: educational_attainment_1}: |
+    assert self.name_get()[0][1] == u'1 - Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou', 'The educational attainment name by name_get is not valid, expected \'code - name\''
+-
+  name_get for HrNationalityCode
+-
+  !python {model: hr.nationality.code, id: nationality_code_10}: |
+    assert self.name_get()[0][1] == u'10 - Brasileiro', 'The nationality code name by name_get is not valid, expected \'code - name\''
