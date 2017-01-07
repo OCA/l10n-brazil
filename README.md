@@ -88,6 +88,8 @@ addon | version | summary
 [l10n_br_data_account_service](l10n_br_data_account_service/) | 8.0.1.0.0 | Brazilian Localization Data Account for Service
 [l10n_br_data_base](l10n_br_data_base/) | 8.0.1.0.1 | Brazilian Localisation Data Extension for Base
 [l10n_br_delivery](l10n_br_delivery/) | 8.0.1.0.0 | Brazilian Localization Delivery
+[l10n_br_hr](l10n_br_hr/) | 8.0.0.0.0 | Brazilian Localization HR
+[l10n_br_hr_contract](l10n_br_hr_contract/) | 8.0.0.0.0 | Brazilian Localization HR Contract
 [l10n_br_purchase](l10n_br_purchase/) | 8.0.1.0.0 | Brazilian Localization Purchase
 [l10n_br_sale](l10n_br_sale/) | 8.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 8.0.1.0.0 | Brazilian Localization Sale Product
