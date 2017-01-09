@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 KMEE INFORMATICA LTDA
+# Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import timedelta
@@ -22,6 +22,9 @@ class HrHolidays(models.Model):
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
         string=u'Justification'
+    )
+    payroll_discount = fields.Boolean(
+        string=u'Payroll Discount',
     )
 
     @api.constrains('attachment_ids', 'holiday_status_id', 'date_from',
@@ -50,3 +53,7 @@ class HrHolidays(models.Model):
                         timedelta(minutes=60 *
                                   record.holiday_status_id.hours_limit):
                     raise UserError(_("Number of hours exceeded!"))
+
+    @api.onchange('payroll_discount', 'holiday_status_id')
+    def _set_payroll_discount(self):
+        self.payroll_discount = self.holiday_status_id.payroll_discount
