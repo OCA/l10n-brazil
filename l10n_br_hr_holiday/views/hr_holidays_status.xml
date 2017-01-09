@@ -17,6 +17,7 @@
                     <field name="hours_limit" />
                     <field name="type_day" />
                     <field name="need_attachment" />
+                    <field name="payroll_discount" />
                 </group>
             </xpath>
         </field>
