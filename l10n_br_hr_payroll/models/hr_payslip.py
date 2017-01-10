@@ -52,7 +52,9 @@ class HrPayslip(models.Model):
 
             # get discount DSR
             quantity_DSR_discount = self.env['resource.calendar'].\
-                get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'])
+                get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
+                                          hr_contract.working_hours.leave_ids,
+                                          date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
                 ref_quantity_DSR_discount = {
                     'name': u"DSR a serem descontados",
