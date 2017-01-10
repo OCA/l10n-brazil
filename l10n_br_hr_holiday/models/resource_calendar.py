@@ -12,7 +12,7 @@ class ResourceCalendar(models.Model):
 
     @api.multi
     def get_ocurrences(self, employee_id, data_from=datetime.now(),
-                               data_to=datetime.now()):
+                       data_to=datetime.now()):
         """Calcular a quantidade de faltas/ocorrencias que devem ser
         descontadas da folha de pagamento em determinado intervalo de tempo.
         :param  employee_id: Id do funcionario
@@ -30,9 +30,9 @@ class ResourceCalendar(models.Model):
             'faltas_nao_remuneradas': [],
         }
         domain = [
-            ('state','=','validate'),
-            ('employee_id','=',employee_id),
-            ('type','=','remove'),
+            ('state', '=', 'validate'),
+            ('employee_id', '=', employee_id),
+            ('type', '=', 'remove'),
             ('date_from', '>=', data_from),
             ('date_to', '<=', data_to),
         ]
@@ -46,8 +46,7 @@ class ResourceCalendar(models.Model):
         return faltas
 
     @api.multi
-    def get_dias_base(self, data_from=datetime.now(),
-                             data_to=datetime.now()):
+    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now()):
         """Calcular a quantidade de dias que devem ser remunerados em
         determinado intervalo de tempo.
         :param datetime data_from: Data inicial do intervalo de tempo.
@@ -78,6 +77,5 @@ class ResourceCalendar(models.Model):
                 DSR_perdido.append(fields.Datetime.from_string(leave.date_to).
                                    isocalendar()[1])
                 data_inicio += timedelta(days=1)
-
 
         return len(set(DSR_perdido))
