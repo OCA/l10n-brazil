@@ -2,7 +2,7 @@
 # Copyright 2016 Luis Felipe Mileo - KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 
 class HrPayslip(models.Model):
@@ -25,12 +25,12 @@ class HrPayslip(models.Model):
                 fields.Datetime.from_string(date_to),
             )
             attendances = {
-                 'name': u"Dias Base",
-                 'sequence': 1,
-                 'code': 'WORK100',
-                 'number_of_days': worked_days,
-                 'number_of_hours': 0.0,
-                 'contract_id': contract_id.id,
+                'name': u"Dias Base",
+                'sequence': 1,
+                'code': 'WORK100',
+                'number_of_days': worked_days,
+                'number_of_hours': 0.0,
+                'contract_id': contract_id.id,
             }
             result += [attendances]
 
@@ -38,16 +38,15 @@ class HrPayslip(models.Model):
             leaves = {}
             hr_contract = self.env['hr.contract'].browse(contract_id.id)
             leaves = self.env['resource.calendar'].get_ocurrences(
-                hr_contract.employee_id.id, date_from,date_to
-            )
+                hr_contract.employee_id.id, date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
                 attendances = {
-                     'name': u"Faltas Não remuneradas",
-                     'sequence': 2,
-                     'code': 'FNR',
-                     'number_of_days': -len(leaves['faltas_nao_remuneradas']),
-                     'number_of_hours': 0.0,
-                     'contract_id': contract_id.id,
+                    'name': u"Faltas Não remuneradas",
+                    'sequence': 2,
+                    'code': 'FNR',
+                    'number_of_days': -len(leaves['faltas_nao_remuneradas']),
+                    'number_of_hours': 0.0,
+                    'contract_id': contract_id.id,
                 }
                 result += [attendances]
 
