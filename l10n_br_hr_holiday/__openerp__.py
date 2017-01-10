@@ -4,11 +4,9 @@
 
 {
     'name': 'L10n Br Hr Holiday',
-    'description': """
-        Registro de ocorrencias de faltas/atrasos dos funcionarios""",
     'version': '8.0.1.0.0',
     'license': 'AGPL-3',
-    'author': 'KMEE INFORMATICA LTDA',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
         'hr_holidays',

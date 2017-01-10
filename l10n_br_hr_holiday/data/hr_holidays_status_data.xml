@@ -155,7 +155,6 @@
         <record model="hr.holidays.status" id="holiday_status_acompanhamento_de_filho_anual">
             <field name="name">Acompanhamento de Filho anual</field>
             <field name="limit">True</field>
-            <field name="type_day">uteis</field>
             <field name="color_name">red</field>
             <field name="days_limit">2</field>
             <field name="type_day">uteis</field>
