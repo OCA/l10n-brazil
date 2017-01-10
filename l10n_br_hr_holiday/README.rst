@@ -8,10 +8,11 @@ Controle de folgas/atrasos com particularidades brasileira
 
 Este módulo extende a funcionalidade de requisição de faltas (hr_holidays),
 e permite que vocễ registre novos tipos de faltas com algumas validaçoes extras:
- - validação de anexo para justificativa de faltas
- - limite de dias por tipo de falta (holiday.status)
- - limite de horas por tipo de falta
- - mensagem de aviso nos tipos de falta
+
+  - Validação de anexo para justificativa de faltas
+  - limite de dias por tipo de falta (holiday.status)
+  - limite de horas por tipo de falta
+  - mensagem de aviso nos tipos de falta
 
 
 .. image:: /l10n_br_hr_holiday/static/description/hr_holidays_status.png
