@@ -1,1 +1,7 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_l10n_br_hr_child_benefit","access_l10n_br_hr_child_benefit","model_l10n_br_hr_child_benefit","",1,0,0,0
+"access_l10n_br_hr_income_tax","access_l10n_br_hr_income_tax","model_l10n_br_hr_income_tax","",1,0,0,0
+"access_l10n_br_hr_income_tax_deductable_amount_family","access_l10n_br_hr_income_tax_deductable_amount_family","model_l10n_br_hr_income_tax_deductable_amount_family","",1,0,0,0
+"access_l10n_br_hr_minimum_wage","access_l10n_br_hr_minimum_wage","model_l10n_br_hr_minimum_wage","",1,0,0,0
+"access_l10n_br_hr_rat_fap","access_l10n_br_hr_rat_fap","model_l10n_br_hr_rat_fap","",1,0,0,0
+"access_l10n_br_hr_social_security_tax","access_l10n_br_hr_social_security_tax","model_l10n_br_hr_social_security_tax","",1,0,0,0
