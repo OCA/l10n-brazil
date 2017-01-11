@@ -22,13 +22,6 @@
                                 <field name="interval_number" />
                             </group>
                         </group>
-                        <!--<group string="Localization">-->
-                            <!--<group>-->
-                                <!--<field name="country_group_id" />-->
-                                <!--<field name="country_id" domain="[('country_group_ids', 'in', country_group_id)]" />-->
-                                <!-- <field name="state_id" domain="[('country_id', '=', country_id)]" /> -->
-                            <!--</group>-->
-                        <!--</group>-->
                     </group>
                     <footer>
                         <button name="holiday_import" string="Import" type="object" class="oe_highlight"/>
