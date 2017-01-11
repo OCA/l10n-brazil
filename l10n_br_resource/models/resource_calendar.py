@@ -4,6 +4,8 @@
 
 import logging
 from openerp import api, fields, models, _
+from datetime import datetime, timedelta
+from openerp import tools
 
 _logger = logging.getLogger(__name__)
 
@@ -64,6 +66,60 @@ class ResourceCalendar(models.Model):
         if not self._check_recursion():
             raise models.ValidationError(_(
                 'Error! You cannot create recursive calendars.'))
+
+    @api.multi
+    def get_leave_intervals(self, resource_id=None, start_datetime=None,
+                            end_datetime=None):
+        """Get the leaves of the calendar. Leaves can be filtered on the resource,
+        the start datetime or the end datetime.
+
+        :param int resource_id: the id of the resource to take into account when
+                                computing the leaves. If not set, only general
+                                leaves are computed. If set, generic and
+                                specific leaves are computed.
+        :param datetime start_datetime: if provided, do not take into account leaves
+                                        ending before this date.
+        :param datetime end_datetime: if provided, do not take into account leaves
+                                        beginning after this date.
+
+        :return list leaves: list of tuples (start_datetime, end_datetime) of
+                             leave intervals
+        """
+        leaves = []
+        for leave in self.leave_ids:
+            if leave.resource_id and resource_id:
+                if leave.resource_id and not resource_id == leave.resource_id.id:
+                    continue
+            elif leave.resource_id and not resource_id:
+                continue
+            date_from = datetime.strptime(leave.date_from, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+            if end_datetime and date_from > end_datetime:
+                continue
+            date_to = datetime.strptime(leave.date_to, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+            if start_datetime and date_to < start_datetime:
+                continue
+            leaves.append(leave)
+        return leaves
+
+    @api.multi
+    def data_eh_feriado(self, data_referencia=datetime.now()):
+        """Verificar se uma data é feriado.
+        :param datetime data_referencia: Se nenhuma data referencia for passada
+                                    verifique se hoje eh feriado.
+                                    Se a data referencia for passada, verifique
+                                    se a data esta dentro de algum leave
+                                    date_start <= data_referencia <= data_end
+
+        :return int leaves_count: +1 se for feriado
+                                   0 se a data nao for feriado
+        """
+        domain = [
+            ('date_from', '<=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ('leave_type', '<=', 'F'),
+        ]
+        leaves_count = self.env['resource.calendar.leaves'].search_count(domain)
+        return leaves_count
 
 
 class ResourceCalendarLeave(models.Model):
