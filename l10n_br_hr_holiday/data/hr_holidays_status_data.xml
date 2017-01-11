@@ -61,6 +61,7 @@
         <record model="hr.holidays.status" id="holiday_status_unjustified_absence">
             <field name="name">Absence unjustified</field>
             <field name="limit">True</field>
+            <field name="payroll_discount">True</field>
             <field name="color_name">brown</field>
             <field name="need_attachment" eval="False"></field>
         </record>
