@@ -2,10 +2,10 @@
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 from pybrasil.feriado.constantes import (
-    TIPO_FERIADO, ABRANGENCIA_FERIADO, QUANDO_FERIADO, AJUSTE_FERIADO
+    TIPO_FERIADO, ABRANGENCIA_FERIADO,
 )
 
 
@@ -37,6 +37,7 @@ class ResourceCalendar(models.Model):
         'resource.calendar', 'parent_id',
         string='Child Calendar')
     _parent_store = True
+
     parent_left = fields.Integer(index=True)
     parent_right = fields.Integer(index=True)
 
