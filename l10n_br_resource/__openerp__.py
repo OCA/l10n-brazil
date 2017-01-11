@@ -5,7 +5,9 @@
 {
     'name': 'L10n Br Resource',
     'summary': """
-        This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules""",
+        This module extend core resource to create important brazilian
+        informations. Define a Brazilian calendar and some tools to compute
+        dates used in financial and payroll modules""",
     'version': '8.0.0.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
@@ -18,8 +20,10 @@
         'python': ['pybrasil'],
     },
     'data': [
+        'data/res_country_data.xml',
         'views/resource_calendar.xml',
         'views/resource_calendar_leaves.xml',
+        'wizard/workalendar_holiday_import.xml',
     ],
     'demo': [
         'demo/resource_calendar.xml',
