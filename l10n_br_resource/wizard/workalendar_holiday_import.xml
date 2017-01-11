@@ -6,7 +6,7 @@
             <field name="name">Import Holidays</field>
             <field name="model">wizard.workalendar.holiday.import</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Import Brazilian Holidays">
                     <div class="oe_title">
                         <h1>
                             <label string="Import Public Holidays from"/>

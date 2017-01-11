@@ -7,7 +7,7 @@
 
         <act_window
             id="action_workalendar_holiday_import"
-            name="Import Holidays"
+            name="Action Import Brazilian Holidays"
             res_model="wizard.workalendar.holiday.import"
             src_model="resource.calendar"
             view_type="form"
@@ -18,7 +18,7 @@
         <menuitem
                 action="action_workalendar_holiday_import"
                 id="sub_menu_impotigrt_holidays"
-                name="Import Holidays"
+                name="Import Brazilian Holidays "
                 parent="resource.menu_resource_config"
                 sequence="11"/>
 
