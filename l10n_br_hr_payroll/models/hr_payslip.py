@@ -12,12 +12,12 @@ class HrPayslip(models.Model):
     def get_attendances(self, nome, sequence, code, number_of_days,
                         number_of_hours, contract_id):
         attendance = {
-                'name': nome,
-                'sequence': sequence,
-                'code': code,
-                'number_of_days': number_of_days,
-                'number_of_hours': number_of_hours,
-                'contract_id': contract_id.id,
+            'name': nome,
+            'sequence': sequence,
+            'code': code,
+            'number_of_days': number_of_days,
+            'number_of_hours': number_of_hours,
+            'contract_id': contract_id.id,
         }
         return attendance
 
