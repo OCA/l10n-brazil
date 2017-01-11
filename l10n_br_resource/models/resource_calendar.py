@@ -125,10 +125,11 @@ class ResourceCalendar(models.Model):
         """
         for leave in self.leave_ids:
             if leave.date_from <= data_referencia.strftime(
-                    "%Y-%m-%d %H:%M:%S") and \
-                leave.date_to >= data_referencia.strftime("%Y-%m-%d %H:%M:%S") \
-                    and leave.leave_type == 'F':
-                return True
+                    "%Y-%m-%d %H:%M:%S"):
+                if leave.date_to >= data_referencia.\
+                        strftime("%Y-%m-%d %H:%M:%S"):
+                    if leave.leave_type == 'F':
+                        return True
         return False
 
     @api.multi
