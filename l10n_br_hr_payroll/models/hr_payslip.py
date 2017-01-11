@@ -9,6 +9,18 @@ class HrPayslip(models.Model):
 
     _inherit = 'hr.payslip'
 
+    def get_attendances(self, nome, sequence, code, number_of_days,
+                        number_of_hours, contract_id):
+        attendance = {
+                'name': nome,
+                'sequence': sequence,
+                'code': code,
+                'number_of_days': number_of_days,
+                'number_of_hours': number_of_hours,
+                'contract_id': contract_id.id,
+        }
+        return attendance
+
     @api.multi
     def get_worked_day_lines(self, date_from, date_to):
         """
@@ -19,20 +31,12 @@ class HrPayslip(models.Model):
         result = []
         for contract_id in self:
 
-            # get dias uteis
+            # get dias Base para cálculo do mês
             worked_days = self.env['resource.calendar'].get_dias_base(
                 fields.Datetime.from_string(date_from),
-                fields.Datetime.from_string(date_to),
-            )
-            attendances = {
-                'name': u"Dias Base",
-                'sequence': 1,
-                'code': 'WORK100',
-                'number_of_days': worked_days,
-                'number_of_hours': 0.0,
-                'contract_id': contract_id.id,
-            }
-            result += [attendances]
+                fields.Datetime.from_string(date_to))
+            result += [self.get_attendances(u'Dias Base', 1, u'WORK100',
+                                            worked_days, 0.0, contract_id)]
 
             # get faltas
             leaves = {}
@@ -40,29 +44,18 @@ class HrPayslip(models.Model):
             leaves = self.env['resource.calendar'].get_ocurrences(
                 hr_contract.employee_id.id, date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
-                attendances = {
-                    'name': u"Faltas Não remuneradas",
-                    'sequence': 2,
-                    'code': 'FNR',
-                    'number_of_days': -len(leaves['faltas_nao_remuneradas']),
-                    'number_of_hours': 0.0,
-                    'contract_id': contract_id.id,
-                }
-                result += [attendances]
+                quantity_leaves = -len(leaves['faltas_nao_remuneradas'])
+                result += [self.get_attendances(u'Faltas Não remuneradas', 2,
+                                                u'FNR', quantity_leaves,
+                                                0.0, contract_id)]
 
             # get discount DSR
-            quantity_DSR_discount = self.env['resource.calendar'].\
+            quantity_DSR_discount = -self.env['resource.calendar'].\
                 get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
                                           hr_contract.working_hours.leave_ids,
                                           date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
-                ref_quantity_DSR_discount = {
-                    'name': u"DSR a serem descontados",
-                    'sequence': 3,
-                    'code': 'DSR',
-                    'number_of_days': -quantity_DSR_discount,
-                    'number_of_hours': 0.0,
-                    'contract_id': contract_id.id,
-                }
-                result += [ref_quantity_DSR_discount]
+                result += [self.get_attendances(u'DSR a serem descontados', 3,
+                                                u'DSR', quantity_DSR_discount,
+                                                0.0, contract_id)]
             return result
