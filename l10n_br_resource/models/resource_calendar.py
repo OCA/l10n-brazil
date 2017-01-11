@@ -219,6 +219,20 @@ class ResourceCalendar(models.Model):
                 return data_referencia
             data_referencia += timedelta(days=1)
 
+    @api.multi
+    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now()):
+        """Calcular a quantidade de dias que devem ser remunerados em
+        determinado intervalo de tempo.
+        :param datetime data_from: Data inicial do intervalo de tempo.
+               datetime data_end: Data final do intervalo
+        :return int : quantidade de dias que devem ser remunerada
+       """
+        quantidade_dias = (data_to - data_from).days + 1
+        if quantidade_dias > 30:
+            return 30
+        else:
+            return quantidade_dias
+
 
 class ResourceCalendarLeave(models.Model):
 
