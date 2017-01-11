@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="america" model="res.country.group">
+            <field name="name">America</field>
+            <field name="country_ids" eval="[(6,0,[
+                ref('base.br'),ref('base.cl'),ref('base.co'),ref('base.mx'),
+                ref('base.pa'),ref('base.us'),ref('base.ca'),ref('base.ve')])]"/>
+        </record>
+
+        <record id="asia" model="res.country.group">
+            <field name="name">Asia</field>
+            <field name="country_ids" eval="[(6,0,[
+                ref('base.jp'),ref('base.qa'),ref('base.kr'),ref('base.tw')])]"/>
+        </record>
+
+        <record id="africa" model="res.country.group">
+            <field name="name">Africa</field>
+            <field name="country_ids" eval="[(6,0,[
+                ref('base.dz'),ref('base.bj'),ref('base.ci'),ref('base.mg'),
+                ref('base.st'),ref('base.za')])]"/>
+        </record>
+
+        <record id="oceania" model="res.country.group">
+            <field name="name">Oceania</field>
+            <field name="country_ids" eval="[(6,0,[
+                ref('base.au'),ref('base.mh')])]"/>
+        </record>
+
+    </data>
+</openerp>
