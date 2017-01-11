@@ -119,14 +119,14 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         # 21-03 é feriado
         anterior_ao_feriado = fields.Datetime.from_string(
             '2016-03-20 00:00:01')
-        proximo_dia_util = self.municipal_calendar_id.retorna_proximo_dia_util(
+        proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_feriado)
         self.assertEqual(proximo_dia_util,
                          fields.Datetime.from_string('2016-03-22 00:00:01'),
                          'Partindo de um feriado, próximo dia util inválido')
 
         anterior_ao_fds = fields.Datetime.from_string('2016-12-16 00:00:01')
-        proximo_dia_util = self.municipal_calendar_id.retorna_proximo_dia_util(
+        proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_fds)
         self.assertEqual(proximo_dia_util,
                          fields.Datetime.from_string('2016-12-19 00:00:01'),
