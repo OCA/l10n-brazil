@@ -25,7 +25,9 @@ class ResourceCalendar(models.Model):
         """
         faltas = {
             'faltas_remuneradas': [],
+            'quantidade_dias_faltas_remuneradas': 0,
             'faltas_nao_remuneradas': [],
+            'quantidade_dias_faltas_nao_remuneradas': 0,
         }
         domain = [
             ('state', '=', 'validate'),
@@ -39,6 +41,10 @@ class ResourceCalendar(models.Model):
         for leave in holidays_ids:
             if leave.payroll_discount:
                 faltas['faltas_nao_remuneradas'].append(leave)
+                faltas['quantidade_dias_faltas_nao_remuneradas'] += \
+                    leave.number_of_days_temp
             else:
                 faltas['faltas_remuneradas'].append(leave)
+                faltas['quantidade_dias_faltas_remuneradas'] += \
+                    leave.number_of_days_temp
         return faltas

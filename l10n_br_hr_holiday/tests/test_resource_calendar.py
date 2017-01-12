@@ -34,8 +34,6 @@ class TestHrHoliday(common.TransactionCase):
 
     def test_01_get_ocurrences(self):
         """ teste da funcao que obtem as faltas de determinado funcionario
-          def get_ocurrences(self, employee_id, data_from=datetime.now(),
-                       data_to=datetime.now()):
         """
         # create an ocurrence
         holiday_status_id = self.env.ref(
@@ -57,11 +55,46 @@ class TestHrHoliday(common.TransactionCase):
 
         faltas = self.resource_calendar.get_ocurrences(
             self.employee_hruser_id.id, data_inicio, data_final)
-        quantidade_faltas = len(faltas['faltas_nao_remuneradas'])
+        quantidade_faltas = faltas['quantidade_dias_faltas_nao_remuneradas']
 
         self.assertEqual(
             quantidade_faltas, 1,
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name, u'Falta Injusticada',
+            'ERRO: Nao foi possivel obter faltas do Funcionario!')
+
+    def test_02_get_ocurrences(self):
+        """ teste da funcao que obtem a quantidade de faltas de determinado
+        funcionario. Faltas de varios dias seguidos
+
+        """
+        # create an ocurrence
+        holiday_status_id = self.env.ref(
+            'l10n_br_hr_holiday.holiday_status_unjustified_absence')
+        holiday_id = self.hr_holidays.create({
+            'name': 'Falta Injusticada de 3 dias',
+            'holiday_type': 'employee',
+            'holiday_status_id': holiday_status_id.id,
+            'employee_id': self.employee_hruser_id.id,
+            'date_from': fields.Datetime.from_string('2017-01-10 07:00:00'),
+            'date_to': fields.Datetime.from_string('2017-01-12 17:00:00'),
+            'number_of_days_temp': 3,
+            'payroll_discount': True,
+        })
+        holiday_id.holidays_validate()
+
+        data_inicio = '2017-01-01 00:00:01'
+        data_final = '2017-01-31 23:59:59'
+
+        faltas = self.resource_calendar.get_ocurrences(
+            self.employee_hruser_id.id, data_inicio, data_final)
+        quantidade_faltas = faltas['quantidade_dias_faltas_nao_remuneradas']
+
+        self.assertEqual(
+            quantidade_faltas, 3,
+            'ERRO: Nao foi possivel obter faltas do Funcionario!')
+        self.assertEqual(
+            faltas['faltas_nao_remuneradas'][0].name,
+            u'Falta Injusticada de 3 dias',
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
