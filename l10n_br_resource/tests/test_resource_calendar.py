@@ -208,3 +208,20 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(total_dias_uteis, 23,
                          'ERRO: Total dias uteis mes Jan/2018 inválido')
 
+    def test_10_data_eh_feriado_bancario(self):
+        """
+         Validar se data eh feriado bancário.
+        """
+        # adicionando feriado bancário
+        self.resource_leaves.create({
+            'name': 'Feriado Bancário',
+            'date_from': fields.Datetime.from_string('2017-01-13 00:00:00'),
+            'date_to': fields.Datetime.from_string('2017-01-13 23:59:59'),
+            'calendar_id': self.nacional_calendar_id.id,
+            'leave_type': 'B',
+            'abrangencia': 'N',
+        })
+        data = fields.Datetime.from_string('2017-01-13 01:02:03')
+        data_eh_feriado_bancario = self.nacional_calendar_id.\
+            data_eh_feriado_bancario(data)
+        self.assertTrue(data_eh_feriado_bancario)
