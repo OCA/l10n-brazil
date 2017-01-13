@@ -125,21 +125,20 @@ class TestHrPayslip(common.TransactionCase):
     def test_03_quantidade_DSR_em_intervalo(self):
         """ teste cenario 03: Obter quantidade de DSR em determinado intervalo
         """
-        # teste intervalo sem feriados
+        # teste intervalo sem feriados e com 5 domingos no mês
         date_from = '2017-01-01 00:00:01'
         date_to = '2017-01-31 23:59:59'
         quantity_DSR = self.nacional_calendar_id.quantidade_de_DSR(date_from,
                                                                    date_to)
-        self.assertEqual(quantity_DSR, 5, # 5 domingos no mês
+        self.assertEqual(quantity_DSR, 5,
                          'ERRO: Cálculo de quantidade de DSR em determinado '
                          'intervalo Inválido')
 
-        # teste intervalo que contem um feriado em dia de semana
+        # teste intervalo que contem um feriado em dia de semana + 4 domingos
         date_from = '2017-03-01 00:00:01'
         date_to = '2017-03-31 23:59:59'
         quantity_DSR = self.nacional_calendar_id.quantidade_de_DSR(date_from,
                                                                    date_to)
-        self.assertEqual(quantity_DSR, 5, # 4 domingos no mês + 1 feriado
+        self.assertEqual(quantity_DSR, 5,
                          'ERRO: Cálculo de quantidade de DSR em determinado '
                          'intervalo com feriados no mês Invalido!')
-

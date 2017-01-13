@@ -32,28 +32,30 @@ class HrPayslip(models.Model):
         for contract_id in self:
 
             # get dias Base para cálculo do mês
-            worked_days = self.env['resource.calendar'].get_dias_base(
+            dias_mes = self.env['resource.calendar'].get_dias_base(
                 fields.Datetime.from_string(date_from),
-                fields.Datetime.from_string(date_to))
-            result += [self.get_attendances(u'Dias Base', 1, u'WORK100',
-                                            worked_days, 0.0, contract_id)]
+                fields.Datetime.from_string(date_to)
+            )
+            result += [self.get_attendances(u'Dias Base', 1, u'DIAS_BASE',
+                                            dias_mes, 0.0, contract_id)]
+
             # get dias uteis
             dias_uteis = self.env['resource.calendar'].quantidade_dias_uteis(
                 fields.Datetime.from_string(date_from),
                 fields.Datetime.from_string(date_to),
             )
             result += [self.get_attendances(u'Dias Úteis', 2, u'DIAS_UTEIS',
-                                                dias_uteis, 0.0, contract_id)]
-
+                                            dias_uteis, 0.0, contract_id)]
             # get faltas
             leaves = {}
             hr_contract = self.env['hr.contract'].browse(contract_id.id)
             leaves = self.env['resource.calendar'].get_ocurrences(
                 hr_contract.employee_id.id, date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
-                qtd_leaves = -leaves['quantidade_dias_faltas_nao_remuneradas']
-                result += [self.get_attendances(u'Faltas Não remuneradas', 2,
-                                                u'FNR', qtd_leaves,
+                qtd_leaves = leaves['quantidade_dias_faltas_nao_remuneradas']
+                result += [self.get_attendances(u'Faltas Não remuneradas', 3,
+                                                u'FALTAS_NAO_REMUNERADAS',
+                                                qtd_leaves,
                                                 0.0, contract_id)]
             # get Quantidade de DSR
             quantity_DSR = hr_contract.working_hours.\
@@ -63,12 +65,13 @@ class HrPayslip(models.Model):
                                                 u'DSR_TOTAL', quantity_DSR,
                                                 0.0, contract_id)]
             # get discount DSR
-            quantity_DSR_discount = -self.env['resource.calendar'].\
+            quantity_DSR_discount = self.env['resource.calendar'].\
                 get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
                                           hr_contract.working_hours.leave_ids,
                                           date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
-                result += [self.get_attendances(u'DSR a serem descontados', 3,
-                                                u'DSR', quantity_DSR_discount,
+                result += [self.get_attendances(u'DSR a serem descontados', 5,
+                                                u'DSR_PARA_DESCONTAR',
+                                                quantity_DSR_discount,
                                                 0.0, contract_id)]
             return result
