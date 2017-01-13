@@ -146,7 +146,7 @@ class ResourceCalendar(models.Model):
                     "%Y-%m-%d %H:%M:%S"):
                 if leave.date_to >= data_referencia.\
                         strftime("%Y-%m-%d %H:%M:%S"):
-                    if leave.leave_type in ['F','B']:
+                    if leave.leave_type in ['F', 'B']:
                         return True
         return False
 
