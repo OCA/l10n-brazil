@@ -132,7 +132,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                          fields.Datetime.from_string('2016-12-19 00:00:01'),
                          'Partindo de um fds, próximo dia util inválido')
 
-    def test_06_get_dias_base(self):
+    def test_07_get_dias_base(self):
         """ Dado um intervalo de tempo, fornecer a quantidade de dias base
         para cálculos da folha de pagamento"""
         data_inicio = fields.Datetime.from_string('2017-01-01 00:00:01')
@@ -149,7 +149,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(total, 28,
                          'Calculo de Dias Base de Fev incorreto')
 
-    def test_07_data_eh_dia_util(self):
+    def test_08_data_eh_dia_util(self):
         """ Verificar se datas são dias uteis
         """
         segunda = fields.Datetime.from_string('2017-01-09 00:00:01')
