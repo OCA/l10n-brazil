@@ -188,3 +188,23 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(feriado2),
             "ERRO: Feriado2 nao eh dia util!")
+
+    def test_09_quantidade_dia_util(self):
+        """ Calcular a qunatidade de dias uteis.
+        """
+        data_inicio = fields.Datetime.from_string('2017-01-01 00:00:01')
+        data_final = fields.Datetime.from_string('2017-01-31 23:59:59')
+
+        total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
+            data_inicio, data_final)
+        self.assertEqual(total_dias_uteis, 22,
+                         'ERRO: Total dias uteis mes Jan/2017 inválido')
+
+        data_inicio = fields.Datetime.from_string('2018-01-01 00:00:01')
+        data_final = fields.Datetime.from_string('2018-01-31 23:59:59')
+
+        total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
+            data_inicio, data_final)
+        self.assertEqual(total_dias_uteis, 23,
+                         'ERRO: Total dias uteis mes Jan/2018 inválido')
+
