@@ -134,19 +134,17 @@ class WorkalendarHolidayImport(models.TransientModel):
 
     @api.multi
     def holiday_import(self):
-        tz = self._context.get('tz') and pytz.timezone(self._context.get('tz'))
+        tz_br = pytz.timezone('America/Sao_Paulo')
+
         for wiz in self:
             leaves = self.env['resource.calendar.leaves']
-            work_time = wiz.calendar_id
             public_holidays = []
             date_reference = fields.Date.from_string(wiz.start_date)
 
             while date_reference.year <= \
                     fields.Date.from_string(wiz.end_date).year:
-
                 all_holidays = feriado.monta_dicionario_datas(
                     date_reference).items()
-
                 for holiday in all_holidays:
                     if fields.Date.from_string(wiz.end_date) >= holiday[0] >= \
                             fields.Date.from_string(wiz.start_date):
@@ -155,14 +153,15 @@ class WorkalendarHolidayImport(models.TransientModel):
                 for holidays in public_holidays:
                     utc_dt = fields.Datetime.from_string(
                         fields.Datetime.to_string(holidays[0]))
-                    user_dt = tz and fields.Datetime.context_timestamp(
-                        self, utc_dt).astimezone(tz) or \
-                        fields.Datetime.context_timestamp(self, utc_dt)
+
+                    # Setar a data do feriado com timezone de brasilia
+                    user_dt = tz_br.localize(utc_dt)
                     datetime_from = utc_dt - \
                         relativedelta(
                             seconds=user_dt.utcoffset().total_seconds())
                     datetime_to = datetime_from + relativedelta(days=1) - \
                         relativedelta(seconds=1)
+
                     date_from = fields.Datetime.to_string(datetime_from)
                     date_to = fields.Datetime.to_string(datetime_to)
 
