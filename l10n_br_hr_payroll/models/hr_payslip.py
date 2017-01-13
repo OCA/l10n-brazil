@@ -37,6 +37,13 @@ class HrPayslip(models.Model):
                 fields.Datetime.from_string(date_to))
             result += [self.get_attendances(u'Dias Base', 1, u'WORK100',
                                             worked_days, 0.0, contract_id)]
+            # get dias uteis
+            dias_uteis = self.env['resource.calendar'].quantidade_dias_uteis(
+                fields.Datetime.from_string(date_from),
+                fields.Datetime.from_string(date_to),
+            )
+            result += [self.get_attendances(u'Dias Úteis', 2, u'DIAS_UTEIS',
+                                                dias_uteis, 0.0, contract_id)]
 
             # get faltas
             leaves = {}
