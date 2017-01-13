@@ -29,7 +29,9 @@
     'website': 'http://www.kmee.com.br',
     'version': '8.0.0.0.1',
     'depends': [
-        'l10n_br_hr_contract'
+        'l10n_br_resource',
+        'l10n_br_hr_contract',
+        'hr_payroll',
     ],
     'init_xml': [
         'data/l10n_br_hr_payroll_data.xml',
