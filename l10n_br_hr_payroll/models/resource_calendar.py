@@ -10,6 +10,22 @@ class ResourceCalendar(models.Model):
 
     _inherit = 'resource.calendar'
 
+    def quantidade_de_DSR(self, data_from, data_to):
+        """Obter a quantidade de DSR em determinado período
+        :param str data_from:   Data Inicial do intervalo
+        :param str data_to:     Data Final do intervalo
+        :return: int: quantidade de DSR no intervalo
+        """
+        quantidade_DSR = 0
+        data_inicio = fields.Datetime.from_string(data_from)
+        data_final = fields.Datetime.from_string(data_to)
+        while data_inicio <= data_final:
+            if data_inicio.weekday() == 6 or \
+                    self.data_eh_feriado(data_inicio):
+                quantidade_DSR += 1
+            data_inicio += timedelta(days=1)
+        return quantidade_DSR
+
     def desconta_feriado_como_DSR(self, data, semanas_sem_DSR):
         """
         Verificar se o feriado nao é domingo e se esta na semana que o

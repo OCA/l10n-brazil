@@ -46,6 +46,14 @@ class TestHrPayslip(common.TransactionCase):
             'leave_type': 'F',
             'abrangencia': 'N',
         })
+        self.resource_leaves.create({
+            'name': 'Feriado em Janeiro 02',
+            'date_from': fields.Datetime.from_string('2017-03-18 00:00:00'),
+            'date_to': fields.Datetime.from_string('2017-03-18 23:59:59'),
+            'calendar_id': self.nacional_calendar_id.id,
+            'leave_type': 'F',
+            'abrangencia': 'N',
+        })
 
     def criar_falta_nao_remunerada(self):
         # create falta funcionario
@@ -113,3 +121,25 @@ class TestHrPayslip(common.TransactionCase):
                          'ERRO: Cálculo de Desconto de DSR apartir de falta'
                          ' na semana e feriado em dia de semana. '
                          '(Perder 2 DSRs).')
+
+    def test_03_quantidade_DSR_em_intervalo(self):
+        """ teste cenario 03: Obter quantidade de DSR em determinado intervalo
+        """
+        # teste intervalo sem feriados
+        date_from = '2017-01-01 00:00:01'
+        date_to = '2017-01-31 23:59:59'
+        quantity_DSR = self.nacional_calendar_id.quantidade_de_DSR(date_from,
+                                                                   date_to)
+        self.assertEqual(quantity_DSR, 5, # 5 domingos no mês
+                         'ERRO: Cálculo de quantidade de DSR em determinado '
+                         'intervalo Inválido')
+
+        # teste intervalo que contem um feriado em dia de semana
+        date_from = '2017-03-01 00:00:01'
+        date_to = '2017-03-31 23:59:59'
+        quantity_DSR = self.nacional_calendar_id.quantidade_de_DSR(date_from,
+                                                                   date_to)
+        self.assertEqual(quantity_DSR, 5, # 4 domingos no mês + 1 feriado
+                         'ERRO: Cálculo de quantidade de DSR em determinado '
+                         'intervalo com feriados no mês Invalido!')
+
