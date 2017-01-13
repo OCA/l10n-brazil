@@ -34,10 +34,6 @@
         'l10n_br_hr_contract',
         'hr_payroll',
     ],
-    'init_xml': [
-        'data/l10n_br_hr_payroll_data.xml',
-        'data/l10n_br_hr_payroll_data_IR_rule.xml'
-    ],
     'data': [
         'security/ir.model.access.csv',
         'view/l10n_br_hr_child_benefit_view.xml',
