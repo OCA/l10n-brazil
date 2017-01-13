@@ -35,7 +35,7 @@ class HrHolidays(models.Model):
         for record in self:
             if record.holiday_status_id.days_limit:
                 if record.holiday_status_id.type_day == u'uteis':
-                    if resource_calendar_obj.retorna_num_dias_uteis(
+                    if resource_calendar_obj.quantidade_dias_uteis(
                             fields.Datetime.from_string(record.date_from),
                             fields.Datetime.from_string(record.date_to)) > \
                             record.holiday_status_id.days_limit:
