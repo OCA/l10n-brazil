@@ -166,7 +166,7 @@ class ResourceCalendar(models.Model):
         """
         dia_antes = data_referencia - timedelta(days=2)
         dia_depois = data_referencia + timedelta(days=2)
-
+        
         dia_antes_eh_util = \
             True if dia_antes.weekday() > 5 or self.data_eh_feriado(
                 dia_antes
