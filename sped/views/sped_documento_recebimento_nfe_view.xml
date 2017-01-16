@@ -39,7 +39,7 @@
                         <page string="Remetente">
                             <group>
                                 <group colspan="4" col="4">
-                                    <field name="participante_id" string="Remetente" colspan="4" required="1" domain="[('cnpj_cpf', '!=' False)]" />
+                                    <field name="participante_id" string="Remetente" colspan="4" required="1" domain="[('cnpj_cpf', '!=' False), ('cnpj_cpf', '!=', False)]" />
                                 </group>
                             </group>
                         </page>

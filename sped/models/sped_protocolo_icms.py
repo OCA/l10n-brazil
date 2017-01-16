@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
@@ -135,7 +136,7 @@ class ProtocoloICMS(models.Model):
 
     ncm = fields.Char('NCM', size=8)
     ex = fields.Char('EX', size=2)
-    mva = fields.Porcentagem('MVA original')
+    mva = fields.Float('MVA original', digits=(5, 2))
     ncm_ids = fields.One2many('sped.protocolo.icms.ncm', 'protocolo_id', 'NCMs')
 
     def exclui_ncm(self):
@@ -238,6 +239,7 @@ class ProtocoloICMSAliquota(models.Model):
     al_icms_st_id = fields.Many2one('sped.aliquota.icms.st', 'ICMS ST')
     infadic = fields.Text('Informações adicionais')
     interna = fields.Boolean(string='Interna', compute='_compute_interna', store=True)
+    al_fcp = fields.Float('Fundo de Combate à Pobreza', digits=(5, 2))
 
     @api.depends('estado_origem_id', 'estado_destino_id')
     def _interna(self):
@@ -253,4 +255,4 @@ class ProtocoloICMSNCM(models.Model):
 
     protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo', require=True, ondelete='cascade')
     ncm_id = fields.Many2one('sped.ncm', 'NCM', required=True)
-    mva = fields.Porcentagem('MVA original')
+    mva = fields.Float('MVA original', digits=(5, 2))

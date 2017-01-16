@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 
 
@@ -40,7 +41,13 @@ class AliquotaSIMPLESTeto(models.Model):
     _rec_name = 'nome'
     _order = 'valor'
 
-    valor = fields.Dinheiro('Valor do teto do SIMPLES Nacional', required=True, index=True)
+    #
+    # Para todos os valores de teto de alíquota do SIMPLES, a moeda é sempre o
+    # Real BRL
+    #
+    currency_id = fields.Many2one('res.currency', 'Moeda', default=lambda self: self.env.ref('base.BRL').id)
+
+    valor = fields.Monetary('Valor do teto do SIMPLES Nacional', required=True, index=True)
     nome = fields.Char('Teto do SIMPLES Nacional', size=40, index=True)
 
     @api.depends('valor')
@@ -65,11 +72,11 @@ class AliquotaSIMPLESAliquota(models.Model):
 
     anexo_id = fields.Many2one('sped.aliquota.simples.anexo', 'Anexo', required=True, ondelete='cascade')
     teto_id = fields.Many2one('sped.aliquota.simples.teto', 'Teto', required=True, ondelete='cascade')
-    al_simples = fields.Porcentagem('SIMPLES')
-    al_irpj = fields.Porcentagem('IRPJ')
-    al_csll = fields.Porcentagem('CSLL')
-    al_cofins = fields.Porcentagem('COFINS')
-    al_pis = fields.Porcentagem('PIS')
-    al_cpp = fields.Porcentagem('CPP')
-    al_icms = fields.Porcentagem('ICMS')
-    al_iss = fields.Porcentagem('ISS')
+    al_simples = fields.Float('SIMPLES', digits=(5, 2))
+    al_irpj = fields.Float('IRPJ', digits=(5, 2))
+    al_csll = fields.Float('CSLL', digits=(5, 2))
+    al_cofins = fields.Float('COFINS', digits=(5, 2))
+    al_pis = fields.Float('PIS', digits=(5, 2))
+    al_cpp = fields.Float('CPP', digits=(5, 2))
+    al_icms = fields.Float('ICMS', digits=(5, 2))
+    al_iss = fields.Float('ISS', digits=(5, 2))

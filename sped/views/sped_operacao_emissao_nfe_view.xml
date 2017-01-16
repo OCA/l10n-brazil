@@ -31,6 +31,7 @@
                             <newline />
                             <field name="natureza_operacao_id" colspan="4" required="1" options="{'no_create': True, 'no_open': True}" />
                             <newline />
+                            <field name="preco_automatico" />
                         </group>
                     </group>
                     <notebook>
