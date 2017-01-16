@@ -34,12 +34,12 @@ TIPO_UNIDADE = (
 
 class Unidade(models.Model):
     _description = 'Unidade de medida'
-    #_inherits = {'product.uom': 'uom_id'}
+    _inherits = {'product.uom': 'uom_id'}
     _name = 'sped.unidade'
     _order = 'codigo_unico'
     _rec_name = 'codigo'
 
-    #uom_id = fields.Many2one('product.uom', 'UOM original', ondelete='restrict', required=True)
+    uom_id = fields.Many2one('product.uom', 'UOM original', ondelete='restrict', required=True)
 
     TIPO_UNIDADE_UNIDADE = 'U'
     TIPO_UNIDADE_PESO = 'P'
@@ -219,3 +219,81 @@ class Unidade(models.Model):
             args += ['|', ['codigo_unico', operator, name], ['nome_unico', operator, name]]
 
         return super(Unidade, self).name_search(name=name, args=args, operator=operator, limit=limit)
+
+    def prepare_sync_to_uom(self):
+        self.ensure_one()
+
+        if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == self.TIPO_UNIDADE_EMBALAGEM:
+            category_id = self.env.ref('product.product_uom_categ_unit').id
+
+        elif self.tipo == self.TIPO_UNIDADE_PESO:
+            category_id = self.env.ref('product.product_uom_categ_kgm').id
+
+        elif self.tipo == self.TIPO_UNIDADE_VOLUME:
+            category_id = self.env.ref('product.product_uom_categ_vol').id
+
+        elif self.tipo == self.TIPO_UNIDADE_COMPRIMENTO:
+            category_id = self.env.ref('product.uom_categ_length').id
+
+        elif self.tipo == self.TIPO_UNIDADE_AREA:
+            category_id = self.env.ref('sped.product_uom_categ_area').id
+
+        elif self.tipo == self.TIPO_UNIDADE_TEMPO:
+            category_id = self.env.ref('product.uom_categ_wtime').id
+
+        dados = {
+            'name': self.codigo,
+            'category_id': category_id,
+            'active': True,
+            'sped_unidade_id': self.id,
+        }
+
+        if not self.uom_id:
+            dados['uom_type'] = 'bigger'
+            dados['factor'] = 1
+            dados['rounding'] = 0.01
+
+        return dados
+
+    @api.multi
+    def sync_to_uom(self):
+        for unidade in self:
+            dados = unidade.prepare_sync_to_uom()
+            unidade.uom_id.write(dados)
+
+    @api.model
+    def create(self, dados):
+        dados['name'] = dados['codigo']
+
+        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados['tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+            dados['category_id'] = self.env.ref('product.product_uom_categ_unit').id
+
+        elif dados['tipo'] == self.TIPO_UNIDADE_PESO:
+            dados['category_id'] = self.env.ref('product.product_uom_categ_kgm').id
+
+        elif dados['tipo'] == self.TIPO_UNIDADE_VOLUME:
+            dados['category_id'] = self.env.ref('product.product_uom_categ_vol').id
+
+        elif dados['tipo'] == self.TIPO_UNIDADE_COMPRIMENTO:
+            dados['category_id'] = self.env.ref('product.uom_categ_length').id
+
+        elif dados['tipo'] == self.TIPO_UNIDADE_AREA:
+            dados['category_id'] = self.env.ref('sped.product_uom_categ_area').id
+
+        elif dados['tipo'] == self.TIPO_UNIDADE_TEMPO:
+            dados['category_id'] = self.env.ref('product.uom_categ_wtime').id
+
+        unidade = super(Unidade, self).create(dados)
+        unidade.sync_to_uom()
+
+        return unidade
+
+    @api.multi
+    def write(self, dados):
+        if 'codigo' in dados:
+            dados['name'] = dados['codigo']
+
+        res = super(Unidade, self).write(dados)
+        self.sync_to_uom()
+
+        return res

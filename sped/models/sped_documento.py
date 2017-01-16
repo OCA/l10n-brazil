@@ -12,11 +12,13 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.data import parse_datetime, data_hora_horario_brasilia
+    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from ..constante_tributaria import *
 
 
@@ -40,7 +42,7 @@ class Documento(models.Model):
     hora_entrada_saida = fields.Char('Hora de entrada/saída', size=8, compute='_compute_data_hora_separadas', store=True)
 
     serie = fields.Char('Série', index=True)
-    numero = fields.Numero('Número', index=True)
+    numero = fields.Float('Número', index=True, digits=(18, 0))
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/Saída', index=True, default=ENTRADA_SAIDA_SAIDA)
     situacao_fiscal = fields.Selection(SITUACAO_FISCAL, 'Situação fiscal', index=True, default=SITUACAO_FISCAL_REGULAR)
 
@@ -66,16 +68,25 @@ class Documento(models.Model):
     infcomplementar = fields.Text('Informações complementares')
     deduz_retencao = fields.Boolean('Deduz retenção do total da NF?', default=True)
     pis_cofins_retido = fields.Boolean('PIS-COFINS retidos?')
-    al_pis_retido = fields.Porcentagem('Alíquota do PIS', default=0.65)
-    al_cofins_retido = fields.Porcentagem('Alíquota da COFINS', default=3)
+    al_pis_retido = fields.Float('Alíquota do PIS', default=0.65, digits=(5, 2))
+    al_cofins_retido = fields.Float('Alíquota da COFINS', default=3, digits=(5, 2))
     csll_retido = fields.Boolean('CSLL retido?')
-    al_csll = fields.Porcentagem('Alíquota da CSLL', default=1)
-    limite_retencao_pis_cofins_csll = fields.Dinheiro('Obedecer limite de faturamento para retenção de',
+    al_csll = fields.Float('Alíquota da CSLL', default=1, digits=(5, 2))
+
+    #
+    # Para todos os valores num documento fiscal, a moeda é SEMPRE o
+    # Real BRL
+    #
+    currency_id = fields.Many2one('res.currency', 'Moeda', default=lambda self: self.env.ref('base.BRL').id)
+
+    limite_retencao_pis_cofins_csll = fields.Monetary('Obedecer limite de faturamento para retenção de',
                                                       default=LIMITE_RETENCAO_PIS_COFINS_CSLL)
     irrf_retido = fields.Boolean('IR retido?')
     irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
-    al_irrf = fields.Porcentagem('Alíquota do IR', default=1)
-    previdencia_retido = fields.Boolean('INSS retido?')
+    al_irrf = fields.Float('Alíquota do IR', default=1, digits=(5, 2))
+    inss_retido = fields.Boolean('INSS retido?', index=True)
+    al_inss_retido = fields.Float('Alíquota do INSS', digits=(5, 2))
+    al_inss = fields.Float(u'Alíquota do INSS', digits=(5, 2))
     cnae_id = fields.Many2one('sped.cnae', 'CNAE')
     natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
     servico_id = fields.Many2one('sped.servico', 'Serviço')
@@ -106,7 +117,7 @@ class Documento(models.Model):
     participante_fone_comercial = fields.Char('Fone Comercial', size=18, related='participante_id.fone_comercial',
                                               readonly=True)
     participante_celular = fields.Char('Celular', size=18, related='participante_id.celular', readonly=True)
-    participante_email = fields.Email('Email', size=60, related='participante_id.email', readonly=True)
+    participante_email = fields.LowerChar('Email', size=60, related='participante_id.email', readonly=True)
     #
     # Inscrições e registros
     #
@@ -136,62 +147,58 @@ class Documento(models.Model):
     #
 
     # Valor total dos produtos
-    vr_produtos = fields.Dinheiro('Valor dos produtos/serviços')
-    vr_produtos_tributacao = fields.Dinheiro('Valor dos produtos para tributação')
-    vr_frete = fields.Dinheiro('Valor do frete')
-    vr_seguro = fields.Dinheiro('Valor do seguro')
-    vr_desconto = fields.Dinheiro('Valor do desconto')
-    vr_outras = fields.Dinheiro('Outras despesas acessórias')
-    vr_operacao = fields.Dinheiro('Valor da operação')
-    vr_operacao_tributacao = fields.Dinheiro('Valor da operação para tributação')
-
+    vr_produtos = fields.Monetary('Valor dos produtos/serviços', compute='_compute_soma_itens', store=True)
+    vr_produtos_tributacao = fields.Monetary('Valor dos produtos para tributação', compute='_compute_soma_itens', store=True)
+    vr_frete = fields.Monetary('Valor do frete', compute='_compute_soma_itens', store=True)
+    vr_seguro = fields.Monetary('Valor do seguro', compute='_compute_soma_itens', store=True)
+    vr_desconto = fields.Monetary('Valor do desconto', compute='_compute_soma_itens', store=True)
+    vr_outras = fields.Monetary('Outras despesas acessórias', compute='_compute_soma_itens', store=True)
+    vr_operacao = fields.Monetary('Valor da operação', compute='_compute_soma_itens', store=True)
+    vr_operacao_tributacao = fields.Monetary('Valor da operação para tributação', compute='_compute_soma_itens', store=True)
     # ICMS próprio
-    bc_icms_proprio = fields.Dinheiro('Base do ICMS próprio')
-    vr_icms_proprio = fields.Dinheiro('Valor do ICMS próprio')
+    bc_icms_proprio = fields.Monetary('Base do ICMS próprio', compute='_compute_soma_itens', store=True)
+    vr_icms_proprio = fields.Monetary('Valor do ICMS próprio', compute='_compute_soma_itens', store=True)
     # ICMS SIMPLES
-    vr_icms_sn = fields.Dinheiro('Valor do crédito de ICMS - SIMPLES Nacional')
-    vr_simples = fields.Dinheiro('Valor do SIMPLES Nacional')
+    vr_icms_sn = fields.Monetary('Valor do crédito de ICMS - SIMPLES Nacional', compute='_compute_soma_itens', store=True)
+    vr_simples = fields.Monetary('Valor do SIMPLES Nacional', compute='_compute_soma_itens', store=True)
     # ICMS ST
-    bc_icms_st = fields.Dinheiro('Base do ICMS ST')
-    vr_icms_st = fields.Dinheiro('Valor do ICMS ST')
+    bc_icms_st = fields.Monetary('Base do ICMS ST', compute='_compute_soma_itens', store=True)
+    vr_icms_st = fields.Monetary('Valor do ICMS ST', compute='_compute_soma_itens', store=True)
     # ICMS ST retido
-    bc_icms_st_retido = fields.Dinheiro('Base do ICMS retido anteriormente por substituição tributária')
-    vr_icms_st_retido = fields.Dinheiro('Valor do ICMS retido anteriormente por substituição tributária')
-
+    bc_icms_st_retido = fields.Monetary('Base do ICMS retido anteriormente por substituição tributária', compute='_compute_soma_itens', store=True)
+    vr_icms_st_retido = fields.Monetary('Valor do ICMS retido anteriormente por substituição tributária', compute='_compute_soma_itens', store=True)
     # IPI
-    bc_ipi = fields.Dinheiro('Base do IPI')
-    vr_ipi = fields.Dinheiro('Valor do IPI')
-
+    bc_ipi = fields.Monetary('Base do IPI', compute='_compute_soma_itens', store=True)
+    vr_ipi = fields.Monetary('Valor do IPI', compute='_compute_soma_itens', store=True)
     # Imposto de importação
-    bc_ii = fields.Dinheiro('Base do imposto de importação')
-    vr_ii = fields.Dinheiro('Valor do imposto de importação')
-
+    bc_ii = fields.Monetary('Base do imposto de importação', compute='_compute_soma_itens', store=True)
+    vr_despesas_aduaneiras = fields.Monetary('Despesas aduaneiras', compute='_compute_soma_itens', store=True)
+    vr_ii = fields.Monetary('Valor do imposto de importação', compute='_compute_soma_itens', store=True)
+    vr_iof = fields.Monetary('Valor do IOF', compute='_compute_soma_itens', store=True)
     # PIS e COFINS
-    bc_pis_proprio = fields.Dinheiro('Base do PIS próprio')
-    vr_pis_proprio = fields.Dinheiro('Valor do PIS próprio')
-    bc_cofins_proprio = fields.Dinheiro('Base da COFINS própria')
-    vr_cofins_proprio = fields.Dinheiro('Valor do COFINS própria')
-    bc_pis_st = fields.Dinheiro('Base do PIS ST')
-    vr_pis_st = fields.Dinheiro('Valor do PIS ST')
-    bc_cofins_st = fields.Dinheiro('Base da COFINS ST')
-    vr_cofins_st = fields.Dinheiro('Valor do COFINS ST')
-
+    bc_pis_proprio = fields.Monetary('Base do PIS próprio', compute='_compute_soma_itens', store=True)
+    vr_pis_proprio = fields.Monetary('Valor do PIS próprio', compute='_compute_soma_itens', store=True)
+    bc_cofins_proprio = fields.Monetary('Base da COFINS própria', compute='_compute_soma_itens', store=True)
+    vr_cofins_proprio = fields.Monetary('Valor do COFINS própria', compute='_compute_soma_itens', store=True)
+    #bc_pis_st = fields.Monetary('Base do PIS ST', compute='_compute_soma_itens', store=True)
+    #vr_pis_st = fields.Monetary('Valor do PIS ST', compute='_compute_soma_itens', store=True)
+    #bc_cofins_st = fields.Monetary('Base da COFINS ST', compute='_compute_soma_itens', store=True)
+    #vr_cofins_st = fields.Monetary('Valor do COFINS ST', compute='_compute_soma_itens', store=True)
     #
     # Totais dos itens (grupo ISS)
     #
-
-    # Valor total dos serviços
-    vr_servicos = fields.Dinheiro('Valor dos serviços')
-
     # ISS
-    bc_iss = fields.Dinheiro('Base do ISS')
-    vr_iss = fields.Dinheiro('Valor do ISS')
-
-    ### PIS e COFINS
-    ###'vr_pis_servico = CampoDinheiro(u'PIS sobre serviços'),
-    ##'vr_pis_servico = fields.Dinheiro('PIS sobre serviços'),
-    ###'vr_cofins_servico = CampoDinheiro(u'COFINS sobre serviços'),
-    ##'vr_cofins_servico = fields.Dinheiro('COFINS sobre serviços'),
+    bc_iss = fields.Monetary('Base do ISS', compute='_compute_soma_itens', store=True)
+    vr_iss = fields.Monetary('Valor do ISS', compute='_compute_soma_itens', store=True)
+    # Total da NF e da fatura (podem ser diferentes no caso de operação triangular)
+    vr_nf = fields.Monetary('Valor da NF', compute='_compute_soma_itens', store=True)
+    vr_fatura = fields.Monetary('Valor da fatura', compute='_compute_soma_itens', store=True)
+    vr_ibpt = fields.Monetary('Valor IBPT', compute='_compute_soma_itens', store=True)
+    bc_inss_retido = fields.Monetary('Base do INSS', compute='_compute_soma_itens', store=True)
+    vr_inss_retido = fields.Monetary('Valor do INSS', compute='_compute_soma_itens', store=True)
+    vr_custo_comercial = fields.Monetary('Custo comercial', compute='_compute_soma_itens', store=True)
+    vr_difal = fields.Monetary('Valor do diferencial de alíquota ICMS próprio', compute='_compute_soma_itens', store=True)
+    vr_fcp = fields.Monetary('Valor do fundo de combate à pobreza', compute='_compute_soma_itens', store=True)
 
     ###
     ### Retenções de tributos (órgãos públicos, substitutos tributários etc.)
@@ -222,26 +229,10 @@ class Documento(models.Model):
     ##'al_irpj_proprio = CampoPorcentagem(u'Alíquota do IRPJ próprio'),
     ##'vr_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
 
-    ### Previdência social
-    ##'previdencia_retido = fields.boolean(u'INSS retido?'),
-    ##'bc_previdencia = fields.Dinheiro('Base do INSS'),
-    ##'al_previdencia = CampoPorcentagem(u'Alíquota do INSS'),
-    ##'vr_previdencia = fields.Dinheiro('Valor do INSS'),
-
     ### ISS
     ##'iss_retido = fields.boolean(u'ISS retido?'),
     ##'bc_iss_retido = CampoDinheiro(u'Base do ISS'),
     ##'vr_iss_retido = CampoDinheiro(u'Valor do ISS'),
-
-    ###
-    ### Total da NF e da fatura (podem ser diferentes no caso de operação triangular)
-    ###
-    ###'vr_nf = CampoDinheiro(u'Valor total da NF'),
-    ##'vr_nf = fields.Dinheiro('Valor total da NF'),
-    ###'vr_fatura = CampoDinheiro(u'valor total da fatura'),
-    ##'vr_fatura = fields.Dinheiro('Valor total da fatura'),
-
-    ##'vr_ibpt = fields.Dinheiro('Valor IBPT'),
 
     item_ids = fields.One2many('sped.documento.item', 'documento_id', 'Itens')
 
@@ -255,6 +246,106 @@ class Documento(models.Model):
             data_hora_entrada_saida = data_hora_horario_brasilia(parse_datetime(documento.data_hora_entrada_saida))
             documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
             documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
+
+    #@api.depends(
+            #'vr_produtos', 'vr_produtos_tributacao',
+            #'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
+            #'vr_operacao', 'vr_operacao_tributacao',
+            #'bc_icms_proprio', 'vr_icms_proprio',
+            #'vr_difal', 'vr_fcp',
+            #'vr_icms_sn', 'vr_simples',
+            #'bc_icms_st', 'vr_icms_st',
+            #'bc_icms_st_retido', 'vr_icms_st_retido',
+            #'bc_ipi', 'vr_ipi',
+            #'bc_ii', 'vr_ii', 'vr_despesas_aduaneiras', 'vr_iof',
+            #'bc_pis_proprio', 'vr_pis_proprio',
+            #'bc_cofins_proprio', 'vr_cofins_proprio',
+            #'bc_iss', 'vr_iss',
+            #'vr_nf', 'vr_fatura',
+            #'vr_ibpt',
+            #'bc_inss_retido', 'vr_inss_retido',
+            #'vr_custo_comercial'
+        #)
+    def _compute_soma_itens(self):
+        CAMPOS_SOMA_ITENS = [
+            'vr_produtos', 'vr_produtos_tributacao',
+            'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
+            'vr_operacao', 'vr_operacao_tributacao',
+            'bc_icms_proprio', 'vr_icms_proprio',
+            'vr_difal', 'vr_fcp',
+            'vr_icms_sn', 'vr_simples',
+            'bc_icms_st', 'vr_icms_st',
+            'bc_icms_st_retido', 'vr_icms_st_retido',
+            'bc_ipi', 'vr_ipi',
+            'bc_ii', 'vr_ii', 'vr_despesas_aduaneiras', 'vr_iof',
+            'bc_pis_proprio', 'vr_pis_proprio',
+            'bc_cofins_proprio', 'vr_cofins_proprio',
+            'bc_iss', 'vr_iss',
+            'vr_nf', 'vr_fatura',
+            'vr_ibpt',
+            'vr_custo_comercial'
+        ]
+
+        for documento in self:
+            dados = {}
+            for campo in CAMPOS_SOMA_ITENS:
+                dados[campo] = D(0)
+
+            for item in documento.item_ids:
+                for campo in CAMPOS_SOMA_ITENS:
+                    dados[campo] += getattr(item, campo, D(0))
+
+            documento.update(dados)
+
+    def _get_soma_funcao(self, cr, uid, ids, nome_campo, args, context=None):
+        res = {}
+
+        for doc_obj in self.browse(cr, uid, ids):
+            soma = D('0')
+            al_simples = D('0')
+
+            for item_obj in doc_obj.documentoitem_ids:
+                #
+                # Para o custo da mercadoria para baixa do custo na venda/devolução
+                #
+                if nome_campo == 'vr_custo_estoque':
+                    if item_obj.cfop_id.codigo in CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO:
+                        soma += D(str(getattr(item_obj, nome_campo, 0)))
+
+                #
+                # Para o SIMPLES Nacional, somar o valor da operação
+                #
+                elif nome_campo == 'vr_simples':
+                    if D(str(getattr(item_obj, 'vr_simples', 0))):
+                        if al_simples == 0:
+                            al_simples = D(str(getattr(item_obj, 'al_simples', 0)))
+
+                        soma += D(str(getattr(item_obj, 'vr_operacao', 0)))
+                else:
+                    soma += D(str(getattr(item_obj, nome_campo, 0)))
+
+            soma = soma.quantize(D('0.01'))
+
+            if nome_campo == 'vr_fatura' and doc_obj.deduz_retencao:
+                soma -= D(str(doc_obj.vr_pis_retido))
+                soma -= D(str(doc_obj.vr_cofins_retido))
+                soma -= D(str(doc_obj.vr_csll))
+                soma -= D(str(doc_obj.vr_irrf))
+                soma -= D(str(doc_obj.vr_inss_retido))
+                soma -= D(str(doc_obj.vr_iss_retido))
+
+            if (nome_campo == 'bc_inss_retido' or nome_campo == 'vr_inss_retido') and doc_obj.deduz_retencao:
+                if soma < D('10'):
+                    soma = D('0')
+
+            if nome_campo == 'vr_simples' and soma > 0:
+                soma *= al_simples / D(100)
+                soma = soma.quantize(D('0.01'))
+
+            res[doc_obj.id] = soma
+
+        return res
+
 
     @api.onchange('empresa_id', 'modelo', 'emissao')
     def onchange_empresa_id(self):
@@ -351,7 +442,7 @@ class Documento(models.Model):
         valores['irrf_retido'] = self.operacao_id.irrf_retido
         valores['irrf_retido_ignora_limite'] = self.operacao_id.irrf_retido_ignora_limite
         valores['al_irrf'] = self.operacao_id.al_irrf
-        valores['previdencia_retido'] = self.operacao_id.previdencia_retido
+        valores['inss_retido'] = self.operacao_id.inss_retido
         valores['consumidor_final'] = self.operacao_id.consumidor_final
         valores['presenca_comprador'] = self.operacao_id.presenca_comprador
 
