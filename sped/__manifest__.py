@@ -6,7 +6,7 @@
 
 {
     'name': u'SPED',
-    'version': '10.0.0.0.0',
+    'version': '10.0.1.0.0',
     'author': u'Ari Caldeira',
     'maintainer': u'Taŭga Tecnologia',
     'category': u'Base',
@@ -14,15 +14,20 @@
         'base',
         'document',
         'mail',
+        'decimal_precision',
+        'product',
     ],
     'installable': True,
-    'auto_install': True,
     'application': True,
     'data': [
         #
         # Valores padrão
         #
         'data/inherited_res_currency_data.xml',
+        'data/inherited_decimal_precision_data.xml',
+        'data/inherited_product_uom_category_data.xml',
+        #'data/inherited_product_uom_data.xml',
+
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',

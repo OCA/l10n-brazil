@@ -17,6 +17,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
@@ -27,13 +28,13 @@ class AliquotaICMSProprio(models.Model):
     _rec_name = 'descricao'
     _order = 'al_icms, md_icms, pr_icms, rd_icms'
 
-    al_icms = fields.Porcentagem('Alíquota', required=True)
+    al_icms = fields.Float('Alíquota', required=True, digits=(5, 2))
     md_icms = fields.Selection(MODALIDADE_BASE_ICMS_PROPRIO, 'Modalidade da base de cálculo', required=True,
                                default=MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO)
-    pr_icms = fields.Quantidade('Parâmetro da base de cálculo',
+    pr_icms = fields.Float('Parâmetro da base de cálculo', digits=(18, 4),
                                 help='A margem de valor agregado, ou o valor da pauta/preço tabelado máximo, '
                                      'de acordo com o definido na modalidade da base de cálculo.')
-    rd_icms = fields.Porcentagem('Percentual de redução da alíquota')
+    rd_icms = fields.Float('Percentual de redução da alíquota', digits=(5, 2))
     importado = fields.Boolean('Padrão para produtos importados?', default=False)
     descricao = fields.Char(string='Alíquota do ICMS próprio', compute='_compute_descricao', store=False)
 

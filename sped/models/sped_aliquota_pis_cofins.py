@@ -17,6 +17,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
@@ -27,8 +28,8 @@ class AliquotaPISCOFINS(models.Model):
     _rec_name = 'descricao'
     _order = 'al_pis, al_cofins'
 
-    al_pis = fields.Porcentagem('Alíquota do PIS', required=True)
-    al_cofins = fields.Porcentagem('Alíquota da COFINS', required=True)
+    al_pis = fields.Float('Alíquota do PIS', required=True, digits=(5, 2))
+    al_cofins = fields.Float('Alíquota da COFINS', required=True, digits=(5, 2))
     md_pis_cofins = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade da base de cálculo', required=True,
                                      default=MODALIDADE_BASE_PIS_ALIQUOTA)
     cst_pis_cofins_entrada = fields.Selection(ST_PIS_ENTRADA, 'Situação tributária nas entradas', required=True,

@@ -44,6 +44,7 @@
                     <field name="extenso_plural_inteiro" colspan="4" />
                     <field name="extenso_plural_decimal" colspan="4" />
                 </group>-->
+                <field name="tipo" invisible="1" />
             </sheet>
             </form>
         </field>

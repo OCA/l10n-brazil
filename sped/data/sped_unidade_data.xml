@@ -20,6 +20,7 @@
         <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_unit" />
     </record>
 
     <!-- Peso e massa -->
@@ -37,6 +38,7 @@
         <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_gram" />
     </record>
 
     <record id="UNIDADE_QUILOGRAMA" model="sped.unidade">
@@ -52,6 +54,7 @@
         <field name="precisao_decimal">3.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref="UNIDADE_GRAMA" />
+        <field name="uom_id" ref="product.product_uom_kgm" />
     </record>
 
     <record id="UNIDADE_TONELADA" model="sped.unidade">
@@ -67,6 +70,7 @@
         <field name="precisao_decimal">3.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref="UNIDADE_QUILOGRAMA" />
+        <field name="uom_id" ref="product.product_uom_ton" />
     </record>
 
     <!-- Comprimento -->
@@ -84,6 +88,7 @@
         <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_cm" />
     </record>
 
     <record id="UNIDADE_METRO" model="sped.unidade">
@@ -99,6 +104,7 @@
         <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref="UNIDADE_CENTIMETRO" />
+        <field name="uom_id" ref="product.product_uom_meter" />
     </record>
 
     <!-- Área -->
@@ -163,6 +169,7 @@
         <field name="precisao_decimal">3.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref = "UNIDADE_MILILITRO" />
+        <field name="uom_id" ref="product.product_uom_litre" />
     </record>
 
     <record id="UNIDADE_METRO_CUBICO" model="sped.unidade">
@@ -210,6 +217,7 @@
         <field name="precisao_decimal">2.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_hour" />
     </record>
 
     <record id="UNIDADE_DIA" model="sped.unidade">
@@ -225,6 +233,7 @@
         <field name="precisao_decimal">1.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref="UNIDADE_HORA" />
+        <field name="uom_id" ref="product.product_uom_day" />
     </record>
 
     <!-- Embalagens -->
@@ -679,6 +688,7 @@
         <field name="precisao_decimal">1.000000</field>
         <field name="arredondamento">0</field>
         <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+        <field name="uom_id" ref="product.product_uom_day" />
     </record>
 
     <record id="UNIDADE_EMBALAGEM" model="sped.unidade">

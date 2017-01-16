@@ -17,6 +17,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import *
 
@@ -44,52 +45,6 @@ class DocumentoItem(models.Model):
     consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor',
                                         related='documento_id.consumidor_final', readonly=True)
 
-    # empresa_id = fields.Many2one('res.empresa', 'Empresa', ondelete='restrict', related='documento_id.empresa_id')
-    # emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao')
-    # modelo = fields.Selection(MODELO_FISCAL, 'Modelo', related='documento_id.modelo')
-    # data_hora_emissao = fields.Datetime('Data de emissão', related='documento_id.data_hora_emissao')
-    # data_hora_entrada_saida = fields.Datetime('Data de entrada/saída', related='documento_id.data_hora_entrada_saida')
-    # data_emissao = fields.Date('Data de emissão', related='documento_id.data_emissao')
-    # hora_emissao = fields.Char('Hora de emissão', size=8, related='documento_id.hora_emissao')
-    # data_entrada_saida = fields.Date('Data de entrada/saída', related='documento_id.data_entrada_saida')
-    # hora_entrada_saida = fields.Char('Hora de entrada/saída', size=8, related='documento_id.hora_entrada_saida')
-    ##serie = fields.Char('Série', index=True)
-    ##numero = fields.Numero('Número', index=True)
-    ##entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/Saída', index=True, default=ENTRADA_SAIDA_SAIDA)
-    ##situacao_fiscal = fields.Selection(SITUACAO_FISCAL, 'Situação fiscal', index=True, default=SITUACAO_FISCAL_REGULAR)
-
-    ##ambiente_nfe =  fields.Selection(AMBIENTE_NFE, 'Ambiente da NF-e', index=True, default=AMBIENTE_NFE_HOMOLOGACAO)
-    ##tipo_emissao_nfe = fields.Selection(TIPO_EMISSAO_NFE, 'Tipo de emissão da NF-e', default=TIPO_EMISSAO_NFE_NORMAL)
-    ##ie_st = fields.Char('IE do substituto tributário', size=14)
-    ##municipio_fato_gerador_id = fields.Many2one('sped.municipio', 'Município do fato gerador')
-
-    ##operacao_id = fields.Many2one('sped.operacao', 'Operação', ondelete='restrict')
-    ###
-    ### Campos da operação
-    ###
-    ##regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES)
-    ##forma_pagamento = fields.Selection(FORMA_PAGAMENTO, 'Forma de pagamento', default=FORMA_PAGAMENTO_A_VISTA)
-    ##finalidade_nfe = fields.Selection(FINALIDADE_NFE, 'Finalidade da NF-e', default=FINALIDADE_NFE_NORMAL)
-    ##modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO)
-    ##natureza_operacao_id = fields.Many2one('sped.natureza.operacao', 'Natureza da operação', ondelete='restrict')
-    ##infadfisco =  fields.Text('Informações adicionais de interesse do fisco')
-    ##infcomplementar = fields.Text('Informações complementares')
-    ##deduz_retencao = fields.Boolean('Deduz retenção do total da NF?', default=True)
-    ##pis_cofins_retido = fields.Boolean('PIS-COFINS retidos?')
-    ##al_pis_retido = fields.Porcentagem('Alíquota do PIS', default=0.65)
-    ##al_cofins_retido = fields.Porcentagem('Alíquota da COFINS', default=3)
-    ##csll_retido = fields.Boolean('CSLL retido?')
-    ##al_csll =  fields.Porcentagem('Alíquota da CSLL', default=1)
-    ##limite_retencao_pis_cofins_csll = fields.Dinheiro('Obedecer limite de faturamento para retenção de', default=5000)
-    ##irrf_retido = fields.Boolean('IR retido?')
-    ##irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
-    ##al_irrf =  fields.Porcentagem('Alíquota do IR', default=1)
-    ##previdencia_retido = fields.Boolean('INSS retido?')
-    ##cnae_id = fields.Many2one('sped.cnae', 'CNAE')
-    ##natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
-    ##servico_id = fields.Many2one('sped.servico', 'Serviço')
-    ##cst_iss = fields.Selection(ST_ISS, 'CST ISS')
-
     cfop_id = fields.Many2one('sped.cfop', 'CFOP', ondelete='restrict', index=True)
     cfop_posicao = fields.Selection(POSICAO_CFOP, 'Posição da CFOP', related='cfop_id.posicao', readonly=True)
     cfop_eh_venda = fields.Boolean('CFOP é venda?', related='cfop_id.eh_venda', readonly=True)
@@ -104,27 +59,35 @@ class DocumentoItem(models.Model):
     protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo ICMS', ondelete='restrict')
     operacao_item_id = fields.Many2one('sped.operacao.item', 'Item da operação fiscal', ondelete='restrict')
 
-    quantidade = fields.Quantidade('Quantidade', default=1)
+    quantidade = fields.Float('Quantidade', default=1, digits=dp.get_precision('SPED - Quantidade'))
     unidade_id = fields.Many2one('sped.unidade', 'Unidade', ondelete='restrict')
-    vr_unitario = fields.Unitario('Valor unitário')
+    vr_unitario = fields.Float('Valor unitário', digits=dp.get_precision('SPED - Valor Unitário'))
 
     # Quantidade de tributação
-    fator_conversao_unidade_tributacao = fields.Quantidade('Fator de conversão entre as unidades', default=1)
-    quantidade_tributacao = fields.Quantidade('Quantidade para tributação')
+    fator_conversao_unidade_tributacao = fields.Float('Fator de conversão entre as unidades', default=1,
+                                            digits = dp.get_precision('SPED - Quantidade'))
+    quantidade_tributacao = fields.Float('Quantidade para tributação', digits=(18, 4))
     unidade_tributacao_id = fields.Many2one('sped.unidade', 'Unidade para tributação', ondelete='restrict')
-    vr_unitario_tributacao = fields.Unitario('Valor unitário para tributação')
+    vr_unitario_tributacao = fields.Float('Valor unitário para tributação', digits=(18, 10))
+    exibe_tributacao = fields.Boolean('Exibe tributação à parte?')
+
+    #
+    # Para todos os valores num item de documento fiscal, a moeda é SEMPRE o
+    # Real BRL
+    #
+    currency_id = fields.Many2one('res.currency', 'Moeda', default=lambda self: self.env.ref('base.BRL').id)
 
     # Valor total dos produtos
-    vr_produtos = fields.Dinheiro('Valor do produto/serviço')
-    vr_produtos_tributacao = fields.Dinheiro('Valor do produto/serviço para tributação')
+    vr_produtos = fields.Monetary('Valor do produto/serviço')
+    vr_produtos_tributacao = fields.Monetary('Valor do produto/serviço para tributação')
 
     # Outros valores acessórios
-    vr_frete = fields.Dinheiro('Valor do frete')
-    vr_seguro = fields.Dinheiro('Valor do seguro')
-    vr_desconto = fields.Dinheiro('Valor do desconto')
-    vr_outras = fields.Dinheiro('Outras despesas acessórias')
-    vr_operacao = fields.Dinheiro('Valor da operação')
-    vr_operacao_tributacao = fields.Dinheiro('Valor da operação para tributação')
+    vr_frete = fields.Monetary('Valor do frete')
+    vr_seguro = fields.Monetary('Valor do seguro')
+    vr_desconto = fields.Monetary('Valor do desconto')
+    vr_outras = fields.Monetary('Outras despesas acessórias')
+    vr_operacao = fields.Monetary('Valor da operação')
+    vr_operacao_tributacao = fields.Monetary('Valor da operação para tributação')
 
     #
     # ICMS próprio
@@ -134,39 +97,39 @@ class DocumentoItem(models.Model):
                                 default=ORIGEM_MERCADORIA_NACIONAL)
     cst_icms = fields.Selection(ST_ICMS, 'CST ICMS', index=True)
     partilha = fields.Boolean('Partilha de ICMS entre estados (CST 10 ou 90)?')
-    al_bc_icms_proprio_partilha = fields.Porcentagem('% da base de cálculo da operação própria')
+    al_bc_icms_proprio_partilha = fields.Float('% da base de cálculo da operação própria', digits=(5, 2))
     estado_partilha_id = fields.Many2one('sped.estado', 'Estado para o qual é devido o ICMS ST', index=True)
     repasse = fields.Boolean('Repasse de ICMS retido anteriosvente entre estados (CST 41)?', index=True)
     md_icms_proprio = fields.Selection(MODALIDADE_BASE_ICMS_PROPRIO, 'Modalidade da base de cálculo do ICMS próprio',
                                        default=MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO)
-    pr_icms_proprio = fields.Quantidade('Parâmetro do ICMS próprio')
-    rd_icms_proprio = fields.Porcentagem('% de redução da base de cálculo do ICMS próprio')
+    pr_icms_proprio = fields.Float('Parâmetro do ICMS próprio', digits=(18, 4))
+    rd_icms_proprio = fields.Float('% de redução da base de cálculo do ICMS próprio', digits=(5, 2))
     bc_icms_proprio_com_ipi = fields.Boolean('IPI integra a base do ICMS próprio?')
-    bc_icms_proprio = fields.Dinheiro('Base do ICMS próprio')
-    al_icms_proprio = fields.Porcentagem('alíquota do ICMS próprio')
-    vr_icms_proprio = fields.Dinheiro('valor do ICMS próprio')
+    bc_icms_proprio = fields.Monetary('Base do ICMS próprio')
+    al_icms_proprio = fields.Float('alíquota do ICMS próprio', digits=(5, 2))
+    vr_icms_proprio = fields.Monetary('valor do ICMS próprio')
 
     #
     # Parâmetros relativos ao ICMS Simples Nacional
     #
     cst_icms_sn = fields.Selection(ST_ICMS_SN, 'CST ICMS - SIMPLES', index=True)
-    al_icms_sn = fields.Porcentagem('Alíquota do crédito de ICMS')
-    rd_icms_sn = fields.Porcentagem('% estadual de redução da alíquota de ICMS')
-    vr_icms_sn = fields.Dinheiro('valor do crédito de ICMS - SIMPLES')
-    al_simples = fields.Dinheiro('Alíquota do SIMPLES')
-    vr_simples = fields.Dinheiro('Valor do SIMPLES')
+    al_icms_sn = fields.Float('Alíquota do crédito de ICMS', digits=(5, 2))
+    rd_icms_sn = fields.Float('% estadual de redução da alíquota de ICMS', digits=(5, 2))
+    vr_icms_sn = fields.Monetary('valor do crédito de ICMS - SIMPLES')
+    al_simples = fields.Monetary('Alíquota do SIMPLES')
+    vr_simples = fields.Monetary('Valor do SIMPLES')
 
     #
     # ICMS ST
     #
     md_icms_st = fields.Selection(MODALIDADE_BASE_ICMS_ST, 'Modalidade da base de cálculo do ICMS ST',
                                   default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO)
-    pr_icms_st = fields.Quantidade('Parâmetro do ICMS ST')
-    rd_icms_st = fields.Porcentagem('% de redução da base de cálculo do ICMS ST')
+    pr_icms_st = fields.Float('Parâmetro do ICMS ST', digits=(18, 4))
+    rd_icms_st = fields.Float('% de redução da base de cálculo do ICMS ST', digits=(5, 2))
     bc_icms_st_com_ipi = fields.Boolean('IPI integra a base do ICMS ST?')
-    bc_icms_st = fields.Dinheiro('Base do ICMS ST')
-    al_icms_st = fields.Porcentagem('Alíquota do ICMS ST')
-    vr_icms_st = fields.Dinheiro('Valor do ICMS ST')
+    bc_icms_st = fields.Monetary('Base do ICMS ST')
+    al_icms_st = fields.Float('Alíquota do ICMS ST', digits=(5, 2))
+    vr_icms_st = fields.Monetary('Valor do ICMS ST')
 
     #
     # Parâmetros relativos ao ICMS retido anteriormente por substituição tributária
@@ -174,11 +137,11 @@ class DocumentoItem(models.Model):
     #
     md_icms_st_retido = fields.Selection(MODALIDADE_BASE_ICMS_ST, 'Modalidade da base de cálculo',
                                          default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO)
-    pr_icms_st_retido = fields.Quantidade('Parâmetro da base de cáculo')
-    rd_icms_st_retido = fields.Porcentagem('% de redução da base de cálculo do ICMS retido')
-    bc_icms_st_retido = fields.Dinheiro('Base do ICMS ST retido na origem')
-    al_icms_st_retido = fields.Porcentagem('Alíquota do ICMS ST retido na origem')
-    vr_icms_st_retido = fields.Dinheiro('Valor do ICMS ST retido na origem')
+    pr_icms_st_retido = fields.Float('Parâmetro da base de cáculo', digits=(18, 4))
+    rd_icms_st_retido = fields.Float('% de redução da base de cálculo do ICMS retido', digits=(5, 2))
+    bc_icms_st_retido = fields.Monetary('Base do ICMS ST retido na origem')
+    al_icms_st_retido = fields.Float('Alíquota do ICMS ST retido na origem', digits=(5, 2))
+    vr_icms_st_retido = fields.Monetary('Valor do ICMS ST retido na origem')
 
     #
     # IPI padrão
@@ -188,17 +151,17 @@ class DocumentoItem(models.Model):
     cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'CST IPI')
     cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'CST IPI')
     md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade BC do IPI', default=MODALIDADE_BASE_IPI_ALIQUOTA)
-    bc_ipi = fields.Dinheiro('Base do IPI')
-    al_ipi = fields.Quantidade('Alíquota do IPI')
-    vr_ipi = fields.Dinheiro('Valor do IPI')
+    bc_ipi = fields.Monetary('Base do IPI')
+    al_ipi = fields.Float('Alíquota do IPI', digits=(18, 4))
+    vr_ipi = fields.Monetary('Valor do IPI')
 
     #
     # Imposto de importação
     #
-    bc_ii = fields.Dinheiro('Base do imposto de importação')
-    vr_despesas_aduaneiras = fields.Dinheiro('Despesas aduaneiras')
-    vr_ii = fields.Dinheiro('Valor do imposto de importação')
-    vr_iof = fields.Dinheiro('Valor do IOF')
+    bc_ii = fields.Monetary('Base do imposto de importação')
+    vr_despesas_aduaneiras = fields.Monetary('Despesas aduaneiras')
+    vr_ii = fields.Monetary('Valor do imposto de importação')
+    vr_iof = fields.Monetary('Valor do IOF')
     numero_fci = fields.Char('Nº controle FCI', size=36)
 
     #
@@ -210,9 +173,9 @@ class DocumentoItem(models.Model):
     cst_pis_saida = fields.Selection(ST_PIS_SAIDA, 'CST PIS')
     md_pis_proprio = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade BC do PIS próprio',
                                       default=MODALIDADE_BASE_PIS_ALIQUOTA)
-    bc_pis_proprio = fields.Dinheiro('Base do PIS próprio')
-    al_pis_proprio = fields.Quantidade('Alíquota do PIS próprio')
-    vr_pis_proprio = fields.Dinheiro('Valor do PIS próprio')
+    bc_pis_proprio = fields.Monetary('Base do PIS próprio')
+    al_pis_proprio = fields.Float('Alíquota do PIS próprio', digits=(18, 4))
+    vr_pis_proprio = fields.Monetary('Valor do PIS próprio')
 
     #
     # COFINS própria
@@ -222,9 +185,9 @@ class DocumentoItem(models.Model):
     cst_cofins_saida = fields.Selection(ST_COFINS_SAIDA, 'CST COFINS')
     md_cofins_proprio = fields.Selection(MODALIDADE_BASE_COFINS, 'Modalidade BC da COFINS própria',
                                          default=MODALIDADE_BASE_COFINS_ALIQUOTA)
-    bc_cofins_proprio = fields.Dinheiro('Base do COFINS próprio')
-    al_cofins_proprio = fields.Quantidade('Alíquota da COFINS própria')
-    vr_cofins_proprio = fields.Dinheiro('Valor do COFINS próprio')
+    bc_cofins_proprio = fields.Monetary('Base do COFINS próprio')
+    al_cofins_proprio = fields.Float('Alíquota da COFINS própria', digits=(18, 4))
+    vr_cofins_proprio = fields.Monetary('Valor do COFINS próprio')
 
     #
     # Grupo ISS
@@ -232,24 +195,24 @@ class DocumentoItem(models.Model):
 
     # ISS
     # cst_iss = fields.Selection(ST_ISS, 'CST ISS', index=True)
-    bc_iss = fields.Dinheiro('Base do ISS')
-    al_iss = fields.Dinheiro('Alíquota do ISS')
-    vr_iss = fields.Dinheiro('Valor do ISS')
+    bc_iss = fields.Monetary('Base do ISS')
+    al_iss = fields.Monetary('Alíquota do ISS')
+    vr_iss = fields.Monetary('Valor do ISS')
 
     #
     # Total da NF e da fatura (podem ser diferentes no caso de operação triangular)
     #
-    vr_nf = fields.Dinheiro('Valor da NF')
-    vr_fatura = fields.Dinheiro('Valor da fatura')
+    vr_nf = fields.Monetary('Valor da NF')
+    vr_fatura = fields.Monetary('Valor da fatura')
 
-    al_ibpt = fields.Porcentagem('Alíquota IBPT')
-    vr_ibpt = fields.Dinheiro('Valor IBPT')
+    al_ibpt = fields.Float('Alíquota IBPT', digits=(5, 2))
+    vr_ibpt = fields.Monetary('Valor IBPT')
 
     # Previdência social
-    previdencia_retido = fields.Boolean('INSS retido?', index=True)
-    bc_previdencia = fields.Dinheiro('Base do INSS')
-    al_previdencia = fields.Porcentagem('Alíquota do INSS')
-    vr_previdencia = fields.Dinheiro('Valor do INSS')
+    inss_retido = fields.Boolean('INSS retido?', index=True)
+    bc_inss_retido = fields.Monetary('Base do INSS')
+    al_inss_retido = fields.Float('Alíquota do INSS', digits=(5, 2))
+    vr_inss_retido = fields.Monetary('Valor do INSS')
 
     # Informações adicionais
     infcomplementar = fields.Text('Informações complementares')
@@ -270,7 +233,8 @@ class DocumentoItem(models.Model):
     unidade = fields.Char('Unidade do produto original', size=6, index=True)
     unidade_tributacao = fields.Char('Unidade de tributação do produto original', size=6, index=True)
     fator_quantidade = fields.Float('Fator de conversão da quantidade')
-    quantidade_original = fields.Quantidade('Quantidade')
+    quantidade_original = fields.Float('Quantidade', digits=(18, 4))
+    vr_unitario_original = fields.Float('Valor unitário original', digits=(18, 10))
     cfop_original_id = fields.Many2one('sped.cfop', 'CFOP original', index=True)
 
     credita_icms_proprio = fields.Boolean('Credita ICMS próprio?', index=True)
@@ -286,16 +250,40 @@ class DocumentoItem(models.Model):
     # vr_seguro_rateio = fields.function(_get_calcula_custo, type='float', string=u'Valor do seguro', store=STORE_CUSTO, digits=(18, 2))
     # vr_outras_rateio = fields.function(_get_calcula_custo, type='float', string=u'Outras despesas acessórias', store=STORE_CUSTO, digits=(18, 2))
     # vr_desconto_rateio = fields.function(_get_calcula_custo, type='float', string=u'Valor do desconto', store=STORE_CUSTO, digits=(18, 2))
-    vr_unitario_custo_comercial = fields.Unitario('Custo unitário comercial')
-    vr_custo_comercial = fields.Dinheiro('Custo comercial', compute='_compute_custo_comercial', store=True)
+    vr_unitario_custo_comercial = fields.Float('Custo unitário comercial', compute='_compute_custo_comercial', store=True,
+                                               digits=dp.get_precision('SPED - Valor Unitário'))
+    vr_custo_comercial = fields.Monetary('Custo comercial', compute='_compute_custo_comercial', store=True)
 
     #
     # Diferencial de alíquota
     #
     calcula_difal = fields.Boolean('Calcula diferencial de alíquota?')
-    al_interna_destino = fields.Porcentagem('Alíquota interna do estado destino')
-    al_difal = fields.Porcentagem('Alíquota diferencial ICMS próprio')
-    vr_difal = fields.Dinheiro('Valor do diferencial de alíquota ICMS próprio')
+    al_interna_destino = fields.Float('Alíquota interna do estado destino', digits=(5, 2))
+    al_difal = fields.Float('Alíquota diferencial ICMS próprio', digits=(5, 2))
+    vr_difal = fields.Monetary('Valor do diferencial de alíquota ICMS próprio')
+
+    #
+    # Fundo de combate à pobreza
+    #
+    al_fcp = fields.Float('Alíquota do fundo de combate à pobreza', digits=(5, 2))
+    vr_fcp = fields.Monetary('Valor do fundo de combate à pobreza')
+
+    #
+    # Campos readonly
+    #
+    unidade_readonly_id = fields.Many2one('sped.unidade', 'Unidade', ondelete='restrict', compute='_compute_readonly')
+    unidade_tributacao_readonly_id = fields.Many2one('sped.unidade', 'Unidade para tributação', ondelete='restrict',
+                                                     compute='_compute_readonly')
+    vr_produtos_readonly = fields.Monetary('Valor do produto/serviço', compute='_compute_readonly')
+    vr_produtos_tributacao_readonly = fields.Monetary('Valor do produto/serviço para tributação',
+                                                      compute='_compute_readonly')
+    vr_operacao_readonly = fields.Monetary('Valor da operação', compute='_compute_readonly')
+    vr_operacao_tributacao_readonly = fields.Monetary('Valor da operação para tributação', compute='_compute_readonly')
+    vr_nf_readonly = fields.Monetary('Valor da NF', compute='_compute_readonly')
+    vr_fatura_readonly = fields.Monetary('Valor da fatura', compute='_compute_readonly')
+    vr_unitario_custo_comercial_readonly = fields.Float('Custo unitário comercial', compute='_compute_readonly',
+                                                        digits=dp.get_precision('SPED - Valor Unitário'))
+    vr_custo_comercial_readonly = fields.Monetary('Custo comercial', compute='_compute_readonly')
 
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para entrada ou saída
@@ -407,6 +395,12 @@ class DocumentoItem(models.Model):
         else:
             valores['unidade_tributacao_id'] = self.produto_id.unidade_id.id
             valores['fator_conversao_unidade_tributacao'] = 1
+
+        if self.operacao_id.preco_automatico == 'V':
+            valores['vr_unitario'] = self.produto_id.preco_venda
+
+        elif self.operacao_id.preco_automatico == 'C':
+            valores['vr_unitario'] = self.produto_id.preco_custo
 
         estado_origem, estado_destino, destinatario = self._estado_origem_estado_destino_destinatario()
 
@@ -535,10 +529,10 @@ class DocumentoItem(models.Model):
         #
         if len(operacao_item_ids) == 0 or len(operacao_item_ids) > 1:
             if len(operacao_item_ids) == 0:
-                mensagem_erro = 'Não há nenhum item genério na operação, nem específico para o protocolo ' \
+                mensagem_erro = 'Não há nenhum item genérico na operação, nem específico para o protocolo ' \
                                 '“{protocolo}”, configurado para operações {estado}!'
             else:
-                mensagem_erro = 'Há mais de um item genério na operação, ou mais de um item específico para ' \
+                mensagem_erro = 'Há mais de um item genérico na operação, ou mais de um item específico para ' \
                                 'o protocolo “{protocolo}”, configurado para operações {estado}!'
 
             if posicao_cfop == POSICAO_CFOP_ESTADUAL:
@@ -857,6 +851,7 @@ class DocumentoItem(models.Model):
         valores['al_icms_proprio'] = al_icms.al_icms
         valores['al_interna_destino'] = 0
         valores['al_difal'] = 0
+        valores['al_fcp'] = 0
 
         if self.calcula_difal:
             aliquota_interna_destino = self.protocolo_id.busca_aliquota(estado_destino, estado_destino,
@@ -868,6 +863,8 @@ class DocumentoItem(models.Model):
 
                 valores['al_difal'] = al_difal
                 valores['al_interna_destino'] = aliquota_interna_destino.al_icms_proprio_id.al_icms
+
+                valores['al_fcp'] = aliquota_interna_destino.al_fcp
 
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
@@ -960,6 +957,11 @@ class DocumentoItem(models.Model):
         vr_produtos_tributacao = vr_produtos_tributacao
         valores['quantidade_tributacao'] = quantidade_tributacao
         valores['vr_unitario_tributacao'] = vr_unitario_tributacao
+
+        if self.fator_conversao_unidade_tributacao != 1:
+            valores['exibe_tributacao'] = True
+        else:
+            valores['exibe_tributacao'] = False
 
         vr_operacao = vr_produtos + self.vr_frete + self.vr_seguro + self.vr_outras - self.vr_desconto
         vr_operacao_tributacao = vr_produtos_tributacao + self.vr_frete + self.vr_seguro + self.vr_outras - \
@@ -1276,7 +1278,7 @@ class DocumentoItem(models.Model):
             valores['bc_icms_proprio'] = 0
             valores['vr_icms_proprio'] = 0
 
-    @api.onchange('vr_operacao_tributacao', 'calcula_difal', 'al_icms_proprio', 'al_interna_destino')
+    @api.onchange('vr_operacao_tributacao', 'calcula_difal', 'al_icms_proprio', 'al_interna_destino', 'al_fcp')
     def _onchange_calcula_difal(self):
         self.ensure_one()
 
@@ -1296,6 +1298,10 @@ class DocumentoItem(models.Model):
             vr_difal = vr_difal.quantize(D('0.01'))
             valores['al_difal'] = al_difal
             valores['vr_difal'] = vr_difal
+
+            vr_fcp = self.vr_operacao_tributacao * self.al_fcp / 100
+            vr_fcp = vr_fcp.quantize(D('0.01'))
+            valores['vr_fcp'] = vr_fcp
 
         return res
 
@@ -1370,16 +1376,17 @@ class DocumentoItem(models.Model):
 
     @api.depends('vr_nf', 'vr_simples', 'vr_difal', 'vr_icms_proprio', 'vr_icms_sn', 'credita_icms_proprio',
                  'cfop_id', 'vr_ipi', 'credita_ipi', 'vr_pis_proprio', 'vr_cofins_proprio',
-                 'credita_pis_cofins')
+                 'credita_pis_cofins', 'quantidade')
     def _compute_custo_comercial(self):
         for item in self:
             vr_custo = item.vr_nf
-    
+
             if item.emissao == TIPO_EMISSAO_PROPRIA:
                 vr_custo += item.vr_simples
-    
+
             vr_custo += item.vr_difal
-    
+            vr_custo += item.vr_fcp
+
             #
             # Abate do custo os créditos de impostos
             #
@@ -1393,14 +1400,14 @@ class DocumentoItem(models.Model):
                     if not item.cfop_id.eh_compra_ativo:
                         vr_custo -= item.vr_icms_proprio
                         vr_custo -= item.vr_icms_sn
-    
+
                 if item.credita_ipi and item.vr_ipi:
                     vr_custo -= item.vr_ipi
-    
+
                 if item.credita_pis_cofins and (item.vr_pis_proprio or item.vr_cofins_proprio):
                     vr_custo -= item.vr_pis_proprio
                     vr_custo -= item.vr_cofins_proprio
-    
+
                 # if item_obj.documento_id.vr_produtos is not None \
                 #         and item_obj.documento_id.vr_produtos > 0 \
                 #         and item_obj.vr_produtos is not None \
@@ -1452,3 +1459,23 @@ class DocumentoItem(models.Model):
                 #     res[item_obj.id] = vr_desconto_rateio
 
             item.vr_custo_comercial = vr_custo
+            item.vr_unitario_custo_comercial = vr_custo / (item.quantidade or 1)
+
+    @api.depends('unidade_id', 'unidade_tributacao_id',
+                 'vr_produtos', 'vr_operacao',
+                 'vr_produtos_tributacao', 'vr_operacao_tributacao',
+                 'vr_nf', 'vr_fatura',
+                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
+    def _compute_readonly(self):
+        for item in self:
+            item.unidade_readonly_id = item.unidade_id.id if item.unidade_id else False
+            item.unidade_tributacao_readonly_id = item.unidade_tributacao_id.id if item.unidade_tributacao_id else False
+
+            item.vr_produtos_readonly = item.vr_produtos
+            item.vr_operacao_readonly = item.vr_operacao
+            item.vr_produtos_tributacao_readonly = item.vr_produtos_tributacao
+            item.vr_operacao_tributacao_readonly = item.vr_operacao_tributacao
+            item.vr_nf_readonly = item.vr_nf
+            item.vr_fatura_readonly = item.vr_fatura
+            item.vr_unitario_custo_comercial_readonly = item.vr_unitario_custo_comercial
+            item.vr_custo_comercial_readonly = item.vr_custo_comercial

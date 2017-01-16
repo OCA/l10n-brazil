@@ -36,7 +36,7 @@ class Participante(models.Model):
     partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', required=True)
 
     codigo = fields.Char(string='Código', size=60, index=True)
-    nome = fields.Char(string='Nome', size=60, index=True, required=True)
+    nome = fields.Char(string='Nome', size=60, index=True)
 
     eh_orgao_publico = fields.Boolean('É órgão público?')
     eh_cooperativa = fields.Boolean('É cooperativa?')
@@ -55,28 +55,28 @@ class Participante(models.Model):
     eh_usuario = fields.Boolean('É usuário?', index=True)
     eh_funcionario = fields.Boolean('É funcionário?')
 
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18, index=True, required=True,
+    cnpj_cpf = fields.Char('CNPJ/CPF', size=18, index=True,
                            help='Para participantes estrangeiros, usar EX9999, onde 9999 é um número a sua escolha')
     tipo_pessoa = fields.Char('Tipo pessoa', size=1, compute='_compute_tipo_pessoa', store=True, index=True)
-    razao_social = fields.Char('Razão Social', size=60, index=True, required=True)
+    razao_social = fields.Char('Razão Social', size=60, index=True)
     fantasia = fields.Char('Fantasia', size=60, index=True)
-    endereco = fields.Char('Endereço', size=60, required=True)
-    numero = fields.Char('Número', size=60, required=True)
+    endereco = fields.Char('Endereço', size=60)
+    numero = fields.Char('Número', size=60)
     complemento = fields.Char('Complemento', size=60)
-    bairro = fields.Char('Bairro', size=60, required=True)
-    municipio_id = fields.Many2one('sped.municipio', string='Município', ondelete='restrict', required=True)
+    bairro = fields.Char('Bairro', size=60)
+    municipio_id = fields.Many2one('sped.municipio', string='Município', ondelete='restrict')
     cidade = fields.Char('Município', related='municipio_id.nome', store=True, index=True)
     estado = fields.UpperChar('Estado', related='municipio_id.estado', store=True, index=True)
-    cep = fields.Char('CEP', size=9, required=True)
+    cep = fields.Char('CEP', size=9)
     #
     # Telefone e email para a emissão da NF-e
     #
     fone = fields.Char('Fone', size=18)
     fone_comercial = fields.Char('Fone Comercial', size=18)
     celular = fields.Char('Celular', size=18)
-    email = fields.Email('Email', size=60)
-    site = fields.Site('Site', size=60)
-    email_nfe = fields.Email('Email para envio da NF-e', size=60)
+    email = fields.LowerChar('Email', size=60)
+    site = fields.LowerChar('Site', size=60)
+    email_nfe = fields.LowerChar('Email para envio da NF-e', size=60)
     #
     # Inscrições e registros
     #
@@ -105,6 +105,12 @@ class Participante(models.Model):
     codigo_ans = fields.Char('Código ANS', size=6)
 
     #
+    # Para a NFC-e, ECF, SAT
+    #
+    exige_cnpj_cpf = fields.Boolean('Exige CNPJ/CPF?', compute='_compute_exige_cadastro_completo')
+    exige_endereco = fields.Boolean('Exige endereço?', compute='_compute_exige_cadastro_completo')
+
+    #
     # Para a contabilidade
     #
     #sociedade_ids = fields.One2many('res.partner.sociedade', 'partner_id', 'Sociedade')
@@ -117,7 +123,7 @@ class Participante(models.Model):
     #
     # Para o faturamento
     #
-    transportadora_id = fields.Many2one('res.partner', string='Transportadora', ondelete='restrict')
+    transportadora_id = fields.Many2one('sped.participante', string='Transportadora', ondelete='restrict')
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, string='Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES, index=True)
 
     @api.depends('cnpj_cpf')
@@ -137,6 +143,23 @@ class Participante(models.Model):
                 else:
                     participante.tipo_pessoa = 'F'
                     participante.contribuinte = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+
+    @api.depends('eh_consumidor_final', 'endereco', 'numero', 'complemento',
+                 'bairro', 'municipio_id', 'cep', 'eh_cliente', 'eh_fornecedor')
+    def _compute_exige_cadastro_completo(self):
+        for participante in self:
+            if not participante.eh_consumidor_final or participante.eh_fornecedor:
+                self.exige_cnpj_cpf = True
+                self.exige_endereco = True
+                continue
+
+            self.exige_cnpj_cpf = False
+
+            if (self.endereco or self.numero or self.complemento
+                or self.bairro or self.cep):
+                self.exige_endereco = True
+            else:
+                self.exige_endereco = False
 
     #@api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
     #def name_get(self, cr, uid, ids, context={}):
@@ -459,17 +482,14 @@ class Participante(models.Model):
 
         return res
 
-
     def prepare_sync_to_partner(self):
-        """
-
-        :return:
-        """
         self.ensure_one()
 
-        endereco = self.endereco + ', ' + self.numero
-        if self.complemento:
-            endereco += ' - ' + self.complemento
+        endereco = ''
+        if self.endereco:
+            endereco = self.endereco + ', ' + self.numero
+            if self.complemento:
+                endereco += ' - ' + self.complemento
 
         if self.fone and '+' not in self.fone:
             fone = '+55 ' + self.fone
@@ -486,13 +506,21 @@ class Participante(models.Model):
         else:
             fax = self.fone_comercial
 
-        if self.municipio_id.pais_id.iso_3166_alfa_2 == 'BR':
-            vat = 'BR-' + self.cnpj_cpf
-            state_id = self.municipio_id.estado_id.state_id.id
+        vat = ''
+        state_id = False
+        country_id = self.env.ref('base.br').id
+        if self.municipio_id:
+            if self.municipio_id.pais_id.iso_3166_alfa_2 == 'BR':
+                vat = 'BR-' + self.cnpj_cpf
+                state_id = self.municipio_id.estado_id.state_id.id
 
-        else:
-            vat = self.municipio_id.pais_id.iso_3166_alfa_2 + '-' + self.cnpj_cpf[2:]
-            state_id = False
+            else:
+                vat = self.municipio_id.pais_id.iso_3166_alfa_2 + '-' + self.cnpj_cpf[2:]
+                state_id = False
+
+        zipcode = ''
+        if self.cep:
+            zipcode = 'BR-' + self.cep
 
         dados = {
             'ref': self.codigo,
@@ -500,8 +528,8 @@ class Participante(models.Model):
             'street': endereco,
             'street2': self.bairro,
             'city': self.cidade,
-            'zip': 'BR-' + self.cep,
-            'country_id': self.municipio_id.pais_id.country_id.id,
+            'zip': zipcode,
+            'country_id': country_id,
             'state_id': state_id,
             'phone': fone,
             'mobile': celular,
@@ -525,9 +553,9 @@ class Participante(models.Model):
 
     @api.multi
     def sync_to_partner(self):
-        for partner in self:
-            dados = partner.prepare_sync_to_partner()
-            partner.partner_id.write(dados)
+        for participante in self:
+            dados = participante.prepare_sync_to_partner()
+            participante.partner_id.write(dados)
 
     @api.model
     def create(self, dados):
@@ -542,10 +570,11 @@ class Participante(models.Model):
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
 
-        partner = super(Participante, self).create(dados)
-        partner.sync_to_partner()
+        print(dados)
+        participante = super(Participante, self).create(dados)
+        participante.sync_to_partner()
 
-        return partner
+        return participante
 
     @api.multi
     def write(self, dados):

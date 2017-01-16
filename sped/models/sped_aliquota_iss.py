@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import fields, models
+import odoo.addons.decimal_precision as dp
 
 
 class AliquotaISS(models.Model):
@@ -18,5 +19,5 @@ class AliquotaISS(models.Model):
 
     servico_id = fields.Many2one('sped.servico', 'Serviço', ondelete='cascade', required=True)
     municipio_id = fields.Many2one('sped.municipio', 'Município', ondelete='restrict', required=True)
-    al_iss = fields.Porcentagem('Alíquota', required=True)
+    al_iss = fields.Float('Alíquota', required=True, digits=(5, 2))
     codigo = fields.Char('Código específico', size=10)

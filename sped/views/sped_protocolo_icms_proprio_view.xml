@@ -16,6 +16,7 @@
                 <field name="estado_destino_id" options="{'no_create': True, 'no_open': True}" required="1" />
                 <field name="al_icms_proprio_id" options="{'no_create': True, 'no_open': True}" required="1" />
                 <field name="al_icms_st_id" options="{'no_create': True, 'no_open': True}" invisible="1" />
+                <field name="al_fcp" />
                 <field name="infadic" />
             </tree>
         </field>
