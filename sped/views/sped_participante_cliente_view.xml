@@ -11,6 +11,8 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Cliente">
+                <field name="exige_cnpj_cpf" invisible="1" />
+                <field name="exige_endereco" invisible="1" />
             <sheet>
 <!--                    <div class="oe_button_box" name="button_box">
                     <button name="toggle_active" type="object"
@@ -23,12 +25,12 @@
                         <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
                     </h1>
                     <h2>
-                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
                         <field name="tipo_pessoa" invisible="1" />
                     </h2>
                 </div>
                 <group>
-                    <field name="razao_social" required="1" string="Nome completo Razão Social" />
+                    <field name="razao_social" string="Nome completo Razão Social" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
                     <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
                 </group>
                 <separator string="Contato" />
@@ -41,12 +43,12 @@
                 </group>
                 <separator string="Endereço" />
                 <group col="6">
-                    <field name="endereco" colspan="6" required="1" />
-                    <field name="numero" required="1" />
+                    <field name="endereco" colspan="6" attrs="{'required': [('exige_endereco', '=', True)]}" />
+                    <field name="numero" attrs="{'required': [('exige_endereco', '=', True)]}" />
                     <field name="complemento" colspan="4" />
-                    <field name="bairro" colspan="6" required="1" />
-                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" required="1" />
-                    <field name="cep" placeholder="99999-999" required="1" />
+                    <field name="bairro" colspan="6" attrs="{'required': [('exige_endereco', '=', True)]}" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" attrs="{'required': [('exige_endereco', '=', True)]}" />
+                    <field name="cep" placeholder="99999-999" attrs="{'required': [('exige_endereco', '=', True)]}" />
                 </group>
 
                 <notebook>
@@ -99,6 +101,7 @@
                             </group>
                             <group string="Outras informações" colspan="4" col="4">
                                 <field name="codigo" colspan="2" />
+                                <field name="comment" />
                             </group>
                         </group>
                     </page>

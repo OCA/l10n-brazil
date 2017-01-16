@@ -18,6 +18,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 
 
 class IBPTax(models.Model):
@@ -136,9 +137,9 @@ class IBPTaxNCM(models.Model):
     ibptax_id = fields.Many2one('sped.ibptax', 'IBPTax', ondelete='cascade')
     estado_id = fields.Many2one('sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     ncm_id = fields.Many2one('sped.ncm', 'NCM')
-    al_ibpt_nacional = fields.Porcentagem('Nacional')
-    al_ibpt_internacional = fields.Porcentagem('Internacional')
-    al_ibpt_estadual = fields.Porcentagem('Estadual')
+    al_ibpt_nacional = fields.Float('Nacional', digits=(5, 2))
+    al_ibpt_internacional = fields.Float('Internacional', digits=(5, 2))
+    al_ibpt_estadual = fields.Float('Estadual', digits=(5, 2))
     al_icms_id = fields.Many2one('sped.aliquota.icms.proprio', 'Estadual')
 
 
@@ -149,9 +150,9 @@ class IBPTaxNBS(models.Model):
     ibptax_id = fields.Many2one('sped.ibptax', 'IBPTax', ondelete='cascade')
     estado_id = fields.Many2one('sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     nbs_id = fields.Many2one('sped.nbs', 'NBS')
-    al_ibpt_nacional = fields.Porcentagem('Nacional')
-    al_ibpt_internacional = fields.Porcentagem('Internacional')
-    al_ibpt_municipal = fields.Porcentagem('Municipal')
+    al_ibpt_nacional = fields.Float('Nacional', digits=(5, 2))
+    al_ibpt_internacional = fields.Float('Internacional', digits=(5, 2))
+    al_ibpt_municipal = fields.Float('Municipal', digits=(5, 2))
 
 
 class IBPTaxServico(models.Model):
@@ -161,6 +162,6 @@ class IBPTaxServico(models.Model):
     ibptax_id = fields.Many2one('sped.ibptax', 'IBPTax', ondelete='cascade')
     estado_id = fields.Many2one('sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     servico_id = fields.Many2one('sped.servico', 'Serviço')
-    al_ibpt_nacional = fields.Porcentagem('Nacional')
-    al_ibpt_internacional = fields.Porcentagem('Internacional')
-    al_ibpt_municipal = fields.Porcentagem('Municipal')
+    al_ibpt_nacional = fields.Float('Nacional', digits=(5, 2))
+    al_ibpt_internacional = fields.Float('Internacional', digits=(5, 2))
+    al_ibpt_municipal = fields.Float('Municipal', digits=(5, 2))

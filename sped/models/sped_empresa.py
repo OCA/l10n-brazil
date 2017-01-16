@@ -421,6 +421,12 @@ class Empresa(models.Model):
             'email': self.partner_id.email,
         }
 
+        if self.contribuinte == INDICADOR_IE_DESTINATARIO_CONTRIBUINTE:
+            registry = 'BR-'
+            registry += self.municipio_id.estado_id.uf + '-'
+            registry += self.ie
+            dados['company_registry'] = registry
+
         if not self.company_id:
             dados.update(partner_id=self.partner_id.id)
             dados.update(rml_paper_format='a4')
