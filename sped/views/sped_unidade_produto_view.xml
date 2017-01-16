@@ -31,7 +31,7 @@
                     <field name="usa_virgula" />
                     <field name="usa_meio" />
                     <newline />
-                    <field name="subunidade_id" attrs="{'invisible': [('usa_virgula', '!=', False)]}" options="{'no_open': True, 'no_create': True}" domain="[('tipo', '=', 'T'), ('codigo_unico', '!=', codigo_unico)]" />
+                    <field name="subunidade_id" attrs="{'invisible': [('usa_virgula', '!=', False)]}" options="{'no_open': True, 'no_create': True}" domain="[('tipo', '=', tipo), ('codigo_unico', '!=', codigo_unico)]" />
                     <newline />
                     <field name="fator_relacao_decimal" />
                     <field name="precisao_decimal" />
@@ -43,6 +43,7 @@
                     <field name="extenso_singular_decimal" colspan="4" />
                     <field name="extenso_plural_inteiro" colspan="4" />
                     <field name="extenso_plural_decimal" colspan="4" />
+                    <field name="tipo" placeholder="Tipo" invisible="1" />
                 </group>
             </sheet>
             </form>

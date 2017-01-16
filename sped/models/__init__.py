@@ -25,6 +25,7 @@ from inherited_res_partner import *
 # Unidade é requisito para NCM e produtos
 #
 from sped_unidade import *
+from inherited_product_uom import *
 
 #
 # Alíquotas
@@ -55,6 +56,8 @@ from sped_ncm_protocolo import *
 from sped_certificado import *
 
 from sped_produto import *
+from inherited_product_template import *
+from inherited_product_product import *
 
 #
 # Fiscal e faturamento
