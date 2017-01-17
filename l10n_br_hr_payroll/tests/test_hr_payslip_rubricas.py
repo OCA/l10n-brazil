@@ -244,10 +244,8 @@ class TestHrPayslip(common.TransactionCase):
             'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'
         ).id
         hr_contract_id = self.criar_contrato(
-            'Contrato Honorário Conselho', 4412.08,
-            hr_payroll_structure_id,
-            self.employee_conselho_id.id
-        )
+            u'Contrato Honorário Conselho', 4412.08, hr_payroll_structure_id,
+            self.employee_conselho_id.id,  u'Conselheiro')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31',
@@ -299,30 +297,6 @@ class TestHrPayslip(common.TransactionCase):
         """
         pass
 
-
-    def test_cenario_25(self):
-        """Rubrica 1074 - INSS Mensal - Variação 1
-        DADO um funcionário com Função Comissionada
-        E com Salário Base de R$ 14.413,96
-        QUANDO trabalhar por 30 dias
-        ENTÃO o cálculo da Rubrica 1074-INSS Mensal deve ser R$ 570,88
-        """
-        employee_id = self.employee_hr_user_id.id
-
-        hr_payroll_structure_id = self.env.ref(
-            'l10n_br_hr_payroll.hr_salary_structure_INSS').id
-
-        hr_contract_id = self.criar_contrato(
-            'Contrato INSS', 14413.96, hr_payroll_structure_id, employee_id)
-
-        hr_payslip = self.criar_folha_pagamento(
-            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
-
-        self.processar_folha_pagamento(hr_payslip)
-
-        self.assertEqual(hr_payslip.line_ids[0].total, 570.88,
-                         'ERRO no Cálculo da rubrica INSS')
-
     def test_cenario_19(self):
         """Rubrica 512 - Auxílio Alimentação - Diretoria
         DADO um funcionário com Função Diretoria
@@ -340,8 +314,8 @@ class TestHrPayslip(common.TransactionCase):
             'Auxilio Alimentacao Diretoria', hr_salary_rule_id).id
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Aux Alimentacao Diretoria',
-            17656.52, hr_payroll_structure_id, employee_id, "Diretoria")
+            'Contrato Aux Alimentacao Diretoria', 17656.52,
+            hr_payroll_structure_id, employee_id, u'Diretor')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -350,6 +324,30 @@ class TestHrPayslip(common.TransactionCase):
 
         self.assertEqual(hr_payslip.line_ids[0].total, 979.51,
                          'ERRO no Cálculo do cenario 19! ')
+
+    def test_cenario_25(self):
+        """Rubrica 1074 - INSS Mensal - Variação 1
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 14.413,96
+        QUANDO trabalhar por 30 dias
+        ENTÃO o cálculo da Rubrica 1074-INSS Mensal deve ser R$ 570,88
+        """
+        employee_id = self.employee_hr_user_id.id
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_INSS').id
+
+        hr_contract_id = self.criar_contrato(
+            u'Contrato INSS', 14413.96, hr_payroll_structure_id,
+            employee_id, u'Função Comissionada')
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 570.88,
+                         'ERRO no Cálculo da rubrica INSS')
 
     def test_cenario_36(self):
         """
@@ -516,10 +514,8 @@ class TestHrPayslip(common.TransactionCase):
             'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE'
         ).id
         hr_contract_id = self.criar_contrato(
-            'Contrato Honorário Presidente', 8447.07,
-            hr_payroll_structure_id,
-            self.employee_presidente_id.id
-        )
+            u'Contrato Honorário Presidente', 8447.07, hr_payroll_structure_id,
+            self.employee_presidente_id.id, u'Honorário Presidente')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31',
@@ -545,10 +541,8 @@ class TestHrPayslip(common.TransactionCase):
             'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'
         ).id
         hr_contract_id = self.criar_contrato(
-            'Contrato Honorário Conselho', 4412.08,
-            hr_payroll_structure_id,
-            self.employee_conselho_id.id
-        )
+            u'Contrato Honorário Conselho', 4412.08, hr_payroll_structure_id,
+            self.employee_conselho_id.id, u'Conselheiro')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31',
@@ -574,10 +568,8 @@ class TestHrPayslip(common.TransactionCase):
             'l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'
         ).id
         hr_contract_id = self.criar_contrato(
-            'Contrato Função Comissionada', 10936.46,
-            hr_payroll_structure_id,
-            self.employee_hr_user_id.id
-        )
+            u'Contrato Função Comissionada', 10936.46, hr_payroll_structure_id,
+            self.employee_hr_user_id.id, u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-20',
@@ -604,10 +596,8 @@ class TestHrPayslip(common.TransactionCase):
             'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA'
         ).id
         hr_contract_id = self.criar_contrato(
-            'Contrato Honorário Diretoria', 40224.12,
-            hr_payroll_structure_id,
-            self.employee_diretoria_id.id
-        )
+            u'Contrato Honorário Diretoria', 40224.12, hr_payroll_structure_id,
+            self.employee_diretoria_id.id, u'Diretor')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31',
