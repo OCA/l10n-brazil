@@ -150,6 +150,39 @@ class TestHrPayslip(common.TransactionCase):
         QUANDO tirar 10 dias de Férias
         ENTÃO o cálculo da Rubrica 10-Abono 1/3 Férias deve ser R$ 1.215,16
         """
+        pass
+
+    def test_cenario_03(self):
+        """
+        Rubrica 42 - Abono Pecuniario Férias - Variação 1
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tirar 10 dias de Abono Pecuniário
+        ENTÃO o cálculo da Rubrica 42-Abono Pecuniário Férias
+        deve ser R$ 3.645,49
+        """
+        pass
+
+    def test_cenario_04(self):
+        """
+        Rubrica 47 - 1/3 Abono Pecuniário - Variação 1
+        DADO um funcionário com Função Comissional
+        E com Salário Base de R$ 10.936,46
+        QUANDO tirar 10 dias de Abono Pecuniário
+        ENTÃO o cálculo da Rubrica 47-1/3 Abono Pecuniário
+        deve ser R$ 1.215,16
+        """
+        pass
+
+    def test_cenario_05(self):
+        """
+        Rubrica 397 - Honorário Presidente
+        DADO um funcionário com Função Presidente
+        E com Salário Base de R$ 8.447,07
+        QUANTO trabalhar 30 dias
+        ENTÃO o cálculo da Rubrica 397-Honorário Presidente
+        deve ser R$ 8.447,07
+        """
         employee_id = self.employee_hr_user_id.id
         date_from = '2017-01-10 07:00:00'
         date_to = '2017-01-20 17:00:00'
