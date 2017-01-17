@@ -95,6 +95,16 @@
             <field name="sequence" eval="11"/>
         </record>
 
+        <record id="hr_salary_rule_AUX_ALIMENTACAO_DI" model="hr.salary.rule">
+            <field name="code">AADI</field>
+            <field name="name">Auxilio Alimentação Diretoria</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="amount_select">fix</field>
+            <field name="condition_select">none</field>
+            <field name="amount_fix">979.51</field>
+            <field name="sequence" eval="6"/>
+        </record>
+
         <!--ESTRUTURAS DE SALARIOS-->
 
         <!--Estrutura de salario para ferias-->

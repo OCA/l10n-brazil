@@ -92,8 +92,8 @@ class TestHrPayslip(common.TransactionCase):
         })
         self.holiday_id.holidays_validate()
 
-    def criar_contrato(self, nome, wage, struct_id, employee_id):
-        self.job_id = self.hr_job.create({'name': 'Função Comissionada'})
+    def criar_contrato(self, nome, wage, struct_id, employee_id, job_name):
+        self.job_id = self.hr_job.create({'name': job_name})
         hr_contract_id = self.hr_contract.create({
             'name': nome,
             'employee_id': employee_id,
@@ -161,7 +161,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(10, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -188,7 +189,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(10, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -276,7 +278,8 @@ class TestHrPayslip(common.TransactionCase):
             'Estrutura VA/VR', 'VA/VR', hr_salary_rule_id).id
 
         hr_contract_id = self.criar_contrato(
-            'Contrato VA/VR',  14413.96, hr_payroll_structure_id, employee_id)
+            'Contrato VA/VR',  14413.96, hr_payroll_structure_id, employee_id,
+            u'Desconto VA/VR')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -295,6 +298,7 @@ class TestHrPayslip(common.TransactionCase):
         deve ser R$ 370,71
         """
         pass
+
 
     def test_cenario_25(self):
         """Rubrica 1074 - INSS Mensal - Variação 1
@@ -319,6 +323,34 @@ class TestHrPayslip(common.TransactionCase):
         self.assertEqual(hr_payslip.line_ids[0].total, 570.88,
                          'ERRO no Cálculo da rubrica INSS')
 
+    def test_cenario_19(self):
+        """Rubrica 512 - Auxílio Alimentação - Diretoria
+        DADO um funcionário com Função Diretoria
+        E com Salário Base de R$ 17.656,52
+        QUANDO trabalhar por 30 dias
+        ENTÃO o cálculo da Rubrica 512-Auxílio Alimentação deve ser R$ 979,51
+        """
+        employee_id = self.employee_hr_user_id.id
+
+        hr_salary_rule_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_rule_AUX_ALIMENTACAO_DI').id
+
+        hr_payroll_structure_id = self.criar_estrutura_salario(
+            'Estrutura Auxilio Alimentacao Diretoria',
+            'Auxilio Alimentacao Diretoria', hr_salary_rule_id).id
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Aux Alimentacao Diretoria',
+            17656.52, hr_payroll_structure_id, employee_id, "Diretoria")
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 979.51,
+                         'ERRO no Cálculo do cenario 19! ')
+
     def test_cenario_36(self):
         """
         Rubrica 5 - Férias - Variação 2
@@ -337,7 +369,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(9, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 29483.08, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 29483.08, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -365,7 +398,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(20, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -393,7 +427,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(12, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
@@ -421,7 +456,8 @@ class TestHrPayslip(common.TransactionCase):
         self.atribuir_ferias(15, date_from, date_to, employee_id)
 
         hr_contract_id = self.criar_contrato(
-            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id,
+            u'Função Comissionada')
 
         hr_payslip = self.criar_folha_pagamento(
             '2017-02-01', '2017-02-28', hr_contract_id.id, employee_id)
