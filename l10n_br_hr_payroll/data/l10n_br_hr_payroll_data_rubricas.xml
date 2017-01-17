@@ -40,5 +40,94 @@
             <field name="parent_id" eval="False" />
         </record>
 
+        <record id="hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
+            <field name="code">FUNC_COMISSIONADA</field>
+            <field name="name">Função Comissionada</field>
+            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="1" />
+        </record>
+
+        <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
+            <field name="code">FUNC_COMISSIONADA</field>
+            <field name="name">Função Comissionada</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_rule_HONORARIO_PRESIDENTE" model="hr.salary.rule">
+            <field name="code">HON_PRESIDENTE</field>
+            <field name="name">Honorário de Presidente</field>
+            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="1" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
+            <field name="code">HON_PRESIDENTE</field>
+            <field name="name">Estrutura de Honorário de Presidente</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
+            <field name="code">FUN_COMISSIONADA</field>
+            <field name="name">Função Comissionada</field>
+            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="1" />
+        </record>
+
+        <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
+            <field name="code">FUN_COMISSIONADA</field>
+            <field name="name">Função Comissionada</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_rule_HONORARIO_CONSELHO" model="hr.salary.rule">
+            <field name="code">HON_CONSELHO</field>
+            <field name="name">Honorário Conselho</field>
+            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="1" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_CONSELHO" model="hr.payroll.structure">
+            <field name="code">HON_CONSELHO</field>
+            <field name="name">Honorário Conselho</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_CONSELHO')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_rule_HONORARIO_DIRETORIA" model="hr.salary.rule">
+            <field name="code">HON_DIRETORIA</field>
+            <field name="name">Honorário Conselho</field>
+            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="1" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_DIRETORIA" model="hr.payroll.structure">
+            <field name="code">HON_DIRETORIA</field>
+            <field name="name">Honorário Conselho</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_DIRETORIA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
     </data>
 </openerp>
