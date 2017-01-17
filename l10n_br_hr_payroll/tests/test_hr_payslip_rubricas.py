@@ -216,12 +216,39 @@ class TestHrPayslip(common.TransactionCase):
         """
         pass
 
+    def test_cenario_14(self):
+        """Rubrica 484 - Desconto VA/VR
+        DADO um funcionário com Desconto VA/VR de R$ 6,04
+        E com Salário Base de R$ 14.413,96
+        QUANDO trabalhar por 30 dias
+        ENTÃO o cálculo da Rubrica 484-Desconto VA/VR deve ser R$ 6,04
+        """
+        employee_id = self.employee_hr_user_id.id
+
+        hr_salary_rule_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_rule_VA_VR').id
+
+        hr_payroll_structure_id = self.criar_estrutura_salario(
+            'Estrutura VA/VR', 'VA/VR', hr_salary_rule_id).id
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato VA/VR',  14413.96, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 6.04,
+                         'ERRO no Cálculo do cenario 14! ')
+
     def test_cenario_17(self):
         """Rubrica 502 - Reembolso Auxílio Creche/Babá - Variação 1
         DADO um funcionário com Reembolso Auxílio Creche/Baba de R$ 370,71
         E com Salário Base de R$ 10.936,46
         QUANDO trabalhar por 20 dias
-        ENTÃO o cálculo da Rubrica502-Reembolso Auxílio Creche/Babá deve ser R$ 370,71
+        ENTÃO o cálculo da Rubrica502-Reembolso Auxílio Creche/Babá
+        deve ser R$ 370,71
         """
         pass
 
