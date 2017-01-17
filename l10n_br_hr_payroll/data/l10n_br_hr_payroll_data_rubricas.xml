@@ -2,6 +2,9 @@
 <openerp>
     <data>
 
+        <!--REGRAS DE SALARIOS-->
+
+        <!--Ferias-->
         <record id="hr_salary_rule_FERIAS" model="hr.salary.rule">
             <field name="code">FERIAS</field>
             <field name="name">Rubrica de FERIAS</field>
@@ -12,6 +15,7 @@
             <field name="sequence" eval="5"/>
         </record>
 
+        <!--1/3 das ferias-->
         <record id="hr_salary_rule_1/3_FERIAS" model="hr.salary.rule">
             <field name="code">1/3_FERIAS</field>
             <field name="name">Rubrica de 1/3 FERIAS</field>
@@ -22,6 +26,7 @@
             <field name="sequence" eval="6"/>
         </record>
 
+        <!--Vale alimentação / vale refeição-->
         <record id="hr_salary_rule_VA_VR" model="hr.salary.rule">
             <field name="code">VA/VR</field>
             <field name="name">Vale alimentação/Refeição</field>
@@ -29,9 +34,70 @@
             <field name="amount_select">fix</field>
             <field name="condition_select">none</field>
             <field name="amount_fix">6.04</field>
-            <field name="sequence" eval="6"/>
+            <field name="sequence" eval="7"/>
         </record>
 
+        <!--INSS FAIXA 1 : até 1.659,38-->
+        <record id="hr_salary_rule_INSS1" model="hr.salary.rule">
+            <field name="code">INSS1</field>
+            <field name="name">INSS Faixa 1 até 1.659,38</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">range</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min">0.0</field>
+            <field name="condition_range_max">1659.38</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="quantity">1</field>
+            <field name="amount_percentage">8</field>
+            <field name="sequence" eval="8"/>
+        </record>
+        <!--INSS FAIXA 2 : 1.659,39 até 2.765,66 -->
+        <record id="hr_salary_rule_INSS2" model="hr.salary.rule">
+            <field name="code">INSS2</field>
+            <field name="name">INSS Faixa 2 - 1.659,39 até 2.765,66</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">range</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min">1659.39</field>
+            <field name="condition_range_max">2765.66</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="quantity">1</field>
+            <field name="amount_percentage">9</field>
+            <field name="sequence" eval="9"/>
+        </record>
+        <!--INSS FAIXA 3 : 2.765,67 até 5.531,31 -->
+        <record id="hr_salary_rule_INSS3" model="hr.salary.rule">
+            <field name="code">INSS3</field>
+            <field name="name">INSS Faixa 3 - 2.765,67 até 5.531,31</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">range</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min">2765.67</field>
+            <field name="condition_range_max">5531.31</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="quantity">1</field>
+            <field name="amount_percentage">11</field>
+            <field name="sequence" eval="10"/>
+        </record>
+        <!--INSS Faixa 4: Teto : Acima de 5.531,32 -->
+        <record id="hr_salary_rule_INSS4" model="hr.salary.rule">
+            <field name="code">INSS4</field>
+            <field name="name">INSS Faixa 4 - maior que 5.531,31</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.wage > 5531.31</field>
+            <field name="amount_select">fix</field>
+            <field name="quantity">1</field>
+            <field name="amount_fix">570.88</field>
+            <field name="sequence" eval="11"/>
+        </record>
+
+        <!--ESTRUTURAS DE SALARIOS-->
+
+        <!--Estrutura de salario para ferias-->
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
             <field name="name">Estrutura de Salario de Férias</field>
@@ -129,5 +195,15 @@
             <field name="company_id" ref="base.main_company" />
             <field name="parent_id" eval="False" />
         </record>
+
+        <!--Estrutura de salario para INSS-->
+        <record id="hr_salary_structure_INSS" model="hr.payroll.structure">
+            <field name="code">INSS</field>
+            <field name="name">Estrutura de Salario INSS</field>
+            <field eval="[(6, 0, [ref('hr_salary_rule_INSS1'), ref('hr_salary_rule_INSS2'),ref('hr_salary_rule_INSS3'), ref('hr_salary_rule_INSS4')])]" name="rule_ids"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="parent_id" eval="False" />
+        </record>
+
     </data>
 </openerp>
