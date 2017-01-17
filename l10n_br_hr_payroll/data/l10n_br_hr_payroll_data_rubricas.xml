@@ -12,10 +12,20 @@
             <field name="sequence" eval="5"/>
         </record>
 
+        <record id="hr_salary_rule_1/3_FERIAS" model="hr.salary.rule">
+            <field name="code">1/3_FERIAS</field>
+            <field name="name">Rubrica de 1/3 FERIAS</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = FERIAS / 3 </field>
+            <field name="sequence" eval="6"/>
+        </record>
+
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
             <field name="name">Estrutura de Salario de Férias</field>
-            <field eval="[(6, 0, [ref('hr_salary_rule_FERIAS')])]" name="rule_ids"/>
+            <field eval="[(6, 0, [ref('hr_salary_rule_FERIAS'), ref('hr_salary_rule_1/3_FERIAS')])]" name="rule_ids"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="parent_id" eval="False" />
         </record>
