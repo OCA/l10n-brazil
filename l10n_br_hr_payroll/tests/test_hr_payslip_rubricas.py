@@ -38,17 +38,17 @@ class TestHrPayslip(common.TransactionCase):
         # Funcionario Honorario Presidente
         self.employee_presidente_id = self.hr_employee.create({
             'name': 'Employee Maria',
-            'user_id': self.user_hruser_id.id,
+            'user_id': self.user_hr_user_id.id,
         })
         # Funcionario Honorario Conselho
         self.employee_conselho_id = self.hr_employee.create({
             'name': 'Employee John',
-            'user_id': self.user_hruser_id.id,
+            'user_id': self.user_hr_user_id.id,
         })
         # Funcionario Honorario Diretoria
         self.employee_diretoria_id = self.hr_employee.create({
             'name': 'Employee Arthur',
-            'user_id': self.user_hruser_id.id,
+            'user_id': self.user_hr_user_id.id,
         })
         # calendario padrao nacional
         self.nacional_calendar_id = self.resource_calendar.create({
