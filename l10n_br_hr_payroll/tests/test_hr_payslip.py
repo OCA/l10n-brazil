@@ -28,7 +28,7 @@ class TestHrPayslip(common.TransactionCase):
             'groups_id': [(6, 0, [group_employee_id])],
         })
 
-        self.employee_hruser_id = self.hr_employee.create({
+        self.employee_hr_user_id = self.hr_employee.create({
             'name': 'Employee Luiza',
             'user_id': self.user_hruser_id.id,
         })
@@ -63,7 +63,7 @@ class TestHrPayslip(common.TransactionCase):
             'name': 'Falta Injusticada',
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
-            'employee_id': self.employee_hruser_id.id,
+            'employee_id': self.employee_hr_user_id.id,
             'date_from': fields.Datetime.from_string('2017-01-10 07:00:00'),
             'date_to': fields.Datetime.from_string('2017-01-10 17:00:00'),
             'number_of_days_temp': 1,
@@ -75,13 +75,12 @@ class TestHrPayslip(common.TransactionCase):
         """ teste cenario 01: Obter DSR para desconto da folha de pagamento,
         sabendo que o feriado (DSR) é no domingo.
         """
-
         date_from = '2017-01-01 00:00:01'
         date_to = '2017-01-31 23:59:59'
         self.criar_falta_nao_remunerada()
 
         leaves = self.env['resource.calendar'].get_ocurrences(
-            self.employee_hruser_id.id, date_from, date_to)
+            self.employee_hr_user_id.id, date_from, date_to)
 
         quantity_DSR_discount = self.resource_calendar.\
             get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
@@ -111,7 +110,7 @@ class TestHrPayslip(common.TransactionCase):
         date_from = '2017-01-01 00:00:01'
         date_to = '2017-01-31 23:59:59'
         leaves = self.env['resource.calendar'].get_ocurrences(
-            self.employee_hruser_id.id, date_from, date_to)
+            self.employee_hr_user_id.id, date_from, date_to)
         quantity_DSR_discount = self.resource_calendar.\
             get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
                                       self.nacional_calendar_id.leave_ids,
@@ -142,3 +141,46 @@ class TestHrPayslip(common.TransactionCase):
         self.assertEqual(quantity_DSR, 5,
                          'ERRO: Cálculo de quantidade de DSR em determinado '
                          'intervalo com feriados no mês Invalido!')
+
+    def test_04_quantidade_dias_ferias(self):
+        """ teste função  quantidade_dias_ferias: Obter a quantidade de dias
+        que o funcionario ficou de férias em um determinado período
+        """
+        date_from = '2017-01-10 07:00:00'
+        date_to = '2017-01-20 17:00:00'
+
+        # Ferias aprovada pro funcionario
+        holiday_status_id = self.env.ref(
+            'hr_holidays.holiday_status_cl')
+        self.holiday_id = self.hr_holidays.create({
+            'name': 'Ferias',
+            'type': 'add',
+            'holiday_type': 'employee',
+            'holiday_status_id': holiday_status_id.id,
+            'employee_id': self.employee_hr_user_id.id,
+            'number_of_days_temp': 10,
+            'payroll_discount': True,
+        })
+        self.holiday_id.holidays_validate()
+
+        # Funcionario goza das ferias
+        holiday_status_id = self.env.ref(
+            'hr_holidays.holiday_status_cl')
+        self.holiday_id = self.hr_holidays.create({
+            'name': 'Ferias',
+            'holiday_type': 'employee',
+            'type': 'remove',
+            'holiday_status_id': holiday_status_id.id,
+            'employee_id': self.employee_hr_user_id.id,
+            'date_from': date_from,
+            'date_to': date_to,
+            'number_of_days_temp': 10,
+            'payroll_discount': True,
+        })
+        self.holiday_id.holidays_validate()
+
+        qtd_dias_ferias = self.resource_calendar.get_quantidade_dias_ferias(
+            self.employee_hr_user_id.id, date_from, date_to
+        )
+        self.assertEqual(qtd_dias_ferias, 10,
+                         'ERRO: Cálculo de quantidade de DIAS de Férias!')

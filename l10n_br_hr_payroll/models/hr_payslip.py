@@ -90,4 +90,13 @@ class HrPayslip(models.Model):
                                                 u'DSR_PARA_DESCONTAR',
                                                 quantity_DSR_discount,
                                                 0.0, contract_id)]
+
+            quantidade_dias_ferias = self.env['resource.calendar'].\
+                get_quantidade_dias_ferias(hr_contract.employee_id.id,
+                                           date_from, date_to)
+            if quantidade_dias_ferias:
+                result += [self.get_attendances(u'Quantidade dias em Férias',
+                                                6, u'FERIAS',
+                                                quantidade_dias_ferias, 0.0,
+                                                contract_id)]
             return result

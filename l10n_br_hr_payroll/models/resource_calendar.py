@@ -87,3 +87,28 @@ class ResourceCalendar(models.Model):
                             inicio_feriado += timedelta(days=1)
 
         return quantity_DSR
+
+    @api.multi
+    def get_quantidade_dias_ferias(self, employee_id, date_from, date_to):
+        """Calcular a quantidade de dias que o funcionario ficou de férias
+        :param str: data_to - Data Inicial do intervalo
+               str: data_from - Data final do intervalo
+               int: employee_id - Id do funcionario
+        :return int : quantidade de dias de ferias do funcionario
+        """
+        quantidade_dias_ferias = 0
+        holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
+        domain = [
+            ('state', '=', 'validate'),
+            ('employee_id', '=', employee_id),
+            ('type', '=', 'remove'),
+            ('date_from', '>=', date_from),
+            ('date_to', '<=', date_to),
+            ('holiday_status_id', '=', holiday_status_id.id),
+        ]
+        ferias_holidays_ids = self.env['hr.holidays'].search(domain)
+
+        for holiday in ferias_holidays_ids:
+            quantidade_dias_ferias += holiday.number_of_days_temp
+
+        return quantidade_dias_ferias
