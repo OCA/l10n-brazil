@@ -231,6 +231,35 @@ class TestHrPayslip(common.TransactionCase):
         """
         pass
 
+    def test_cenario_09_rubrica_407(self):
+        """
+        DADO um funcionário com Função Conselho
+        E com Salário Base de R$ 4.412,08
+        QUANDO trabalhar 30 dias
+        ENTÃO o cálculo da Rubrica 407-Honorário Conselho deve ser R$ 4.412,08
+        """
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'
+        ).id
+        hr_contract_id = self.criar_contrato(
+            'Contrato Honorário Conselho', 4412.08,
+            hr_payroll_structure_id,
+            self.employee_conselho_id.id
+        )
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31',
+            hr_contract_id.id,
+            self.employee_conselho_id.id
+        )
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(
+            hr_payslip.line_ids.total, 4412.08,
+            'ERRO no Cálculo da rubrica 407 - Honorario Conselho'
+        )
+
     def test_cenario_14(self):
         """Rubrica 484 - Desconto VA/VR
         DADO um funcionário com Desconto VA/VR de R$ 6,04
