@@ -22,7 +22,7 @@ class TestHrPayslip(common.TransactionCase):
         self.hr_holidays = self.env['hr.holidays']
 
         # Test users to use through the various tests
-        self.user_hruser_id = self.res_users.create({
+        self.user_hr_user_id = self.res_users.create({
             'name': 'Hr User',
             'login': 'hruser',
             'alias_name': 'User Mileo',
@@ -32,7 +32,7 @@ class TestHrPayslip(common.TransactionCase):
 
         self.employee_hr_user_id = self.hr_employee.create({
             'name': 'Employee Luiza',
-            'user_id': self.user_hruser_id.id,
+            'user_id': self.user_hr_user_id.id,
         })
         # calendario padrao nacional
         self.nacional_calendar_id = self.resource_calendar.create({
@@ -42,6 +42,7 @@ class TestHrPayslip(common.TransactionCase):
 
     def atribuir_ferias(self, quantidade_dias, date_from, date_to,
                         employee_id):
+
         date_from = fields.Datetime.from_string(date_from)
         date_to = fields.Datetime.from_string(date_to)
 
@@ -202,6 +203,146 @@ class TestHrPayslip(common.TransactionCase):
         QUANTO trabalhar 30 dias
         ENTÃO o cálculo da Rubrica 397-Honorário Presidente
         deve ser R$ 8.447,07
+        """
+        pass
+
+    def test_cenario_17(self):
+        """Rubrica 502 - Reembolso Auxílio Creche/Babá - Variação 1
+        DADO um funcionário com Reembolso Auxílio Creche/Baba de R$ 370,71
+        E com Salário Base de R$ 10.936,46
+        QUANDO trabalhar por 20 dias
+        ENTÃO o cálculo da Rubrica502-Reembolso Auxílio Creche/Babá deve ser R$ 370,71
+        """
+        pass
+
+    def test_cenario_36(self):
+        """
+        Rubrica 5 - Férias - Variação 2
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 29.483,08
+        QUANDO tira 9 dias de Férias no mês
+        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 8.844,92
+        """
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-01-20 07:00:00'
+        date_to = '2017-01-28 17:00:00'
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(9, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 29483.08, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 8844.92,
+                         'ERRO no Cálculo da rubrica 05 - FERIAS')
+
+    def test_cenario_37(self):
+        """
+        Rubrica 5 - Férias - Variação 3
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tira 20 dias de Férias no mês
+        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 7.290,97
+        """
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-01-01 07:00:00'
+        date_to = '2017-01-20 17:00:00'
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(20, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 7290.97,
+                         'ERRO no Cálculo da rubrica 05 - FERIAS')
+
+    def test_cenario_38(self):
+        """
+        Rubrica 5 - Férias - Variação 4
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tira 12 dias de Férias no mês
+        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 4.374,58
+        """
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-01-10 07:00:00'
+        date_to = '2017-01-21 17:00:00'
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(12, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 4374.58,
+                         'ERRO no Cálculo da rubrica 05 - FERIAS')
+
+    def test_cenario_39(self):
+        """
+        Rubrica 5 - Férias - Variação 5
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tira 15 dias de Férias no mês
+        ENTÃO o cálculo da Rúbrica 5-Férias deve ser R$ 5.486,23
+        """
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-02-01 07:00:00'
+        date_to = '2017-02-15 17:00:00'
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(15, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-02-01', '2017-02-28', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 5468.23,
+                         'ERRO no Cálculo da rubrica 05 - FERIAS')
+
+    def test_cenario_44(self):
+        """Rubrica 998 - Pagamento de Férias - Variação 2
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tira 10 dias de Férias
+        ENTÃO o cálculo da Rubrica 998-Pagamento de Férias deve ser R$ 4.116,74
+        """
+        pass
+
+    def test_cenario_49(self):
+        """Rubrica 1084 - IRRF Férias - Variação 1
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 29.483,08
+        QUANDO tira 9 dias de Férias no Mês
+        E 2 dias de Abono Pecuniário no Mês
+        ENTÃO o cálculo da Rubrica 1084-IRRF Férias deve ser R$ 2.216,79
         """
         employee_id = self.employee_hr_user_id.id
         date_from = '2017-01-10 07:00:00'
