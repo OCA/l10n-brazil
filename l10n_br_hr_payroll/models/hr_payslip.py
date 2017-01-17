@@ -5,9 +5,31 @@
 from openerp import api, fields, models
 
 
+TIPO_DE_FOLHA = [
+    ('normal',u'Folha normal'),
+    ('complementar',u'Folha Complementar'),
+    ('rescisao',u'Rescisão'),
+    ('rescisao_complementar',u'Rescisão Complementar'),
+    ('aviso_ferias',u'Aviso de Férias'),
+    ('aviso_ferias_complementar',u'Aviso de Férias Complementar'),
+    ('adiantamento_decimo_terceiro',u'Adiantamento 13º'),
+    ('decimo_terceiro',u'13º'),
+    ('adiantamento_avulso',u'Adiantamento Avulso'),
+    ('adiantamento_avulso',u'Adiantamento Avulso'),
+    ('rpa', u'Recibo de pagamento autônomo'),
+]
+
+
 class HrPayslip(models.Model):
 
     _inherit = 'hr.payslip'
+
+    tipo_de_folha = fields.Selection(
+        selection=TIPO_DE_FOLHA,
+        string=u'Tipo de folha',
+        required=True,
+        default='normal',
+    )
 
     def get_attendances(self, nome, sequence, code, number_of_days,
                         number_of_hours, contract_id):

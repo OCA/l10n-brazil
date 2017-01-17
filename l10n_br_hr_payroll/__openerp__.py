@@ -42,6 +42,7 @@
         'views/l10n_br_hr_minimum_wage_view.xml',
         'views/l10n_br_hr_rat_fap_view.xml',
         'views/l10n_br_hr_social_security_tax_view.xml',
+        'views/hr_payslip.xml',
     ],
     'installable': True,
     'auto_install': False,

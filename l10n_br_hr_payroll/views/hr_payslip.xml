@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 Luis Felipe Mileo - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="hr_payslip_form_view">
+        <field name="name">hr.payslip.form (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <label for="employee_id" position="before">
+                <label for="tipo_de_folha" class="oe_edit_only"/>
+                <field name="tipo_de_folha"/>
+            </label>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="hr_payslip_search_view">
+        <field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+        <field name="arch" type="xml">
+            <field name="date_from" position="after">
+                <field name="tipo_de_folha"/>
+            </field>
+            <filter name="employee_id" position="after">
+                <filter string="Tipo" icon="terp-personal" name="tipo_de_folha" context="{'group_by':'tipo_de_folha'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="hr_payslip_tree_view">
+        <field name="name">hr.payslip.tree (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="tipo_de_folha"/>
+            </field>
+        </field>
+    </record>
+
+    <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
+        <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">hr.payslip</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
+        <!--<field name="name">Hr Payslip</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="hr_payslip_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
+
+</data>
+</openerp>
