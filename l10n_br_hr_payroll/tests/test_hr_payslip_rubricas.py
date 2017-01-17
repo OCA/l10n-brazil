@@ -16,9 +16,7 @@ class TestHrPayslip(common.TransactionCase):
         self.resource_calendar = self.env['resource.calendar']
         self.hr_contract = self.env['hr.contract']
         self.hr_job = self.env['hr.job']
-        self.hr_payroll_structure = self.env["hr.payroll.structure"]
         self.hr_payslip = self.env["hr.payslip"]
-        self.hr_salary_rule = self.env["hr.salary.rule"]
         self.hr_payslip_worked_days = self.env['hr.payslip.worked_days']
         group_employee_id = self.ref('base.group_user')
         self.hr_holidays = self.env['hr.holidays']
@@ -42,7 +40,7 @@ class TestHrPayslip(common.TransactionCase):
             'country_id': self.env.ref("base.br").id,
         })
 
-    def atribuir_ferias(self, quantidade_dias, date_from, date_to):
+    def atribuir_ferias(self, quantidade_dias, date_from, date_to, employee_id):
 
         date_from = fields.Datetime.from_string(date_from)
         date_to = fields.Datetime.from_string(date_to)
@@ -55,7 +53,7 @@ class TestHrPayslip(common.TransactionCase):
             'type': 'add',
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
-            'employee_id': self.employee_hr_user_id.id,
+            'employee_id': employee_id,
             'number_of_days_temp': quantidade_dias,
             'payroll_discount': True,
         })
@@ -69,7 +67,7 @@ class TestHrPayslip(common.TransactionCase):
             'holiday_type': 'employee',
             'type': 'remove',
             'holiday_status_id': holiday_status_id.id,
-            'employee_id': self.employee_hr_user_id.id,
+            'employee_id': employee_id,
             'date_from': date_from,
             'date_to': date_to,
             'number_of_days_temp': quantidade_dias,
@@ -77,50 +75,35 @@ class TestHrPayslip(common.TransactionCase):
         })
         self.holiday_id.holidays_validate()
 
-    def test_cenario_01_rubrica_05(self):
-        """
-        DADO um funcionário com Função Comissionada
-        E com Salário Base de R$ 10.936,46
-        QUANDO tirar 10 dias de Férias
-        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 3.645,49
-        """
-
-        date_from = '2017-01-10 07:00:00'
-        date_to = '2017-01-20 17:00:00'
-        self.atribuir_ferias(10, date_from, date_to)
-
-        # estrutura de salario
-        self.hr_payroll_structure_id = self.env.ref(
-            'l10n_br_hr_payroll.hr_salary_structure_FERIAS')
-
-        # contrato do funcionario
-        self.job_id = self.hr_job.create({'name': 'Cargo 1'})
-        self.hr_contract_id = self.hr_contract.create({
-            'name': 'Contrato Rubrica 05',
-            'employee_id': self.employee_hr_user_id.id,
+    def criar_contrato(self, nome, wage, struct_id, employee_id):
+        self.job_id = self.hr_job.create({'name': 'Função Comissionada'})
+        hr_contract_id = self.hr_contract.create({
+            'name': nome,
+            'employee_id': employee_id,
             'job_id': self.job_id.id,
             'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
-            'wage': 10936.46,
+            'wage': wage,
             'date_start': '2017-01-01',
             'working_hours': self.nacional_calendar_id.id,
-            'struct_id': self.hr_payroll_structure_id.id,
+            'struct_id': struct_id,
         })
+        return hr_contract_id
 
-        # Criando a folha de pagamento
-        date_from = '2017-01-01'
-        date_to = '2017-01-31'
-        employee_id = self.employee_hr_user_id.id,
-        self.hr_payslip_id = self.hr_payslip.create({
+    def criar_folha_pagamento(self, date_from, date_to, contract_id, employee_id):
+        hr_payslip_id = self.hr_payslip.create({
             'employee_id': employee_id,
             'date_from': date_from,
             'date_to': date_to,
-            'struct_id': self.hr_payroll_structure_id.id,
-            'contract_id': self.hr_contract_id.id,
+            # 'struct_id': self.hr_payroll_structure_id.id,
+            'contract_id': contract_id,
         })
+        return hr_payslip_id
 
+    def processar_folha_pagamento(self, hr_payslip):
         # Processando a folha de pagamento
-        result = self.hr_payslip_id.onchange_employee_id(
-            date_from, date_to, employee_id, self.hr_contract_id)
+        result = hr_payslip.onchange_employee_id(
+            hr_payslip.date_from, hr_payslip.date_to, hr_payslip.employee_id.id,
+            hr_payslip.contract_id)
         worked_days_line_ids = []
         for line in result['value']['worked_days_line_ids']:
             worked_days_line_ids_obj = self.hr_payslip_worked_days.create({
@@ -130,12 +113,35 @@ class TestHrPayslip(common.TransactionCase):
                 'number_of_days': line['number_of_days'],
                 'number_of_hours': line['number_of_hours'],
                 'contract_id': line['contract_id'],
-                'payslip_id': self.hr_payslip_id.id,
+                'payslip_id': hr_payslip.id,
             })
             worked_days_line_ids.append(worked_days_line_ids_obj)
-        self.hr_payslip_id.compute_sheet()
+        hr_payslip.compute_sheet()
 
-        self.assertEqual(self.hr_payslip_id.line_ids.total, 3645.49,
+    def test_cenario_01_rubrica_05(self):
+        """DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tirar 10 dias de Férias
+        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 3.645,49
+        """
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-01-10 07:00:00'
+        date_to = '2017-01-20 17:00:00'
+        # estrutura de salario
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(10, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 3645.49,
                          'ERRO no Cálculo da rubrica 05 - FERIAS')
 
     def test_cenario_02_rubrica_05(self):
