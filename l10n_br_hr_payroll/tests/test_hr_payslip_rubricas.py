@@ -296,6 +296,29 @@ class TestHrPayslip(common.TransactionCase):
         """
         pass
 
+    def test_cenario_25(self):
+        """Rubrica 1074 - INSS Mensal - Variação 1
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 14.413,96
+        QUANDO trabalhar por 30 dias
+        ENTÃO o cálculo da Rubrica 1074-INSS Mensal deve ser R$ 570,88
+        """
+        employee_id = self.employee_hr_user_id.id
+
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_INSS').id
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato INSS', 14413.96, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[0].total, 570.88,
+                         'ERRO no Cálculo da rubrica INSS')
+
     def test_cenario_36(self):
         """
         Rubrica 5 - Férias - Variação 2
