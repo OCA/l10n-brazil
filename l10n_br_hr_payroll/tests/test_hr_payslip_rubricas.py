@@ -42,15 +42,12 @@ class TestHrPayslip(common.TransactionCase):
             'country_id': self.env.ref("base.br").id,
         })
 
-    def test_cenario_01_rubrica_05(self):
-        """
-        DADO um funcionário com Função Comissionada
-            E com Salário Base de R$ 10.936,46
-        QUANDO tirar 10 dias de Férias
-        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 3.645,49
-        """
+    def atribuir_ferias(self, quantidade_dias, date_from, date_to):
 
-        # ADD Ferias de 10 dias funcionario
+        date_from = fields.Datetime.from_string(date_from)
+        date_to = fields.Datetime.from_string(date_to)
+
+        # Ferias aprovada pro funcionario
         holiday_status_id = self.env.ref(
             'hr_holidays.holiday_status_cl')
         self.holiday_id = self.hr_holidays.create({
@@ -59,7 +56,7 @@ class TestHrPayslip(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hr_user_id.id,
-            'number_of_days_temp': 10,
+            'number_of_days_temp': quantidade_dias,
             'payroll_discount': True,
         })
         self.holiday_id.holidays_validate()
@@ -73,32 +70,28 @@ class TestHrPayslip(common.TransactionCase):
             'type': 'remove',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hr_user_id.id,
-            'date_from': fields.Datetime.from_string('2017-01-10 07:00:00'),
-            'date_to': fields.Datetime.from_string('2017-01-20 17:00:00'),
-            'number_of_days_temp': 10,
+            'date_from': date_from,
+            'date_to': date_to,
+            'number_of_days_temp': quantidade_dias,
             'payroll_discount': True,
         })
         self.holiday_id.holidays_validate()
 
-        # Rubrica
-        self.hr_salary_rule_id = self.hr_salary_rule.create({
-            'name': 'Rubrica de FERIAS',
-            'sequence': '5',
-            'code': 'REGRA_FERIAS',
-            'category_id': self.env.ref('hr_payroll.BASIC').id,
-            'condition_select': 'none',
-            'amount_select': 'code',
-            'amount_python_compute': 'result = worked_days.DIAS_BASE.'
-                                     'number_of_days * contract.wage / 30',
-        })
+    def test_cenario_01_rubrica_05(self):
+        """
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tirar 10 dias de Férias
+        ENTÃO o cálculo da Rubrica 5-Férias deve ser R$ 3.645,49
+        """
+
+        date_from = '2017-01-10 07:00:00'
+        date_to = '2017-01-20 17:00:00'
+        self.atribuir_ferias(10, date_from, date_to)
 
         # estrutura de salario
-        self.hr_payroll_structure_id = self.hr_payroll_structure.create({
-            'name': 'Estrutura de Salario',
-            'parent_id': False,
-            'code': 'FERIAS',
-            'rule_ids': [(6, 0, [self.hr_salary_rule_id.id])]
-        })
+        self.hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS')
 
         # contrato do funcionario
         self.job_id = self.hr_job.create({'name': 'Cargo 1'})
@@ -142,5 +135,14 @@ class TestHrPayslip(common.TransactionCase):
             worked_days_line_ids.append(worked_days_line_ids_obj)
         self.hr_payslip_id.compute_sheet()
 
-        self.assertEqual(self.hr_payslip_id.line_ids.total, 10936.46,
+        self.assertEqual(self.hr_payslip_id.line_ids.total, 3645.49,
                          'ERRO no Cálculo da rubrica 05 - FERIAS')
+
+    def test_cenario_02_rubrica_05(self):
+        """
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO tirar 10 dias de Férias
+        ENTÃO o cálculo da Rubrica 10-Abono 1/3 Férias deve ser R$ 1.215,16
+        """
+        pass
