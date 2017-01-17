@@ -22,6 +22,16 @@
             <field name="sequence" eval="6"/>
         </record>
 
+        <record id="hr_salary_rule_VA_VR" model="hr.salary.rule">
+            <field name="code">VA/VR</field>
+            <field name="name">Vale alimentação/Refeição</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="amount_select">fix</field>
+            <field name="condition_select">none</field>
+            <field name="amount_fix">6.04</field>
+            <field name="sequence" eval="6"/>
+        </record>
+
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
             <field name="name">Estrutura de Salario de Férias</field>
