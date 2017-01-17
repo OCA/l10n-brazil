@@ -17,6 +17,7 @@ class TestHrPayslip(common.TransactionCase):
         self.hr_contract = self.env['hr.contract']
         self.hr_job = self.env['hr.job']
         self.hr_payslip = self.env["hr.payslip"]
+        self.hr_payroll_structure = self.env["hr.payroll.structure"]
         self.hr_payslip_worked_days = self.env['hr.payslip.worked_days']
         group_employee_id = self.ref('base.group_user')
         self.hr_holidays = self.env['hr.holidays']
@@ -119,6 +120,15 @@ class TestHrPayslip(common.TransactionCase):
             })
             worked_days_line_ids.append(worked_days_line_ids_obj)
         hr_payslip.compute_sheet()
+
+    def criar_estrutura_salario(self, name, code, rule_id):
+        hr_payroll_structure_id = self.hr_payroll_structure.create({
+            'name': name,
+            'parent_id': False,
+            'code': code,
+            'rule_ids': [(6, 0, [rule_id])]
+        })
+        return hr_payroll_structure_id
 
     def test_cenario_01_rubrica_05(self):
         """DADO um funcionário com Função Comissionada
