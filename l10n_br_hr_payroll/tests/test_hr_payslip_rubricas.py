@@ -40,8 +40,8 @@ class TestHrPayslip(common.TransactionCase):
             'country_id': self.env.ref("base.br").id,
         })
 
-    def atribuir_ferias(self, quantidade_dias, date_from, date_to, employee_id):
-
+    def atribuir_ferias(self, quantidade_dias, date_from, date_to,
+                        employee_id):
         date_from = fields.Datetime.from_string(date_from)
         date_to = fields.Datetime.from_string(date_to)
 
@@ -89,7 +89,8 @@ class TestHrPayslip(common.TransactionCase):
         })
         return hr_contract_id
 
-    def criar_folha_pagamento(self, date_from, date_to, contract_id, employee_id):
+    def criar_folha_pagamento(self, date_from, date_to, contract_id,
+                              employee_id):
         hr_payslip_id = self.hr_payslip.create({
             'employee_id': employee_id,
             'date_from': date_from,
@@ -102,8 +103,8 @@ class TestHrPayslip(common.TransactionCase):
     def processar_folha_pagamento(self, hr_payslip):
         # Processando a folha de pagamento
         result = hr_payslip.onchange_employee_id(
-            hr_payslip.date_from, hr_payslip.date_to, hr_payslip.employee_id.id,
-            hr_payslip.contract_id)
+            hr_payslip.date_from, hr_payslip.date_to,
+            hr_payslip.employee_id.id, hr_payslip.contract_id)
         worked_days_line_ids = []
         for line in result['value']['worked_days_line_ids']:
             worked_days_line_ids_obj = self.hr_payslip_worked_days.create({
@@ -144,13 +145,32 @@ class TestHrPayslip(common.TransactionCase):
         self.assertEqual(hr_payslip.line_ids[0].total, 3645.49,
                          'ERRO no Cálculo da rubrica 05 - FERIAS')
 
-    def test_cenario_02_rubrica_05(self):
-        """DADO um funcionário com Função Comissionada
+    def test_cenario_02(self):
+        """Rubrica 10 - Abono 1/3 Férias - Variação 1
+        DADO um funcionário com Função Comissionada
         E com Salário Base de R$ 10.936,46
         QUANDO tirar 10 dias de Férias
         ENTÃO o cálculo da Rubrica 10-Abono 1/3 Férias deve ser R$ 1.215,16
         """
-        pass
+        employee_id = self.employee_hr_user_id.id
+        date_from = '2017-01-10 07:00:00'
+        date_to = '2017-01-20 17:00:00'
+        # estrutura de salario
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_FERIAS').id
+
+        self.atribuir_ferias(10, date_from, date_to, employee_id)
+
+        hr_contract_id = self.criar_contrato(
+            'Contrato Ferias', 10936.46, hr_payroll_structure_id, employee_id)
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(hr_payslip.line_ids[1].total, 1215.16,
+                         'ERRO no Cálculo da rubrica 05 - 1/3 FERIAS')
 
     def test_cenario_03(self):
         """
