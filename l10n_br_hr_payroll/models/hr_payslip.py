@@ -4,24 +4,18 @@
 
 from openerp import api, fields, models
 
-
 TIPO_DE_FOLHA = [
-    ('normal',u'Folha normal'),
-    ('complementar',u'Folha Complementar'),
-    ('rescisao',u'Rescisão'),
-    ('rescisao_complementar',u'Rescisão Complementar'),
-    ('aviso_ferias',u'Aviso de Férias'),
-    ('aviso_ferias_complementar',u'Aviso de Férias Complementar'),
-    ('adiantamento_decimo_terceiro',u'Adiantamento 13º'),
-    ('decimo_terceiro',u'13º'),
-    ('adiantamento_avulso',u'Adiantamento Avulso'),
-    ('adiantamento_avulso',u'Adiantamento Avulso'),
-    ('rpa', u'Recibo de pagamento autônomo'),
+    ('normal', u'Folha normal'),
+    ('rescisao', u'Rescisão'),
+    ('ferias', u'Férias'),
+    ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('licenca_maternidade', u'Licença maternidade'),
+    ('auxilio_doenca', u'Auxílio doença'),
+    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
 ]
 
 
 class HrPayslip(models.Model):
-
     _inherit = 'hr.payslip'
 
     tipo_de_folha = fields.Selection(
@@ -80,14 +74,14 @@ class HrPayslip(models.Model):
                                                 qtd_leaves,
                                                 0.0, contract_id)]
             # get Quantidade de DSR
-            quantity_DSR = hr_contract.working_hours.\
+            quantity_DSR = hr_contract.working_hours. \
                 quantidade_de_DSR(date_from, date_to)
             if quantity_DSR:
                 result += [self.get_attendances(u'DSR do Mês', 4,
                                                 u'DSR_TOTAL', quantity_DSR,
                                                 0.0, contract_id)]
             # get discount DSR
-            quantity_DSR_discount = self.env['resource.calendar'].\
+            quantity_DSR_discount = self.env['resource.calendar']. \
                 get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
                                           hr_contract.working_hours.leave_ids,
                                           date_from, date_to)
