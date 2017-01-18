@@ -324,23 +324,33 @@ class DocumentoItem(models.Model):
         #
         # Determinamos as UFs de origem e destino
         #
-        if self.entrada_saida == ENTRADA_SAIDA_SAIDA:
+        if self.modelo in MODELO_FISCAL_CONSUMIDOR_FINAL:
+            #
+            # Para documentos de venda a consumidor, a venda é sempre dentro
+            # do estado
+            #
             estado_origem = self.empresa_id.estado
-            estado_destino = self.participante_id.estado
-
-            if self.emissao == TIPO_EMISSAO_PROPRIA:
-                destinatario = self.participante_id
-            else:
-                destinatario = self.empresa_id
+            estado_destino = self.empresa_id.estado
+            destinatario = self.participante_id
 
         else:
-            estado_origem = self.participante_id.estado
-            estado_destino = self.empresa_id.estado
+            if self.entrada_saida == ENTRADA_SAIDA_SAIDA:
+                estado_origem = self.empresa_id.estado
+                estado_destino = self.participante_id.estado
 
-            if self.emissao == TIPO_EMISSAO_PROPRIA:
-                destinatario = self.empresa_id
+                if self.emissao == TIPO_EMISSAO_PROPRIA:
+                    destinatario = self.participante_id
+                else:
+                    destinatario = self.empresa_id
+
             else:
-                destinatario = self.participante_id
+                estado_origem = self.participante_id.estado
+                estado_destino = self.empresa_id.estado
+
+                if self.emissao == TIPO_EMISSAO_PROPRIA:
+                    destinatario = self.empresa_id
+                else:
+                    destinatario = self.participante_id
 
         return (estado_origem, estado_destino, destinatario)
 
@@ -702,7 +712,13 @@ class DocumentoItem(models.Model):
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cfop_id.calcula_simples_csll_irpj:
-                valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
+                if self.cfop_id.eh_venda_servico:
+                    if  self.empresa_id.simples_aliquota_servico_id:
+                        valores['al_simples'] = self.empresa_id.simples_aliquota_servico_id.al_simples
+                    else:
+                        valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
+                else:
+                    valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
 
         else:
             if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and self.cfop_id.eh_venda:
@@ -833,8 +849,11 @@ class DocumentoItem(models.Model):
         #
         # Agora, buscamos as alíquotas necessárias
         #
-        aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_origem, estado_destino, self.data_emissao,
-                                                                   self.empresa_id)
+        if self.entrada_saida == ENTRADA_SAIDA_ENTRADA and self.participante_id.estado == 'EX':
+            aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_destino, estado_destino, self.data_emissao, self.empresa_id)
+
+        else:
+            aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_origem, estado_destino, self.data_emissao, self.empresa_id)
 
         #
         # Alíquota do ICMS próprio
@@ -1079,7 +1098,7 @@ class DocumentoItem(models.Model):
         valores['al_cofins_proprio'] = 0
         valores['vr_cofins_proprio'] = 0
 
-        if self.cst_pis in ST_PIS_CALCULA or self.cst_pis in ST_PIS_CALCULA_CREDITO:
+        if self.cst_pis in ST_PIS_CALCULA or self.cst_pis in ST_PIS_CALCULA_CREDITO  or (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and self.emissao == TIPO_EMISSAO_PROPRIA):
             if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
                 md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
                 bc_pis_proprio = self.vr_operacao_tributacao
