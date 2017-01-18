@@ -44,6 +44,8 @@ class Empresa(models.Model):
     simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
     simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
     simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES', ondelete='restrict', compute='_compute_simples_aliquota_id')
+    simples_anexo_servico_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (produtos)', ondelete='restrict')
+    simples_aliquota_servico_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES (serviços)', ondelete='restrict', compute='_compute_simples_aliquota_id')
 
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
     operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
@@ -107,7 +109,7 @@ class Empresa(models.Model):
 
         #return res
 
-    @api.depends('simples_anexo_id', 'simples_teto_id')
+    @api.depends('simples_anexo_id', 'simples_anexo_servico_id', 'simples_teto_id')
     def _compute_simples_aliquota_id(self):
         for empresa in self:
             simples_aliquota_ids = self.env['sped.aliquota.simples.aliquota'].search([
@@ -119,6 +121,16 @@ class Empresa(models.Model):
                 empresa.simples_aliquota_id = simples_aliquota_ids[0]
             else:
                 empresa.simples_aliquota_id = False
+
+            simples_aliquota_ids = self.env['sped.aliquota.simples.aliquota'].search([
+                ('anexo_id', '=', empresa.simples_anexo_servico_id.id),
+                ('teto_id', '=', empresa.simples_teto_id.id),
+                ])
+
+            if len(simples_aliquota_ids) != 0:
+                empresa.simples_aliquota_servico_id = simples_aliquota_ids[0]
+            else:
+                empresa.simples_aliquota_servico_id = False
 
     @api.model
     def name_search(self, name='', args=[], operator='ilike', limit=100):
