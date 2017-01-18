@@ -236,6 +236,14 @@ class Documento(models.Model):
 
     item_ids = fields.One2many('sped.documento.item', 'documento_id', 'Itens')
 
+    #
+    # Outras informações
+    #
+    eh_compra = fields.Boolean('É compra?', compute='_compute_eh_compra_venda')
+    eh_venda = fields.Boolean('É venda?', compute='_compute_eh_compra_venda')
+    eh_devolucao_compra = fields.Boolean('É devolução de compra?', compute='_compute_eh_compra_venda')
+    eh_devolucao_venda = fields.Boolean('É devolução de venda?', compute='_compute_eh_compra_venda')
+
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
         for documento in self:
@@ -297,54 +305,87 @@ class Documento(models.Model):
 
             documento.update(dados)
 
-    def _get_soma_funcao(self, cr, uid, ids, nome_campo, args, context=None):
-        res = {}
+    @api.depends('item_ids')
+    def _compute_eh_compra_venda(self):
+        for documento in self:
+            if documento.entrada_saida == ENTRADA_SAIDA_ENTRADA:
+                self.eh_venda = False
+                self.eh_devolucao_compra = False
 
-        for doc_obj in self.browse(cr, uid, ids):
-            soma = D('0')
-            al_simples = D('0')
+                for item in documento.item_ids:
+                    if item.cfop_id.eh_compra:
+                        self.eh_compra = True
+                        self.eh_devolucao_venda = False
+                        continue
 
-            for item_obj in doc_obj.documentoitem_ids:
-                #
-                # Para o custo da mercadoria para baixa do custo na venda/devolução
-                #
-                if nome_campo == 'vr_custo_estoque':
-                    if item_obj.cfop_id.codigo in CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO:
-                        soma += D(str(getattr(item_obj, nome_campo, 0)))
+                    elif item.cfop_id.eh_devolucao_venda:
+                        self.eh_compra = False
+                        self.eh_devolucao_venda = True
+                        continue
 
-                #
-                # Para o SIMPLES Nacional, somar o valor da operação
-                #
-                elif nome_campo == 'vr_simples':
-                    if D(str(getattr(item_obj, 'vr_simples', 0))):
-                        if al_simples == 0:
-                            al_simples = D(str(getattr(item_obj, 'al_simples', 0)))
+            else:
+                self.eh_compra = False
+                self.eh_devolucao_venda = False
 
-                        soma += D(str(getattr(item_obj, 'vr_operacao', 0)))
-                else:
-                    soma += D(str(getattr(item_obj, nome_campo, 0)))
+                for item in documento.item_ids:
+                    if item.cfop_id.eh_venda:
+                        self.eh_venda = True
+                        self.eh_devolucao_compra = False
+                        continue
 
-            soma = soma.quantize(D('0.01'))
+                    elif item.cfop_id.eh_devolucao_compra:
+                        self.eh_venda = False
+                        self.eh_devolucao_compra = True
+                        continue
 
-            if nome_campo == 'vr_fatura' and doc_obj.deduz_retencao:
-                soma -= D(str(doc_obj.vr_pis_retido))
-                soma -= D(str(doc_obj.vr_cofins_retido))
-                soma -= D(str(doc_obj.vr_csll))
-                soma -= D(str(doc_obj.vr_irrf))
-                soma -= D(str(doc_obj.vr_inss_retido))
-                soma -= D(str(doc_obj.vr_iss_retido))
+    #def _get_soma_funcao(self, cr, uid, ids, nome_campo, args, context=None):
+        #res = {}
 
-            if (nome_campo == 'bc_inss_retido' or nome_campo == 'vr_inss_retido') and doc_obj.deduz_retencao:
-                if soma < D('10'):
-                    soma = D('0')
+        #for doc_obj in self.browse(cr, uid, ids):
+            #soma = D('0')
+            #al_simples = D('0')
 
-            if nome_campo == 'vr_simples' and soma > 0:
-                soma *= al_simples / D(100)
-                soma = soma.quantize(D('0.01'))
+            #for item_obj in doc_obj.documentoitem_ids:
+                ##
+                ## Para o custo da mercadoria para baixa do custo na venda/devolução
+                ##
+                #if nome_campo == 'vr_custo_estoque':
+                    #if item_obj.cfop_id.codigo in CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO:
+                        #soma += D(str(getattr(item_obj, nome_campo, 0)))
 
-            res[doc_obj.id] = soma
+                ##
+                ## Para o SIMPLES Nacional, somar o valor da operação
+                ##
+                #elif nome_campo == 'vr_simples':
+                    #if D(str(getattr(item_obj, 'vr_simples', 0))):
+                        #if al_simples == 0:
+                            #al_simples = D(str(getattr(item_obj, 'al_simples', 0)))
 
-        return res
+                        #soma += D(str(getattr(item_obj, 'vr_operacao', 0)))
+                #else:
+                    #soma += D(str(getattr(item_obj, nome_campo, 0)))
+
+            #soma = soma.quantize(D('0.01'))
+
+            #if nome_campo == 'vr_fatura' and doc_obj.deduz_retencao:
+                #soma -= D(str(doc_obj.vr_pis_retido))
+                #soma -= D(str(doc_obj.vr_cofins_retido))
+                #soma -= D(str(doc_obj.vr_csll))
+                #soma -= D(str(doc_obj.vr_irrf))
+                #soma -= D(str(doc_obj.vr_inss_retido))
+                #soma -= D(str(doc_obj.vr_iss_retido))
+
+            #if (nome_campo == 'bc_inss_retido' or nome_campo == 'vr_inss_retido') and doc_obj.deduz_retencao:
+                #if soma < D('10'):
+                    #soma = D('0')
+
+            #if nome_campo == 'vr_simples' and soma > 0:
+                #soma *= al_simples / D(100)
+                #soma = soma.quantize(D('0.01'))
+
+            #res[doc_obj.id] = soma
+
+        #return res
 
 
     @api.onchange('empresa_id', 'modelo', 'emissao')
