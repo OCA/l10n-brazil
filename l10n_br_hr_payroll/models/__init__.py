@@ -10,3 +10,4 @@ from . import l10n_br_hr_minimum_wage
 from . import l10n_br_hr_rat_fap
 from . import l10n_br_hr_social_security_tax
 from . import resource_calendar
+from . import hr_salary_rule

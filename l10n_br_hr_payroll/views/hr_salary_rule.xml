@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 Luis Felipe Mileo - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="l10n_br_hr_payroll_hr_salary_rule_form_view">
+        <field name="name">hr.salaray.rule.form (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+        <field name="arch" type="xml">
+            <field name="appears_on_payslip" position="after">
+                <field name="compoe_base_INSS"/>
+                <field name="compoe_base_IR"/>
+                <field name="compoe_base_FGTS"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+
+</openerp>
