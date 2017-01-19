@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_hr_vacation_holiday_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.holiday.form</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="arch" type="xml">
+                <field name="holiday_status_id" position="after">
+                    <field name="parent_id" string="Período Aquisitivo"
+                           attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"
+                           domain="[('employee_id', '=', employee_id),('type', '=', 'add')]}"/>
+                </field>
+                <field name="date_from" position="replace">
+                    <field name="date_from" nolabel="1"
+                           on_change="onchange_date_from(date_to, date_from, sold_vacations_days)"
+                           attrs="{'required':[('type', '=', 'remove')]}"
+                           class="oe_inline"/>
+                </field>
+                <field name="date_to" position="replace">
+                    <field name="date_to" nolabel="1"
+                           on_change="onchange_date_to(date_to, date_from, sold_vacations_days)"
+                           attrs="{'required':[('type', '=', 'remove')]}"
+                           class="oe_inline"/>
+                </field>
+                <field name="number_of_days_temp" position="replace">
+                    <group attrs="{'invisible':[('type', '=', 'remove'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
+                        <field name="vacations_days" class="oe_inline" nolabel="1"
+                               string='Dias de férias'/>
+                    </group>
+                </field>
+
+                <field name="notes" position="before">
+                    <group attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
+                        <field name="sell_vacation"/>
+                        <field name="sold_vacations_days"
+                               attrs="{'invisible': [('sell_vacation', '=', False)]}"/>
+                        <field name="advance_13_salary"/>
+                        <field name="advance_current_salary"/>
+                    </group>
+                </field>
+
+                <field name="notes" position="before">
+                    <h2 class="oe_right">
+                        <br/>
+                        <group attrs="{'invisible':[('type','=','add')]}">
+                            <label for="number_of_days_temp"
+                                   string="Total Dias Selecionados:"/>
+                            <field colspan="1" name="number_of_days_temp"
+                                   nolabel="1" widget="integer"/>
+                        </group>
+                    </h2>
+                </field>
+
+            </field>
+        </record>
+
+         <record id="view_l10n_br_hr_vacation_holiday_tree" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.holiday.tree</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday"/>
+            <field name="arch" type="xml">
+                <field name="date_to" position="after">
+                    <field name="vacations_days" string="Dias de Gozo" class="oe_inline"/>
+                    <field name="sold_vacations_days" string="Sold Vacations Days" class="oe_inline"/>
+                </field>
+                <field name="number_of_days" position="replace">
+                    <field name="number_of_days" string="Total Vacation Days" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_l10n_br_hr_vacation_holiday_tree_simple" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.holiday.tree.simple</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+            <field name="arch" type="xml">
+                <field name="number_of_days" position="before">
+                    <field name="vacations_days" string="Dias de Gozo" class="oe_inline"/>
+                    <field name="sold_vacations_days" string="Sold Vacations Days" class="oe_inline"/>
+                </field>
+                <field name="number_of_days" position="replace">
+                    <field name="number_of_days" string="Total Vacation Days" />
+                </field>
+            </field>
+        </record>
+
+        <!--<record model="ir.actions.act_window" id="l10n_br_hr_vacation_action">-->
+        <!--<field name="name">Vender Férias</field>-->
+        <!--<field name="type">ir.actions.act_window</field>-->
+        <!--<field name="res_model">hr.holidays</field>-->
+        <!--<field name="view_type">form</field>-->
+        <!--<field name="view_mode">form</field>-->
+        <!--<field name="context" eval="{'default_holiday_status_id': ref('holiday_status_vacation'), 'default_type': 'remove', 'default_sell_vacation' : True}" />-->
+        <!--<field name="view_id" ref="view_l10n_br_hr_vacation_holiday_form" />-->
+        <!--</record>-->
+
+        <!--<menuitem-->
+        <!--id="menu_l10n_br_hr_vacation"-->
+        <!--name="Vender Férias"-->
+        <!--action="l10n_br_hr_vacation_action"-->
+        <!--parent="hr_holidays.menu_open_ask_holidays"-->
+        <!--sequence="6" />-->
+    </data>
+</openerp>

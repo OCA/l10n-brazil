@@ -1,0 +1,124 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_hr_vacation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-19 19:19+0000\n"
+"PO-Revision-Date: 2017-01-19 19:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,advance_13_salary:0
+msgid "Advance 13th salary"
+msgstr "Advance 13th salary"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,advance_current_salary:0
+msgid "Advance Currente Salary"
+msgstr "Advance Current Salary"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree_simple
+msgid "Dias de Gozo"
+msgstr "Dias de Gozo"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_form
+msgid "Dias de férias"
+msgstr "Dias de férias"
+
+#. module: l10n_br_hr_vacation
+#: model:ir.actions.server,name:l10n_br_hr_vacation.abono_vacations_register_days
+msgid "Dias para ferias somados ao abono, maiores que disponíveis."
+msgstr "Dias para ferias somados ao abono, maiores que disponíveis."
+
+#. module: l10n_br_hr_vacation
+#: model:ir.model,name:l10n_br_hr_vacation.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: l10n_br_hr_vacation
+#: help:hr.holidays,sell_vacation:0
+msgid "Indicates if the employee desires to sell some of its entitled vacation days"
+msgstr "Indicates if the employee desires to sell some of its entitled vacation days"
+
+#. module: l10n_br_hr_vacation
+#: model:ir.model,name:l10n_br_hr_vacation.model_hr_holidays
+msgid "Leave"
+msgstr "Folga"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,vacations_days:0
+msgid "Number of vacation days"
+msgstr "Number of vacation days"
+
+#. module: l10n_br_hr_vacation
+#: help:hr.holidays,sold_vacations_days:0
+msgid "Number of vacation days the employee desires to sell"
+msgstr "Number of vacation days the employee desires to sell"
+
+#. module: l10n_br_hr_vacation
+#: model:ir.actions.server,name:l10n_br_hr_vacation.vacation_register_number
+msgid "Número de pedidos de férias"
+msgstr "Número de pedidos de férias"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_form
+msgid "Período Aquisitivo"
+msgstr "Período Aquisitivo"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,sell_vacation:0
+msgid "Sell Vacation"
+msgstr "Converter em Abono Pecuniário"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,sold_vacations_days:0
+msgid "Sold Vacation Days"
+msgstr "Dias para converter"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree_simple
+msgid "Sold Vacations Days"
+msgstr "Sold Vacations Days"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_form
+msgid "Total Dias Selecionados:"
+msgstr "Total Dias Selecionados:"
+
+#. module: l10n_br_hr_vacation
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
+#: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree_simple
+msgid "Total Vacation Days"
+msgstr "Total dias de férias (sem contar abono pecuniário)"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.employee,end_last_vacation:0
+msgid "Ultimo dia da ultima ferias"
+msgstr "Ultimo dia da ultima ferias"
+
+#. module: l10n_br_hr_vacation
+#: model:hr.holidays.status,name:l10n_br_hr_vacation.holiday_status_vacation
+msgid "Vacation"
+msgstr "Férias"
+
+#. module: l10n_br_hr_vacation
+#: model:ir.actions.server,name:l10n_br_hr_vacation.maximum_abono_days
+msgid "Validação dias abano pecuriário até 10 dias"
+msgstr "Validação dias abano pecuriário até 10 dias"
+
+#. module: l10n_br_hr_vacation
+#: model:ir.actions.server,name:l10n_br_hr_vacation.minimum_period_days_vacation
+msgid "Validação dias período de Férias Mínimo 10 Dias"
+msgstr "Validação dias período de Férias Mínimo 10 Dias"

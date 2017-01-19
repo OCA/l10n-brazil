@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="ir_cron_scheduler_vacation_verify" model="ir.cron">
+            <field name="name">Verify vacation scheduler</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="'hr.employee'" name="model"/>
+            <field eval="'function_vacation_verify'" name="function"/>
+        </record>
+
+        <record model="hr.holidays.status" id="holiday_status_vacation">
+            <field name="name">Vacation</field>
+            <field name="color_name">lightgreen</field>
+            <field name="limit" eval="False"/>
+        </record>
+
+        <record model="ir.actions.server" id="vacation_register_number">
+            <field name="name">Número de pedidos de férias</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="sequence">1</field>
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+pedidos = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '=', 'remove')], context=context)
+if len(pedidos) == 3:
+    raise Warning("Você não pode registar mais de 2 pedidos de ferias por período aquisitivo, você ja registrou %s" %  (len(pedidos) - 1))
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="abono_vacations_register_days">
+            <field name="name">Dias para ferias somados ao abono, maiores que disponíveis.</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="sequence">6</field>
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+pedidos_ids = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '!=', 'add')], context=context)
+pedidos = self.browse(cr, uid, pedidos_ids, context=context)
+dias_totais = 0
+for pedido in pedidos:
+    dias_totais += pedido.number_of_days_temp
+if dias_totais > obj.parent_id.number_of_days_temp:
+    raise Warning("A Soma dos dias selecionados mais os dias de abono pecuniário não pode exceder o seus dias de Férias em determinado  período Aquisitivo.  \n Férias : %d Dias \n Dias Selecionados: %d \n" % (obj.parent_id.number_of_days_temp, dias_totais))
+            </field>
+        </record>
+        <record model="ir.actions.server" id="maximum_abono_days">
+            <field name="name">Validação dias abano pecuriário até 10 dias</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="sequence">3</field>
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+pedidos_ids = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '!=', 'add')], context=context)
+pedidos = self.browse(cr, uid, pedidos_ids, context=context)
+dias_totais_abono = 0
+for pedido in pedidos:
+    dias_totais_abono += pedido.sold_vacations_days
+if dias_totais_abono > 10:
+    raise Warning("A Soma dos dias de abono pecuniário não pode exceder 10 dias por período Aquisitivo.")
+            </field>
+        </record>
+        <record model="ir.actions.server" id="minimum_period_days_vacation">
+            <field name="name">Validação dias período de Férias Mínimo 10 Dias</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="sequence">4</field>
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+if obj.vacations_days &lt;	10 and obj.holiday_status_id.id == ferias_id:
+    raise Warning("Um período de férias não pode ter menos de 10 dias!")
+            </field>
+        </record>
+
+        <record model="base.action.rule" id="holiday_validation_action_create">
+            <field name="name">Validações de Férias create</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="active">True</field>
+            <field name="kind">on_create</field>
+            <field name="server_action_ids" eval="[(6,0,[ref('l10n_br_hr_vacation.vacation_register_number')])]"></field>
+        </record>
+
+        <record model="base.action.rule" id="holiday_validation_action_update">
+            <field name="name">Validações de Férias update</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="active">True</field>
+            <field name="kind">on_create_or_write</field>
+            <field name="server_action_ids" eval="[(6,0,[ref('l10n_br_hr_vacation.abono_vacations_register_days'),ref('l10n_br_hr_vacation.maximum_abono_days'),ref('l10n_br_hr_vacation.minimum_period_days_vacation')])]"></field>
+
+        </record>
+    </data>
+</openerp>
