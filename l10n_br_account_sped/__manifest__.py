@@ -11,6 +11,8 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
     'depends': [
+        'l10n_br_account',
+        'sped',
     ],
     'data': [
         # 'views/sped_documento.xml',
