@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE - Luis Felipe Miléo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="sped_documento_form_view">
+        <field name="name">sped.documento.form (in l10n_br_account_sped)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_search_view">
+        <field name="name">sped.documento.search (in l10n_br_account_sped)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="TODO othermodule.search_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_tree_view">
+        <field name="name">sped.documento.tree (in l10n_br_account_sped)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+
+</data>
+</odoo>
