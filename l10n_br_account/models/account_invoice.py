@@ -244,7 +244,7 @@ class AccountInvoiceLine(models.Model):
         self.price_subtotal_signed = price_subtotal_signed * sign
 
     fiscal_category_id = fields.Many2one(
-        codmodel_name='l10n_br_account.fiscal.category',
+        comodel_name='l10n_br_account.fiscal.category',
         string='Categoria Fiscal'
     )
 
