@@ -630,7 +630,8 @@ class Documento(models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
-    # Total da NF e da fatura (podem ser diferentes no caso de operação triangular)
+    # Total da NF e da fatura (podem ser diferentes no caso de operação
+    # triangular)
     vr_nf = fields.Monetary(
         string=u'Valor da NF',
         compute='_compute_soma_itens',
@@ -674,36 +675,36 @@ class Documento(models.Model):
     ###
     # Retenções de tributos (órgãos públicos, substitutos tributários etc.)
     ###
-    ###'vr_operacao_pis_cofins_csll = CampoDinheiro(u'Base da retenção do PIS-COFINS e CSLL'),
+    # 'vr_operacao_pis_cofins_csll = CampoDinheiro(u'Base da retenção do PIS-COFINS e CSLL'),
 
-    ### PIS e COFINS
-    ##'pis_cofins_retido = fields.boolean(u'PIS-COFINS retidos?'),
-    ##'al_pis_retido = CampoPorcentagem(u'Alíquota do PIS retido'),
-    ##'vr_pis_retido = CampoDinheiro(u'PIS retido'),
-    ##'al_cofins_retido = CampoPorcentagem(u'Alíquota da COFINS retida'),
-    ##'vr_cofins_retido = CampoDinheiro(u'COFINS retida'),
+    # PIS e COFINS
+    # 'pis_cofins_retido = fields.boolean(u'PIS-COFINS retidos?'),
+    # 'al_pis_retido = CampoPorcentagem(u'Alíquota do PIS retido'),
+    # 'vr_pis_retido = CampoDinheiro(u'PIS retido'),
+    # 'al_cofins_retido = CampoPorcentagem(u'Alíquota da COFINS retida'),
+    # 'vr_cofins_retido = CampoDinheiro(u'COFINS retida'),
 
-    ### Contribuição social sobre lucro líquido
-    ##'csll_retido = fields.boolean(u'CSLL retida?'),
-    ##'al_csll = CampoPorcentagem('Alíquota da CSLL'),
-    ##'vr_csll = CampoDinheiro(u'CSLL retida'),
-    ##'bc_csll_propria = CampoDinheiro(u'Base da CSLL própria'),
-    ##'al_csll_propria = CampoPorcentagem('Alíquota da CSLL própria'),
-    ##'vr_csll_propria = CampoDinheiro(u'CSLL própria'),
+    # Contribuição social sobre lucro líquido
+    # 'csll_retido = fields.boolean(u'CSLL retida?'),
+    # 'al_csll = CampoPorcentagem('Alíquota da CSLL'),
+    # 'vr_csll = CampoDinheiro(u'CSLL retida'),
+    # 'bc_csll_propria = CampoDinheiro(u'Base da CSLL própria'),
+    # 'al_csll_propria = CampoPorcentagem('Alíquota da CSLL própria'),
+    # 'vr_csll_propria = CampoDinheiro(u'CSLL própria'),
 
-    ### IRRF
-    ##'irrf_retido = fields.boolean(u'IR retido?'),
-    ##'bc_irrf = CampoDinheiro(u'Base do IRRF'),
-    ##'al_irrf = CampoPorcentagem(u'Alíquota do IRRF'),
-    ##'vr_irrf = CampoDinheiro(u'Valor do IRRF'),
-    ##'bc_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
-    ##'al_irpj_proprio = CampoPorcentagem(u'Alíquota do IRPJ próprio'),
-    ##'vr_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
+    # IRRF
+    # 'irrf_retido = fields.boolean(u'IR retido?'),
+    # 'bc_irrf = CampoDinheiro(u'Base do IRRF'),
+    # 'al_irrf = CampoPorcentagem(u'Alíquota do IRRF'),
+    # 'vr_irrf = CampoDinheiro(u'Valor do IRRF'),
+    # 'bc_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
+    # 'al_irpj_proprio = CampoPorcentagem(u'Alíquota do IRPJ próprio'),
+    # 'vr_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
 
-    ### ISS
-    ##'iss_retido = fields.boolean(u'ISS retido?'),
-    ##'bc_iss_retido = CampoDinheiro(u'Base do ISS'),
-    ##'vr_iss_retido = CampoDinheiro(u'Valor do ISS'),
+    # ISS
+    # 'iss_retido = fields.boolean(u'ISS retido?'),
+    # 'bc_iss_retido = CampoDinheiro(u'Base do ISS'),
+    # 'vr_iss_retido = CampoDinheiro(u'Valor do ISS'),
 
     item_ids = fields.One2many(
         comodel_name='sped.documento.item',
