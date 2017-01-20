@@ -51,7 +51,7 @@ class AccountTax(models.Model):
                     quantity=1.0, product=None, partner=None):
         """Returns all information required to apply taxes 
         (in self + their children in case of a tax goup).
-        
+
         We consider the sequence of the parent for group of taxes.
             Eg. considering letters as taxes and alphabetic order as sequence:
             [G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
@@ -79,10 +79,10 @@ class AccountTax(models.Model):
 
         precision = self.env['decimal.precision'].precision_get('Account')
         if not currency:
-	    if len(self) == 0:
-	        company_id = self.env.user.company_id
+            if len(self) == 0:
+                company_id = self.env.user.company_id
             else:
-	        company_id = self[0].company_id
+                company_id = self[0].company_id
             currency = company_id.currency_id
         taxes = self
         result = super(AccountTax, self).compute_all(price_unit,
@@ -148,7 +148,8 @@ class WizardMultiChartsAccounts(models.TransientModel):
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
 
-        fp_template_ids = obj_fp_template.search([('chart_template_id', '=', chart_template_id)])
+        fp_template_ids = obj_fp_template.search(
+            [('chart_template_id', '=', chart_template_id)])
 
         for fp_template in fp_template_ids:
             if fp_template.cfop_id:

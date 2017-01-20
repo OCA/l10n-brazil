@@ -42,7 +42,7 @@ class AccountInvoiceReport(models.Model):
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city',
         string='Municipio',
-        )
+    )
     state_id = fields.Many2one(
         'res.country.state',
         string='Estado',
