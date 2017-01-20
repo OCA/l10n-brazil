@@ -5,7 +5,6 @@
 #
 
 
-
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 from ..constante_tributaria import *
@@ -29,9 +28,9 @@ class OperacaoFiscalItem(models.Model):
         readonly=True,
     )
     tipo_protocolo = fields.Selection([
-            ('P', u'Próprio'),
-            ('S', u'ST')
-        ],
+        ('P', u'Próprio'),
+        ('S', u'ST')
+    ],
         string=u'Tipo do protocolo',
         index=True,
     )

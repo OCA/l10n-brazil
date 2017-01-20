@@ -5,8 +5,6 @@
 #
 
 
-
-
 from odoo import api, fields, models
 from ..constante_tributaria import *
 
@@ -158,10 +156,10 @@ class CFOP(models.Model):
         if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
             args = list(args or [])
             args = [
-                       '|',
-                       ('codigo', operator, name),
-                       ('descricao', operator, name),
-                   ] + args
+                '|',
+                ('codigo', operator, name),
+                ('descricao', operator, name),
+            ] + args
 
             cfop_ids = self.search(args, limit=limit)
 
@@ -186,7 +184,7 @@ class CFOP(models.Model):
 
             cfop.eh_venda = (cfop.codigo in CFOPS_VENDA_MERCADORIA) or (
                 cfop.codigo in CFOPS_VENDA_ATIVO) or \
-                            (cfop.codigo in CFOPS_VENDA_SERVICO)
+                (cfop.codigo in CFOPS_VENDA_SERVICO)
             cfop.eh_venda_mercadoria = cfop.codigo in CFOPS_VENDA_MERCADORIA
             cfop.eh_venda_ativo = cfop.codigo in CFOPS_VENDA_ATIVO
             cfop.eh_venda_servico = cfop.codigo in CFOPS_VENDA_SERVICO
