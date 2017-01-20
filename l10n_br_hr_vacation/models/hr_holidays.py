@@ -19,8 +19,17 @@ class HrHolidays(models.Model):
         help=u'Number of vacation days the employee desires to sell',
         default=0,
     )
+    sold_vacations_days_temp= fields.Integer(
+        string=u'Sold Vacation Days',
+        help=u'Number of vacation days the employee desires to sell',
+        compute='_compute_days_temp',
+    )
     vacations_days = fields.Integer(
         string=u'Number of vacation days',
+    )
+    vacations_days_temp = fields.Integer(
+        string=u'Number of vacation days temp',
+        compute='_compute_days_temp',
     )
     advance_13_salary = fields.Boolean(
         string=u'Advance 13th salary',
@@ -36,6 +45,16 @@ class HrHolidays(models.Model):
         ondelete='restrict',
         index=True,
     )
+
+    @api.depends('vacations_days','sold_vacations_days')
+    def _compute_days_temp(self):
+        for holiday_id in self:
+            if holiday_id.type == 'remove':
+                holiday_id.sold_vacations_days_temp = \
+                    -holiday_id.sold_vacations_days
+                holiday_id.vacations_days_temp = -holiday_id.vacations_days
+            if holiday_id.type == 'add':
+                holiday_id.vacations_days_temp = holiday_id.number_of_days_temp
 
     @api.multi
     def onchange_date_to(self, date_to, date_from, sold_vacations_days):

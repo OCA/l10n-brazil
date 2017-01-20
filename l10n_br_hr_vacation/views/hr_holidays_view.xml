@@ -78,8 +78,8 @@
             <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
             <field name="arch" type="xml">
                 <field name="number_of_days" position="before">
-                    <field name="vacations_days" string="Dias de Gozo" class="oe_inline"/>
-                    <field name="sold_vacations_days" string="Sold Vacations Days" class="oe_inline"/>
+                    <field name="vacations_days_temp" string="Dias de Gozo" class="oe_inline"/>
+                    <field name="sold_vacations_days_temp" string="Sold Vacations Days" class="oe_inline"/>
                 </field>
                 <field name="number_of_days" position="replace">
                     <field name="number_of_days" string="Total Vacation Days" />
