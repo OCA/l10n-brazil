@@ -175,8 +175,8 @@ class OperacaoFiscal(models.Model):
     )
 
     preco_automatico = fields.Selection([
-        ('V', 'Venda'),
-        ('C', 'Custo')
-    ],
+            ('V', 'Venda'),
+            ('C', 'Custo')
+        ],
         string=u'Traz preço automático?',
     )

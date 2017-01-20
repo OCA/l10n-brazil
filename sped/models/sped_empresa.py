@@ -49,20 +49,77 @@ class Empresa(models.Model):
     #
     # Para o faturamento
     #
-    protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
-    simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (produtos)', ondelete='restrict')
-    simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
-    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquota do SIMPLES (produtos)', ondelete='restrict', compute='_compute_simples_aliquota_id')
-    simples_anexo_servico_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (serviços)', ondelete='restrict')
-    simples_aliquota_servico_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquota do SIMPLES (serviços)', ondelete='restrict', compute='_compute_simples_aliquota_id')
-
-    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
-    operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
-    operacao_produto_pessoa_fisica_id = fields.Many2one('sped.operacao', 'Operação padrão para venda pessoa física', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
-    operacao_produto_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_produto', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
-    operacao_servico_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
-    operacao_servico_ids = fields.Many2many('sped.operacao', 'res_partner_sped_operacao_servico', 'partner_id', 'operacao_id', 'Operações permitidas para venda', domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')])
-
+    protocolo_id = fields.Many2one(
+        comodel_name='sped.protocolo.icms',
+        string=u'Protocolo padrão',
+        ondelete='restrict',
+        domain=[('tipo', '=', 'P')]
+    )
+    simples_anexo_id = fields.Many2one(
+        comodel_name='sped.aliquota.simples.anexo',
+        string=u'Anexo do SIMPLES',
+        ondelete='restrict')
+    simples_teto_id = fields.Many2one(
+        comodel_name='sped.aliquota.simples.teto',
+        string=u'Teto do SIMPLES',
+        ondelete='restrict')
+    simples_aliquota_id = fields.Many2one(
+        comodel_name='sped.aliquota.simples.aliquota',
+        string=u'Alíquotas do SIMPLES',
+        ondelete='restrict',
+        compute='_compute_simples_aliquota_id')
+    simples_anexo_servico_id = fields.Many2one(
+        comodel_name='sped.aliquota.simples.anexo',
+        string=u'Anexo do SIMPLES (produtos)',
+        ondelete='restrict')
+    simples_aliquota_servico_id = fields.Many2one(
+        comodel_name='sped.aliquota.simples.aliquota',
+        string=u'Alíquotas do SIMPLES (serviços)',
+        ondelete='restrict',
+        compute='_compute_simples_aliquota_id')
+    al_pis_cofins_id = fields.Many2one(
+        comodel_name='sped.aliquota.pis.cofins',
+        string=u'Alíquota padrão do PIS-COFINS',
+        ondelete='restrict'
+    )
+    operacao_produto_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string=u'Operação padrão para venda',
+        ondelete='restrict',
+        domain=[
+            ('modelo', 'in', ('55', '65', '2D')),
+            ('emissao', '=', '0')
+        ])
+    operacao_produto_pessoa_fisica_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string=u'Operação padrão para venda pessoa física',
+        ondelete='restrict',
+        domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')]
+    )
+    operacao_produto_ids = fields.Many2many(
+        'sped.operacao',
+        'res_partner_sped_operacao_produto',
+        'partner_id',
+        'operacao_id',
+        string=u'Operações permitidas para venda',
+        domain=[
+            ('modelo', 'in', ('55', '65', '2D')),
+            ('emissao', '=', '0')
+        ])
+    operacao_servico_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string=u'Operação padrão para venda',
+        ondelete='restrict',
+        domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')]
+    )
+    operacao_servico_ids = fields.Many2many(
+        'sped.operacao',
+        'res_partner_sped_operacao_servico',
+        'partner_id',
+        'operacao_id',
+        string=u'Operações permitidas para venda',
+        domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')]
+    )
     #
     # Emissão de NF-e, NFC-e e NFS-e
     #
@@ -186,7 +243,7 @@ class Empresa(models.Model):
                 'sped.aliquota.simples.aliquota'].search([
                     ('anexo_id', '=', empresa.simples_anexo_id.id),
                     ('teto_id', '=', empresa.simples_teto_id.id),
-                ])
+                    ])
 
             if len(simples_aliquota_ids) != 0:
                 empresa.simples_aliquota_id = simples_aliquota_ids[0]
@@ -197,7 +254,7 @@ class Empresa(models.Model):
                 'sped.aliquota.simples.aliquota'].search([
                     ('anexo_id', '=', empresa.simples_anexo_servico_id.id),
                     ('teto_id', '=', empresa.simples_teto_id.id),
-                ])
+                    ])
 
             if len(simples_aliquota_ids) != 0:
                 empresa.simples_aliquota_servico_id = simples_aliquota_ids[0]
@@ -370,7 +427,7 @@ class Empresa(models.Model):
                         informar o município!""")
 
                 if (self.ie.strip().upper()[:6] == 'ISENTO' or
-                        self.ie.strip().upper()[:6] == 'ISENTA'):
+                            self.ie.strip().upper()[:6] == 'ISENTA'):
                     raise ValidationError(
                         u'Inscrição estadual inválida para contribuinte!')
 
@@ -449,18 +506,18 @@ class Empresa(models.Model):
         return self._valida_email()
 
     #@api.model
-    # def fields_view_get(self, view_id=None, view_type='form',
+    #def fields_view_get(self, view_id=None, view_type='form',
         #  toolbar=False, submenu=False):
-        # if (not view_id) and (view_type == 'form') and
+        #if (not view_id) and (view_type == 'form') and
         #  self._context.get('force_email'):
-        # view_id = self.env.ref(
+            #view_id = self.env.ref(
         # 'sped.cadastro_participante_cliente_form').id
-        # res = super(Empresa, self).fields_view_get(
+        #res = super(Empresa, self).fields_view_get(
         # view_id=view_id, view_type=view_type,
         # toolbar=toolbar, submenu=submenu)
-        # if view_type == 'form':
-        # res['arch=self.fields_view_get_address(res['arch'])
-        # return res
+        ##if view_type == 'form':
+        ##    res['arch=self.fields_view_get_address(res['arch'])
+        #return res
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
@@ -548,7 +605,7 @@ class Empresa(models.Model):
             dados.update(rml_paper_format='a4')
             dados.update(paperformat_id=self.env.ref(
                 'report.paperformat_euro').id
-            )
+                         )
             dados.update(currency_id=self.env.ref('base.BRL').id)
 
         return dados
