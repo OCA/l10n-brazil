@@ -37,7 +37,8 @@ class DocumentoItem(models.Model):
         'sped.empresa', 'Empresa', related='documento_id.empresa_id', readonly=True)
     participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente',
                                       related='documento_id.participante_id', readonly=True)
-    operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
+    operacao_id = fields.Many2one(
+        'sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
     contribuinte = fields.Selection(IE_DESTINATARIO, string=u'Contribuinte', related='participante_id.contribuinte',
                                     readonly=True)
     emissao = fields.Selection(

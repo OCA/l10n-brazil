@@ -94,9 +94,11 @@ class Certificado(models.Model):
 
             if certificado.data_inicio_validade and certificado.data_fim_validade:
                 certificado.descricao += u', válido de '
-                certificado.descricao += formata_data(certificado.data_inicio_validade)
+                certificado.descricao += formata_data(
+                    certificado.data_inicio_validade)
                 certificado.descricao += u' até '
-                certificado.descricao += formata_data(certificado.data_fim_validade)
+                certificado.descricao += formata_data(
+                    certificado.data_fim_validade)
 
     @api.depends('data_fim_validade')
     def _compute_fora_validade(self):

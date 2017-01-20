@@ -350,7 +350,7 @@ class Unidade(models.Model):
         self.ensure_one()
 
         if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
-                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
             category_id = self.env.ref('product.product_uom_categ_unit').id
 
         elif self.tipo == self.TIPO_UNIDADE_PESO:
@@ -393,7 +393,7 @@ class Unidade(models.Model):
         dados['name'] = dados['codigo']
 
         if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados[
-            'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+                'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
             dados['category_id'] = self.env.ref(
                 'product.product_uom_categ_unit').id
 

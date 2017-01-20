@@ -28,9 +28,9 @@ class OperacaoFiscalItem(models.Model):
         readonly=True,
     )
     tipo_protocolo = fields.Selection([
-            ('P', u'Próprio'),
-            ('S', u'ST')
-        ],
+        ('P', u'Próprio'),
+        ('S', u'ST')
+    ],
         string=u'Tipo do protocolo',
         index=True,
     )

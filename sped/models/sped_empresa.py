@@ -243,7 +243,7 @@ class Empresa(models.Model):
                 'sped.aliquota.simples.aliquota'].search([
                     ('anexo_id', '=', empresa.simples_anexo_id.id),
                     ('teto_id', '=', empresa.simples_teto_id.id),
-                    ])
+                ])
 
             if len(simples_aliquota_ids) != 0:
                 empresa.simples_aliquota_id = simples_aliquota_ids[0]
@@ -254,7 +254,7 @@ class Empresa(models.Model):
                 'sped.aliquota.simples.aliquota'].search([
                     ('anexo_id', '=', empresa.simples_anexo_servico_id.id),
                     ('teto_id', '=', empresa.simples_teto_id.id),
-                    ])
+                ])
 
             if len(simples_aliquota_ids) != 0:
                 empresa.simples_aliquota_servico_id = simples_aliquota_ids[0]
@@ -427,7 +427,7 @@ class Empresa(models.Model):
                         informar o município!""")
 
                 if (self.ie.strip().upper()[:6] == 'ISENTO' or
-                            self.ie.strip().upper()[:6] == 'ISENTA'):
+                        self.ie.strip().upper()[:6] == 'ISENTA'):
                     raise ValidationError(
                         u'Inscrição estadual inválida para contribuinte!')
 
@@ -506,18 +506,18 @@ class Empresa(models.Model):
         return self._valida_email()
 
     #@api.model
-    #def fields_view_get(self, view_id=None, view_type='form',
+    # def fields_view_get(self, view_id=None, view_type='form',
         #  toolbar=False, submenu=False):
-        #if (not view_id) and (view_type == 'form') and
+        # if (not view_id) and (view_type == 'form') and
         #  self._context.get('force_email'):
-            #view_id = self.env.ref(
+        # view_id = self.env.ref(
         # 'sped.cadastro_participante_cliente_form').id
-        #res = super(Empresa, self).fields_view_get(
+        # res = super(Empresa, self).fields_view_get(
         # view_id=view_id, view_type=view_type,
         # toolbar=toolbar, submenu=submenu)
-        ##if view_type == 'form':
-        ##    res['arch=self.fields_view_get_address(res['arch'])
-        #return res
+        # if view_type == 'form':
+        # res['arch=self.fields_view_get_address(res['arch'])
+        # return res
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
@@ -605,7 +605,7 @@ class Empresa(models.Model):
             dados.update(rml_paper_format='a4')
             dados.update(paperformat_id=self.env.ref(
                 'report.paperformat_euro').id
-                         )
+            )
             dados.update(currency_id=self.env.ref('base.BRL').id)
 
         return dados
