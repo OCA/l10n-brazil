@@ -5,7 +5,6 @@
 #
 
 
-
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -57,7 +56,6 @@ class CEST(models.Model):
             ncm_ids = []
             for codigo_ncm in lista_ncms:
                 codigo_ncm = codigo_ncm.strip()
-
 
                 if len(codigo_ncm) > 8:
                     codigo_ncm = codigo_ncm[:8]

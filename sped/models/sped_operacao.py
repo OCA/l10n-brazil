@@ -5,8 +5,6 @@
 #
 
 
-
-
 from odoo import fields, models
 import odoo.addons.decimal_precision as dp
 from ..constante_tributaria import *
@@ -177,8 +175,8 @@ class OperacaoFiscal(models.Model):
     )
 
     preco_automatico = fields.Selection([
-            ('V', 'Venda'),
-            ('C', 'Custo')
-        ],
+        ('V', 'Venda'),
+        ('C', 'Custo')
+    ],
         string=u'Traz preço automático?',
     )
