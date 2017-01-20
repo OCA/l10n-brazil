@@ -5,8 +5,6 @@
 #
 
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -77,12 +75,16 @@ class AliquotaPISCOFINS(models.Model):
                 al_pis_cofins.descricao = u'Não tributado'
             else:
                 if al_pis_cofins.md_pis_cofins == MODALIDADE_BASE_PIS_ALIQUOTA:
-                    al_pis_cofins.descricao = u'PIS ' + formata_valor(al_pis_cofins.al_pis or 0) + '%'
-                    al_pis_cofins.descricao += u'; COFINS ' + formata_valor(al_pis_cofins.al_cofins or 0) + '%'
+                    al_pis_cofins.descricao = u'PIS ' + \
+                        formata_valor(al_pis_cofins.al_pis or 0) + '%'
+                    al_pis_cofins.descricao += u'; COFINS ' + \
+                        formata_valor(al_pis_cofins.al_cofins or 0) + '%'
 
                 elif al_pis_cofins.md_pis_cofins == MODALIDADE_BASE_PIS_QUANTIDADE:
-                    al_pis_cofins.descricao = u'por quantidade, PIS a R$ ' + formata_valor(al_pis_cofins.al_pis)
-                    al_pis_cofins.descricao += u'; COFINS a R$ ' + formata_valor(al_pis_cofins.al_cofins)
+                    al_pis_cofins.descricao = u'por quantidade, PIS a R$ ' + \
+                        formata_valor(al_pis_cofins.al_pis)
+                    al_pis_cofins.descricao += u'; COFINS a R$ ' + \
+                        formata_valor(al_pis_cofins.al_cofins)
 
                 al_pis_cofins.descricao += u' - CST ' + al_pis_cofins.cst_pis_cofins_entrada
                 al_pis_cofins.descricao += u' entrada, ' + al_pis_cofins.cst_pis_cofins_saida
@@ -101,13 +103,15 @@ class AliquotaPISCOFINS(models.Model):
                 ('al_pis', '=', al_pis_cofins.al_pis),
                 ('al_cofins', '=', al_pis_cofins.al_cofins),
                 ('md_pis_cofins', '=', al_pis_cofins.md_pis_cofins),
-                ('cst_pis_cofins_entrada', '=', al_pis_cofins.cst_pis_cofins_entrada),
+                ('cst_pis_cofins_entrada', '=',
+                 al_pis_cofins.cst_pis_cofins_entrada),
                 ('cst_pis_cofins_saida', '=', al_pis_cofins.cst_pis_cofins_saida),
                 ('codigo_justificativa', '=', al_pis_cofins.codigo_justificativa),
             ]
 
             if al_pis_cofins.id or al_pis_cofins._origin.id:
-                busca.append(('id', '!=', al_pis_cofins.id or al_pis_cofins._origin.id))
+                busca.append(
+                    ('id', '!=', al_pis_cofins.id or al_pis_cofins._origin.id))
 
             al_pis_cofins_ids = self.search(busca)
 
