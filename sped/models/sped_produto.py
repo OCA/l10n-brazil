@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -23,52 +23,127 @@ from ..constante_tributaria import *
 
 
 class Produto(models.Model):
-    _description = 'Produtos e serviços'
+    _description = u'Produtos e serviços'
     _inherits = {'product.product': 'product_id'}
     _inherit = ['mail.thread']
     _name = 'sped.produto'
     _order = 'codigo, nome'
     _rec_name = 'nome'
 
-    product_id = fields.Many2one('product.product', 'Product original', ondelete='restrict', required=True)
-
-    #company_id = fields.Many2one('res.company', string='Empresa', ondelete='restrict')
-    nome = fields.NameChar(string='Nome', size=120, index=True)
-    codigo = fields.Char(string='Código', size=60, index=True)
-    codigo_barras = fields.Char(string='Código de barras', size=14, index=True)
-    marca = fields.NameChar(string='Marca', size=60)
-
-    preco_venda = fields.Float('Preço de venda', digits=dp.get_precision('SPED - Valor Unitário'))
-    preco_custo = fields.Float('Preço de custo', digits=dp.get_precision('SPED - Valor Unitário'))
-    peso_bruto = fields.Float('Peso bruto', digits=(18, 4))
-    peso_liquido = fields.Float('Peso líquido', digits=(18, 4))
-
-    tipo = fields.Selection(TIPO_PRODUTO_SERVICO, string='Tipo', index=True)
-
-    org_icms = fields.Selection(ORIGEM_MERCADORIA, string='Origem da mercadoria', default='0')
-
-    ncm_id = fields.Many2one('sped.ncm', 'NCM')
-    cest_ids = fields.Many2many('sped.cest', related='ncm_id.cest_ids', string='Códigos CEST')
-
-    exige_cest = fields.Boolean('Exige código CEST?')
-    cest_id = fields.Many2one('sped.cest', 'CEST')
-    protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo/Convênio')
-    al_ipi_id = fields.Many2one('sped.aliquota.ipi', 'Alíquota de IPI')
-    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota de PIS e COFINS')
-
-    servico_id = fields.Many2one('sped.servico', 'Código do serviço')
-    nbs_id = fields.Many2one('sped.nbs', 'NBS')
-
-    unidade_id = fields.Many2one('sped.unidade', 'Unidade')
-    unidade_tributacao_ncm_id = fields.Many2one('sped.unidade', related='ncm_id.unidade_id', string='Unidade de tributação do NCM', readonly=True)
-    fator_conversao_unidade_tributacao_ncm = fields.Float('Fator de conversão entre as unidades', default=1)
-    exige_fator_conversao_unidade_tributacao_ncm = fields.Boolean('Exige fator de conversão entre as unidades?', compute='_compute_exige_fator_conversao_ncm')
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        string=u'Product original',
+        ondelete='restrict',
+        required=True,
+    )
+    #company_id = fields.Many2one('res.company', string=u'Empresa', ondelete='restrict')
+    nome = fields.Char(
+        string=u'Nome',
+        size=120,
+        index=True,
+    )
+    codigo = fields.Char(
+        string=u'Código',
+        size=60,
+        index=True,
+    )
+    codigo_barras = fields.Char(
+        string=u'Código de barras',
+        size=14,
+        index=True,
+    )
+    marca = fields.Char(
+        string=u'Marca',
+        size=60
+    )
+    preco_venda = fields.Float(
+        string=u'Preço de venda',
+        digits=dp.get_precision('SPED - Valor Unitário')
+    )
+    preco_custo = fields.Float(
+        string=u'Preço de custo',
+        digits=dp.get_precision('SPED - Valor Unitário')
+    )
+    peso_bruto = fields.Float(
+        string=u'Peso bruto',
+        digits=(18, 4)
+    )
+    peso_liquido = fields.Float(
+        string=u'Peso líquido',
+        digits=(18, 4)
+    )
+    tipo = fields.Selection(
+        selection=TIPO_PRODUTO_SERVICO,
+        string=u'Tipo',
+        index=True
+    )
+    org_icms = fields.Selection(
+        selection=ORIGEM_MERCADORIA,
+        string=u'Origem da mercadoria',
+        default='0'
+    )
+    ncm_id = fields.Many2one(
+        comodel_name='sped.ncm',
+        string=u'NCM')
+    cest_ids = fields.Many2many(
+        comodel_name='sped.cest',
+        related='ncm_id.cest_ids',
+        string=u'Códigos CEST',
+    )
+    exige_cest = fields.Boolean(
+        string=u'Exige código CEST?',
+    )
+    cest_id = fields.Many2one(
+        comodel_name='sped.cest',
+        string=u'CEST'
+    )
+    protocolo_id = fields.Many2one(
+        comodel_namel='sped.protocolo.icms',
+        string=u'Protocolo/Convênio',
+    )
+    al_ipi_id = fields.Many2one(
+        comodel_name='sped.aliquota.ipi',
+        string=u'Alíquota de IPI',
+    )
+    al_pis_cofins_id = fields.Many2one(
+        comodel_name='sped.aliquota.pis.cofins',
+        string=u'Alíquota de PIS e COFINS',
+    )
+    servico_id = fields.Many2one(
+        comodel_name='sped.servico',
+        string=u'Código do serviço',
+    )
+    nbs_id = fields.Many2one(
+        comodel_name='sped.nbs',
+        string=u'NBS',
+    )
+    unidade_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        string=u'Unidade',
+    )
+    unidade_tributacao_ncm_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        related='ncm_id.unidade_id',
+        string=u'Unidade de tributação do NCM',
+        readonly=True,
+    )
+    fator_conversao_unidade_tributacao_ncm = fields.Float(
+        string=u'Fator de conversão entre as unidades',
+        default=1,
+    )
+    exige_fator_conversao_unidade_tributacao_ncm = fields.Boolean(
+        string=u'Exige fator de conversão entre as unidades?',
+        compute='_compute_exige_fator_conversao_ncm',
+    )
 
     @api.depends('ncm_id', 'unidade_id')
     def _compute_exige_fator_conversao_ncm(self):
         for produto in self:
             if produto.unidade_id and produto.unidade_tributacao_ncm_id:
-                produto.exige_fator_conversao_unidade_tributacao_ncm = produto.unidade_id.id != produto.unidade_tributacao_ncm_id.id
+                produto.exige_fator_conversao_unidade_tributacao_ncm = (
+                    produto.unidade_id.id !=
+                    produto.unidade_tributacao_ncm_id.id
+                )
             else:
                 produto.exige_fator_conversao_unidade_tributacao_ncm = False
                 produto.fator_conversao_unidade_tributacao_ncm = 1
@@ -81,7 +156,7 @@ class Produto(models.Model):
 
         if self.codigo_barras:
             if (not valida_ean(self.codigo_barras)):
-                raise ValidationError('Código de barras inválido!')
+                raise ValidationError(u'Código de barras inválido!')
 
             valores['codigo_barras'] = self.codigo_barras
 
@@ -99,13 +174,22 @@ class Produto(models.Model):
     @api.onchange('ncm_id')
     def onchange_ncm(self):
         if len(self.ncm_id.cest_ids) == 1:
-            return {'value': {'cest_id': self.ncm_id.cest_ids[0].id, 'exige_cest': True}}
+            return {'value': {
+                'cest_id': self.ncm_id.cest_ids[0].id,
+                'exige_cest': True
+            }}
 
         elif len(self.ncm_id.cest_ids) > 1:
-            return {'value': {'cest_id': False, 'exige_cest': True}}
+            return {'value': {
+                'cest_id': False,
+                'exige_cest': True
+            }}
 
         else:
-            return {'value': {'cest_id': False, 'exige_cest': False}}
+            return {'value': {
+                'cest_id': False,
+                'exige_cest': False
+            }}
 
     def prepare_sync_to_product(self):
         self.ensure_one()
@@ -156,5 +240,4 @@ class Produto(models.Model):
     def write(self, dados):
         res = super(Produto, self).write(dados)
         self.sync_to_product()
-
         return res
