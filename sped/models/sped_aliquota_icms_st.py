@@ -5,8 +5,6 @@
 #
 
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -88,15 +86,20 @@ class AliquotaICMSST(models.Model):
 
                 if al_icms.pr_icms:
                     if al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
-                        al_icms.descricao += u' de ' + formata_valor(al_icms.pr_icms, casas_decimais=4) + '%'
+                        al_icms.descricao += u' de ' + \
+                            formata_valor(al_icms.pr_icms,
+                                          casas_decimais=4) + '%'
                     else:
-                        al_icms.descricao += u' de R$ ' + formata_valor(al_icms.pr_icms, casas_decimais=4)
+                        al_icms.descricao += u' de R$ ' + \
+                            formata_valor(al_icms.pr_icms, casas_decimais=4)
 
                 if al_icms.rd_icms != 0:
-                    al_icms.descricao += u', com redução de ' + formata_valor(al_icms.rd_icms) + '%'
+                    al_icms.descricao += u', com redução de ' + \
+                        formata_valor(al_icms.rd_icms) + '%'
 
                 if al_icms.rd_mva != 0:
-                    al_icms.descricao += u', com MVA reduzido em ' + formata_valor(al_icms.rd_mva) + '% para o SIMPLES'
+                    al_icms.descricao += u', com MVA reduzido em ' + \
+                        formata_valor(al_icms.rd_mva) + '% para o SIMPLES'
 
     @api.depends('al_icms', 'md_icms', 'pr_icms', 'rd_icms', 'rd_mva')
     def _check_al_icms(self):

@@ -5,8 +5,6 @@
 #
 
 
-
-
 from odoo import api, fields, models
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
@@ -34,12 +32,12 @@ class ProtocoloICMS(models.Model):
         index=True,
         required=True,
     )
-    #ncm_ids = fields.Many2many(
+    # ncm_ids = fields.Many2many(
     # 'sped.ncm',
     #  'sped_protocolo_icms_ncm',
     # 'protocolo_id',
     #  'ncm_id', 'NCMs')
-    #produto_ids = fields.Many2many(
+    # produto_ids = fields.Many2many(
     # 'cadastro.produto',
     #  'sped_protocolo_icms_produto',
     #  'protocolo_id',
@@ -110,9 +108,9 @@ class ProtocoloICMS(models.Model):
         string=u'Alíquotas do Espírito Santo',
         domain=[('estado_origem_id.uf', '=', 'ES')],
     )
-    #aliquota_EX_ids = fields.One2many(
-    #comodel_name='sped.protocolo.icms.aliquota',
-    #inverse_name='protocolo_id',
+    # aliquota_EX_ids = fields.One2many(
+    # comodel_name='sped.protocolo.icms.aliquota',
+    # inverse_name='protocolo_id',
     #string=u'Alíquotas do Exterior',
     ## domain=[('estado_origem_id.uf', '=', 'EX')]
     aliquota_GO_ids = fields.One2many(
@@ -327,7 +325,8 @@ class ProtocoloICMS(models.Model):
                 }
 
                 if self.tipo == 'S':
-                    aliquota_st = ALIQUOTAS_ICMS[estado_destino][estado_destino]
+                    aliquota_st = ALIQUOTAS_ICMS[
+                        estado_destino][estado_destino]
                     aliquota_st = str(aliquota_st).replace(
                         '.', '_').replace('_00', '').replace('_0', '')
 
