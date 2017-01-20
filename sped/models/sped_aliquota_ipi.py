@@ -5,8 +5,6 @@
 #
 
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -35,7 +33,8 @@ class AliquotaIPI(models.Model):
                                        default=ST_IPI_ENTRADA_RECUPERACAO_CREDITO)
     cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, u'Situação tributária do nas saídas', required=True,
                                      default=ST_IPI_SAIDA_TRIBUTADA)
-    descricao = fields.Char(string=u'Alíquota do IPI', compute='_compute_descricao', store=True)
+    descricao = fields.Char(string=u'Alíquota do IPI',
+                            compute='_compute_descricao', store=True)
 
     @api.depends('al_ipi', 'md_ipi', 'cst_ipi_entrada', 'cst_ipi_saida')
     def _compute_descricao(self):
@@ -48,7 +47,8 @@ class AliquotaIPI(models.Model):
                     al_ipi.descricao = formata_valor(al_ipi.al_ipi or 0) + '%'
 
                 elif al_ipi.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
-                    al_ipi.descricao = u'por quantidade, a R$ ' + formata_valor(al_ipi.al_ipi or 0)
+                    al_ipi.descricao = u'por quantidade, a R$ ' + \
+                        formata_valor(al_ipi.al_ipi or 0)
 
                 al_ipi.descricao += u' - CST ' + al_ipi.cst_ipi_entrada
                 al_ipi.descricao += u' entrada, ' + al_ipi.cst_ipi_saida
