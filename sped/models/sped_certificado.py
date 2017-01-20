@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -27,47 +27,84 @@ from ..constante_tributaria import *
 
 
 class Certificado(models.Model):
-    _description = 'Certificado Digital'
+    _description = u'Certificado Digital'
     _name = 'sped.certificado'
     _rec_name = 'descricao'
     _order = 'data_fim_validade desc'
 
-    tipo = fields.Selection(TIPO_CERTIFICADO, default=TIPO_CERTIFICADO_A1)
-    numero_serie = fields.Char('Nº de série', size=32)
-    senha = fields.Char('Senha', max_length=120)
-    proprietario = fields.Char('Proprietário', max_length=120)
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
-    data_inicio_validade = fields.Datetime('Válido de')
-    data_fim_validade = fields.Datetime('Válido até')
-    arquivo = fields.Binary('Arquivo', attachment=True)
-    nome_arquivo = fields.Char('Arquivo', size=255)
-    descricao = fields.Char(string='Certificado digital', compute='_compute_descricao', store=False)
-    fora_validade = fields.Char(string='Fora da validade?', size=1, compute='_compute_fora_validade', store=False)
+    tipo = fields.Selection(
+        selection=TIPO_CERTIFICADO,
+        default=TIPO_CERTIFICADO_A1,
+        string=u'Tipo',
+    )
+    numero_serie = fields.Char(
+        string=u'Nº de série',
+        size=32
+    )
+    senha = fields.Char(
+        string=u'Senha',
+        max_length=120
+    )
+    proprietario = fields.Char(
+        string=u'Proprietário',
+        max_length=120
+    )
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        size=18
+    )
+    data_inicio_validade = fields.Datetime(
+        string=u'Válido de'
+    )
+    data_fim_validade = fields.Datetime(
+        string=u'Válido até'
+    )
+    arquivo = fields.Binary(
+        string=u'Arquivo',
+        attachment=True
+    )
+    nome_arquivo = fields.Char(
+        string=u'Arquivo',
+        size=255
+    )
+    descricao = fields.Char(
+        string=u'Certificado digital',
+        compute='_compute_descricao',
+        store=False,
+    )
+    fora_validade = fields.Char(
+        string=u'Fora da validade?',
+        size=1,
+        compute='_compute_fora_validade',
+        store=False,
+    )
 
-    @api.depends('tipo', 'numero_serie', 'proprietario', 'cnpj_cpf', 'data_inicio_validade', 'data_fim_validade')
+    @api.depends('tipo', 'numero_serie', 'proprietario', 'cnpj_cpf',
+                 'data_inicio_validade', 'data_fim_validade')
     def _compute_descricao(self):
         for certificado in self:
             if certificado.tipo == TIPO_CERTIFICADO_A1:
-                certificado.descricao = 'A1'
+                certificado.descricao = u'A1'
             else:
-                certificado.descricao = 'A3'
+                certificado.descricao = u'A3'
 
             if certificado.proprietario:
-                certificado.descricao += ' - ' + certificado.proprietario
+                certificado.descricao += u' - ' + certificado.proprietario
 
             if certificado.cnpj_cpf:
-                certificado.descricao += ' - ' + certificado.cnpj_cpf
+                certificado.descricao += u' - ' + certificado.cnpj_cpf
 
             if certificado.data_inicio_validade and certificado.data_fim_validade:
-                certificado.descricao += ', válido de '
+                certificado.descricao += u', válido de '
                 certificado.descricao += formata_data(certificado.data_inicio_validade)
-                certificado.descricao += ' até '
+                certificado.descricao += u' até '
                 certificado.descricao += formata_data(certificado.data_fim_validade)
 
     @api.depends('data_fim_validade')
     def _compute_fora_validade(self):
         for certificado in self:
-            certificado.fora_validade = certificado.data_fim_validade <= str(datetime.now())
+            certificado.fora_validade = certificado.data_fim_validade <= str(
+                datetime.now())
 
     @api.constrains('tipo', 'senha', 'arquivo')
     def _check_certificado(self):
@@ -75,7 +112,9 @@ class Certificado(models.Model):
             if certificado.tipo != TIPO_CERTIFICADO_A1:
                 continue
 
-            open('/tmp/cert.pfx', 'w').write(certificado.arquivo.decode('base64'))
+            open('/tmp/cert.pfx', 'w').write(certificado.arquivo.decode(
+                'base64')
+            )
             cert = pysped.xml_sped.certificado.Certificado()
             cert.arquivo = '/tmp/cert.pfx'
             cert.senha = certificado.senha
