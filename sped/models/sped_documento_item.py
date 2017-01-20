@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ from ..constante_tributaria import *
 
 
 class DocumentoItem(models.Model):
-    _description = 'Item do Documento Fiscal'
+    _description = u'Item do Documento Fiscal'
     _inherit = 'sped.base'
     _name = 'sped.documento.item'
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
@@ -37,7 +37,7 @@ class DocumentoItem(models.Model):
     participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente',
                                       related='documento_id.participante_id', readonly=True)
     operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
-    contribuinte = fields.Selection(IE_DESTINATARIO, string='Contribuinte', related='participante_id.contribuinte',
+    contribuinte = fields.Selection(IE_DESTINATARIO, string=u'Contribuinte', related='participante_id.contribuinte',
                                     readonly=True)
     emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao', readonly=True)
     data_emissao = fields.Date('Data de emissão', related='documento_id.data_emissao', readonly=True)
