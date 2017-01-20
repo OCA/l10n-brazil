@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_item_tree">
+        <field name="name">sped.operacao.item.tree</field>
+        <field name="model">sped.operacao.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
+                <field name="tipo_protocolo" invisible="1" />
+                <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" />
+                <field name="cst_icms" required="1" />
+                <field name="org_icms" />
+                <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" />
+                <field name="cst_ipi" invisible="0" />
+<!--                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />-->
+<!--                <field name="bc_icms_proprio_com_ipi" />
+                <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', 'P')]" />
+                <field name="contribuinte" />
+                <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_item_form">
+        <field name="name">sped.operacao.item.form</field>
+        <field name="model">sped.operacao.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Item da operação fiscal">
+                <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
+                <field name="tipo_protocolo" invisible="1" />
+                <group colspan="4" col="4">
+                    <separator string="Configuração do item" colspan="4" />
+                    <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" colspan="4" />
+                    <newline />
+                    <field name="cst_icms" required="1" />
+                    <field name="org_icms" />
+                    <newline />
+                    <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                    <newline />
+                    <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                    <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                    <field name="cst_ipi" invisible="1" />
+                    <newline />
+    <!--                <field name="bc_icms_proprio_com_ipi" />
+                    <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                    <newline />
+                    <separator string="Filtro do item" colspan="4" />
+                    <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', tipo_protocolo)]" colspan="4" />
+                    <newline />
+                    <field name="contribuinte" />
+                    <newline />
+                    <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_item_simples_tree">
+        <field name="name">sped.operacao.item.simples.tree</field>
+        <field name="model">sped.operacao.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
+                <field name="tipo_protocolo" invisible="1" />
+                <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" />
+                <field name="cst_icms_sn" required="1" />
+                <field name="org_icms" />
+                <field name="cst_icms" invisible="1" />
+                <field name="al_pis_cofins_id" attrs="{'invisible': [('cst_icms_sn', '!=', '900')], 'required': [('cst_icms_sn', '=', '900')]}" options="{'no_create': True, 'no_open': True}" />
+                <field name="cst_ipi" invisible="0" />
+<!--                <field name="cst_ipi_entrada" attrs="{'invisible': [('entrada_saida', '!=', '0'), ('cst_icms_sn', '!=', '900')]}" />
+                <field name="cst_ipi_saida" attrs="{'invisible': [('entrada_saida', '!=', '1'), ('cst_icms_sn', '!=', '900')]}" />-->
+<!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', tipo_protocolo)]" />
+                <field name="contribuinte" />
+                <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_item_simples_form">
+        <field name="name">sped.operacao.item.simples.form</field>
+        <field name="model">sped.operacao.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Item da operação fiscal">
+                <field name="operacao_id" invisible="1" />
+                <field name="entrada_saida" invisible="1" />
+                <field name="tipo_protocolo" invisible="1" />
+                <group colspan="4" col="4">
+                    <separator string="Configuração do item" colspan="4" />
+                    <field name="cfop_id" options="{'no_create': True, 'no_open': True}" required="1" domain="[('entrada_saida', '=', parent.entrada_saida)]" colspan="4" />
+                    <newline />
+                    <field name="cst_icms_sn" required="1" />
+                    <field name="org_icms" />
+                    <field name="cst_icms" invisible="1" />
+                    <newline />
+                    <field name="al_pis_cofins_id" attrs="{'invisible': [('cst_icms_sn', '!=', '900')], 'required': [('cst_icms_sn', '=', '900')]}" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                    <newline />
+                    <field name="cst_ipi" invisible="1" />
+                    <field name="cst_ipi_entrada" attrs="{'invisible': ['|', ('entrada_saida', '!=', '0'), ('cst_icms_sn', '!=', '900')]}" />
+                    <field name="cst_ipi_saida" attrs="{'invisible': ['|', ('entrada_saida', '!=', '1'), ('cst_icms_sn', '!=', '900')]}" />
+                    <newline />
+    <!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                    <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                    <separator string="Filtro do item" colspan="4" />
+                    <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', tipo_protocolo)]" colspan="4" />
+                    <newline />
+                    <field name="contribuinte" />
+                    <newline />
+                    <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>

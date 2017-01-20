@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_nbs_form" >
+        <field name="name">sped.nbs.form</field>
+        <field name="model">sped.nbs</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Serviço" delete="false" create="false" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nbs" />
+                        </h1>
+                    </div>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:20%;"><label for="codigo" /></td>
+                            <td style="width:20%;"><field name="codigo" required="1" readonly="1" /></td>
+                            <td style="width:60%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:20%;"><label for="descricao" /></td>
+                            <td style="width:80%;" colspan="2"><field name="descricao" required="1" readonly="1" /></td>
+                        </tr>
+                    </table>
+                    <notebook>
+<!--                        <page string="ISS">
+                            <separator string="Alíquotas de ISS" />
+                            <field name="al_iss_ids" nolabel="1" colspan="4">
+                                <tree string="Alíquotas de ISS" editable="bottom">
+                                    <field name="municipio_id" required="True" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_iss" required="True" />
+                                    <field name="codigo" />
+                                </tree>
+                            </field>
+                        </page>-->
+                        <page string="IBPT">
+                            <separator string="Alíquotas IBPT" />
+                            <field name="ibptax_ids" nolabel="1" readonly="1">
+                                <tree string="Alíquotas IBPT">
+                                    <field name="ibptax_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="estado_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_ibpt_nacional" />
+                                    <field name="al_ibpt_internacional" />
+                                    <field name="al_ibpt_municipal" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_nbs_tree">
+        <field name="name">sped.nbs.tree</field>
+        <field name="model">sped.nbs</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Serviço" delete="false" create="false" edit="true">
+<!--                 <field name="nbs" /> -->
+                <field name="codigo_formatado" />
+                <field name="descricao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_nbs_search">
+        <field name="name">sped.nbs.search</field>
+        <field name="model">sped.nbs</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Serviço">
+                <field name="codigo" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_nbs_acao">
+        <field name="name">Serviço</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.nbs</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_nbs_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_nbs_form"/>
+        <field name="act_window_id" ref="sped_nbs_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_nbs_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_nbs_tree"/>
+        <field name="act_window_id" ref="sped_nbs_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_tabela"
+        sequence="7"
+        id="menu_sped_nbs"
+        name="NBS"
+        action="sped_nbs_acao" />
+
+</odoo>

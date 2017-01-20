@@ -2,8 +2,8 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields
+from odoo.addons import decimal_precision as dp
 
 COMPANY_FISCAL_TYPE = [
     ('1', 'Simples Nacional'),
@@ -26,7 +26,7 @@ class ResCompany(models.Model):
         "('fiscal_type','=','service')]")
     annual_revenue = fields.Float(
         'Faturamento Anual', required=True,
-        digits_compute=dp.get_precision('Account'), default=0.00,
+        digits=dp.get_precision('Account'), default=0.00,
         help="Faturamento Bruto dos últimos 12 meses")
     fiscal_type = fields.Selection(
         COMPANY_FISCAL_TYPE, 'Regime Tributário', required=True,

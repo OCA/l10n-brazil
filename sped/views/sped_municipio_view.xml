@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_municipio_form" >
+        <field name="name">sped.municipio.form</field>
+        <field name="model">sped.municipio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Município" delete="false" create="false" edit="false">
+                <sheet>
+                    <group colspan="4" col="4">
+                        <field name="nome" required="1" colspan="4" />
+                        <newline />
+                        <field name="estado_id" required="1" />
+                        <newline />
+                        <field name="pais_id" required="1" />
+                        <newline />
+                        <field name="codigo_ibge" required="1" widget="masked" context="{'mask': '999.999-99/9999'}" />
+                        <newline />
+                        <field name="codigo_siafi" required="1" />
+                        <newline />
+                        <field name="codigo_anp" required="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_municipio_tree">
+        <field name="name">sped.municipio.tree</field>
+        <field name="model">sped.municipio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Município" delete="false" create="false" edit="false">
+                <field name="nome" />
+                <field name="estado_id" />
+                <field name="pais_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_municipio_search">
+        <field name="name">sped.municipio.search</field>
+        <field name="model">sped.municipio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Município">
+                <field name="nome" />
+                <field name="estado_id" />
+                <field name="pais_id" />
+<!--                    <field name="codigo_ibge" /> -->
+
+                <group expand="1" string="Agrupado por">
+                    <filter name="grupo_pais_id" context="{'group_by' : 'pais_id'}" string="País"/>
+                    <filter name="grupo_estado_id" context="{'group_by' : 'estado_id'}" string="Estado"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_municipio_acao">
+        <field name="name">Município</field>
+<!--         <field name="domain">[('pais_id', '!=', False), ('pais_id.iso_3166_alfa_2', '==', 'BR')]</field> -->
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.municipio</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_municipio_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_municipio_form"/>
+        <field name="act_window_id" ref="sped_municipio_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_municipio_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_municipio_tree"/>
+        <field name="act_window_id" ref="sped_municipio_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_tabela"
+        sequence="6"
+        id="menu_sped_municipio"
+        name="Município"
+        action="sped_municipio_acao" />
+
+</odoo>
