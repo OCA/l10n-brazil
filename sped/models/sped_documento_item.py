@@ -5,8 +5,6 @@
 #
 
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -29,36 +27,52 @@ class DocumentoItem(models.Model):
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
 
-    documento_id = fields.Many2one('sped.documento', 'Documento', ondelete='cascade', required=True)
+    documento_id = fields.Many2one(
+        'sped.documento', 'Documento', ondelete='cascade', required=True)
     regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário',
                                          related='documento_id.regime_tributario', readonly=True)
-    modelo = fields.Selection(MODELO_FISCAL, 'Modelo', related='documento_id.modelo', readonly=True)
-    empresa_id = fields.Many2one('sped.empresa', 'Empresa', related='documento_id.empresa_id', readonly=True)
+    modelo = fields.Selection(MODELO_FISCAL, 'Modelo',
+                              related='documento_id.modelo', readonly=True)
+    empresa_id = fields.Many2one(
+        'sped.empresa', 'Empresa', related='documento_id.empresa_id', readonly=True)
     participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente',
                                       related='documento_id.participante_id', readonly=True)
-    operacao_id = fields.Many2one('sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
+    operacao_id = fields.Many2one(
+        'sped.operacao', 'Operação Fiscal', related='documento_id.operacao_id', readonly=True)
     contribuinte = fields.Selection(IE_DESTINATARIO, string=u'Contribuinte', related='participante_id.contribuinte',
                                     readonly=True)
-    emissao = fields.Selection(TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao', readonly=True)
-    data_emissao = fields.Date('Data de emissão', related='documento_id.data_emissao', readonly=True)
+    emissao = fields.Selection(
+        TIPO_EMISSAO, 'Tipo de emissão', related='documento_id.emissao', readonly=True)
+    data_emissao = fields.Date(
+        'Data de emissão', related='documento_id.data_emissao', readonly=True)
     entrada_saida = fields.Selection(ENTRADA_SAIDA, 'Entrada/saída', related='documento_id.entrada_saida',
                                      readonly=True)
     consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor',
                                         related='documento_id.consumidor_final', readonly=True)
 
-    cfop_id = fields.Many2one('sped.cfop', 'CFOP', ondelete='restrict', index=True)
-    cfop_posicao = fields.Selection(POSICAO_CFOP, 'Posição da CFOP', related='cfop_id.posicao', readonly=True)
-    cfop_eh_venda = fields.Boolean('CFOP é venda?', related='cfop_id.eh_venda', readonly=True)
-    cfop_eh_devolucao_compra = fields.Boolean('CFOP é devolução de compra?', related='cfop_id.eh_devolucao_compra', readonly=True)
-    cfop_eh_retorno_saida = fields.Boolean('CFOP é retorno saída?', related='cfop_id.eh_retorno_saida', readonly=True)
-    compoe_total = fields.Boolean('Compõe o valor total da NF-e?', index=True, default=True)
-    movimentacao_fisica = fields.Boolean('Há movimentação física do produto?', default=True)
+    cfop_id = fields.Many2one(
+        'sped.cfop', 'CFOP', ondelete='restrict', index=True)
+    cfop_posicao = fields.Selection(
+        POSICAO_CFOP, 'Posição da CFOP', related='cfop_id.posicao', readonly=True)
+    cfop_eh_venda = fields.Boolean(
+        'CFOP é venda?', related='cfop_id.eh_venda', readonly=True)
+    cfop_eh_devolucao_compra = fields.Boolean(
+        'CFOP é devolução de compra?', related='cfop_id.eh_devolucao_compra', readonly=True)
+    cfop_eh_retorno_saida = fields.Boolean(
+        'CFOP é retorno saída?', related='cfop_id.eh_retorno_saida', readonly=True)
+    compoe_total = fields.Boolean(
+        'Compõe o valor total da NF-e?', index=True, default=True)
+    movimentacao_fisica = fields.Boolean(
+        'Há movimentação física do produto?', default=True)
 
     # Dados do produto/serviço
-    produto_id = fields.Many2one('sped.produto', 'Produto/Serviço', ondelete='restrict', index=True)
+    produto_id = fields.Many2one(
+        'sped.produto', 'Produto/Serviço', ondelete='restrict', index=True)
 
-    protocolo_id = fields.Many2one('sped.protocolo.icms', 'Protocolo ICMS', ondelete='restrict')
-    operacao_item_id = fields.Many2one('sped.operacao.item', 'Item da operação fiscal', ondelete='restrict')
+    protocolo_id = fields.Many2one(
+        'sped.protocolo.icms', 'Protocolo ICMS', ondelete='restrict')
+    operacao_item_id = fields.Many2one(
+        'sped.operacao.item', 'Item da operação fiscal', ondelete='restrict')
 
     #quantidade = fields.Monetary('Quantidade', default=1, digits=dp.get_precision('SPED - Quantidade'), currency_field='unidade_id')
     quantidade = fields.Float('Quantidade', default=1, digits=dp.get_precision('SPED - Quantidade'))
@@ -76,7 +90,8 @@ class DocumentoItem(models.Model):
 
     # Valor total dos produtos
     vr_produtos = fields.Monetary('Valor do produto/serviço')
-    vr_produtos_tributacao = fields.Monetary('Valor do produto/serviço para tributação')
+    vr_produtos_tributacao = fields.Monetary(
+        'Valor do produto/serviço para tributação')
 
     # Outros valores acessórios
     vr_frete = fields.Monetary('Valor do frete')
@@ -84,7 +99,8 @@ class DocumentoItem(models.Model):
     vr_desconto = fields.Monetary('Valor do desconto')
     vr_outras = fields.Monetary('Outras despesas acessórias')
     vr_operacao = fields.Monetary('Valor da operação')
-    vr_operacao_tributacao = fields.Monetary('Valor da operação para tributação')
+    vr_operacao_tributacao = fields.Monetary(
+        'Valor da operação para tributação')
 
     #
     # ICMS próprio
@@ -134,8 +150,10 @@ class DocumentoItem(models.Model):
     #
     md_icms_st_retido = fields.Selection(MODALIDADE_BASE_ICMS_ST, 'Modalidade da base de cálculo',
                                          default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO)
-    pr_icms_st_retido = fields.Float('Parâmetro da base de cáculo', digits=(18, 4))
-    rd_icms_st_retido = fields.Float('% de redução da base de cálculo do ICMS retido', digits=(5, 2))
+    pr_icms_st_retido = fields.Float(
+        'Parâmetro da base de cáculo', digits=(18, 4))
+    rd_icms_st_retido = fields.Float(
+        '% de redução da base de cálculo do ICMS retido', digits=(5, 2))
     bc_icms_st_retido = fields.Monetary('Base do ICMS ST retido na origem')
     al_icms_st_retido = fields.Monetary('Alíquota do ICMS ST retido na origem', digits=(5, 2), currency_field='currency_aliquota_id')
     vr_icms_st_retido = fields.Monetary('Valor do ICMS ST retido na origem')
@@ -143,11 +161,13 @@ class DocumentoItem(models.Model):
     #
     # IPI padrão
     #
-    apuracao_ipi = fields.Selection(APURACAO_IPI, 'Período de apuração do IPI', index=True, default=APURACAO_IPI_MENSAL)
+    apuracao_ipi = fields.Selection(
+        APURACAO_IPI, 'Período de apuração do IPI', index=True, default=APURACAO_IPI_MENSAL)
     cst_ipi = fields.Selection(ST_IPI, 'CST IPI', index=True)
     cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'CST IPI')
     cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'CST IPI')
-    md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade BC do IPI', default=MODALIDADE_BASE_IPI_ALIQUOTA)
+    md_ipi = fields.Selection(
+        MODALIDADE_BASE_IPI, 'Modalidade BC do IPI', default=MODALIDADE_BASE_IPI_ALIQUOTA)
     bc_ipi = fields.Monetary('Base do IPI')
     al_ipi = fields.Monetary('Alíquota do IPI', digits=(18, 2), currency_field='currency_aliquota_id')
     vr_ipi = fields.Monetary('Valor do IPI')
@@ -164,7 +184,8 @@ class DocumentoItem(models.Model):
     #
     # PIS próprio
     #
-    al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota e CST do PIS-COFINS', index=True)
+    al_pis_cofins_id = fields.Many2one(
+        'sped.aliquota.pis.cofins', 'Alíquota e CST do PIS-COFINS', index=True)
     cst_pis = fields.Selection(ST_PIS, 'CST PIS', index=True)
     cst_pis_entrada = fields.Selection(ST_PIS_ENTRADA, 'CST PIS')
     cst_pis_saida = fields.Selection(ST_PIS_SAIDA, 'CST PIS')
@@ -223,16 +244,22 @@ class DocumentoItem(models.Model):
     #
     # Campos para a validação das entradas
     #
-    produto_codigo = fields.Char('Código do produto original', size=60, index=True)
-    produto_descricao = fields.Char('Descrição do produto original', size=60, index=True)
+    produto_codigo = fields.Char(
+        'Código do produto original', size=60, index=True)
+    produto_descricao = fields.Char(
+        'Descrição do produto original', size=60, index=True)
     produto_ncm = fields.Char('NCM do produto original', size=60, index=True)
-    produto_codigo_barras = fields.Char('Código de barras do produto original', size=60, index=True)
+    produto_codigo_barras = fields.Char(
+        'Código de barras do produto original', size=60, index=True)
     unidade = fields.Char('Unidade do produto original', size=6, index=True)
-    unidade_tributacao = fields.Char('Unidade de tributação do produto original', size=6, index=True)
+    unidade_tributacao = fields.Char(
+        'Unidade de tributação do produto original', size=6, index=True)
     fator_quantidade = fields.Float('Fator de conversão da quantidade')
     quantidade_original = fields.Float('Quantidade', digits=(18, 4))
-    vr_unitario_original = fields.Float('Valor unitário original', digits=(18, 10))
-    cfop_original_id = fields.Many2one('sped.cfop', 'CFOP original', index=True)
+    vr_unitario_original = fields.Float(
+        'Valor unitário original', digits=(18, 10))
+    cfop_original_id = fields.Many2one(
+        'sped.cfop', 'CFOP original', index=True)
 
     credita_icms_proprio = fields.Boolean('Credita ICMS próprio?', index=True)
     credita_icms_st = fields.Boolean('Credita ICMS ST?', index=True)
@@ -249,7 +276,8 @@ class DocumentoItem(models.Model):
     # vr_desconto_rateio = fields.function(_get_calcula_custo, type='float', string=u'Valor do desconto', store=STORE_CUSTO, digits=(18, 2))
     vr_unitario_custo_comercial = fields.Float('Custo unitário comercial', compute='_compute_custo_comercial', store=True,
                                                digits=dp.get_precision('SPED - Valor Unitário'))
-    vr_custo_comercial = fields.Monetary('Custo comercial', compute='_compute_custo_comercial', store=True)
+    vr_custo_comercial = fields.Monetary(
+        'Custo comercial', compute='_compute_custo_comercial', store=True)
 
     #
     # Diferencial de alíquota
@@ -268,19 +296,26 @@ class DocumentoItem(models.Model):
     #
     # Campos readonly
     #
-    unidade_readonly_id = fields.Many2one('sped.unidade', 'Unidade', ondelete='restrict', compute='_compute_readonly')
+    unidade_readonly_id = fields.Many2one(
+        'sped.unidade', 'Unidade', ondelete='restrict', compute='_compute_readonly')
     unidade_tributacao_readonly_id = fields.Many2one('sped.unidade', 'Unidade para tributação', ondelete='restrict',
                                                      compute='_compute_readonly')
-    vr_produtos_readonly = fields.Monetary('Valor do produto/serviço', compute='_compute_readonly')
+    vr_produtos_readonly = fields.Monetary(
+        'Valor do produto/serviço', compute='_compute_readonly')
     vr_produtos_tributacao_readonly = fields.Monetary('Valor do produto/serviço para tributação',
                                                       compute='_compute_readonly')
-    vr_operacao_readonly = fields.Monetary('Valor da operação', compute='_compute_readonly')
-    vr_operacao_tributacao_readonly = fields.Monetary('Valor da operação para tributação', compute='_compute_readonly')
-    vr_nf_readonly = fields.Monetary('Valor da NF', compute='_compute_readonly')
-    vr_fatura_readonly = fields.Monetary('Valor da fatura', compute='_compute_readonly')
+    vr_operacao_readonly = fields.Monetary(
+        'Valor da operação', compute='_compute_readonly')
+    vr_operacao_tributacao_readonly = fields.Monetary(
+        'Valor da operação para tributação', compute='_compute_readonly')
+    vr_nf_readonly = fields.Monetary(
+        'Valor da NF', compute='_compute_readonly')
+    vr_fatura_readonly = fields.Monetary(
+        'Valor da fatura', compute='_compute_readonly')
     vr_unitario_custo_comercial_readonly = fields.Float('Custo unitário comercial', compute='_compute_readonly',
                                                         digits=dp.get_precision('SPED - Valor Unitário'))
-    vr_custo_comercial_readonly = fields.Monetary('Custo comercial', compute='_compute_readonly')
+    vr_custo_comercial_readonly = fields.Monetary(
+        'Custo comercial', compute='_compute_readonly')
 
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para entrada ou saída
@@ -381,7 +416,8 @@ class DocumentoItem(models.Model):
             raise ValidationError('A empresa ativa não foi definida!')
 
         if not self.participante_id:
-            raise ValidationError('O destinatário/remetente não foi informado!')
+            raise ValidationError(
+                'O destinatário/remetente não foi informado!')
 
         if not self.operacao_id:
             raise ValidationError('A operação fiscal não foi informada!')
@@ -396,8 +432,10 @@ class DocumentoItem(models.Model):
         valores['unidade_id'] = self.produto_id.unidade_id.id
 
         if self.produto_id.unidade_tributacao_ncm_id:
-            valores['unidade_tributacao_id'] = self.produto_id.unidade_tributacao_ncm_id.id
-            valores['fator_conversao_unidade_tributacao'] = self.produto_id.fator_conversao_unidade_tributacao_ncm
+            valores[
+                'unidade_tributacao_id'] = self.produto_id.unidade_tributacao_ncm_id.id
+            valores[
+                'fator_conversao_unidade_tributacao'] = self.produto_id.fator_conversao_unidade_tributacao_ncm
 
         else:
             valores['unidade_tributacao_id'] = self.produto_id.unidade_id.id
@@ -433,7 +471,8 @@ class DocumentoItem(models.Model):
                 ('estado_ids', '=', False),
                 ('estado_ids.uf', '=', estado_destino)
             ]
-            protocolo_ids = self.env['sped.protocolo.icms'].search(busca_protocolo)
+            protocolo_ids = self.env[
+                'sped.protocolo.icms'].search(busca_protocolo)
 
             if len(protocolo_ids) != 0:
                 protocolo = protocolo_ids[0]
@@ -450,7 +489,8 @@ class DocumentoItem(models.Model):
         # estados permitidos, usar a família global da empresa
         #
         if len(protocolo.estado_ids) > 0:
-            estado_ids = protocolo.estado_ids.search([('uf', '=', estado_destino)])
+            estado_ids = protocolo.estado_ids.search(
+                [('uf', '=', estado_destino)])
 
             #
             # O estado de destino não pertence ao protocolo, usamos então o protocolo
@@ -543,13 +583,16 @@ class DocumentoItem(models.Model):
                                 'o protocolo “{protocolo}”, configurado para operações {estado}!'
 
             if posicao_cfop == POSICAO_CFOP_ESTADUAL:
-                mensagem_erro = mensagem_erro.format(protocolo=protocolo.descricao, estado='dentro do estado')
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='dentro do estado')
 
             elif posicao_cfop == POSICAO_CFOP_INTERESTADUAL:
-                mensagem_erro = mensagem_erro.format(protocolo=protocolo.descricao, estado='interestaduais')
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='interestaduais')
 
             elif posicao_cfop == POSICAO_CFOP_ESTRANGEIRO:
-                mensagem_erro = mensagem_erro.format(protocolo=protocolo.descricao, estado='internacionais')
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='internacionais')
 
             raise ValidationError(mensagem_erro)
 
@@ -606,9 +649,12 @@ class DocumentoItem(models.Model):
             #
             # Força a CST do PIS, COFINS e IPI para o SIMPLES
             #
-            valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            valores['cst_ipi_entrada'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            valores['cst_ipi_saida'] = ''  # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            valores['cst_ipi'] = ''
+            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            valores['cst_ipi_entrada'] = ''
+            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+            valores['cst_ipi_saida'] = ''
             al_pis_cofins = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES')
             valores['al_pis_cofins_id'] = al_pis_cofins.id
 
@@ -632,10 +678,10 @@ class DocumentoItem(models.Model):
             # caso contrário, usa a definida acima
             #
             if (self.operacao_item_id.al_pis_cofins_id
-                and not (
-                    self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida in ST_PIS_CALCULA_ALIQUOTA
-                    or self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida in ST_PIS_CALCULA_QUANTIDADE
-                )):
+                    and not (
+                        self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida in ST_PIS_CALCULA_ALIQUOTA
+                        or self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida in ST_PIS_CALCULA_QUANTIDADE
+                    )):
                 al_pis_cofins = self.operacao_item_id.al_pis_cofins_id
 
             valores['al_pis_cofins_id'] = al_pis_cofins.id
@@ -653,7 +699,8 @@ class DocumentoItem(models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_estadual
+                    valores['al_ibpt'] = ibpt_ids[
+                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_estadual
 
                     if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
                         valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
@@ -670,7 +717,8 @@ class DocumentoItem(models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
+                    valores['al_ibpt'] = ibpt_ids[
+                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
 
                     if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
                         valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
@@ -684,7 +732,8 @@ class DocumentoItem(models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
+                    valores['al_ibpt'] = ibpt_ids[
+                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
 
                     if self.operacao_item_id.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO:
                         valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
@@ -710,12 +759,15 @@ class DocumentoItem(models.Model):
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cfop_id.calcula_simples_csll_irpj:
                 if self.cfop_id.eh_venda_servico:
-                    if  self.empresa_id.simples_aliquota_servico_id:
-                        valores['al_simples'] = self.empresa_id.simples_aliquota_servico_id.al_simples
+                    if self.empresa_id.simples_aliquota_servico_id:
+                        valores[
+                            'al_simples'] = self.empresa_id.simples_aliquota_servico_id.al_simples
                     else:
-                        valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
+                        valores[
+                            'al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
                 else:
-                    valores['al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
+                    valores[
+                        'al_simples'] = self.empresa_id.simples_aliquota_id.al_simples
 
         else:
             if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and self.cfop_id.eh_venda:
@@ -748,7 +800,8 @@ class DocumentoItem(models.Model):
             valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
             valores['cst_cofins'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
             valores['cst_pis_entrada'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
-            valores['cst_cofins_entrada'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
+            valores[
+                'cst_cofins_entrada'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
 
         else:
             valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_saida
@@ -777,8 +830,10 @@ class DocumentoItem(models.Model):
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and self.cst_icms_sn != ST_ICMS_SN_OUTRAS:
             valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca
-            valores['cst_ipi_entrada'] = ''  # NF-e do SIMPLES não destaca IPI nunca
-            valores['cst_ipi_saida'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            # NF-e do SIMPLES não destaca IPI nunca
+            valores['cst_ipi_entrada'] = ''
+            # NF-e do SIMPLES não destaca IPI nunca
+            valores['cst_ipi_saida'] = ''
             valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
             valores['bc_ipi'] = 0
             valores['al_ipi'] = 0
@@ -849,10 +904,12 @@ class DocumentoItem(models.Model):
         # Agora, buscamos as alíquotas necessárias
         #
         if self.entrada_saida == ENTRADA_SAIDA_ENTRADA and self.participante_id.estado == 'EX':
-            aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_destino, estado_destino, self.data_emissao, self.empresa_id)
+            aliquota_origem_destino = self.protocolo_id.busca_aliquota(
+                estado_destino, estado_destino, self.data_emissao, self.empresa_id)
 
         else:
-            aliquota_origem_destino = self.protocolo_id.busca_aliquota(estado_origem, estado_destino, self.data_emissao, self.empresa_id)
+            aliquota_origem_destino = self.protocolo_id.busca_aliquota(
+                estado_origem, estado_destino, self.data_emissao, self.empresa_id)
 
         #
         # Alíquota do ICMS próprio
@@ -880,7 +937,8 @@ class DocumentoItem(models.Model):
                 al_difal -= al_icms.al_icms
 
                 valores['al_difal'] = al_difal
-                valores['al_interna_destino'] = aliquota_interna_destino.al_icms_proprio_id.al_icms
+                valores[
+                    'al_interna_destino'] = aliquota_interna_destino.al_icms_proprio_id.al_icms
 
                 valores['al_fcp'] = aliquota_interna_destino.al_fcp
 
@@ -889,7 +947,7 @@ class DocumentoItem(models.Model):
         # (serviço pode ter ICMS na nota conjugada [DF])
         #
         if ((self.cst_icms in ST_ICMS_CALCULA_ST or self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST)
-            and self.produto_id.tipo != TIPO_PRODUTO_SERVICO_SERVICOS):
+                and self.produto_id.tipo != TIPO_PRODUTO_SERVICO_SERVICOS):
             al_icms_st = aliquota_origem_destino.al_icms_st_id
 
             valores['md_icms_st'] = al_icms_st.md_icms
@@ -901,7 +959,8 @@ class DocumentoItem(models.Model):
             # Verificamos a necessidade de se busca a MVA (ajustada ou não)
             #
             if al_icms_st.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO and (not al_icms_st.pr_icms):
-                protocolo_ncm = self.produto_id.ncm_id.busca_mva(self.protocolo_id)
+                protocolo_ncm = self.produto_id.ncm_id.busca_mva(
+                    self.protocolo_id)
 
                 if (protocolo_ncm is not None) and protocolo_ncm:
                     pr_icms_st = protocolo_ncm.mva
@@ -954,7 +1013,8 @@ class DocumentoItem(models.Model):
         #
         if self.modelo == '2D':
             self.vr_unitario = self.vr_unitario.quantize(D('0.001'))
-            self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(D('0.001'))
+            self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(
+                D('0.001'))
 
             valores['vr_unitario'] = self.vr_unitario
             valores['vr_unitario_tributacao'] = self.vr_unitario_tributacao
@@ -968,9 +1028,11 @@ class DocumentoItem(models.Model):
         #
         # Até segunda ordem, a quantidade e valor unitário para tributação não mudam
         #
-        quantidade_tributacao = self.quantidade * self.fator_conversao_unidade_tributacao
+        quantidade_tributacao = self.quantidade * \
+            self.fator_conversao_unidade_tributacao
         vr_unitario_tributacao = vr_produtos / quantidade_tributacao
-        vr_unitario_tributacao = vr_unitario_tributacao.quantize(D('0.0000000001'))
+        vr_unitario_tributacao = vr_unitario_tributacao.quantize(
+            D('0.0000000001'))
         vr_produtos_tributacao = quantidade_tributacao * vr_unitario_tributacao
         vr_produtos_tributacao = vr_produtos_tributacao
         valores['quantidade_tributacao'] = quantidade_tributacao
@@ -981,9 +1043,10 @@ class DocumentoItem(models.Model):
         else:
             valores['exibe_tributacao'] = False
 
-        vr_operacao = vr_produtos + self.vr_frete + self.vr_seguro + self.vr_outras - self.vr_desconto
+        vr_operacao = vr_produtos + self.vr_frete + \
+            self.vr_seguro + self.vr_outras - self.vr_desconto
         vr_operacao_tributacao = vr_produtos_tributacao + self.vr_frete + self.vr_seguro + self.vr_outras - \
-                                 self.vr_desconto + self.vr_ii
+            self.vr_desconto + self.vr_ii
 
         valores['vr_produtos'] = vr_produtos
         valores['vr_produtos_tributacao'] = vr_produtos_tributacao
@@ -1099,7 +1162,7 @@ class DocumentoItem(models.Model):
         valores['al_cofins_proprio'] = 0
         valores['vr_cofins_proprio'] = 0
 
-        if self.cst_pis in ST_PIS_CALCULA or self.cst_pis in ST_PIS_CALCULA_CREDITO  or (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and self.emissao == TIPO_EMISSAO_PROPRIA):
+        if self.cst_pis in ST_PIS_CALCULA or self.cst_pis in ST_PIS_CALCULA_CREDITO or (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and self.emissao == TIPO_EMISSAO_PROPRIA):
             if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
                 md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
                 bc_pis_proprio = self.vr_operacao_tributacao
@@ -1107,7 +1170,8 @@ class DocumentoItem(models.Model):
 
                 md_cofins_proprio = MODALIDADE_BASE_COFINS_ALIQUOTA
                 bc_cofins_proprio = self.vr_operacao_tributacao
-                vr_cofins_proprio = bc_cofins_proprio * (self.al_cofins_proprio / 100)
+                vr_cofins_proprio = bc_cofins_proprio * \
+                    (self.al_cofins_proprio / 100)
 
             else:
                 md_pis_proprio = MODALIDADE_BASE_PIS_QUANTIDADE
@@ -1166,8 +1230,8 @@ class DocumentoItem(models.Model):
         #
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if not ((self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST)
-               or (self.cst_icms_sn in ST_ICMS_SN_CALCULA_PROPRIO)
-               or (self.cst_icms_sn == ST_ICMS_SN_ANTERIOR)):
+                    or (self.cst_icms_sn in ST_ICMS_SN_CALCULA_PROPRIO)
+                    or (self.cst_icms_sn == ST_ICMS_SN_ANTERIOR)):
                 return
 
         else:
@@ -1188,7 +1252,8 @@ class DocumentoItem(models.Model):
         # Nas notas de importação o ICMS é "por fora"
         #
         if self.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO and self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-            bc_icms_proprio = bc_icms_proprio / D(1 - self.al_icms_proprio / D(100))
+            bc_icms_proprio = bc_icms_proprio / \
+                D(1 - self.al_icms_proprio / D(100))
 
         #
         # Nas devoluções de compra de empresa que não destaca IPI, o valor do IPI é
@@ -1208,7 +1273,8 @@ class DocumentoItem(models.Model):
         # Agora que temos a base final, aplicamos a margem caso necessário
         #
         if self.md_icms_proprio == MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO:
-            bc_icms_proprio = bc_icms_proprio * (1 + (self.pr_icms_proprio / 100))
+            bc_icms_proprio = bc_icms_proprio * \
+                (1 + (self.pr_icms_proprio / 100))
 
         #
         # Vai haver redução da base de cálculo?
@@ -1216,7 +1282,8 @@ class DocumentoItem(models.Model):
         #
         if self.cst_icms in ST_ICMS_COM_REDUCAO or self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST:
             bc_icms_proprio = bc_icms_proprio.quantize(D('0.01'))
-            bc_icms_proprio = bc_icms_proprio * (1 - (self.rd_icms_proprio / 100))
+            bc_icms_proprio = bc_icms_proprio * \
+                (1 - (self.rd_icms_proprio / 100))
 
         bc_icms_proprio = D(bc_icms_proprio).quantize(D('0.01'))
 
@@ -1293,8 +1360,8 @@ class DocumentoItem(models.Model):
 
         if ((self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO)
             or ((self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES)
-            and (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_PROPRIO)
-            and (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_ST))):
+                and (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_PROPRIO)
+                and (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_ST))):
             valores['bc_icms_proprio'] = 0
             valores['vr_icms_proprio'] = 0
 
@@ -1479,7 +1546,8 @@ class DocumentoItem(models.Model):
                 #     res[item_obj.id] = vr_desconto_rateio
 
             item.vr_custo_comercial = vr_custo
-            item.vr_unitario_custo_comercial = vr_custo / (item.quantidade or 1)
+            item.vr_unitario_custo_comercial = vr_custo / \
+                (item.quantidade or 1)
 
     @api.depends('unidade_id', 'unidade_tributacao_id',
                  'vr_produtos', 'vr_operacao',

@@ -5,8 +5,6 @@
 #
 
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -70,7 +68,8 @@ class AliquotaIPI(models.Model):
                     al_ipi.descricao = formata_valor(al_ipi.al_ipi or 0) + '%'
 
                 elif al_ipi.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
-                    al_ipi.descricao = u'por quantidade, a R$ ' + formata_valor(al_ipi.al_ipi or 0)
+                    al_ipi.descricao = u'por quantidade, a R$ ' + \
+                        formata_valor(al_ipi.al_ipi or 0)
 
                 al_ipi.descricao += u' - CST ' + al_ipi.cst_ipi_entrada
                 al_ipi.descricao += u' entrada, ' + al_ipi.cst_ipi_saida
