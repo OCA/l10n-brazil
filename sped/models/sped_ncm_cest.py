@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -14,16 +14,31 @@ class NCM(models.Model):
     _name = 'sped.ncm'
     _inherit = 'sped.ncm'
 
-    cest_ids = fields.Many2many('sped.cest', 'sped_ncm_cest', 'ncm_id', 'cest_id', 'Códigos CEST')
+    cest_ids = fields.Many2many(
+        comodel_name='sped.cest',
+        relation='sped_ncm_cest',
+        column1='ncm_id',
+        column2='cest_id',
+        string=u'Códigos CEST'
+    )
 
 
 class CEST(models.Model):
     _name = 'sped.cest'
     _inherit = 'sped.cest'
 
-    ncm_ids = fields.Many2many('sped.ncm', 'sped_ncm_cest', 'cest_id', 'ncm_id', 'NCMs')
-    ncm_permitido = fields.Char('NCMs permitidos', size=200, help='Informe a lista de NCMs permitidos, sem pontos, '
-                                'separados por |')
+    ncm_ids = fields.Many2many(
+        comodel_name='sped.ncm',
+        relation='sped_ncm_cest',
+        column1='cest_id',
+        column2='ncm_id',
+        string=u'NCMs'
+    )
+    ncm_permitido = fields.Char(
+        string=u'NCMs permitidos',
+        size=200,
+        help='Informe a lista de NCMs permitidos, sem pontos, separados por |'
+    )
 
     @api.constrains('ncm_permitido')
     @api.depends('ncm_permitido')
@@ -47,7 +62,9 @@ class CEST(models.Model):
                 if len(codigo_ncm) > 8:
                     codigo_ncm = codigo_ncm[:8]
 
-                ncms = ncm_pool.search([('codigo', '=ilike', codigo_ncm + '%')])
+                ncms = ncm_pool.search([
+                    ('codigo', '=ilike', codigo_ncm + '%')
+                ])
 
                 ncm_ids += [ncm.id for ncm in ncms]
 

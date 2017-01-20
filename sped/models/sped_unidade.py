@@ -5,9 +5,10 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -21,26 +22,23 @@ import json
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
-
 TIPO_UNIDADE = (
-    ('U', 'Unidade'),
-    ('P', 'Peso'),
-    ('V', 'Volume'),
-    ('C', 'Comprimento'),
-    ('A', 'Área'),
-    ('T', 'Tempo'),
-    ('E', 'Embalagem'),
+    ('U', u'Unidade'),
+    ('P', u'Peso'),
+    ('V', u'Volume'),
+    ('C', u'Comprimento'),
+    ('A', u'Área'),
+    ('T', u'Tempo'),
+    ('E', u'Embalagem'),
 )
 
 
 class Unidade(models.Model):
-    _description = 'Unidade de medida'
+    _description = u'Unidade de medida'
     _inherits = {'product.uom': 'uom_id'}
     _name = 'sped.unidade'
     _order = 'codigo_unico'
     _rec_name = 'codigo'
-
-    uom_id = fields.Many2one('product.uom', 'UOM original', ondelete='restrict', required=True)
 
     TIPO_UNIDADE_UNIDADE = 'U'
     TIPO_UNIDADE_PESO = 'P'
@@ -50,26 +48,84 @@ class Unidade(models.Model):
     TIPO_UNIDADE_TEMPO = 'T'
     TIPO_UNIDADE_EMBALAGEM = 'E'
 
-    tipo = fields.Selection(TIPO_UNIDADE, string='Tipo', required=True, index=True)
-    codigo = fields.Char(string='Código', size=10, index=True)
-    codigo_unico = fields.LowerChar(string='Código', size=10, index=True, compute='_compute_codigo_unico', store=True)
-    nome = fields.NameChar(string='Nome', size=60, index=True)
-    nome_unico = fields.LowerChar(string='Nome', size=60, index=True, compute='_compute_nome_unico', store=True)
-
+    uom_id = fields.Many2one(
+        comodel_name='product.uom',
+        string=u'UOM original',
+        ondelete='restrict',
+        required=True,
+    )
+    tipo = fields.Selection(
+        selection=TIPO_UNIDADE,
+        string=u'Tipo',
+        required=True,
+        index=True,
+    )
+    codigo = fields.Char(
+        string=u'Código',
+        size=10,
+        index=True,
+    )
+    codigo_unico = fields.Char(
+        string=u'Código',
+        size=10,
+        index=True,
+        # compute='_compute_codigo_unico',
+        store=True
+    )
+    nome = fields.Char(
+        string=u'Nome',
+        size=60,
+        index=True,
+    )
+    nome_unico = fields.Char(
+        string=u'Nome',
+        size=60,
+        index=True,
+        # compute='_compute_nome_unico',
+        store=True,
+    )
     #
     # Valores nas unidades por extenso
     #
-    fator_relacao_decimal = fields.Float('Multiplica por', default=10, digits=(18, 6))
-    precisao_decimal = fields.Float('Elevado a', default=2, digits=(18, 6))
-    arredondamento = fields.Integer('Casas decimais para arredondamento', default=0)
-
-    nome_singular = fields.LowerChar(string='Singular', size=60)
-    nome_plural = fields.LowerChar(string='Plural', size=60)
-    genero_masculino = fields.Boolean(string='Nome é masculino?', default=True)
-    usa_meio = fields.Boolean(string='Usa meio?', default=False)
-    usa_virgula = fields.Boolean(string='Usa vírgula?', default=True)
-    subunidade_id = fields.Many2one('sped.unidade', string='Unidade decimal', ondelete='restrict')
-
+    fator_relacao_decimal = fields.Float(
+        string=u'Multiplica por',
+        default=10,
+        digits=(18, 6),
+    )
+    precisao_decimal = fields.Float(
+        string=u'Elevado a',
+        default=2,
+        digits=(18, 6),
+    )
+    arredondamento = fields.Integer(
+        string=u'Casas decimais para arredondamento',
+        default=0,
+    )
+    nome_singular = fields.Char(
+        string=u'Singular',
+        size=60,
+    )
+    nome_plural = fields.Char(
+        string=u'Plural',
+        size=60,
+    )
+    genero_masculino = fields.Boolean(
+        string=u'Nome é masculino?',
+        default=True,
+    )
+    usa_meio = fields.Boolean(
+        string=u'Usa meio?',
+        default=False,
+    )
+    usa_virgula = fields.Boolean(
+        string=u'Usa vírgula?',
+        default=True,
+    )
+    subunidade_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        string=u'Unidade decimal',
+        ondelete='restrict',
+    )
     #
     # Campos para usar a unidade com o campo Monetary
     #
@@ -82,56 +138,84 @@ class Unidade(models.Model):
     #
     # Exemplos do texto por extenso
     #
-    extenso_zero = fields.Char(string='Ex. 0', compute='_compute_extenso')
-    extenso_singular_inteiro = fields.Char(string='Ex. 1', compute='_compute_extenso')
-    extenso_plural_inteiro = fields.Char(string='Ex. 1.234.567', compute='_compute_extenso')
+    extenso_zero = fields.Char(
+        string=u'Ex. 0',
+        compute='_compute_extenso',
+    )
+    extenso_singular_inteiro = fields.Char(
+        string=u'Ex. 1',
+        compute='_compute_extenso',
+    )
+    extenso_plural_inteiro = fields.Char(
+        string=u'Ex. 1.234.567',
+        compute='_compute_extenso',
+    )
+    extenso_singular_um_decimo = fields.Char(
+        string=u'Ex. 1,01',
+        compute='_compute_extenso',
+    )
+    extenso_singular_meio = fields.Char(
+        string=u'Ex. 1,50',
+        compute='_compute_extenso',
+    )
+    extenso_singular_decimal = fields.Char(
+        string=u'Ex. 1,67',
+        compute='_compute_extenso',
+    )
+    extenso_plural_decimal = fields.Char(
+        string=u'Ex. 1.234.567,89',
+        compute='_compute_extenso',
+    )
 
-    extenso_singular_um_decimo = fields.Char(string='Ex. 1,01', compute='_compute_extenso')
-    extenso_singular_meio = fields.Char(string='Ex. 1,50', compute='_compute_extenso')
-    extenso_singular_decimal = fields.Char(string='Ex. 1,67', compute='_compute_extenso')
-    extenso_plural_decimal = fields.Char(string='Ex. 1.234.567,89', compute='_compute_extenso')
+    # @api.depends('codigo')
+    # def _compute_codigo_unico(self):
+    #     for unidade in self:
+    #         codigo_unico = unidade.codigo or ''
+    #         codigo_unico = codigo_unico.lower().strip()
+    #         codigo_unico = codigo_unico.replace(' ', ' ')
+    #         codigo_unico = codigo_unico.replace('²', '2')
+    #         codigo_unico = codigo_unico.replace('³', '3')
+    #         unidade.codigo_unico = codigo_unico
 
-    @api.depends('codigo')
-    def _compute_codigo_unico(self):
-        for unidade in self:
-            codigo_unico = unidade.codigo or ''
-            codigo_unico = codigo_unico.lower().strip()
-            codigo_unico = codigo_unico.replace(' ', ' ')
-            codigo_unico = codigo_unico.replace('²', '2')
-            codigo_unico = codigo_unico.replace('³', '3')
-            unidade.codigo_unico = codigo_unico
-
-    @api.depends('nome')
-    def _compute_nome_unico(self):
-        for unidade in self:
-            nome_unico = unidade.nome or ''
-            nome_unico = nome_unico.lower().strip()
-            nome_unico = nome_unico.replace(' ', ' ')
-            nome_unico = nome_unico.replace('²', '2')
-            nome_unico = nome_unico.replace('³', '3')
-            unidade.nome_unico = nome_unico
+    # @api.depends('nome')
+    # def _compute_nome_unico(self):
+    #     for unidade in self:
+    #         nome_unico = unidade.nome or ''
+    #         nome_unico = nome_unico.lower().strip()
+    #         # nome_unico = nome_unico.replace(' ', ' ')
+    #         nome_unico = nome_unico.replace('²', '2')
+    #         nome_unico = nome_unico.replace('³', '3')
+    #         unidade.nome_unico = nome_unico
 
     @api.depends('codigo')
     def _check_codigo(self):
         for unidade in self:
             if unidade.id:
-                unidade_ids = self.search([('codigo_unico', '=', unidade.codigo_unico), ('id', '!=', unidade.id)])
+                unidade_ids = self.search([
+                    ('codigo_unico', '=', unidade.codigo_unico),
+                    ('id', '!=', unidade.id)
+                ])
             else:
-                unidade_ids = self.search([('codigo_unico', '=', unidade.codigo_unico)])
+                unidade_ids = self.search([
+                    ('codigo_unico', '=', unidade.codigo_unico)
+                ])
 
             if len(unidade_ids) > 0:
-                raise ValidationError('Código de unidade já existe!')
+                raise ValidationError(u'Código de unidade já existe!')
 
     @api.depends('nome')
     def _check_nome(self):
         for unidade in self:
             if unidade.id:
-                unidade_ids = self.search([('nome_unico', '=', unidade.nome_unico), ('id', '!=', unidade.id)])
+                unidade_ids = self.search(
+                    [('nome_unico', '=', unidade.nome_unico),
+                     ('id', '!=', unidade.id)])
             else:
-                unidade_ids = self.search([('nome_unico', '=', unidade.nome_unico)])
+                unidade_ids = self.search(
+                    [('nome_unico', '=', unidade.nome_unico)])
 
             if len(unidade_ids) > 0:
-                raise ValidationError('Nome de unidade já existe!')
+                raise ValidationError(u'Nome de unidade já existe!')
 
     @api.multi
     def extenso(self, numero=D(0)):
@@ -159,13 +243,22 @@ class Unidade(models.Model):
             parametros['unidade'] = (self.nome_singular, self.nome_plural)
             parametros['genero_unidade_masculino'] = self.genero_masculino
 
-        if self.subunidade_id and self.subunidade_id.nome_singular and self.subunidade_id.nome_plural:
-            parametros['unidade_decimal'] = (self.subunidade_id.nome_singular, self.subunidade_id.nome_plural)
-            parametros['genero_unidade_decimal_masculino'] = self.subunidade_id.genero_masculino
+        if (self.subunidade_id and
+                self.subunidade_id.nome_singular and
+                self.subunidade_id.nome_plural):
+            parametros['unidade_decimal'] = (
+                self.subunidade_id.nome_singular,
+                self.subunidade_id.nome_plural
+            )
+            parametros['genero_unidade_decimal_masculino'] = (
+                self.subunidade_id.genero_masculino
+            )
 
         return valor_por_extenso_unidade(**parametros)
 
-    @api.depends('nome_singular', 'nome_plural', 'genero_masculino', 'usa_meio', 'subunidade_id', 'usa_virgula', 'fator_relacao_decimal', 'precisao_decimal')
+    @api.depends('nome_singular', 'nome_plural', 'genero_masculino', 'usa_meio',
+                 'subunidade_id', 'usa_virgula', 'fator_relacao_decimal',
+                 'precisao_decimal')
     def _compute_extenso(self):
         for unidade in self:
             parametros = {
@@ -183,18 +276,28 @@ class Unidade(models.Model):
             }
 
             if unidade.nome_singular and unidade.nome_plural:
-                parametros['unidade'] = (unidade.nome_singular, unidade.nome_plural)
-                parametros['genero_unidade_masculino'] = unidade.genero_masculino
+                parametros['unidade'] = (
+                    unidade.nome_singular, unidade.nome_plural)
+                parametros[
+                    'genero_unidade_masculino'] = unidade.genero_masculino
 
-            if unidade.subunidade_id and unidade.subunidade_id.nome_singular and unidade.subunidade_id.nome_plural:
-                parametros['unidade_decimal'] = (unidade.subunidade_id.nome_singular, unidade.subunidade_id.nome_plural)
-                parametros['genero_unidade_decimal_masculino'] = unidade.subunidade_id.genero_masculino
+            if (unidade.subunidade_id and
+                    unidade.subunidade_id.nome_singular and
+                    unidade.subunidade_id.nome_plural):
+                parametros['unidade_decimal'] = (
+                    unidade.subunidade_id.nome_singular,
+                    unidade.subunidade_id.nome_plural)
+                parametros['genero_unidade_decimal_masculino'] = (
+                    unidade.subunidade_id.genero_masculino
+                )
 
             unidade.extenso_zero = valor_por_extenso_unidade(**parametros)
             parametros['numero'] = D('1')
-            unidade.extenso_singular_inteiro = valor_por_extenso_unidade(**parametros)
+            unidade.extenso_singular_inteiro = valor_por_extenso_unidade(
+                **parametros)
             parametros['numero'] = D('1234567')
-            unidade.extenso_plural_inteiro = valor_por_extenso_unidade(**parametros)
+            unidade.extenso_plural_inteiro = valor_por_extenso_unidade(
+                **parametros)
 
             parametros['precisao_decimal'] = unidade.precisao_decimal or 0
 
@@ -204,21 +307,34 @@ class Unidade(models.Model):
 
             if unidade.usa_meio or unidade.subunidade_id or unidade.usa_virgula:
                 parametros['numero'] = D('1.5')
-                unidade.extenso_singular_meio = valor_por_extenso_unidade(**parametros)
+                unidade.extenso_singular_meio = valor_por_extenso_unidade(
+                    **parametros
+                )
             else:
-                unidade.extenso_singular_meio = unidade.extenso_singular_inteiro
+                unidade.extenso_singular_meio = (
+                    unidade.extenso_singular_inteiro
+                )
 
             if unidade.subunidade_id or unidade.usa_virgula:
                 parametros['numero'] = D('1.01')
-                unidade.extenso_singular_um_decimo = valor_por_extenso_unidade(**parametros)
+                unidade.extenso_singular_um_decimo = valor_por_extenso_unidade(
+                    **parametros)
                 parametros['numero'] = D('1.67')
-                unidade.extenso_singular_decimal = valor_por_extenso_unidade(**parametros)
+                unidade.extenso_singular_decimal = valor_por_extenso_unidade(
+                    **parametros)
                 parametros['numero'] = D('1234567.89')
-                unidade.extenso_plural_decimal = valor_por_extenso_unidade(**parametros)
+                unidade.extenso_plural_decimal = valor_por_extenso_unidade(
+                    **parametros)
             else:
-                unidade.extenso_singular_um_decimo = unidade.extenso_singular_inteiro
-                unidade.extenso_singular_decimal = unidade.extenso_singular_inteiro
-                unidade.extenso_plural_decimal = unidade.extenso_plural_inteiro
+                unidade.extenso_singular_um_decimo = (
+                    unidade.extenso_singular_inteiro
+                )
+                unidade.extenso_singular_decimal = (
+                    unidade.extenso_singular_inteiro
+                )
+                unidade.extenso_plural_decimal = (
+                    unidade.extenso_plural_inteiro
+                )
 
     @api.model
     def name_search(self, name='', args=[], operator='ilike', limit=100):
@@ -226,14 +342,17 @@ class Unidade(models.Model):
             name = name.replace(' ', ' ')
             name = name.replace('²', '2')
             name = name.replace('³', '3')
-            args += ['|', ['codigo_unico', operator, name], ['nome_unico', operator, name]]
+            args += ['|', ['codigo_unico', operator, name],
+                     ['nome_unico', operator, name]]
 
-        return super(Unidade, self).name_search(name=name, args=args, operator=operator, limit=limit)
+        return super(Unidade, self).name_search(name=name, args=args,
+                                                operator=operator, limit=limit)
 
     def prepare_sync_to_uom(self):
         self.ensure_one()
 
-        if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == self.TIPO_UNIDADE_EMBALAGEM:
+        if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
+                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
             category_id = self.env.ref('product.product_uom_categ_unit').id
 
         elif self.tipo == self.TIPO_UNIDADE_PESO:
@@ -275,20 +394,25 @@ class Unidade(models.Model):
     def create(self, dados):
         dados['name'] = dados['codigo']
 
-        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados['tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
-            dados['category_id'] = self.env.ref('product.product_uom_categ_unit').id
+        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados[
+            'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+            dados['category_id'] = self.env.ref(
+                'product.product_uom_categ_unit').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_PESO:
-            dados['category_id'] = self.env.ref('product.product_uom_categ_kgm').id
+            dados['category_id'] = self.env.ref(
+                'product.product_uom_categ_kgm').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_VOLUME:
-            dados['category_id'] = self.env.ref('product.product_uom_categ_vol').id
+            dados['category_id'] = self.env.ref(
+                'product.product_uom_categ_vol').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_COMPRIMENTO:
             dados['category_id'] = self.env.ref('product.uom_categ_length').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_AREA:
-            dados['category_id'] = self.env.ref('sped.product_uom_categ_area').id
+            dados['category_id'] = self.env.ref(
+                'sped.product_uom_categ_area').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_TEMPO:
             dados['category_id'] = self.env.ref('product.uom_categ_wtime').id

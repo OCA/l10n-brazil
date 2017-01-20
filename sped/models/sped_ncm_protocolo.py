@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -14,7 +14,11 @@ class NCM(models.Model):
     _inherit = 'sped.ncm'
     _name = 'sped.ncm'
 
-    protocolo_ids = fields.One2many('sped.protocolo.icms.ncm', 'ncm_id', 'Protocolos')
+    protocolo_ids = fields.One2many(
+        comodel_name='sped.protocolo.icms.ncm',
+        inverse_name='ncm_id',
+        string=u'Protocolos',
+    )
 
     def busca_mva(self, protocolo):
         busca = [

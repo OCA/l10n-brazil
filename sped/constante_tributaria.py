@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -20,10 +20,10 @@ except (ImportError, IOError) as err:
 # Definições para cálculo do ICMS próprio
 #
 MODALIDADE_BASE_ICMS_PROPRIO = (
-    ('0', 'Margem de valor agregado (%) × valor do produto'),
-    ('1', 'Pauta (R$) × quantidade'),
-    ('2', 'Preço tabelado máximo (R$) × quantidade'),
-    ('3', 'Valor da operação (R$) = quantidade × valor unitário'),
+    ('0', u'Margem de valor agregado (%) × valor do produto'),
+    ('1', u'Pauta (R$) × quantidade'),
+    ('2', u'Preço tabelado máximo (R$) × quantidade'),
+    ('3', u'Valor da operação (R$) = quantidade × valor unitário'),
 )
 MODALIDADE_BASE_ICMS_PROPRIO_DICT = dict(MODALIDADE_BASE_ICMS_PROPRIO)
 
@@ -42,12 +42,12 @@ MODALIDADE_BASE_ICMS_PROPRIO_PRECO_FIXO = (
 # Definições para cálculo do ICMS recolhido por substituição tributária
 #
 MODALIDADE_BASE_ICMS_ST = (
-    ('0', 'Preço tabelado ou máximo sugerido (R$) × quantidade'),
-    ('1', 'Lista negativa (R$) × quantidade'),
-    ('2', 'Lista positiva (R$) × quantidade'),
-    ('3', 'Lista neutra (R$) × quantidade'),
-    ('4', 'Margem de valor agregado (%) × valor do produto'),
-    ('5', 'Pauta (R$) × quantidade'),
+    ('0', u'Preço tabelado ou máximo sugerido (R$) × quantidade'),
+    ('1', u'Lista negativa (R$) × quantidade'),
+    ('2', u'Lista positiva (R$) × quantidade'),
+    ('3', u'Lista neutra (R$) × quantidade'),
+    ('4', u'Margem de valor agregado (%) × valor do produto'),
+    ('5', u'Pauta (R$) × quantidade'),
 )
 MODALIDADE_BASE_ICMS_ST_DICT = dict(MODALIDADE_BASE_ICMS_ST)
 
@@ -72,8 +72,8 @@ MODALIDADE_BASE_ICMS_ST_PRECO_FIXO = (
 #
 
 MODALIDADE_BASE_IPI = (
-    ('0', 'Tributação por alíquota'),
-    ('1', 'Tributação por quantidade'),
+    ('0', u'Tributação por alíquota'),
+    ('1', u'Tributação por quantidade'),
     )
 MODALIDADE_BASE_IPI_DICT = dict(MODALIDADE_BASE_IPI)
 
@@ -85,8 +85,8 @@ MODALIDADE_BASE_IPI_QUANTIDADE = '1'
 # Definições para o cálculo do PIS e da COFINS
 #
 MODALIDADE_BASE_PIS = (
-    ('0', 'Tributação por alíquota'),
-    ('1', 'Tributação por quantidade'),
+    ('0', u'Tributação por alíquota'),
+    ('1', u'Tributação por quantidade'),
     )
 MODALIDADE_BASE_PIS_DICT = dict(MODALIDADE_BASE_PIS)
 
@@ -101,8 +101,8 @@ MODALIDADE_BASE_COFINS_QUANTIDADE = MODALIDADE_BASE_PIS_QUANTIDADE
 # Definições para o cálculo do ISS
 #
 MODALIDADE_BASE_ISS = (
-    ('0', 'Tributação por alíquota'),
-    ('1', 'Tributação por quantidade'),
+    ('0', u'Tributação por alíquota'),
+    ('1', u'Tributação por quantidade'),
     )
 MODALIDADE_BASE_ISS_DICT = dict(MODALIDADE_BASE_ISS)
 
@@ -114,8 +114,8 @@ MODALIDADE_BASE_ISS_QUANTIDADE = '1'
 # Definições para a emissão e controle da NF-e
 #
 AMBIENTE_NFE = (
-    ('1', 'Produção'),
-    ('2', 'Homologação'),
+    ('1', u'Produção'),
+    ('2', u'Homologação'),
 )
 AMBIENTE_NFE_DICT = dict(AMBIENTE_NFE)
 
@@ -124,8 +124,8 @@ AMBIENTE_NFE_HOMOLOGACAO = '2'
 
 
 ENTRADA_SAIDA = (
-    ('0', 'Entrada'),
-    ('1', 'Saída'),
+    ('0', u'Entrada'),
+    ('1', u'Saída'),
 )
 ENTRADA_SAIDA_DICT = dict(ENTRADA_SAIDA)
 
@@ -134,10 +134,10 @@ ENTRADA_SAIDA_SAIDA = '1'
 
 
 FINALIDADE_NFE = (
-    ('1', 'Normal'),
-    ('2', 'Complementar'),
-    ('3', 'Ajuste'),
-    ('4', 'Devolução de mercadoria'),
+    ('1', u'Normal'),
+    ('2', u'Complementar'),
+    ('3', u'Ajuste'),
+    ('4', u'Devolução de mercadoria'),
 )
 FINALIDADE_NFE_DICT = dict(FINALIDADE_NFE)
 
@@ -148,9 +148,9 @@ FINALIDADE_NFE_DEVOLUCAO = '4'
 
 
 FORMA_PAGAMENTO = (
-    ('0', 'À vista'),
-    ('1', 'A prazo'),
-    ('2', 'Outros/sem pagamento'),
+    ('0', u'À vista'),
+    ('1', u'A prazo'),
+    ('2', u'Outros/sem pagamento'),
 )
 FORMA_PAGAMENTO_DICT = dict(FORMA_PAGAMENTO)
 
@@ -160,12 +160,12 @@ FORMA_PAGAMENTO_SEM_PAGAMENTO = '2'
 
 
 MODALIDADE_FRETE = (
-    ('0', 'Do remetente (CIF)'),
-    ('1', 'Do destinatário (FOB)'),
-    ('2', 'De terceiros'),
-    ('3', 'Próprio do remetente'),
-    ('4', 'Próprio do destinatário'),
-    ('9', 'Sem frete'),
+    ('0', u'Do remetente (CIF)'),
+    ('1', u'Do destinatário (FOB)'),
+    ('2', u'De terceiros'),
+    ('3', u'Próprio do remetente'),
+    ('4', u'Próprio do destinatário'),
+    ('9', u'Sem frete'),
 )
 MODALIDADE_FRETE_DICT = dict(MODALIDADE_FRETE)
 
@@ -178,8 +178,8 @@ MODALIDADE_FRETE_SEM_FRETE = '9'
 
 
 MODELO_DOCUMENTO_ARRECADACAO = (
-    ('0', 'Documento estadual de arrecadacao'),
-    ('1', 'GNRE'),
+    ('0', u'Documento estadual de arrecadacao'),
+    ('1', u'GNRE'),
     )
 MODELO_DOCUMENTO_ARRECADACAO_DICT = dict(MODELO_DOCUMENTO_ARRECADACAO)
 
@@ -188,15 +188,15 @@ MODELO_DOCUMENTO_ARRECADACAO_GNRE = '1'
 
 
 MOTIVO_DESONERACAO_ICMS = (
-    ('0', '0 - Não desonerado'),
-    ('1', '1 - Táxi'),
-    ('2', '2 - Deficiente físico'),
-    ('3', '3 - Produtor agropecuário'),
-    ('4', '4 - Frotista/locadora'),
-    ('5', '5 - Diplomático/consular'),
-    ('6', '6 - Util. e mot. da Amazônia Ocidental e áreas de livre comércio'),
-    ('7', '7 - SUFRAMA'),
-    ('9', '9 - Outros'),
+    ('0', u'0 - Não desonerado'),
+    ('1', u'1 - Táxi'),
+    ('2', u'2 - Deficiente físico'),
+    ('3', u'3 - Produtor agropecuário'),
+    ('4', u'4 - Frotista/locadora'),
+    ('5', u'5 - Diplomático/consular'),
+    ('6', u'6 - Util. e mot. da Amazônia Ocidental e áreas de livre comércio'),
+    ('7', u'7 - SUFRAMA'),
+    ('9', u'9 - Outros'),
 )
 MOTIVO_DESONERACAO_ICMS_DICT = dict(MOTIVO_DESONERACAO_ICMS)
 
@@ -213,68 +213,68 @@ MOTIVO_DESONERACAO_ICMS_OUTROS = '9'
 
 MODELO_FISCAL = (
     #('MERCADORIAS E SERVIÇOS', (
-        ('65', 'NFC-e - 65'),
-        ('2D', 'CF por impressora fiscal - 2D'),
-        ('2C', 'CF por ponto de venda (PDV) - 2C'),
-        ('2B', 'CF por máquina registradora - 2B'),
-        ('59', 'CF-e - 59'),
-        ('60', 'CF-e ECF - 60'),
-        ('01', 'NF - 01 E 1A'),
-        ('1B', 'NF avulsa - 1B'),
-        ('04', 'NF de produtor rural - 04'),
-        ('21', 'NF de serv. de comunicação - 21'),
-        ('22', 'NF de serv. de telecomunicação - 22'),
-        ('07', 'NF de serv. de transporte - 07'),
-        ('27', 'NF de transp. ferroviário de cargas - 27'),
-        ('02', 'NF de venda a consumidor - 02'),
-        ('55', 'NF-e - 55'),
-        ('06', 'NF/conta de energia elétrica - 06'),
-        ('29', 'NF/conta de fornec. de água canalizada - 29'),
-        ('28', 'NF/conta de fornec. de gás canalizado - 28'),
-        ('18', 'CF - resumo de movimento diário - 18'),
-        ('23', 'GNRE - 23'),
+        ('65', u'NFC-e - 65'),
+        ('2D', u'CF por impressora fiscal - 2D'),
+        ('2C', u'CF por ponto de venda (PDV) - 2C'),
+        ('2B', u'CF por máquina registradora - 2B'),
+        ('59', u'CF-e - 59'),
+        ('60', u'CF-e ECF - 60'),
+        ('01', u'NF - 01 E 1A'),
+        ('1B', u'uNF avulsa - 1B'),
+        ('04', u'NF de produtor rural - 04'),
+        ('21', u'NF de serv. de comunicação - 21'),
+        ('22', u'NF de serv. de telecomunicação - 22'),
+        ('07', u'NF de serv. de transporte - 07'),
+        ('27', u'NF de transp. ferroviário de cargas - 27'),
+        ('02', u'NF de venda a consumidor - 02'),
+        ('55', u'NF-e - 55'),
+        ('06', u'NF/conta de energia elétrica - 06'),
+        ('29', u'NF/conta de fornec. de água canalizada - 29'),
+        ('28', u'NF/conta de fornec. de gás canalizado - 28'),
+        ('18', u'CF - resumo de movimento diário - 18'),
+        ('23', u'GNRE - 23'),
         #
         # Modelos não oficiais
         #
-        ('SC', 'NFS - SC'),
-        ('SE', 'NFS-e - SE'),
-        ('RL', 'Recibo de locação - RL'),
-        ('XX', 'Outros documentos não fiscais - XX'),
-        ('TF', 'Atualização de tabela de fornecedor'),
+        ('SC', u'NFS - SC'),
+        ('SE', u'NFS-e - SE'),
+        ('RL', u'Recibo de locação - RL'),
+        ('XX', u'Outros documentos não fiscais - XX'),
+        ('TF', u'Atualização de tabela de fornecedor'),
     #)),
     #('TRANSPORTE', (
-        ('24', 'Autorização de carregamento e transporte - 24'),
-        ('14', 'Bilhete de passagem aquaviário - 14'),
-        ('15', 'Bilhete de passagem e nota de bagagem -15'),
-        ('2E', 'Bilhete de passagem emitido por ECF - 2E'),
-        ('16', 'Bilhete de passagem ferroviário - 16'),
-        ('13', 'Bilhete de passagem rodoviário - 13'),
-        ('30', 'Bilhete/recibo do passageiro - 30'),
-        ('10', 'Conhecimento aéreo - 10'),
-        ('09', 'Conhec. de transporte aquaviário de cargas - 09'),
-        ('8B', 'Conhec. de transporte de cargas avulso - 8B'),
-        ('57', 'CT-e - 57'),
-        ('11', 'Conhec. de transporte ferroviário de cargas - 11'),
-        ('26', 'Conhec. de transporte multimodal de cargas - 26'),
-        ('08', 'Conhec. de transporte rodoviário de cargas - 08'),
-        ('17', 'Despacho de transporte - 17'),
-        ('25', 'Manifesto de carga - 25'),
-        ('20', 'Ordem de coleta de carga - 20'),
+        ('24', u'Autorização de carregamento e transporte - 24'),
+        ('14', u'Bilhete de passagem aquaviário - 14'),
+        ('15', u'Bilhete de passagem e nota de bagagem -15'),
+        ('2E', u'Bilhete de passagem emitido por ECF - 2E'),
+        ('16', u'Bilhete de passagem ferroviário - 16'),
+        ('13', u'Bilhete de passagem rodoviário - 13'),
+        ('30', u'Bilhete/recibo do passageiro - 30'),
+        ('10', u'Conhecimento aéreo - 10'),
+        ('09', u'Conhec. de transporte aquaviário de cargas - 09'),
+        ('8B', u'Conhec. de transporte de cargas avulso - 8B'),
+        ('57', u'CT-e - 57'),
+        ('11', u'Conhec. de transporte ferroviário de cargas - 11'),
+        ('26', u'Conhec. de transporte multimodal de cargas - 26'),
+        ('08', u'Conhec. de transporte rodoviário de cargas - 08'),
+        ('17', u'Despacho de transporte - 17'),
+        ('25', u'Manifesto de carga - 25'),
+        ('20', u'Ordem de coleta de carga - 20'),
     #)),
 )
 MODELO_FISCAL_DICT = dict(MODELO_FISCAL)
 
 MODELO_FISCAL_CUPOMFISCAL = (
     #('TRANSPORTE', (
-        ('2E', 'bilhete de passagem emitido por ECF - 2E'),
+        ('2E', u'bilhete de passagem emitido por ECF - 2E'),
     #)),
     #('MERCADORIAS E SERVICOS', (
-        ('2D', 'CF ECF - 2D'),
-        ('2C', 'CF PDV - 2C'),
-        ('2B', 'CF por máquina registradora - 2B'),
-        ('02', 'NF de venda a consumidor - 02'),
-        ('59', 'CF-e - 59'),
-        ('60', 'CF-e ECF - 60'),
+        ('2D', u'CF ECF - 2D'),
+        ('2C', u'CF PDV - 2C'),
+        ('2B', u'CF por máquina registradora - 2B'),
+        ('02', u'NF de venda a consumidor - 02'),
+        ('59', u'CF-e - 59'),
+        ('60', u'CF-e ECF - 60'),
     #)),
 )
 MODELO_FISCAL_CUPOMFISCAL_DICT = dict(MODELO_FISCAL_CUPOMFISCAL)
@@ -287,17 +287,17 @@ MODELO_FISCAL_CTE = '57'
 
 
 MODELO_FISCAL_REFERENCIADO = (
-    ('55', 'NF-e - 55'),
-    ('01', 'NF - 01, 1A'),
-    ('1B', 'NF avulsa - 1B'),
-    ('04', 'NF de produtor rural - 04'),
-    ('2D', 'CF ECF - 2D'),
-    ('2C', 'CF PDV - 2C'),
-    ('2B', 'CF por máquina registradora - 2B'),
-    ('02', 'NF de venda a consumidor - 02'),
-    ('59', 'CF-e - 59'),
-    ('60', 'CF-e ECF - 60'),
-    ('57', 'CT-e - 57'),
+    ('55', u'NF-e - 55'),
+    ('01', u'NF - 01, 1A'),
+    ('1B', u'NF avulsa - 1B'),
+    ('04', u'NF de produtor rural - 04'),
+    ('2D', u'CF ECF - 2D'),
+    ('2C', u'CF PDV - 2C'),
+    ('2B', u'CF por máquina registradora - 2B'),
+    ('02', u'NF de venda a consumidor - 02'),
+    ('59', u'CF-e - 59'),
+    ('60', u'CF-e ECF - 60'),
+    ('57', u'CT-e - 57'),
 )
 MODELO_FISCAL_REFERENCIADO_DICT = dict(MODELO_FISCAL_REFERENCIADO)
 
@@ -338,29 +338,29 @@ MODELO_FISCAL_CONSUMIDOR_FINAL = (
 )
 
 ORIGEM_MERCADORIA = (
-    ('0', '0 - Nacional'),
-    ('1', '1 - Estrangeira - importação direta'),
-    ('2', '2 - Estrangeira - adquirida no mercado interno'),
-    ('3', '3 - Nacional - conteúdo de importação superior a 40%'),
-    ('4', '4 - Nacional - produção feita em conformidade com os processos produtivos básicos de que tratam o decreto-lei nº 288/67, e as leis nº 8.248/91, nº 8.387/91, nº 10.176/01 e nº 11.484/07'),
-    ('5', '5 - Nacional - conteúdo de importação inferior ou igual a 40%'),
-    ('6', '6 - Estrangeira - importação direta, sem similar nacional, constante em lista de resolução CAMEX'),
-    ('7', '7 - Estrangeira - adquirida no mercado interno, sem similar nacional, constante em lista de RESOLUÇÃO CAMEX'),
-    ('8', '8 - Nacional - conteúdo de importação superior a 70%'),
+    ('0', u'0 - Nacional'),
+    ('1', u'1 - Estrangeira - importação direta'),
+    ('2', u'2 - Estrangeira - adquirida no mercado interno'),
+    ('3', u'3 - Nacional - conteúdo de importação superior a 40%'),
+    ('4', u'4 - Nacional - produção feita em conformidade com os processos produtivos básicos de que tratam o decreto-lei nº 288/67, e as leis nº 8.248/91, nº 8.387/91, nº 10.176/01 e nº 11.484/07'),
+    ('5', u'5 - Nacional - conteúdo de importação inferior ou igual a 40%'),
+    ('6', u'6 - Estrangeira - importação direta, sem similar nacional, constante em lista de resolução CAMEX'),
+    ('7', u'7 - Estrangeira - adquirida no mercado interno, sem similar nacional, constante em lista de RESOLUÇÃO CAMEX'),
+    ('8', u'8 - Nacional - conteúdo de importação superior a 70%'),
 )
 ORIGEM_MERCADORIA_DICT = dict(ORIGEM_MERCADORIA)
 
 ORIGEM_MERCADORIA_NACIONAL = '0'
 ORIGEM_MERCADORIA_IMPORTACAO_DIRETA = '1'
 ORIGEM_MERCADORIA_IMPORTACAO_INDIRETA = '2'
-ORIGEM_MERCADORIA_ALIQUOTA_4 = ['1', '2', '3', '8']
+ORIGEM_MERCADORIA_ALIQUOTA_4 = ['1', u'2', u'3', u'8']
 
 
 PROCESSO_EMISSAO_NFE = (
-    ('0', 'Contribuinte - aplicativo próprio'),
-    ('1', 'Fisco - avulsa'),
-    ('2', 'Contribuinte - avulsa'),
-    ('3', 'Contribuinte - aplicativo do fisco'),
+    ('0', u'Contribuinte - aplicativo próprio'),
+    ('1', u'Fisco - avulsa'),
+    ('2', u'Contribuinte - avulsa'),
+    ('3', u'Contribuinte - aplicativo do fisco'),
 )
 PROCESSO_EMISSAO_NFE_DICT = dict(PROCESSO_EMISSAO_NFE)
 
@@ -371,10 +371,10 @@ PROCESSO_EMISSAO_NFE_CONTRIBUINTE_APLICATIVO_FISCO = '3'
 
 
 REGIME_TRIBUTARIO = (
-    ('1', 'SIMPLES'),
-    ('2', 'SIMPLES - excesso de sublimite de receita bruta'),
-    ('3', 'Regime normal - lucro presumido'),
-    ('3.1', 'Regime normal - lucro real'),
+    ('1', u'SIMPLES'),
+    ('2', u'SIMPLES - excesso de sublimite de receita bruta'),
+    ('3', u'Regime normal - lucro presumido'),
+    ('3.1', u'Regime normal - lucro real'),
 )
 REGIME_TRIBUTARIO_DICT = dict(REGIME_TRIBUTARIO)
 
@@ -385,24 +385,24 @@ REGIME_TRIBUTARIO_LUCRO_PRESUMIDO = '3'
 REGIME_TRIBUTARIO_LUCRO_REAL = '3.1'
 
 REGIME_TRIBUTARIO_OPERACAO_NORMAL = (
-    ('2', 'SIMPLES - excesso de sublimite de receita bruta'),
-    ('3', 'Regime normal - lucro presumido'),
-    ('3.1', 'Regime normal - lucro real'),
+    ('2', u'SIMPLES - excesso de sublimite de receita bruta'),
+    ('3', u'Regime normal - lucro presumido'),
+    ('3.1', u'Regime normal - lucro real'),
 )
 REGIME_TRIBUTARIO_OPERACAO_NORMAL_DICT = dict(REGIME_TRIBUTARIO_OPERACAO_NORMAL)
 
 SITUACAO_FISCAL = (
-    ('00', 'Regular'),
-    ('01', 'Regular extemporâneo'),
-    ('02', 'Cancelado'),
-    ('03', 'Cancelado extemporâneo'),
-    ('04', 'Denegado - NF-e ou CT-e'),
-    ('05', 'Numeração inutilizada - NF-e ou CT-e'),
-    ('06', 'Complementar'),
-    ('07', 'Complementar extemporâneo'),
-    ('08', 'Regime especial ou norma específica'),
-    ('NC', 'Mercadoria não circulou'),
-    ('MR', 'Mercadoria não recebida'),
+    ('00', u'Regular'),
+    ('01', u'Regular extemporâneo'),
+    ('02', u'Cancelado'),
+    ('03', u'Cancelado extemporâneo'),
+    ('04', u'Denegado - NF-e ou CT-e'),
+    ('05', u'Numeração inutilizada - NF-e ou CT-e'),
+    ('06', u'Complementar'),
+    ('07', u'Complementar extemporâneo'),
+    ('08', u'Regime especial ou norma específica'),
+    ('NC', u'Mercadoria não circulou'),
+    ('MR', u'Mercadoria não recebida'),
 )
 SITUACAO_FISCAL_DICT = dict(SITUACAO_FISCAL)
 
@@ -440,17 +440,17 @@ SITUACAO_FISCAL_EXTEMPORANEO = (
 )
 
 ST_ICMS = (
-    ('00', '00 - Tributada'),
-    ('10', '10 - Tributada e com cobrança de ICMS por ST'),
-    ('20', '20 - Com redução da BC'),
-    ('30', '30 - Isenta ou não tributada com cobrança de ICMS por ST'),
-    ('40', '40 - Isenta'),
-    ('41', '41 - Não tributada'),
-    ('50', '50 - Suspensão'),
-    ('51', '51 - Diferimento'),
-    ('60', '60 - ICMS cobrado anteriormente por ST'),
-    ('70', '70 - Com redução da BC e cobrança do ICMS por ST'),
-    ('90', '90 - Outras'),
+    ('00', u'00 - Tributada'),
+    ('10', u'10 - Tributada e com cobrança de ICMS por ST'),
+    ('20', u'20 - Com redução da BC'),
+    ('30', u'30 - Isenta ou não tributada com cobrança de ICMS por ST'),
+    ('40', u'40 - Isenta'),
+    ('41', u'41 - Não tributada'),
+    ('50', u'50 - Suspensão'),
+    ('51', u'51 - Diferimento'),
+    ('60', u'60 - ICMS cobrado anteriormente por ST'),
+    ('70', u'70 - Com redução da BC e cobrança do ICMS por ST'),
+    ('90', u'9u0 - Outras'),
     )
 ST_ICMS_DICT = dict(ST_ICMS)
 
@@ -472,16 +472,16 @@ ST_ICMS_CALCULA_ST = (ST_ICMS_ST, ST_ICMS_ISENTA_COM_ST, ST_ICMS_REDUCAO_COM_ST,
 ST_ICMS_ZERA_ICMS_PROPRIO = (ST_ICMS_ISENTA_COM_ST,)
 
 ST_ICMS_SN = (
-    ('101', '101 - Tributada com permissão de crédito'),
-    ('102', '102 - Tributada sem permissão de crédito'),
-    ('103', '103 - Isento de icms para a faixa de receita bruta'),
-    ('201', '201 - Tributada com permissão de crédito e cobrança de ICMS por ST'),
-    ('202', '202 - Tributada sem permissão de crédito e cobrança de ICMS por ST'),
-    ('203', '203 - Isento de ICMS para a faixa de receita bruta e cobrança de ICMS por ST'),
-    ('300', '300 - Imune'),
-    ('400', '400 - Não tributada pelo SIMPLES'),
-    ('500', '500 - ICMS cobrado anteriormente por ST ou por antecipação'),
-    ('900', '900 - Outros'),
+    ('101', u'101 - Tributada com permissão de crédito'),
+    ('102', u'102 - Tributada sem permissão de crédito'),
+    ('103', u'103 - Isento de icms para a faixa de receita bruta'),
+    ('201', u'201 - Tributada com permissão de crédito e cobrança de ICMS por ST'),
+    ('202', u'202 - Tributada sem permissão de crédito e cobrança de ICMS por ST'),
+    ('203', u'203 - Isento de ICMS para a faixa de receita bruta e cobrança de ICMS por ST'),
+    ('300', u'300 - Imune'),
+    ('400', u'400 - Não tributada pelo SIMPLES'),
+    ('500', u'500 - ICMS cobrado anteriormente por ST ou por antecipação'),
+    ('900', u'900 - Outros'),
 )
 ST_ICMS_SN_DICT = dict(ST_ICMS_SN)
 
@@ -505,42 +505,42 @@ ST_ICMS_CODIGO_CEST = (ST_ICMS_ST, ST_ICMS_ISENTA_COM_ST, ST_ICMS_ANTERIOR, ST_I
 
 
 ST_IPI = (
-    ('00', '00 - Entrada com recuperação de crédito'),
-    ('01', '01 - Entrada tributada com alíquota zero'),
-    ('02', '02 - Entrada isenta'),
-    ('03', '03 - Entrada não tributada'),
-    ('04', '04 - Entrada imune'),
-    ('05', '05 - Entrada com suspensão'),
-    ('49', '49 - Entrada - outras entradas'),
-    ('50', '50 - Saída tributada'),
-    ('51', '51 - Saída tributada com alíquota zero'),
-    ('52', '52 - Saída isenta'),
-    ('53', '53 - Saída não tributada'),
-    ('54', '54 - Saída imune'),
-    ('55', '55 - Saída com suspensão'),
-    ('99', '99 - Saída - outras saídas'),
+    ('00', u'00 - Entrada com recuperação de crédito'),
+    ('01', u'01 - Entrada tributada com alíquota zero'),
+    ('02', u'02 - Entrada isenta'),
+    ('03', u'03 - Entrada não tributada'),
+    ('04', u'04 - Entrada imune'),
+    ('05', u'05 - Entrada com suspensão'),
+    ('49', u'49 - Entrada - outras entradas'),
+    ('50', u'50 - Saída tributada'),
+    ('51', u'51 - Saída tributada com alíquota zero'),
+    ('52', u'52 - Saída isenta'),
+    ('53', u'53 - Saída não tributada'),
+    ('54', u'54 - Saída imune'),
+    ('55', u'55 - Saída com suspensão'),
+    ('99', u'99 - Saída - outras saídas'),
     )
 ST_IPI_DICT = dict(ST_IPI)
 
 ST_IPI_ENTRADA = (
-    ('00', '00 - Entrada com recuperação de crédito'),
-    ('01', '01 - Entrada tributada com alíquota zero'),
-    ('02', '02 - Entrada isenta'),
-    ('03', '03 - Entrada não tributada'),
-    ('04', '04 - Entrada imune'),
-    ('05', '05 - Entrada com suspensão'),
-    ('49', '49 - Entrada - outras entradas'),
+    ('00', u'00 - Entrada com recuperação de crédito'),
+    ('01', u'01 - Entrada tributada com alíquota zero'),
+    ('02', u'02 - Entrada isenta'),
+    ('03', u'03 - Entrada não tributada'),
+    ('04', u'04 - Entrada imune'),
+    ('05', u'05 - Entrada com suspensão'),
+    ('49', u'49 - Entrada - outras entradas'),
     )
 ST_IPI_ENTRADA_DICT = dict(ST_IPI_ENTRADA)
 
 ST_IPI_SAIDA = (
-    ('50', '50 - Saída tributada'),
-    ('51', '51 - Saída tributada com alíquota zero'),
-    ('52', '52 - Saída isenta'),
-    ('53', '53 - Saída não tributada'),
-    ('54', '54 - Saída imune'),
-    ('55', '55 - Saída com suspensão'),
-    ('99', '99 - Saída - outras saídas'),
+    ('50', u'50 - Saída tributada'),
+    ('51', u'51 - Saída tributada com alíquota zero'),
+    ('52', u'52 - Saída isenta'),
+    ('53', u'53 - Saída não tributada'),
+    ('54', u'54 - Saída imune'),
+    ('55', u'55 - Saída com suspensão'),
+    ('99', u'99 - Saída - outras saídas'),
     )
 ST_IPI_SAIDA_DICT = dict(ST_IPI_SAIDA)
 
@@ -563,10 +563,10 @@ ST_IPI_CALCULA = (ST_IPI_ENTRADA_RECUPERACAO_CREDITO, ST_IPI_ENTRADA_OUTRAS,
 
 
 ST_ISS = (
-    ('N', 'N - normal'),
-    ('R', 'R - retido'),
-    ('S', 'S - substituto'),
-    ('I', 'I - isento'),
+    ('N', u'N - normal'),
+    ('R', u'R - retido'),
+    ('S', u'S - substituto'),
+    ('I', u'I - isento'),
 )
 ST_ISS_DICT = dict(ST_ISS)
 
@@ -577,80 +577,80 @@ ST_ISS_ISENTO = 'I'
 
 
 ST_PIS = (
-    ('01', '01 - Tributável - BC = valor da operação (alíquota normal - cumulativo/não cumulativo)'),
-    ('02', '02 - Tributável - BC = valor da operação (alíquota diferenciada)'),
-    ('03', '03 - Tributável - BC = quantidade vendida × alíquota por unidade de produto'),
-    ('04', '04 - Tributável - tributação monofásica (alíquota zero)'),
-    ('05', '05 - Tributável - ST'),
-    ('06', '06 - Tributável - alíquota zero'),
-    ('07', '07 - Isenta'),
-    ('08', '08 - Sem incidência'),
-    ('09', '09 - Com suspensão'),
-    ('49', '49 - Outras operações de saída'),
-    ('50', '50 - Operação com direito a crédito - vinculada exclusivamente a receita tributada no mercado interno'),
-    ('51', '51 - Operação com direito a crédito - vinculada exclusivamente a receita não tributada no mercado interno'),
-    ('52', '52 - Operação com direito a crédito - vinculada exclusivamente a receita de exportação'),
-    ('53', '53 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno'),
-    ('54', '54 - Operação com direito a crédito - vinculada a receitas tributadas no mercado interno e de exportação'),
-    ('55', '55 - Operação com direito a crédito - vinculada a receitas não-tributadas no mercado interno e de exportação'),
-    ('56', '56 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
-    ('60', '60 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita tributada no mercado interno'),
-    ('61', '61 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita não-tributada no mercado interno'),
-    ('62', '62 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita de exportação'),
-    ('63', '63 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno'),
-    ('64', '64 - Crédito presumido - operação de aquisição vinculada a receitas tributadas no mercado interno e de exportação'),
-    ('65', '65 - Crédito presumido - operação de aquisição vinculada a receitas não-tributadas no mercado interno e de exportação'),
-    ('66', '66 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
-    ('67', '67 - Crédito presumido - outras operações'),
-    ('70', '70 - Operação de aquisição sem direito a crédito'),
-    ('71', '71 - Operação de aquisição com isenção'),
-    ('72', '72 - Operação de aquisição com suspensão'),
-    ('73', '73 - Operação de aquisição a alíquota zero'),
-    ('74', '74 - Operação de aquisição sem incidência da contribuição'),
-    ('75', '75 - Operação de aquisição por ST'),
-    ('98', '98 - Outras operações de entrada'),
-    ('99', '99 - Outras operações'),
+    ('01', u'01 - Tributável - BC = valor da operação (alíquota normal - cumulativo/não cumulativo)'),
+    ('02', u'02 - Tributável - BC = valor da operação (alíquota diferenciada)'),
+    ('03', u'03 - Tributável - BC = quantidade vendida × alíquota por unidade de produto'),
+    ('04', u'04 - Tributável - tributação monofásica (alíquota zero)'),
+    ('05', u'05 - Tributável - ST'),
+    ('06', u'06 - Tributável - alíquota zero'),
+    ('07', u'07 - Isenta'),
+    ('08', u'08 - Sem incidência'),
+    ('09', u'09 - Com suspensão'),
+    ('49', u'49 - Outras operações de saída'),
+    ('50', u'50 - Operação com direito a crédito - vinculada exclusivamente a receita tributada no mercado interno'),
+    ('51', u'51 - Operação com direito a crédito - vinculada exclusivamente a receita não tributada no mercado interno'),
+    ('52', u'52 - Operação com direito a crédito - vinculada exclusivamente a receita de exportação'),
+    ('53', u'53 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno'),
+    ('54', u'54 - Operação com direito a crédito - vinculada a receitas tributadas no mercado interno e de exportação'),
+    ('55', u'55 - Operação com direito a crédito - vinculada a receitas não-tributadas no mercado interno e de exportação'),
+    ('56', u'56 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
+    ('60', u'60 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita tributada no mercado interno'),
+    ('61', u'61 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita não-tributada no mercado interno'),
+    ('62', u'62 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita de exportação'),
+    ('63', u'63 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno'),
+    ('64', u'64 - Crédito presumido - operação de aquisição vinculada a receitas tributadas no mercado interno e de exportação'),
+    ('65', u'65 - Crédito presumido - operação de aquisição vinculada a receitas não-tributadas no mercado interno e de exportação'),
+    ('66', u'66 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
+    ('67', u'67 - Crédito presumido - outras operações'),
+    ('70', u'70 - Operação de aquisição sem direito a crédito'),
+    ('71', u'71 - Operação de aquisição com isenção'),
+    ('72', u'72 - Operação de aquisição com suspensão'),
+    ('73', u'73 - Operação de aquisição a alíquota zero'),
+    ('74', u'74 - Operação de aquisição sem incidência da contribuição'),
+    ('75', u'75 - Operação de aquisição por ST'),
+    ('98', u'98 - Outras operações de entrada'),
+    ('99', u'99 - Outras operações'),
 )
 ST_PIS_DICT = dict(ST_PIS)
 
 ST_PIS_ENTRADA = (
-    ('50', '50 - Operação com direito a crédito - vinculada exclusivamente a receita tributada no mercado interno'),
-    ('51', '51 - Operação com direito a crédito - vinculada exclusivamente a receita não tributada no mercado interno'),
-    ('52', '52 - Operação com direito a crédito - vinculada exclusivamente a receita de exportação'),
-    ('53', '53 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno'),
-    ('54', '54 - Operação com direito a crédito - vinculada a receitas tributadas no mercado interno e de exportação'),
-    ('55', '55 - Operação com direito a crédito - vinculada a receitas não-tributadas no mercado interno e de exportação'),
-    ('56', '56 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
-    ('60', '60 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita tributada no mercado interno'),
-    ('61', '61 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita não-tributada no mercado interno'),
-    ('62', '62 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita de exportação'),
-    ('63', '63 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno'),
-    ('64', '64 - Crédito presumido - operação de aquisição vinculada a receitas tributadas no mercado interno e de exportação'),
-    ('65', '65 - Crédito presumido - operação de aquisição vinculada a receitas não-tributadas no mercado interno e de exportação'),
-    ('66', '66 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
-    ('67', '67 - Crédito presumido - outras operações'),
-    ('70', '70 - Operação de aquisição sem direito a crédito'),
-    ('71', '71 - Operação de aquisição com isenção'),
-    ('72', '72 - Operação de aquisição com suspensão'),
-    ('73', '73 - Operação de aquisição a alíquota zero'),
-    ('74', '74 - Operação de aquisição sem incidência da contribuição'),
-    ('75', '75 - Operação de aquisição por ST'),
-    ('98', '98 - Outras operações de entrada'),
+    ('50', u'50 - Operação com direito a crédito - vinculada exclusivamente a receita tributada no mercado interno'),
+    ('51', u'51 - Operação com direito a crédito - vinculada exclusivamente a receita não tributada no mercado interno'),
+    ('52', u'52 - Operação com direito a crédito - vinculada exclusivamente a receita de exportação'),
+    ('53', u'53 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno'),
+    ('54', u'54 - Operação com direito a crédito - vinculada a receitas tributadas no mercado interno e de exportação'),
+    ('55', u'55 - Operação com direito a crédito - vinculada a receitas não-tributadas no mercado interno e de exportação'),
+    ('56', u'56 - Operação com direito a crédito - vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
+    ('60', u'60 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita tributada no mercado interno'),
+    ('61', u'61 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita não-tributada no mercado interno'),
+    ('62', u'62 - Crédito presumido - operação de aquisição vinculada exclusivamente a receita de exportação'),
+    ('63', u'63 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno'),
+    ('64', u'64 - Crédito presumido - operação de aquisição vinculada a receitas tributadas no mercado interno e de exportação'),
+    ('65', u'65 - Crédito presumido - operação de aquisição vinculada a receitas não-tributadas no mercado interno e de exportação'),
+    ('66', u'66 - Crédito presumido - operação de aquisição vinculada a receitas tributadas e não-tributadas no mercado interno, e de exportação'),
+    ('67', u'67 - Crédito presumido - outras operações'),
+    ('70', u'70 - Operação de aquisição sem direito a crédito'),
+    ('71', u'71 - Operação de aquisição com isenção'),
+    ('72', u'72 - Operação de aquisição com suspensão'),
+    ('73', u'73 - Operação de aquisição a alíquota zero'),
+    ('74', u'74 - Operação de aquisição sem incidência da contribuição'),
+    ('75', u'75 - Operação de aquisição por ST'),
+    ('98', u'98 - Outras operações de entrada'),
     )
 ST_PIS_ENTRADA_DICT = dict(ST_PIS_ENTRADA)
 
 ST_PIS_SAIDA = (
-    ('01', '01 - Tributável - BC = valor da operação (alíquota normal - cumulativo/não cumulativo)'),
-    ('02', '02 - Tributável - BC = valor da operação (alíquota diferenciada)'),
-    ('03', '03 - Tributável - BC = quantidade vendida × alíquota por unidade de produto'),
-    ('04', '04 - Tributável - tributação monofásica (alíquota zero)'),
-    ('05', '05 - Tributável - ST'),
-    ('06', '06 - Tributável - alíquota zero'),
-    ('07', '07 - Isenta'),
-    ('08', '08 - Sem incidência'),
-    ('09', '09 - Com suspensão'),
-    ('49', '49 - Outras operações de saída'),
-    ('99', '99 - Outras operações'),
+    ('01', u'01 - Tributável - BC = valor da operação (alíquota normal - cumulativo/não cumulativo)'),
+    ('02', u'02 - Tributável - BC = valor da operação (alíquota diferenciada)'),
+    ('03', u'03 - Tributável - BC = quantidade vendida × alíquota por unidade de produto'),
+    ('04', u'04 - Tributável - tributação monofásica (alíquota zero)'),
+    ('05', u'05 - Tributável - ST'),
+    ('06', u'06 - Tributável - alíquota zero'),
+    ('07', u'07 - Isenta'),
+    ('08', u'08 - Sem incidência'),
+    ('09', u'09 - Com suspensão'),
+    ('49', u'49 - Outras operações de saída'),
+    ('99', u'99 - Outras operações'),
     )
 ST_PIS_SAIDA_DICT = dict(ST_PIS_SAIDA)
 
@@ -736,8 +736,8 @@ ST_COFINS_CALCULA_QUANTIDADE = (ST_COFINS_TRIB_QUANTIDADE,)
 
 
 TIPO_EMISSAO = (
-    ('0', 'Emissão própria'),
-    ('1', 'Emissão por terceiros'),
+    ('0', u'Emissão própria'),
+    ('1', u'Emissão por terceiros'),
     )
 TIPO_EMISSAO_DICT = dict(TIPO_EMISSAO)
 
@@ -745,22 +745,22 @@ TIPO_EMISSAO_PROPRIA = '0'
 TIPO_EMISSAO_TERCEIROS = '1'
 
 TIPO_EMISSAO_TODAS = (
-    ('%', 'Todas'),
-    ('0', 'Emissão própria'),
-    ('1', 'Emissão por terceiros'),
+    ('%', u'Todas'),
+    ('0', u'Emissão própria'),
+    ('1', u'Emissão por terceiros'),
     )
 TIPO_EMISSAO_TODAS_DICT = dict(TIPO_EMISSAO_TODAS)
 
 
 TIPO_EMISSAO_NFE = (
-    ('1', 'Normal'),
-    ('2', 'Contingência FS-IA'),
-    ('3', 'Contingência SCAN'),
-    ('4', 'Contingência DPEC'),
-    ('5', 'Contingência FS-DA'),
-    ('6', 'Contingência SVC-AN'),
-    ('7', 'Contingência SVC-RS'),
-    ('9', 'Contingência offline NFC-e'),
+    ('1', u'Normal'),
+    ('2', u'Contingência FS-IA'),
+    ('3', u'Contingência SCAN'),
+    ('4', u'Contingência DPEC'),
+    ('5', u'Contingência FS-DA'),
+    ('6', u'Contingência SVC-AN'),
+    ('7', u'Contingência SVC-RS'),
+    ('9', u'Contingência offline NFC-e'),
 )
 TIPO_EMISSAO_NFE_DICT = dict(TIPO_EMISSAO_NFE)
 
@@ -775,11 +775,11 @@ TIPO_EMISSAO_NFE_CONTINGENCIA_OFFLINE_NFCE = '9'
 
 
 TIPO_IMPRESSAO_NFE = (
-    ('1', 'DANFE retrato'),
-    ('2', 'DANFE paisagem'),
-    ('3', 'DANFE simplificado'),
-    ('4', 'DANFE NFC-e'),
-    ('5', 'DANFE NFC-e eletrônico'),
+    ('1', u'DANFE retrato'),
+    ('2', u'DANFE paisagem'),
+    ('3', u'DANFE simplificado'),
+    ('4', u'DANFE NFC-e'),
+    ('5', u'DANFE NFC-e eletrônico'),
 )
 TIPO_IMPRESSAO_NFE_DICT = dict(TIPO_IMPRESSAO_NFE)
 
@@ -791,9 +791,9 @@ TIPO_IMPRESSAO_NFCE_ELETRONICO = '5'
 
 
 VERSAO_NFE = (
-    ('1.10', 'Versão 1.10'),
-    ('2.00', 'Versão 2.00'),
-    ('3.10', 'Versão 3.10'),
+    ('1.10', u'Versão 1.10'),
+    ('2.00', u'Versão 2.00'),
+    ('3.10', u'Versão 3.10'),
 )
 VERSAO_NFE_DICT = dict(VERSAO_NFE)
 
@@ -803,18 +803,18 @@ VERSAO_NFE_310 = '3.10'
 
 
 TIPO_PRODUTO_SERVICO = (
-    ('00', 'Mercadoria para revenda'),
-    ('01', 'Matéria-prima'),
-    ('02', 'Embalagem'),
-    ('03', 'Produto em processo'),
-    ('04', 'Produto acabado'),
-    ('05', 'Subproduto'),
-    ('06', 'Produto intermediário'),
-    ('07', 'Material de uso e consumo'),
-    ('08', 'Ativo imobilizado'),
-    ('09', 'Serviços'),
-    ('10', 'Outros insumos'),
-    ('99', 'Outros'),
+    ('00', u'Mercadoria para revenda'),
+    ('01', u'Matéria-prima'),
+    ('02', u'Embalagem'),
+    ('03', u'Produto em processo'),
+    ('04', u'Produto acabado'),
+    ('05', u'Subproduto'),
+    ('06', u'Produto intermediário'),
+    ('07', u'Material de uso e consumo'),
+    ('08', u'Ativo imobilizado'),
+    ('09', u'Serviços'),
+    ('10', u'Outros insumos'),
+    ('99', u'Outros'),
     )
 TIPO_PRODUTO_SERVICO_DICT = dict(TIPO_PRODUTO_SERVICO)
 
@@ -833,8 +833,8 @@ TIPO_PRODUTO_SERVICO_OUTROS = '99'
 
 
 APURACAO_IPI = (
-    ('0', 'Mensal'),
-    ('1', 'Decendial'),
+    ('0', u'Mensal'),
+    ('1', u'Decendial'),
 )
 APURACAO_IPI_DICT = dict(APURACAO_IPI)
 
@@ -843,25 +843,25 @@ APURACAO_IPI_DECENDIAL = '1'
 
 
 SITUACAO_NFE = (
-    ('em_digitacao', 'Em digitação'),
-    ('a_enviar', 'Aguardando envio'),
-    ('enviada', 'Aguardando processamento'),
-    ('rejeitada', 'RejEitada'),
-    ('autorizada', 'Autorizada'),
-    ('cancelada', 'Cancelada'),
-    ('denegada', 'Denegada'),
-    ('inutilizada', 'Inutilizada'),
+    ('em_digitacao', u'Em digitação'),
+    ('a_enviar', u'Aguardando envio'),
+    ('enviada', u'Aguardando processamento'),
+    ('rejeitada', u'RejEitada'),
+    ('autorizada', u'Autorizada'),
+    ('cancelada', u'Cancelada'),
+    ('denegada', u'Denegada'),
+    ('inutilizada', u'Inutilizada'),
 )
 SITUACAO_NFE_DICT = dict(SITUACAO_NFE)
 
 
 NATUREZA_TRIBUTACAO_NFSE = (
-    ('0', 'Tributada no município'),
-    ('1', 'Tributada fora do município'),
-    ('2', 'Isenta'),
-    ('3', 'Imune'),
-    ('4', 'Suspensa por decisão judicial'),
-    ('5', 'Suspensa por procedimento administrativo'),
+    ('0', u'Tributada no município'),
+    ('1', u'Tributada fora do município'),
+    ('2', u'Isenta'),
+    ('3', u'Imune'),
+    ('4', u'Suspensa por decisão judicial'),
+    ('5', u'Suspensa por procedimento administrativo'),
 )
 
 NAT_OP_TRIBUTADA_NO_MUNICIPIO = '0'
@@ -873,39 +873,39 @@ NAT_OP_SUSPENSA_PROCEDIMENTO_ADMINISTRATIVO = '5'
 
 
 CLASSE_CONSUMO_ENERGIA = (
-    ('01', 'Comercial'),
-    ('02', 'Consumo próprio'),
-    ('03', 'Iluminação pública'),
-    ('04', 'Industrial'),
-    ('05', 'Poder público'),
-    ('06', 'Residencial'),
-    ('07', 'Rural'),
-    ('08', 'Serviço público'),
+    ('01', u'Comercial'),
+    ('02', u'Consumo próprio'),
+    ('03', u'Iluminação pública'),
+    ('04', u'Industrial'),
+    ('05', u'Poder público'),
+    ('06', u'Residencial'),
+    ('07', u'Rural'),
+    ('08', u'Serviço público'),
 )
 
 
 TIPO_LIGACAO_ENERGIA = (
-    ('1', 'Monofásica'),
-    ('2', 'Bifásica'),
-    ('3', 'Trifásica'),
+    ('1', u'Monofásica'),
+    ('2', u'Bifásica'),
+    ('3', u'Trifásica'),
 )
 
 
 GRUPO_TENSAO_ENERGIA = (
-    ('01', 'A1 - Alta tensão (230 kV ou mais)'),
-    ('02', 'A2 - Alta tensão (88 a 138 kV)'),
-    ('03', 'A3 - Alta tensão (69 kV)'),
-    ('04', 'A3a - Alta tensão (30 kV a 44 kV)'),
-    ('05', 'A4 - Alta tensão (2,3 kV a 25 kV)'),
-    ('06', 'AS - Alta tensão subterrâneo'),
-    ('07', 'B1 - Residencial'),
-    ('08', 'B1 - Residencial de baixa renda'),
-    ('09', 'B2 - Rural'),
-    ('10', 'B2 - Cooperativa de eletrificação rural'),
-    ('11', 'B2 - Serviço público de irrigação'),
-    ('12', 'B3 - Demais classes'),
-    ('13', 'B4a - Iluminação pública - rede de distribuição'),
-    ('14', 'B4b - Iluminação pública - bulbo de lâmpada'),
+    ('01', u'A1 - Alta tensão (230 kV ou mais)'),
+    ('02', u'A2 - Alta tensão (88 a 138 kV)'),
+    ('03', u'A3 - Alta tensão (69 kV)'),
+    ('04', u'A3a - Alta tensão (30 kV a 44 kV)'),
+    ('05', u'A4 - Alta tensão (2,3 kV a 25 kV)'),
+    ('06', u'AS - Alta tensão subterrâneo'),
+    ('07', u'B1 - Residencial'),
+    ('08', u'B1 - Residencial de baixa renda'),
+    ('09', u'B2 - Rural'),
+    ('10', u'B2 - Cooperativa de eletrificação rural'),
+    ('11', u'B2 - Serviço público de irrigação'),
+    ('12', u'B3 - Demais classes'),
+    ('13', u'B4a - Iluminação pública - rede de distribuição'),
+    ('14', u'B4b - Iluminação pública - bulbo de lâmpada'),
 )
 
 
@@ -913,50 +913,50 @@ CLASSE_CONSUMO_GAS = CLASSE_CONSUMO_ENERGIA
 
 
 CLASSE_CONSUMO_AGUA = (
-    ('00', 'Registro consolidando os documentos de consumo residencial até R$ 50,00'),
-    ('01', 'Registro consolidando os documentos de consumo residencial de R$ 50,01 a R$ 100,00'),
-    ('02', 'Registro consolidando os documentos de consumo residencial de R$ 100,01 a R$ 200,00'),
-    ('03', 'Registro consolidando os documentos de consumo residencial de R$ 200,01 a R$ 300,00'),
-    ('04', 'Registro consolidando os documentos de consumo residencial de R$ 300,01 a R$ 400,00'),
-    ('05', 'Registro consolidando os documentos de consumo residencial de R$ 400,01 a R$ 500,00'),
-    ('06', 'Registro consolidando os documentos de consumo residencial de R$ 500,01 a R$ 1000,00'),
-    ('07', 'Registro consolidando os documentos de consumo residencial acima de R$ 1.000,01'),
-    ('20', 'Registro consolidando os documentos de consumo comercial/industrial até R$ 50,00'),
-    ('21', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 50,01 a R$ 100,00'),
-    ('22', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 100,01 a R$ 200,00'),
-    ('23', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 200,01 a R$ 300,00'),
-    ('24', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 300,01 a R$ 400,00'),
-    ('25', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 400,01 a R$ 500,00'),
-    ('26', 'Registro consolidando os documentos de consumo comercial/industrial de R$ 500,01 a R$ 1.000,00'),
-    ('27', 'Registro por documento fiscal de consumo comercial/industrial acima de R$ 1.000,01'),
-    ('80', 'Registro consolidando os documentos de consumo de órgão público'),
-    ('90', 'Registro consolidando os documentos de outros tipos de consumo até R$ 50,00'),
-    ('91', 'Registro consolidando os documentos de outros tipos de consumo de R$ 50,01 a R$ 100,00'),
-    ('92', 'Registro consolidando os documentos de outros tipos de consumo de R$ 100,01 a R$ 200,00'),
-    ('93', 'Registro consolidando os documentos de outros tipos de consumo de R$ 200,01 a R$ 300,00'),
-    ('94', 'Registro consolidando os documentos de outros tipos de consumo de R$ 300,01 a R$ 400,00'),
-    ('95', 'Registro consolidando os documentos de outros tipos de consumo de R$ 400,01 a R$ 500,00'),
-    ('96', 'Registro consolidando os documentos de outros tipos de consumo de R$ 500,01 a R$ 1.000,00'),
-    ('97', 'Registro consolidando os documentos de outros tipos de consumo acima de R$ 1.000,01'),
-    ('99', 'Registro por documento fiscal emitido'),
+    ('00', u'Registro consolidando os documentos de consumo residencial até R$ 50,00'),
+    ('01', u'Registro consolidando os documentos de consumo residencial de R$ 50,01 a R$ 100,00'),
+    ('02', u'Registro consolidando os documentos de consumo residencial de R$ 100,01 a R$ 200,00'),
+    ('03', u'Registro consolidando os documentos de consumo residencial de R$ 200,01 a R$ 300,00'),
+    ('04', u'Registro consolidando os documentos de consumo residencial de R$ 300,01 a R$ 400,00'),
+    ('05', u'Registro consolidando os documentos de consumo residencial de R$ 400,01 a R$ 500,00'),
+    ('06', u'Registro consolidando os documentos de consumo residencial de R$ 500,01 a R$ 1000,00'),
+    ('07', u'Registro consolidando os documentos de consumo residencial acima de R$ 1.000,01'),
+    ('20', u'Registro consolidando os documentos de consumo comercial/industrial até R$ 50,00'),
+    ('21', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 50,01 a R$ 100,00'),
+    ('22', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 100,01 a R$ 200,00'),
+    ('23', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 200,01 a R$ 300,00'),
+    ('24', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 300,01 a R$ 400,00'),
+    ('25', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 400,01 a R$ 500,00'),
+    ('26', u'Registro consolidando os documentos de consumo comercial/industrial de R$ 500,01 a R$ 1.000,00'),
+    ('27', u'Registro por documento fiscal de consumo comercial/industrial acima de R$ 1.000,01'),
+    ('80', u'Registro consolidando os documentos de consumo de órgão público'),
+    ('90', u'Registro consolidando os documentos de outros tipos de consumo até R$ 50,00'),
+    ('91', u'Registro consolidando os documentos de outros tipos de consumo de R$ 50,01 a R$ 100,00'),
+    ('92', u'Registro consolidando os documentos de outros tipos de consumo de R$ 100,01 a R$ 200,00'),
+    ('93', u'Registro consolidando os documentos de outros tipos de consumo de R$ 200,01 a R$ 300,00'),
+    ('94', u'Registro consolidando os documentos de outros tipos de consumo de R$ 300,01 a R$ 400,00'),
+    ('95', u'Registro consolidando os documentos de outros tipos de consumo de R$ 400,01 a R$ 500,00'),
+    ('96', u'Registro consolidando os documentos de outros tipos de consumo de R$ 500,01 a R$ 1.000,00'),
+    ('97', u'Registro consolidando os documentos de outros tipos de consumo acima de R$ 1.000,01'),
+    ('99', u'Registro por documento fiscal emitido'),
 )
 
 TIPO_ASSINANTE = (
-    ('1', 'Comercial/industrial'),
-    ('2', 'Poder público'),
-    ('3', 'Residencial/pessoa física'),
-    ('4', 'Público'),
-    ('5', 'Semi-público'),
-    ('6', 'Outros'),
+    ('1', u'Comercial/industrial'),
+    ('2', u'Poder público'),
+    ('3', u'Residencial/pessoa física'),
+    ('4', u'Público'),
+    ('5', u'Semi-público'),
+    ('6', u'Outros'),
 )
 
 #
 # Definições da NF-e e NFC-e de 3ª geração
 #
 IDENTIFICACAO_DESTINO = (
-    ('1', 'Operação interna'),
-    ('2', 'Operação interestadual'),
-    ('3', 'Operação com exterior'),
+    ('1', u'Operação interna'),
+    ('2', u'Operação interestadual'),
+    ('3', u'Operação com exterior'),
 )
 
 IDENTIFICACAO_DESTINO_INTERNO = '1'
@@ -964,8 +964,8 @@ IDENTIFICACAO_DESTINO_INTERESTADUAL = '2'
 IDENTIFICACAO_DESTINO_EXTERIOR = '3'
 
 TIPO_CONSUMIDOR_FINAL = (
-    ('0', 'Normal'),
-    ('1', 'Consumidor final'),
+    ('0', u'Normal'),
+    ('1', u'Consumidor final'),
 )
 
 TIPO_CONSUMIDOR_FINAL_NORMAL = '0'
@@ -973,13 +973,13 @@ TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL = '1'
 
 
 INDICADOR_PRESENCA_COMPRADOR = (
-    ('0', 'Não se aplica'),
-    ('1', 'Presencial'),
-    ('2', 'Operação pela internet'),
-    ('3', 'Operação por teleatendimento'),
-    ('4', 'Presencial - entrega em domicílio'),
-    ('5', 'Presencial - fora do estabelecimento'),
-    ('9', 'Não presencial - outros'),
+    ('0', u'Não se aplica'),
+    ('1', u'Presencial'),
+    ('2', u'Operação pela internet'),
+    ('3', u'Operação por teleatendimento'),
+    ('4', u'Presencial - entrega em domicílio'),
+    ('5', u'Presencial - fora do estabelecimento'),
+    ('9', u'Não presencial - outros'),
 )
 
 INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA = '0'
@@ -992,9 +992,9 @@ INDICADOR_PRESENCA_COMPRADOR_OUTROS = '9'
 
 
 INDICADOR_IE_DESTINATARIO = (
-    ('1', 'Contribuinte'),
-    ('2', 'Isento'),
-    ('9', 'Não contribuinte'),
+    ('1', u'Contribuinte'),
+    ('2', u'Isento'),
+    ('9', u'Não contribuinte'),
 )
 IE_DESTINATARIO = INDICADOR_IE_DESTINATARIO
 
@@ -1003,36 +1003,36 @@ INDICADOR_IE_DESTINATARIO_ISENTO = '2'
 INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE = '9'
 
 VIA_TRANSPORTE_IMPORTACAO = (
-    ('1', 'Marítima'),
-    ('1', 'Fluvial'),
-    ('1', 'Lacustre'),
-    ('1', 'Aérea'),
-    ('1', 'Postal'),
-    ('1', 'Ferroviária'),
-    ('1', 'Rodoviária'),
-    ('1', 'Rede de transmissão'),
-    ('1', 'Meios próprios'),
-    ('1', 'Entrada/saída fictícia'),
+    ('1', u'Marítima'),
+    ('1', u'Fluvial'),
+    ('1', u'Lacustre'),
+    ('1', u'Aérea'),
+    ('1', u'Postal'),
+    ('1', u'Ferroviária'),
+    ('1', u'Rodoviária'),
+    ('1', u'Rede de transmissão'),
+    ('1', u'Meios próprios'),
+    ('1', u'Entrada/saída fictícia'),
 )
 
 INTERMEDIACAO_IMPORTACAO = (
-    ('1', 'Por conta própria'),
-    ('2', 'Por conta e ordem'),
-    ('3', 'Por encomenda'),
+    ('1', u'Por conta própria'),
+    ('2', u'Por conta e ordem'),
+    ('3', u'Por encomenda'),
 )
 
 PROVEDOR_NFSE = (
-    ('BETHA', 'Betha'),
-    ('IPM', 'IPM'),
-    ('PRODAM', 'PRODAM'),
-    ('BARUERI', 'Barueri'),
-    ('JOINVILLE', 'Joinville'),
-    ('BOANOTA', 'BoaNota Curitiba'),
-    ('PUBLICA', 'Publica'),
-    ('JOAO_PESSOA', 'João Pessoa'),
-    ('ABRASF', 'ABRASF'),
-    ('GIMFES', 'GIMFES'),
-    ('NEOGRID', 'NeoGrid'),
+    ('BETHA', u'Betha'),
+    ('IPM', u'IPM'),
+    ('PRODAM', u'PRODAM'),
+    ('BARUERI', u'Barueri'),
+    ('JOINVILLE', u'Joinville'),
+    ('BOANOTA', u'BoaNota Curitiba'),
+    ('PUBLICA', u'Publica'),
+    ('JOAO_PESSOA', u'João Pessoa'),
+    ('ABRASF', u'ABRASF'),
+    ('GIMFES', u'GIMFES'),
+    ('NEOGRID', u'NeoGrid'),
 )
 
 ALIQUOTAS_ICMS = {
@@ -1069,62 +1069,62 @@ ALIQUOTAS_ICMS = {
 # TABELA DE NATUREZA JURÍDICA 2014
 #
 NATUREZA_JURIDICA = (
-       ('2011', 'Empresa pública'),
-       ('2038', 'Sociedade de economia mista'),
-       ('2046', 'Sociedade anônima aberta'),
-       ('2054', 'Sociedade anônima fechada'),
-       ('2062', 'Sociedade empresária limitada'),
-       ('2070', 'Sociedade empresária em nome coletivo'),
-       ('2089', 'Sociedade empresária em comandita simples'),
-       ('2097', 'Sociedade empresária em comandita por ações'),
-       ('2127', 'Sociedade em conta de participação'),
-       ('2135', 'Empresário (individual)'),
-       ('2143', 'Cooperativa'),
-       ('2151', 'Consórcio de sociedades'),
-       ('2160', 'Grupo de sociedades'),
-       ('2178', 'Estabelecimento, no Brasil, de sociedade estrangeira'),
-       ('2194', 'Estabelecimento, no Brasil, de empresa binacional Argentino-Brasileira'),
-       ('2216', 'Empresa domiciliada no exterior'),
-       ('2224', 'Clube/fundo de investimento'),
-       ('2232', 'Sociedade simples pura'),
-       ('2240', 'Sociedade simples limitada'),
-       ('2259', 'Sociedade simples em nome coletivo'),
-       ('2267', 'Sociedade simples em comandita simples'),
-       ('2275', 'Empresa binacional'),
-       ('2283', 'Consórcio de empregadores'),
-       ('2291', 'Consórcio simples'),
-       ('2305', 'Empresa individual de responsabilidade limitada (de natureza empresária)'),
-       ('2313', 'Empresa individual de responsabilidade limitada (de natureza simples)'),
+       ('2011', u'Empresa pública'),
+       ('2038', u'Sociedade de economia mista'),
+       ('2046', u'Sociedade anônima aberta'),
+       ('2054', u'Sociedade anônima fechada'),
+       ('2062', u'Sociedade empresária limitada'),
+       ('2070', u'Sociedade empresária em nome coletivo'),
+       ('2089', u'Sociedade empresária em comandita simples'),
+       ('2097', u'Sociedade empresária em comandita por ações'),
+       ('2127', u'Sociedade em conta de participação'),
+       ('2135', u'Empresário (individual)'),
+       ('2143', u'Cooperativa'),
+       ('2151', u'Consórcio de sociedades'),
+       ('2160', u'Grupo de sociedades'),
+       ('2178', u'Estabelecimento, no Brasil, de sociedade estrangeira'),
+       ('2194', u'Estabelecimento, no Brasil, de empresa binacional Argentino-Brasileira'),
+       ('2216', u'Empresa domiciliada no exterior'),
+       ('2224', u'Clube/fundo de investimento'),
+       ('2232', u'Sociedade simples pura'),
+       ('2240', u'Sociedade simples limitada'),
+       ('2259', u'Sociedade simples em nome coletivo'),
+       ('2267', u'Sociedade simples em comandita simples'),
+       ('2275', u'Empresa binacional'),
+       ('2283', u'Consórcio de empregadores'),
+       ('2291', u'Consórcio simples'),
+       ('2305', u'Empresa individual de responsabilidade limitada (de natureza empresária)'),
+       ('2313', u'Empresa individual de responsabilidade limitada (de natureza simples)'),
 )
 
 
 CFOPS_COMPRA_INDUSTRIALIZACAO = [
-    '1101', '1111', '1116', '1120', '1122',         '1401', '1651',
-    '2101', '2111', '2116', '2120', '2122',         '2401', '2651',
+    '1101', u'1111', u'1116', u'1120', u'1122',         '1401', u'1651',
+    '2101', u'2111', u'2116', u'2120', u'2122',         '2401', u'2651',
     '3101',                                 '3127',         '3651'
 ]
 
 CFOPS_COMPRA_COMERCIALIZACAO = [
-    '1102', '1113', '1117', '1118', '1121', '1403', '1652',
-    '2102', '2113', '2117', '2118', '2121', '2403', '2652',
+    '1102', u'1113', u'1117', u'1118', u'1121', u'1403', u'1652',
+    '2102', u'2113', u'2117', u'2118', u'2121', u'2403', u'2652',
     '3102',                                         '3652'
 ]
 
 CFOPS_COMPRA_ATIVO = [
-    '1406', '1551',
-    '2406', '2551',
+    '1406', u'1551',
+    '2406', u'2551',
             '3551',
 ]
 
 CFOPS_USO_CONSUMO = [
-    '1407', '1556',
-    '2407', '2556',
+    '1407', u'1556',
+    '2407', u'2556',
             '3551',
 ]
 
 CFOPS_COMPRA_SERVICO = [
-    '1933', '1949',
-    '2933', '2949',
+    '1933', u'1949',
+    '2933', u'2949',
             '3949',
 ]
 
@@ -1135,9 +1135,9 @@ CFOPS_COMPRA_CUSTO_VENDA = CFOPS_COMPRA_INDUSTRIALIZACAO +  CFOPS_COMPRA_COMERCI
 
 
 CFOPS_VENDA_MERCADORIA = [
-    '5101', '5102', '5103', '5104', '5105', '5106', '5109', '5110', '5111', '5112', '5113', '5114', '5115', '5116', '5117', '5118', '5119', '5120', '5122', '5123', '5251', '5252', '5253', '5254', '5255', '5256', '5257', '5258', '5401', '5402', '5403', '5405', '5651', '5652', '5653', '5654', '5655', '5656', '5667',
-    '6102', '6103', '6104', '6105', '6106', '6107', '6108', '6109', '6110', '6111', '6112', '6113', '6114', '6115', '6116', '6117', '6118', '6119', '6120', '6122', '6123', '6251', '6252', '6253', '6254', '6255', '6256', '6257', '6258', '6401', '6402', '6403', '6404', '6651', '6652', '6653', '6654', '6655', '6656', '6667', '6101',
-    '7101', '7102', '7105', '7106', '7127', '7251', '7651', '7654', '7667',
+    '5101', u'5102', u'5103', u'5104', u'5105', u'5106', u'5109', u'5110', u'5111', u'5112', u'5113', u'5114', u'5115', u'5116', u'5117', u'5118', u'5119', u'5120', u'5122', u'5123', u'5251', u'5252', u'5253', u'5254', u'5255', u'5256', u'5257', u'5258', u'5401', u'5402', u'5403', u'5405', u'5651', u'5652', u'5653', u'5654', u'5655', u'5656', u'5667',
+    '6102', u'6103', u'6104', u'6105', u'6106', u'6107', u'6108', u'6109', u'6110', u'6111', u'6112', u'6113', u'6114', u'6115', u'6116', u'6117', u'6118', u'6119', u'6120', u'6122', u'6123', u'6251', u'6252', u'6253', u'6254', u'6255', u'6256', u'6257', u'6258', u'6401', u'6402', u'6403', u'6404', u'6651', u'6652', u'6653', u'6654', u'6655', u'6656', u'6667', u'6101',
+    '7101', u'7102', u'7105', u'7106', u'7127', u'7251', u'7651', u'7654', u'7667',
 ]
 
 CFOPS_VENDA_ATIVO = [
@@ -1147,9 +1147,9 @@ CFOPS_VENDA_ATIVO = [
 ]
 
 CFOPS_DEVOLUCAO_VENDA = [
-    '1201', '1202', '1203', '1204', '1410', '1411', '1503', '1504', '1553', '1660', '1661', '1662',
-    '2201', '2202', '2203', '2204', '2410', '2411', '2503', '2504', '2553', '2660', '2661', '2662',
-    '3201', '3202', '3211',
+    '1201', u'1202', u'1203', u'1204', u'1410', u'1411', u'1503', u'1504', u'1553', u'1660', u'1661', u'1662',
+    '2201', u'2202', u'2203', u'2204', u'2410', u'2411', u'2503', u'2504', u'2553', u'2660', u'2661', u'2662',
+    '3201', u'3202', u'3211',
 ]
 
 
@@ -1157,24 +1157,24 @@ CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO = CFOPS_VENDA_MERCADORIA + CFOPS_VENDA_ATIVO
 #CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO = CFOPS_VENDA_MERCADORIA + CFOPS_DEVOLUCAO_VENDA
 
 CFOPS_DEVOLUCAO_COMPRA = [
-    '5201', '5202', '5208', '5209', '5210', '5410', '5411', '5412', '5413', '5503', '5553', '5555', '5556', '5660', '5661', '5662', '5918', '5919', '5921',
-    '6201', '6202', '6208', '6209', '6210', '6410', '6411', '6412', '6413', '6503', '6553', '6555', '6556', '6660', '6661', '6662', '6918', '6919', '6921',
-    '7201', '7202', '7210', '7211', '7553', '7556', '7930',
+    '5201', u'5202', u'5208', u'5209', u'5210', u'5410', u'5411', u'5412', u'5413', u'5503', u'5553', u'5555', u'5556', u'5660', u'5661', u'5662', u'5918', u'5919', u'5921',
+    '6201', u'6202', u'6208', u'6209', u'6210', u'6410', u'6411', u'6412', u'6413', u'6503', u'6553', u'6555', u'6556', u'6660', u'6661', u'6662', u'6918', u'6919', u'6921',
+    '7201', u'7202', u'7210', u'7211', u'7553', u'7556', u'7930',
 ]
 
 CFOPS_RETORNO_ENTRADA = [
-    '1414', '1415', '1451', '1452', '1554', '1664', '1902', '1904', '1906', '1907', '1909', '1913', '1914', '1916', '1921', '1925',
-    '2414', '2415',                 '2554', '2664', '2902', '2904', '2906', '2907', '2909', '2913', '2914', '2916', '2921', '2925',
+    '1414', u'1415', u'1451', u'1452', u'1554', u'1664', u'1902', u'1904', u'1906', u'1907', u'1909', u'1913', u'1914', u'1916', u'1921', u'1925',
+    '2414', u'2415',                 '2554', u'2664', u'2902', u'2904', u'2906', u'2907', u'2909', u'2913', u'2914', u'2916', u'2921', u'2925',
 ]
 
 CFOPS_RETORNO_SAIDA = [
-    '5664', '5665', '5902', '5903', '5906', '5907', '5909', '5913', '5916', '5925',
-    '6664', '6665', '6902', '6903', '6906', '6907', '6909', '6913', '6916', '6925',
+    '5664', u'5665', u'5902', u'5903', u'5906', u'5907', u'5909', u'5913', u'5916', u'5925',
+    '6664', u'6665', u'6902', u'6903', u'6906', u'6907', u'6909', u'6913', u'6916', u'6925',
 ]
 
 CFOPS_VENDA_SERVICO = [
-    '5933', '5949',
-    '6933', '6949',
+    '5933', u'5949',
+    '6933', u'6949',
             '7949',
 ]
 CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = CFOPS_VENDA_MERCADORIA + CFOPS_VENDA_ATIVO + CFOPS_DEVOLUCAO_VENDA + CFOPS_VENDA_SERVICO
@@ -1195,7 +1195,7 @@ SIMPLES_NACIONAL_ANEXOS = (
     ('5_ate_30' , 'Anexo 5 - Serviços - Folha < 30%'),
     ('5_ate_35' , 'Anexo 5 - Serviços - Folha < 35%'),
     ('5_ate_40' , 'Anexo 5 - Serviços - Folha < 40%'),
-    ('5_mais_40', 'Anexo 5 - Serviços - Folha >= 40%'),
+    ('5_mais_40', u'Anexo 5 - Serviços - Folha >= 40%'),
 )
 
 SIMPLES_NACIONAL_TETO_01 = '180000'
@@ -1560,9 +1560,9 @@ SIMPLES_NACIONAL_TABELAS = {
 
 
 POSICAO_CFOP = (
-    ('E', 'Estadual'),
-    ('I', 'Interestadual'),
-    ('X', 'Estrangeiro'),
+    ('E', u'Estadual'),
+    ('I', u'Interestadual'),
+    ('X', u'Estrangeiro'),
 )
 POSICAO_CFOP_DICT = dict(POSICAO_CFOP)
 
@@ -1572,17 +1572,17 @@ POSICAO_CFOP_ESTRANGEIRO = 'X'
 
 
 TIPO_CERTIFICADO = (
-    ('A1', 'A1 - arquivo'),
-    ('A3', 'A3 - token ou cartão'),
+    ('A1', u'A1 - arquivo'),
+    ('A3', u'A3 - token ou cartão'),
 )
 TIPO_CERTIFICADO_A1 = 'A1'
 TIPO_CERTIFICADO_A3 = 'A3'
 
 TIPO_PESSOA = (
-    ('F', 'Física'),
-    ('J', 'Jurídica'),
-    ('E', 'Estrangeiro'),
-    ('I', 'Indeterminado'),
+    ('F', u'Física'),
+    ('J', u'Jurídica'),
+    ('E', u'Estrangeiro'),
+    ('I', u'Indeterminado'),
 )
 
 TIPO_PESSOA_FISICA = 'F'
