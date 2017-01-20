@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ import odoo.addons.decimal_precision as dp
 
 
 class IBPTax(models.Model):
-    _description = 'IBPTax'
+    _description = u'IBPTax'
     _name = 'sped.ibptax'
     _order = 'estado_id'
     _rec_name = 'estado_id'
@@ -131,7 +131,7 @@ class IBPTax(models.Model):
 
 
 class IBPTaxNCM(models.Model):
-    _description = 'IBPTax por NCM'
+    _description = u'IBPTax por NCM'
     _inherit = 'sped.base'
     _name = 'sped.ibptax.ncm'
 
@@ -145,7 +145,7 @@ class IBPTaxNCM(models.Model):
 
 
 class IBPTaxNBS(models.Model):
-    _description = 'IBPTax por NBS'
+    _description = u'IBPTax por NBS'
     _inherit = 'sped.base'
     _name = 'sped.ibptax.nbs'
 
@@ -158,7 +158,7 @@ class IBPTaxNBS(models.Model):
 
 
 class IBPTaxServico(models.Model):
-    _description = 'IBPTax por Serviço'
+    _description = u'IBPTax por Serviço'
     _inherit = 'sped.base'
     _name = 'sped.ibptax.servico'
 
