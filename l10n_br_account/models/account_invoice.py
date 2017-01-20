@@ -52,7 +52,7 @@ class AccountInvoice(models.Model):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
             if line.account_id.id == self.account_id.id and \
-                            line.account_id.user_type_id.type in ('receivable', 'payable') and \
+                line.account_id.user_type_id.type in ('receivable', 'payable') and \
                     self.journal_id.revenue_expense:
                 lines |= line
         self.move_line_receivable_id = (lines).sorted()
@@ -88,8 +88,8 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     fiscal_position_id = fields.Many2one(
         'account.fiscal.position', 'Fiscal Position', readonly=True,
-        states={'draft': [('readonly', False)]}, 
-	oldname='fiscal_position',
+        states={'draft': [('readonly', False)]},
+        oldname='fiscal_position',
     )
     account_document_event_ids = fields.One2many(
         'l10n_br_account.document_event', 'document_event_ids',
@@ -249,7 +249,7 @@ class AccountInvoiceLine(models.Model):
     )
 
     fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position', 
+        comodel_name='account.fiscal.position',
         string=u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]"
     )

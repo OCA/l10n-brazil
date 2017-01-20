@@ -59,7 +59,7 @@ class AccountFiscalPositionTaxAbstract(object):
         type_tax_use = {'input': 'purchase', 'output': 'sale'}
 
         domain = [('type_tax_use', 'in',
-                  (type_tax_use.get(self.position_id.type), 'none'))]
+                   (type_tax_use.get(self.position_id.type), 'none'))]
 
         if self.tax_group_id:
             domain.append(('tax_group_id', '=', self.tax_group_id.id))
@@ -99,7 +99,8 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
         tax_code_ids = obj_tax_code.search([('company_id', '=', company_id)])
 
         for tax_code in tax_code_ids:
-            tax_code_template = obj_tax_code_template.search([('name', '=', tax_code.name)])
+            tax_code_template = obj_tax_code_template.search(
+                [('name', '=', tax_code.name)])
             if tax_code_template:
                 tax_code_template_ref[tax_code_template[0].id] = tax_code.id
 
@@ -124,14 +125,14 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                     tax_template_ref.get(tax.tax_src_id.id, False),
                     'tax_code_src_id':
                     tax.tax_code_src_id,
-                'type': position.type,
-                'state': position.state,
-                'type_tax_use': position.type_tax_use,
-                'cfop_id':
+                    'type': position.type,
+                    'state': position.state,
+                    'type_tax_use': position.type_tax_use,
+                    'cfop_id':
                     position.cfop_id and position.cfop_id.id or False,
-                'inv_copy_note': position.inv_copy_note,
-                'asset_operation': position.asset_operation,
-                'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
+                    'inv_copy_note': position.inv_copy_note,
+                    'asset_operation': position.asset_operation,
+                    'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
             for tax in position.tax_ids:
                 obj_tax_fp.create({
                     'tax_src_id':
@@ -209,6 +210,7 @@ class AccountFiscalPositionTax(AccountFiscalPositionTaxAbstract,
         string='Tax on Product',
         required=False
     )
+
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
