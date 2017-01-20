@@ -134,15 +134,6 @@ class Unidade(models.Model):
     active = fields.Boolean(compute='_compute_symbol')
 
     #
-    # Campos para usar a unidade com o campo Monetary
-    #
-    symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
-    position = fields.Char('Position', compute='_compute_symbol')
-    rounding = fields.Float(string='Rounding Factor', digits=(12, 6), default=0.01, compute='_compute_symbol')
-    decimal_places = fields.Integer(compute='_compute_symbol')
-    active = fields.Boolean(compute='_compute_symbol')
-
-    #
     # Exemplos do texto por extenso
     #
     extenso_zero = fields.Char(
@@ -359,7 +350,7 @@ class Unidade(models.Model):
         self.ensure_one()
 
         if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
-                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
             category_id = self.env.ref('product.product_uom_categ_unit').id
 
         elif self.tipo == self.TIPO_UNIDADE_PESO:
@@ -402,7 +393,7 @@ class Unidade(models.Model):
         dados['name'] = dados['codigo']
 
         if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados[
-                'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+            'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
             dados['category_id'] = self.env.ref(
                 'product.product_uom_categ_unit').id
 

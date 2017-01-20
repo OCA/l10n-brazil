@@ -450,22 +450,22 @@ class Participante(models.Model):
 
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
-                    not valida_fone_fixo(self.fone)):
+            not valida_fone_fixo(self.fone)):
                 raise ValidationError('Telefone fixo inválido!')
 
             valores['fone'] = formata_fone(self.fone)
 
         if self.fone_comercial:
             if (not valida_fone_internacional(self.fone_comercial)) and (
-                    not valida_fone_fixo(self.fone_comercial)) and (
-                    not valida_fone_celular(self.fone_comercial)):
+            not valida_fone_fixo(self.fone_comercial)) and (
+            not valida_fone_celular(self.fone_comercial)):
                 raise ValidationError('Telefone comercial inválido!')
 
             valores['fone_comercial'] = formata_fone(self.fone_comercial)
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
-                    not valida_fone_celular(self.celular)):
+            not valida_fone_celular(self.celular)):
                 raise ValidationError('Celular inválido!')
 
             valores['celular'] = formata_fone(self.celular)

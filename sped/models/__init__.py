@@ -15,16 +15,6 @@ from inherited_ir_ui_view import *
 from sped_base import *
 
 #
-# Cópia de views
-#
-from inherited_ir_ui_view import *
-
-#
-# Model Base
-#
-from sped_base import *
-
-#
 # Tabelas Geográficas
 #
 from sped_pais import *

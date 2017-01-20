@@ -21,20 +21,41 @@ from ..constante_tributaria import *
 
 
 class AliquotaIPI(models.Model):
-    _description = 'Alíquota do IPI'
+    _description = u'Alíquota do IPI'
     _inherit = 'sped.base'
     _name = 'sped.aliquota.ipi'
     _rec_name = 'descricao'
     _order = 'al_ipi'
 
-    al_ipi = fields.Monetary('Alíquota', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
-    md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade da base de cálculo', required=True,
-                              default=MODALIDADE_BASE_IPI_ALIQUOTA)
-    cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'Situação tributária nas entradas', required=True,
-                                       default=ST_IPI_ENTRADA_RECUPERACAO_CREDITO)
-    cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'Situação tributária do nas saídas', required=True,
-                                     default=ST_IPI_SAIDA_TRIBUTADA)
-    descricao = fields.Char(string='Alíquota do IPI', compute='_compute_descricao', store=True)
+    al_ipi = fields.Monetary(
+        string=u'Alíquota',
+        required=True,
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    md_ipi = fields.Selection(
+        selection=MODALIDADE_BASE_IPI,
+        string='Modalidade da base de cálculo',
+        required=True,
+        default=MODALIDADE_BASE_IPI_ALIQUOTA,
+    )
+    cst_ipi_entrada = fields.Selection(
+        selection=ST_IPI_ENTRADA,
+        string=u'Situação tributária nas entradas',
+        required=True,
+        default=ST_IPI_ENTRADA_RECUPERACAO_CREDITO,
+    )
+    cst_ipi_saida = fields.Selection(
+        selection=ST_IPI_SAIDA,
+        string=u'Situação tributária do nas saídas',
+        required=True,
+        default=ST_IPI_SAIDA_TRIBUTADA,
+    )
+    descricao = fields.Char(
+        string=u'Alíquota do IPI',
+        compute='_compute_descricao',
+        store=True,
+    )
 
     @api.depends('al_ipi', 'md_ipi', 'cst_ipi_entrada', 'cst_ipi_saida')
     def _compute_descricao(self):
@@ -47,8 +68,7 @@ class AliquotaIPI(models.Model):
                     al_ipi.descricao = formata_valor(al_ipi.al_ipi or 0) + '%'
 
                 elif al_ipi.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
-                    al_ipi.descricao = u'por quantidade, a R$ ' + \
-                        formata_valor(al_ipi.al_ipi or 0)
+                    al_ipi.descricao = u'por quantidade, a R$ ' + formata_valor(al_ipi.al_ipi or 0)
 
                 al_ipi.descricao += u' - CST ' + al_ipi.cst_ipi_entrada
                 al_ipi.descricao += u' entrada, ' + al_ipi.cst_ipi_saida

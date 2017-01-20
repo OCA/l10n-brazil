@@ -72,7 +72,7 @@ MODALIDADE_BASE_ICMS_ST_PRECO_FIXO = (
 MODALIDADE_BASE_IPI = (
     ('0', u'Tributação por alíquota'),
     ('1', u'Tributação por quantidade'),
-)
+    )
 MODALIDADE_BASE_IPI_DICT = dict(MODALIDADE_BASE_IPI)
 
 MODALIDADE_BASE_IPI_ALIQUOTA = '0'
@@ -85,7 +85,7 @@ MODALIDADE_BASE_IPI_QUANTIDADE = '1'
 MODALIDADE_BASE_PIS = (
     ('0', u'Tributação por alíquota'),
     ('1', u'Tributação por quantidade'),
-)
+    )
 MODALIDADE_BASE_PIS_DICT = dict(MODALIDADE_BASE_PIS)
 
 MODALIDADE_BASE_PIS_ALIQUOTA = '0'
@@ -101,7 +101,7 @@ MODALIDADE_BASE_COFINS_QUANTIDADE = MODALIDADE_BASE_PIS_QUANTIDADE
 MODALIDADE_BASE_ISS = (
     ('0', u'Tributação por alíquota'),
     ('1', u'Tributação por quantidade'),
-)
+    )
 MODALIDADE_BASE_ISS_DICT = dict(MODALIDADE_BASE_ISS)
 
 MODALIDADE_BASE_ISS_ALIQUOTA = '0'
@@ -178,7 +178,7 @@ MODALIDADE_FRETE_SEM_FRETE = '9'
 MODELO_DOCUMENTO_ARRECADACAO = (
     ('0', u'Documento estadual de arrecadacao'),
     ('1', u'GNRE'),
-)
+    )
 MODELO_DOCUMENTO_ARRECADACAO_DICT = dict(MODELO_DOCUMENTO_ARRECADACAO)
 
 MODELO_DOCUMENTO_ARRECADACAO_DEA = '0'
@@ -211,68 +211,68 @@ MOTIVO_DESONERACAO_ICMS_OUTROS = '9'
 
 MODELO_FISCAL = (
     #('MERCADORIAS E SERVIÇOS', (
-    ('65', u'NFC-e - 65'),
-    ('2D', u'CF por impressora fiscal - 2D'),
-    ('2C', u'CF por ponto de venda (PDV) - 2C'),
-    ('2B', u'CF por máquina registradora - 2B'),
-    ('59', u'CF-e - 59'),
-    ('60', u'CF-e ECF - 60'),
-    ('01', u'NF - 01 E 1A'),
-    ('1B', u'uNF avulsa - 1B'),
-    ('04', u'NF de produtor rural - 04'),
-    ('21', u'NF de serv. de comunicação - 21'),
-    ('22', u'NF de serv. de telecomunicação - 22'),
-    ('07', u'NF de serv. de transporte - 07'),
-    ('27', u'NF de transp. ferroviário de cargas - 27'),
-    ('02', u'NF de venda a consumidor - 02'),
-    ('55', u'NF-e - 55'),
-    ('06', u'NF/conta de energia elétrica - 06'),
-    ('29', u'NF/conta de fornec. de água canalizada - 29'),
-    ('28', u'NF/conta de fornec. de gás canalizado - 28'),
-    ('18', u'CF - resumo de movimento diário - 18'),
-    ('23', u'GNRE - 23'),
-    #
-    # Modelos não oficiais
-    #
-    ('SC', u'NFS - SC'),
-    ('SE', u'NFS-e - SE'),
-    ('RL', u'Recibo de locação - RL'),
-    ('XX', u'Outros documentos não fiscais - XX'),
-    ('TF', u'Atualização de tabela de fornecedor'),
+        ('65', u'NFC-e - 65'),
+        ('2D', u'CF por impressora fiscal - 2D'),
+        ('2C', u'CF por ponto de venda (PDV) - 2C'),
+        ('2B', u'CF por máquina registradora - 2B'),
+        ('59', u'CF-e - 59'),
+        ('60', u'CF-e ECF - 60'),
+        ('01', u'NF - 01 E 1A'),
+        ('1B', u'uNF avulsa - 1B'),
+        ('04', u'NF de produtor rural - 04'),
+        ('21', u'NF de serv. de comunicação - 21'),
+        ('22', u'NF de serv. de telecomunicação - 22'),
+        ('07', u'NF de serv. de transporte - 07'),
+        ('27', u'NF de transp. ferroviário de cargas - 27'),
+        ('02', u'NF de venda a consumidor - 02'),
+        ('55', u'NF-e - 55'),
+        ('06', u'NF/conta de energia elétrica - 06'),
+        ('29', u'NF/conta de fornec. de água canalizada - 29'),
+        ('28', u'NF/conta de fornec. de gás canalizado - 28'),
+        ('18', u'CF - resumo de movimento diário - 18'),
+        ('23', u'GNRE - 23'),
+        #
+        # Modelos não oficiais
+        #
+        ('SC', u'NFS - SC'),
+        ('SE', u'NFS-e - SE'),
+        ('RL', u'Recibo de locação - RL'),
+        ('XX', u'Outros documentos não fiscais - XX'),
+        ('TF', u'Atualização de tabela de fornecedor'),
     #)),
     #('TRANSPORTE', (
-    ('24', u'Autorização de carregamento e transporte - 24'),
-    ('14', u'Bilhete de passagem aquaviário - 14'),
-    ('15', u'Bilhete de passagem e nota de bagagem -15'),
-    ('2E', u'Bilhete de passagem emitido por ECF - 2E'),
-    ('16', u'Bilhete de passagem ferroviário - 16'),
-    ('13', u'Bilhete de passagem rodoviário - 13'),
-    ('30', u'Bilhete/recibo do passageiro - 30'),
-    ('10', u'Conhecimento aéreo - 10'),
-    ('09', u'Conhec. de transporte aquaviário de cargas - 09'),
-    ('8B', u'Conhec. de transporte de cargas avulso - 8B'),
-    ('57', u'CT-e - 57'),
-    ('11', u'Conhec. de transporte ferroviário de cargas - 11'),
-    ('26', u'Conhec. de transporte multimodal de cargas - 26'),
-    ('08', u'Conhec. de transporte rodoviário de cargas - 08'),
-    ('17', u'Despacho de transporte - 17'),
-    ('25', u'Manifesto de carga - 25'),
-    ('20', u'Ordem de coleta de carga - 20'),
+        ('24', u'Autorização de carregamento e transporte - 24'),
+        ('14', u'Bilhete de passagem aquaviário - 14'),
+        ('15', u'Bilhete de passagem e nota de bagagem -15'),
+        ('2E', u'Bilhete de passagem emitido por ECF - 2E'),
+        ('16', u'Bilhete de passagem ferroviário - 16'),
+        ('13', u'Bilhete de passagem rodoviário - 13'),
+        ('30', u'Bilhete/recibo do passageiro - 30'),
+        ('10', u'Conhecimento aéreo - 10'),
+        ('09', u'Conhec. de transporte aquaviário de cargas - 09'),
+        ('8B', u'Conhec. de transporte de cargas avulso - 8B'),
+        ('57', u'CT-e - 57'),
+        ('11', u'Conhec. de transporte ferroviário de cargas - 11'),
+        ('26', u'Conhec. de transporte multimodal de cargas - 26'),
+        ('08', u'Conhec. de transporte rodoviário de cargas - 08'),
+        ('17', u'Despacho de transporte - 17'),
+        ('25', u'Manifesto de carga - 25'),
+        ('20', u'Ordem de coleta de carga - 20'),
     #)),
 )
 MODELO_FISCAL_DICT = dict(MODELO_FISCAL)
 
 MODELO_FISCAL_CUPOMFISCAL = (
     #('TRANSPORTE', (
-    ('2E', u'bilhete de passagem emitido por ECF - 2E'),
+        ('2E', u'bilhete de passagem emitido por ECF - 2E'),
     #)),
     #('MERCADORIAS E SERVICOS', (
-    ('2D', u'CF ECF - 2D'),
-    ('2C', u'CF PDV - 2C'),
-    ('2B', u'CF por máquina registradora - 2B'),
-    ('02', u'NF de venda a consumidor - 02'),
-    ('59', u'CF-e - 59'),
-    ('60', u'CF-e ECF - 60'),
+        ('2D', u'CF ECF - 2D'),
+        ('2C', u'CF PDV - 2C'),
+        ('2B', u'CF por máquina registradora - 2B'),
+        ('02', u'NF de venda a consumidor - 02'),
+        ('59', u'CF-e - 59'),
+        ('60', u'CF-e ECF - 60'),
     #)),
 )
 MODELO_FISCAL_CUPOMFISCAL_DICT = dict(MODELO_FISCAL_CUPOMFISCAL)
@@ -450,7 +450,7 @@ ST_ICMS = (
     ('60', u'60 - ICMS cobrado anteriormente por ST'),
     ('70', u'70 - Com redução da BC e cobrança do ICMS por ST'),
     ('90', u'9u0 - Outras'),
-)
+    )
 ST_ICMS_DICT = dict(ST_ICMS)
 
 ST_ICMS_INTEGRAL = '00'
@@ -522,7 +522,7 @@ ST_IPI = (
     ('54', u'54 - Saída imune'),
     ('55', u'55 - Saída com suspensão'),
     ('99', u'99 - Saída - outras saídas'),
-)
+    )
 ST_IPI_DICT = dict(ST_IPI)
 
 ST_IPI_ENTRADA = (
@@ -533,7 +533,7 @@ ST_IPI_ENTRADA = (
     ('04', u'04 - Entrada imune'),
     ('05', u'05 - Entrada com suspensão'),
     ('49', u'49 - Entrada - outras entradas'),
-)
+    )
 ST_IPI_ENTRADA_DICT = dict(ST_IPI_ENTRADA)
 
 ST_IPI_SAIDA = (
@@ -544,7 +544,7 @@ ST_IPI_SAIDA = (
     ('54', u'54 - Saída imune'),
     ('55', u'55 - Saída com suspensão'),
     ('99', u'99 - Saída - outras saídas'),
-)
+    )
 ST_IPI_SAIDA_DICT = dict(ST_IPI_SAIDA)
 
 ST_IPI_ENTRADA_RECUPERACAO_CREDITO = '00'
@@ -639,7 +639,7 @@ ST_PIS_ENTRADA = (
     ('74', u'74 - Operação de aquisição sem incidência da contribuição'),
     ('75', u'75 - Operação de aquisição por ST'),
     ('98', u'98 - Outras operações de entrada'),
-)
+    )
 ST_PIS_ENTRADA_DICT = dict(ST_PIS_ENTRADA)
 
 ST_PIS_SAIDA = (
@@ -654,7 +654,7 @@ ST_PIS_SAIDA = (
     ('09', u'09 - Com suspensão'),
     ('49', u'49 - Outras operações de saída'),
     ('99', u'99 - Outras operações'),
-)
+    )
 ST_PIS_SAIDA_DICT = dict(ST_PIS_SAIDA)
 
 ST_PIS_TRIB_NORMAL = '01'
@@ -746,7 +746,7 @@ ST_COFINS_CALCULA_QUANTIDADE = (ST_COFINS_TRIB_QUANTIDADE,)
 TIPO_EMISSAO = (
     ('0', u'Emissão própria'),
     ('1', u'Emissão por terceiros'),
-)
+    )
 TIPO_EMISSAO_DICT = dict(TIPO_EMISSAO)
 
 TIPO_EMISSAO_PROPRIA = '0'
@@ -756,7 +756,7 @@ TIPO_EMISSAO_TODAS = (
     ('%', u'Todas'),
     ('0', u'Emissão própria'),
     ('1', u'Emissão por terceiros'),
-)
+    )
 TIPO_EMISSAO_TODAS_DICT = dict(TIPO_EMISSAO_TODAS)
 
 
@@ -823,7 +823,7 @@ TIPO_PRODUTO_SERVICO = (
     ('09', u'Serviços'),
     ('10', u'Outros insumos'),
     ('99', u'Outros'),
-)
+    )
 TIPO_PRODUTO_SERVICO_DICT = dict(TIPO_PRODUTO_SERVICO)
 
 TIPO_PRODUTO_SERVICO_MERCADORIA_PARA_REVENDA = '00'
@@ -1077,32 +1077,32 @@ ALIQUOTAS_ICMS = {
 # TABELA DE NATUREZA JURÍDICA 2014
 #
 NATUREZA_JURIDICA = (
-    ('2011', u'Empresa pública'),
-    ('2038', u'Sociedade de economia mista'),
-    ('2046', u'Sociedade anônima aberta'),
-    ('2054', u'Sociedade anônima fechada'),
-    ('2062', u'Sociedade empresária limitada'),
-    ('2070', u'Sociedade empresária em nome coletivo'),
-    ('2089', u'Sociedade empresária em comandita simples'),
-    ('2097', u'Sociedade empresária em comandita por ações'),
-    ('2127', u'Sociedade em conta de participação'),
-    ('2135', u'Empresário (individual)'),
-    ('2143', u'Cooperativa'),
-    ('2151', u'Consórcio de sociedades'),
-    ('2160', u'Grupo de sociedades'),
-    ('2178', u'Estabelecimento, no Brasil, de sociedade estrangeira'),
-    ('2194', u'Estabelecimento, no Brasil, de empresa binacional Argentino-Brasileira'),
-    ('2216', u'Empresa domiciliada no exterior'),
-    ('2224', u'Clube/fundo de investimento'),
-    ('2232', u'Sociedade simples pura'),
-    ('2240', u'Sociedade simples limitada'),
-    ('2259', u'Sociedade simples em nome coletivo'),
-    ('2267', u'Sociedade simples em comandita simples'),
-    ('2275', u'Empresa binacional'),
-    ('2283', u'Consórcio de empregadores'),
-    ('2291', u'Consórcio simples'),
-    ('2305', u'Empresa individual de responsabilidade limitada (de natureza empresária)'),
-    ('2313', u'Empresa individual de responsabilidade limitada (de natureza simples)'),
+       ('2011', u'Empresa pública'),
+       ('2038', u'Sociedade de economia mista'),
+       ('2046', u'Sociedade anônima aberta'),
+       ('2054', u'Sociedade anônima fechada'),
+       ('2062', u'Sociedade empresária limitada'),
+       ('2070', u'Sociedade empresária em nome coletivo'),
+       ('2089', u'Sociedade empresária em comandita simples'),
+       ('2097', u'Sociedade empresária em comandita por ações'),
+       ('2127', u'Sociedade em conta de participação'),
+       ('2135', u'Empresário (individual)'),
+       ('2143', u'Cooperativa'),
+       ('2151', u'Consórcio de sociedades'),
+       ('2160', u'Grupo de sociedades'),
+       ('2178', u'Estabelecimento, no Brasil, de sociedade estrangeira'),
+       ('2194', u'Estabelecimento, no Brasil, de empresa binacional Argentino-Brasileira'),
+       ('2216', u'Empresa domiciliada no exterior'),
+       ('2224', u'Clube/fundo de investimento'),
+       ('2232', u'Sociedade simples pura'),
+       ('2240', u'Sociedade simples limitada'),
+       ('2259', u'Sociedade simples em nome coletivo'),
+       ('2267', u'Sociedade simples em comandita simples'),
+       ('2275', u'Empresa binacional'),
+       ('2283', u'Consórcio de empregadores'),
+       ('2291', u'Consórcio simples'),
+       ('2305', u'Empresa individual de responsabilidade limitada (de natureza empresária)'),
+       ('2313', u'Empresa individual de responsabilidade limitada (de natureza simples)'),
 )
 
 
@@ -1193,18 +1193,18 @@ CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = CFOPS_VENDA_MERCADORIA + \
 # Tabelas do SIMPLES
 #
 SIMPLES_NACIONAL_ANEXOS = (
-    ('1', 'Anexo 1 - Comércio'),
-    ('2', 'Anexo 2 - Indústria'),
-    ('3', 'Anexo 3 - Serviços'),
-    ('4', 'Anexo 4 - Serviços'),
-    ('6', 'Anexo 6 - Serviços'),
-    ('5_ate_10', 'Anexo 5 - Serviços - Folha < 10%'),
-    ('5_ate_15', 'Anexo 5 - Serviços - Folha < 15%'),
-    ('5_ate_20', 'Anexo 5 - Serviços - Folha < 20%'),
-    ('5_ate_25', 'Anexo 5 - Serviços - Folha < 25%'),
-    ('5_ate_30', 'Anexo 5 - Serviços - Folha < 30%'),
-    ('5_ate_35', 'Anexo 5 - Serviços - Folha < 35%'),
-    ('5_ate_40', 'Anexo 5 - Serviços - Folha < 40%'),
+    ('1'        , 'Anexo 1 - Comércio'),
+    ('2'        , 'Anexo 2 - Indústria'),
+    ('3'        , 'Anexo 3 - Serviços'),
+    ('4'        , 'Anexo 4 - Serviços'),
+    ('6'        , 'Anexo 6 - Serviços'),
+    ('5_ate_10' , 'Anexo 5 - Serviços - Folha < 10%'),
+    ('5_ate_15' , 'Anexo 5 - Serviços - Folha < 15%'),
+    ('5_ate_20' , 'Anexo 5 - Serviços - Folha < 20%'),
+    ('5_ate_25' , 'Anexo 5 - Serviços - Folha < 25%'),
+    ('5_ate_30' , 'Anexo 5 - Serviços - Folha < 30%'),
+    ('5_ate_35' , 'Anexo 5 - Serviços - Folha < 35%'),
+    ('5_ate_40' , 'Anexo 5 - Serviços - Folha < 40%'),
     ('5_mais_40', u'Anexo 5 - Serviços - Folha >= 40%'),
 )
 

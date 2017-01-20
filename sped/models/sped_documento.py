@@ -22,7 +22,7 @@ from ..constante_tributaria import *
 
 
 class Documento(models.Model):
-    _description = 'Documento Fiscal'
+    _description = u'Documento Fiscal'
     _inherit = ['sped.base', 'mail.thread']
     _name = 'sped.documento'
     _order = 'emissao, modelo, data_emissao desc, serie, numero'
@@ -133,36 +133,121 @@ class Documento(models.Model):
     #
     # Campos da operação
     #
-    regime_tributario = fields.Selection(REGIME_TRIBUTARIO, 'Regime tributário', default=REGIME_TRIBUTARIO_SIMPLES)
-    forma_pagamento = fields.Selection(FORMA_PAGAMENTO, 'Forma de pagamento', default=FORMA_PAGAMENTO_A_VISTA)
-    finalidade_nfe = fields.Selection(FINALIDADE_NFE, 'Finalidade da NF-e', default=FINALIDADE_NFE_NORMAL)
-    consumidor_final = fields.Selection(TIPO_CONSUMIDOR_FINAL, 'Tipo do consumidor',
-                                        default=TIPO_CONSUMIDOR_FINAL_NORMAL)
-    presenca_comprador = fields.Selection(INDICADOR_PRESENCA_COMPRADOR, 'Presença do comprador',
-                                          default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA)
-    modalidade_frete = fields.Selection(MODALIDADE_FRETE, 'Modalidade do frete', default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO)
-    natureza_operacao_id = fields.Many2one('sped.natureza.operacao', 'Natureza da operação', ondelete='restrict')
-    infadfisco = fields.Text('Informações adicionais de interesse do fisco')
-    infcomplementar = fields.Text('Informações complementares')
-    deduz_retencao = fields.Boolean('Deduz retenção do total da NF?', default=True)
-    pis_cofins_retido = fields.Boolean('PIS-COFINS retidos?')
-    al_pis_retido = fields.Monetary('Alíquota do PIS', default=0.65, digits=(5, 2), currency_field='currency_aliquota_id')
-    al_cofins_retido = fields.Monetary('Alíquota da COFINS', default=3, digits=(5, 2), currency_field='currency_aliquota_id')
-    csll_retido = fields.Boolean('CSLL retido?')
-    al_csll = fields.Monetary('Alíquota da CSLL', default=1, digits=(5, 2), currency_field='currency_aliquota_id')
-    limite_retencao_pis_cofins_csll = fields.Monetary('Obedecer limite de faturamento para retenção de',
-                                                      default=LIMITE_RETENCAO_PIS_COFINS_CSLL)
-    irrf_retido = fields.Boolean('IR retido?')
-    irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
-    al_irrf = fields.Monetary('Alíquota do IR', default=1, digits=(5, 2), currency_field='currency_aliquota_id')
-    inss_retido = fields.Boolean('INSS retido?', index=True)
-    al_inss_retido = fields.Monetary('Alíquota do INSS', digits=(5, 2), currency_field='currency_aliquota_id')
-    al_inss = fields.Monetary(u'Alíquota do INSS', digits=(5, 2), currency_field='currency_aliquota_id')
-    cnae_id = fields.Many2one('sped.cnae', 'CNAE')
-    natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
-    servico_id = fields.Many2one('sped.servico', 'Serviço')
-    cst_iss = fields.Selection(ST_ISS, 'CST ISS')
-
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string=u'Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+    )
+    forma_pagamento = fields.Selection(
+        selection=FORMA_PAGAMENTO,
+        string=u'Forma de pagamento',
+        default=FORMA_PAGAMENTO_A_VISTA,
+    )
+    finalidade_nfe = fields.Selection(
+        selection=FINALIDADE_NFE,
+        string=u'Finalidade da NF-e',
+        default=FINALIDADE_NFE_NORMAL,
+    )
+    consumidor_final = fields.Selection(
+        selection=TIPO_CONSUMIDOR_FINAL,
+        string=u'Tipo do consumidor',
+        default=TIPO_CONSUMIDOR_FINAL_NORMAL,
+    )
+    presenca_comprador = fields.Selection(
+        selection=INDICADOR_PRESENCA_COMPRADOR,
+        string=u'Presença do comprador',
+        default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
+    )
+    modalidade_frete = fields.Selection(
+        selection=MODALIDADE_FRETE,
+        string=u'Modalidade do frete',
+        default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    )
+    natureza_operacao_id = fields.Many2one(
+        comodel_name='sped.natureza.operacao',
+        string=u'Natureza da operação',
+        ondelete='restrict',
+    )
+    infadfisco = fields.Text(
+        string=u'Informações adicionais de interesse do fisco'
+    )
+    infcomplementar = fields.Text(
+        string=u'Informações complementares'
+    )
+    deduz_retencao = fields.Boolean(
+        string=u'Deduz retenção do total da NF?',
+        default=True
+    )
+    pis_cofins_retido = fields.Boolean(
+        string=u'PIS-COFINS retidos?'
+    )
+    al_pis_retido = fields.Monetary(
+        string=u'Alíquota do PIS',
+        default=0.65,
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    al_cofins_retido = fields.Monetary(
+        string=u'Alíquota da COFINS',
+        default=3,
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    csll_retido = fields.Boolean(
+        string=u'CSLL retido?',
+    )
+    al_csll = fields.Monetary(
+        string=u'Alíquota da CSLL',
+        default=1,
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    limite_retencao_pis_cofins_csll = fields.Monetary(
+        string=u'Obedecer limite de faturamento para retenção de',
+        default=LIMITE_RETENCAO_PIS_COFINS_CSLL,
+    )
+    irrf_retido = fields.Boolean(
+        string=u'IR retido?',
+    )
+    irrf_retido_ignora_limite = fields.Boolean(
+        string=u'IR retido ignora limite de R$ 10,00?',
+    )
+    al_irrf = fields.Monetary(
+        string=u'Alíquota do IR',
+        default=1,
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    inss_retido = fields.Boolean(
+        string=u'INSS retido?',
+        index=True,
+    )
+    al_inss_retido = fields.Monetary(
+        string=u'Alíquota do INSS',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    al_inss = fields.Monetary(
+        u'Alíquota do INSS',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id',
+    )
+    cnae_id = fields.Many2one(
+        comodel_name='sped.cnae',
+        string=u'CNAE',
+    )
+    natureza_tributacao_nfse = fields.Selection(
+        selection=NATUREZA_TRIBUTACAO_NFSE,
+        string=u'Natureza da tributação',
+    )
+    servico_id = fields.Many2one(
+        selection='sped.servico',
+        string=u'Serviço',
+    )
+    cst_iss = fields.Selection(
+        selection=ST_ISS,
+        string=u'CST ISS',
+    )
     #
     # Destinatário/Remetente
     #
@@ -290,8 +375,6 @@ class Documento(models.Model):
         readonly=True,
     )
 
-    participante_eh_orgao_publico = fields.Boolean('É órgão público?', related='participante_id.eh_orgao_publico', readonly=True)
-
     #
     # Chave e validação da chave
     #
@@ -309,36 +392,81 @@ class Documento(models.Model):
     )
 
     #
-    # Duplicatas e pagamentos
-    #
-    duplicata_ids = fields.One2many('sped.documento.duplicata', 'documento_id', 'Duplicatas')
-
-    #
     # Transporte
     #
-    transportadora_id = fields.Many2one('sped.participante', 'Transportadora', ondelete='restrict',
-                                        domain=[('cnpj_cpf', '!=', False)])
-    veiculo_id = fields.Many2one('sped.veiculo', 'Veículo', ondelete='restrict')
-    reboque_1_id = fields.Many2one('sped.veiculo', 'Reboque 1', ondelete='restrict')
-    reboque_2_id = fields.Many2one('sped.veiculo', 'Reboque 2', ondelete='restrict')
-    reboque_3_id = fields.Many2one('sped.veiculo', 'Reboque 3', ondelete='restrict')
-    reboque_4_id = fields.Many2one('sped.veiculo', 'Reboque 4', ondelete='restrict')
-    reboque_5_id = fields.Many2one('sped.veiculo', 'Reboque 5', ondelete='restrict')
+    transportadora_id = fields.Many2one(
+        comodel_name='res.partner',
+        string=u'Transportadora',
+        ondelete='restrict',
+        domain=[
+            ('cnpj_cpf', '!=', False)  # TODO: eh_transportadora do participant
+        ],
+    )
+    veiculo_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string=u'Veículo',
+        ondelete='restrict',
+    )
+    reboque_1_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string=u'Reboque 1',
+        ondelete='restrict',
+    )
+    reboque_2_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string=u'Reboque 2',
+        ondelete='restrict',
+    )
+    reboque_3_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string=u'Reboque 3',
+        ondelete='restrict',
+    )
+    reboque_4_id = fields.Many2one(
+        comdel_name='sped.veiculo',
+        string=u'Reboque 4',
+        ondelete='restrict',
+    )
+    reboque_5_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string=u'Reboque 5',
+        ondelete='restrict',
+    )
 
-    volume_ids = fields.One2many('sped.documento.volume', 'documento_id', 'Volumes')
+    volume_ids = fields.One2many(
+        comodel_name='sped.documento.volume',
+        inverse_name='documento_id',
+        string=u'Volumes'
+    )
 
     #
     # Exportação
     #
-    exportacao_estado_embarque_id = fields.Many2one('sped.estado', 'Estado do embarque', ondelete='restrict')
-    exportacao_local_embarque = fields.Char('Local do embarque', size=60)
+    exportacao_estado_embarque_id = fields.Many2one(
+        comodel_name='sped.estado',
+        string=u'Estado do embarque',
+        ondelete='restrict',
+    )
+    exportacao_local_embarque = fields.Char(
+        string=u'Local do embarque',
+        size=60,
+    )
 
     #
     # Compras públicas
     #
-    compra_nota_empenho = fields.Char('Identificação da nota de empenho (compra pública)', size=17)
-    compra_pedido = fields.Char('Pedido (compra pública)', size=60)
-    compra_contrato = fields.Char('Contrato (compra pública)', size=60)
+    compra_nota_empenho = fields.Char(
+        string=u'Identificação da nota de empenho (compra pública)',
+        size=17,
+    )
+    compra_pedido = fields.Char(
+        string=u'Pedido (compra pública)',
+        size=60,
+    )
+    compra_contrato = fields.Char(
+        string=u'Contrato (compra pública)',
+        size=60,
+   )
 
     #
     # Totais dos itens
@@ -502,8 +630,7 @@ class Documento(models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
-    # Total da NF e da fatura (podem ser diferentes no caso de operação
-    # triangular)
+    # Total da NF e da fatura (podem ser diferentes no caso de operação triangular)
     vr_nf = fields.Monetary(
         string=u'Valor da NF',
         compute='_compute_soma_itens',
@@ -547,36 +674,36 @@ class Documento(models.Model):
     ###
     # Retenções de tributos (órgãos públicos, substitutos tributários etc.)
     ###
-    # 'vr_operacao_pis_cofins_csll = CampoDinheiro(u'Base da retenção do PIS-COFINS e CSLL'),
+    ###'vr_operacao_pis_cofins_csll = CampoDinheiro(u'Base da retenção do PIS-COFINS e CSLL'),
 
-    # PIS e COFINS
-    # 'pis_cofins_retido = fields.boolean(u'PIS-COFINS retidos?'),
-    # 'al_pis_retido = CampoPorcentagem(u'Alíquota do PIS retido'),
-    # 'vr_pis_retido = CampoDinheiro(u'PIS retido'),
-    # 'al_cofins_retido = CampoPorcentagem(u'Alíquota da COFINS retida'),
-    # 'vr_cofins_retido = CampoDinheiro(u'COFINS retida'),
+    ### PIS e COFINS
+    ##'pis_cofins_retido = fields.boolean(u'PIS-COFINS retidos?'),
+    ##'al_pis_retido = CampoPorcentagem(u'Alíquota do PIS retido'),
+    ##'vr_pis_retido = CampoDinheiro(u'PIS retido'),
+    ##'al_cofins_retido = CampoPorcentagem(u'Alíquota da COFINS retida'),
+    ##'vr_cofins_retido = CampoDinheiro(u'COFINS retida'),
 
-    # Contribuição social sobre lucro líquido
-    # 'csll_retido = fields.boolean(u'CSLL retida?'),
-    # 'al_csll = CampoPorcentagem('Alíquota da CSLL'),
-    # 'vr_csll = CampoDinheiro(u'CSLL retida'),
-    # 'bc_csll_propria = CampoDinheiro(u'Base da CSLL própria'),
-    # 'al_csll_propria = CampoPorcentagem('Alíquota da CSLL própria'),
-    # 'vr_csll_propria = CampoDinheiro(u'CSLL própria'),
+    ### Contribuição social sobre lucro líquido
+    ##'csll_retido = fields.boolean(u'CSLL retida?'),
+    ##'al_csll = CampoPorcentagem('Alíquota da CSLL'),
+    ##'vr_csll = CampoDinheiro(u'CSLL retida'),
+    ##'bc_csll_propria = CampoDinheiro(u'Base da CSLL própria'),
+    ##'al_csll_propria = CampoPorcentagem('Alíquota da CSLL própria'),
+    ##'vr_csll_propria = CampoDinheiro(u'CSLL própria'),
 
-    # IRRF
-    # 'irrf_retido = fields.boolean(u'IR retido?'),
-    # 'bc_irrf = CampoDinheiro(u'Base do IRRF'),
-    # 'al_irrf = CampoPorcentagem(u'Alíquota do IRRF'),
-    # 'vr_irrf = CampoDinheiro(u'Valor do IRRF'),
-    # 'bc_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
-    # 'al_irpj_proprio = CampoPorcentagem(u'Alíquota do IRPJ próprio'),
-    # 'vr_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
+    ### IRRF
+    ##'irrf_retido = fields.boolean(u'IR retido?'),
+    ##'bc_irrf = CampoDinheiro(u'Base do IRRF'),
+    ##'al_irrf = CampoPorcentagem(u'Alíquota do IRRF'),
+    ##'vr_irrf = CampoDinheiro(u'Valor do IRRF'),
+    ##'bc_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
+    ##'al_irpj_proprio = CampoPorcentagem(u'Alíquota do IRPJ próprio'),
+    ##'vr_irpj_proprio = CampoDinheiro(u'Valor do IRPJ próprio'),
 
-    # ISS
-    # 'iss_retido = fields.boolean(u'ISS retido?'),
-    # 'bc_iss_retido = CampoDinheiro(u'Base do ISS'),
-    # 'vr_iss_retido = CampoDinheiro(u'Valor do ISS'),
+    ### ISS
+    ##'iss_retido = fields.boolean(u'ISS retido?'),
+    ##'bc_iss_retido = CampoDinheiro(u'Base do ISS'),
+    ##'vr_iss_retido = CampoDinheiro(u'Valor do ISS'),
 
     item_ids = fields.One2many(
         comodel_name='sped.documento.item',
@@ -616,30 +743,6 @@ class Documento(models.Model):
             documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
             documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
 
-    def _compute_currency_id(self):
-        for documento in self:
-            documento.currency_id = self.env.ref('base.BRL').id
-            documento.currency_aliquota_id = self.env.ref('sped.SIMBOLO_ALIQUOTA').id
-
-    #@api.depends(
-            #'vr_produtos', 'vr_produtos_tributacao',
-            #'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
-            #'vr_operacao', 'vr_operacao_tributacao',
-            #'bc_icms_proprio', 'vr_icms_proprio',
-            #'vr_difal', 'vr_fcp',
-            #'vr_icms_sn', 'vr_simples',
-            #'bc_icms_st', 'vr_icms_st',
-            #'bc_icms_st_retido', 'vr_icms_st_retido',
-            #'bc_ipi', 'vr_ipi',
-            #'bc_ii', 'vr_ii', 'vr_despesas_aduaneiras', 'vr_iof',
-            #'bc_pis_proprio', 'vr_pis_proprio',
-            #'bc_cofins_proprio', 'vr_cofins_proprio',
-            #'bc_iss', 'vr_iss',
-            #'vr_nf', 'vr_fatura',
-            #'vr_ibpt',
-            #'bc_inss_retido', 'vr_inss_retido',
-            #'vr_custo_comercial'
-        #)
     @api.depends('item_ids')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
@@ -670,7 +773,6 @@ class Documento(models.Model):
                 for campo in CAMPOS_SOMA_ITENS:
                     dados[campo] += getattr(item, campo, D(0))
 
-            print(dados)
             documento.update(dados)
 
     @api.depends('item_ids')
