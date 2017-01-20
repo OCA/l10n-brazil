@@ -4,6 +4,7 @@
 
 from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
+from odoo.exceptions import UserError
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
@@ -51,11 +52,12 @@ class AccountInvoice(models.Model):
     def _compute_receivables(self):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
-            if line.account_id.id == self.account_id.id and \
-                line.account_id.user_type_id.type in ('receivable', 'payable') and \
-                    self.journal_id.revenue_expense:
+            if (line.account_id.id == self.account_id.id and
+                    line.account_id.user_type_id.type in (
+                        'receivable', 'payable') and
+                    self.journal_id.revenue_expense):
                 lines |= line
-        self.move_line_receivable_id = (lines).sorted()
+        self.move_line_receivable_id = lines.sorted()
 
     state = fields.Selection(
         selection_add=[
@@ -183,7 +185,7 @@ class AccountInvoice(models.Model):
             kwargs.get('fiscal_category_id'))
         result['value']['journal_id'] = fcategory.property_journal.id
         if not result['value'].get('journal_id', False):
-            raise except_orm(
+            raise UserError(
                 _('Nenhum Diário !'),
                 _("Categoria fiscal: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, company.name))

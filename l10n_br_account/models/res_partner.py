@@ -117,7 +117,11 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                     position.cfop_id and position.cfop_id.id or False,
                 'inv_copy_note': position.inv_copy_note,
                 'asset_operation': position.asset_operation,
-                'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
+                'fiscal_category_id': (
+                    position.fiscal_category_id and
+                    position.fiscal_category_id.id or False
+                )
+            })
             for tax in position.tax_ids:
                 obj_tax_fp.create({
                     'tax_src_id':
@@ -132,7 +136,11 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                     position.cfop_id and position.cfop_id.id or False,
                     'inv_copy_note': position.inv_copy_note,
                     'asset_operation': position.asset_operation,
-                    'fiscal_category_id': position.fiscal_category_id and position.fiscal_category_id.id or False})
+                    'fiscal_category_id': (
+                        position.fiscal_category_id and
+                        position.fiscal_category_id.id or False
+                    )
+                })
             for tax in position.tax_ids:
                 obj_tax_fp.create({
                     'tax_src_id':
