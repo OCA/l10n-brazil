@@ -33,10 +33,10 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         to_open_br_invoices = self.filtered(
             lambda inv: inv.state != 'open' and
-                        inv.company_id.country_id == self.env.ref('base.br'))
+            inv.company_id.country_id == self.env.ref('base.br'))
         to_open_not_br_invoices = self.filtered(
             lambda inv: inv.state != 'open' and
-                        not inv.company_id.country_id == self.env.ref('base.br')
+            not inv.company_id.country_id == self.env.ref('base.br')
         )
         to_open_br_invoices.action_sped_documento()
         return super(
