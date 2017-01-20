@@ -5,7 +5,7 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -23,36 +23,36 @@ from ..constante_tributaria import *
 
 
 class AliquotaIPI(models.Model):
-    _description = 'Alíquota do IPI'
+    _description = u'Alíquota do IPI'
     _name = 'sped.aliquota.ipi'
     _rec_name = 'descricao'
     _order = 'al_ipi'
 
-    al_ipi = fields.Float('Alíquota', required=True, digits=(5, 2))
-    md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade da base de cálculo', required=True,
+    al_ipi = fields.Float(u'Alíquota', required=True, digits=(5, 2))
+    md_ipi = fields.Selection(MODALIDADE_BASE_IPI, u'Modalidade da base de cálculo', required=True,
                               default=MODALIDADE_BASE_IPI_ALIQUOTA)
-    cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'Situação tributária nas entradas', required=True,
+    cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, u'Situação tributária nas entradas', required=True,
                                        default=ST_IPI_ENTRADA_RECUPERACAO_CREDITO)
-    cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, 'Situação tributária do nas saídas', required=True,
+    cst_ipi_saida = fields.Selection(ST_IPI_SAIDA, u'Situação tributária do nas saídas', required=True,
                                      default=ST_IPI_SAIDA_TRIBUTADA)
-    descricao = fields.Char(string='Alíquota do IPI', compute='_compute_descricao', store=True)
+    descricao = fields.Char(string=u'Alíquota do IPI', compute='_compute_descricao', store=True)
 
     @api.depends('al_ipi', 'md_ipi', 'cst_ipi_entrada', 'cst_ipi_saida')
     def _compute_descricao(self):
         for al_ipi in self:
             if al_ipi.al_ipi == -1:
-                al_ipi.descricao = 'Não tributado'
+                al_ipi.descricao = u'Não tributado'
 
             else:
                 if al_ipi.md_ipi == MODALIDADE_BASE_IPI_ALIQUOTA:
                     al_ipi.descricao = formata_valor(al_ipi.al_ipi or 0) + '%'
 
                 elif al_ipi.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
-                    al_ipi.descricao = 'por quantidade, a R$ ' + formata_valor(al_ipi.al_ipi or 0)
+                    al_ipi.descricao = u'por quantidade, a R$ ' + formata_valor(al_ipi.al_ipi or 0)
 
-                al_ipi.descricao += ' - CST ' + al_ipi.cst_ipi_entrada
-                al_ipi.descricao += ' entrada, ' + al_ipi.cst_ipi_saida
-                al_ipi.descricao += ' saída'
+                al_ipi.descricao += u' - CST ' + al_ipi.cst_ipi_entrada
+                al_ipi.descricao += u' entrada, ' + al_ipi.cst_ipi_saida
+                al_ipi.descricao += u' saída'
 
     @api.depends('al_ipi', 'md_ipi')
     def _check_al_ipi(self):
@@ -68,4 +68,4 @@ class AliquotaIPI(models.Model):
             al_ipi_ids = self.search(busca)
 
             if al_ipi_ids:
-                raise ValidationError('Alíquota de IPI já existe!')
+                raise ValidationError(u'Alíquota de IPI já existe!')
