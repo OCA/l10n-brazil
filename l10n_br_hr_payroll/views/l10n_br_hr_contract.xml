@@ -5,31 +5,51 @@
 <openerp>
 <data>
 
-    <!--TODO: Definir contexto -->
-    <record model="ir.actions.act_window" id="hr_contract.action_hr_contract">
-        <field name="name">Contracts</field>
-        <field name="res_model">hr.contract</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{'search_default_current':1}</field>
-    </record>
-
-
     <record model="ir.ui.menu" id="hr_contract_change_menu">
         <field name="name">Alterações contratuais</field>
         <field name="parent_id" ref="hr.menu_hr_main"/>
         <field name="sequence" eval="5"/>
     </record>
 
-    <!--TODO: Definir contexto -->
+     <record id="l10n_br_hr_contract_change_remuneracao_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.form (remuneracao)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="arch" type="xml">
+                <form string="Alterações contratual: Remuneração">
+                    <field name="contract_id"/>
+                </form>
+            </field>
+     </record>
+
+     <record id="l10n_br_hr_contract_change_remuneracao_tree" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.tree (remuneracao)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="arch" type="xml">
+                <tree string="Alterações contratual: Remuneração">
+                    <field name="contract_id"/>
+                </tree>
+            </field>
+     </record>
+
     <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_remuneracao_action">
         <field name="name">Remuneração</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','remuneracao')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
-
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_remuneracao_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_remuneracao_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_remuneracao_tree"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_remuneracao_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_remuneracao_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_remuneracao_form"/>
+    </record>
     <record model="ir.ui.menu" id="l10n_br_hr_contract_change_remuneracao_menu">
         <field name="name">Alteração de Remuneração</field>
         <field name="parent_id" ref="hr_contract_change_menu"/>
@@ -37,12 +57,13 @@
         <field name="sequence" eval="1"/>
     </record>
 
+
     <!--TODO: Definir contexto -->
     <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_jornada_action">
         <field name="name">Jornada</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','jornada')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
 
@@ -58,7 +79,7 @@
         <field name="name">Cargo Atividade</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','cargo-atividade')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
 
@@ -74,7 +95,7 @@
         <field name="name">Filiação Sindical</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','filiacao-sindical')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
 
@@ -90,7 +111,7 @@
         <field name="name">Lotacao/Local de trabalho</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','lotacao-local')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
 
@@ -102,27 +123,11 @@
     </record>
 
         <!--TODO: Definir contexto -->
-    <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_reajuste_salarial_action">
-        <field name="name">Reajuste Salarial</field>
-        <field name="res_model">l10n_br_hr.contract.change</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{'search_default_current':1}</field>
-    </record>
-
-    <record model="ir.ui.menu" id="l10n_br_hr_contract_change_reajuste_salarial_menu">
-        <field name="name">Reajuste Salarial</field>
-        <field name="parent_id" ref="hr_contract_change_menu"/>
-        <field name="action" ref="l10n_br_hr_contract_change_reajuste_salarial_action"/>
-        <field name="sequence" eval="6"/>
-    </record>
-
-        <!--TODO: Definir contexto -->
     <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_curso_treinamento_action">
         <field name="name">Curso/Treinamento</field>
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('change_type','=','curso-treinamento')]</field>
         <field name="context">{'search_default_current':1}</field>
     </record>
 

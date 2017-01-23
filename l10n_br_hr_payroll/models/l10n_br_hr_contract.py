@@ -19,6 +19,10 @@ class HrContractChange(models.Model):
     _description = u"Alteração contatual"
     _inherit = 'hr.contract'
 
+    contract_id = fields.Many2one(
+        'hr.contract',
+        string="Contrato"
+    )
     change_type = fields.Selection(
         selection=[
             ('remuneracao', u'Remuneração'),
@@ -26,17 +30,17 @@ class HrContractChange(models.Model):
             ('cargo-atividade', u'Cargo/Atividade'),
             ('filiacao-sindical', u'Filiação Sindical'),
             ('lotacao-local', u'Lotação/Local de trabalho'),
-            ('reajuste-salarial', u'Reajuste Salarial'),
             ('curso-treinamento', u'Curso/Treinamento'),
         ],
         string=u"Tipo de alteração contratual",
     )
-    change_reason_id = fields.Many2One(
-        comodel_name='hr.contract.change_reason',
+    change_reason_id = fields.Many2one(
+        comodel_name='l10n_br_hr.contract.change_reason',
         string=u"Motivo",
     )
     change_date = fields.Date(u'Data da alteração')
-
-
-
-
+    change_history = fields.One2many(
+        comodel_name='l10n_br_hr.contract.change',
+        inverse_name='contract_id',
+        string=u"Histórico",
+    )
