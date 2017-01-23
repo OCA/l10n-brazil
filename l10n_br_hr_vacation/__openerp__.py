@@ -7,14 +7,13 @@
     'summary': 'Employees vacation prevision',
     'version': '8.0.1.0.0',
     'category': 'Generic Modules',
-    'description': """
-    Module for vacation and prevision vacation
-    """,
-    'author': "KMEE, Odoo Community Association (OCA)",
     'website': 'http://www.kmee.com.br',
+    'author': "KMEE, Odoo Community Association (OCA)",
+    "license": "AGPL-3",
     'depends': [
         'hr_contract',
         'hr_holidays',
+        'hr_payroll',
     ],
     'data': [
         'data/hr_holidays_data.xml',

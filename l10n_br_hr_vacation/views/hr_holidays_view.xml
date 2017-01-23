@@ -42,15 +42,17 @@
                 </field>
 
                 <field name="notes" position="before">
-                    <h2 class="oe_right">
-                        <br/>
-                        <group attrs="{'invisible':[('type','=','add')]}">
-                            <label for="number_of_days_temp"
-                                   string="Total Dias Selecionados:"/>
-                            <field colspan="1" name="number_of_days_temp"
-                                   nolabel="1" widget="integer"/>
-                        </group>
-                    </h2>
+                    <group>
+                        <h2 class="oe_right">
+                            <br/>
+                            <group attrs="{'invisible':[('type','=','add')]}">
+                                <label for="number_of_days_temp"
+                                       string="Total Dias Selecionados:"/>
+                                <field colspan="1" name="number_of_days_temp"
+                                       nolabel="1" widget="integer"/>
+                            </group>
+                        </h2>
+                    </group>
                 </field>
 
             </field>

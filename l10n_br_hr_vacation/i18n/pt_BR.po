@@ -90,7 +90,7 @@ msgstr "Dias para converter"
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree_simple
 msgid "Sold Vacations Days"
-msgstr "Sold Vacations Days"
+msgstr "Dias do Abono Pecuniário"
 
 #. module: l10n_br_hr_vacation
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_form
@@ -101,7 +101,7 @@ msgstr "Total Dias Selecionados:"
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree_simple
 msgid "Total Vacation Days"
-msgstr "Total dias de férias (sem contar abono pecuniário)"
+msgstr "Total de dias das férias"
 
 #. module: l10n_br_hr_vacation
 #: field:hr.employee,end_last_vacation:0

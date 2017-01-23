@@ -19,7 +19,7 @@ class HrHolidays(models.Model):
         help=u'Number of vacation days the employee desires to sell',
         default=0,
     )
-    sold_vacations_days_temp= fields.Integer(
+    sold_vacations_days_temp = fields.Integer(
         string=u'Sold Vacation Days',
         help=u'Number of vacation days the employee desires to sell',
         compute='_compute_days_temp',
@@ -46,7 +46,7 @@ class HrHolidays(models.Model):
         index=True,
     )
 
-    @api.depends('vacations_days','sold_vacations_days')
+    @api.depends('vacations_days', 'sold_vacations_days')
     def _compute_days_temp(self):
         for holiday_id in self:
             if holiday_id.type == 'remove':

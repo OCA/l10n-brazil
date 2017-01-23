@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import datetime
+# from dateutil.relativedelta import relativedelta
 from openerp import api, models, fields
 
 
@@ -27,9 +28,10 @@ class HrEmployee(models.Model):
                     else:
                         date_start = employee.contract_ids.date_start
 
+                    # TO DO : Usar  relativedelta
                     if self._get_number_of_days(
-                            date_start, str(datetime.date.today())) > 5:
-                        print("Vacation! for %s" % employee.display_name)
+                            date_start, str(datetime.date.today())) > 365:
+                        # print("Vacation! for %s" % employee.display_name)
                         vacation_id = self.env.ref(
                             'l10n_br_hr_vacation.holiday_status_vacation').id
                         self.env['hr.holidays'].create(

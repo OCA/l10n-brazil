@@ -1,8 +1,13 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
-    :alt: License: AGPL-3
+   :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
+   :alt: License: AGPL-3
 
-Vacation
-========
+===================
+l10n_br Hr Vacation
+===================
+
+This module extends the functionality of holidays to support brazilian vacation
+
 
 Installation
 ============
@@ -37,6 +42,7 @@ Credits
 Contributors
 ------------
 
+* Hendrix Costa <hendrix.costa@kmee.com.br>
 * Luis Felipe Mileo <mileo@kmee.com.br>
 
 
