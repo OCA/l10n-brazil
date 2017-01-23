@@ -84,7 +84,7 @@ msgstr "Converter em Abono Pecuniário"
 #. module: l10n_br_hr_vacation
 #: field:hr.holidays,sold_vacations_days:0
 msgid "Sold Vacation Days"
-msgstr "Dias para converter"
+msgstr "Dias de abono Pecuniário"
 
 #. module: l10n_br_hr_vacation
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
