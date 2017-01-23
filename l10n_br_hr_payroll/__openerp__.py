@@ -17,6 +17,7 @@
         'hr_payroll',
     ],
     'data': [
+        'views/hr_contract.xml',
         'security/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract_cargo_atividade.xml',

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="hr_contract_form_view">
+        <field name="name">hr.contract.form (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="l10n_br_hr_contract.l10n_br_hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@string='Resignation']" position="after">
+                    <page string="Rubricas específicas">
+                        <field name="specific_rule_ids">
+                            <tree editable="bottom">
+                                <field name="rule_id"/>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                                <field name="specific_quantity"/>
+                                <field name="specific_percentual"/>
+                                <field name="specific_amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Alterações Contratuais">
+                        <notebook>
+                            <page string="Remuneração">
+                                <field name="change_salary_ids"/>
+                            </page>
+                            <page string="Jornada">
+                                <field name="change_workdays_ids"/>
+                            </page>
+                            <page string="Atividade/Cargo">
+                                <field name="change_job_ids"/>
+                            </page>
+                            <page string="Filiação Sindical">
+                                <field name="change_labor_union_ids"/>
+                            </page>
+                            <page string="Lotação/Local de trabalho">
+                                <field name="change_place_ids"/>
+                            </page>
+                        </notebook>
+                    </page>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
