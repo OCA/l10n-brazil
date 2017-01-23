@@ -33,6 +33,74 @@
             </field>
         </record>
 
+        <record  model="ir.ui.view" id="l10n_br_hr_job_minimum_wage_tree">
+            <field name="name">l10n.br.hr.job.minimum.wage.tree</field>
+            <field name="model">l10n.br.hr.job.minimum.wage</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Job Minimum Wage">
+                    <field name="job_id" />
+                    <field name="date_beginning"/>
+                    <field name="preferential_workload"/>
+                    <field name="month_minimum_wage"/>
+                    <field name="hour_minimum_wage"/>
+                </tree>
+            </field>
+        </record>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_job_minimum_wage_tree">
+            <field name="name">l10n.br.hr.job.minimum.wage.tree</field>
+            <field name="model">l10n.br.hr.job.minimum.wage</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Job Minimum Wage">
+                    <field name="job_id" />
+                    <field name="date_beginning"/>
+                    <field name="preferential_workload"/>
+                    <field name="month_minimum_wage"/>
+                    <field name="hour_minimum_wage"/>
+                </tree>
+            </field>
+        </record>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_job_rubric_tree">
+            <field name="name">l10n.br.hr.job.rubric.tree</field>
+            <field name="model">l10n.br.hr.job.rubric</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Job Minimum Wage">
+                    <field name="rubric_id" />
+                    <field name="job_id"/>
+                    <field name="data_beginning"/>
+                    <field name="data_ending"/>
+                    <field name="reference"/>
+                    <field name="quantity"/>
+                    <field name="percentage"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_job_fix_rubric_tree">
+            <field name="name">l10n.br.hr.job.fix.rubric.tree</field>
+            <field name="model">l10n.br.hr.job.fix.rubric</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Job Fix Rubrics">
+                    <field name="rubric_id" />
+                    <field name="monthly_hourly"/>
+                    <field name="initial_wage"/>
+                    <field name="final_wage"/>
+                    <field name="date_beginning"/>
+                    <field name="date_ending"/>
+                    <field name="reference"/>
+                    <field name="quantity"/>
+                    <field name="percentage"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="l10n_br_hr_syndicate_form">
             <field name="name">l10n.br.hr.syndicate.form</field>
             <field name="model">l10n.br.hr.syndicate</field>
@@ -54,6 +122,15 @@
                         <notebook>
                             <page string="Collectives Conventions">
                                 <field name="collectives_conventions_ids" />
+                            </page>
+                            <page string="Job Minimum Wage">
+                                <field name="job_minimum_wage_ids" />
+                            </page>
+                            <page string="Job Rubrics">
+                                <field name="job_rubric_ids" />
+                            </page>
+                            <page string="Job Fix Rubrics">
+                                <field name="job_fix_rubric_ids" />
                             </page>
                         </notebook>
                     </sheet>
