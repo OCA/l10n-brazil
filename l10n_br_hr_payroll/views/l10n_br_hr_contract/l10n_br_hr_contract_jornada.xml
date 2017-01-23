@@ -4,7 +4,52 @@
 
 <openerp>
 <data>
+        <record id="l10n_br_hr_contract_change_jornada_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.form (jornada)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="arch" type="xml">
+                <form string="Alterações contratual: Jornada">
+                    <group>
+                        <field name="change_type" invisible="True"/>
+                        <field name="contract_id" required="True"/>
+                        <field name="change_date"/>
+                        <field name="change_reason_id"/>
+                        <field name="working_hours"/>
+                        <field name="schedule_pay"/>
+                        <field name="monthly_hours"/>
+                        <field name="weekly_hours"/>
+                        <field name="notes"/>
+                        <field name="change_history">
+                            <tree string="Histórico de Alterações de Jornada">
+                                <field name="contract_id" required="True"/>
+                                <field name="change_date"/>
+                                <field name="change_reason_id"/>
+                                <field name="working_hours"/>
+                                <field name="schedule_pay"/>
+                                <field name="monthly_hours"/>
+                                <field name="weekly_hours"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+     </record>
 
+     <record id="l10n_br_hr_contract_change_jornada_tree" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.tree (jornada)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="arch" type="xml">
+                <tree string="Alterações contratual: Jornada">
+                    <field name="contract_id" required="True"/>
+                    <field name="change_date"/>
+                    <field name="change_reason_id"/>
+                    <field name="working_hours"/>
+                    <field name="schedule_pay"/>
+                    <field name="monthly_hours"/>
+                    <field name="weekly_hours"/>
+                </tree>
+            </field>
+     </record>
 
     <!--TODO: Definir contexto -->
     <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_jornada_action">
@@ -12,16 +57,28 @@
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('change_type','=','jornada')]</field>
-        <field name="context">{'search_default_current':1}</field>
+        <field name="context">{'search_default_current':1, 'change_type': 'jornada'}</field>
     </record>
 
     <record model="ir.ui.menu" id="l10n_br_hr_contract_change_jornada_menu">
-        <field name="name">Alterações de Jornada</field>
+        <field name="name">Jornada</field>
         <field name="parent_id" ref="hr_contract_change_menu"/>
         <field name="action" ref="l10n_br_hr_contract_change_jornada_action"/>
         <field name="sequence" eval="2"/>
     </record>
-
+    
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_jornada_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_jornada_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_jornada_tree"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_jornada_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_jornada_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_jornada_form"/>
+    </record>
 
 </data>
 </openerp>

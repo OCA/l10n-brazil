@@ -19,6 +19,13 @@ class HrContractChange(models.Model):
     _description = u"Alteração contatual"
     _inherit = 'hr.contract'
 
+    def _get_default_type(self):
+        change_type = self._context.get('change_type', False)
+        if change_type:
+            return change_type
+        else:
+            raise UserWarning(u'Sem tipo de alteração definido!')
+
     contract_id = fields.Many2one(
         'hr.contract',
         string="Contrato"
@@ -30,9 +37,10 @@ class HrContractChange(models.Model):
             ('cargo-atividade', u'Cargo/Atividade'),
             ('filiacao-sindical', u'Filiação Sindical'),
             ('lotacao-local', u'Lotação/Local de trabalho'),
-            ('curso-treinamento', u'Curso/Treinamento'),
+            # ('curso-treinamento', u'Curso/Treinamento'),
         ],
         string=u"Tipo de alteração contratual",
+        default=_get_default_type
     )
     change_reason_id = fields.Many2one(
         comodel_name='l10n_br_hr.contract.change_reason',
@@ -44,3 +52,14 @@ class HrContractChange(models.Model):
         inverse_name='contract_id',
         string=u"Histórico",
     )
+    name = fields.Char(string='Contract Reference', required=False)
+    employee_id = fields.Many2one(string='Employee',
+                                  comodel_name='hr.employee',
+                                  required=False)
+    type_id = fields.Many2one(string='Contract Type',
+                              comodel_name='hr.contract.type',
+                              required=False)
+
+    @api.onchange('contract_id')
+    def _onchange_contract_id(self):
+        pass

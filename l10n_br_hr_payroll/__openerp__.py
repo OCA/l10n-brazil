@@ -20,7 +20,6 @@
         'security/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract_cargo_atividade.xml',
-        'views/l10n_br_hr_contract/l10n_br_hr_contract_curso_treinamento.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract_filiacao_sindical.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract_jornada.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract_lotacao_local.xml',
