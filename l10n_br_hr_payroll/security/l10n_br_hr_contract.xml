@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <!--<record model="ir.model.access" id="hr_contract_access_name"> &lt;!&ndash; TODO acl id &ndash;&gt;-->
+        <!--<field name="name">hr.contract access name</field> &lt;!&ndash; TODO acl name &ndash;&gt;-->
+        <!--<field name="model_id" ref="model_hr_contract"/>-->
+        <!--&lt;!&ndash; TODO review and adapt &ndash;&gt;-->
+        <!--<field name="group_id" ref="base.group_user"/>-->
+        <!--<field name="perm_read" eval="1"/>-->
+        <!--<field name="perm_create" eval="0"/>-->
+        <!--<field name="perm_write" eval="0"/>-->
+        <!--<field name="perm_unlink" eval="0"/>-->
+    <!--</record>-->
+
+</data>
+</openerp>

@@ -17,6 +17,8 @@
         'hr_payroll',
     ],
     'data': [
+        'security/l10n_br_hr_contract.xml',
+        'views/l10n_br_hr_contract.xml',
         'data/l10n_br_hr_payroll_data_rubricas.xml',
         'security/ir.model.access.csv',
         'views/l10n_br_hr_child_benefit_view.xml',
