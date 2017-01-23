@@ -33,7 +33,7 @@ class HrEmployee(models.Model):
                             'l10n_br_hr_vacation.holiday_status_vacation').id
                         self.env['hr.holidays'].create({
                             'name': 'Periodo Aquisitivo: %s ate %s'
-                                    % (date_start, str(datetime.date.today())),
+                                    % (date_start, str(fields.date.today())),
                             'employee_id': employee.id,
                             'holiday_status_id': vacation_id,
                             'type': 'add',
