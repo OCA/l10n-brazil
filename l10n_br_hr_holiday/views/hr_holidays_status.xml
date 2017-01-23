@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='second']/.." position="before">
                 <group>
+                    <field name="tipo" />
                     <field name="message" />
                     <field name="days_limit" />
                     <field name="hours_limit" />
