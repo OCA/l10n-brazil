@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<openerp>
+    <data>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_syndicate_tree">
+            <field name="name">l10n.br.hr.syndicate.tree</field>
+            <field name="model">l10n.br.hr.syndicate</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Syndicates">
+                    <field name="syndicate" />
+                    <field name="dissidio_month"/>
+                    <field name="trct_code"/>
+                    <field name="trct_name"/>
+                    <field name="syndicate_type"/>
+                    <field name="syndicate_entity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record  model="ir.ui.view" id="l10n_br_hr_collectives_conventions_tree">
+            <field name="name">l10n.br.hr.collectives.conventions.tree</field>
+            <field name="model">l10n.br.hr.collectives.conventions</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Collectives Conventions">
+                    <field name="base_year" />
+                    <field name="agreement_date"/>
+                    <field name="process_number"/>
+                    <field name="vara"/>
+                    <field name="agreement_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_syndicate_form">
+            <field name="name">l10n.br.hr.syndicate.form</field>
+            <field name="model">l10n.br.hr.syndicate</field>
+            <field name="arch" type="xml">
+                <form string="Syndicate">
+                    <sheet string="Syndicate">
+                        <h2><field name="syndicate"/></h2>
+                        <group string="Syndicate">
+                            <group>
+                                <field name="dissidio_month"/>
+                                <field name="trct_code"/>
+                                <field name="trct_name"/>
+                            </group>
+                            <group>
+                                <field name="syndicate_type"/>
+                                <field name="syndicate_entity"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Collectives Conventions">
+                                <field name="collectives_conventions_ids" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

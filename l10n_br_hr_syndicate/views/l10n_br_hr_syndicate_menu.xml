@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.actions.act_window" id="l10n_br_hr_syndicate_action">
+            <field name="name">Syndicate</field>
+            <field name="res_model">l10n.br.hr.syndicate</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="l10n_br_hr_syndicate_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            action="l10n_br_hr_syndicate_action"
+            id="menu_l10n_br_hr_syndicate"
+            name="Syndicates"
+            parent="hr.menu_hr_configuration"
+            sequence="45"
+            />
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_syndicate_action_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="l10n_br_hr_syndicate_action"/>
+            <field name="view_id" ref="l10n_br_hr_syndicate_tree"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_syndicate_action_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="l10n_br_hr_syndicate_action"/>
+            <field name="view_id" ref="l10n_br_hr_syndicate_form"/>
+        </record>
+
+    </data>
+</openerp>
