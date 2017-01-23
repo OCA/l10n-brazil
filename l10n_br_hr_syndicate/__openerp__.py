@@ -16,8 +16,9 @@
         'l10n_br_hr_contract',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/l10n_br_hr_syndicate_form.xml',
-        'views/l10n_br_hr_syndicate_menu.xml'
+        'views/l10n_br_hr_syndicate_menu.xml',
     ],
     'installable': True,
     'auto_install': False,
