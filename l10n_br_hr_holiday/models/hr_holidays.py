@@ -6,6 +6,11 @@ from datetime import timedelta
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserError
 
+OCORRENCIA_TIPO = [
+    ('ferias', u'Férias'),
+    ('ocorrencias', u'Ocorrências'),
+]
+
 
 class HrHolidays(models.Model):
 
@@ -25,6 +30,14 @@ class HrHolidays(models.Model):
     )
     payroll_discount = fields.Boolean(
         string=u'Payroll Discount',
+    )
+    tipo = fields.Selection(
+        selection=OCORRENCIA_TIPO,
+        string="Tipo",
+        default='ferias',
+    )
+    holiday_status_id = fields.Many2one(
+        domain="[('tipo', '=', tipo)]",
     )
 
     @api.constrains('attachment_ids', 'holiday_status_id', 'date_from',
