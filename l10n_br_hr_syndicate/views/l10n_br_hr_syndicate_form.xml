@@ -12,8 +12,6 @@
                     <field name="dissidio_month"/>
                     <field name="trct_code"/>
                     <field name="trct_name"/>
-                    <field name="syndicate_type"/>
-                    <field name="syndicate_entity"/>
                 </tree>
             </field>
         </record>
@@ -101,6 +99,19 @@
             </field>
         </record>
 
+        <record  model="ir.ui.view" id="l10n_br_hr_syndicate_contribution_tree">
+            <field name="name">l10n.br.hr.syndicate.contribution.tree</field>
+            <field name="model">l10n.br.hr.syndicate.contribution</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Syndicate Contribution">
+                    <field name="social_capital_class" />
+                    <field name="aliquot"/>
+                    <field name="additional_portion"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="l10n_br_hr_syndicate_form">
             <field name="name">l10n.br.hr.syndicate.form</field>
             <field name="model">l10n.br.hr.syndicate</field>
@@ -113,10 +124,6 @@
                                 <field name="dissidio_month"/>
                                 <field name="trct_code"/>
                                 <field name="trct_name"/>
-                            </group>
-                            <group>
-                                <field name="syndicate_type"/>
-                                <field name="syndicate_entity"/>
                             </group>
                         </group>
                         <notebook>
@@ -131,6 +138,9 @@
                             </page>
                             <page string="Job Fix Rubrics">
                                 <field name="job_fix_rubric_ids" />
+                            </page>
+                            <page string="Syndicate Contribution">
+                                <field name="syndicate_contribution_ids" />
                             </page>
                         </notebook>
                     </sheet>

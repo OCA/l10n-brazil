@@ -30,20 +30,6 @@ class L10nBrHrSyndicate(models.Model):
     syndicate = fields.Char('Syndicate Name', required=True)
     trct_code = fields.Char('TRCT Code')
     trct_name = fields.Char('TRCT Name')
-    syndicate_type = fields.Selection(
-        [
-            ('teste', 'Teste')
-        ],
-        'Syndicate Type',
-        required=True
-    )
-    syndicate_entity = fields.Selection(
-        [
-            ('teste2', 'Teste2')
-        ],
-        'Syndicate Entity',
-        required=True
-    )
     collectives_conventions_ids = fields.Many2many(
         'l10n.br.hr.collectives.conventions',
         'l10n_br_hr_syndicate_conventions_rel', 'syndicate_id',
@@ -67,6 +53,12 @@ class L10nBrHrSyndicate(models.Model):
         'l10n_br_hr_syndicate_job_fix_rubric_rel', 'syndicate_id',
         'job_fix_rubric_id',
         string="Job Fix Rubrics"
+    )
+    syndicate_contribution_ids = fields.Many2many(
+        'l10n.br.hr.syndicate.contribution',
+        'l10n_br_hr_syndicate_contribution_rel', 'syndicate_id',
+        'syndicate_contribution_id',
+        string="Syndicate Contributions"
     )
 
 
@@ -137,6 +129,20 @@ class L10nBrHrJobFixRubric(models.Model):
     syndicate_ids = fields.Many2many(
         'l10n.br.hr.syndicate',
         'l10n_br_hr_syndicate_job_fix_rubric_rel', 'job_fix_rubric_id',
+        'syndicate_id',
+        string="Syndicates"
+    )
+
+
+class L10nBrHrJobSyndicateContribution(models.Model):
+    _name = "l10n.br.hr.syndicate.contribution"
+
+    social_capital_class = fields.Char("Social Capital Class")
+    aliquot = fields.Float("Aliquot")
+    additional_portion = fields.Float("Additional Portion")
+    syndicate_ids = fields.Many2many(
+        'l10n.br.hr.syndicate',
+        'l10n_br_hr_syndicate_contribution_rel', 'syndicate_contribution_id',
         'syndicate_id',
         string="Syndicates"
     )
