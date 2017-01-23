@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+
+    <!--TODO: Definir contexto -->
+    <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_jornada_action">
+        <field name="name">Jornada</field>
+        <field name="res_model">l10n_br_hr.contract.change</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('change_type','=','jornada')]</field>
+        <field name="context">{'search_default_current':1}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_hr_contract_change_jornada_menu">
+        <field name="name">Alterações de Jornada</field>
+        <field name="parent_id" ref="hr_contract_change_menu"/>
+        <field name="action" ref="l10n_br_hr_contract_change_jornada_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+
+</data>
+</openerp>
