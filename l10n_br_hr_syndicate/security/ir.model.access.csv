@@ -1,7 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_syndicate,l10n.br.hr.syndicate.manager,model_l10n_br_hr_syndicate,base.group_hr_manager,1,1,1,1
+access_syndicate,l10n.br.hr.syndicate.manager,model_l10n_br_hr_syndicate,,1,0,0,0
 access_collectives_conventions,l10n.br.hr.collectives.conventions.manager,model_l10n_br_hr_collectives_conventions,base.group_hr_manager,1,1,1,1
+access_collectives_conventions,l10n.br.hr.collectives.conventions.manager,model_l10n_br_hr_collectives_conventions,,1,0,0,0
 access_job_minimum_wage,l10n.br.hr.job.minimum.wage.manager,model_l10n_br_hr_job_minimum_wage,base.group_hr_manager,1,1,1,1
+access_job_minimum_wage,l10n.br.hr.job.minimum.wage.manager,model_l10n_br_hr_job_minimum_wage,,1,0,0,0
 access_job_rubric,l10n.br.hr.job.rubric.manager,model_l10n_br_hr_job_rubric,base.group_hr_manager,1,1,1,1
+access_job_rubric,l10n.br.hr.job.rubric.manager,model_l10n_br_hr_job_rubric,,1,0,0,0
 access_job_fix_rubric,l10n.br.hr.job.fix.rubric.manager,model_l10n_br_hr_job_fix_rubric,base.group_hr_manager,1,1,1,1
+access_job_fix_rubric,l10n.br.hr.job.fix.rubric.manager,model_l10n_br_hr_job_fix_rubric,,1,0,0,0
 access_syndicate_contribution,l10n.br.hr.syndicate.contribution.manager,model_l10n_br_hr_syndicate_contribution,base.group_hr_manager,1,1,1,1
+access_syndicate_contribution,l10n.br.hr.syndicate.contribution.manager,model_l10n_br_hr_syndicate_contribution,,1,0,0,0

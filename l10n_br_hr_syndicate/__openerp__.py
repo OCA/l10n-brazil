@@ -14,6 +14,7 @@
         'l10n_br_hr_holiday',
         'l10n_br_resource',
         'l10n_br_hr_contract',
+        'l10n_br_hr_payroll'
     ],
     'data': [
         'security/ir.model.access.csv',
