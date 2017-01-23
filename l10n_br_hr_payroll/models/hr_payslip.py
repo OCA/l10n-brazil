@@ -102,6 +102,11 @@ class HrPayslip(models.Model):
                                                 contract_id)]
             return result
 
+    def INSS(self, BASE_INSS):
+        tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
+        inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
+        return inss
+
     def get_payslip_lines(self, cr, uid, contract_ids, payslip_id, context):
         def _sum_salary_rule_category(localdict, category, amount):
             if category.parent_id:
@@ -190,7 +195,12 @@ class HrPayslip(models.Model):
         worked_days_obj = WorkedDays(self.pool, cr, uid, payslip.employee_id.id, worked_days)
         payslip_obj = Payslips(self.pool, cr, uid, payslip.employee_id.id, payslip)
         rules_obj = BrowsableObject(self.pool, cr, uid, payslip.employee_id.id, rules)
-        baselocaldict = {'BASE_INSS': 0.0, 'BASE_FGTS': 0.0, 'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj, 'payslip': payslip_obj, 'worked_days': worked_days_obj, 'inputs': input_obj}
+
+        baselocaldict = {
+            'CALCULAR':payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
+            'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
+            'payslip': payslip_obj, 'worked_days': worked_days_obj,
+            'inputs': input_obj}
         #get the ids of the structures on the contracts and their parent id as well
         structure_ids = self.pool.get('hr.contract').get_all_structures(cr, uid, contract_ids, context=context)
         #get the rules of the structure and thier children

@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <tree string="Social Security Tax Table">
                     <field name="year" />
+                    <field name="min_wage"/>
                     <field name="max_wage"/>
                     <field name="rate"/>
                 </tree>
@@ -23,6 +24,8 @@
                 <form>
                     <group col="4" colspan="4">
                         <field name="year" required="1" />
+                        <newline/>
+                        <field name="min_wage" required="1"/>
                         <newline/>
                         <field name="max_wage" required="1"/>
                         <newline/>
@@ -39,6 +42,7 @@
             <field name="arch" type="xml">
                 <search string="Social Security Tax Table">
                     <field name="year"/>
+                    <field name="min_wage" />
                     <field name="max_wage" />
                     <field name="rate" />
                 </search>
