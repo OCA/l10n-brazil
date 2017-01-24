@@ -195,5 +195,10 @@
             <field name="need_attachment">True</field>
             <field name="tipo">ocorrencias</field>
         </record>
+
+        <record model="hr.holidays.status" id="l10n_br_hr_vacation.holiday_status_vacation">
+            <field name="tipo">ferias</field>
+        </record>
+
     </data>
 </openerp>
