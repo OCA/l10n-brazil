@@ -107,6 +107,32 @@ class HrPayslip(models.Model):
         inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
         return inss
 
+    def IRRF(self, BASE_IR, BASE_INSS):
+        tabela_irrf_obj = self.env['l10n_br.hr.income.tax']
+        inss = self.INSS(BASE_INSS)
+        irrf = tabela_irrf_obj._compute_irrf(
+            BASE_IR, self.employee_id.id, inss, self.date_from
+        )
+        return irrf
+
+    @api.model
+    def get_contract_specific_rubrics(self, contract_id, rule_ids):
+        contract = self.env['hr.contract'].browse(contract_id)
+        for rule in contract.specific_rule_ids:
+            if datetime.strftime(
+                    datetime.now(), '%Y-%m-%d') >= rule.date_start:
+                if not rule.date_stop or datetime.strftime(
+                        datetime.now(), '%Y-%m-%d') <= rule.date_stop:
+                    rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
+        return rule_ids
+
+    def get_specific_rubric_value(self, rubrica_id):
+        for rubrica in self.contract_id.specific_rule_ids:
+            if rubrica.rule_id.id == rubrica_id:
+                return rubrica.specific_quantity * \
+                       (rubrica.specific_percentual/100) * \
+                       rubrica.specific_amount
+
     def get_payslip_lines(self, cr, uid, contract_ids, payslip_id, context):
         def _sum_salary_rule_category(localdict, category, amount):
             if category.parent_id:
@@ -200,11 +226,15 @@ class HrPayslip(models.Model):
             'CALCULAR':payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
             'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
             'payslip': payslip_obj, 'worked_days': worked_days_obj,
-            'inputs': input_obj}
+            'inputs': input_obj, 'rubrica': None
+        }
         #get the ids of the structures on the contracts and their parent id as well
         structure_ids = self.pool.get('hr.contract').get_all_structures(cr, uid, contract_ids, context=context)
         #get the rules of the structure and thier children
         rule_ids = self.pool.get('hr.payroll.structure').get_all_rules(cr, uid, structure_ids, context=context)
+        rule_ids = self.get_contract_specific_rubrics(
+           cr, uid, contract_ids, rule_ids, context=context
+        )
         #run the rules by sequence
         sorted_rule_ids = [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
 
@@ -216,6 +246,7 @@ class HrPayslip(models.Model):
                 localdict['result'] = None
                 localdict['result_qty'] = 1.0
                 localdict['result_rate'] = 100
+                localdict['rubrica'] = rule
                 #check if the rule can be applied
                 if obj_rule.satisfy_condition(cr, uid, rule.id, localdict, context=context) and rule.id not in blacklist:
                     #compute the amount of the rule

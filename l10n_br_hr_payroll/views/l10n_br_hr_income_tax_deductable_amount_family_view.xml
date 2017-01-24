@@ -52,7 +52,7 @@
         <menuitem
             action="l10n_br_hr_income_tax_deductable_amount_family_action"
             id="menu_l10n_br_hr_income_tax_deductable_amount_family"
-            name="Income Tax"
+            name="Income Tax deductible Dependents"
             parent="hr.menu_hr_configuration"
             sequence="42"
             />
