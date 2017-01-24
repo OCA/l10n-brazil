@@ -74,7 +74,6 @@
             </field>
         </record>
 
-
         <record id="view_l10n_br_hr_vacation_holiday_tree_simple" model="ir.ui.view">
             <field name="name">l10n_br_hr_vacation.holiday.tree.simple</field>
             <field name="model">hr.holidays</field>
@@ -90,21 +89,34 @@
             </field>
         </record>
 
-        <!--<record model="ir.actions.act_window" id="l10n_br_hr_vacation_action">-->
-        <!--<field name="name">Vender Férias</field>-->
-        <!--<field name="type">ir.actions.act_window</field>-->
-        <!--<field name="res_model">hr.holidays</field>-->
-        <!--<field name="view_type">form</field>-->
-        <!--<field name="view_mode">form</field>-->
-        <!--<field name="context" eval="{'default_holiday_status_id': ref('holiday_status_vacation'), 'default_type': 'remove', 'default_sell_vacation' : True}" />-->
-        <!--<field name="view_id" ref="view_l10n_br_hr_vacation_holiday_form" />-->
-        <!--</record>-->
+        <record id="view_l10n_br_hr_vacation_contract_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Work Permit']" position="after">
+                    <page string="Controle de Férias">
+                        <field name="holidays_ids">
+                            <tree string="Férias" create="false" edit="false" delete="false">
+                                <field name="name"/>
+                                <field name="date_from" widget="date" string="Inicio do Período de Gozo"/>
+                                <field name="date_to" widget="date" string="Fim Do Período De Gozo"/>
+                                <field name="vacations_days_temp" string="Dias de Gozo"/>
+                                <field name="sold_vacations_days_temp" string="Dias de Abono Pecuniario"/>
 
-        <!--<menuitem-->
-        <!--id="menu_l10n_br_hr_vacation"-->
-        <!--name="Vender Férias"-->
-        <!--action="l10n_br_hr_vacation_action"-->
-        <!--parent="hr_holidays.menu_open_ask_holidays"-->
-        <!--sequence="6" />-->
+                                <field name="periodo_concessivo_inicio"/>
+                                <field name="periodo_concessivo_fim"/>
+
+                                <field name="limite_gozo"/>
+                                <field name="limite_aviso"/>
+                                <field name="number_of_days" widget="integer" string="Total de dias"/>
+                                <field name="state" invisible="1" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>

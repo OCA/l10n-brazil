@@ -26,14 +26,19 @@ class HrEmployee(models.Model):
                         date_start = fields.Datetime.from_string(
                             employee.contract_ids.date_start)
 
-                    if date_start + relativedelta(years=1) <  \
-                            datetime.datetime.today():
+                    if date_start < datetime.datetime.today():
+
+                        date_end = date_start + relativedelta(years=1)
+                        concessivo_inicio = date_end
+                        concessivo_fim = date_end + relativedelta(years=1)
+                        limite_gozo = concessivo_fim - relativedelta(days=30)
+                        limite_aviso = limite_gozo - relativedelta(days=30)
 
                         vacation_id = self.env.ref(
                             'l10n_br_hr_vacation.holiday_status_vacation').id
                         self.env['hr.holidays'].create({
                             'name': 'Periodo Aquisitivo: %s ate %s'
-                                    % (date_start, str(fields.date.today())),
+                                    % (date_start.date(), date_end.date()),
                             'employee_id': employee.id,
                             'holiday_status_id': vacation_id,
                             'type': 'add',
@@ -41,5 +46,10 @@ class HrEmployee(models.Model):
                             'vacations_days': 30,
                             'sold_vacations_days': 0,
                             'number_of_days_temp': 30,
+                            'contract_id': employee.contract_ids.id,
+                            'periodo_concessivo_inicio': concessivo_inicio,
+                            'periodo_concessivo_fim': concessivo_fim,
+                            'limite_gozo': limite_gozo,
+                            'limite_aviso': limite_aviso,
                         })
-                        employee.end_last_vacation = datetime.datetime.today()
+                        employee.end_last_vacation = date_end

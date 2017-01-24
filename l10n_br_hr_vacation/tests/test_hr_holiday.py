@@ -4,7 +4,7 @@
 
 from openerp import fields
 from openerp.tests import common
-from openerp.exceptions import ValidationError, Warning
+from openerp.exceptions import Warning
 
 
 class TestHrHoliday(common.TransactionCase):
@@ -38,7 +38,7 @@ class TestHrHoliday(common.TransactionCase):
             'job_id': self.job_id.id,
             'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
             'wage': 2000.00,
-            'date_start': '2016-01-01',
+            'date_start': '2017-01-01',
             'struct_id': self.env.ref('hr_payroll.structure_base').id
         })
 
@@ -179,7 +179,7 @@ class TestHrHoliday(common.TransactionCase):
         # Atribuindo Férias de 30 dias
         periodo_aquisitivo = self.atribuir_ferias(self.employee_hruser_id.id)
 
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(Warning):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser',
                 'type': 'remove',
@@ -262,7 +262,7 @@ class TestHrHoliday(common.TransactionCase):
             'date_to': fields.Datetime.from_string('2017-01-10 19:00:00'),
         })
 
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(Warning):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser 2',
                 'type': 'remove',
