@@ -222,7 +222,7 @@ class TestHrPayslip(common.TransactionCase):
         """
         pass
 
-    def test_cenario_05(self):
+    def test_cenario_05_rubrica_397(self):
         """
         Rubrica 397 - Honorário Presidente
         DADO um funcionário com Função Presidente
@@ -231,7 +231,109 @@ class TestHrPayslip(common.TransactionCase):
         ENTÃO o cálculo da Rubrica 397-Honorário Presidente
         deve ser R$ 8.447,07
         """
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE'
+        ).id
+        hr_contract_id = self.criar_contrato(
+            u'Contrato Honorário Presidente', 8447.07, hr_payroll_structure_id,
+            self.employee_presidente_id.id, u'Honorário Presidente')
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31',
+            hr_contract_id.id,
+            self.employee_presidente_id.id
+        )
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(
+            hr_payslip.line_ids.total, 8447.07,
+            'ERRO no Cálculo da rubrica 397 - Honorario Presidente'
+        )
+
+    def test_cenario_06_rubrica_399(self):
+        """
+        DADO um funcionário com Função Conselho
+        E com Salário Base de R$ 4.412,08
+        QUANDO trabalhar 30 dias
+        ENTÃO o cálculo da Rubrica 399-Honorário Conselho deve ser R$ 4.412,08
+        """
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'
+        ).id
+        hr_contract_id = self.criar_contrato(
+            u'Contrato Honorário Conselho', 4412.08, hr_payroll_structure_id,
+            self.employee_conselho_id.id,  u'Conselheiro')
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31',
+            hr_contract_id.id,
+            self.employee_conselho_id.id
+        )
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(
+            hr_payslip.line_ids.total, 4412.08,
+            'ERRO no Cálculo da rubrica 399 - Honorario Conselho'
+        )
+
+    def test_cenario_07_rubrica_400(self):
+        """
+        DADO um funcionário com Função Comissionada
+        E com Salário Base de R$ 10.936,46
+        QUANDO trabalhar 20 dias
+        ENTÃO o cálculo da Rubrica 400-Função Comissionada deve ser R$ 7.290,97
+        """
+
+        # hr_payroll_structure_id = self.env.ref(
+        #     'l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'
+        # ).id
+        # hr_contract_id = self.criar_contrato(
+        #     u'Contrato Função Comissionada', 10936.46, hr_payroll_structure_id,
+        #     self.employee_hr_user_id.id, u'Função Comissionada')
+        #
+        # hr_payslip = self.criar_folha_pagamento(
+        #     '2017-01-01', '2017-01-20',
+        #     hr_contract_id.id,
+        #     self.employee_hr_user_id.id
+        # )
+        #
+        # self.processar_folha_pagamento(hr_payslip)
+        #
+        # self.assertEqual(
+        #     hr_payslip.line_ids.total, 7290.97,
+        #     'ERRO no Cálculo da rubrica 400 - Função Comissionada'
+        # )
         pass
+
+    def test_cenario_08_rubrica_404(self):
+        """
+        DADO um funcionário com Função Diretoria
+        E com Salário Base de R$ 40.224,12
+        QUANDO trabalhar 30 dias
+        ENTÃO o cálculo da Rubrica 404-Honorário Diretoria
+        deve ser R$ 40.224,12
+        """
+        hr_payroll_structure_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA'
+        ).id
+        hr_contract_id = self.criar_contrato(
+            u'Contrato Honorário Diretoria', 40224.12, hr_payroll_structure_id,
+            self.employee_diretoria_id.id, u'Diretor')
+
+        hr_payslip = self.criar_folha_pagamento(
+            '2017-01-01', '2017-01-31',
+            hr_contract_id.id,
+            self.employee_diretoria_id.id
+        )
+
+        self.processar_folha_pagamento(hr_payslip)
+
+        self.assertEqual(
+            hr_payslip.line_ids.total, 40224.12,
+            'ERRO no Cálculo da rubrica 404 - Honorário Diretoria'
+        )
 
     def test_cenario_09_rubrica_407(self):
         """
@@ -276,12 +378,8 @@ class TestHrPayslip(common.TransactionCase):
         #     'Estrutura VA/VR', 'VA/VR', hr_salary_rule_id).id
         #
         # hr_contract_id = self.criar_contrato(
-        #     'Contrato VA/VR',
-        #     14413.96,
-        #     hr_payroll_structure_id,
-        #     employee_id,
-        #     u'Desconto VA/VR',
-        # )
+        #     'Contrato VA/VR',  14413.96, hr_payroll_structure_id, employee_id,
+        #     u'Desconto VA/VR')
         #
         # hr_payslip = self.criar_folha_pagamento(
         #     '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
