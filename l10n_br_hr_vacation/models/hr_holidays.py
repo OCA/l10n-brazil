@@ -46,7 +46,7 @@ class HrHolidays(models.Model):
         index=True,
     )
     contract_id = fields.Many2one(
-        comodel_name ='hr.contract',
+        comodel_name='hr.contract',
         string=u'Contrato Vigente',
     )
     periodo_concessivo_inicio = fields.Date(
@@ -104,4 +104,4 @@ class HrHolidays(models.Model):
     def _compute_contract(self):
         if self.parent_id:
             self.contract_id = self.parent_id.contract_id
-            self.name =  'Férias'
+            self.name = 'Férias'
