@@ -2,7 +2,7 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import fields, models
 
 
 class HrContract(models.Model):
@@ -19,7 +19,7 @@ class HrContract(models.Model):
         inverse_name='contract_id',
         string=u"Remuneração",
         domain=[
-            ('change_type', '=', 'remuneracao' )
+            ('change_type', '=', 'remuneracao')
         ],
     )
     change_workdays_ids = fields.One2many(
