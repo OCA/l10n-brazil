@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2017-->
+        <!--http://www.previdencia.gov.br/servicos-ao-cidadao/todos-os-servicos/gps/tabela-contribuicao-mensal/-->
+        <record id="l10n_br_hr_payroll_INSS1_2017" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1659.38</field>
+            <field name="rate">8</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2017" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">1659.39</field>
+            <field name="max_wage">2765.66</field>
+            <field name="rate">9</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2017" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">2765.67</field>
+            <field name="max_wage">5531.31</field>
+            <field name="rate">11</field>
+        </record>
+
+        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2016-->
+        <record id="l10n_br_hr_payroll_INSS1_2016" model="l10n_br.hr.social.security.tax">
+            <field name="year">2016</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1556.94</field>
+            <field name="rate">8</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2016" model="l10n_br.hr.social.security.tax">
+            <field name="year">2016</field>
+            <field name="min_wage">1556.95</field>
+            <field name="max_wage">2594.92</field>
+            <field name="rate">9</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2016" model="l10n_br.hr.social.security.tax">
+            <field name="year">2016</field>
+            <field name="min_wage">2594.93</field>
+            <field name="max_wage">5189.82</field>
+            <field name="rate">11</field>
+        </record>
+
+    </data>
+</openerp>
