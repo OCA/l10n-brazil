@@ -157,18 +157,18 @@
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_python_compute">result = gitCALCULAR.get_specific_rubric_value(rubrica.id)</field>
             <field name="sequence" eval="103"/>
         </record>
 
         <record id="hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
-            <field name="code">FUN_COMISSIONADA</field>
+            <field name="code">SALARIO</field>
             <field name="name">Função Comissionada</field>
-            <field name="category_id" ref="hr_payroll.BASIC" />
+            <field name="category_id" ref="hr_payroll.PROVENTO" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
-            <field name="sequence" eval="1" />
+            <field name="sequence" eval="101" />
         </record>
 
         <!--INSS - Regra-->

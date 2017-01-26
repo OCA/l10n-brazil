@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_hr_social_security_tax_rate_1" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">0.00</field>
+            <field name="max_wage">1556.94</field>
+            <field name="rate">8</field>
+        </record>
+
+        <record id="l10n_br_hr_social_security_tax_rate_2" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">1556.95</field>
+            <field name="max_wage">2594.92</field>
+            <field name="rate">9</field>
+        </record>
+
+        <record id="l10n_br_hr_social_security_tax_rate_3" model="l10n_br.hr.social.security.tax">
+            <field name="year">2017</field>
+            <field name="min_wage">2594.93</field>
+            <field name="max_wage">5189.82</field>
+            <field name="rate">11</field>
+        </record>
+
+    </data>
+</openerp>
