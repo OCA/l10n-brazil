@@ -7,6 +7,7 @@ import openerp.tests.common as test_common
 
 # from pybrasil import feriado
 
+
 class TestResourceCalendar(test_common.SingleTransactionCase):
 
     def setUp(self):

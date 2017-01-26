@@ -126,10 +126,11 @@ class ResourceCalendar(models.Model):
         """
         for leave in self.leave_ids:
             if leave.date_from <= data_referencia.strftime(
-                    "%Y-%m-%d %H:%M:%S") and \
-                leave.date_to >= data_referencia.strftime("%Y-%m-%d %H:%M:%S") \
-                    and leave.leave_type == 'F':
-                return True
+                    "%Y-%m-%d %H:%M:%S"):
+                if leave.date_to >= data_referencia.\
+                        strftime("%Y-%m-%d %H:%M:%S"):
+                    if leave.leave_type == 'F':
+                        return True
         return False
 
     @api.multi
@@ -252,7 +253,8 @@ class ResourceCalendar(models.Model):
             ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
             ('leave_type', 'in', ['F', 'B']),
         ]
-        leaves_count = self.env['resource.calendar.leaves'].search_count(domain)
+        leaves_count = \
+            self.env['resource.calendar.leaves'].search_count(domain)
         return leaves_count
 
     @api.multi
@@ -272,7 +274,8 @@ class ResourceCalendar(models.Model):
             ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
             ('leave_type', 'in', ['F', 'B']),
         ]
-        leaves_count = self.env['resource.calendar.leaves'].search_count(domain)
+        leaves_count = \
+            self.env['resource.calendar.leaves'].search_count(domain)
         return leaves_count
 
     @api.multi
@@ -289,8 +292,12 @@ class ResourceCalendar(models.Model):
         dia_antes = data_referencia - timedelta(days=2)
         dia_depois = data_referencia + timedelta(days=2)
 
-        dia_antes_eh_util = True if dia_antes.weekday() > 5 or self.data_eh_feriado(dia_antes) else False
-        dia_depois_eh_util = True if dia_depois.weekday() > 4 or self.data_eh_feriado(dia_depois) else False
+        dia_antes_eh_util = \
+            True if dia_antes.weekday() > 5 or \
+                    self.data_eh_feriado(dia_antes) else False
+        dia_depois_eh_util = \
+            True if dia_depois.weekday() > 4 or \
+                    self.data_eh_feriado(dia_depois) else False
 
         return dia_antes_eh_util or dia_depois_eh_util
 
