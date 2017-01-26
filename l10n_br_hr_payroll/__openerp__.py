@@ -17,6 +17,9 @@
         'hr_payroll',
     ],
     'data': [
+        'data/l10n_br_hr_income_tax.xml',
+        'data/l10n_br_hr_income_tax_deductable_amount_family.xml',
+        'data/l10n_br_hr_social_security_tax.xml',
         'views/hr_contract.xml',
         'security/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract/l10n_br_hr_contract.xml',

@@ -3,12 +3,130 @@
     <data>
 
         <!--CATEGORIAS DE REGRAS DE SALARIOS-->
-        <record id="hr_payroll.BASES" model="hr.salary.rule.category">
-            <field name="name">Bases</field>
-            <field name="code">BASES</field>
+        <record id="hr_payroll.REFERENCIA" model="hr.salary.rule.category">
+            <field name="name">Referência</field>
+            <field name="code">REFERENCIA</field>
+        </record>
+        <record id="hr_payroll.PROVENTO" model="hr.salary.rule.category">
+            <field name="name">Provento</field>
+            <field name="code">PROVENTO</field>
+        </record>
+        <record id="hr_payroll.BRUTO" model="hr.salary.rule.category">
+            <field name="name">Bruto</field>
+            <field name="code">BRUTO</field>
+        </record>
+        <record id="hr_payroll.DEDUCAO" model="hr.salary.rule.category">
+            <field name="name">Dedução</field>
+            <field name="code">DEDUCAO</field>
+        </record>
+        <record id="hr_payroll.LIQUIDO" model="hr.salary.rule.category">
+            <field name="name">Liquido</field>
+            <field name="code">LIQUIDO</field>
+        </record>
+        <record id="hr_payroll.INSS" model="hr.salary.rule.category">
+            <field name="name">INSS</field>
+            <field name="code">INSS</field>
+        </record>
+        <record id="hr_payroll.IRPF" model="hr.salary.rule.category">
+            <field name="name">IRPF</field>
+            <field name="code">IRPF</field>
+        </record>
+        <record id="hr_payroll.FGTS" model="hr.salary.rule.category">
+            <field name="name">FGTS</field>
+            <field name="code">FGTS</field>
         </record>
 
         <!--REGRAS DE SALARIOS-->
+        <record id="hr_salary_rule_BRUTO" model="hr.salary.rule">
+            <field name="code">BRUTO</field>
+            <field name="name">Bruto</field>
+            <field name="category_id" ref="hr_payroll.BRUTO" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = categories.PROVENTO</field>
+            <field name="sequence" eval="201" />
+        </record>
+
+        <record id="hr_salary_rule_LIQUIDO" model="hr.salary.rule">
+            <field name="code">LIQUIDO</field>
+            <field name="name">Líquido</field>
+            <field name="category_id" ref="hr_payroll.LIQUIDO" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = BRUTO - TOTAL_DESCONTOS</field>
+            <field name="sequence" eval="799" />
+        </record>
+
+        <record id="hr_salary_rule_INSS" model="hr.salary.rule">
+            <field name="code">INSS</field>
+            <field name="name">INSS</field>
+            <field name="category_id" ref="hr_payroll.INSS"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = CALCULAR.INSS(BASE_INSS)</field>
+            <field name="sequence" eval="402"/>
+        </record>
+
+        <record id="hr_salary_rule_IRPF" model="hr.salary.rule">
+            <field name="code">IRPF</field>
+            <field name="name">IRPF</field>
+            <field name="category_id" ref="hr_payroll.IRPF"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IR, BASE_INSS)</field>
+            <field name="sequence" eval="502"/>
+        </record>
+
+        <record id="hr_salary_rule_BASE_INSS" model="hr.salary.rule">
+            <field name="code">BASE_INSS</field>
+            <field name="name">Base INSS</field>
+            <field name="category_id" ref="hr_payroll.INSS" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = BASE_INSS</field>
+            <field name="sequence" eval="401" />
+        </record>
+
+        <record id="hr_salary_rule_BASE_IRPF" model="hr.salary.rule">
+            <field name="code">BASE_IRPF</field>
+            <field name="name">Base IRRF</field>
+            <field name="category_id" ref="hr_payroll.IRPF" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = BASE_IR</field>
+            <field name="sequence" eval="501" />
+        </record>
+
+        <record id="hr_salary_rule_TOTAL_DESCONTOS" model="hr.salary.rule">
+            <field name="code">TOTAL_DESCONTOS</field>
+            <field name="name">Total de Descontos</field>
+            <field name="category_id" ref="hr_payroll.LIQUIDO" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = categories.DEDUCAO + INSS + IRPF</field>
+            <field name="sequence" eval="701" />
+        </record>
+
+        <record id="hr_salary_rule_BASE_FGTS" model="hr.salary.rule">
+            <field name="code">BASE_FGTS</field>
+            <field name="name">Base FGTS</field>
+            <field name="category_id" ref="hr_payroll.FGTS" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = BASE_FGTS</field>
+            <field name="sequence" eval="601" />
+        </record>
+
+        <record id="hr_salary_rule_FGTS" model="hr.salary.rule">
+            <field name="code">FGTS</field>
+            <field name="name">FGTS</field>
+            <field name="category_id" ref="hr_payroll.FGTS" />
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="quantity">1.0</field>
+            <field name="amount_percentage">8.00</field>
+            <field name="sequence" eval="602" />
+        </record>
 
         <!--Ferias-->
         <record id="hr_salary_rule_FERIAS" model="hr.salary.rule">
@@ -36,33 +154,24 @@
         <record id="hr_salary_rule_VA_VR" model="hr.salary.rule">
             <field name="code">VA/VR</field>
             <field name="name">Vale alimentação/Refeição</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = -1 * gitCALCULAR.get_specific_rubric_value(rubrica.id)</field>
-            <field name="sequence" eval="7"/>
+            <field name="amount_python_compute">result = gitCALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="sequence" eval="103"/>
+        </record>
+
+        <record id="hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
+            <field name="code">SALARIO</field>
+            <field name="name">Função Comissionada</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO" />
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
+            <field name="sequence" eval="101" />
         </record>
 
         <!--INSS - Regra-->
-        <record id="hr_salary_rule_INSS" model="hr.salary.rule">
-            <field name="code">INSS</field>
-            <field name="name">INSS</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = -1 * CALCULAR.INSS(BASE_INSS)</field>
-            <field name="sequence" eval="129"/>
-        </record>
-
-        <record id="hr_salary_rule_IRRF" model="hr.salary.rule">
-            <field name="code">IRRF</field>
-            <field name="name">IRRF</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = -1 * CALCULAR.IRRF(BASE_IR, BASE_INSS)</field>
-            <field name="sequence" eval="130"/>
-        </record>
 
         <record id="hr_salary_rule_AUX_ALIMENTACAO_DI" model="hr.salary.rule">
             <field name="code">AADI</field>
@@ -75,74 +184,13 @@
         </record>
 
         <record id="hr_salary_rule_REMBOLSO_PLANO_SAUDE" model="hr.salary.rule">
-            <field name="code">REMSAUDE</field>
+            <field name="code">REMBOLSO_SAUDE</field>
             <field name="name">Reembolso Plano de Saude</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
-            <field name="sequence" eval="6"/>
-        </record>
-
-        <record id="hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
-            <field name="code">FUNC_COMISSIONADA</field>
-            <field name="name">Função Comissionada</field>
-            <field name="category_id" ref="hr_payroll.BASIC" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
-            <field name="sequence" eval="1" />
-        </record>
-
-        <record id="hr_salary_rule_BASE_INSS" model="hr.salary.rule">
-            <field name="code">BASEINSS</field>
-            <field name="name">Base INSS</field>
-            <field name="category_id" ref="hr_payroll.BASES" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = BASE_INSS</field>
-            <field name="sequence" eval="2" />
-        </record>
-
-        <record id="hr_salary_rule_BASE_IRRF" model="hr.salary.rule">
-            <field name="code">BASEIRRF</field>
-            <field name="name">Base IRRF</field>
-            <field name="category_id" ref="hr_payroll.BASES" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = BASE_IR</field>
-            <field name="sequence" eval="3" />
-        </record>
-
-        <record id="hr_salary_rule_BASE_FGTS" model="hr.salary.rule">
-            <field name="code">BASEFGTS</field>
-            <field name="name">Base FGTS</field>
-            <field name="category_id" ref="hr_payroll.BASES" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = BASE_FGTS</field>
-            <field name="sequence" eval="4" />
-        </record>
-
-        <record id="hr_salary_rule_FGTS" model="hr.salary.rule">
-            <field name="code">FGTS</field>
-            <field name="name">FGTS</field>
-            <field name="category_id" ref="hr_payroll.BASES" />
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">contract.wage</field>
-            <field name="quantity">1.0</field>
-            <field name="amount_percentage">8.00</field>
-            <field name="sequence" eval="4" />
-        </record>
-
-        <record id="hr_salary_rule_TOTAL_DESCONTOS" model="hr.salary.rule">
-            <field name="code">TOTALDESC</field>
-            <field name="name">Total de Descontos</field>
-            <field name="category_id" ref="hr_payroll.BASES" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = categories.DED</field>
-            <field name="sequence" eval="180" />
+            <field name="sequence" eval="102"/>
         </record>
 
         <!--ESTRUTURAS DE SALARIOS-->
@@ -156,68 +204,29 @@
             <field name="parent_id" eval="False" />
         </record>
 
-        <record id="hr_salary_rule_HONORARIO_PRESIDENTE" model="hr.salary.rule">
-            <field name="code">HON_PRESIDENTE</field>
-            <field name="name">Honorário de Presidente</field>
-            <field name="category_id" ref="hr_payroll.BASIC" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
-            <field name="sequence" eval="1" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
-            <field name="code">HON_PRESIDENTE</field>
-            <field name="name">Estrutura de Honorário de Presidente</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
+        <record id="hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
+            <field name="code">BASE_INSS_IRPF</field>
+            <field name="name">Base para INSS e IRPF</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_INSS'), ref('hr_salary_rule_BASE_IRPF'), ref('hr_salary_rule_INSS'), ref('hr_salary_rule_IRPF'), ref('hr_salary_rule_TOTAL_DESCONTOS'), ref('hr_salary_rule_BRUTO'), ref('hr_salary_rule_LIQUIDO')])]" />
             <field name="company_id" ref="base.main_company" />
             <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
+            <field name="code">BASE_FGTS</field>
+            <field name="name">Base para FGTS</field>
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_FGTS'), ref('hr_salary_rule_FGTS')])]" />
+            <field name="company_id" ref="base.main_company" />
         </record>
 
         <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
-            <field name="code">FUN_COMISSIONADA</field>
+            <field name="code">FUNCAO_COMISSIONADA</field>
             <field name="name">Função Comissionada</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA'), ref('hr_salary_rule_BASE_INSS'), ref('hr_salary_rule_BASE_IRRF'), ref('hr_salary_rule_BASE_FGTS'), ref('hr_salary_rule_INSS'), ref('hr_salary_rule_IRRF'), ref('hr_salary_rule_FGTS'), ref('hr_payroll.hr_rule_taxable'), ref('hr_payroll.hr_rule_net'), ref('hr_salary_rule_TOTAL_DESCONTOS')])]" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
             <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>
-
-        <record id="hr_salary_rule_HONORARIO_CONSELHO" model="hr.salary.rule">
-            <field name="code">HON_CONSELHO</field>
-            <field name="name">Honorário Conselho</field>
-            <field name="category_id" ref="hr_payroll.BASIC" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
-            <field name="sequence" eval="1" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_CONSELHO" model="hr.payroll.structure">
-            <field name="code">HON_CONSELHO</field>
-            <field name="name">Honorário Conselho</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_CONSELHO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
-        </record>
-
-        <record id="hr_salary_rule_HONORARIO_DIRETORIA" model="hr.salary.rule">
-            <field name="code">HON_DIRETORIA</field>
-            <field name="name">Honorário Conselho</field>
-            <field name="category_id" ref="hr_payroll.BASIC" />
-            <field name="amount_select">code</field>
-            <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = worked_days.DIAS_BASE.number_of_days * contract.wage/30</field>
-            <field name="sequence" eval="1" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_DIRETORIA" model="hr.payroll.structure">
-            <field name="code">HON_DIRETORIA</field>
-            <field name="name">Honorário Conselho</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_DIRETORIA')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
-        </record>
-
 
     </data>
 </openerp>

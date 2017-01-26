@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_hr_income_tax_deductable_amount_family_2017" model="l10n_br.hr.income.tax.deductable.amount.family">
+            <field name="year">2017</field>
+            <field name="amount">189.59</field>
+        </record>
+
+    </data>
+</openerp>
