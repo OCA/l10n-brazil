@@ -290,7 +290,8 @@ class TestHrPayslip(common.TransactionCase):
         #     'l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'
         # ).id
         # hr_contract_id = self.criar_contrato(
-        #     u'Contrato Função Comissionada', 10936.46, hr_payroll_structure_id,
+        #     u'Contrato Função Comissionada', 10936.46,
+        # hr_payroll_structure_id,
         #     self.employee_hr_user_id.id, u'Função Comissionada')
         #
         # hr_payslip = self.criar_folha_pagamento(
@@ -378,8 +379,12 @@ class TestHrPayslip(common.TransactionCase):
         #     'Estrutura VA/VR', 'VA/VR', hr_salary_rule_id).id
         #
         # hr_contract_id = self.criar_contrato(
-        #     'Contrato VA/VR',  14413.96, hr_payroll_structure_id, employee_id,
-        #     u'Desconto VA/VR')
+        #     'Contrato VA/VR',
+        #     14413.96,
+        #     hr_payroll_structure_id,
+        #     employee_id,
+        #     u'Desconto VA/VR',
+        # )
         #
         # hr_payslip = self.criar_folha_pagamento(
         #     '2017-01-01', '2017-01-31', hr_contract_id.id, employee_id)
