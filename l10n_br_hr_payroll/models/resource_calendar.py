@@ -97,7 +97,8 @@ class ResourceCalendar(models.Model):
         :return int : quantidade de dias de ferias do funcionario
         """
         quantidade_dias_ferias = 0
-        holiday_status_id = self.env.ref('l10n_br_hr_vacation.holiday_status_vacation')
+        holiday_status_id = \
+            self.env.ref('l10n_br_hr_vacation.holiday_status_vacation')
         domain = [
             ('state', '=', 'validate'),
             ('employee_id', '=', employee_id),

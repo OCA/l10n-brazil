@@ -151,7 +151,7 @@ class TestHrPayslip(common.TransactionCase):
 
         # Ferias aprovada pro funcionario
         holiday_status_id = self.env.ref(
-            'hr_holidays.holiday_status_cl')
+            'l10n_br_hr_vacation.holiday_status_vacation')
         self.holiday_id = self.hr_holidays.create({
             'name': 'Ferias',
             'type': 'add',
@@ -165,7 +165,7 @@ class TestHrPayslip(common.TransactionCase):
 
         # Funcionario goza das ferias
         holiday_status_id = self.env.ref(
-            'hr_holidays.holiday_status_cl')
+            'l10n_br_hr_vacation.holiday_status_vacation')
         self.holiday_id = self.hr_holidays.create({
             'name': 'Ferias',
             'holiday_type': 'employee',
