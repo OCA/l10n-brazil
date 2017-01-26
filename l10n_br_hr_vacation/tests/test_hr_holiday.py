@@ -4,7 +4,7 @@
 
 from openerp import fields
 from openerp.tests import common
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 
 class TestHrHoliday(common.TransactionCase):
@@ -132,7 +132,7 @@ class TestHrHoliday(common.TransactionCase):
         # Atribuindo Férias
         periodo_aquisitivo = self.atribuir_ferias(self.employee_hruser_id.id)
 
-        with self.assertRaises(Warning):
+        with self.assertRaises(UserError):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser',
                 'type': 'remove',
@@ -156,7 +156,7 @@ class TestHrHoliday(common.TransactionCase):
         # Atribuindo Férias
         periodo_aquisitivo = self.atribuir_ferias(self.employee_hruser_id.id)
 
-        with self.assertRaises(Warning):
+        with self.assertRaises(UserError):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser',
                 'type': 'remove',
@@ -179,7 +179,7 @@ class TestHrHoliday(common.TransactionCase):
         # Atribuindo Férias de 30 dias
         periodo_aquisitivo = self.atribuir_ferias(self.employee_hruser_id.id)
 
-        with self.assertRaises(Warning):
+        with self.assertRaises(UserError):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser',
                 'type': 'remove',
@@ -262,7 +262,7 @@ class TestHrHoliday(common.TransactionCase):
             'date_to': fields.Datetime.from_string('2017-01-10 19:00:00'),
         })
 
-        with self.assertRaises(Warning):
+        with self.assertRaises(UserError):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser 2',
                 'type': 'remove',
@@ -299,7 +299,7 @@ class TestHrHoliday(common.TransactionCase):
             'date_to': fields.Datetime.from_string('2017-01-10 19:00:00'),
         })
 
-        with self.assertRaises(Warning):
+        with self.assertRaises(UserError):
             self.hr_holidays.create({
                 'name': 'Ferias Do  HrUser 2',
                 'type': 'remove',
