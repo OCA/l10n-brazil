@@ -95,12 +95,12 @@ class HrPayslip(models.Model):
             quantidade_dias_ferias = self.env['resource.calendar'].\
                 get_quantidade_dias_ferias(hr_contract.employee_id.id,
                                            date_from, date_to)
-            if quantidade_dias_ferias:
-                result += [self.get_attendances(u'Quantidade dias em Férias',
-                                                6, u'FERIAS',
-                                                quantidade_dias_ferias, 0.0,
-                                                contract_id)]
-            return result
+
+            result += [self.get_attendances(u'Quantidade dias em Férias',
+                                            6, u'FERIAS',
+                                            quantidade_dias_ferias, 0.0,
+                                            contract_id)]
+        return result
 
     def INSS(self, BASE_INSS):
         tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
@@ -329,11 +329,9 @@ class HrPayslip(models.Model):
                             'rate': rate,
                         }
                     else:
-                        salary_obj = self.env['hr.salary.rule']
-                        # blacklist this rule and its children
-                        blacklist += \
-                            [id for id, seq in
-                             salary_obj._recursive_search_of_rules([rule])]
+                        rules_seq = rule._model._recursive_search_of_rules(
+                            self._cr, self._uid, rule, self._context)
+                        blacklist += [id for id, seq in rules_seq]
 
             result = [value for code, value in result_dict.items()]
             return result
