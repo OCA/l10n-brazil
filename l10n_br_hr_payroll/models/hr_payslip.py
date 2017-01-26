@@ -126,6 +126,7 @@ class HrPayslip(models.Model):
                     rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
         return rule_ids
 
+    @api.model
     def get_specific_rubric_value(self, rubrica_id):
         for rubrica in self.contract_id.specific_rule_ids:
             if rubrica.rule_id.id == rubrica_id:
