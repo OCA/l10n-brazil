@@ -131,8 +131,8 @@ class HrPayslip(models.Model):
         for rubrica in self.contract_id.specific_rule_ids:
             if rubrica.rule_id.id == rubrica_id:
                 return rubrica.specific_quantity * \
-                       (rubrica.specific_percentual/100) * \
-                       rubrica.specific_amount
+                    rubrica.specific_percentual/100 * \
+                    rubrica.specific_amount
 
     @api.multi
     def get_payslip_lines(self, payslip_id):
