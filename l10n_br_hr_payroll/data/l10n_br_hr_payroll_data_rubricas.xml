@@ -138,7 +138,7 @@
             <field name="category_id" ref="hr_payroll.BASIC"/>
             <field name="amount_select">code</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0</field>
             <field name="amount_python_compute">result = worked_days.FERIAS.number_of_days * contract.wage / 30</field>
             <field name="sequence" eval="5"/>
         </record>
