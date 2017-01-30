@@ -135,25 +135,54 @@
         <record id="hr_salary_rule_FERIAS" model="hr.salary.rule">
             <field name="code">FERIAS</field>
             <field name="name">Rubrica de FERIAS</field>
-            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0</field>
             <field name="amount_python_compute">result = worked_days.FERIAS.number_of_days * contract.wage / 30</field>
             <field name="sequence" eval="5"/>
+            <field name="compoe_base_FGTS" eval="True"/>
         </record>
 
         <!--1/3 das ferias-->
         <record id="hr_salary_rule_1/3_FERIAS" model="hr.salary.rule">
             <field name="code">1/3_FERIAS</field>
             <field name="name">Rubrica de 1/3 FERIAS</field>
-            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0</field>
             <field name="amount_python_compute">result = FERIAS / 3 </field>
             <field name="sequence" eval="6"/>
+            <field name="compoe_base_FGTS" eval="True"/>
         </record>
+
+        <!--Abono Pecuniário-->
+        <record id="hr_salary_rule_ABONO_PECUNIARIO" model="hr.salary.rule">
+            <field name="code">ABONO_PECUNIARIO</field>
+            <field name="name">Rubrica do Abono Pecuniario das FERIAS</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
+            <field name="amount_python_compute">result = worked_days.ABONO_PECUNIARIO.number_of_days * contract.wage / 30</field>
+            <field name="sequence" eval="7"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <!--Abono Pecuniário-->
+        <record id="hr_salary_rule_1/3_ABONO_PECUNIARIO" model="hr.salary.rule">
+            <field name="code">1/3_ABONO_PECUNIARIO</field>
+            <field name="name">Rubrica do 1/3 Abono Pecuniario</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
+            <field name="amount_python_compute">result = ABONO_PECUNIARIO / 3 </field>
+            <field name="sequence" eval="8"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
 
         <!--Vale alimentação / vale refeição-->
         <record id="hr_salary_rule_VA_VR" model="hr.salary.rule">
@@ -207,15 +236,6 @@
             <field name="sequence" eval="601" />
         </record>
 
-        <record id="hr_salary_rule_AUX_ALIMENTACAO_DI" model="hr.salary.rule">
-            <field name="code">AADI</field>
-            <field name="name">Auxilio Alimentação Diretoria</field>
-            <field name="category_id" ref="hr_payroll.BASIC"/>
-            <field name="amount_select">fix</field>
-            <field name="condition_select">none</field>
-            <field name="amount_fix">979.51</field>
-            <field name="sequence" eval="6"/>
-        </record>
 
         <record id="hr_salary_rule_REMBOLSO_PLANO_SAUDE" model="hr.salary.rule">
             <field name="code">REMBOLSO_SAUDE</field>

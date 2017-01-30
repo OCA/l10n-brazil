@@ -97,6 +97,7 @@ class ResourceCalendar(models.Model):
         :return int : quantidade de dias de ferias do funcionario
         """
         quantidade_dias_ferias = 0
+        quantidade_dias_abono = 0
         holiday_status_id = \
             self.env.ref('l10n_br_hr_vacation.holiday_status_vacation')
         domain = [
@@ -110,6 +111,7 @@ class ResourceCalendar(models.Model):
         ferias_holidays_ids = self.env['hr.holidays'].search(domain)
 
         for holiday in ferias_holidays_ids:
-            quantidade_dias_ferias += holiday.number_of_days_temp
+            quantidade_dias_ferias += holiday.vacations_days
+            quantidade_dias_abono += holiday.sold_vacations_days
 
-        return quantidade_dias_ferias
+        return quantidade_dias_ferias, quantidade_dias_abono

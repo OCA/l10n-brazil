@@ -91,15 +91,29 @@ class HrPayslip(models.Model):
                                                 u'DSR_PARA_DESCONTAR',
                                                 quantity_DSR_discount,
                                                 0.0, contract_id)]
-
-            quantidade_dias_ferias = self.env['resource.calendar'].\
-                get_quantidade_dias_ferias(hr_contract.employee_id.id,
-                                           date_from, date_to)
+            # get dias de férias + get dias de abono pecuniario
+            quantidade_dias_ferias, quantidade_dias_abono = \
+                self.env['resource.calendar'].get_quantidade_dias_ferias(
+                    hr_contract.employee_id.id, date_from, date_to)
 
             result += [self.get_attendances(u'Quantidade dias em Férias',
                                             6, u'FERIAS',
                                             quantidade_dias_ferias, 0.0,
                                             contract_id)]
+
+            result += [self.get_attendances(u'Quantidade dias Abono Pecuniario',
+                                7, u'ABONO_PECUNIARIO',
+                                quantidade_dias_abono, 0.0,
+                                contract_id)]
+
+            # get Dias Trabalhados
+            quantidade_dias_trabalhados = \
+                dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
+                quantity_DSR_discount - quantidade_dias_ferias
+            result += [self.get_attendances(u'Dias Trabalhados', 34,
+                                            u'DIAS_TRABALHADOS',
+                                            quantidade_dias_trabalhados,
+                                            0.0, contract_id)]
         return result
 
     def INSS(self, BASE_INSS):
