@@ -8,15 +8,19 @@
             <field name="name">l10n_br_hr.contract.change.form (lotacao/local)</field>
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="arch" type="xml">
+                <header>
+                    <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <form string="Alterações contratual: Lotação/Local de Trabalho">
                     <group>
-                        <field name="change_type" invisible="True"/>
-                        <field name="contract_id" required="True"/>
-                        <field name="change_date"/>
-                        <field name="change_reason_id"/>
+                        <field name="change_type" invisible="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <!--<field name="department_id"/>-->
-                        <field name="notes"/>
-                        <field name="change_history">
+                        <field name="notes" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_history_ids">
                             <tree string="Histórico de Alterações de Lotação/Local de Trabalho">
                                 <field name="contract_id" required="True"/>
                                 <field name="change_date"/>

@@ -454,7 +454,6 @@ class HrPayslip(models.Model):
     @api.onchange('contract_id')
     def set_employee_id(self):
         for record in self:
-            record.employee_id = record.contract_id.employee_id
             record.struct_id = record.contract_id.struct_id
             record.employee_id_readonly = record.employee_id
             record.struct_id_readonly = record.struct_id
@@ -486,6 +485,8 @@ class HrPayslip(models.Model):
                 record.date_to = record.contract_id.date_end
             else:
                 record.date_to = str(ultimo_dia_do_mes)
+            record.employee_id = record.contract_id.employee_id
+            record.employee_id = record.contract_id.employee_id
 
     @api.multi
     def compute_sheet(self):

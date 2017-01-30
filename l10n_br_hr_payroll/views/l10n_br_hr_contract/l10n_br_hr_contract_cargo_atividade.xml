@@ -9,19 +9,23 @@
             <field name="name">l10n_br_hr.contract.change.form (cargo/atividade)</field>
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="arch" type="xml">
+                <header>
+                    <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <form string="Alterações contratual: Cargo/Atividade">
                     <group>
-                        <field name="change_type" invisible="True"/>
-                        <field name="contract_id" required="True"/>
-                        <field name="change_date"/>
-                        <field name="change_reason_id"/>
-                        <field name="job_id"/>
-                        <field name="type_id"/>
-                        <field name="admission_type_id"/>
-                        <field name="labor_bond_type_id"/>
-                        <field name="labor_regime_id"/>
-                        <field name="notes"/>
-                        <field name="change_history">
+                        <field name="change_type" invisible="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="job_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="admission_type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="labor_bond_type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="labor_regime_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="notes" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_history_ids">
                             <tree string="Histórico de Alterações de Cargo/Atividade">
                                 <field name="contract_id" required="True"/>
                                 <field name="change_date"/>

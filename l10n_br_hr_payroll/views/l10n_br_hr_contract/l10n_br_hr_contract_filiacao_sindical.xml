@@ -9,19 +9,23 @@
             <field name="name">l10n_br_hr.contract.change.form (filiacao sindical)</field>
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="arch" type="xml">
+                <header>
+                    <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <form string="Alterações contratual: Filiação Sindical">
                     <group>
-                        <field name="change_type" invisible="True"/>
-                        <field name="contract_id" required="True"/>
-                        <field name="change_date"/>
-                        <field name="change_reason_id"/>
-                        <field name="union"/>
-                        <field name="union_cnpj"/>
-                        <field name="union_entity_code"/>
-                        <field name="discount_union_contribution"/>
-                        <field name="month_base_date"/>
-                        <field name="notes"/>
-                        <field name="change_history">
+                        <field name="change_type" invisible="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="union" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="union_cnpj" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="union_entity_code" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="discount_union_contribution" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="month_base_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="notes" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="change_history_ids">
                             <tree string="Histórico de Alterações de Filiação Sindical">
                                 <field name="contract_id" required="True"/>
                                 <field name="change_date"/>
