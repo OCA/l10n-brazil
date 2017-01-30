@@ -10,6 +10,9 @@ from openerp.exceptions import Warning as UserError
 
 STATES = [('draft', 'Rascunho'),
           ('applied', 'Aplicada')]
+<<<<<<< HEAD
+>>>>>>> adbf3fb... Alteracoes contratuais atualizando contrato atual e mantendo historico
+=======
 >>>>>>> adbf3fb... Alteracoes contratuais atualizando contrato atual e mantendo historico
 
 
