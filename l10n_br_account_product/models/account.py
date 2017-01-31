@@ -154,8 +154,7 @@ class AccountTax(models.Model):
         calculed_taxes += result_tax['taxes']
 
         # Adiciona frete seguro e outras despesas na base
-        total_base = (result['total'] + insurance_value +
-                      freight_value + other_costs_value)
+        total_base = (result['total'] + insurance_value + freight_value)
 
         # Calcula o II
         specific_ii = [tx for tx in result['taxes'] if tx['domain'] == 'ii']
