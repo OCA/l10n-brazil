@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields
+from dateutil.relativedelta import relativedelta
 
 
 class HrContract(models.Model):
@@ -16,9 +17,15 @@ class HrContract(models.Model):
 
     @api.model
     def create(self, vals):
+        inicio_aquisitivo = vals['date_start']
+        fim_aquisitivo = fields.Date.from_string(inicio_aquisitivo) + relativedelta(years=1) + relativedelta(days=-1)
+        inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
+        fim_concessivo = inicio_concessivo + relativedelta(years=1) + relativedelta(days=-1)
         controle_ferias = self.env['hr.vacation.control'].create({
-            'inicio_aquisitivo' : '2017-01-01',
-            'fim_aquisitivo' : '2017-01-31',
+            'inicio_aquisitivo' : inicio_aquisitivo,
+            'fim_aquisitivo' : fim_aquisitivo,
+            'inicio_concessivo': inicio_concessivo,
+            'fim_concessivo': fim_concessivo,
         })
         hr_contract_id = super(HrContract, self).create(vals)
         hr_contract_id.vacation_control_ids = controle_ferias

@@ -9,39 +9,39 @@ class HrVacationControl(models.Model):
     _name = 'hr.vacation.control'
 
     inicio_aquisitivo = fields.Date(
-        string=u'INÍCIO PERÍODO AQUISITIVO',
+        string=u'Início Período Aquisitivo',
     )
 
     fim_aquisitivo = fields.Date(
-        string=u'FIM PERÍODO AQUISITIVO',
+        string=u'Fim Período Aquisitivo',
     )
 
     inicio_concessivo = fields.Date(
-        string=u'INÍCIO PERÍODO CONCESSIVO',
+        string=u'Início Período Concessivo',
     )
 
     fim_concessivo = fields.Date(
-        string=u'FIM PERÍODO CONCESSIVO',
+        string=u'Fim Período Concessivo',
     )
 
     inicio_gozo = fields.Date(
-        string=u'INÍCIO PERÍODO GOZO',
+        string=u'Início Período Gozo',
     )
 
     fim_gozo = fields.Date(
-        string=u'FIM PERÍODO GOZO',
+        string=u'Fim Período Gozo',
     )
 
     data_aviso = fields.Date(
-        string=u'DATA DO AVISO',
+        string=u'Data do Aviso',
     )
 
     limite_gozo = fields.Date(
-        string=u'LIMITE PARA GOZO',
+        string=u'Limite para Gozo',
     )
 
     limite_aviso = fields.Date(
-        string=u'LIMITE PARA AVISO',
+        string=u'Limite para Aviso',
     )
 
     faltas = fields.Integer(
@@ -50,48 +50,48 @@ class HrVacationControl(models.Model):
     )
 
     afastamentos = fields.Integer(
-        string=u'AFASTAMENTOS',
+        string=u'Afastamentos',
         default=0,
     )
 
     dias = fields.Integer(
-        string=u'DIAS',
+        string=u'Dias',
         default=0,
     )
 
     saldo = fields.Float(
-        string=u'SALDO',
+        string=u'Saldo',
     )
 
     avos = fields.Integer(
-        string=u'AVOS',
+        string=u'Avos',
         default=0,
     )
 
     proporcional = fields.Boolean(
-        string=u'PROPORCIONAL?',
+        string=u'Proporcional?',
     )
 
     vencida = fields.Boolean(
-        string=u'VENCIDA?',
+        string=u'Vencida?',
     )
 
     pagamento_dobro = fields.Boolean(
-        string=u'PAGAMENTO EM DOBRO?',
+        string=u'Pagamento em Dobro?',
     )
 
-    dias_pagamento_dobro = fields.Boolean(
-        string=u'DIAS PAGAMENTO EM DOBRO',
+    dias_pagamento_dobro = fields.Integer(
+        string=u'Dias Pagamento em Dobro',
         default=0,
     )
 
     perdido_afastamento = fields.Boolean(
-        string=u'PERDIDO POR AFASTAMENTO?',
+        string=u'Perdido por Afastamento?',
     )
 
     contract_id = fields.Many2one(
         comodel_name ='hr.contract',
-        string=u'CONTRATO VIGENTE',
+        string=u'Contrato Vigente',
     )
 
     def calcular_faltas(self):
