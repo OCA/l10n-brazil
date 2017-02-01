@@ -2,6 +2,8 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from datetime import datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models
 
@@ -115,3 +117,15 @@ class ResourceCalendar(models.Model):
             quantidade_dias_abono += holiday.sold_vacations_days
 
         return quantidade_dias_ferias, quantidade_dias_abono
+
+    @api.multi
+    def get_ultimo_dia_mes(self, mes, ano):
+        """ Verificar o ultimo dia do mes referencia
+        :param mes:  int - Mês de referencia
+        :return: int : ultimo dia do mes
+        relativedelta(months=+1, days=-1)
+        """
+        data_mes = datetime.strptime(str(mes) + '-' + str(ano), '%m-%Y')
+        data_final = \
+            data_mes + relativedelta(months=1) - relativedelta(days=1)
+        return data_final

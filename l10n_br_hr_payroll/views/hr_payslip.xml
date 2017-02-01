@@ -10,10 +10,38 @@
         <field name="model">hr.payslip</field>
         <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
         <field name="arch" type="xml">
-            <label for="employee_id" position="before">
-                <label for="tipo_de_folha" class="oe_edit_only"/>
-                <field name="tipo_de_folha"/>
-            </label>
+
+            <!--Redefinindo campo Funcionario-->
+            <field name="contract_id" position="replace">
+                <field name="employee_id" invisible="1"/>
+                <field name="employee_id_readonly" readonly="True"/>
+            </field>
+
+            <!--Redefinindo campo de Estrutura-->
+            <field name="struct_id" position="replace">
+                <field name="struct_id" invisible="1"/>
+                <field name="struct_id_readonly" readonly="True"/>
+            </field>
+
+            <xpath expr="//div[@class='oe_title']" position="replace">
+                <label for="contract_id" class="oe_edit_only"/>
+                <h1><field name="contract_id"/></h1>
+            </xpath>
+
+            <!--adicionando ANO e MES -->
+            <field name="date_from" position="after">
+                <field name="mes_do_ano" />
+                <field name="ano" />
+            </field>
+
+            <!--Deixando invisível-->
+            <field name="date_from" position="replace">
+                <field name="date_from" invisible="1"/>
+            </field>
+            <field name="date_to" position="replace">
+                <field name="date_to" invisible="1"/>
+            </field>
+
         </field>
     </record>
 

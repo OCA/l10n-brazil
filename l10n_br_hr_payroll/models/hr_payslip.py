@@ -15,6 +15,21 @@ TIPO_DE_FOLHA = [
     ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
 ]
 
+MES_DO_ANO = [
+    (1, u'Jan'),
+    (2, u'Fev'),
+    (3, u'Mar'),
+    (4, u'Abr'),
+    (5, u'Mai'),
+    (6, u'Jun'),
+    (7, u'Jul'),
+    (8, u'Ago'),
+    (9, u'Set'),
+    (10, u'Out'),
+    (11, u'Nov'),
+    (12, u'Dez'),
+]
+
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
@@ -24,6 +39,30 @@ class HrPayslip(models.Model):
         string=u'Tipo de folha',
         required=True,
         default='normal',
+    )
+
+    employee_id_readonly = fields.Many2one(
+        string=u'Funcionário',
+        comodel_name='hr.employee',
+        compute='set_employee_id',
+    )
+
+    struct_id_readonly = fields.Many2one(
+        string=u'Estrutura de Salário',
+        comodel_name='hr.payroll.structure',
+        compute='set_employee_id',
+    )
+
+    mes_do_ano = fields.Selection(
+        selection=MES_DO_ANO,
+        string=u'Mês',
+        required=True,
+        default=datetime.now().month,
+    )
+
+    ano = fields.Integer(
+        string=u'Ano',
+        default=datetime.now().year,
     )
 
     def get_attendances(self, nome, sequence, code, number_of_days,
@@ -354,3 +393,44 @@ class HrPayslip(models.Model):
 
             result = [value for code, value in result_dict.items()]
             return result
+
+    def _computar_ano(self):
+        ano = datetime.now().year
+        return ano
+
+    @api.multi
+    @api.onchange('contract_id')
+    def set_employee_id(self):
+        for record in self:
+            record.employee_id = record.contract_id.employee_id
+            record.struct_id = record.contract_id.struct_id
+            record.employee_id_readonly = record.employee_id
+            record.struct_id_readonly = record.struct_id
+
+            ultimo_dia_do_mes = self.env['resource.calendar'].\
+                get_ultimo_dia_mes(self.mes_do_ano, self.ano)
+
+            primeiro_dia_do_mes = \
+                datetime.strptime(str(self.mes_do_ano) + '-' +
+                                  str(self.ano), '%m-%Y')
+
+            if not record.contract_id.date_start:
+                continue
+
+            date_start = record.contract_id.date_start
+
+            if str(primeiro_dia_do_mes) < date_start:
+                date_from = record.contract_id.date_start
+            else:
+                date_from = str(primeiro_dia_do_mes)
+
+            record.date_from = date_from
+
+            date_end = record.contract_id.date_end
+
+            if not date_end:
+                record.date_to = str(ultimo_dia_do_mes)
+            elif str(ultimo_dia_do_mes) > record.contract_id.date_end:
+                record.date_to = record.contract_id.date_end
+            else:
+                record.date_to = str(ultimo_dia_do_mes)
