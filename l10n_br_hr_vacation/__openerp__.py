@@ -18,6 +18,7 @@
     'data': [
         'data/hr_holidays_data.xml',
         'views/hr_holidays_view.xml',
+        'views/hr_vacation_control_view.xml',
     ],
     'installable': True,
 }

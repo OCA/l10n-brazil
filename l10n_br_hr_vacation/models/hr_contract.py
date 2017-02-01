@@ -8,8 +8,8 @@ from openerp import models, fields
 class HrContract(models.Model):
     _inherit = 'hr.contract'
 
-    holidays_ids = fields.One2many(
-        comodel_name='hr.holidays',
+    vacation_control_ids = fields.One2many(
+        comodel_name='hr.vacation.control',
         inverse_name='contract_id',
         string='Periodos Aquisitivos Alocados'
     )
